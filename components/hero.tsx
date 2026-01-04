@@ -241,6 +241,36 @@ export default function Hero() {
         return () => intervals.forEach(clearInterval)
     }, [])
 
+    // Audio auto-pause functionality - pause other audio when one plays
+    useEffect(() => {
+        const handleAudioPlay = (e: Event) => {
+            const target = e.target as HTMLAudioElement;
+            // Get all audio elements on the page
+            const allAudio = document.querySelectorAll('audio');
+            allAudio.forEach((audio) => {
+                // Pause and reset all audio except the one that just started playing
+                if (audio !== target) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+        };
+
+        // Add event listener to all audio elements
+        const allAudio = document.querySelectorAll('audio');
+        allAudio.forEach((audio) => {
+            audio.addEventListener('play', handleAudioPlay);
+        });
+
+        // Cleanup
+        return () => {
+            const allAudio = document.querySelectorAll('audio');
+            allAudio.forEach((audio) => {
+                audio.removeEventListener('play', handleAudioPlay);
+            });
+        };
+    }, [mounted]);
+
     const deploymentFeatures = [
         {
             icon: Zap,
@@ -698,12 +728,10 @@ export default function Hero() {
                                 <p className="text-sm text-gray-700 leading-relaxed mb-4">
                                     24/7 AI scheduling for medical appointments. Handles patient inquiries, insurance verification, and appointment confirmations automatically.
                                 </p>
-                                <div className="flex items-center gap-3 mb-2">
-                                    <audio controls className="flex-1 h-8" style={{ accentColor: '#f97316' }}>
-                                        <source src="/audio/doctor-appointment-sample.mp3" type="audio/mpeg" />
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
+                                <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
+                                    <source src="/audio/doctor-appointment-sample.mp3" type="audio/mpeg" />
+                                    Your browser does not support the audio element.
+                                </audio>
                                 <div className="flex items-center gap-2 text-xs text-orange-600 font-semibold uppercase tracking-widest">
                                     <CheckCircle className="h-3 w-3" />
                                     <span>95% Booking Success</span>
@@ -735,12 +763,10 @@ export default function Hero() {
                                 <p className="text-sm text-gray-700 leading-relaxed mb-4">
                                     Professional AI receptionist that greets callers, routes calls, takes messages, and provides company information with human-like interaction.
                                 </p>
-                                <div className="flex items-center gap-3 mb-2">
-                                    <audio controls className="flex-1 h-8" style={{ accentColor: '#f97316' }}>
-                                        <source src="/audio/virtual-receptionist-sample.mp3" type="audio/mpeg" />
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
+                                <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
+                                    <source src="/audio/virtual-receptionist-sample.mp3" type="audio/mpeg" />
+                                    Your browser does not support the audio element.
+                                </audio>
                                 <div className="flex items-center gap-2 text-xs text-orange-600 font-semibold uppercase tracking-widest">
                                     <CheckCircle className="h-3 w-3" />
                                     <span>100% Call Coverage</span>
@@ -769,15 +795,13 @@ export default function Hero() {
                                 <h3 className="text-lg sm:text-xl font-bold text-orange-600 mb-2 uppercase tracking-wide group-hover:text-orange-500 transition-colors">
                                     Lead Generation
                                 </h3>
-                                <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                                <p className="text-sm text-gray-700 leading-relaxed mb-11">
                                     Automated outbound calling for lead qualification, follow-ups, and appointment setting. Convert prospects into customers 24/7.
                                 </p>
-                                <div className="flex items-center gap-3 mb-2">
-                                    <audio controls className="flex-1 h-8" style={{ accentColor: '#f97316' }}>
-                                        <source src="/audio/lead-generation-sample.mp3" type="audio/mpeg" />
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
+                                <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
+                                    <source src="/audio/lead-generation-sample.mp3" type="audio/mpeg" />
+                                    Your browser does not support the audio element.
+                                </audio>
                                 <div className="flex items-center gap-2 text-xs text-orange-600 font-semibold uppercase tracking-widest">
                                     <CheckCircle className="h-3 w-3" />
                                     <span>3x More Leads</span>
@@ -809,12 +833,10 @@ export default function Hero() {
                                 <p className="text-sm text-gray-700 leading-relaxed mb-4">
                                     Intelligent customer support that handles inquiries, troubleshooting, and escalations with empathy and accuracy.
                                 </p>
-                                <div className="flex items-center gap-3 mb-2">
-                                    <audio controls className="flex-1 h-8" style={{ accentColor: '#f97316' }}>
-                                        <source src="/audio/customer-care-sample.mp3" type="audio/mpeg" />
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
+                                <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
+                                    <source src="/audio/customer-care-sample.mp3" type="audio/mpeg" />
+                                    Your browser does not support the audio element.
+                                </audio>
                                 <div className="flex items-center gap-2 text-xs text-orange-600 font-semibold uppercase tracking-widest">
                                     <CheckCircle className="h-3 w-3" />
                                     <span>90% Resolution Rate</span>
@@ -843,15 +865,13 @@ export default function Hero() {
                                 <h3 className="text-lg sm:text-xl font-bold text-orange-600 mb-2 uppercase tracking-wide group-hover:text-orange-500 transition-colors">
                                     AI Call Center
                                 </h3>
-                                <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                                <p className="text-sm text-gray-700 leading-relaxed mb-11">
                                     Complete call center automation with intelligent routing, queue management, and real-time analytics for enterprise-scale operations.
                                 </p>
-                                <div className="flex items-center gap-3 mb-2">
-                                    <audio controls className="flex-1 h-8" style={{ accentColor: '#f97316' }}>
-                                        <source src="/audio/call-center-sample.mp3" type="audio/mpeg" />
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
+                                <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
+                                    <source src="/audio/call-center-sample.mp3" type="audio/mpeg" />
+                                    Your browser does not support the audio element.
+                                </audio>
                                 <div className="flex items-center gap-2 text-xs text-orange-600 font-semibold uppercase tracking-widest">
                                     <CheckCircle className="h-3 w-3" />
                                     <span>Unlimited Capacity</span>
