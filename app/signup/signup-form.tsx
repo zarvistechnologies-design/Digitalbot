@@ -53,7 +53,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     setLoading(true)
 
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}/auth/register`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api'}/auth/register`, {
         ...form,
         selectedService,
       })

@@ -44,7 +44,7 @@ export default function LoginPage(): JSX.Element {
     });
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api';
       console.log('🔐 Attempting login to:', API_URL);
       
       const response = await fetch(`${API_URL}/auth/login`, {

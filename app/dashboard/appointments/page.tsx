@@ -49,7 +49,7 @@ interface Appointment {
 }
 
 // ==================== CONSTANTS ====================
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api';
 
 const statusStyles: Record<Appointment["status"], string> = {
   scheduled: "bg-blue-100 text-blue-700 border-blue-300",
