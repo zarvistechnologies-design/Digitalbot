@@ -2,7 +2,10 @@
 import Sidebar from "@/components/Sidebar";
 import {
   AlertCircle,
+  ArrowLeft,
+  Building2,
   Calendar,
+  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Clock,
@@ -11,16 +14,13 @@ import {
   Phone,
   RefreshCw,
   Search,
+  Stethoscope,
   User,
   X,
   Zap,
-  Building2,
-  Stethoscope,
-  ArrowLeft,
-  CheckCircle2,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 // ==================== TYPES ====================
 interface Appointment {
@@ -49,7 +49,7 @@ interface Appointment {
 }
 
 // ==================== CONSTANTS ====================
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://digital-api-tef8.onrender.com/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
 const statusStyles: Record<Appointment["status"], string> = {
   scheduled: "bg-blue-100 text-blue-700 border-blue-300",

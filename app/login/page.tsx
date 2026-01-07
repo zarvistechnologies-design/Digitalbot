@@ -1,7 +1,7 @@
 'use client';
+import { PageBackground } from '@/components/page-background';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { PageBackground } from '@/components/page-background';
 
 // Define the shape of the user data expected from the backend
 interface User {
@@ -44,7 +44,7 @@ export default function LoginPage(): JSX.Element {
     });
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api';
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
       console.log('🔐 Attempting login to:', API_URL);
       
       const response = await fetch(`${API_URL}/auth/login`, {

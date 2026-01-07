@@ -1,11 +1,11 @@
 'use client'
 
+import { PageBackground } from '@/components/page-background'
 import axios from 'axios'
 import { motion } from 'framer-motion'
+import { Lock, Mail, Sparkles, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { PageBackground } from '@/components/page-background'
-import { Sparkles, Lock, Mail, User } from 'lucide-react'
 
 interface SignupFormProps {
   initialService?: string
@@ -53,7 +53,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     setLoading(true)
 
     try {
-      await axios.post('https://digital-api-tef8.onrender.com/api/auth/register', {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}/auth/register`, {
         ...form,
         selectedService,
       })
