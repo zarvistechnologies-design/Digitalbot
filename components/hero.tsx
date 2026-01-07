@@ -44,7 +44,10 @@ export default function Hero() {
     const lottieAnimationRef = useRef<LottieAnimation | null>(null)
     const [vapiLoaded, setVapiLoaded] = useState(false)
     const soundBarHeightsRef = useRef<number[]>([])
-
+    
+    // Scroll animation for flowchart
+    const [flowchartVisible, setFlowchartVisible] = useState(false)
+    const flowchartRef = useRef<HTMLDivElement>(null)
 
     // Fixed: Single mounted state to prevent hydration mismatch
     const [mounted, setMounted] = useState(false)
@@ -268,6 +271,31 @@ export default function Hero() {
             allAudio.forEach((audio) => {
                 audio.removeEventListener('play', handleAudioPlay);
             });
+        };
+    }, [mounted]);
+
+    // Scroll detection for flowchart section
+    useEffect(() => {
+        if (!mounted || !flowchartRef.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setFlowchartVisible(true);
+                }
+            },
+            {
+                threshold: 0.1,
+                rootMargin: '0px'
+            }
+        );
+
+        observer.observe(flowchartRef.current);
+
+        return () => {
+            if (flowchartRef.current) {
+                observer.unobserve(flowchartRef.current);
+            }
         };
     }, [mounted]);
 
@@ -681,6 +709,165 @@ export default function Hero() {
                 </div>
             </section>
 
+            {/* Scroll-Animated Journey Flowchart */}
+            <section ref={flowchartRef} className="py-20 px-4 bg-gradient-to-b from-white via-orange-50/20 to-white relative overflow-hidden">
+                <div className="container mx-auto max-w-4xl relative z-10">
+                    
+                    {/* Section Header */}
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+                            Your Journey to <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Effortless Communication</span>
+                        </h2>
+                        <p className="text-lg text-gray-600">See how easy it is to transform your business with AI voice automation</p>
+                    </div>
+
+                    {/* Vertical Flowchart */}
+                    <div className="relative">
+                        {/* Connecting Line */}
+                        <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-400 via-orange-500 to-orange-600 transform -translate-x-1/2 hidden md:block"></div>
+
+                        {/* Step 1: The Problem */}
+                        <div className={`relative mb-20 transition-all duration-700 ${flowchartVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'}`} style={{ transitionDelay: '0ms' }}>
+                            <div className="flex flex-col md:flex-row items-center gap-8">
+                                <div className="md:w-1/2 md:text-right">
+                                    <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-orange-200 hover:border-orange-400 transition-all duration-300">
+                                        <div className="inline-block p-3 bg-red-100 rounded-full mb-4">
+                                            <span className="text-3xl">❌</span>
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-3">The Challenge</h3>
+                                        <p className="text-gray-600 leading-relaxed">
+                                            Missing customer calls, overwhelming support tickets, and high operational costs draining your resources
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex-shrink-0 shadow-lg relative z-20 flex items-center justify-center">
+                                    <span className="text-white font-bold text-xl">1</span>
+                                </div>
+                                <div className="md:w-1/2"></div>
+                            </div>
+                        </div>
+
+                        {/* Step 2: Our Solution */}
+                        <div className={`relative mb-20 transition-all duration-700 ${flowchartVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'}`} style={{ transitionDelay: '200ms' }}>
+                            <div className="flex flex-col md:flex-row items-center gap-8">
+                                <div className="md:w-1/2"></div>
+                                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex-shrink-0 shadow-lg relative z-20 flex items-center justify-center">
+                                    <span className="text-white font-bold text-xl">2</span>
+                                </div>
+                                <div className="md:w-1/2">
+                                    <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-orange-200 hover:border-orange-400 transition-all duration-300">
+                                        <div className="inline-block p-3 bg-orange-100 rounded-full mb-4">
+                                            <Zap className="h-8 w-8 text-orange-600" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-3">AI Voice Assistant</h3>
+                                        <p className="text-gray-600 leading-relaxed mb-4">
+                                            Our intelligent AI handles calls 24/7, understands natural language in any language, and responds instantly
+                                        </p>
+                                        <ul className="space-y-2">
+                                            <li className="flex items-center text-sm text-gray-700">
+                                                <CheckCircle className="h-5 w-5 text-orange-600 mr-2 flex-shrink-0" />
+                                                Human-like conversations
+                                            </li>
+                                            <li className="flex items-center text-sm text-gray-700">
+                                                <CheckCircle className="h-5 w-5 text-orange-600 mr-2 flex-shrink-0" />
+                                                Multi-language support
+                                            </li>
+                                            <li className="flex items-center text-sm text-gray-700">
+                                                <CheckCircle className="h-5 w-5 text-orange-600 mr-2 flex-shrink-0" />
+                                                No wait times, ever
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Step 3: How It Works */}
+                        <div className={`relative mb-20 transition-all duration-700 ${flowchartVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'}`} style={{ transitionDelay: '400ms' }}>
+                            <div className="flex flex-col md:flex-row items-center gap-8">
+                                <div className="md:w-1/2 md:text-right">
+                                    <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-orange-200 hover:border-orange-400 transition-all duration-300">
+                                        <div className="inline-block p-3 bg-blue-100 rounded-full mb-4">
+                                            <Users className="h-8 w-8 text-blue-600" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-3">Simple 3-Step Process</h3>
+                                        <div className="space-y-4 text-left">
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">1</div>
+                                                <div>
+                                                    <p className="font-semibold text-gray-900">Choose Your Use Case</p>
+                                                    <p className="text-sm text-gray-600">Pick from appointments, support, sales, or custom</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
+                                                <div>
+                                                    <p className="font-semibold text-gray-900">Quick Setup</p>
+                                                    <p className="text-sm text-gray-600">Connect in 5 minutes - no coding required</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-3">
+                                                <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
+                                                <div>
+                                                    <p className="font-semibold text-gray-900">Go Live</p>
+                                                    <p className="text-sm text-gray-600">Start handling calls immediately</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex-shrink-0 shadow-lg relative z-20 flex items-center justify-center">
+                                    <span className="text-white font-bold text-xl">3</span>
+                                </div>
+                                <div className="md:w-1/2"></div>
+                            </div>
+                        </div>
+
+                        {/* Step 4: The Results */}
+                        <div className={`relative transition-all duration-700 ${flowchartVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'}`} style={{ transitionDelay: '600ms' }}>
+                            <div className="flex flex-col md:flex-row items-center gap-8">
+                                <div className="md:w-1/2"></div>
+                                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex-shrink-0 shadow-lg relative z-20 flex items-center justify-center">
+                                    <span className="text-white font-bold text-2xl">✓</span>
+                                </div>
+                                <div className="md:w-1/2">
+                                    <div className="bg-gradient-to-br from-green-50 to-white rounded-2xl shadow-xl p-8 border-2 border-green-200 hover:border-green-400 transition-all duration-300">
+                                        <div className="inline-block p-3 bg-green-100 rounded-full mb-4">
+                                            <TrendingUp className="h-8 w-8 text-green-600" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-3">Transform Your Business</h3>
+                                        <p className="text-gray-600 leading-relaxed mb-4">
+                                            Join thousands of businesses saving time and money while delighting customers
+                                        </p>
+                                        <div className="grid grid-cols-2 gap-4 mb-4">
+                                            <div className="text-center p-3 bg-white rounded-lg">
+                                                <div className="text-2xl font-bold text-orange-600">85%</div>
+                                                <div className="text-xs text-gray-600">Cost Reduction</div>
+                                            </div>
+                                            <div className="text-center p-3 bg-white rounded-lg">
+                                                <div className="text-2xl font-bold text-orange-600">24/7</div>
+                                                <div className="text-xs text-gray-600">Availability</div>
+                                            </div>
+                                            <div className="text-center p-3 bg-white rounded-lg">
+                                                <div className="text-2xl font-bold text-orange-600">100%</div>
+                                                <div className="text-xs text-gray-600">Call Coverage</div>
+                                            </div>
+                                            <div className="text-center p-3 bg-white rounded-lg">
+                                                <div className="text-2xl font-bold text-orange-600">&lt;2min</div>
+                                                <div className="text-xs text-gray-600">Setup Time</div>
+                                            </div>
+                                        </div>
+                                        <button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 px-6 rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                                            Get Started Now <ArrowRight className="inline-block ml-2 h-5 w-5" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* AI Voice Use Cases Section */}
             <section className="py-8 px-4 bg-white relative overflow-hidden">
                 <div className="container mx-auto relative z-10">
@@ -725,7 +912,7 @@ export default function Hero() {
                                 <h3 className="text-lg sm:text-xl font-bold text-orange-600 mb-2 uppercase tracking-wide group-hover:text-orange-500 transition-colors">
                                     Doctor Appointments
                                 </h3>
-                                <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                                <p className="text-sm text-gray-700 leading-relaxed mb-4 min-h-[60px]">
                                     24/7 AI scheduling for medical appointments. Handles patient inquiries, insurance verification, and appointment confirmations automatically.
                                 </p>
                                 <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
@@ -760,7 +947,7 @@ export default function Hero() {
                                 <h3 className="text-lg sm:text-xl font-bold text-orange-600 mb-2 uppercase tracking-wide group-hover:text-orange-500 transition-colors">
                                     Virtual Receptionist
                                 </h3>
-                                <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                                <p className="text-sm text-gray-700 leading-relaxed mb-4 min-h-[60px]">
                                     Professional AI receptionist that greets callers, routes calls, takes messages, and provides company information with human-like interaction.
                                 </p>
                                 <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
@@ -795,7 +982,7 @@ export default function Hero() {
                                 <h3 className="text-lg sm:text-xl font-bold text-orange-600 mb-2 uppercase tracking-wide group-hover:text-orange-500 transition-colors">
                                     Lead Generation
                                 </h3>
-                                <p className="text-sm text-gray-700 leading-relaxed mb-11">
+                                <p className="text-sm text-gray-700 leading-relaxed mb-4 min-h-[60px]">
                                     Automated outbound calling for lead qualification, follow-ups, and appointment setting. Convert prospects into customers 24/7.
                                 </p>
                                 <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
@@ -830,7 +1017,7 @@ export default function Hero() {
                                 <h3 className="text-lg sm:text-xl font-bold text-orange-600 mb-2 uppercase tracking-wide group-hover:text-orange-500 transition-colors">
                                     Customer Care Agent
                                 </h3>
-                                <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                                <p className="text-sm text-gray-700 leading-relaxed mb-4 min-h-[60px]">
                                     Intelligent customer support that handles inquiries, troubleshooting, and escalations with empathy and accuracy.
                                 </p>
                                 <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
@@ -865,7 +1052,7 @@ export default function Hero() {
                                 <h3 className="text-lg sm:text-xl font-bold text-orange-600 mb-2 uppercase tracking-wide group-hover:text-orange-500 transition-colors">
                                     AI Call Center
                                 </h3>
-                                <p className="text-sm text-gray-700 leading-relaxed mb-11">
+                                <p className="text-sm text-gray-700 leading-relaxed mb-4 min-h-[60px]">
                                     Complete call center automation with intelligent routing, queue management, and real-time analytics for enterprise-scale operations.
                                 </p>
                                 <audio controls className="w-full mb-3 h-8" style={{ accentColor: '#f97316' }}>
