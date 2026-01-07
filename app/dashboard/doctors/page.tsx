@@ -2,21 +2,21 @@
 import Sidebar from "@/components/Sidebar";
 import { calendarAPI, doctorsAPI } from "@/lib/api";
 import {
-  AlertCircle,
-  Calendar,
-  Check,
-  Clock,
-  Edit,
-  ExternalLink,
-  Mail,
-  Phone,
-  Plus,
-  RefreshCw,
-  Search,
-  Stethoscope,
-  Trash2,
-  User,
-  X,
+    AlertCircle,
+    Calendar,
+    Check,
+    Clock,
+    Edit,
+    ExternalLink,
+    Mail,
+    Phone,
+    Plus,
+    RefreshCw,
+    Search,
+    Stethoscope,
+    Trash2,
+    User,
+    X,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -26,6 +26,7 @@ interface Doctor {
   name: string;
   specialization: string;
   phone: string;
+  phone2?: string;
   email?: string;
   calendarId?: string;
   calendarConnected?: boolean;
@@ -47,6 +48,7 @@ interface DoctorFormData {
   name: string;
   specialization: string;
   phone: string;
+  phone2: string;
   email: string;
   slotDuration: number;
   defaultWorkingHours: { start: string; end: string };
@@ -86,6 +88,7 @@ const initialFormData: DoctorFormData = {
   name: "",
   specialization: "",
   phone: "",
+  phone2: "",
   email: "",
   slotDuration: 30,
   defaultWorkingHours: { start: "09:00", end: "17:00" },
@@ -176,6 +179,7 @@ export default function DoctorsPage() {
       name: doctor.name,
       specialization: doctor.specialization,
       phone: doctor.phone,
+      phone2: doctor.phone2 || "",
       email: doctor.email || "",
       slotDuration: doctor.slotDuration,
       defaultWorkingHours: doctor.defaultWorkingHours,
@@ -335,6 +339,7 @@ export default function DoctorsPage() {
                     <div className="flex items-center gap-2">
                       <Phone className="w-4 h-4" />
                       {doctor.phone}
+                      {doctor.phone2 && ` / ${doctor.phone2}`}
                     </div>
                     {doctor.email && (
                       <div className="flex items-center gap-2">
@@ -480,6 +485,20 @@ export default function DoctorsPage() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   placeholder="e.g., +91 98765 43210"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Phone 2 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Secondary Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={formData.phone2}
+                  onChange={(e) => setFormData({ ...formData, phone2: e.target.value })}
+                  placeholder="e.g., +91 98765 43211 (optional)"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
