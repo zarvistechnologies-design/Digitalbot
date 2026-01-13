@@ -347,7 +347,7 @@ export default function Hero() {
                         </button>
                         <div className="aspect-w-16 aspect-h-9 w-full">
                             <iframe
-                                src="https://www.youtube.com/embed/-68LXmyR6GI?autoplay=1"
+                                src="https://www.youtube.com/embed/EK36dfsif84"
                                 title="Demo Video"
                                 allow="autoplay; encrypted-media"
                                 allowFullScreen
