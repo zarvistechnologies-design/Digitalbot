@@ -10,7 +10,6 @@ import { useEffect, useState } from "react"
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
-    const [open, setOpen] = useState(false)
     const pathname = usePathname()
 
     useEffect(() => {
@@ -20,33 +19,48 @@ export function Header() {
     }, [])
 
     const navItems = [
-        { href: "/", label: "Home", icon: Sparkles },
-        { href: "/about", label: "About", icon: null },
-        { href: "/services", label: "Solutions", icon: Zap },
-        { href: "/pricing", label: "Pricing", icon: null },
-        { href: "/contact", label: "Contact", icon: Phone },
+        { href: "/", label: "Home" },
+        { href: "/about", label: "About" },
+        { href: "/how-it-works", label: "How It Works" },
+        { href: "/pricing", label: "Pricing" },
+        { href: "/contact", label: "Contact" },
     ]
-    const services = [{ href: "/services/ai-voice-bot", label: "AI Voice Bot", desc: "Intelligent voice automation", color: "from-orange-400 to-orange-500", icon: Bot },
-                                                    { href: "/services/voice-ai-business", label: "Voice AI for Business", desc: "Enterprise solutions", color: "from-orange-400 to-orange-600", icon: TrendingUp },
-                                                    { href: "/services/voice-automation-software", label: "Voice Automation", desc: "Workflow automation", color: "from-orange-500 to-orange-600", icon: Zap },
-                                                    { href: "/services/ai-customer-support", label: "AI Customer Support", desc: "24/7 assistance", color: "from-orange-400 to-orange-600", icon: Sparkles },
-                                                    { href: "/services/conversational-ai", label: "Conversational AI", desc: "Natural conversations", color: "from-orange-500 to-orange-600", icon: Activity },
-                                                    { href: "/services/ai-call-center", label: "AI Call Center", desc: "Call automation", color: "from-orange-400 to-orange-500", icon: Phone },
-                                                    { href: "/services/ai-sales-agent", label: "AI Sales Agent", desc: "Sales automation", color: "from-orange-500 to-orange-600", icon: BarChart3 },
-                                                    { href: "/services/ai-virtual-receptionist", label: "Virtual Receptionist", desc: "Front desk AI", color: "from-orange-400 to-orange-500", icon: Sparkles },
-
+    
+    const products = [
+        { href: "/products/inbound-calls", label: "Inbound Calls", desc: "Handle incoming calls intelligently", icon: Phone },
+        { href: "/products/outbound-calls", label: "Outbound Calls", desc: "Automated outreach calls", icon: TrendingUp },
+        { href: "/products/outbound-bulk-calls", label: "Outbound Bulk Calls", desc: "Mass calling campaigns", icon: Zap },
+        { href: "/products/intelligent-voice-agent", label: "Intelligent Voice Agent", desc: "AI-powered voice assistant", icon: Bot },
+        { href: "/products/call-analytics", label: "Call Analytics", desc: "Insights and reporting", icon: BarChart3 },
+        { href: "/products/whatsapp-bot", label: "WhatsApp Bot", desc: "WhatsApp automation", icon: Sparkles },
     ]
+    
+    const services = [
+        { href: "/services/ai-voice-bot", label: "AI Voice Bot", desc: "Intelligent voice automation", icon: Bot },
+        { href: "/services/voice-ai-business", label: "Voice AI for Business", desc: "Enterprise solutions", icon: TrendingUp },
+        { href: "/services/voice-automation-software", label: "Voice Automation", desc: "Workflow automation", icon: Zap },
+        { href: "/services/ai-customer-support", label: "AI Customer Support", desc: "24/7 assistance", icon: Sparkles },
+        { href: "/services/conversational-ai", label: "Conversational AI", desc: "Natural conversations", icon: Activity },
+        { href: "/services/ai-call-center", label: "AI Call Center", desc: "Call automation", icon: Phone },
+        { href: "/services/ai-sales-agent", label: "AI Sales Agent", desc: "Sales automation", icon: BarChart3 },
+        // { href: "/services/ai-virtual-receptionist", label: "Virtual Receptionist", desc: "Front desk AI", icon: Sparkles },
+    ]
+    
+    const [productsOpen, setProductsOpen] = useState(false);
     const [servicesOpen, setServicesOpen] = useState(false);
 
     return (
         <header
             className={cn(
-                "fixed top-0 w-full z-50 transition-all duration-700 bg-white/95 backdrop-blur-lg border-b border-orange-400/25"
+                "fixed top-0 w-full z-50 transition-all duration-300",
+                isScrolled 
+                    ? "bg-white shadow-sm" 
+                    : "bg-white"
             )}
         >
-
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
+                    {/* Logo */}
                     {/* Enhanced Logo Section */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9, x: -20 }}
@@ -80,204 +94,389 @@ export function Header() {
                         </Link>
                     </motion.div>
 
-                      {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-2">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className={`px-4 py-2 text-sm font-medium transition-all uppercase tracking-wide ${
-                  pathname === item.href
-                    ? "bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold shadow-md shadow-orange-400/25"
-                    : "text-gray-900 hover:bg-orange-400/10 hover:text-orange-600 border border-transparent hover:border-orange-400/25 rounded-full"
-                }`}
-                style={pathname === item.href ? {
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                } : {}}
-              >
-                {item.label}
-              </a>
-            ))}
 
-            {/* Our Services Dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={() => setServicesOpen(true)}
-              onMouseLeave={() => setServicesOpen(false)}
-            >
-              <button
-                className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-orange-400/10 hover:text-orange-600 rounded-full transition-all uppercase tracking-wide border border-transparent hover:border-orange-400/25"
-              >
-                <Zap className="w-4 h-4" />
-                Our Services
-                <ChevronDown className={`w-4 h-4 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
-              </button>
+                    {/* Desktop Navigation */}
+                    <nav className="hidden lg:flex items-center gap-1">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={cn(
+                                    "relative px-4 py-2 text-sm font-medium transition-all duration-200 group",
+                                    pathname === item.href
+                                        ? "text-orange-500"
+                                        : "text-gray-700 hover:text-orange-500"
+                                )}
+                            >
+                                {item.label}
+                                {/* Animated underline */}
+                                <span className={cn(
+                                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-orange-500 transition-all duration-300",
+                                    pathname === item.href ? "w-4/5" : "w-0 group-hover:w-4/5"
+                                )} />
+                            </Link>
+                        ))}
 
-              {/* Dropdown Panel - 3x3 Grid */}
-              <AnimatePresence>
-                {servicesOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.2 }}
-                    className="fixed left-0 right-0 top-16 mx-auto max-w-4xl px-4 z-50"
-                  >
-                    <div className="bg-white/95 backdrop-blur-lg border border-orange-400/25 rounded-2xl shadow-xl shadow-orange-400/25 p-4"
-                  >
-                    {/* Header */}
-                    <div className="flex items-center gap-2 mb-3 pb-2 border-b border-orange-400/25">
-                      <Activity className="w-4 h-4 text-orange-600" />
-                      <h3 className="text-sm font-bold text-orange-600 uppercase tracking-widest">AI-POWERED SOLUTIONS</h3>
-                    </div>
+                        {/* Products Dropdown */}
+                        <div
+                            className="relative"
+                            onMouseEnter={() => setProductsOpen(true)}
+                            onMouseLeave={() => setProductsOpen(false)}
+                        >
+                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors group">
+                                Products
+                                <ChevronDown className={cn(
+                                    "w-4 h-4 transition-transform duration-200",
+                                    productsOpen && "rotate-180"
+                                )} />
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-orange-500 transition-all duration-300 w-0 group-hover:w-4/5" />
+                            </button>
 
-                    {/* Services Grid - 3x3 */}
-                    <div className="grid grid-cols-3 gap-2 mb-3">
-                      {services.map((service) => {
-                        const Icon = service.icon
-                        return (
-                          <a
-                            key={service.href}
-                            href={service.href}
-                            className="flex flex-col items-start gap-1.5 p-3 rounded-lg hover:bg-orange-400/10 transition-all group border border-transparent hover:border-orange-400/25 backdrop-blur-sm"
-                          >
-                            <div className="p-1.5 bg-gradient-to-r from-orange-400 to-orange-500 group-hover:from-orange-300 group-hover:to-orange-400 transition-colors shadow-md shadow-orange-400/25"
-                                 style={{
-                                   clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'
-                                 }}>
-                              <Icon className="w-4 h-4 text-white" />
-                            </div>
-                            <div>
-                              <div className="text-xs font-semibold text-gray-900 mb-0.5 uppercase tracking-wide">
-                                {service.label}
-                              </div>
-                              <div className="text-[10px] text-orange-600">{service.desc}</div>
-                            </div>
-                          </a>
-                        )
-                      })}
-                    </div>
+                            <AnimatePresence>
+                                {productsOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 8 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 8 }}
+                                        transition={{ duration: 0.15 }}
+                                        className="absolute right-[-80px] top-full pt-2 w-[850px]"
+                                    >
+                                        <div className="bg-white rounded-2xl shadow-2xl shadow-gray-300/50 border border-gray-200 overflow-hidden">
+                                            <div className="flex">
+                                                {/* Left Section - Hero */}
+                                                <div className="w-[260px] p-6 border-r border-gray-100/60">
+                                                    <h3 className="text-xl font-bold text-gray-900 leading-tight">
+                                                        Our<br />
+                                                        <span className="text-orange-500">Products</span>
+                                                    </h3>
+                                                    <p className="mt-3 text-sm text-gray-600 leading-relaxed">
+                                                        Powerful AI-driven communication tools to transform your business operations.
+                                                    </p>
+                                                    <Link
+                                                        href="/products"
+                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white text-sm font-semibold rounded-full transition-all duration-200"
+                                                    >
+                                                        View All Products
+                                                    </Link>
+                                                </div>
 
-                    {/* Premium Services */}
-                    <div className="pt-2 border-t border-orange-400/25">
-                      <div className="flex items-center gap-1.5 mb-2">
-                        <div className="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse shadow-sm shadow-orange-400/50" />
-                        <span className="text-[10px] font-semibold text-orange-600 uppercase tracking-widest">PREMIUM SERVICES</span>
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                       <Link href="/services/leads"
-                        className="flex items-center gap-1.5 p-2 bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-300 hover:to-orange-400 text-white transition-all text-xs font-semibold uppercase tracking-wide shadow-md shadow-orange-400/25"
-                        style={{
-                          clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                        }}>
-                            <BarChart3 className="w-3 h-3" />
-                          LEAD ANALYSIS
-                        </Link>
+                                                {/* Call Solutions */}
+                                                <div className="flex-1 p-6 border-r border-gray-100 bg-gray-50/30">
+                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                                                        CALL SOLUTIONS
+                                                    </div>
+                                                    <div className="space-y-0.5">
+                                                        {products.slice(0, 3).map((product) => {
+                                                            const Icon = product.icon
+                                                            return (
+                                                                <Link
+                                                                    key={product.href}
+                                                                    href={product.href}
+                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
+                                                                >
+                                                                    <div className="w-8 h-8 rounded-lg bg-orange-100 group-hover:bg-orange-500 flex items-center justify-center transition-colors">
+                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
+                                                                    </div>
+                                                                    <span className="text-[15px] font-medium group-hover:text-orange-500 transition-colors">
+                                                                        {product.label}
+                                                                    </span>
+                                                                </Link>
+                                                            )
+                                                        })}
+                                                    </div>
+                                                </div>
 
-<Link
-  href="/services/appointments"
-  className="flex items-center gap-1.5 p-2 bg-white/50 hover:bg-orange-400/10 border border-orange-400/25 text-orange-600 transition-all text-xs font-semibold uppercase tracking-wide backdrop-blur-sm"
-  style={{
-    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-  }}
->
-  <Phone className="w-3 h-3" />
-  APPOINTMENTS
-</Link>
-                      </div>
-                    </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                                                {/* AI & Automation */}
+                                                <div className="flex-1 p-6 border-r border-gray-100 bg-gray-50/30">
+                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                                                        AI & AUTOMATION
+                                                    </div>
+                                                    <div className="space-y-0.5">
+                                                        {products.slice(3).map((product) => {
+                                                            const Icon = product.icon
+                                                            return (
+                                                                <Link
+                                                                    key={product.href}
+                                                                    href={product.href}
+                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
+                                                                >
+                                                                    <div className="w-8 h-8 rounded-lg bg-orange-100 group-hover:bg-orange-500 flex items-center justify-center transition-colors">
+                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
+                                                                    </div>
+                                                                    <span className="text-[15px] font-medium group-hover:text-orange-500 transition-colors">
+                                                                        {product.label}
+                                                                    </span>
+                                                                </Link>
+                                                            )
+                                                        })}
+                                                    </div>
+                                                </div>
+
+                                                {/* Right Section - Featured Card */}
+                                                <div className="w-[220px] p-4">
+                                                    <div className="h-full bg-gradient-to-br from-green-100 to-green-50 rounded-xl p-4 flex flex-col">
+                                                        <span className="text-[10px] font-bold text-green-600 uppercase tracking-wider">
+                                                            NEW
+                                                        </span>
+                                                        <h4 className="mt-2 text-lg font-bold text-gray-900 leading-snug">
+                                                            AI-Powered<br />
+                                                            Voice<br />
+                                                            Solutions
+                                                        </h4>
+                                                        <div className="mt-auto pt-4">
+                                                            <div className="relative h-24 rounded-lg overflow-hidden mb-3">
+                                                                <Image
+                                                                    src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?w=200&h=150&fit=crop"
+                                                                    alt="Voice Solutions"
+                                                                    fill
+                                                                    className="object-cover"
+                                                                />
+                                                            </div>
+                                                            <Link
+                                                                href="/products"
+                                                                className="inline-flex items-center justify-center w-full py-2 bg-white hover:bg-orange-500 hover:text-white text-orange-500 text-sm font-semibold rounded-full border border-orange-200 transition-all duration-200"
+                                                            >
+                                                                Explore
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        {/* Services Dropdown */}
+                        <div
+                            className="relative"
+                            onMouseEnter={() => setServicesOpen(true)}
+                            onMouseLeave={() => setServicesOpen(false)}
+                        >
+                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors group">
+                                Services
+                                <ChevronDown className={cn(
+                                    "w-4 h-4 transition-transform duration-200",
+                                    servicesOpen && "rotate-180"
+                                )} />
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-orange-500 transition-all duration-300 w-0 group-hover:w-4/5" />
+                            </button>
+
+                            <AnimatePresence>
+                                {servicesOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 8 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 8 }}
+                                        transition={{ duration: 0.15 }}
+                                        className="absolute right-0 top-full pt-2 w-[850px]"
+                                    >
+                                        <div className="bg-white rounded-2xl shadow-2xl shadow-gray-300/50 border border-gray-200 overflow-hidden">
+                                            <div className="flex">
+                                                {/* Left Section - Hero */}
+                                                <div className="w-[260px] p-6 border-r border-gray-100/60">
+                                                    <h3 className="text-xl font-bold text-gray-900 leading-tight">
+                                                        Solutions That Drive<br />
+                                                        <span className="text-orange-500">Business Growth</span>
+                                                    </h3>
+                                                    <p className="mt-3 text-sm text-gray-600 leading-relaxed">
+                                                        Discover how DigitalBot helps enterprises deliver AI-powered voice automation, intelligent support, and measurable results.
+                                                    </p>
+                                                    <Link
+                                                        href="/contact"
+                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white text-sm font-semibold rounded-full transition-all duration-200"
+                                                    >
+                                                        Request a Demo
+                                                    </Link>
+                                                </div>
+
+                                                {/* Middle Section - Voice Solutions */}
+                                                <div className="flex-1 p-6 border-r border-gray-100 bg-gray-50/30">
+                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                                                        VOICE SOLUTIONS
+                                                    </div>
+                                                    <div className="space-y-0.5">
+                                                        {services.slice(0, 4).map((service) => {
+                                                            const Icon = service.icon
+                                                            return (
+                                                                <Link
+                                                                    key={service.href}
+                                                                    href={service.href}
+                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
+                                                                >
+                                                                    <div className="w-8 h-8 rounded-lg bg-orange-100 group-hover:bg-orange-500 flex items-center justify-center transition-colors">
+                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
+                                                                    </div>
+                                                                    <span className="text-[15px] font-medium group-hover:text-orange-500 transition-colors">
+                                                                        {service.label}
+                                                                    </span>
+                                                                </Link>
+                                                            )
+                                                        })}
+                                                    </div>
+                                                </div>
+
+                                                {/* Middle Section - AI Services */}
+                                                <div className="flex-1 p-6 border-r border-gray-100 bg-gray-50/30">
+                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                                                        AI SERVICES
+                                                    </div>
+                                                    <div className="space-y-0.5">
+                                                        {services.slice(4).map((service) => {
+                                                            const Icon = service.icon
+                                                            return (
+                                                                <Link
+                                                                    key={service.href}
+                                                                    href={service.href}
+                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
+                                                                >
+                                                                    <div className="w-8 h-8 rounded-lg bg-orange-100 group-hover:bg-orange-500 flex items-center justify-center transition-colors">
+                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
+                                                                    </div>
+                                                                    <span className="text-[15px] font-medium group-hover:text-orange-500 transition-colors">
+                                                                        {service.label}
+                                                                    </span>
+                                                                </Link>
+                                                            )
+                                                        })}
+                                                    </div>
+                                                    
+                                                    {/* Premium Services */}
+                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-5 mb-3">
+                                                        PREMIUM
+                                                    </div>
+                                                    <div className="flex gap-2">
+                                                        <Link 
+                                                            href="/services/leads"
+                                                            className="flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
+                                                        >
+                                                            <BarChart3 className="w-4 h-4" />
+                                                            Lead Analysis
+                                                        </Link>
+                                                        <Link
+                                                            href="/services/appointments"
+                                                            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+                                                        >
+                                                            <Phone className="w-4 h-4" />
+                                                            Appointments
+                                                        </Link>
+                                                    </div>
+                                                </div>
+
+                                                {/* Right Section - Featured Card */}
+                                                <div className="w-[220px] p-4">
+                                                    <div className="h-full bg-gradient-to-br from-green-100 to-green-50 rounded-xl p-4 flex flex-col">
+                                                        <span className="text-[10px] font-bold text-green-600 uppercase tracking-wider">
+                                                            FEATURED
+                                                        </span>
+                                                        <h4 className="mt-2 text-lg font-bold text-gray-900 leading-snug">
+                                                            Delivering 360°<br />
+                                                            Customer<br />
+                                                            Experience
+                                                        </h4>
+                                                        <div className="mt-auto pt-4">
+                                                            <div className="relative h-24 rounded-lg overflow-hidden mb-3">
+                                                                <Image
+                                                                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=150&fit=crop"
+                                                                    alt="Customer Experience"
+                                                                    fill
+                                                                    className="object-cover"
+                                                                />
+                                                            </div>
+                                                            <Link
+                                                                href="/services"
+                                                                className="inline-flex items-center justify-center w-full py-2 bg-white hover:bg-orange-500 hover:text-white text-orange-500 text-sm font-semibold rounded-full border border-orange-200 transition-all duration-200"
+                                                            >
+                                                                Learn More
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </nav>
+
+                    {/* CTA Button */}
+                    <Link
+                        href="/login"
+                        className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/25"
+                    >
+                        <Sparkles className="w-4 h-4" />
+                        Get Started
+                    </Link>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="lg:hidden p-2 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+                    >
+                        {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    </button>
+                </div>
+
+                {/* Mobile Menu */}
+                <AnimatePresence>
+                    {isMenuOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="lg:hidden overflow-hidden border-t border-gray-100"
+                        >
+                            <nav className="py-4 space-y-1">
+                                {navItems.map((item) => (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className={cn(
+                                            "block px-4 py-3 text-sm font-medium rounded-lg transition-colors",
+                                            pathname === item.href
+                                                ? "bg-orange-50 text-orange-500"
+                                                : "text-gray-700 hover:bg-gray-50 hover:text-orange-500"
+                                        )}
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ))}
+
+                                {/* Mobile Services */}
+                                <div className="pt-3 mt-3 border-t border-gray-100">
+                                    <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Services</div>
+                                    {services.slice(0, 6).map((service) => (
+                                        <Link
+                                            key={service.href}
+                                            href={service.href}
+                                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-orange-500 rounded-lg transition-colors"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            {service.label}
+                                        </Link>
+                                    ))}
+                                </div>
+
+                                {/* Mobile CTA */}
+                                <div className="pt-4 px-4">
+                                    <Link
+                                        href="/login"
+                                        className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        <Sparkles className="w-4 h-4" />
+                                        Get Started Free
+                                    </Link>
+                                </div>
+                            </nav>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
-          </nav>
-
-          {/* Get Started Button */}
-          <a
-            href="/login"
-            className="hidden lg:flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 hover:from-orange-300 hover:via-orange-400 hover:to-orange-600 text-white text-sm font-bold shadow-lg shadow-orange-400/40 transition-all uppercase tracking-widest hover:scale-105 hover:shadow-[0_0_50px_rgba(255,165,0,0.9)] hover:-translate-y-1"
-            style={{
-              clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-            }}
-          >
-            <Sparkles className="w-4 h-4" />
-            GET STARTED FREE
-          </a>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 text-gray-900 hover:text-orange-600 hover:bg-orange-400/10 rounded-lg transition-all border border-transparent hover:border-orange-400/25"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="lg:hidden border-t border-orange-400/25 overflow-hidden bg-white/95 backdrop-blur-lg"
-            >
-              <nav className="py-4 space-y-1">
-                {navItems.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className={`block px-4 py-2.5 text-sm font-medium uppercase tracking-wide transition-all ${
-                      pathname === item.href
-                        ? "bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold shadow-md shadow-orange-400/25"
-                        : "text-gray-900 hover:bg-orange-400/10 hover:text-orange-600 border border-transparent hover:border-orange-400/25 rounded-lg"
-                    }`}
-                    style={pathname === item.href ? {
-                      clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                    } : {}}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                ))}
-
-                {/* Mobile Services */}
-                <div className="pt-3 mt-3 border-t border-orange-400/25">
-                  <div className="px-4 py-2 text-xs font-semibold text-orange-600 uppercase tracking-widest">SERVICES</div>
-                  <div className="space-y-1">
-                    {services.slice(0, 6).map((service) => (
-                      <a
-                        key={service.href}
-                        href={service.href}
-                        className="block px-4 py-2 text-sm text-gray-900 hover:bg-orange-400/10 hover:text-orange-600 rounded-lg uppercase tracking-wide border border-transparent hover:border-orange-400/25"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        {service.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Mobile CTA */}
-                <div className="pt-4 px-4">
-                  <a
-                    href="/login"
-                    className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 text-white text-sm font-bold shadow-lg shadow-orange-400/40 uppercase tracking-widest hover:scale-105 transition-all hover:shadow-[0_0_50px_rgba(255,165,0,0.9)] hover:-translate-y-1"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                    }}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <Sparkles className="w-4 h-4" />
-                    GET STARTED FREE
-                  </a>
-                </div>
-              </nav>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </header>
-  )
+        </header>
+    )
 }

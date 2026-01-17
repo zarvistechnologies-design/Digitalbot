@@ -1,363 +1,411 @@
-"use client"
+ <section className="relative min-h-[200vh] bg-white dark:from-slate-900 dark:via-gray-900 dark:to-slate-800" id="use-cases">
+          <div className="flex flex-col lg:flex-row">
+            {/* LEFT SIDE - STICKY/FIXED */}
+            <div className="lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex items-center justify-center p-8 lg:p-16">
+              <div className="relative max-w-lg w-full">
+                {/* Animated Background Shapes */}
+                <div className="absolute -top-10 -left-10 w-40 h-40 bg-orange-400/20 rounded-full blur-3xl animate-blob" />
+                <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-orange-500/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
+                <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-orange-600/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: '4s' }} />
 
-import { Building2, CheckCircle2, Mail, MessageSquare, Phone, Send, Sparkles, User, Zap } from "lucide-react"
-import { useState } from "react"
-
-export function LeadForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    message: ""
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-  const [error, setError] = useState("")
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setError("")
-
-    try {
-      const submitData = new FormData()
-      submitData.append("access_key", "8f0556d8-66c3-4e2d-810e-5de948aff5ce")
-      submitData.append("subject", `New Lead from ${formData.company}`)
-      submitData.append("from_name", "DigitalBot Lead Form")
-      submitData.append("name", formData.name)
-      submitData.append("email", formData.email)
-      submitData.append("phone", formData.phone)
-      submitData.append("company", formData.company)
-      submitData.append("message", formData.message)
-      submitData.append("redirect", "false")
-      submitData.append("to", "hello@metic.ai")
-
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: submitData
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        setIsSuccess(true)
-        const savedEmail = formData.email
-        setFormData({
-          name: "",
-          email: savedEmail,
-          phone: "",
-          company: "",
-          message: ""
-        })
-
-        // Reset success message after 5 seconds
-        setTimeout(() => {
-          setIsSuccess(false)
-        }, 5000)
-      } else {
-        throw new Error(data.message || "Failed to submit form")
-      }
-    } catch (err) {
-      console.error("Form submission error:", err)
-      setError("Failed to submit form. Please try again or email us directly at hello@metic.ai")
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  return (
-    <section className="relative py-16 overflow-hidden bg-white">
-      {/* Background Decorations */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-orange-400/15 via-transparent to-transparent" />
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" style={{
-        backgroundImage: `linear-gradient(to right, rgba(255, 140, 0, 0.2) 1px, transparent 1px),
-                         linear-gradient(to bottom, rgba(255, 140, 0, 0.2) 1px, transparent 1px)`,
-        backgroundSize: '40px 40px'
-      }} />
-
-      {/* Animated Orbs - Orange Theme */}
-      <div className="absolute top-8 right-8 w-48 h-48 bg-gradient-to-br from-orange-400/25 via-orange-300/15 to-orange-500/15 rounded-full blur-2xl animate-float-slow shadow-[0_0_80px_rgba(255,140,0,0.25)]" />
-      <div className="absolute bottom-8 left-8 w-56 h-56 bg-gradient-to-tl from-orange-400/15 via-orange-300/10 to-orange-400/8 rounded-full blur-2xl animate-float-reverse shadow-[0_0_100px_rgba(255,140,0,0.2)]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-r from-orange-400/8 to-orange-500/8 rounded-full blur-2xl" />
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          @keyframes float-slow {
-            0%, 100% { transform: translateY(0px) translateX(0px); }
-            25% { transform: translateY(-15px) translateX(5px); }
-            50% { transform: translateY(-20px) translateX(-5px); }
-            75% { transform: translateY(-15px) translateX(5px); }
-          }
-          @keyframes float-reverse {
-            0%, 100% { transform: translateY(0px) translateX(0px); }
-            25% { transform: translateY(15px) translateX(-5px); }
-            50% { transform: translateY(20px) translateX(5px); }
-            75% { transform: translateY(15px) translateX(-5px); }
-          }
-          .animate-float-slow {
-            animation: float-slow 6s ease-in-out infinite;
-          }
-          .animate-float-reverse {
-            animation: float-reverse 5s ease-in-out infinite;
-          }
-        `
-      }} />
-
-      <div className="container mx-auto px-3 sm:px-4 lg:px-6 relative z-10">
-        <div className="max-w-5xl mx-auto">
-
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-
-            {/* Left Side - Info */}
-            <div className="space-y-6">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-orange-400/15 to-orange-500/15 border border-orange-400/25 rounded-full backdrop-blur-sm">
-                <Sparkles className="w-3 h-3 text-orange-600 animate-pulse" />
-                <span className="text-xs font-bold text-orange-600 tracking-wide">Get Started Today</span>
-              </div>
-
-              {/* Heading */}
-              <div>
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-3">
-                  <span className="bg-gradient-to-r from-gray-900 to-orange-800 bg-clip-text text-transparent tracking-wide">
-                    Transform Your Business with
-                  </span>
-                  <br />
-                  <span className="bg-gradient-to-r from-orange-300 via-orange-400 to-orange-500 bg-clip-text text-transparent tracking-widest">
-                    AI Voice Assistants
-                  </span>
-                </h2>
-                <p className="text-base lg:text-lg text-gray-900 leading-relaxed">
-                  Join thousands of businesses automating customer interactions.
-                  Get a personalized demo and discover how AI can revolutionize your operations.
-                </p>
-              </div>
-
-              {/* Features */}
-              <div className="space-y-3">
-                {[
-                { icon: Zap, text: "Setup in 5 minutes", gradient: "from-orange-300 via-orange-400 to-orange-500", border: "border-orange-400/25", bg: "from-orange-400/15 to-orange-500/15" },
-                { icon: CheckCircle2, text: "No credit card required", gradient: "from-orange-300 via-orange-400 to-orange-500", border: "border-orange-400/25", bg: "from-orange-400/15 to-orange-500/15" },
-                { icon: Phone, text: "Free consultation call", gradient: "from-orange-300 via-orange-400 to-orange-500", border: "border-orange-400/25", bg: "from-orange-400/15 to-orange-500/15" },
-                { icon: Building2, text: "Enterprise-ready solution", gradient: "from-orange-300 via-orange-400 to-orange-500", border: "border-orange-400/25", bg: "from-orange-400/15 to-orange-500/15" }
-                ].map((feature, idx) => (
-                  <div key={idx} className="flex items-center gap-2.5 group">
-                  <div className={`p-1.5 bg-gradient-to-r ${feature.bg} rounded-lg group-hover:scale-110 transition-transform border ${feature.border} backdrop-blur-sm shadow-md shadow-orange-400/15`}>
-                    <feature.icon className={`w-4 h-4 text-orange-600`} />
+                {/* Main Content */}
+                <div className="relative z-10">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-400/20 border border-orange-400/30 mb-6">
+                    <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <span className="text-sm font-bold text-orange-500">AI VOICE AGENTS</span>
                   </div>
-                  <span className="text-gray-900 font-medium text-sm tracking-wide">{feature.text}</span>
-                  </div>
-                ))}
-              </div>
 
-              {/* Trust Indicators */}
-              <div className="pt-4 border-t border-orange-400/15">
-                <p className="text-xs text-orange-600 mb-2">Trusted by leading companies worldwide</p>
-                <div className="flex items-center gap-4">
-                  <div className="text-center">
-                    <div className="text-lg font-bold bg-gradient-to-r from-orange-300 via-orange-400 to-orange-500 bg-clip-text text-transparent tracking-wide">10K+</div>
-                    <div className="text-[10px] text-orange-600">Active Users</div>
-                  </div>
-                  <div className="w-px h-8 bg-orange-400/15" />
-                  <div className="text-center">
-                    <div className="text-lg font-bold bg-gradient-to-r from-orange-300 via-orange-400 to-orange-500 bg-clip-text text-transparent tracking-wide">99.9%</div>
-                    <div className="text-[10px] text-orange-600">Uptime</div>
-                  </div>
-                  <div className="w-px h-8 bg-orange-400/15" />
-                  <div className="text-center">
-                    <div className="text-lg font-bold bg-gradient-to-r from-orange-300 via-orange-400 to-orange-500 bg-clip-text text-transparent tracking-wide">24/7</div>
-                    <div className="text-[10px] text-orange-600">Support</div>
+                  <h2 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
+                    AI Voice Agent Solutions
+                    <br />
+                    <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                      for Every Industry
+                    </span>
+                  </h2>
+
+                  <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                    From healthcare to e-commerce, our AI voice assistants deliver <span className="text-orange-400 font-bold">measurable ROI</span> across all sectors.
+                  </p>
+
+                  {/* Animated Image Container */}
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
+                    <Image
+                      src="/images/ai-voice-agent.png"
+                      alt="AI Voice Agent Platform"
+                      width={600}
+                      height={400}
+                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-1000"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                    {/* Floating Badge */}
+                    <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                      <div className="text-white">
+                        <div className="text-2xl font-black">24/7</div>
+                        <div className="text-sm text-white/80">Always Available</div>
+                      </div>
+                      <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center animate-bounce">
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Side - Form */}
-            <div className="relative">
-              <div className="bg-white/95 backdrop-blur-lg rounded-2xl p-6 md:p-7 shadow-xl shadow-orange-400/25 border border-orange-400/25 relative overflow-hidden">
-                {/* Decorative gradient */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-400/15 via-orange-300/10 to-transparent rounded-full blur-2xl" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tl from-orange-400/15 via-orange-300/10 to-transparent rounded-full blur-2xl" />
+            {/* RIGHT SIDE - SCROLLING CONTENT */}
+            <div className="lg:w-1/2 py-10 lg:py-16 px-4 lg:px-8 flex flex-col gap-10">
+              <div className="flex flex-col gap-8">
 
-                <div className="relative z-10">
-                  {/* Form Header */}
-                  <div className="text-center mb-6">
-                    <h3 className="text-xl font-bold bg-gradient-to-r from-orange-300 to-orange-500 bg-clip-text text-transparent mb-2 tracking-wide">Request a Demo</h3>
-                    <p className="text-sm text-gray-900">Fill out the form and we'll get back to you within 24 hours</p>
-                  </div>
-
-                  {/* Success Message */}
-                  {isSuccess && (
-                    <div className="mb-6 p-4 bg-orange-400/10 border border-orange-400/30 rounded-xl flex items-center gap-3 backdrop-blur-sm">
-                      <CheckCircle2 className="w-5 h-5 text-orange-400 flex-shrink-0" />
-                      <div>
-                        <p className="text-orange-400 font-semibold">Thank you for your interest!</p>
-                        <p className="text-orange-500 text-sm">We'll contact you shortly at {formData.email}</p>
-                      </div>
+                {/* Healthcare & Medical */}
+                <div className="group opacity-0 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
+                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl border border-orange-200/40 hover:border-orange-400/60 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-400/10 shadow-md">
+                    {/* Icon Badge */}
+                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
                     </div>
-                  )}
 
-                  {/* Error Message */}
-                  {error && (
-                    <div className="mb-6 p-4 bg-orange-400/10 border border-orange-400/30 rounded-xl backdrop-blur-sm">
-                      <p className="text-orange-400 text-sm">{error}</p>
+                    {/* Image First */}
+                    <div className="mb-3 rounded-xl overflow-hidden">
+                      <Image
+                        src="/images/hospital.png"
+                        alt="AI Voice Assistant for Healthcare & Medical"
+                        width={600}
+                        height={350}
+                        className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
                     </div>
-                  )}
 
-                  {/* Form */}
-                  <div className="space-y-4">
-                    {/* Name Field */}
+                    {/* Content */}
                     <div>
-                      <label htmlFor="name" className="block text-xs font-semibold text-gray-900 mb-1.5 tracking-wide">
-                        Full Name *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <User className="h-4 w-4 text-orange-400" />
+                      <div className="mb-4">
+                        <span className="inline-block px-2 py-0.5 bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                          Healthcare Industry
+                        </span>
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-orange-500 transition-colors">
+                          Healthcare & Medical
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-sm">
+                          Transform patient care with AI-powered automation that handles appointments, screenings, and support 24/7.
+                        </p>
+                      </div>
+
+                      {/* Feature List */}
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-2 p-2 rounded-lg bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Automated Appointment Scheduling</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">24/7 booking and reminders</div>
+                          </div>
                         </div>
-                        <input
-                          id="name"
-                          name="name"
-                          type="text"
-                          required
-                          value={formData.name}
-                          onChange={handleChange}
-                          className="w-full pl-10 h-10 bg-white/90 border border-orange-400/25 text-gray-900 text-sm placeholder:text-orange-400 focus:border-orange-400 focus:ring-1 focus:ring-orange-400/40 rounded-lg backdrop-blur-sm outline-none transition-all"
-                          placeholder="John Doe"
-                        />
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Patient Pre-Screening</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Triage and symptom assessment</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Prescription Refills</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Automated medication management</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">HIPAA-Compliant</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Secure patient communication</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                    {/* Email Field */}
-                    <div>
-                      <label htmlFor="email" className="block text-xs font-semibold text-gray-900 mb-1.5">
-                        Work Email *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Mail className="h-4 w-4 text-orange-400" />
-                        </div>
-                        <input
-                          id="email"
-                          name="email"
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="w-full pl-10 h-10 bg-white/90 border border-orange-400/25 text-gray-900 text-sm placeholder:text-orange-400 focus:border-orange-400 focus:ring-1 focus:ring-orange-400/40 rounded-lg backdrop-blur-sm outline-none transition-all"
-                          placeholder="john@company.com"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Phone Field */}
-                    <div>
-                      <label htmlFor="phone" className="block text-xs font-semibold text-gray-900 mb-1.5">
-                        Phone Number *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Phone className="h-4 w-4 text-orange-400" />
-                        </div>
-                        <input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          required
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="w-full pl-10 h-10 bg-white/90 border border-orange-400/25 text-gray-900 text-sm placeholder:text-orange-400 focus:border-orange-400 focus:ring-1 focus:ring-orange-400/40 rounded-lg backdrop-blur-sm outline-none transition-all"
-                          placeholder="+1 (555) 000-0000"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Company Field */}
-                    <div>
-                      <label htmlFor="company" className="block text-xs font-semibold text-gray-900 mb-1.5">
-                        Company Name *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Building2 className="h-4 w-4 text-orange-400" />
-                        </div>
-                        <input
-                          id="company"
-                          name="company"
-                          type="text"
-                          required
-                          value={formData.company}
-                          onChange={handleChange}
-                          className="w-full pl-10 h-10 bg-white/90 border border-orange-400/25 text-gray-900 text-sm placeholder:text-orange-400 focus:border-orange-400 focus:ring-1 focus:ring-orange-400/40 rounded-lg backdrop-blur-sm outline-none transition-all"
-                          placeholder="Your Company Inc."
-                        />
-                      </div>
-                    </div>
-
-                    {/* Message Field */}
-                    <div>
-                      <label htmlFor="message" className="block text-xs font-semibold text-gray-900 mb-1.5">
-                        How can we help? *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute top-3 left-3 pointer-events-none">
-                          <MessageSquare className="h-4 w-4 text-orange-400" />
-                        </div>
-                        <textarea
-                          id="message"
-                          name="message"
-                          required
-                          value={formData.message}
-                          onChange={handleChange}
-                          rows={3}
-                          className="w-full pl-10 pt-2.5 pb-2.5 bg-white/90 border border-orange-400/25 text-gray-900 text-sm placeholder:text-orange-400 focus:border-orange-400 focus:ring-1 focus:ring-orange-400/40 rounded-lg resize-none backdrop-blur-sm outline-none transition-all"
-                          placeholder="Tell us about your business needs..."
-                        />
-                      </div>
-                    </div>
-
-                    {/* Submit Button */}
-                    <button
-                      onClick={handleSubmit}
-                      disabled={isSubmitting}
-                      className="w-full h-11 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 hover:from-orange-300 hover:via-orange-400 hover:to-orange-600 text-white font-bold text-sm rounded-lg shadow-md shadow-orange-400/25 hover:shadow-lg hover:shadow-orange-400/40 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4" />
-                          Request Free Demo
-                        </>
-                      )}
-                    </button>
-
-                    {/* Privacy Note */}
-                    <p className="text-[10px] text-orange-600 text-center">
-                      By submitting this form, you agree to our{" "}
-                      <a href="/privacy" className="text-orange-600 hover:text-orange-700 underline">
-                        Privacy Policy
-                      </a>
-                      . We respect your privacy and never share your data.
-                    </p>
                   </div>
                 </div>
+
+                {/* Real Estate */}
+                <div className="group opacity-0 animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
+                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl border border-blue-200/40 hover:border-blue-400/60 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-400/10 shadow-md">
+                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                      </svg>
+                    </div>
+
+                    <div className="mb-3 rounded-xl overflow-hidden">
+                      <Image
+                        src="/images/female-real-estate.jpg"
+                        alt="AI Voice Assistant for Real Estate"
+                        width={600}
+                        height={350}
+                        className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="mb-4">
+                        <span className="inline-block px-2 py-0.5 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                          Real Estate Industry
+                        </span>
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-blue-500 transition-colors">
+                          Real Estate Solutions
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-sm">
+                          Never miss a lead with AI agents that handle inquiries, schedule showings, and qualify buyers instantly.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-2 p-2 rounded-lg bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">24/7 Property Inquiries</div>
+                            <div className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">Never miss a lead</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Automated Showing Scheduling</div>
+                            <div className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">Instant appointments</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Lead Qualification</div>
+                            <div className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">Automatic buyer scoring</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Follow-up Automation</div>
+                            <div className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">Nurture leads effectively</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hospitality & Hotels */}
+                <div className="group opacity-0 animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>
+                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl border border-purple-200/40 hover:border-purple-400/60 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-400/10 shadow-md">
+                    <div className="absolute -top-4 -left-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-xl">
+                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    </div>
+
+                    <div className="mb-3 rounded-xl overflow-hidden">
+                      <Image
+                        src="/images/hotel-reception.jpg"
+                        alt="AI Voice Assistant for Hotels & Hospitality"
+                        width={600}
+                        height={350}
+                        className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="mb-4">
+                        <span className="inline-block px-2 py-0.5 bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                          Hospitality Industry
+                        </span>
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-purple-500 transition-colors">
+                          Hotels & Hospitality
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-sm">
+                          Deliver exceptional guest experiences with multilingual AI support available around the clock.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-2 p-2 rounded-lg bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Reservation Management</div>
+                            <div className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">Booking and confirmations</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Guest Services</div>
+                            <div className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">Room service and concierge</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Multi-Language Support</div>
+                            <div className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">Serve international guests</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">24/7 Front Desk</div>
+                            <div className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">Always available assistance</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* E-commerce & Business */}
+                <div className="group opacity-0 animate-fade-in" style={{ animationDelay: '0.8s', animationFillMode: 'forwards' }}>
+                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl border border-green-200/40 hover:border-green-400/60 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-400/10 shadow-md">
+                    <div className="absolute -top-4 -left-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-xl">
+                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </div>
+
+                    <div className="mb-3 rounded-xl overflow-hidden">
+                      <Image
+                        src="/images/ai-voice-agent.png"
+                        alt="AI Voice Agent for E-commerce & Business"
+                        width={600}
+                        height={350}
+                        className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="mb-4">
+                        <span className="inline-block px-2 py-0.5 bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                          E-commerce Industry
+                        </span>
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-green-500 transition-colors">
+                          E-commerce & Business
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-sm">
+                          Boost sales and customer satisfaction with AI that handles orders, support, and recommendations instantly.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-2 p-2 rounded-lg bg-green-50 dark:bg-green-500/10 hover:bg-green-100 dark:hover:bg-green-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-green-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Order Tracking</div>
+                            <div className="text-xs text-green-600 dark:text-green-400 mt-0.5">Real-time status updates</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-500/10 hover:bg-green-100 dark:hover:bg-green-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-green-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Customer Support</div>
+                            <div className="text-xs text-green-600 dark:text-green-400 mt-0.5">Instant query resolution</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-500/10 hover:bg-green-100 dark:hover:bg-green-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-green-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Product Recommendations</div>
+                            <div className="text-xs text-green-600 dark:text-green-400 mt-0.5">AI-powered upselling</div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-500/10 hover:bg-green-100 dark:hover:bg-green-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-green-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 dark:text-white text-sm">Returns & Exchanges</div>
+                            <div className="text-xs text-green-600 dark:text-green-400 mt-0.5">Automated processing</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
+        </section>
