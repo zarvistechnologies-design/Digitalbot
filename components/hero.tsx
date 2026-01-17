@@ -1,7 +1,7 @@
 "use client"
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Award, BarChart3,Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, Mic, MicOff, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
+import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, Mic, MicOff, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
 
@@ -25,7 +25,7 @@ const services = [
             { icon: "Shield", text: "100% HIPAA compliant conversations" },
         ],
     },
-    
+
     {
         title: "Lead Generation",
         subtitle: "Automated Outbound Sales Machine",
@@ -59,21 +59,21 @@ const services = [
         ],
     },
     {
-    title: "Voicebot Integration",
-    subtitle: "Seamlessly Connect AI Voice to Your Systems",
-    img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/voicebot_integaration_pjlorx",
-    desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
-    color: "from-cyan-500 to-blue-600",
-    stat: "50+",
-    statLabel: "Native Integrations",
-    audio: "/audio/virtual-receptionist-sample.mp3",
-    features: [
-        { icon: "Zap", text: "Connect with Zapier, Make, & 1000+ apps" },
-        { icon: "Share2", text: "Bi-directional data flow & updates" },
-        { icon: "Code", text: "RESTful API & SDK for developers" },
-        { icon: "Shield", text: "Enterprise-grade security & compliance" },
-    ],
-},
+        title: "Voicebot Integration",
+        subtitle: "Seamlessly Connect AI Voice to Your Systems",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/voicebot_integaration_pjlorx",
+        desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
+        color: "from-cyan-500 to-blue-600",
+        stat: "50+",
+        statLabel: "Native Integrations",
+        audio: "/audio/virtual-receptionist-sample.mp3",
+        features: [
+            { icon: "Zap", text: "Connect with Zapier, Make, & 1000+ apps" },
+            { icon: "Share2", text: "Bi-directional data flow & updates" },
+            { icon: "Code", text: "RESTful API & SDK for developers" },
+            { icon: "Shield", text: "Enterprise-grade security & compliance" },
+        ],
+    },
     {
         title: "AI Call Center",
         subtitle: "Enterprise-Grade Communication Hub",
@@ -304,7 +304,7 @@ export default function Hero() {
                     const volumeInterval = setInterval(() => {
                         setVolumeLevel(Math.random() * 100)
                     }, 100)
-                    ;(vapiInstance as any)._volumeInterval = volumeInterval
+                        ; (vapiInstance as any)._volumeInterval = volumeInterval
                 })
 
                 vapiInstance.on('speech-end', () => {
@@ -848,16 +848,16 @@ export default function Hero() {
 
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                           <button
-                                    onClick={() => setShowVideo(true)}
-                                    className="px-8 py-3.5 bg-white text-orange-600 border-2 border-orange-500 font-semibold rounded-lg hover:bg-orange-50 transition-all duration-300 hover:shadow-lg"
-                                    style={{
-                                        clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                                    }}
-                                    aria-label="Watch demo video"
-                                >
-                                    Watch Demo
-                                </button>
+                            <button
+                                onClick={() => setShowVideo(true)}
+                                className="px-8 py-3.5 bg-white text-orange-600 border-2 border-orange-500 font-semibold rounded-lg hover:bg-orange-50 transition-all duration-300 hover:shadow-lg"
+                                style={{
+                                    clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
+                                }}
+                                aria-label="Watch demo video"
+                            >
+                                Watch Demo
+                            </button>
                             <Link
                                 href="/signup"
                                 className="px-8 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
@@ -884,7 +884,7 @@ export default function Hero() {
                         backgroundSize: '40px 40px'
                     }}></div>
                 </div>
-                
+
                 {/* Animated glow effect when active */}
                 {mounted && isCallActive && (
                     <div className="absolute inset-0 pointer-events-none">
@@ -917,7 +917,7 @@ export default function Hero() {
                                 <div className="w-64 h-32 bg-gradient-to-r from-orange-400/20 via-amber-400/20 to-orange-400/20 blur-2xl animate-morph"></div>
                             </div>
                         )}
-                        
+
                         {/* Sonic wave effect */}
                         {mounted && isSpeaking && (
                             <>
@@ -925,7 +925,7 @@ export default function Hero() {
                                 <div className="absolute bottom-1/2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-orange-500/30 to-transparent animate-sonic origin-center" style={{ animationDelay: '0.5s' }}></div>
                             </>
                         )}
-                        
+
                         {mounted && [...Array(60)].map((_, i) => {
                             // Create a wave pattern - higher in the middle, lower at edges
                             const centerIndex = 29.5;
@@ -983,7 +983,7 @@ export default function Hero() {
                                 </span>
                             </div>
                         )}
-                        
+
                         {/* Main Button with Orbital Rings */}
                         <div className="relative">
                             {/* Orbital rings when active */}
@@ -1006,17 +1006,17 @@ export default function Hero() {
                                     <div className="absolute inset-0 -m-10 rounded-full border border-orange-500/20 animate-ripple" style={{ animationDelay: '0.5s' }}></div>
                                 </>
                             )}
-                            
+
                             {/* Connecting - rotating dashed border */}
                             {mounted && isConnecting && (
                                 <>
                                     <svg className="absolute inset-0 -m-4 w-[calc(100%+32px)] h-[calc(100%+32px)]" style={{ animation: 'rotate-border 2s linear infinite' }}>
-                                        <rect 
-                                            x="2" y="2" 
-                                            width="calc(100% - 4px)" height="calc(100% - 4px)" 
+                                        <rect
+                                            x="2" y="2"
+                                            width="calc(100% - 4px)" height="calc(100% - 4px)"
                                             rx="9999" ry="9999"
-                                            fill="none" 
-                                            stroke="#f97316" 
+                                            fill="none"
+                                            stroke="#f97316"
                                             strokeWidth="2"
                                             strokeDasharray="10 5"
                                             className="animate-glow-pulse"
@@ -1024,7 +1024,7 @@ export default function Hero() {
                                     </svg>
                                 </>
                             )}
-                            
+
                             <button
                                 onClick={toggleCall}
                                 disabled={callStatus.startsWith('Requesting') || callStatus.startsWith('Starting') || callStatus.startsWith('Stopping')}
@@ -1052,7 +1052,7 @@ export default function Hero() {
                                 <span className="uppercase font-bold">
                                     {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Talk to AI'}
                                 </span>
-                                
+
                                 {/* Circular sound wave animation */}
                                 <div className="flex items-center gap-1">
                                     {[...Array(4)].map((_, i) => (
@@ -1062,10 +1062,10 @@ export default function Hero() {
                                             style={{
                                                 width: isCallActive || isConnecting ? '6px' : '4px',
                                                 height: isCallActive || isConnecting ? '6px' : '4px',
-                                                animation: isCallActive 
-                                                    ? `ripple 1.${2 + i}s ease-in-out infinite` 
-                                                    : isConnecting 
-                                                        ? `ripple 1.${5 + i}s ease-in-out infinite` 
+                                                animation: isCallActive
+                                                    ? `ripple 1.${2 + i}s ease-in-out infinite`
+                                                    : isConnecting
+                                                        ? `ripple 1.${5 + i}s ease-in-out infinite`
                                                         : 'none',
                                                 animationDelay: `${i * 0.15}s`
                                             }}
@@ -1074,25 +1074,25 @@ export default function Hero() {
                                 </div>
                             </button>
                         </div>
-                        
+
                         {/* Voice Activity Indicator - Orbital Style */}
                         {mounted && isCallActive && (
                             <div className="mt-6 flex items-center gap-4">
                                 {/* Left orbiting dots */}
                                 <div className="relative w-8 h-8">
                                     <div className={`absolute inset-0 rounded-full border ${isSpeaking ? 'border-orange-400' : 'border-gray-300'} transition-colors duration-300`}></div>
-                                    <div 
+                                    <div
                                         className={`absolute w-2 h-2 rounded-full ${isSpeaking ? 'bg-orange-500' : 'bg-gray-400'} transition-colors duration-300`}
-                                        style={{ 
+                                        style={{
                                             animation: isSpeaking ? 'orbit-1 1.5s linear infinite' : 'none',
-                                            top: '50%', 
+                                            top: '50%',
                                             left: '50%',
                                             marginTop: '-4px',
                                             marginLeft: '-4px'
                                         }}
                                     ></div>
                                 </div>
-                                
+
                                 {/* Status text with morphing background */}
                                 <div className={`relative px-4 py-2 rounded-full ${isSpeaking ? 'bg-orange-100' : 'bg-gray-100'} transition-all duration-300`}>
                                     <span className={`text-sm font-semibold ${isSpeaking ? 'text-orange-600' : 'text-gray-500'}`}>
@@ -1102,15 +1102,15 @@ export default function Hero() {
                                         <div className="absolute inset-0 rounded-full bg-orange-400/20 animate-ripple"></div>
                                     )}
                                 </div>
-                                
+
                                 {/* Right orbiting dots */}
                                 <div className="relative w-8 h-8">
                                     <div className={`absolute inset-0 rounded-full border ${isSpeaking ? 'border-orange-400' : 'border-gray-300'} transition-colors duration-300`}></div>
-                                    <div 
+                                    <div
                                         className={`absolute w-2 h-2 rounded-full ${isSpeaking ? 'bg-orange-500' : 'bg-gray-400'} transition-colors duration-300`}
-                                        style={{ 
+                                        style={{
                                             animation: isSpeaking ? 'orbit-1 1.5s linear infinite reverse' : 'none',
-                                            top: '50%', 
+                                            top: '50%',
                                             left: '50%',
                                             marginTop: '-4px',
                                             marginLeft: '-4px'
@@ -1139,7 +1139,7 @@ export default function Hero() {
                                     </div>
                                 )}
                             </div>
-                            
+
                             {/* Transcript Content */}
                             <div className="bg-white p-5">
                                 <div className="flex gap-3">
@@ -1147,7 +1147,7 @@ export default function Hero() {
                                     <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${isCallActive ? 'bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/30' : 'bg-gradient-to-br from-gray-200 to-gray-300'} ${isSpeaking ? 'animate-pulse' : ''}`}>
                                         <Sparkles className={`w-5 h-5 ${isCallActive ? 'text-white' : 'text-gray-600'}`} />
                                     </div>
-                                    
+
                                     {/* Message Bubble */}
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-1">
@@ -1166,7 +1166,7 @@ export default function Hero() {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             {/* Quick Actions Bar */}
                             <div className="bg-gray-50 px-5 py-3 flex items-center justify-between border-t border-gray-100">
                                 <div className="flex items-center gap-4">
@@ -1460,7 +1460,7 @@ export default function Hero() {
 
                     {/* Compact Feature Blocks */}
                     <div className="space-y-5">
-                        
+
                         {/* Feature 1 - Instant Setup */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-gradient-to-r from-orange-50 to-orange-100/50 rounded-2xl p-6 lg:p-8">
                             <div className="order-2 lg:order-1">
@@ -1483,8 +1483,8 @@ export default function Hero() {
                                 </div>
                             </div>
                             <div className="order-1 lg:order-2 flex justify-center">
-                                <img 
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-setup-image" 
+                                <img
+                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-setup-image"
                                     alt="Instant Setup Dashboard"
                                     className="w-full max-w-[200px] h-auto object-contain drop-shadow-xl"
                                     loading="lazy"
@@ -1495,8 +1495,8 @@ export default function Hero() {
                         {/* Feature 2 - Enterprise Security */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 lg:p-8">
                             <div className="flex justify-center">
-                                <img 
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-security-image" 
+                                <img
+                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-security-image"
                                     alt="Enterprise Security Shield"
                                     className="w-full max-w-[200px] h-auto object-contain drop-shadow-xl"
                                     loading="lazy"
@@ -1540,8 +1540,8 @@ export default function Hero() {
                                 </div>
                             </div>
                             <div className="order-1 lg:order-2 flex justify-center">
-                                <img 
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-247-image" 
+                                <img
+                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-247-image"
                                     alt="24/7 Operations Globe"
                                     className="w-full max-w-[200px] h-auto object-contain drop-shadow-xl"
                                     loading="lazy"
@@ -1552,8 +1552,8 @@ export default function Hero() {
                         {/* Feature 4 - Auto-Scaling */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-gradient-to-r from-blue-50 to-cyan-100/50 rounded-2xl p-6 lg:p-8">
                             <div className="flex justify-center">
-                                <img 
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-scaling-image" 
+                                <img
+                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-scaling-image"
                                     alt="Auto-Scaling Infrastructure"
                                     className="w-full max-w-[200px] h-auto object-contain drop-shadow-xl"
                                     loading="lazy"
@@ -1582,11 +1582,11 @@ export default function Hero() {
 
                         {/* Feature 5 & 6 - Two Column */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                            
+
                             {/* Omnichannel */}
                             <div className="bg-gradient-to-br from-rose-50 to-pink-100/50 rounded-2xl p-6 flex items-center gap-5">
-                                <img 
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-omnichannel-image" 
+                                <img
+                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-omnichannel-image"
                                     alt="Omnichannel Dashboard"
                                     className="w-24 h-24 object-contain drop-shadow-lg flex-shrink-0"
                                     loading="lazy"
@@ -1600,8 +1600,8 @@ export default function Hero() {
 
                             {/* Proven Results */}
                             <div className="bg-gradient-to-br from-teal-50 to-emerald-100/50 rounded-2xl p-6 flex items-center gap-5">
-                                <img 
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-results-image" 
+                                <img
+                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-results-image"
                                     alt="Proven Results Analytics"
                                     className="w-24 h-24 object-contain drop-shadow-lg flex-shrink-0"
                                     loading="lazy"
