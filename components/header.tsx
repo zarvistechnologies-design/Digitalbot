@@ -69,9 +69,9 @@ export function Header() {
                         className="relative group"
                     >
                             <Link href="/" className="flex items-center gap-12 relative ml-0 pl-0 mr-2" onClick={() => setIsMenuOpen(false)}>
-                            {/* Orange glow orbs */}
-                            <span className="absolute -top-6 -left-6 w-20 h-21 rounded-full bg-gradient-to-br from-orange-400/25 via-orange-300/15 to-transparent blur-3xl" />
-                            <span className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-tl from-orange-400/20 to-orange-300/10 blur-2xl" />
+                            {/* sky glow orbs */}
+                            <span className="absolute -top-6 -left-6 w-20 h-21 rounded-full bg-gradient-to-br from-sky-400/25 via-sky-300/15 to-transparent blur-3xl" />
+                            <span className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-tl from-sky-400/20 to-sky-300/10 blur-2xl" />
 
                             <div className="relative">
                 <Image
@@ -85,7 +85,7 @@ export function Header() {
                                 />
                             </div>
                             {/* Enhanced AI Badge */}
-                            <div className="absolute -bottom-2 -right-8 px-3 py-1 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 text-white text-[9px] font-bold shadow-lg shadow-orange-400/60 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-orange-400/30 backdrop-blur-sm"
+                            <div className="absolute -bottom-2 -right-8 px-3 py-1 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 text-white text-[9px] font-bold shadow-lg shadow-sky-400/60 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-sky-400/30 backdrop-blur-sm"
                                  style={{
                                    clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px))'
                                  }}>
@@ -104,14 +104,14 @@ export function Header() {
                                 className={cn(
                                     "relative px-4 py-2 text-sm font-medium transition-all duration-200 group",
                                     pathname === item.href
-                                        ? "text-orange-500"
-                                        : "text-gray-700 hover:text-orange-500"
+                                        ? "text-sky-500"
+                                        : "text-gray-700 hover:text-sky-500"
                                 )}
                             >
                                 {item.label}
                                 {/* Animated underline */}
                                 <span className={cn(
-                                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-orange-500 transition-all duration-300",
+                                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-sky-500 transition-all duration-300",
                                     pathname === item.href ? "w-4/5" : "w-0 group-hover:w-4/5"
                                 )} />
                             </Link>
@@ -123,13 +123,13 @@ export function Header() {
                             onMouseEnter={() => setProductsOpen(true)}
                             onMouseLeave={() => setProductsOpen(false)}
                         >
-                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors group">
+                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-sky-500 transition-colors group">
                                 Products
                                 <ChevronDown className={cn(
                                     "w-4 h-4 transition-transform duration-200",
                                     productsOpen && "rotate-180"
                                 )} />
-                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-orange-500 transition-all duration-300 w-0 group-hover:w-4/5" />
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-sky-500 transition-all duration-300 w-0 group-hover:w-4/5" />
                             </button>
 
                             <AnimatePresence>
@@ -147,14 +147,14 @@ export function Header() {
                                                 <div className="w-[260px] p-6 border-r border-gray-100/60">
                                                     <h3 className="text-xl font-bold text-gray-900 leading-tight">
                                                         Our<br />
-                                                        <span className="text-orange-500">Products</span>
+                                                        <span className="text-sky-500">Products</span>
                                                     </h3>
                                                     <p className="mt-3 text-sm text-gray-600 leading-relaxed">
                                                         Powerful AI-driven communication tools to transform your business operations.
                                                     </p>
                                                     <Link
                                                         href="/products"
-                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white text-sm font-semibold rounded-full transition-all duration-200"
+                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white text-sm font-semibold rounded-full transition-all duration-200"
                                                     >
                                                         View All Products
                                                     </Link>
@@ -174,10 +174,10 @@ export function Header() {
                                                                     href={product.href}
                                                                     className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-orange-100 group-hover:bg-orange-500 flex items-center justify-center transition-colors">
-                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
+                                                                    <div className="w-8 h-8 rounded-lg bg-sky-100 group-hover:bg-sky-500 flex items-center justify-center transition-colors">
+                                                                        <Icon className="w-4 h-4 text-sky-500 group-hover:text-white transition-colors" />
                                                                     </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-orange-500 transition-colors">
+                                                                    <span className="text-[15px] font-medium group-hover:text-sky-500 transition-colors">
                                                                         {product.label}
                                                                     </span>
                                                                 </Link>
@@ -200,10 +200,10 @@ export function Header() {
                                                                     href={product.href}
                                                                     className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-orange-100 group-hover:bg-orange-500 flex items-center justify-center transition-colors">
-                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
+                                                                    <div className="w-8 h-8 rounded-lg bg-sky-100 group-hover:bg-sky-500 flex items-center justify-center transition-colors">
+                                                                        <Icon className="w-4 h-4 text-sky-500 group-hover:text-white transition-colors" />
                                                                     </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-orange-500 transition-colors">
+                                                                    <span className="text-[15px] font-medium group-hover:text-sky-500 transition-colors">
                                                                         {product.label}
                                                                     </span>
                                                                 </Link>
@@ -234,7 +234,7 @@ export function Header() {
                                                             </div>
                                                             <Link
                                                                 href="/products"
-                                                                className="inline-flex items-center justify-center w-full py-2 bg-white hover:bg-orange-500 hover:text-white text-orange-500 text-sm font-semibold rounded-full border border-orange-200 transition-all duration-200"
+                                                                className="inline-flex items-center justify-center w-full py-2 bg-white hover:bg-sky-500 hover:text-white text-sky-500 text-sm font-semibold rounded-full border border-sky-200 transition-all duration-200"
                                                             >
                                                                 Explore
                                                             </Link>
@@ -254,13 +254,13 @@ export function Header() {
                             onMouseEnter={() => setServicesOpen(true)}
                             onMouseLeave={() => setServicesOpen(false)}
                         >
-                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors group">
+                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-sky-500 transition-colors group">
                                 Services
                                 <ChevronDown className={cn(
                                     "w-4 h-4 transition-transform duration-200",
                                     servicesOpen && "rotate-180"
                                 )} />
-                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-orange-500 transition-all duration-300 w-0 group-hover:w-4/5" />
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-sky-500 transition-all duration-300 w-0 group-hover:w-4/5" />
                             </button>
 
                             <AnimatePresence>
@@ -278,14 +278,14 @@ export function Header() {
                                                 <div className="w-[260px] p-6 border-r border-gray-100/60">
                                                     <h3 className="text-xl font-bold text-gray-900 leading-tight">
                                                         Solutions That Drive<br />
-                                                        <span className="text-orange-500">Business Growth</span>
+                                                        <span className="text-sky-500">Business Growth</span>
                                                     </h3>
                                                     <p className="mt-3 text-sm text-gray-600 leading-relaxed">
                                                         Discover how DigitalBot helps enterprises deliver AI-powered voice automation, intelligent support, and measurable results.
                                                     </p>
                                                     <Link
                                                         href="/contact"
-                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white text-sm font-semibold rounded-full transition-all duration-200"
+                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white text-sm font-semibold rounded-full transition-all duration-200"
                                                     >
                                                         Request a Demo
                                                     </Link>
@@ -305,10 +305,10 @@ export function Header() {
                                                                     href={service.href}
                                                                     className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-orange-100 group-hover:bg-orange-500 flex items-center justify-center transition-colors">
-                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
+                                                                    <div className="w-8 h-8 rounded-lg bg-sky-100 group-hover:bg-sky-500 flex items-center justify-center transition-colors">
+                                                                        <Icon className="w-4 h-4 text-sky-500 group-hover:text-white transition-colors" />
                                                                     </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-orange-500 transition-colors">
+                                                                    <span className="text-[15px] font-medium group-hover:text-sky-500 transition-colors">
                                                                         {service.label}
                                                                     </span>
                                                                 </Link>
@@ -331,10 +331,10 @@ export function Header() {
                                                                     href={service.href}
                                                                     className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-orange-100 group-hover:bg-orange-500 flex items-center justify-center transition-colors">
-                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
+                                                                    <div className="w-8 h-8 rounded-lg bg-sky-100 group-hover:bg-sky-500 flex items-center justify-center transition-colors">
+                                                                        <Icon className="w-4 h-4 text-sky-500 group-hover:text-white transition-colors" />
                                                                     </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-orange-500 transition-colors">
+                                                                    <span className="text-[15px] font-medium group-hover:text-sky-500 transition-colors">
                                                                         {service.label}
                                                                     </span>
                                                                 </Link>
@@ -349,7 +349,7 @@ export function Header() {
                                                     <div className="flex gap-2">
                                                         <Link 
                                                             href="/services/leads"
-                                                            className="flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
+                                                            className="flex items-center gap-2 px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium rounded-lg transition-colors"
                                                         >
                                                             <BarChart3 className="w-4 h-4" />
                                                             Lead Analysis
@@ -386,7 +386,7 @@ export function Header() {
                                                             </div>
                                                             <Link
                                                                 href="/services"
-                                                                className="inline-flex items-center justify-center w-full py-2 bg-white hover:bg-orange-500 hover:text-white text-orange-500 text-sm font-semibold rounded-full border border-orange-200 transition-all duration-200"
+                                                                className="inline-flex items-center justify-center w-full py-2 bg-white hover:bg-sky-500 hover:text-white text-sky-500 text-sm font-semibold rounded-full border border-sky-200 transition-all duration-200"
                                                             >
                                                                 Learn More
                                                             </Link>
@@ -404,7 +404,7 @@ export function Header() {
                     {/* CTA Button */}
                     <Link
                         href="/login"
-                        className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/25"
+                        className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-sky-500/25"
                     >
                         <Sparkles className="w-4 h-4" />
                         Get Started
@@ -413,7 +413,7 @@ export function Header() {
                     {/* Mobile Menu Button */}
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="lg:hidden p-2 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+                        className="lg:hidden p-2 text-gray-700 hover:text-sky-500 hover:bg-sky-50 rounded-lg transition-colors"
                     >
                         {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
@@ -437,8 +437,8 @@ export function Header() {
                                         className={cn(
                                             "block px-4 py-3 text-sm font-medium rounded-lg transition-colors",
                                             pathname === item.href
-                                                ? "bg-orange-50 text-orange-500"
-                                                : "text-gray-700 hover:bg-gray-50 hover:text-orange-500"
+                                                ? "bg-sky-50 text-sky-500"
+                                                : "text-gray-700 hover:bg-gray-50 hover:text-sky-500"
                                         )}
                                         onClick={() => setIsMenuOpen(false)}
                                     >
@@ -453,7 +453,7 @@ export function Header() {
                                         <Link
                                             key={service.href}
                                             href={service.href}
-                                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-orange-500 rounded-lg transition-colors"
+                                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-sky-500 rounded-lg transition-colors"
                                             onClick={() => setIsMenuOpen(false)}
                                         >
                                             {service.label}
@@ -465,7 +465,7 @@ export function Header() {
                                 <div className="pt-4 px-4">
                                     <Link
                                         href="/login"
-                                        className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors"
+                                        className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium rounded-lg transition-colors"
                                         onClick={() => setIsMenuOpen(false)}
                                     >
                                         <Sparkles className="w-4 h-4" />

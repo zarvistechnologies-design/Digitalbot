@@ -151,7 +151,7 @@ export default function AppointmentsPage() {
       {/* Skip to content link for accessibility */}
       <a 
         href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-orange-500 focus:text-white focus:rounded-lg focus:outline-none"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-sky-500 focus:text-white focus:rounded-lg focus:outline-none"
       >
         Skip to main content
       </a>
@@ -175,7 +175,7 @@ export default function AppointmentsPage() {
       <main id="main-content" className="flex-1 relative z-10" role="main">
 
         {/* SECTION 1: HERO - Clean Minimal Design */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-blue-50/50 via-white to-orange-50/30" aria-labelledby="hero-title">
+        <section className="relative overflow-hidden bg-gradient-to-br from-blue-50/50 via-white to-sky-50/30" aria-labelledby="hero-title">
           {/* Background Decorative Curves */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
             <svg className="absolute -right-1/4 -top-1/4 w-[800px] h-[800px] opacity-30" viewBox="0 0 800 800">
@@ -191,7 +191,7 @@ export default function AppointmentsPage() {
               {/* Left: Content + Audio Players */}
               <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <h1 id="hero-title" className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-gray-900">
-                  <span className="bg-gradient-to-r from-orange-500 to-amber-500 text-transparent bg-clip-text">
+                  <span className="bg-gradient-to-r from-sky-500 to-sky-500 text-transparent bg-clip-text">
                     Never Miss Another
                   </span>
                   <br />
@@ -199,7 +199,7 @@ export default function AppointmentsPage() {
                 </h1>
 
                 <p className="text-gray-600 text-base sm:text-lg max-w-xl mb-10 leading-relaxed">
-                  Your AI-powered virtual receptionist answers calls and WhatsApp messages instantly, schedules appointments automatically, sends confirmations, and keeps doctors perfectly in sync — <strong className="text-orange-600">24/7, without human effort</strong>.
+                  Your AI-powered virtual receptionist answers calls and WhatsApp messages instantly, schedules appointments automatically, sends confirmations, and keeps doctors perfectly in sync — <strong className="text-sky-600">24/7, without human effort</strong>.
                 </p>
 
                 {/* Dual Audio Players */}
@@ -209,7 +209,7 @@ export default function AppointmentsPage() {
                     <p className="text-sm font-medium text-gray-700 mb-2">For English Listeners</p>
                     <button
                       onClick={toggleAudio}
-                      className="w-full bg-white rounded-full px-4 py-3 flex items-center gap-3 shadow-md border border-gray-100 hover:shadow-lg hover:border-orange-200 transition-all group"
+                      className="w-full bg-white rounded-full px-4 py-3 flex items-center gap-3 shadow-md border border-gray-100 hover:shadow-lg hover:border-sky-200 transition-all group"
                       aria-label={isPlaying ? "Pause English audio demo" : "Play English audio demo"}
                     >
                       {/* Waveform Visualization */}
@@ -229,8 +229,8 @@ export default function AppointmentsPage() {
                       {/* Play Button */}
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
                         isPlaying 
-                          ? 'bg-orange-500 text-white' 
-                          : 'bg-orange-500 text-white group-hover:bg-orange-600'
+                          ? 'bg-sky-500 text-white' 
+                          : 'bg-sky-500 text-white group-hover:bg-sky-600'
                       }`}>
                         {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
                       </div>
@@ -241,7 +241,7 @@ export default function AppointmentsPage() {
                   <div className="flex-1">
                     <p className="text-sm font-medium text-gray-700 mb-2">For Hindi Listeners</p>
                     <button
-                      className="w-full bg-white rounded-full px-4 py-3 flex items-center gap-3 shadow-md border border-gray-100 hover:shadow-lg hover:border-orange-200 transition-all group"
+                      className="w-full bg-white rounded-full px-4 py-3 flex items-center gap-3 shadow-md border border-gray-100 hover:shadow-lg hover:border-sky-200 transition-all group"
                       aria-label="Play Hindi audio demo"
                     >
                       {/* Waveform Visualization */}
@@ -255,7 +255,7 @@ export default function AppointmentsPage() {
                         ))}
                       </div>
                       {/* Play Button */}
-                      <div className="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-orange-600 transition-all">
+                      <div className="w-10 h-10 bg-sky-500 text-white rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-sky-600 transition-all">
                         <Play className="w-4 h-4 ml-0.5" />
                       </div>
                     </button>
@@ -266,7 +266,7 @@ export default function AppointmentsPage() {
                 <div className="flex flex-col sm:flex-row gap-4" role="group" aria-label="Call to action buttons">
                   <Link
                     href="/signup?service=appointment"
-                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-4 rounded-xl text-base font-semibold hover:shadow-lg hover:shadow-orange-300/40 hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-sky-500 text-white px-8 py-4 rounded-xl text-base font-semibold hover:shadow-lg hover:shadow-sky-300/40 hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                     aria-label="Start your free trial - no credit card required"
                   >
                     Start Free Trial
@@ -275,7 +275,7 @@ export default function AppointmentsPage() {
 
                   <Link
                     href="#demo"
-                    className="inline-flex items-center justify-center gap-2 bg-white text-gray-700 px-8 py-4 rounded-xl text-base font-semibold border-2 border-gray-200 hover:border-orange-500 hover:text-orange-600 hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                    className="inline-flex items-center justify-center gap-2 bg-white text-gray-700 px-8 py-4 rounded-xl text-base font-semibold border-2 border-gray-200 hover:border-sky-500 hover:text-sky-600 hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                     aria-label="Watch a demo of our AI appointment booking"
                   >
                     <Play className="w-5 h-5" aria-hidden="true" />
@@ -302,7 +302,7 @@ export default function AppointmentsPage() {
                   </div>
 
                   {/* Floating Badge - Top Right */}
-                  <div className="absolute -top-4 -right-4 bg-gradient-to-br from-orange-500 to-amber-500 text-white px-4 py-2 rounded-xl shadow-lg" style={{ animation: 'float 3s ease-in-out infinite' }} aria-hidden="true">
+                  <div className="absolute -top-4 -right-4 bg-gradient-to-br from-sky-500 to-sky-500 text-white px-4 py-2 rounded-xl shadow-lg" style={{ animation: 'float 3s ease-in-out infinite' }} aria-hidden="true">
                     <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4" />
                       <span className="font-bold">24/7</span>
@@ -336,13 +336,13 @@ export default function AppointmentsPage() {
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-600 rounded-full font-semibold text-sm mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-100 text-sky-600 rounded-full font-semibold text-sm mb-4">
                 <Bot className="w-4 h-4" aria-hidden="true" />
                 AI That Never Sleeps
               </div>
               <h2 id="ai-section-title" className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
                 Your Virtual Receptionist, <br className="hidden sm:block" />
-                <span className="text-orange-600">Working Around the Clock</span>
+                <span className="text-sky-600">Working Around the Clock</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
                 Imagine having the world&apos;s most professional receptionist — one who never takes breaks, never gets sick, and handles every conversation with perfect precision.
@@ -352,26 +352,26 @@ export default function AppointmentsPage() {
             {/* Value Cards */}
             <div className="grid md:grid-cols-3 gap-6" role="list" aria-label="Key features">
               <div 
-                className={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:border-orange-200 transition-all group focus-within:ring-2 focus-within:ring-orange-500 ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} 
+                className={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:border-sky-200 transition-all group focus-within:ring-2 focus-within:ring-sky-500 ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} 
                 style={{ transitionDelay: '0.1s' }}
                 role="listitem"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" aria-hidden="true">
+                <div className="w-14 h-14 bg-gradient-to-br from-sky-500 to-sky-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-sky-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" aria-hidden="true">
                   <Zap className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Lightning Response</h3>
-                <p className="text-gray-600">Answers calls in under <strong className="text-orange-600">750ms</strong> with natural, human-like conversations.</p>
+                <p className="text-gray-600">Answers calls in under <strong className="text-sky-600">750ms</strong> with natural, human-like conversations.</p>
               </div>
 
               <div 
-                className={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:border-amber-200 transition-all group ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                className={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:border-sky-200 transition-all group ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 style={{ transitionDelay: '0.2s' }}
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-amber-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                <div className="w-14 h-14 bg-gradient-to-br from-sky-500 to-sky-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-sky-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
                   <Calendar className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Smart Scheduling</h3>
-                <p className="text-gray-600">Prevents conflicts with <strong className="text-amber-600">real-time slot optimization</strong> and calendar sync.</p>
+                <p className="text-gray-600">Prevents conflicts with <strong className="text-sky-600">real-time slot optimization</strong> and calendar sync.</p>
               </div>
 
               <div 
@@ -398,13 +398,13 @@ export default function AppointmentsPage() {
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               {/* Content */}
               <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-100 text-sky-600 rounded-full font-semibold text-sm mb-4">
                   <Users className="w-4 h-4" />
                   Dashboard Management
                 </div>
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
                   One Dashboard. <br className="hidden sm:block" />
-                  <span className="text-orange-600">Any Scale.</span>
+                  <span className="text-sky-600">Any Scale.</span>
                 </h2>
                 <p className="text-gray-600 text-lg mb-8">
                   Manage one doctor or hundreds — from a single, powerful dashboard.
@@ -418,7 +418,7 @@ export default function AppointmentsPage() {
                     "Real-time schedule updates",
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-sky-500 flex-shrink-0" />
                       <span className="text-gray-700">{item}</span>
                     </div>
                   ))}
@@ -484,7 +484,7 @@ export default function AppointmentsPage() {
                 </div>
                 
                 {/* Floating Badge */}
-                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-orange-300/40" aria-hidden="true">
+                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-sky-500 to-sky-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-sky-300/40" aria-hidden="true">
                   <div className="text-sm font-semibold flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                     Live Preview
@@ -504,23 +504,23 @@ export default function AppointmentsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-booking') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                How Appointments Are <span className="text-amber-600">Booked</span>
+                How Appointments Are <span className="text-sky-600">Booked</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                <strong className="text-orange-600">No apps. No waiting.</strong> Just talk or chat.
+                <strong className="text-sky-600">No apps. No waiting.</strong> Just talk or chat.
               </p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
               {/* AI Call Booking */}
-              <div className={`bg-gradient-to-br from-orange-50 to-white rounded-3xl p-8 border border-orange-100 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 group ${visibleSections.has('section-booking') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '0.2s' }}>
+              <div className={`bg-gradient-to-br from-sky-50 to-white rounded-3xl p-8 border border-sky-100 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-500 group ${visibleSections.has('section-booking') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '0.2s' }}>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+                  <div className="w-16 h-16 bg-gradient-to-br from-sky-500 to-sky-600 rounded-2xl flex items-center justify-center shadow-lg shadow-sky-500/30">
                     <Phone className="w-8 h-8 text-white" />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-900">AI Call Booking</h3>
-                    <p className="text-orange-600 font-medium">Voice-powered scheduling</p>
+                    <p className="text-sky-600 font-medium">Voice-powered scheduling</p>
                   </div>
                 </div>
 
@@ -532,11 +532,11 @@ export default function AppointmentsPage() {
                     { step: "4", text: "Appointment booked instantly", icon: CheckCircle },
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-4 group/item">
-                      <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center font-bold text-lg group-hover/item:bg-orange-500 group-hover/item:text-white transition-all">
+                      <div className="w-10 h-10 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center font-bold text-lg group-hover/item:bg-sky-500 group-hover/item:text-white transition-all">
                         {item.step}
                       </div>
                       <div className="flex-1 flex items-center gap-3">
-                        <item.icon className="w-5 h-5 text-orange-500" />
+                        <item.icon className="w-5 h-5 text-sky-500" />
                         <span className="text-gray-700 font-medium">{item.text}</span>
                       </div>
                     </div>
@@ -588,12 +588,12 @@ export default function AppointmentsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-scheduling') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-100 text-sky-600 rounded-full font-semibold text-sm mb-4">
                   <Calendar className="w-4 h-4" />
                   Doctor-Controlled Slots
                 </div>
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
-                  Slot-Wise <span className="text-orange-600">Smart Scheduling</span>
+                  Slot-Wise <span className="text-sky-600">Smart Scheduling</span>
                 </h2>
                 <p className="text-gray-600 text-lg mb-6">
                   Doctors define their availability, and the system handles everything else automatically.
@@ -601,8 +601,8 @@ export default function AppointmentsPage() {
 
                 <div className="space-y-4 mb-8">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                      <Calendar className="w-6 h-6 text-orange-600" />
+                    <div className="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center">
+                      <Calendar className="w-6 h-6 text-sky-600" />
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-900">Working Days</h4>
@@ -610,8 +610,8 @@ export default function AppointmentsPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-amber-600" />
+                    <div className="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center">
+                      <Clock className="w-6 h-6 text-sky-600" />
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-900">Slot Duration</h4>
@@ -629,8 +629,8 @@ export default function AppointmentsPage() {
                   </div>
                 </div>
 
-                <p className="text-gray-600 bg-orange-50 rounded-xl p-4 border border-orange-100">
-                  <strong className="text-orange-600">Fully automated:</strong> No double bookings, real-time availability updates, automatic slot creation.
+                <p className="text-gray-600 bg-sky-50 rounded-xl p-4 border border-sky-100">
+                  <strong className="text-sky-600">Fully automated:</strong> No double bookings, real-time availability updates, automatic slot creation.
                 </p>
               </div>
 
@@ -653,8 +653,8 @@ export default function AppointmentsPage() {
                     <div 
                       key={i} 
                       className={`py-2 rounded-lg text-sm font-medium cursor-pointer transition-all ${
-                        i === 19 ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' :
-                        [4, 11, 18, 25].includes(i) ? 'bg-amber-100 text-amber-600' :
+                        i === 19 ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/30' :
+                        [4, 11, 18, 25].includes(i) ? 'bg-sky-100 text-sky-600' :
                         [5, 6, 12, 13, 19, 20, 26, 27].includes(i) ? 'text-gray-300' :
                         'text-gray-700 hover:bg-gray-100'
                       }`}
@@ -672,7 +672,7 @@ export default function AppointmentsPage() {
                       <div 
                         key={idx}
                         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
-                          idx === 2 ? 'bg-orange-500 text-white' :
+                          idx === 2 ? 'bg-sky-500 text-white' :
                           [1, 5].includes(idx) ? 'bg-gray-100 text-gray-400 line-through' :
                           'bg-green-100 text-green-600 hover:bg-green-500 hover:text-white'
                         }`}
@@ -710,17 +710,17 @@ export default function AppointmentsPage() {
             {/* Flow Cards */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { icon: CalendarCheck, title: "Appointment Booked", desc: "Confirmation generated", color: "orange" },
+                { icon: CalendarCheck, title: "Appointment Booked", desc: "Confirmation generated", color: "sky" },
                 { icon: MessageCircle, title: "Patient Notified", desc: "WhatsApp sent instantly", color: "green" },
-                { icon: Stethoscope, title: "Doctor Notified", desc: "Schedule updated", color: "amber" },
-                { icon: Bell, title: "Reminder Sent", desc: "Before appointment", color: "orange" },
+                { icon: Stethoscope, title: "Doctor Notified", desc: "Schedule updated", color: "sky" },
+                { icon: Bell, title: "Reminder Sent", desc: "Before appointment", color: "sky" },
               ].map((item, idx) => (
                 <div key={idx} className="relative">
                   <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-md hover:shadow-xl transition-all text-center">
                     <div className={`w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4 shadow-lg ${
-                      item.color === 'orange' ? 'bg-orange-500 shadow-orange-500/30' :
+                      item.color === 'sky' ? 'bg-sky-500 shadow-sky-500/30' :
                       item.color === 'green' ? 'bg-green-500 shadow-green-500/30' :
-                      'bg-amber-500 shadow-amber-500/30'
+                      'bg-sky-500 shadow-sky-500/30'
                     }`}>
                       <item.icon className="w-7 h-7 text-white" />
                     </div>
@@ -776,7 +776,7 @@ export default function AppointmentsPage() {
                   {/* Google Calendar Header */}
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center">
                         <Calendar className="w-5 h-5 text-white" />
                       </div>
                       <span className="font-bold text-gray-900">Google Calendar</span>
@@ -790,13 +790,13 @@ export default function AppointmentsPage() {
                   {/* Calendar Events */}
                   <div className="space-y-3">
                     {[
-                      { time: "09:00 - 09:30", patient: "John Smith", type: "Consultation", color: "orange" },
-                      { time: "10:00 - 10:30", patient: "Emily Davis", type: "Follow-up", color: "amber" },
+                      { time: "09:00 - 09:30", patient: "John Smith", type: "Consultation", color: "sky" },
+                      { time: "10:00 - 10:30", patient: "Emily Davis", type: "Follow-up", color: "sky" },
                       { time: "11:00 - 11:30", patient: "Michael Brown", type: "Check-up", color: "green" },
                     ].map((event, idx) => (
                       <div key={idx} className={`p-4 rounded-xl border-l-4 ${
-                        event.color === 'orange' ? 'bg-orange-50 border-orange-500' :
-                        event.color === 'amber' ? 'bg-amber-50 border-amber-500' :
+                        event.color === 'sky' ? 'bg-sky-50 border-sky-500' :
+                        event.color === 'sky' ? 'bg-sky-50 border-sky-500' :
                         'bg-green-50 border-green-500'
                       }`}>
                         <div className="flex items-center justify-between">
@@ -820,13 +820,13 @@ export default function AppointmentsPage() {
 
               {/* Content */}
               <div className="order-1 lg:order-2">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-100 text-sky-600 rounded-full font-semibold text-sm mb-4">
                   <Calendar className="w-4 h-4" />
                   Calendar Integration
                 </div>
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Google Calendar Sync <br className="hidden sm:block" />
-                  <span className="text-amber-600">for Doctors</span>
+                  <span className="text-sky-600">for Doctors</span>
                 </h2>
                 <p className="text-gray-600 text-lg mb-8">
                   Appointments sync automatically with Google Calendar. No manual entry, no double bookings.
@@ -834,15 +834,15 @@ export default function AppointmentsPage() {
 
                 <div className="space-y-4">
                   {[
-                    { icon: Zap, text: "One-click integration", color: "orange" },
-                    { icon: Activity, text: "Real-time updates", color: "amber" },
+                    { icon: Zap, text: "One-click integration", color: "sky" },
+                    { icon: Activity, text: "Real-time updates", color: "sky" },
                     { icon: CheckCircle, text: "No manual entry", color: "green" },
-                    { icon: Shield, text: "No double bookings", color: "orange" },
+                    { icon: Shield, text: "No double bookings", color: "sky" },
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                        item.color === 'orange' ? 'bg-orange-100 text-orange-600' :
-                        item.color === 'amber' ? 'bg-amber-100 text-amber-600' :
+                        item.color === 'sky' ? 'bg-sky-100 text-sky-600' :
+                        item.color === 'sky' ? 'bg-sky-100 text-sky-600' :
                         'bg-green-100 text-green-600'
                       }`}>
                         <item.icon className="w-5 h-5" />
@@ -865,17 +865,17 @@ export default function AppointmentsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-results') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-8">
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                Proven Results That <span className="text-orange-600">Speak for Themselves</span>
+                Proven Results That <span className="text-sky-600">Speak for Themselves</span>
               </h2>
               <p className="text-gray-600">Join 1,000+ businesses already transformed by AI scheduling</p>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {[
-                { value: "45%", label: "More Bookings", color: "orange", icon: TrendingUp },
-                { value: "24/7", label: "Always Available", color: "amber", icon: Clock },
+                { value: "45%", label: "More Bookings", color: "sky", icon: TrendingUp },
+                { value: "24/7", label: "Always Available", color: "sky", icon: Clock },
                 { value: "3×", label: "Higher Lead Capture", color: "green", icon: Users },
-                { value: "60%", label: "Cost Savings", color: "orange", icon: BarChart3 },
+                { value: "60%", label: "Cost Savings", color: "sky", icon: BarChart3 },
               ].map((stat, idx) => (
                 <div 
                   key={idx} 
@@ -883,15 +883,15 @@ export default function AppointmentsPage() {
                   style={{ transitionDelay: `${0.1 + idx * 0.1}s` }}
                 >
                   <div className={`w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${
-                    stat.color === 'orange' ? 'bg-orange-100 text-orange-600' :
-                    stat.color === 'amber' ? 'bg-amber-100 text-amber-600' :
+                    stat.color === 'sky' ? 'bg-sky-100 text-sky-600' :
+                    stat.color === 'sky' ? 'bg-sky-100 text-sky-600' :
                     'bg-green-100 text-green-600'
                   }`}>
                     <stat.icon className="w-7 h-7" />
                   </div>
                   <div className={`text-2xl sm:text-3xl font-bold mb-2 ${
-                    stat.color === 'orange' ? 'text-orange-600' :
-                    stat.color === 'amber' ? 'text-amber-600' :
+                    stat.color === 'sky' ? 'text-sky-600' :
+                    stat.color === 'sky' ? 'text-sky-600' :
                     'text-green-600'
                   }`}>{stat.value}</div>
                   <div className="text-gray-600 font-medium">{stat.label}</div>
@@ -904,7 +904,7 @@ export default function AppointmentsPage() {
               <div className="bg-white rounded-2xl px-6 py-4 shadow-md border border-gray-100 flex items-center gap-4">
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-orange-500 text-orange-500" />
+                    <Star key={i} className="w-5 h-5 fill-sky-500 text-sky-500" />
                   ))}
                 </div>
                 <span className="text-gray-900 font-semibold">4.9 / 5 Rating</span>
@@ -916,7 +916,7 @@ export default function AppointmentsPage() {
             <div className="text-center">
               <Link
                 href="/contact?demo=appointments"
-                className="inline-flex items-center justify-center gap-2 bg-white text-orange-600 px-6 py-3 rounded-xl font-semibold border-2 border-orange-200 hover:border-orange-500 hover:shadow-lg transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-white text-sky-600 px-6 py-3 rounded-xl font-semibold border-2 border-sky-200 hover:border-sky-500 hover:shadow-lg transition-all"
               >
                 <Phone className="w-4 h-4" />
                 Schedule a Demo Call
@@ -934,7 +934,7 @@ export default function AppointmentsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-solution') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                Complete AI <span className="text-amber-600">Scheduling Solution</span>
+                Complete AI <span className="text-sky-600">Scheduling Solution</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 Everything you need to automate appointments and deliver a premium customer experience
@@ -943,12 +943,12 @@ export default function AppointmentsPage() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { icon: Phone, title: "24/7 Call & WhatsApp Booking", desc: "AI handles bookings anytime, anywhere", color: "orange" },
-                { icon: Calendar, title: "Smart Calendar Sync", desc: "Google Calendar integration", color: "amber" },
+                { icon: Phone, title: "24/7 Call & WhatsApp Booking", desc: "AI handles bookings anytime, anywhere", color: "sky" },
+                { icon: Calendar, title: "Smart Calendar Sync", desc: "Google Calendar integration", color: "sky" },
                 { icon: Bell, title: "Intelligent Reminders", desc: "40% fewer no-shows", color: "green" },
-                { icon: Bot, title: "Human-Like Voice AI", desc: "Response in under 750ms", color: "orange" },
-                { icon: Languages, title: "50+ Languages", desc: "Global accessibility", color: "amber" },
-                { icon: Building2, title: "Multi-Clinic Support", desc: "One dashboard for all locations", color: "orange" },
+                { icon: Bot, title: "Human-Like Voice AI", desc: "Response in under 750ms", color: "sky" },
+                { icon: Languages, title: "50+ Languages", desc: "Global accessibility", color: "sky" },
+                { icon: Building2, title: "Multi-Clinic Support", desc: "One dashboard for all locations", color: "sky" },
               ].map((feature, idx) => (
                 <div 
                   key={idx} 
@@ -956,8 +956,8 @@ export default function AppointmentsPage() {
                   style={{ transitionDelay: `${0.1 + idx * 0.08}s` }}
                 >
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform hover:scale-110 hover:rotate-3 ${
-                    feature.color === 'orange' ? 'bg-orange-100 text-orange-600' :
-                    feature.color === 'amber' ? 'bg-amber-100 text-amber-600' :
+                    feature.color === 'sky' ? 'bg-sky-100 text-sky-600' :
+                    feature.color === 'sky' ? 'bg-sky-100 text-sky-600' :
                     'bg-green-100 text-green-600'
                   }`}>
                     <feature.icon className="w-6 h-6" />
@@ -972,7 +972,7 @@ export default function AppointmentsPage() {
             <div className="mt-10 text-center">
               <Link
                 href="/signup?service=appointment"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-orange-300/40 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-sky-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-sky-300/40 transition-all"
               >
                 Get Started Free
                 <ArrowRight className="w-4 h-4" />
@@ -989,12 +989,12 @@ export default function AppointmentsPage() {
           className="px-4 py-12 bg-gradient-to-b from-gray-50 to-white"
         >
           <div className={`max-w-4xl mx-auto text-center transition-all duration-700 ${visibleSections.has('section-demo') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full font-semibold text-sm mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-100 text-sky-600 rounded-full font-semibold text-sm mb-4">
               <Play className="w-4 h-4" />
               Interactive Demo
             </div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-              Experience the <span className="text-orange-600">Future of Booking</span>
+              Experience the <span className="text-sky-600">Future of Booking</span>
             </h2>
             <p className="text-gray-600 text-lg mb-8">
               See how our AI handles real conversations with human-like precision
@@ -1007,7 +1007,7 @@ export default function AppointmentsPage() {
                 {DEMO_WAVEFORM_HEIGHTS.map((bar, i) => (
                   <div 
                     key={i} 
-                    className="w-1.5 bg-gradient-to-t from-orange-500 to-amber-500 rounded-full"
+                    className="w-1.5 bg-gradient-to-t from-sky-500 to-sky-500 rounded-full"
                     style={{
                       height: `${bar.height}%`,
                       animation: `pulse ${bar.duration}s ease-in-out infinite`,
@@ -1020,22 +1020,22 @@ export default function AppointmentsPage() {
               {/* Transcript Preview */}
               <div className="text-left bg-gray-50 rounded-2xl p-4 mb-6 max-w-md mx-auto" role="log" aria-label="Conversation transcript">
                 <div className="flex items-start gap-3 mb-3">
-                  <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold" aria-label="AI Assistant">AI</div>
-                  <div className="bg-amber-100 rounded-2xl rounded-tl-sm p-3 text-sm text-gray-700">
+                  <div className="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs font-bold" aria-label="AI Assistant">AI</div>
+                  <div className="bg-sky-100 rounded-2xl rounded-tl-sm p-3 text-sm text-gray-700">
                     Hello! I would be happy to help you book an appointment. What date works best for you?
                   </div>
                 </div>
                 <div className="flex items-start gap-3 justify-end">
-                  <div className="bg-orange-100 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-700">
+                  <div className="bg-sky-100 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-700">
                     Tomorrow at 10 AM, please
                   </div>
-                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold" aria-label="User">U</div>
+                  <div className="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs font-bold" aria-label="User">U</div>
                 </div>
               </div>
 
               <Link
                 href="/contact?demo=appointments"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg hover:shadow-orange-300/40 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-sky-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg hover:shadow-sky-300/40 transition-all focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                 aria-label="Watch the full appointment booking demo"
               >
                 <Play className="w-5 h-5" aria-hidden="true" />
@@ -1054,7 +1054,7 @@ export default function AppointmentsPage() {
         >
           <div className={`max-w-5xl mx-auto transition-all duration-700 ${visibleSections.has('section-testimonial') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 id="testimonial-title" className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-8">
-              Trusted by <span className="text-orange-600">Healthcare Leaders</span>
+              Trusted by <span className="text-sky-600">Healthcare Leaders</span>
             </h2>
             
             <div className="grid md:grid-cols-3 gap-6">
@@ -1085,14 +1085,14 @@ export default function AppointmentsPage() {
                 >
                   <div className="flex gap-0.5 mb-3" role="img" aria-label="5 out of 5 stars">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
+                      <Star key={i} className="w-4 h-4 fill-sky-500 text-sky-500" />
                     ))}
                   </div>
                   <blockquote className="text-gray-700 text-sm mb-4 leading-relaxed">
                     &quot;{testimonial.quote}&quot;
                   </blockquote>
                   <figcaption className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                    <div className="w-9 h-9 bg-gradient-to-br from-sky-500 to-sky-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-sm">
                       {testimonial.initials}
                     </div>
                     <div>
@@ -1116,17 +1116,17 @@ export default function AppointmentsPage() {
           <div className={`max-w-5xl mx-auto transition-all duration-700 ${visibleSections.has('section-security') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 id="security-title" className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-                Enterprise-Grade <span className="text-amber-600">Security</span>
+                Enterprise-Grade <span className="text-sky-600">Security</span>
               </h2>
               <p className="text-gray-600">Healthcare-ready architecture you can trust</p>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: Shield, title: "Secure Data", desc: "Protected handling", color: "orange" },
-                { icon: Lock, title: "Encrypted", desc: "End-to-end security", color: "amber" },
-                { icon: Server, title: "Reliable AI", desc: "99.9% uptime", color: "orange" },
-                { icon: Building2, title: "Healthcare Ready", desc: "HIPAA compliant", color: "amber" },
+                { icon: Shield, title: "Secure Data", desc: "Protected handling", color: "sky" },
+                { icon: Lock, title: "Encrypted", desc: "End-to-end security", color: "sky" },
+                { icon: Server, title: "Reliable AI", desc: "99.9% uptime", color: "sky" },
+                { icon: Building2, title: "Healthcare Ready", desc: "HIPAA compliant", color: "sky" },
               ].map((item, idx) => (
                 <div 
                   key={idx} 
@@ -1134,7 +1134,7 @@ export default function AppointmentsPage() {
                   style={{ transitionDelay: `${0.1 + idx * 0.1}s` }}
                 >
                   <div className={`w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4 transition-transform hover:scale-110 ${
-                    item.color === 'orange' ? 'bg-orange-100 text-orange-600' : 'bg-amber-100 text-amber-600'
+                    item.color === 'sky' ? 'bg-sky-100 text-sky-600' : 'bg-sky-100 text-sky-600'
                   }`}>
                     <item.icon className="w-7 h-7" />
                   </div>
@@ -1155,12 +1155,12 @@ export default function AppointmentsPage() {
         >
           <div className={`max-w-7xl mx-auto transition-all duration-700 ${visibleSections.has('section-industries') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-600 rounded-full font-semibold text-sm mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-100 text-sky-600 rounded-full font-semibold text-sm mb-4">
                 <Building2 className="w-4 h-4" />
                 Industries We Serve
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Built for <span className="text-amber-600">Every Industry</span>
+                Built for <span className="text-sky-600">Every Industry</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 From healthcare to wellness, our AI adapts to your specific business needs
@@ -1173,13 +1173,13 @@ export default function AppointmentsPage() {
                   title: "Healthcare & Clinics",
                   desc: "Multi-doctor scheduling, patient records integration, HIPAA compliant",
                   image: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&h=300&fit=crop",
-                  color: "orange"
+                  color: "sky"
                 },
                 {
                   title: "Dental Practices",
                   desc: "Treatment scheduling, follow-up reminders, dental history tracking",
                   image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&h=300&fit=crop",
-                  color: "amber"
+                  color: "sky"
                 },
                 {
                   title: "Wellness & Spa",
@@ -1191,13 +1191,13 @@ export default function AppointmentsPage() {
                   title: "Fitness Studios",
                   desc: "Class bookings, trainer scheduling, membership integration",
                   image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop",
-                  color: "orange"
+                  color: "sky"
                 },
                 {
                   title: "Veterinary Clinics",
                   desc: "Pet appointments, vaccination reminders, multi-vet support",
                   image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&h=300&fit=crop",
-                  color: "amber"
+                  color: "sky"
                 },
                 {
                   title: "Professional Services",
@@ -1221,8 +1221,8 @@ export default function AppointmentsPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold text-white ${
-                      industry.color === 'orange' ? 'bg-orange-500' :
-                      industry.color === 'amber' ? 'bg-amber-500' : 'bg-green-500'
+                      industry.color === 'sky' ? 'bg-sky-500' :
+                      industry.color === 'sky' ? 'bg-sky-500' : 'bg-green-500'
                     }`}>
                       Popular
                     </div>

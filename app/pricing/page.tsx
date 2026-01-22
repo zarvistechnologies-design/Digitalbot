@@ -102,7 +102,7 @@ export default function Pricing() {
   const router = useRouter();
 
   return (
-    <main className="min-h-screen bg-white text-orange-600">
+    <main className="min-h-screen bg-white text-sky-600">
       <Header />
 
       {/* Hero Section - Cyberpunk */}
@@ -111,7 +111,7 @@ export default function Pricing() {
         <div className="container mx-auto max-w-7xl relative z-10 text-center">
           <div className="inline-block mb-4">
             <span
-              className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/50 border border-orange-500 text-orange-600"
+              className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/50 border border-sky-500 text-sky-600"
               style={{ clipPath: 'polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%)' }}
             >
               ⚡ Pricing Plans
@@ -119,19 +119,19 @@ export default function Pricing() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight drop-shadow-lg">
-            <span className="block mb-2 bg-gradient-to-r from-orange-600 via-orange-600 to-orange-700 bg-clip-text text-transparent">
+            <span className="block mb-2 bg-gradient-to-r from-sky-600 via-sky-600 to-sky-700 bg-clip-text text-transparent">
               AI Voice Agent
             </span>
             <span
-              className="inline-block px-6 py-2 text-gray-900 bg-white/70 border border-orange-500 text-sm sm:text-base lg:text-lg relative"
+              className="inline-block px-6 py-2 text-gray-900 bg-white/70 border border-sky-500 text-sm sm:text-base lg:text-lg relative"
               style={{ clipPath: 'polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%)' }}
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-orange-500/20 via-transparent to-orange-500/20"></span>
+              <span className="absolute inset-0 bg-gradient-to-r from-sky-500/20 via-transparent to-sky-500/20"></span>
               <span className="relative z-10">Select Your Business Plan</span>
             </span>
           </h1>
 
-          <div className="max-w-3xl mx-auto mb-6 p-4 bg-white/60 border border-orange-500/30 text-xs sm:text-sm">
+          <div className="max-w-3xl mx-auto mb-6 p-4 bg-white/60 border border-sky-500/30 text-xs sm:text-sm">
             <p className="text-gray-900 leading-relaxed">
               Ready to see the power of AI voice automation? Request a personalized demo and our team will show you how DigitalBot can streamline your customer interactions, boost productivity, and deliver real business results.
             </p>
@@ -139,7 +139,7 @@ export default function Pricing() {
 
           <Button
             size="sm"
-            className="px-6 py-2 text-sm font-bold bg-orange-500 text-white hover:bg-orange-400 transition-all duration-300 hover:scale-105"
+            className="px-6 py-2 text-sm font-bold bg-sky-500 text-white hover:bg-sky-400 transition-all duration-300 hover:scale-105"
             onClick={() => window.open("https://www.digitalbot.ai/contact", "_blank")}
           >
             Request a Demo
@@ -155,25 +155,25 @@ export default function Pricing() {
           <div className="text-center mb-12">
             <div className="inline-block mb-4">
               <span
-                className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/50 border border-orange-500 text-orange-600"
+                className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/50 border border-sky-500 text-sky-600"
                 style={{ clipPath: 'polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%)' }}
               >
                 💎 Choose Your Plan
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-orange-600 via-orange-600 to-orange-700 bg-clip-text text-transparent mb-4 uppercase tracking-wider drop-shadow-lg">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-sky-600 via-sky-600 to-sky-700 bg-clip-text text-transparent mb-4 uppercase tracking-wider drop-shadow-lg">
               AI Voice Agent Plans
             </h2>
 
             {/* Currency Toggle */}
             <div className="flex items-center justify-center gap-3 mb-8">
-              <span className={`text-sm ${!isINR ? 'text-orange-600' : 'text-orange-400'}`}>USD</span>
+              <span className={`text-sm ${!isINR ? 'text-sky-600' : 'text-sky-400'}`}>USD</span>
               <Switch
                 checked={isINR}
                 onCheckedChange={setIsINR}
-                className="data-[state=checked]:bg-orange-500"
+                className="data-[state=checked]:bg-sky-500"
               />
-              <span className={`text-sm ${isINR ? 'text-orange-600' : 'text-orange-400'}`}>INR</span>
+              <span className={`text-sm ${isINR ? 'text-sky-600' : 'text-sky-400'}`}>INR</span>
             </div>
           </div>
 
@@ -184,14 +184,14 @@ export default function Pricing() {
                 className={`
                   relative bg-white/60 border hover:scale-105 transition-all duration-300 overflow-hidden
                   ${plan.popular
-                    ? 'border-orange-400 shadow-lg shadow-orange-500/20'
-                    : 'border-orange-500/30 hover:border-orange-500'
+                    ? 'border-sky-400 shadow-lg shadow-sky-500/20'
+                    : 'border-sky-500/30 hover:border-sky-500'
                   }
                 `}
               >
                 {plan.popular && (
                   <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <Badge className="bg-orange-500 text-white text-xs px-3 py-1">
+                    <Badge className="bg-sky-500 text-white text-xs px-3 py-1">
                       Most Popular
                     </Badge>
                   </div>
@@ -200,30 +200,30 @@ export default function Pricing() {
                 <CardHeader className="text-center pb-3">
                   <div className="flex justify-center mb-3">
                     <div
-                      className="w-12 h-12 bg-white/70 border border-orange-500 flex items-center justify-center"
+                      className="w-12 h-12 bg-white/70 border border-sky-500 flex items-center justify-center"
                       style={{ clipPath: 'polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)' }}
                     >
-                      <plan.icon className="h-5 w-5 text-orange-600" />
+                      <plan.icon className="h-5 w-5 text-sky-600" />
                     </div>
                   </div>
-                  <CardTitle className="text-xl sm:text-2xl font-bold text-orange-600 mb-2 uppercase tracking-wide">{plan.name}</CardTitle>
+                  <CardTitle className="text-xl sm:text-2xl font-bold text-sky-600 mb-2 uppercase tracking-wide">{plan.name}</CardTitle>
                   <CardDescription className="text-sm text-gray-700 leading-relaxed">
                     {plan.description}
                   </CardDescription>
                   <div className="mt-4">
                     {plan.usdPrice ? (
                       <div className="text-center">
-                        <span className="text-2xl font-bold text-orange-600">
+                        <span className="text-2xl font-bold text-sky-600">
                           {isINR ? `₹${plan.inrPrice}` : `$${plan.usdPrice}`}
                         </span>
-                        <span className="text-xs text-orange-500 block">
+                        <span className="text-xs text-sky-500 block">
                           {plan.minutes} AI voice minutes
                         </span>
                       </div>
                     ) : (
                       <div className="text-center">
-                        <span className="text-2xl font-bold text-orange-600">Custom</span>
-                        <span className="text-xs text-orange-500 block">Contact for pricing</span>
+                        <span className="text-2xl font-bold text-sky-600">Custom</span>
+                        <span className="text-xs text-sky-500 block">Contact for pricing</span>
                       </div>
                     )}
                   </div>
@@ -233,7 +233,7 @@ export default function Pricing() {
                   <ul className="space-y-2 mb-6">
                     {plan.features.map((feature, featureIndex) => (
                       <li key={featureIndex} className="flex items-center gap-2 text-xs">
-                        <Check className="h-3 w-3 text-orange-600 shrink-0" />
+                        <Check className="h-3 w-3 text-sky-600 shrink-0" />
                         <span className="text-gray-900">{feature.name}</span>
                       </li>
                     ))}
@@ -243,8 +243,8 @@ export default function Pricing() {
                     className={`
                       w-full text-sm py-2 transition-all duration-300
                       ${plan.popular
-                        ? 'bg-orange-500 text-white hover:bg-orange-400'
-                        : 'bg-white border border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white'
+                        ? 'bg-sky-500 text-white hover:bg-sky-400'
+                        : 'bg-white border border-sky-500 text-sky-600 hover:bg-sky-500 hover:text-white'
                       }
                     `}
                     onClick={() => window.open("https://www.digitalbot.ai/contact", "_blank")}
@@ -263,7 +263,7 @@ export default function Pricing() {
 
         <div className="container mx-auto max-w-2xl relative z-10">
           <div
-            className="p-6 bg-white/60 border border-orange-500/30"
+            className="p-6 bg-white/60 border border-sky-500/30"
             style={{ clipPath: 'polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%)' }}
           >
             <LeadFormMini />
@@ -285,13 +285,13 @@ export default function Pricing() {
           <div className="text-center mb-12">
             <div className="inline-block mb-4">
               <span
-                className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/50 border border-orange-500 text-orange-600"
+                className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/50 border border-sky-500 text-sky-600"
                 style={{ clipPath: 'polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%)' }}
               >
                 ❓ Frequently Asked Questions
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-orange-600 via-orange-600 to-orange-700 bg-clip-text text-transparent mb-4 uppercase tracking-wider drop-shadow-lg">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-sky-600 via-sky-600 to-sky-700 bg-clip-text text-transparent mb-4 uppercase tracking-wider drop-shadow-lg">
               Everything You Need to Know
             </h2>
           </div>
@@ -302,18 +302,18 @@ export default function Pricing() {
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className="border border-orange-500/30 bg-white/60 hover:border-orange-500 hover:scale-[1.02] transition-all duration-300 group relative overflow-hidden"
+                  className="border border-sky-500/30 bg-white/60 hover:border-sky-500 hover:scale-[1.02] transition-all duration-300 group relative overflow-hidden"
                   style={{ clipPath: 'polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%)' }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-sky-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
 
-                  <AccordionTrigger className="text-left font-bold text-orange-600 text-base uppercase tracking-wide hover:no-underline py-4 px-4 group relative">
+                  <AccordionTrigger className="text-left font-bold text-sky-600 text-base uppercase tracking-wide hover:no-underline py-4 px-4 group relative">
                     <div className="flex items-center gap-3 pr-3 w-full">
                       <div
-                        className="w-8 h-8 bg-white/70 border border-orange-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-all"
+                        className="w-8 h-8 bg-white/70 border border-sky-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-all"
                         style={{ clipPath: 'polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)' }}
                       >
-                        <span className="text-orange-600 font-bold text-sm">{index + 1}</span>
+                        <span className="text-sky-600 font-bold text-sm">{index + 1}</span>
                       </div>
                       <span className="flex-1 text-xs">{faq.question}</span>
                     </div>
@@ -340,15 +340,15 @@ export default function Pricing() {
 
         <div className="container mx-auto max-w-7xl relative z-10">
           <div
-            className="p-8 bg-white/60 border border-orange-500/50 text-center relative overflow-hidden"
+            className="p-8 bg-white/60 border border-sky-500/50 text-center relative overflow-hidden"
             style={{ clipPath: 'polygon(30px 0%, 100% 0%, calc(100% - 30px) 100%, 0% 100%)' }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-orange-500/10"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-transparent to-sky-500/10"></div>
 
             <div className="relative z-10">
               <div className="inline-block mb-4">
                 <span
-                  className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/50 border border-orange-500 text-orange-600"
+                  className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/50 border border-sky-500 text-sky-600"
                   style={{ clipPath: 'polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%)' }}
                 >
                   🚀 Start Your Journey
@@ -356,26 +356,26 @@ export default function Pricing() {
               </div>
 
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 uppercase tracking-wider drop-shadow-lg">
-                <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-orange-700 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-sky-600 via-sky-600 to-sky-700 bg-clip-text text-transparent">
                   Ready to Transform Your
                 </span>
                 <br />
                 <span
-                  className="inline-block mt-3 px-6 py-2 bg-white/70 border border-orange-500 text-gray-900 text-sm sm:text-base"
+                  className="inline-block mt-3 px-6 py-2 bg-white/70 border border-sky-500 text-gray-900 text-sm sm:text-base"
                   style={{ clipPath: 'polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%)' }}
                 >
                   Customer Experience?
                 </span>
               </h2>
 
-              <p className="text-base text-gray-900 max-w-3xl mx-auto mb-6 leading-relaxed px-4 py-3 bg-white/50 border border-orange-500/30">
+              <p className="text-base text-gray-900 max-w-3xl mx-auto mb-6 leading-relaxed px-4 py-3 bg-white/50 border border-sky-500/30">
                 Join thousands of businesses using AI voice assistants to automate calls, boost conversions, and delight customers 24/7.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
                 <Button
                   size="sm"
-                  className="bg-orange-500 text-white hover:bg-orange-400 transition-all duration-300 hover:scale-105 text-sm px-6 py-2 font-bold"
+                  className="bg-sky-500 text-white hover:bg-sky-400 transition-all duration-300 hover:scale-105 text-sm px-6 py-2 font-bold"
                   onClick={() => window.open("https://www.digitalbot.ai/contact", "_blank")}
                 >
                   Get Started Free
@@ -384,7 +384,7 @@ export default function Pricing() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="bg-white border border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white transition-all duration-300 hover:scale-105 text-sm px-6 py-2 font-bold"
+                  className="bg-white border border-sky-500 text-sky-600 hover:bg-sky-500 hover:text-white transition-all duration-300 hover:scale-105 text-sm px-6 py-2 font-bold"
                   onClick={() => window.open("https://www.digitalbot.ai/contact", "_blank")}
                 >
                   Contact Sales
@@ -394,25 +394,25 @@ export default function Pricing() {
               {/* Trust Badges - Cyberpunk */}
               <div className="flex flex-wrap justify-center gap-3 items-center">
                 <div
-                  className="flex items-center gap-2 px-3 py-2 bg-white/50 border border-orange-500/30 hover:scale-105 transition-all text-xs"
+                  className="flex items-center gap-2 px-3 py-2 bg-white/50 border border-sky-500/30 hover:scale-105 transition-all text-xs"
                   style={{ clipPath: 'polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)' }}
                 >
-                  <div className="w-2 h-2 bg-orange-600 animate-pulse"></div>
-                  <span className="font-bold text-orange-600">🎯 No Credit Card</span>
+                  <div className="w-2 h-2 bg-sky-600 animate-pulse"></div>
+                  <span className="font-bold text-sky-600">🎯 No Credit Card</span>
                 </div>
                 <div
-                  className="flex items-center gap-2 px-3 py-2 bg-white/50 border border-orange-500/30 hover:scale-105 transition-all text-xs"
+                  className="flex items-center gap-2 px-3 py-2 bg-white/50 border border-sky-500/30 hover:scale-105 transition-all text-xs"
                   style={{ clipPath: 'polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)' }}
                 >
-                  <div className="w-2 h-2 bg-orange-600 animate-pulse"></div>
-                  <span className="font-bold text-orange-600">⚡ Setup in 5 Minutes</span>
+                  <div className="w-2 h-2 bg-sky-600 animate-pulse"></div>
+                  <span className="font-bold text-sky-600">⚡ Setup in 5 Minutes</span>
                 </div>
                 <div
-                  className="flex items-center gap-2 px-3 py-2 bg-white/50 border border-orange-500/30 hover:scale-105 transition-all text-xs"
+                  className="flex items-center gap-2 px-3 py-2 bg-white/50 border border-sky-500/30 hover:scale-105 transition-all text-xs"
                   style={{ clipPath: 'polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)' }}
                 >
-                  <div className="w-2 h-2 bg-orange-600 animate-pulse"></div>
-                  <span className="font-bold text-orange-600">💎 Cancel Anytime</span>
+                  <div className="w-2 h-2 bg-sky-600 animate-pulse"></div>
+                  <span className="font-bold text-sky-600">💎 Cancel Anytime</span>
                 </div>
               </div>
             </div>

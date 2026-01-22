@@ -160,7 +160,7 @@ userPhone ?: string;
                                 <span className="px-2 py-1 bg-blue-600 text-white rounded text-xs font-semibold">Sentiment AI</span>
                             )}
                             {campaign.aiFeatures.performancePrediction && (
-                                <span className="px-2 py-1 bg-orange-600 text-white rounded text-xs font-semibold">Performance Prediction</span>
+                                <span className="px-2 py-1 bg-sky-600 text-white rounded text-xs font-semibold">Performance Prediction</span>
                             )}
                             {campaign.aiFeatures.autoOptimization && (
                                 <span className="px-2 py-1 bg-green-600 text-white rounded text-xs font-semibold">Auto-Optimization</span>
@@ -179,9 +179,9 @@ userPhone ?: string;
                         <div className="text-xs text-green-700 font-semibold mb-1">Successful</div>
                         <div className="text-2xl font-black text-green-900">{campaign.successful.toLocaleString()}</div>
                     </div>
-                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-3 border-2 border-orange-200">
-                        <div className="text-xs text-orange-700 font-semibold mb-1">Pending</div>
-                        <div className="text-2xl font-black text-orange-900">{campaign.pending.toLocaleString()}</div>
+                    <div className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-xl p-3 border-2 border-sky-200">
+                        <div className="text-xs text-sky-700 font-semibold mb-1">Pending</div>
+                        <div className="text-2xl font-black text-sky-900">{campaign.pending.toLocaleString()}</div>
                     </div>
                     <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-3 border-2 border-red-200">
                         <div className="text-xs text-red-700 font-semibold mb-1">Failed</div>
@@ -239,7 +239,7 @@ userPhone ?: string;
                         </button>
                         <button
                             onClick={onEdit}
-                            className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-600 to-pink-600 text-white rounded-lg hover:from-orange-700 hover:to-pink-700 transition-all font-semibold text-sm"
+                            className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-600 to-pink-600 text-white rounded-lg hover:from-sky-700 hover:to-pink-700 transition-all font-semibold text-sm"
                         >
                             ✏️ Edit
                         </button>
@@ -861,16 +861,16 @@ export default function CampaignsPage() {
                             <p className="text-3xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{totalContacts.toLocaleString()}</p>
                         </div>
 
-                        <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div className="bg-white rounded-2xl shadow-lg border-2 border-sky-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg">
+                                <div className="p-3 rounded-xl bg-gradient-to-br from-sky-500 to-red-600 shadow-lg">
                                     <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                                     </svg>
                                 </div>
                             </div>
                             <p className="text-slate-600 font-semibold mb-1 text-sm">Avg Conversion</p>
-                            <p className="text-3xl font-black bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">{avgConversion.toFixed(1)}%</p>
+                            <p className="text-3xl font-black bg-gradient-to-r from-sky-600 to-red-600 bg-clip-text text-transparent">{avgConversion.toFixed(1)}%</p>
                         </div>
                     </div>
 
@@ -895,7 +895,7 @@ export default function CampaignsPage() {
                                     { value: 'all', label: 'All Campaigns', color: 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200', active: 'bg-gradient-to-r from-purple-500 to-pink-600' },
                                     { value: 'active', label: 'Active', color: 'bg-green-50 text-green-700 border-green-300 hover:bg-green-100', active: 'bg-gradient-to-r from-green-500 to-emerald-600' },
                                     { value: 'scheduled', label: 'Scheduled', color: 'bg-blue-50 text-blue-700 border-blue-300 hover:bg-blue-100', active: 'bg-gradient-to-r from-blue-500 to-cyan-600' },
-                                    { value: 'paused', label: 'Paused', color: 'bg-yellow-50 text-yellow-700 border-yellow-300 hover:bg-yellow-100', active: 'bg-gradient-to-r from-yellow-500 to-orange-600' },
+                                    { value: 'paused', label: 'Paused', color: 'bg-yellow-50 text-yellow-700 border-yellow-300 hover:bg-yellow-100', active: 'bg-gradient-to-r from-yellow-500 to-sky-600' },
                                     { value: 'completed', label: 'Completed', color: 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100', active: 'bg-gradient-to-r from-gray-500 to-slate-600' },
                                     { value: 'draft', label: 'Draft', color: 'bg-purple-50 text-purple-700 border-purple-300 hover:bg-purple-100', active: 'bg-gradient-to-r from-purple-500 to-indigo-600' }
                                 ].map(filter => (

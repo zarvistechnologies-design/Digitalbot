@@ -458,7 +458,7 @@ export default function AvailabilityPage() {
                     )}
                     
                     {(!availability.alternateDoctors || availability.alternateDoctors.length === 0) && (
-                      <p className="text-sm text-orange-600 mt-4">
+                      <p className="text-sm text-sky-600 mt-4">
                         ⚠️ No alternate doctors with same specialization available
                       </p>
                     )}

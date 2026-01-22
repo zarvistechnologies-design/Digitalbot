@@ -71,11 +71,11 @@ export function SignupForm({ initialService }: SignupFormProps) {
   const getServiceInfo = () => {
     switch (selectedService) {
       case 'lead-analysis':
-        return { title: 'Lead Analysis Service', gradient: 'from-orange-400 to-orange-700' }
+        return { title: 'Lead Analysis Service', gradient: 'from-sky-400 to-sky-700' }
       case 'appointment':
-        return { title: 'Appointment Service', gradient: 'from-orange-500 to-orange-600' }
+        return { title: 'Appointment Service', gradient: 'from-sky-500 to-sky-600' }
       default:
-        return { title: 'DigitalBot Service', gradient: 'from-orange-500 to-orange-700' }
+        return { title: 'DigitalBot Service', gradient: 'from-sky-500 to-sky-700' }
     }
   }
 
@@ -86,18 +86,18 @@ export function SignupForm({ initialService }: SignupFormProps) {
       <PageBackground />
 
       {/* Animated glow */}
-      <div className="absolute w-[700px] h-[700px] bg-orange-500/20 blur-[180px] rounded-full -top-40 -left-20 animate-pulse" />
+      <div className="absolute w-[700px] h-[700px] bg-sky-500/20 blur-[180px] rounded-full -top-40 -left-20 animate-pulse" />
 
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="relative z-10 bg-white/90 backdrop-blur-2xl p-10 rounded-3xl shadow-2xl shadow-orange-500/40 w-full max-w-md border border-orange-400/70 hover:shadow-orange-500/60 hover:scale-[1.02] transition-transform duration-300"
+        className="relative z-10 bg-white/90 backdrop-blur-2xl p-10 rounded-3xl shadow-2xl shadow-sky-500/40 w-full max-w-md border border-sky-400/70 hover:shadow-sky-500/60 hover:scale-[1.02] transition-transform duration-300"
       >
         {/* Header */}
         <div className="flex items-center gap-2 mb-6">
-          <Sparkles className="w-5 h-5 text-orange-600" />
+          <Sparkles className="w-5 h-5 text-sky-600" />
           <h2 className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${gradient}`}>
             Sign Up for {title}
           </h2>
@@ -159,7 +159,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
           type="submit"
           whileTap={{ scale: 0.97 }}
           disabled={loading}
-          className="bg-gradient-to-r from-orange-500 to-orange-700 text-white w-full py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-orange-500/30 transition disabled:opacity-60"
+          className="bg-gradient-to-r from-sky-500 to-sky-700 text-white w-full py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-sky-500/30 transition disabled:opacity-60"
         >
           {loading ? 'Registering...' : 'Create Account'}
         </motion.button>

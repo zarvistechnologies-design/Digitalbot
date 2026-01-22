@@ -309,7 +309,7 @@ const Dashboard = () => {
       case 'ongoing':
       case 'in-progress':
       case 'ringing':
-        return 'bg-amber-100 text-amber-800 border-amber-200';
+        return 'bg-sky-100 text-sky-800 border-sky-200';
       default:
         return 'bg-gray-100 text-gray-800 border-gray-200';
     }
@@ -410,14 +410,14 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl p-5 shadow-lg border-l-4 border-amber-500 hover:shadow-xl transition-shadow">
+                <div className="bg-white rounded-2xl p-5 shadow-lg border-l-4 border-sky-500 hover:shadow-xl transition-shadow">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-500 text-sm font-medium mb-1">Avg Duration</p>
                       <p className="text-3xl font-bold text-gray-900">{formatDuration(stats?.average_duration)}</p>
                     </div>
-                    <div className="bg-amber-100 p-3 rounded-xl">
-                      <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="bg-sky-100 p-3 rounded-xl">
+                      <svg className="w-8 h-8 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
@@ -441,14 +441,14 @@ const Dashboard = () => {
 
               {/* Alert */}
               {isUsingMockData && (
-                <div className="mb-6 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+                <div className="mb-6 bg-gradient-to-r from-sky-50 to-sky-50 border border-sky-200 rounded-2xl p-4 shadow-sm">
                   <div className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-sky-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                     <div>
-                      <p className="font-semibold text-amber-900">Demo Mode Active</p>
-                      <p className="text-sm text-amber-800 mt-1">Unable to connect to Millis AI API. Showing sample data with recordings. Configure your API key in server/.env to see real data.</p>
+                      <p className="font-semibold text-sky-900">Demo Mode Active</p>
+                      <p className="text-sm text-sky-800 mt-1">Unable to connect to Millis AI API. Showing sample data with recordings. Configure your API key in server/.env to see real data.</p>
                     </div>
                   </div>
                 </div>
@@ -796,7 +796,7 @@ const Dashboard = () => {
                                       }
 
                                       return (
-                                        <div className="bg-amber-50 border-2 border-amber-200 rounded-lg p-3 text-amber-800">
+                                        <div className="bg-sky-50 border-2 border-sky-200 rounded-lg p-3 text-sky-800">
                                           Unexpected transcription format
                                         </div>
                                       );

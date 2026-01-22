@@ -14,7 +14,7 @@ const services = [
         subtitle: "24/7 AI-Powered Medical Scheduling",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/doctor_appointment_i73m9a",
         desc: "Never miss a patient again. Our AI voice agent handles appointment booking, rescheduling, and confirmations around the clock—with perfect accuracy and a warm, human touch.",
-        color: "from-orange-500 to-red-500",
+        color: "from-blue-500 to-red-500",
         stat: "95%",
         statLabel: "Booking Success Rate",
         audio: "/audio/doctor-appointment-sample.mp3",
@@ -513,7 +513,7 @@ export default function Hero() {
                     <div className="relative w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">
                         <button
                             onClick={handleCloseVideo}
-                            className="absolute top-2 right-2 z-10 p-2 bg-orange-100 hover:bg-orange-200 rounded-full text-orange-600 font-bold text-lg shadow"
+                            className="absolute top-2 right-2 z-10 p-2 bg-blue-100 hover:bg-blue-200 rounded-full text-blue-600 font-bold text-lg shadow"
                             aria-label="Close video"
                         >
                             ×
@@ -698,6 +698,156 @@ export default function Hero() {
             .animate-pulse-slow { animation: pulse-slow 5s infinite ease-in-out; }
             .animate-ping-slow { animation: ping-slow 3s infinite ease-in-out; }
             .animate-ping-slower { animation: ping-slower 4s infinite ease-in-out; }
+
+            /* Walking AI Bot Animation */
+            @keyframes bot-walk {
+              0%, 100% { transform: translateX(0) translateY(0); }
+              25% { transform: translateX(15px) translateY(-5px); }
+              50% { transform: translateX(30px) translateY(0); }
+              75% { transform: translateX(15px) translateY(-5px); }
+            }
+            @keyframes bot-body-bounce {
+              0%, 100% { transform: translateY(0) rotate(0deg); }
+              25% { transform: translateY(-3px) rotate(-2deg); }
+              50% { transform: translateY(0) rotate(0deg); }
+              75% { transform: translateY(-3px) rotate(2deg); }
+            }
+            @keyframes left-leg {
+              0%, 100% { transform: rotate(0deg); }
+              25% { transform: rotate(-25deg); }
+              50% { transform: rotate(0deg); }
+              75% { transform: rotate(25deg); }
+            }
+            @keyframes right-leg {
+              0%, 100% { transform: rotate(0deg); }
+              25% { transform: rotate(25deg); }
+              50% { transform: rotate(0deg); }
+              75% { transform: rotate(-25deg); }
+            }
+            @keyframes left-arm {
+              0%, 100% { transform: rotate(0deg); }
+              25% { transform: rotate(20deg); }
+              50% { transform: rotate(0deg); }
+              75% { transform: rotate(-20deg); }
+            }
+            @keyframes right-arm {
+              0%, 100% { transform: rotate(0deg); }
+              25% { transform: rotate(-20deg); }
+              50% { transform: rotate(0deg); }
+              75% { transform: rotate(20deg); }
+            }
+            @keyframes antenna-wobble {
+              0%, 100% { transform: rotate(-5deg); }
+              50% { transform: rotate(5deg); }
+            }
+            @keyframes eye-blink {
+              0%, 45%, 55%, 100% { transform: scaleY(1); }
+              50% { transform: scaleY(0.1); }
+            }
+            @keyframes bot-glow {
+              0%, 100% { filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.5)); }
+              50% { filter: drop-shadow(0 0 25px rgba(14, 165, 233, 0.8)); }
+            }
+            @keyframes bot-hover-move {
+              0% { transform: translateX(-100%); }
+              100% { transform: translateX(calc(100vw + 100%)); }
+            }
+            .animate-bot-walk { animation: bot-walk 0.8s ease-in-out infinite; }
+            .animate-bot-body { animation: bot-body-bounce 0.8s ease-in-out infinite; }
+            .animate-left-leg { animation: left-leg 0.8s ease-in-out infinite; transform-origin: top center; }
+            .animate-right-leg { animation: right-leg 0.8s ease-in-out infinite; transform-origin: top center; }
+            .animate-left-arm { animation: left-arm 0.8s ease-in-out infinite; transform-origin: top center; }
+            .animate-right-arm { animation: right-arm 0.8s ease-in-out infinite; transform-origin: top center; }
+            .animate-antenna { animation: antenna-wobble 1s ease-in-out infinite; transform-origin: bottom center; }
+            .animate-eye-blink { animation: eye-blink 4s ease-in-out infinite; }
+            .animate-bot-glow { animation: bot-glow 2s ease-in-out infinite; }
+            .animate-bot-hover { animation: bot-hover-move 15s linear infinite; }
+
+            /* Premium Walking Bot Animations */
+            @keyframes bot-walk-across {
+                0% { transform: translateX(-150px); }
+                100% { transform: translateX(calc(100vw + 150px)); }
+            }
+            @keyframes bot-bounce-walk {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-8px); }
+            }
+            @keyframes shadow-pulse-bot {
+                0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.3; }
+                50% { transform: translateX(-50%) scale(0.8); opacity: 0.2; }
+            }
+            @keyframes glow-breathe-bot {
+                0%, 100% { opacity: 0.3; transform: scale(1.5); }
+                50% { opacity: 0.5; transform: scale(1.7); }
+            }
+            @keyframes head-tilt-bot {
+                0%, 100% { transform: translateX(-50%) rotate(0deg); }
+                25% { transform: translateX(-50%) rotate(-3deg); }
+                75% { transform: translateX(-50%) rotate(3deg); }
+            }
+            @keyframes antenna-sway-bot {
+                0%, 100% { transform: translateX(-50%) rotate(-5deg); }
+                50% { transform: translateX(-50%) rotate(5deg); }
+            }
+            @keyframes antenna-glow-bot {
+                0%, 100% { box-shadow: 0 0 10px #38bdf8, 0 0 20px #38bdf8; }
+                50% { box-shadow: 0 0 20px #38bdf8, 0 0 40px #38bdf8, 0 0 60px #38bdf8; }
+            }
+            @keyframes eye-look-bot {
+                0%, 40%, 100% { transform: translateX(0); }
+                45%, 55% { transform: translateX(2px); }
+                60%, 80% { transform: translateX(-2px); }
+            }
+            @keyframes chest-pulse-bot {
+                0%, 100% { transform: translateX(-50%) scale(1); }
+                50% { transform: translateX(-50%) scale(1.1); }
+            }
+            @keyframes arm-swing-left-bot {
+                0%, 100% { transform: rotate(15deg); }
+                50% { transform: rotate(-15deg); }
+            }
+            @keyframes arm-wave-bot {
+                0%, 100% { transform: rotate(-30deg); }
+                50% { transform: rotate(10deg); }
+            }
+            @keyframes finger-wave-bot {
+                0%, 100% { transform: rotate(0deg) translateY(0); }
+                50% { transform: rotate(-10deg) translateY(-2px); }
+            }
+            @keyframes leg-walk-left-bot {
+                0%, 100% { transform: rotate(-20deg); }
+                50% { transform: rotate(20deg); }
+            }
+            @keyframes leg-walk-right-bot {
+                0%, 100% { transform: rotate(20deg); }
+                50% { transform: rotate(-20deg); }
+            }
+            @keyframes sparkle-bot {
+                0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+                50% { opacity: 1; transform: scale(1) rotate(180deg); }
+            }
+            .walking-bot { animation: bot-walk-across 20s linear infinite; }
+            .walking-bot-bounce { animation: bot-bounce-walk 0.5s ease-in-out infinite; }
+            .walking-bot-shadow { animation: shadow-pulse-bot 0.5s ease-in-out infinite; }
+            .walking-bot-glow { animation: glow-breathe-bot 2s ease-in-out infinite; }
+            .walking-bot-head { animation: head-tilt-bot 1s ease-in-out infinite; }
+            .walking-bot-antenna { animation: antenna-sway-bot 0.8s ease-in-out infinite; }
+            .walking-bot-antenna-light { animation: antenna-glow-bot 1s ease-in-out infinite; }
+            .walking-bot-eye { animation: eye-look-bot 3s ease-in-out infinite; }
+            .walking-bot-chest { animation: chest-pulse-bot 1.5s ease-in-out infinite; }
+            .walking-bot-arm-left { animation: arm-swing-left-bot 0.5s ease-in-out infinite; transform-origin: top center; }
+            .walking-bot-arm-right { animation: arm-wave-bot 0.4s ease-in-out infinite; transform-origin: top center; }
+            .walking-bot-finger { animation: finger-wave-bot 0.3s ease-in-out infinite; }
+            .walking-bot-finger-delay-1 { animation: finger-wave-bot 0.3s ease-in-out infinite 0.1s; }
+            .walking-bot-finger-delay-2 { animation: finger-wave-bot 0.3s ease-in-out infinite 0.2s; }
+            .walking-bot-leg-left { animation: leg-walk-left-bot 0.5s ease-in-out infinite; transform-origin: top center; }
+            .walking-bot-leg-right { animation: leg-walk-right-bot 0.5s ease-in-out infinite; transform-origin: top center; }
+            .walking-bot-sparkle { animation: sparkle-bot 1.5s ease-in-out infinite; }
+            .walking-bot-sparkle-delay { animation: sparkle-bot 1.5s ease-in-out infinite 0.5s; }
+            .walking-bot-antenna-glow { animation: antenna-glow-bot 1s ease-in-out infinite; box-shadow: 0 0 10px #38bdf8, 0 0 20px #38bdf8; }
+            .walking-bot-eyeball { box-shadow: 0 0 15px #38bdf8, inset 0 2px 4px rgba(255,255,255,0.5); }
+            .walking-bot-chest { box-shadow: 0 0 20px #38bdf8, 0 0 40px #38bdf8; }
+
             .animate-fade-in-up-1 {
                 animation: fade-in-up 1s ease-out forwards;
                 opacity: 0;
@@ -787,403 +937,371 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-16 pb-8 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white" role="region" aria-labelledby="hero-heading">
+            <section className="pt-20 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-white" role="region" aria-labelledby="hero-heading">
 
+                {/* Animated Background Elements */}
                 {mounted && (
                     <>
-                        <div className="absolute inset-0 overflow-hidden pointer-events-none responsive-opacity">
-                            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-500/10 to-transparent animate-pulse-slow responsive-animate"></div>
-                            <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-orange-600/8 to-transparent animate-pulse-slow responsive-animate" style={{ animationDelay: '1s' }}></div>
+                        {/* Floating Orbs */}
+                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                            <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-float"></div>
+                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-3xl animate-pulse-slow"></div>
                         </div>
+                        
+                        {/* Animated Grid Pattern */}
+                        <div className="absolute inset-0 opacity-[0.03]" style={{
+                            backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)',
+                            backgroundSize: '60px 60px'
+                        }}></div>
+                        
+                        {/* Floating Particles */}
+                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                            {[...Array(20)].map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="absolute w-2 h-2 bg-blue-400/30 rounded-full animate-float"
+                                    style={{
+                                        left: `${Math.random() * 100}%`,
+                                        top: `${Math.random() * 100}%`,
+                                        animationDelay: `${Math.random() * 5}s`,
+                                        animationDuration: `${3 + Math.random() * 4}s`
+                                    }}
+                                ></div>
+                            ))}
+                        </div>
+
+                        {/* Animated Lines */}
+                        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse-slow"></div>
+                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/15 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
                     </>
                 )}
 
-                <div className="container mx-auto relative z-30 max-w-5xl">
+                <div className="container mx-auto relative z-30 max-w-7xl">
 
-                    {/* Hero Content - Text First */}
-                    <div className="flex flex-col items-center text-center animate-fade-in-up-2">
+                    {/* Main Hero - Image Left, Content Right */}
+                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[70vh]">
+                        
+                        {/* Left Side - Content */}
+                        <div className="order-1 lg:order-1 text-center lg:text-left">
+                            {/* Badge */}
+                            <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 px-4 py-2 rounded-full mb-6 animate-fade-in-up-1">
+                                <Sparkles className="h-4 w-4 text-blue-600" />
+                                <span className="text-sm font-semibold text-blue-700">AI-Powered Voice Platform</span>
+                            </div>
 
-                        {/* Main Headline */}
-                        <div className="mb-4">
-                            <p className="text-sm sm:text-base text-gray-500 mb-2 font-medium tracking-wide">Transform Your Business with</p>
-                            <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-2">
-                                AI Voice <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Assistants</span>
+                            {/* Main Headline */}
+                            <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-gray-900 mb-6 leading-tight animate-fade-in-up-2">
+                                Your AI Assistant
+                                <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">
+                                    Never Sleeps
+                                </span>
                             </h1>
-                            <p className="text-lg sm:text-xl text-orange-600 font-semibold">AI Voice Agent Platform</p>
+
+                            {/* Tagline Box */}
+                            <div className="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-2xl p-6 mb-8 animate-fade-in-up-3">
+                                <p className="text-gray-600 text-lg italic mb-2">"Your receptionist sleeps, gets sick, takes breaks."</p>
+                                <p className="text-blue-600 font-bold text-2xl uppercase tracking-wider">WE NEVER DO.</p>
+                            </div>
+
+                            {/* Description */}
+                            <p className="text-gray-600 text-lg lg:text-xl mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-in-up-3">
+                                Transform your business with <strong className="text-gray-800">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics.
+                            </p>
+
+                            {/* CTA Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8 animate-fade-in-up-3">
+                                <Link
+                                    href="/signup"
+                                    className="group px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 flex items-center justify-center gap-2"
+                                >
+                                    Start Free Trial
+                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                                <button
+                                    onClick={() => setShowVideo(true)}
+                                    className="px-8 py-4 bg-white text-blue-600 border-2 border-blue-300 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2"
+                                    aria-label="Watch demo video"
+                                >
+                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                    </svg>
+                                    Watch Demo
+                                </button>
+                            </div>
+
+                            {/* Trust Indicators */}
+                            <div className="flex flex-wrap gap-6 justify-center lg:justify-start text-sm text-gray-500 animate-fade-in-up-3">
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle className="h-5 w-5 text-green-500" />
+                                    <span>No credit card required</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle className="h-5 w-5 text-green-500" />
+                                    <span>Setup in 5 minutes</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle className="h-5 w-5 text-green-500" />
+                                    <span>50+ Languages</span>
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Tagline */}
-                        <div className="mb-4">
-                            <p className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">Never Sleeps, Never Stops</p>
-                            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 sm:p-6 max-w-2xl mx-auto">
-                                <p className="text-gray-600 text-sm sm:text-base italic mb-2">"Your receptionist sleeps, gets sick, takes breaks."</p>
-                                <p className="text-orange-600 font-bold text-lg sm:text-xl uppercase tracking-wider">WE NEVER DO.</p>
+                        {/* Right Side - Image (PNG style, no box) */}
+                        <div className="relative order-2 lg:order-2 flex justify-center lg:justify-end">
+                            {/* Main Image - Clean PNG look */}
+                            <img
+                                src="/images/landing-hero.png"
+                                alt="AI Voice Assistant"
+                                className="relative z-10 w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain animate-float"
+                                style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
+                            />
+                            
+                            {/* Floating Badge - Bottom Left */}
+                            <div className="absolute bottom-8 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-3 z-20">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                                        <PhoneCall className="h-6 w-6 text-white" />
+                                    </div>
+                                    <div>
+                                        <p className="text-2xl font-bold text-gray-900">24/7</p>
+                                        <p className="text-sm text-gray-500">Always Available</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Floating Stats Badge - Top Right */}
+                            <div className="absolute top-8 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-2 z-20">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                                        <TrendingUp className="h-6 w-6 text-white" />
+                                    </div>
+                                    <div>
+                                        <p className="text-2xl font-bold text-gray-900">95%</p>
+                                        <p className="text-sm text-gray-500">Success Rate</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Description */}
-                        <p className="text-gray-600 text-base sm:text-lg max-w-3xl mb-4 leading-relaxed">
-                            Transform your business with <strong className="font-semibold text-gray-700">AI voice agents</strong> that handle unlimited calls simultaneously, provide instant responses, and deliver <strong className="font-semibold text-gray-700">detailed analytics</strong> through your <strong className="font-semibold text-gray-700">personal dashboard</strong>. Our <strong className="font-semibold text-gray-700">AI voice assistant</strong> platform automates customer service, lead qualification, and business communications.
-                        </p>
-
-                        {/* Feature Highlights */}
-                        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-6">
-                            <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
-                                <BarChart3 className="h-4 w-4 text-orange-600" />
-                                <span className="text-sm font-medium text-gray-700">Real-Time Analytics</span>
-                            </div>
-                            <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
-                                <LayoutDashboard className="h-4 w-4 text-orange-600" />
-                                <span className="text-sm font-medium text-gray-700">Personal Dashboard</span>
-                            </div>
-                            <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
-                                <PhoneCall className="h-4 w-4 text-orange-600" />
-                                <span className="text-sm font-medium text-gray-700">Call Automation</span>
-                            </div>
-                            <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
-                                <Globe className="h-4 w-4 text-orange-600" />
-                                <span className="text-sm font-medium text-gray-700">50+ Languages</span>
-                            </div>
-                        </div>
-
-                        {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                            <button
-                                onClick={() => setShowVideo(true)}
-                                className="px-8 py-3.5 bg-white text-orange-600 border-2 border-orange-500 font-semibold rounded-lg hover:bg-orange-50 transition-all duration-300 hover:shadow-lg"
-                                style={{
-                                    clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                                }}
-                                aria-label="Watch demo video"
+                    {/* Feature Cards Below Hero */}
+                    <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[
+                            { icon: PhoneCall, title: "Smart Call Handling", desc: "AI handles unlimited concurrent calls with human-like conversations", color: "from-blue-500 to-blue-600" },
+                            { icon: BarChart3, title: "Real-Time Analytics", desc: "Track every call with detailed insights and performance metrics", color: "from-blue-500 to-blue-600" },
+                            { icon: Clock, title: "24/7 Availability", desc: "Never miss a call. Your AI assistant works around the clock", color: "from-cyan-500 to-cyan-600" },
+                            { icon: Globe, title: "50+ Languages", desc: "Communicate with customers in their preferred language", color: "from-teal-500 to-teal-600" }
+                        ].map((feature, i) => (
+                            <div
+                                key={i}
+                                className="group bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 hover:-translate-y-2"
+                                style={{ animationDelay: `${i * 0.1}s` }}
                             >
-                                Watch Demo
-                            </button>
-                            <Link
-                                href="/signup"
-                                className="px-8 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                            >
-                                Start Free Trial
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-                        </div>
+                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                                    <feature.icon className="h-7 w-7 text-white" />
+                                </div>
+                                <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
+                                <p className="text-gray-600 text-sm leading-relaxed">{feature.desc}</p>
+                            </div>
+                        ))}
+                    </div>
 
-                        {/* Voice Bot Section - Below Content */}
-                        <div className="w-full flex flex-col items-center">
-                            <p className="text-gray-500 text-sm mb-4 font-medium">Try our AI Voice Assistant</p>
+                    {/* Stats Bar */}
+                    <div className="mt-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl p-8 shadow-2xl shadow-blue-500/30">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                            {[
+                                { value: "99.9%", label: "Uptime Guarantee" },
+                                { value: "750ms", label: "Response Time" },
+                                { value: "10M+", label: "Calls Handled" },
+                                { value: "500+", label: "Happy Clients" }
+                            ].map((stat, i) => (
+                                <div key={i} className="text-center">
+                                    <p className="text-3xl lg:text-4xl font-bold text-white mb-1">{stat.value}</p>
+                                    <p className="text-blue-100 text-sm">{stat.label}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Full Width Equalizer Section */}
-            <section className="w-full bg-gradient-to-b from-gray-50 to-white py-16 relative overflow-hidden">
-                {/* Enhanced background pattern */}
-                <div className="absolute inset-0 opacity-30">
-                    <div className="absolute inset-0" style={{
-                        backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
-                        backgroundSize: '40px 40px'
-                    }}></div>
+            {/* Our Solutions - Premium Showcase */}
+            <section className="py-24 px-4 sm:px-8 lg:px-16 bg-gradient-to-b from-white via-blue-50/40 to-white relative overflow-hidden">
+                {/* Animated Background */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
                 </div>
-
-                {/* Animated glow effect when active */}
-                {mounted && isCallActive && (
-                    <div className="absolute inset-0 pointer-events-none">
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-orange-500/20 via-orange-500/5 to-transparent rounded-full animate-pulse-slow"></div>
-                    </div>
-                )}
-
-                <div className="w-full px-4 sm:px-8 relative z-10">
+                
+                <div className="container mx-auto max-w-7xl relative z-10">
                     {/* Section Header */}
-                    <div className="text-center mb-8">
-                        <div className="inline-flex items-center gap-2 bg-orange-100/80 backdrop-blur-sm px-4 py-2 rounded-full border border-orange-200 mb-4">
-                            <div className={`w-2 h-2 rounded-full ${isCallActive ? 'bg-green-500 animate-pulse' : 'bg-orange-500'}`}></div>
-                            <span className="text-sm font-medium text-orange-700">
-                                {isCallActive ? 'Live Conversation' : 'AI Voice Demo'}
-                            </span>
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-cyan-100 border border-blue-200 px-5 py-2.5 rounded-full mb-6 shadow-sm">
+                            <Sparkles className="h-5 w-5 text-blue-600" />
+                            <span className="text-sm font-bold text-blue-700 uppercase tracking-wider">Our Solutions</span>
                         </div>
-                        <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-                            Experience AI Voice in Action
-                        </h3>
-                        <p className="text-gray-600 max-w-lg mx-auto">
-                            Click the button below to have a real conversation with our AI assistant
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6">
+                            AI-Powered{' '}
+                            <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 bg-clip-text text-transparent">
+                                Ecosystem
+                            </span>
+                        </h2>
+                        <p className="text-gray-600 text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed">
+                            Transform your business with intelligent voice automation that works 24/7
                         </p>
                     </div>
 
-                    {/* Equalizer Bars - Full Width with Morphing Container */}
-                    <div className="flex items-end justify-center gap-1 sm:gap-2 h-40 sm:h-52 mb-8 w-full relative">
-                        {/* Morphing blob background when speaking */}
-                        {mounted && isSpeaking && (
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <div className="w-64 h-32 bg-gradient-to-r from-orange-400/20 via-amber-400/20 to-orange-400/20 blur-2xl animate-morph"></div>
+                    {/* Services Grid - 3 Column Layout */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                        
+                        {/* AI Call Center */}
+                        <Link href="/services/ai-call-center" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="relative z-10">
+                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                    <PhoneCall className="h-8 w-8 text-white" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">AI Call Center</h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed">Enterprise-grade contact center with unlimited concurrent calls, intelligent routing & real-time analytics.</p>
+                                <div className="flex flex-wrap gap-2 mb-6">
+                                    <span className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full">24/7 Active</span>
+                                    <span className="px-3 py-1 bg-green-50 text-green-600 text-xs font-semibold rounded-full">85% Automation</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
+                                    <span>Explore</span>
+                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+                                </div>
                             </div>
-                        )}
+                        </Link>
 
-                        {/* Sonic wave effect */}
-                        {mounted && isSpeaking && (
-                            <>
-                                <div className="absolute bottom-1/2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-orange-500/40 to-transparent animate-sonic origin-center"></div>
-                                <div className="absolute bottom-1/2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-orange-500/30 to-transparent animate-sonic origin-center" style={{ animationDelay: '0.5s' }}></div>
-                            </>
-                        )}
+                        {/* AI Customer Support */}
+                        <Link href="/services/ai-customer-support" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-cyan-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="relative z-10">
+                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center mb-6 shadow-lg shadow-cyan-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                    <Headphones className="h-8 w-8 text-white" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">AI Customer Support</h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed">Instant, empathetic responses across all channels. Resolve issues 24/7 with human-like conversations.</p>
+                                <div className="flex flex-wrap gap-2 mb-6">
+                                    <span className="px-3 py-1 bg-cyan-50 text-cyan-600 text-xs font-semibold rounded-full">Instant Resolution</span>
+                                    <span className="px-3 py-1 bg-purple-50 text-purple-600 text-xs font-semibold rounded-full">Sentiment AI</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-cyan-600 font-semibold group-hover:gap-3 transition-all">
+                                    <span>Explore</span>
+                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+                                </div>
+                            </div>
+                        </Link>
 
-                        {mounted && [...Array(60)].map((_, i) => {
-                            // Create a wave pattern - higher in the middle, lower at edges
-                            const centerIndex = 29.5;
-                            const distanceFromCenter = Math.abs(i - centerIndex);
-                            const baseHeight = Math.max(20, 100 - (distanceFromCenter * 2.5));
-                            const randomFactor = (soundBarHeightsRef.current[i % 40] || 0.5) * 25;
-                            const volumeBoost = isSpeaking ? (volumeLevel / 100) * 15 : 0;
+                        {/* AI Sales Agent */}
+                        <Link href="/services/ai-sales-agent" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="relative z-10">
+                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                    <TrendingUp className="h-8 w-8 text-white" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">AI Sales Agent</h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed">Convert leads while you sleep. AI that qualifies, nurtures, handles objections & closes deals 24/7.</p>
+                                <div className="flex flex-wrap gap-2 mb-6">
+                                    <span className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full">45% More Conversions</span>
+                                    <span className="px-3 py-1 bg-amber-50 text-amber-600 text-xs font-semibold rounded-full">Auto Follow-up</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
+                                    <span>Explore</span>
+                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+                                </div>
+                            </div>
+                        </Link>
 
-                            // Color pattern - vibrant colors matching the reference
-                            const colors = [
-                                'bg-orange-500', 'bg-amber-400', 'bg-yellow-400', 'bg-orange-400',
-                                'bg-pink-400', 'bg-fuchsia-400', 'bg-purple-400', 'bg-violet-400',
-                                'bg-cyan-400', 'bg-teal-400', 'bg-emerald-400', 'bg-green-400',
-                                'bg-orange-300', 'bg-red-400', 'bg-rose-400', 'bg-white'
-                            ];
-                            const colorIndex = i % colors.length;
-                            const barColor = colors[colorIndex];
+                        {/* AI Virtual Receptionist */}
+                        <Link href="/services/ai-virtual-receptionist" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-purple-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-purple-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="relative z-10">
+                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                    <Users className="h-8 w-8 text-white" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">AI Virtual Receptionist</h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed">Professional call answering, smart routing, appointment booking & multi-language support.</p>
+                                <div className="flex flex-wrap gap-2 mb-6">
+                                    <span className="px-3 py-1 bg-purple-50 text-purple-600 text-xs font-semibold rounded-full">70% Cost Savings</span>
+                                    <span className="px-3 py-1 bg-pink-50 text-pink-600 text-xs font-semibold rounded-full">HIPAA Ready</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-purple-600 font-semibold group-hover:gap-3 transition-all">
+                                    <span>Explore</span>
+                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+                                </div>
+                            </div>
+                        </Link>
 
-                            return (
-                                <div
-                                    key={i}
-                                    className={`w-2 sm:w-3 md:w-4 rounded-full transition-all duration-150 ${barColor} shadow-sm relative`}
-                                    style={{
-                                        height: isSpeaking
-                                            ? `${baseHeight + randomFactor + volumeBoost}%`
-                                            : isCallActive
-                                                ? `${baseHeight * 0.6 + randomFactor * 0.4}%`
-                                                : isConnecting
-                                                    ? `${baseHeight * 0.5}%`
-                                                    : `${baseHeight * 0.4}%`,
-                                        animation: isSpeaking
-                                            ? `bounce-bar 0.${3 + (i % 5)}s ease-in-out infinite`
-                                            : isCallActive
-                                                ? `bounce-bar 0.${6 + (i % 4)}s ease-in-out infinite`
-                                                : isConnecting
-                                                    ? `ripple 1.${i % 5}s ease-in-out infinite`
-                                                    : 'none',
-                                        animationDelay: `${(i % 12) * 0.05}s`,
-                                        opacity: isSpeaking ? 1 : isCallActive ? 0.85 : isConnecting ? 0.7 : 0.6,
-                                        filter: isSpeaking ? 'drop-shadow(0 4px 8px rgba(249, 115, 22, 0.4))' : 'none'
-                                    }}
-                                />
-                            );
-                        })}
+                        {/* AI Voice Bot */}
+                        <Link href="/services/ai-voice-bot" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-emerald-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-emerald-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="relative z-10">
+                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                    <Mic className="h-8 w-8 text-white" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors">AI Voice Bot</h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed">Advanced NLP-powered voice automation. Handle unlimited calls with human-like voice synthesis.</p>
+                                <div className="flex flex-wrap gap-2 mb-6">
+                                    <span className="px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-semibold rounded-full">Natural Voice</span>
+                                    <span className="px-3 py-1 bg-teal-50 text-teal-600 text-xs font-semibold rounded-full">30+ Languages</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-emerald-600 font-semibold group-hover:gap-3 transition-all">
+                                    <span>Explore</span>
+                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+                                </div>
+                            </div>
+                        </Link>
+
+                        {/* AI Appointment Scheduling */}
+                        <Link href="/services/appointments" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-rose-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-rose-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="relative z-10">
+                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center mb-6 shadow-lg shadow-rose-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                    <Calendar className="h-8 w-8 text-white" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-rose-600 transition-colors">AI Appointments</h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed">Smart scheduling, automatic reminders, calendar sync & 60% reduction in no-shows.</p>
+                                <div className="flex flex-wrap gap-2 mb-6">
+                                    <span className="px-3 py-1 bg-rose-50 text-rose-600 text-xs font-semibold rounded-full">Auto Reminders</span>
+                                    <span className="px-3 py-1 bg-orange-50 text-orange-600 text-xs font-semibold rounded-full">Calendar Sync</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-rose-600 font-semibold group-hover:gap-3 transition-all">
+                                    <span>Explore</span>
+                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+                                </div>
+                            </div>
+                        </Link>
+
                     </div>
 
-                    {/* Enhanced Talk Button with Visual Feedback */}
-                    <div className="flex flex-col items-center mb-8">
-                        {/* Call Duration Timer */}
-                        {mounted && isCallActive && (
-                            <div className="flex items-center gap-2 mb-4 bg-gray-900/90 backdrop-blur-sm px-4 py-2 rounded-full">
-                                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                                <span className="text-white font-mono text-sm">
-                                    {String(Math.floor(callDuration / 60)).padStart(2, '0')}:{String(callDuration % 60).padStart(2, '0')}
-                                </span>
+                    {/* Bottom Stats Row */}
+                    <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+                        {[
+                            { value: "500+", label: "Businesses Trust Us", icon: Users },
+                            { value: "10M+", label: "Calls Automated", icon: PhoneCall },
+                            { value: "99.9%", label: "Uptime Guaranteed", icon: Shield },
+                            { value: "< 750ms", label: "Response Time", icon: Zap }
+                        ].map((stat, i) => (
+                            <div key={i} className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-center group hover:scale-105 transition-transform duration-300">
+                                <stat.icon className="h-8 w-8 text-blue-400 mx-auto mb-3 group-hover:scale-110 transition-transform" />
+                                <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
+                                <p className="text-gray-400 text-sm">{stat.label}</p>
                             </div>
-                        )}
-
-                        {/* Main Button with Orbital Rings */}
-                        <div className="relative">
-                            {/* Orbital rings when active */}
-                            {mounted && isCallActive && (
-                                <>
-                                    {/* Orbiting dots */}
-                                    <div className="absolute inset-0 w-full h-full" style={{ animation: 'rotate-border 3s linear infinite' }}>
-                                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-2 h-2 bg-orange-500 rounded-full shadow-lg shadow-orange-500/50"></div>
-                                    </div>
-                                    <div className="absolute inset-0 w-full h-full" style={{ animation: 'rotate-border 4s linear infinite reverse' }}>
-                                        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-amber-400 rounded-full shadow-lg shadow-amber-400/50"></div>
-                                    </div>
-                                    <div className="absolute inset-0 w-full h-full" style={{ animation: 'rotate-border 5s linear infinite' }}>
-                                        <div className="absolute top-1/2 -left-4 -translate-y-1/2 w-1.5 h-1.5 bg-pink-400 rounded-full shadow-lg shadow-pink-400/50"></div>
-                                    </div>
-                                    {/* Breathing glow effect */}
-                                    <div className="absolute inset-0 -m-2 rounded-full bg-gradient-to-r from-orange-500/20 via-transparent to-orange-500/20 animate-breathe"></div>
-                                    {/* Ripple rings */}
-                                    <div className="absolute inset-0 -m-6 rounded-full border border-orange-500/30 animate-ripple"></div>
-                                    <div className="absolute inset-0 -m-10 rounded-full border border-orange-500/20 animate-ripple" style={{ animationDelay: '0.5s' }}></div>
-                                </>
-                            )}
-
-                            {/* Connecting - rotating dashed border */}
-                            {mounted && isConnecting && (
-                                <>
-                                    <svg className="absolute inset-0 -m-4 w-[calc(100%+32px)] h-[calc(100%+32px)]" style={{ animation: 'rotate-border 2s linear infinite' }}>
-                                        <rect
-                                            x="2" y="2"
-                                            width="calc(100% - 4px)" height="calc(100% - 4px)"
-                                            rx="9999" ry="9999"
-                                            fill="none"
-                                            stroke="#f97316"
-                                            strokeWidth="2"
-                                            strokeDasharray="10 5"
-                                            className="animate-glow-pulse"
-                                        />
-                                    </svg>
-                                </>
-                            )}
-
-                            <button
-                                onClick={toggleCall}
-                                disabled={callStatus.startsWith('Requesting') || callStatus.startsWith('Starting') || callStatus.startsWith('Stopping')}
-                                className={`relative flex items-center justify-center gap-3
-                                    px-12 py-5 rounded-full transition-all duration-300
-                                    font-semibold text-sm sm:text-base tracking-wider
-                                    disabled:opacity-70 disabled:cursor-not-allowed
-                                    transform hover:scale-105 active:scale-95
-                                    ${isCallActive
-                                        ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-2xl shadow-red-500/40'
-                                        : isConnecting
-                                            ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow-xl'
-                                            : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-xl hover:shadow-orange-500/40'
-                                    }`}
-                                aria-label={isCallActive ? "Stop conversation with AI assistant" : "Start conversation with AI assistant"}
-                            >
-                                {/* Microphone Icon with glow */}
-                                <div className={`relative ${isCallActive ? 'animate-glow-pulse' : ''}`}>
-                                    {isCallActive ? (
-                                        <MicOff className="w-5 h-5" />
-                                    ) : (
-                                        <Mic className={`w-5 h-5 ${isConnecting ? 'animate-bounce' : ''}`} />
-                                    )}
-                                </div>
-                                <span className="uppercase font-bold">
-                                    {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Talk to AI'}
-                                </span>
-
-                                {/* Circular sound wave animation */}
-                                <div className="flex items-center gap-1">
-                                    {[...Array(4)].map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className={`rounded-full bg-white/90 transition-all duration-200`}
-                                            style={{
-                                                width: isCallActive || isConnecting ? '6px' : '4px',
-                                                height: isCallActive || isConnecting ? '6px' : '4px',
-                                                animation: isCallActive
-                                                    ? `ripple 1.${2 + i}s ease-in-out infinite`
-                                                    : isConnecting
-                                                        ? `ripple 1.${5 + i}s ease-in-out infinite`
-                                                        : 'none',
-                                                animationDelay: `${i * 0.15}s`
-                                            }}
-                                        />
-                                    ))}
-                                </div>
-                            </button>
-                        </div>
-
-                        {/* Voice Activity Indicator - Orbital Style */}
-                        {mounted && isCallActive && (
-                            <div className="mt-6 flex items-center gap-4">
-                                {/* Left orbiting dots */}
-                                <div className="relative w-8 h-8">
-                                    <div className={`absolute inset-0 rounded-full border ${isSpeaking ? 'border-orange-400' : 'border-gray-300'} transition-colors duration-300`}></div>
-                                    <div
-                                        className={`absolute w-2 h-2 rounded-full ${isSpeaking ? 'bg-orange-500' : 'bg-gray-400'} transition-colors duration-300`}
-                                        style={{
-                                            animation: isSpeaking ? 'orbit-1 1.5s linear infinite' : 'none',
-                                            top: '50%',
-                                            left: '50%',
-                                            marginTop: '-4px',
-                                            marginLeft: '-4px'
-                                        }}
-                                    ></div>
-                                </div>
-
-                                {/* Status text with morphing background */}
-                                <div className={`relative px-4 py-2 rounded-full ${isSpeaking ? 'bg-orange-100' : 'bg-gray-100'} transition-all duration-300`}>
-                                    <span className={`text-sm font-semibold ${isSpeaking ? 'text-orange-600' : 'text-gray-500'}`}>
-                                        {isSpeaking ? '🎙️ AI Speaking' : '👂 Listening...'}
-                                    </span>
-                                    {isSpeaking && (
-                                        <div className="absolute inset-0 rounded-full bg-orange-400/20 animate-ripple"></div>
-                                    )}
-                                </div>
-
-                                {/* Right orbiting dots */}
-                                <div className="relative w-8 h-8">
-                                    <div className={`absolute inset-0 rounded-full border ${isSpeaking ? 'border-orange-400' : 'border-gray-300'} transition-colors duration-300`}></div>
-                                    <div
-                                        className={`absolute w-2 h-2 rounded-full ${isSpeaking ? 'bg-orange-500' : 'bg-gray-400'} transition-colors duration-300`}
-                                        style={{
-                                            animation: isSpeaking ? 'orbit-1 1.5s linear infinite reverse' : 'none',
-                                            top: '50%',
-                                            left: '50%',
-                                            marginTop: '-4px',
-                                            marginLeft: '-4px'
-                                        }}
-                                    ></div>
-                                </div>
-                            </div>
-                        )}
+                        ))}
                     </div>
 
-                    {/* Enhanced Transcript Display */}
-                    <div className="flex justify-center">
-                        <div suppressHydrationWarning className={`w-full max-w-2xl rounded-2xl border-2 transition-all duration-300 overflow-hidden ${isCallActive ? 'border-orange-400 shadow-xl shadow-orange-100/50' : 'border-gray-200 shadow-lg'}`}>
-                            {/* Header Bar */}
-                            <div className={`px-5 py-3 flex items-center justify-between ${isCallActive ? 'bg-gradient-to-r from-orange-500 to-orange-600' : 'bg-gradient-to-r from-gray-100 to-gray-50'}`}>
-                                <div className="flex items-center gap-3">
-                                    <div className={`w-3 h-3 rounded-full ${isCallActive ? 'bg-white animate-pulse' : 'bg-orange-500'}`}></div>
-                                    <span suppressHydrationWarning className={`text-sm font-semibold uppercase tracking-wider ${isCallActive ? 'text-white' : 'text-gray-700'}`}>
-                                        {callStatus || "Ready to assist"}
-                                    </span>
-                                </div>
-                                {isCallActive && (
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-white/80 text-xs">Live</span>
-                                        <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse"></div>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Transcript Content */}
-                            <div className="bg-white p-5">
-                                <div className="flex gap-3">
-                                    {/* AI Avatar */}
-                                    <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${isCallActive ? 'bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/30' : 'bg-gradient-to-br from-gray-200 to-gray-300'} ${isSpeaking ? 'animate-pulse' : ''}`}>
-                                        <Sparkles className={`w-5 h-5 ${isCallActive ? 'text-white' : 'text-gray-600'}`} />
-                                    </div>
-
-                                    {/* Message Bubble */}
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <span className="font-semibold text-gray-900 text-sm">AI Assistant</span>
-                                            {isSpeaking && (
-                                                <span className="text-xs text-orange-500 flex items-center gap-1">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
-                                                    Speaking
-                                                </span>
-                                            )}
-                                        </div>
-                                        <p suppressHydrationWarning className="text-gray-700 leading-relaxed text-base">
-                                            {transcript}
-                                            {isSpeaking && <span className="inline-block w-0.5 h-4 bg-orange-500 ml-1 animate-pulse"></span>}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Quick Actions Bar */}
-                            <div className="bg-gray-50 px-5 py-3 flex items-center justify-between border-t border-gray-100">
-                                <div className="flex items-center gap-4">
-                                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                                        <Globe className="w-3.5 h-3.5" />
-                                        <span>50+ Languages</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                                        <Shield className="w-3.5 h-3.5" />
-                                        <span>Secure</span>
-                                    </div>
-                                </div>
-                                <div className="text-xs text-gray-400">
-                                    Powered by AI
-                                </div>
-                            </div>
-                        </div>
+                    {/* CTA Button */}
+                    <div className="text-center mt-12">
+                        <Link
+                            href="/services"
+                            className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 text-white font-bold text-lg rounded-2xl hover:from-blue-600 hover:via-blue-700 hover:to-blue-700 transition-all duration-300 shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40 hover:scale-105"
+                        >
+                            View All Solutions
+                            <ArrowRight className="h-6 w-6" />
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -1191,7 +1309,7 @@ export default function Hero() {
             {/* Section Header - Fixed above the scrolling content */}
             <section className="py-12 bg-gradient-to-br from-gray-50 to-white">
                 <div className="container mx-auto px-8 text-center">
-                    <div className="inline-flex items-center space-x-2 bg-orange-500/10 px-4 py-2 rounded-full border border-orange-400/30 text-sm text-orange-600 font-semibold mb-4 uppercase tracking-widest">
+                    <div className="inline-flex items-center space-x-2 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-400/30 text-sm text-blue-600 font-semibold mb-4 uppercase tracking-widest">
                         <MessageSquare className="h-4 w-4" />
                         <span>🎯 Our AI Voice Services</span>
                     </div>
@@ -1263,7 +1381,7 @@ export default function Hero() {
                                     {/* Feature Cards Grid */}
                                     <div className="grid grid-cols-2 gap-3">
                                         {s.features.map((f, fi) => (
-                                            <div key={fi} className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 hover:shadow-md hover:border-orange-200 transition-all">
+                                            <div key={fi} className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all">
                                                 <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${s.color} flex items-center justify-center mb-2`}>
                                                     {f.icon === 'Calendar' && <Calendar className="h-5 w-5 text-white" />}
                                                     {f.icon === 'Clock' && <Clock className="h-5 w-5 text-white" />}
@@ -1296,20 +1414,20 @@ export default function Hero() {
             <section ref={flowchartRef} className="py-12 px-4 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
                 {/* Background decoration */}
                 <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-1/4 left-0 w-64 h-64 bg-orange-200/20 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-orange-300/20 rounded-full blur-3xl"></div>
+                    <div className="absolute top-1/4 left-0 w-64 h-64 bg-blue-200/20 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-blue-300/20 rounded-full blur-3xl"></div>
                 </div>
 
                 <div className="container mx-auto max-w-5xl relative z-10">
 
                     {/* Section Header */}
                     <div className="text-center mb-10 journey-header">
-                        <div className="inline-flex items-center gap-2 bg-orange-100 px-4 py-1.5 rounded-full text-orange-600 text-xs font-semibold mb-3 uppercase tracking-wider">
+                        <div className="inline-flex items-center gap-2 bg-blue-100 px-4 py-1.5 rounded-full text-blue-600 text-xs font-semibold mb-3 uppercase tracking-wider">
                             <Zap className="h-3 w-3" />
                             How It Works
                         </div>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                            Your Journey to <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Effortless Communication</span>
+                            Your Journey to <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">Effortless Communication</span>
                         </h2>
                         <p className="text-sm sm:text-base text-gray-600 max-w-xl mx-auto">Transform your business in 4 simple steps</p>
                     </div>
@@ -1317,7 +1435,7 @@ export default function Hero() {
                     {/* Horizontal Timeline - Desktop / Vertical - Mobile */}
                     <div className="relative">
                         {/* Connecting Line - Horizontal on desktop */}
-                        <div className="journey-line absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-red-400 via-orange-500 to-green-500 hidden md:block"></div>
+                        <div className="journey-line absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-red-400 via-blue-500 to-green-500 hidden md:block"></div>
 
                         {/* Steps Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
@@ -1328,7 +1446,7 @@ export default function Hero() {
                                     <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-full shadow-lg flex items-center justify-center mb-4 relative z-10 border-4 border-white">
                                         <span className="text-white font-bold text-sm">1</span>
                                     </div>
-                                    <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl hover:border-orange-200 transition-all duration-300 w-full text-center group">
+                                    <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full text-center group">
                                         <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                                             <span className="text-2xl">❌</span>
                                         </div>
@@ -1341,18 +1459,18 @@ export default function Hero() {
                             {/* Step 2 */}
                             <div className="journey-step relative">
                                 <div className="flex flex-col items-center">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full shadow-lg flex items-center justify-center mb-4 relative z-10 border-4 border-white">
+                                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-lg flex items-center justify-center mb-4 relative z-10 border-4 border-white">
                                         <span className="text-white font-bold text-sm">2</span>
                                     </div>
-                                    <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl hover:border-orange-200 transition-all duration-300 w-full text-center group">
-                                        <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                                            <Zap className="h-6 w-6 text-orange-600" />
+                                    <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full text-center group">
+                                        <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                                            <Zap className="h-6 w-6 text-blue-600" />
                                         </div>
                                         <h3 className="text-sm font-bold text-gray-900 mb-1">AI Solution</h3>
                                         <p className="text-xs text-gray-500 leading-relaxed">24/7 intelligent voice handling</p>
                                         <div className="mt-2 flex flex-wrap justify-center gap-1">
-                                            <span className="text-[10px] bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">Human-like</span>
-                                            <span className="text-[10px] bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">50+ Languages</span>
+                                            <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Human-like</span>
+                                            <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">50+ Languages</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1364,7 +1482,7 @@ export default function Hero() {
                                     <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-lg flex items-center justify-center mb-4 relative z-10 border-4 border-white">
                                         <span className="text-white font-bold text-sm">3</span>
                                     </div>
-                                    <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl hover:border-orange-200 transition-all duration-300 w-full text-center group">
+                                    <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full text-center group">
                                         <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                                             <Users className="h-6 w-6 text-blue-600" />
                                         </div>
@@ -1410,7 +1528,7 @@ export default function Hero() {
 
                         {/* CTA Button */}
                         <div className="mt-8 text-center">
-                            <Link href="/signup" className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold py-3 px-8 rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-sm">
+                            <Link href="/signup" className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-8 rounded-full hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-sm">
                                 Get Started Now <ArrowRight className="h-4 w-4" />
                             </Link>
                         </div>
@@ -1424,7 +1542,7 @@ export default function Hero() {
                 <div className="container mx-auto max-w-6xl relative z-10">
                     <div className="text-center mb-0 p-0">
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-0 p-0 tracking-tight">
-                            How <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">DigitalBot</span> Powers AI-Driven Conversations
+                            How <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">DigitalBot</span> Powers AI-Driven Conversations
                         </h2>
                         <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-0 p-0">
                             One intelligent AI voice platform handling appointments, calls, and customer engagement—end to end.
@@ -1449,7 +1567,7 @@ export default function Hero() {
                 <div className="container mx-auto max-w-6xl">
                     {/* Section Header */}
                     <div className="text-center mb-12">
-                        <p className="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
+                        <p className="text-blue-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
                         <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
                             The DigitalBot Advantage
                         </h2>
@@ -1462,9 +1580,9 @@ export default function Hero() {
                     <div className="space-y-5">
 
                         {/* Feature 1 - Instant Setup */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-gradient-to-r from-orange-50 to-orange-100/50 rounded-2xl p-6 lg:p-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-gradient-to-r from-blue-50 to-blue-100/50 rounded-2xl p-6 lg:p-8">
                             <div className="order-2 lg:order-1">
-                                <div className="inline-flex items-center gap-1.5 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-medium mb-3">
+                                <div className="inline-flex items-center gap-1.5 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium mb-3">
                                     <Zap className="h-3 w-3" /> Quick Start
                                 </div>
                                 <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">Instant Setup</h3>
@@ -1473,11 +1591,11 @@ export default function Hero() {
                                 </p>
                                 <div className="flex items-center gap-6">
                                     <div>
-                                        <div className="text-2xl font-bold text-orange-500">5 min</div>
+                                        <div className="text-2xl font-bold text-blue-500">5 min</div>
                                         <div className="text-gray-500 text-xs">Setup Time</div>
                                     </div>
                                     <div>
-                                        <div className="text-2xl font-bold text-orange-500">0</div>
+                                        <div className="text-2xl font-bold text-blue-500">0</div>
                                         <div className="text-gray-500 text-xs">Code Required</div>
                                     </div>
                                 </div>
@@ -1620,10 +1738,10 @@ export default function Hero() {
                     {/* Compact CTA */}
                     <div className="mt-12 text-center">
                         <div className="flex flex-col sm:flex-row justify-center gap-3 mb-5">
-                            <Link href="/signup" className="inline-flex items-center justify-center gap-2 bg-orange-500 text-white font-medium py-3 px-8 rounded-lg hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20">
+                            <Link href="/signup" className="inline-flex items-center justify-center gap-2 bg-blue-500 text-white font-medium py-3 px-8 rounded-lg hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20">
                                 Start Free Trial <ArrowRight className="h-4 w-4" />
                             </Link>
-                            <Link href="/contact" className="inline-flex items-center justify-center gap-2 text-gray-700 font-medium py-3 px-8 rounded-lg border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-colors">
+                            <Link href="/contact" className="inline-flex items-center justify-center gap-2 text-gray-700 font-medium py-3 px-8 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors">
                                 Book Demo
                             </Link>
                         </div>

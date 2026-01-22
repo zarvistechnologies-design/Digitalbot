@@ -66,19 +66,19 @@ export function LeadFormMini() {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <form onSubmit={handleSubmit} className="bg-gradient-to-br from-white via-orange-50 to-orange-100 border border-orange-500/30 rounded-xl shadow-2xl p-6 space-y-4 relative overflow-hidden"
+      <form onSubmit={handleSubmit} className="bg-gradient-to-br from-white via-sky-50 to-sky-100 border border-sky-500/30 rounded-xl shadow-2xl p-6 space-y-4 relative overflow-hidden"
         style={{
           clipPath: 'polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px))',
           boxShadow: '0 0 30px rgba(234, 88, 12, 0.3)'
         }}>
 
         {/* Light Theme Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-orange-600/5 pointer-events-none"></div>
-        <div className="absolute top-0 right-0 w-20 h-20 bg-orange-400/10 rounded-full blur-xl"></div>
-        <div className="absolute bottom-0 left-0 w-16 h-16 bg-orange-500/10 rounded-full blur-lg"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 via-transparent to-sky-600/5 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-20 h-20 bg-sky-400/10 rounded-full blur-xl"></div>
+        <div className="absolute bottom-0 left-0 w-16 h-16 bg-sky-500/10 rounded-full blur-lg"></div>
 
         <div className="relative z-10">
-          <h3 className="text-xl font-bold text-orange-600 mb-4 text-center uppercase tracking-wide"
+          <h3 className="text-xl font-bold text-sky-600 mb-4 text-center uppercase tracking-wide"
             style={{ textShadow: '0 0 10px rgba(234, 88, 12, 0.3)' }}>
             Contact Sales
           </h3>
@@ -103,7 +103,7 @@ export function LeadFormMini() {
             </div>
           )}
           <div className="relative group">
-            <User className="absolute left-3 top-3 w-4 h-4 text-orange-500 z-10" />
+            <User className="absolute left-3 top-3 w-4 h-4 text-sky-500 z-10" />
             <input
               type="text"
               name="name"
@@ -111,7 +111,7 @@ export function LeadFormMini() {
               value={formData.name}
               onChange={handleChange}
               placeholder="Full Name"
-              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-orange-400/30 text-gray-900 placeholder-gray-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-300"
+              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-sky-400/30 text-gray-900 placeholder-gray-500 focus:border-sky-500 focus:bg-white outline-none transition-all duration-300"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
               }}
@@ -119,7 +119,7 @@ export function LeadFormMini() {
           </div>
 
           <div className="relative group">
-            <Mail className="absolute left-3 top-3 w-4 h-4 text-orange-500 z-10" />
+            <Mail className="absolute left-3 top-3 w-4 h-4 text-sky-500 z-10" />
             <input
               type="email"
               name="email"
@@ -127,7 +127,7 @@ export function LeadFormMini() {
               value={formData.email}
               onChange={handleChange}
               placeholder="Work Email"
-              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-orange-400/30 text-gray-900 placeholder-gray-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-300"
+              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-sky-400/30 text-gray-900 placeholder-gray-500 focus:border-sky-500 focus:bg-white outline-none transition-all duration-300"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
               }}
@@ -135,7 +135,7 @@ export function LeadFormMini() {
           </div>
 
           <div className="relative group">
-            <Phone className="absolute left-3 top-3 w-4 h-4 text-orange-500 z-10" />
+            <Phone className="absolute left-3 top-3 w-4 h-4 text-sky-500 z-10" />
             <input
               type="tel"
               name="phone"
@@ -143,7 +143,7 @@ export function LeadFormMini() {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number"
-              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-orange-400/30 text-gray-900 placeholder-gray-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-300"
+              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-sky-400/30 text-gray-900 placeholder-gray-500 focus:border-sky-500 focus:bg-white outline-none transition-all duration-300"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
               }}
@@ -151,7 +151,7 @@ export function LeadFormMini() {
           </div>
 
           <div className="relative group">
-            <Building2 className="absolute left-3 top-3 w-4 h-4 text-orange-500 z-10" />
+            <Building2 className="absolute left-3 top-3 w-4 h-4 text-sky-500 z-10" />
             <input
               type="text"
               name="company"
@@ -159,7 +159,7 @@ export function LeadFormMini() {
               value={formData.company}
               onChange={handleChange}
               placeholder="Company Name"
-              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-orange-400/30 text-gray-900 placeholder-gray-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-300"
+              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-sky-400/30 text-gray-900 placeholder-gray-500 focus:border-sky-500 focus:bg-white outline-none transition-all duration-300"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
               }}
@@ -167,7 +167,7 @@ export function LeadFormMini() {
           </div>
 
           <div className="relative group">
-            <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-orange-500 z-10" />
+            <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-sky-500 z-10" />
             <textarea
               name="message"
               required
@@ -175,7 +175,7 @@ export function LeadFormMini() {
               onChange={handleChange}
               placeholder="How can we help?"
               rows={3}
-              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-orange-400/30 text-gray-900 placeholder-gray-500 focus:border-orange-500 focus:bg-white outline-none transition-all duration-300 resize-none"
+              className="w-full pl-10 pr-3 py-2.5 bg-white/70 border border-sky-400/30 text-gray-900 placeholder-gray-500 focus:border-sky-500 focus:bg-white outline-none transition-all duration-300 resize-none"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
               }}
@@ -185,7 +185,7 @@ export function LeadFormMini() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/30 uppercase tracking-wide"
+            className="w-full py-3 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-bold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-sky-500/30 uppercase tracking-wide"
             style={{
               clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
             }}
@@ -204,12 +204,12 @@ export function LeadFormMini() {
           </button>
 
           <div className="text-xs text-gray-600 text-center mt-3">
-            By submitting, you agree to our <a href="/privacy" className="text-orange-600 underline hover:text-orange-700 transition-colors">Privacy Policy</a>.
+            By submitting, you agree to our <a href="/privacy" className="text-sky-600 underline hover:text-sky-700 transition-colors">Privacy Policy</a>.
           </div>
 
-          <div className="flex flex-col gap-1 text-xs text-center text-gray-700 mt-2 p-3 bg-orange-50/50 border border-orange-400/20 rounded-lg">
-            <span>Email: <a href="mailto:hello@digitalbot.ai" className="text-orange-600 underline hover:text-orange-700 transition-colors">hello@digitalbot.ai</a></span>
-            <span>Phone: <a href="tel:+917892518414" className="text-orange-600 underline hover:text-orange-700 transition-colors">+91 78925 18414</a></span>
+          <div className="flex flex-col gap-1 text-xs text-center text-gray-700 mt-2 p-3 bg-sky-50/50 border border-sky-400/20 rounded-lg">
+            <span>Email: <a href="mailto:hello@digitalbot.ai" className="text-sky-600 underline hover:text-sky-700 transition-colors">hello@digitalbot.ai</a></span>
+            <span>Phone: <a href="tel:+917892518414" className="text-sky-600 underline hover:text-sky-700 transition-colors">+91 78925 18414</a></span>
           </div>
         </div>
       </form>

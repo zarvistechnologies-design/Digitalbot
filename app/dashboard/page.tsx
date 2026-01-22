@@ -383,7 +383,7 @@ export default function AnalyticsOverview() {
                     icon={Activity} 
                     trend={analytics.todaysCalls > 10 ? "up" : analytics.todaysCalls < 5 ? "down" : "neutral"} 
                     trendValue="Active" 
-                    color="orange" 
+                    color="sky" 
                   />
                 </div>
               </section>
@@ -703,13 +703,13 @@ export default function AnalyticsOverview() {
                   </div>
 
                   {/* Summarized Calls */}
-                  <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <div className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-sky-200 shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center shadow-md shrink-0">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-sky-400 to-sky-600 rounded-xl flex items-center justify-center shadow-md shrink-0">
                         <Brain className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                       </div>
                       <div className="text-right">
-                        <div className="text-3xl sm:text-4xl font-black text-amber-600">{analytics.summarizedCalls}</div>
+                        <div className="text-3xl sm:text-4xl font-black text-sky-600">{analytics.summarizedCalls}</div>
                       </div>
                     </div>
                     <div>
@@ -718,12 +718,12 @@ export default function AnalyticsOverview() {
                         {analytics.transcribedCalls > 0 ? ((analytics.summarizedCalls / analytics.transcribedCalls) * 100).toFixed(1) : 0}% of transcribed calls
                       </p>
                     </div>
-                    <div className="mt-4 pt-4 border-t border-amber-200">
+                    <div className="mt-4 pt-4 border-t border-sky-200">
                       <div className="relative pt-1">
-                        <div className="overflow-hidden h-2 text-xs flex rounded-full bg-amber-200">
+                        <div className="overflow-hidden h-2 text-xs flex rounded-full bg-sky-200">
                           <div 
                             style={{ width: `${analytics.transcribedCalls > 0 ? (analytics.summarizedCalls / analytics.transcribedCalls) * 100 : 0}%` }} 
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-amber-400 to-amber-600 rounded-full transition-all duration-500"
+                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-sky-400 to-sky-600 rounded-full transition-all duration-500"
                           ></div>
                         </div>
                       </div>

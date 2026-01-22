@@ -15,7 +15,7 @@ export default function Home() {
       {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-orange-400 text-black px-4 py-2 rounded z-50"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-sky-400 text-black px-4 py-2 rounded z-50"
       >
         Skip to main content
       </a>
@@ -133,7 +133,7 @@ export default function Home() {
           <div className="container mx-auto max-w-7xl relative z-10">
             {/* Header */}
             <div className="text-center mb-1 qa-header">
-              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-300/40 mb-1 relative overflow-hidden group">
+              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-sky-500 to-sky-400 text-white shadow-lg shadow-sky-300/40 mb-1 relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 <div className="flex items-center gap-1 relative z-10">
                   <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
@@ -144,7 +144,7 @@ export default function Home() {
               </div>
               <h2 id="voice-search-qa" className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-1">
                 Common Questions About{' '}
-                <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">AI Voice Agents</span>
+                <span className="bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">AI Voice Agents</span>
               </h2>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
                 Get answers to your most important questions about our AI voice platform
@@ -158,43 +158,43 @@ export default function Home() {
               <div className="space-y-6">
 
                 {/* Q&A 1 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-orange-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.1s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.1s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-orange-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
                       Q1
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-orange-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
                       What is an AI voice agent and how does it work?
                     </h3>
                   </div>
                   <div className="pl-14">
                     <p className="text-gray-600 text-sm leading-relaxed">
                       An AI voice agent is an intelligent conversational system that handles phone calls autonomously using advanced natural language processing.
-                      Unlike human receptionists who need sleep, sick leave, and breaks, our AI voice agents operate <strong className="text-orange-600">24/7/365</strong> without interruption.
+                      Unlike human receptionists who need sleep, sick leave, and breaks, our AI voice agents operate <strong className="text-sky-600">24/7/365</strong> without interruption.
                       They understand spoken language, process customer requests in real-time, access your business data instantly, and respond with natural-sounding speech.
                       Every conversation is analyzed and stored in your personal dashboard with detailed analytics including call duration, customer sentiment, conversion rates, and actionable insights.
                     </p>
                     <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-                      <span className="text-xs bg-orange-50 text-orange-600 px-3 py-1.5 rounded-full font-medium">✓ Natural Language Processing</span>
-                      <span className="text-xs bg-orange-50 text-orange-600 px-3 py-1.5 rounded-full font-medium">✓ 24/7 Availability</span>
-                      <span className="text-xs bg-orange-50 text-orange-600 px-3 py-1.5 rounded-full font-medium">✓ Real-time Analytics</span>
+                      <span className="text-xs bg-sky-50 text-sky-600 px-3 py-1.5 rounded-full font-medium">✓ Natural Language Processing</span>
+                      <span className="text-xs bg-sky-50 text-sky-600 px-3 py-1.5 rounded-full font-medium">✓ 24/7 Availability</span>
+                      <span className="text-xs bg-sky-50 text-sky-600 px-3 py-1.5 rounded-full font-medium">✓ Real-time Analytics</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Q&A 2 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-orange-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.2s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.2s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-orange-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
                       Q2
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-orange-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
                       How quickly can I deploy an AI voice assistant for my business?
                     </h3>
                   </div>
                   <div className="pl-14">
                     <p className="text-gray-600 text-sm leading-relaxed">
-                      Our AI voice assistant platform enables deployment within <strong className="text-orange-600">24-48 hours</strong>. The process includes:
+                      Our AI voice assistant platform enables deployment within <strong className="text-sky-600">24-48 hours</strong>. The process includes:
                       (1) Account creation and dashboard setup - 15 minutes,
                       (2) Business information integration and workflow customization - 2 hours,
                       (3) Voice personality selection and training - 1 hour,
@@ -220,12 +220,12 @@ export default function Home() {
                 </div>
 
                 {/* Q&A 3 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-orange-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.3s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.3s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-orange-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
                       Q3
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-orange-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
                       What makes your AI voice agent better than hiring a human receptionist?
                     </h3>
                   </div>
@@ -234,20 +234,20 @@ export default function Home() {
                       Our AI voice agents never sleep, never get sick, never take breaks, and never need vacations - providing consistent 24/7/365 availability.
                       They handle unlimited simultaneous calls (a human receptionist can only handle one), respond in under 750 milliseconds (humans average 2-3 seconds),
                       work in 50+ languages simultaneously, never forget customer information, provide perfect call transcriptions, generate detailed analytics automatically,
-                      integrate with all your business systems instantly, and cost <strong className="text-orange-600">90% less</strong> than hiring full-time staff. Plus, you get a personal dashboard with real-time insights,
+                      integrate with all your business systems instantly, and cost <strong className="text-sky-600">90% less</strong> than hiring full-time staff. Plus, you get a personal dashboard with real-time insights,
                       conversion tracking, sentiment analysis, and automated reporting that no human receptionist can provide.
                     </p>
                     <div className="grid grid-cols-3 gap-3 mt-4">
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-orange-50 rounded-xl border border-orange-100 hover:scale-105 hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-default">
-                        <div className="text-xl font-bold text-orange-500">∞</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
+                        <div className="text-xl font-bold text-sky-500">∞</div>
                         <div className="text-xs text-gray-500 mt-1">Simultaneous Calls</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-orange-50 rounded-xl border border-orange-100 hover:scale-105 hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-default">
-                        <div className="text-xl font-bold text-orange-500">750ms</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
+                        <div className="text-xl font-bold text-sky-500">750ms</div>
                         <div className="text-xs text-gray-500 mt-1">Response Time</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-orange-50 rounded-xl border border-orange-100 hover:scale-105 hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-default">
-                        <div className="text-xl font-bold text-orange-500">50+</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
+                        <div className="text-xl font-bold text-sky-500">50+</div>
                         <div className="text-xs text-gray-500 mt-1">Languages</div>
                       </div>
                     </div>
@@ -260,18 +260,18 @@ export default function Home() {
               <div className="space-y-6">
 
                 {/* Q&A 4 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-orange-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.15s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.15s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-orange-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
                       Q4
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-orange-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
                       Can AI voice assistants integrate with my existing business systems?
                     </h3>
                   </div>
                   <div className="pl-14">
                     <p className="text-gray-600 text-sm leading-relaxed">
-                      Yes. Our AI voice assistant platform integrates seamlessly with <strong className="text-orange-600">500+ business applications</strong> including Salesforce, HubSpot, Zendesk, Microsoft Dynamics,
+                      Yes. Our AI voice assistant platform integrates seamlessly with <strong className="text-sky-600">500+ business applications</strong> including Salesforce, HubSpot, Zendesk, Microsoft Dynamics,
                       Google Workspace, Slack, Calendly, Shopify, WooCommerce, and custom APIs. Integration takes minutes using pre-built connectors.
                       Your AI agent automatically syncs customer data, updates CRM records, schedules appointments in your calendar, creates support tickets,
                       processes orders, and triggers workflows across your tech stack. Every action is logged in your analytics dashboard with full audit trails,
@@ -279,19 +279,19 @@ export default function Home() {
                     </p>
                     <div className="flex flex-wrap gap-2 mt-4">
                       {['Salesforce', 'HubSpot', 'Zendesk', 'Slack', 'Calendly', 'Shopify', '+494 more'].map((app, i) => (
-                        <span key={i} className="text-xs bg-gray-100 hover:bg-orange-50 hover:scale-105 px-3 py-1.5 rounded-full text-gray-600 hover:text-orange-600 transition-all duration-300 cursor-default">{app}</span>
+                        <span key={i} className="text-xs bg-gray-100 hover:bg-sky-50 hover:scale-105 px-3 py-1.5 rounded-full text-gray-600 hover:text-sky-600 transition-all duration-300 cursor-default">{app}</span>
                       ))}
                     </div>
                   </div>
                 </div>
 
                 {/* Q&A 5 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-orange-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.25s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.25s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-orange-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
                       Q5
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-orange-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
                       What analytics and insights do I get with the AI voice agent platform?
                     </h3>
                   </div>
@@ -312,19 +312,19 @@ export default function Home() {
                       (12) Predictive analytics for demand forecasting.
                     </p>
                     <div className="grid grid-cols-4 gap-2 mt-4">
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-orange-50 rounded-xl border border-orange-100 hover:scale-105 hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-default">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
                         <div className="text-lg mb-1">📊</div>
                         <div className="text-xs text-gray-600 font-medium">Call Analytics</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-orange-50 rounded-xl border border-orange-100 hover:scale-105 hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-default">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
                         <div className="text-lg mb-1">💬</div>
                         <div className="text-xs text-gray-600 font-medium">Transcripts</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-orange-50 rounded-xl border border-orange-100 hover:scale-105 hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-default">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
                         <div className="text-lg mb-1">😊</div>
                         <div className="text-xs text-gray-600 font-medium">Sentiment</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-orange-50 rounded-xl border border-orange-100 hover:scale-105 hover:shadow-md hover:border-orange-200 transition-all duration-300 cursor-default">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
                         <div className="text-lg mb-1">📈</div>
                         <div className="text-xs text-gray-600 font-medium">Reports</div>
                       </div>
@@ -333,17 +333,17 @@ export default function Home() {
                 </div>
 
                 {/* CTA Card */}
-                <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-4 text-white shadow-xl shadow-orange-300/30 qa-card hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden" style={{ animationDelay: '0.35s' }}>
+                <div className="bg-gradient-to-br from-sky-500 to-sky-400 rounded-2xl p-4 text-white shadow-xl shadow-sky-300/30 qa-card hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden" style={{ animationDelay: '0.35s' }}>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                   <h3 className="text-xl font-bold mb-2 relative z-10">Still have questions?</h3>
-                  <p className="text-orange-100 text-sm mb-4 relative z-10">
+                  <p className="text-sky-100 text-sm mb-4 relative z-10">
                     Our team is ready to help you understand how AI voice agents can transform your business communications.
                   </p>
                   <div className="flex flex-wrap gap-3 relative z-10">
-                    <a href="/contact" className="inline-flex items-center gap-2 bg-white text-orange-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-orange-50 hover:scale-105 transition-all duration-300 shadow-md">
+                    <a href="/contact" className="inline-flex items-center gap-2 bg-white text-sky-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-sky-50 hover:scale-105 transition-all duration-300 shadow-md">
                       Contact Us
                     </a>
-                    <a href="/pricing" className="inline-flex items-center gap-2 bg-orange-600/30 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-orange-600/50 hover:scale-105 transition-all duration-300 border border-white/20">
+                    <a href="/pricing" className="inline-flex items-center gap-2 bg-sky-600/30 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-sky-600/50 hover:scale-105 transition-all duration-300 border border-white/20">
                       View Pricing
                     </a>
                   </div>
@@ -359,11 +359,11 @@ export default function Home() {
           <div className="container mx-auto max-w-6xl">
             {/* Header */}
             <div className="text-center mb-1">
-              <span className="inline-block px-3 py-1 text-xs font-medium text-orange-500 bg-orange-50 rounded-full mb-4">
+              <span className="inline-block px-3 py-1 text-xs font-medium text-sky-500 bg-sky-50 rounded-full mb-4">
                 Platform Capabilities
               </span>
               <h2 id="platform-capabilities" className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
-                Everything You Need to <span className="text-orange-500">Automate</span>
+                Everything You Need to <span className="text-sky-500">Automate</span>
               </h2>
               <p className="text-gray-500 text-sm max-w-xl mx-auto">
                 One platform. Four powerful capabilities. Endless possibilities.
@@ -373,7 +373,7 @@ export default function Home() {
             {/* Timeline Style Features */}
             <div className="relative">
               {/* Vertical Line */}
-              <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-200 via-orange-400 to-orange-200"></div>
+              <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-sky-200 via-sky-400 to-sky-200"></div>
 
               {/* Feature Items */}
               <div className="space-y-2 md:space-y-0">
@@ -381,8 +381,8 @@ export default function Home() {
                 {/* Feature 1 */}
                 <div className="md:flex items-center gap-4 mb-2">
                   <div className="md:w-1/2 md:text-right md:pr-12 mb-4 md:mb-0">
-                    <div className="inline-flex items-center gap-2 text-orange-500 text-xs font-medium mb-2">
-                      <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 text-xs font-bold">1</span>
+                    <div className="inline-flex items-center gap-2 text-sky-500 text-xs font-medium mb-2">
+                      <span className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center text-sky-500 text-xs font-bold">1</span>
                       Appointment Scheduling
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">Smart Booking System</h3>
@@ -392,11 +392,11 @@ export default function Home() {
                       <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-xs rounded">24/7</span>
                     </div>
                   </div>
-                  <div className="hidden md:flex w-4 h-4 rounded-full bg-orange-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
+                  <div className="hidden md:flex w-4 h-4 rounded-full bg-sky-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
                   <div className="md:w-1/2 md:pl-12">
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                      <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
-                        <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-10 h-10 rounded-lg bg-sky-100 flex items-center justify-center">
+                        <svg className="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                       </div>
@@ -412,8 +412,8 @@ export default function Home() {
                 <div className="md:flex items-center gap-4 mb-2">
                   <div className="md:w-1/2 md:text-right md:pr-12 order-1 md:order-none">
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 md:ml-auto md:w-fit">
-                      <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
-                        <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-10 h-10 rounded-lg bg-sky-100 flex items-center justify-center">
+                        <svg className="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                       </div>
@@ -423,17 +423,17 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="hidden md:flex w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
+                  <div className="hidden md:flex w-4 h-4 rounded-full bg-sky-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
                   <div className="md:w-1/2 md:pl-12 mb-4 md:mb-0">
-                    <div className="inline-flex items-center gap-2 text-amber-500 text-xs font-medium mb-2">
-                      <span className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-amber-500 text-xs font-bold">2</span>
+                    <div className="inline-flex items-center gap-2 text-sky-500 text-xs font-medium mb-2">
+                      <span className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center text-sky-500 text-xs font-bold">2</span>
                       Lead Generation
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">AI-Powered Outreach</h3>
                     <p className="text-gray-500 text-sm">Bulk CSV upload, outbound calling, smart lead scoring. Get notified instantly for hot leads.</p>
                     <div className="flex gap-2 mt-3">
                       <span className="px-2 py-0.5 bg-purple-50 text-purple-600 text-xs rounded">CSV Upload</span>
-                      <span className="px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">Hot Alerts</span>
+                      <span className="px-2 py-0.5 bg-sky-50 text-sky-600 text-xs rounded">Hot Alerts</span>
                     </div>
                   </div>
                 </div>
@@ -504,7 +504,7 @@ export default function Home() {
             {/* Bottom CTA */}
             <div className="text-center mt-8 pt-6 border-t border-gray-100">
               <div className="inline-flex flex-col sm:flex-row items-center gap-3">
-                <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 transition-colors">
+                <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-sky-500 text-white text-sm font-medium rounded-lg hover:bg-sky-600 transition-colors">
                   Start Free Trial
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -530,13 +530,13 @@ export default function Home() {
 
             {/* Section Header */}
             <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-2 rounded-full shadow-lg shadow-orange-500/25 mb-6">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-sky-400 text-white px-5 py-2 rounded-full shadow-lg shadow-sky-500/25 mb-6">
                 <TrendingUp className="w-4 h-4" />
                 <span className="text-sm font-semibold">Proven Results</span>
               </div>
               <h2 id="roi-metrics" className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
                 Measurable ROI with
-                <span className="block mt-2 bg-gradient-to-r from-orange-500 via-orange-600 to-purple-500 bg-clip-text text-transparent">
+                <span className="block mt-2 bg-gradient-to-r from-sky-500 via-sky-600 to-purple-500 bg-clip-text text-transparent">
                   AI Voice Technology
                 </span>
               </h2>
@@ -602,7 +602,7 @@ export default function Home() {
             {/* Bar Chart Comparison */}
             <div className="bg-white rounded-2xl p-5 lg:p-6 border border-gray-100 shadow-lg shadow-gray-200/40 mb-8">
               <div className="flex items-center justify-center gap-2 mb-5">
-                <Award className="w-5 h-5 text-orange-500" />
+                <Award className="w-5 h-5 text-sky-500" />
                 <h3 className="text-lg lg:text-xl font-bold text-gray-900">Performance Comparison</h3>
               </div>
 
@@ -620,7 +620,7 @@ export default function Home() {
                       <span className="text-gray-700 font-medium text-sm">{item.label}</span>
                       <div className="flex items-center gap-3 text-xs">
                         <span className="text-gray-400">Traditional: {item.traditional}%</span>
-                        <span className="text-orange-500 font-semibold">AI: {item.ai}%</span>
+                        <span className="text-sky-500 font-semibold">AI: {item.ai}%</span>
                       </div>
                     </div>
                     <div className="relative h-5 bg-gray-100 rounded-full overflow-hidden">
@@ -631,7 +631,7 @@ export default function Home() {
                       />
                       {/* AI bar (overlay with glow) */}
                       <div
-                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full transition-all duration-1000 group-hover:shadow-lg group-hover:shadow-orange-500/30"
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-sky-500 to-sky-400 rounded-full transition-all duration-1000 group-hover:shadow-lg group-hover:shadow-sky-500/30"
                         style={{
                           width: `${item.ai}%`,
                           boxShadow: '0 0 15px rgba(249,115,22,0.2)'
@@ -651,7 +651,7 @@ export default function Home() {
                   <span className="text-gray-600 text-xs">Traditional</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full" />
+                  <div className="w-3 h-3 bg-gradient-to-r from-sky-500 to-sky-400 rounded-full" />
                   <span className="text-gray-600 text-xs">AI Voice Agent</span>
                 </div>
               </div>
@@ -693,9 +693,9 @@ export default function Home() {
 
               {/* AI Voice */}
               <div className="relative group">
-                <div className="p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-md hover:shadow-lg hover:border-orange-300 transition-all duration-300">
+                <div className="p-4 bg-gradient-to-br from-sky-50 to-sky-50 rounded-2xl border border-sky-200 shadow-md hover:shadow-lg hover:border-sky-300 transition-all duration-300">
                   <h4 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center">
+                    <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center">
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
@@ -711,7 +711,7 @@ export default function Home() {
                       { text: "Complete analytics", highlight: "dashboard with insights" }
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-gray-700 text-sm">
-                        <span className="w-4 h-4 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="w-4 h-4 rounded-full bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5">
                           <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
@@ -734,29 +734,29 @@ export default function Home() {
             <div className="lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex items-center justify-center p-8 lg:p-16">
               <div className="relative max-w-lg w-full">
                 {/* Animated Background Shapes */}
-                <div className="absolute -top-10 -left-10 w-40 h-40 bg-orange-400/20 rounded-full blur-3xl animate-blob" />
-                <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-orange-500/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
-                <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-orange-600/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: '4s' }} />
+                <div className="absolute -top-10 -left-10 w-40 h-40 bg-sky-400/20 rounded-full blur-3xl animate-blob" />
+                <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-sky-500/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
+                <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-sky-600/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: '4s' }} />
 
                 {/* Main Content */}
                 <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-400/20 border border-orange-400/30 mb-6">
-                    <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-400/20 border border-sky-400/30 mb-6">
+                    <svg className="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
-                    <span className="text-sm font-bold text-orange-500">AI VOICE AGENTS</span>
+                    <span className="text-sm font-bold text-sky-500">AI VOICE AGENTS</span>
                   </div>
 
                   <h2 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
                     AI Voice Agent Solutions
                     <br />
-                    <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                    <span className="bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
                       for Every Industry
                     </span>
                   </h2>
 
                   <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                    From healthcare to e-commerce, our AI voice assistants deliver <span className="text-orange-400 font-bold">measurable ROI</span> across all sectors.
+                    From healthcare to e-commerce, our AI voice assistants deliver <span className="text-sky-400 font-bold">measurable ROI</span> across all sectors.
                   </p>
 
                   {/* Animated Image Container */}
@@ -776,7 +776,7 @@ export default function Home() {
                         <div className="text-2xl font-black">24/7</div>
                         <div className="text-sm text-white/80">Always Available</div>
                       </div>
-                      <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center animate-bounce">
+                      <div className="w-12 h-12 rounded-full bg-sky-500 flex items-center justify-center animate-bounce">
                         <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
@@ -793,9 +793,9 @@ export default function Home() {
 
                 {/* Healthcare & Medical */}
                 <div className="group opacity-0 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
-                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl border border-orange-200/40 hover:border-orange-400/60 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-400/10 shadow-md">
+                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl border border-sky-200/40 hover:border-sky-400/60 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-400/10 shadow-md">
                     {/* Icon Badge */}
-                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
+                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-lg">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                       </svg>
@@ -804,7 +804,7 @@ export default function Home() {
                     {/* Image First */}
                     <div className="mb-3 rounded-xl overflow-hidden">
                       <Image
-                        src="/images/hospital.png"
+                        src="/images/hospital.jpg"
                         alt="AI Voice Assistant for Healthcare & Medical"
                         width={600}
                         height={350}
@@ -815,10 +815,10 @@ export default function Home() {
                     {/* Content */}
                     <div>
                       <div className="mb-4">
-                        <span className="inline-block px-2 py-0.5 bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                        <span className="inline-block px-2 py-0.5 bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
                           Healthcare Industry
                         </span>
-                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-orange-500 transition-colors">
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-sky-500 transition-colors">
                           Healthcare & Medical
                         </h3>
                         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-sm">
@@ -828,40 +828,40 @@ export default function Home() {
 
                       {/* Feature List */}
                       <div className="space-y-2">
-                        <div className="flex items-start gap-2 p-2 rounded-lg bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-2 p-2 rounded-lg bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-sky-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Automated Appointment Scheduling</div>
-                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">24/7 booking and reminders</div>
+                            <div className="text-xs text-sky-600 dark:text-sky-400 mt-0.5">24/7 booking and reminders</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-sky-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Patient Pre-Screening</div>
-                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Triage and symptom assessment</div>
+                            <div className="text-xs text-sky-600 dark:text-sky-400 mt-0.5">Triage and symptom assessment</div>
                           </div>
                         </div>
 
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-sky-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">HIPAA-Compliant</div>
-                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Secure patient communication</div>
+                            <div className="text-xs text-sky-600 dark:text-sky-400 mt-0.5">Secure patient communication</div>
                           </div>
                         </div>
                       </div>
@@ -1100,20 +1100,20 @@ export default function Home() {
 
 
         {/* FAQ Section - Clean Modern Design */}
-        <section className="py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-orange-50/30 relative" role="region" aria-labelledby="faq-section">
+        <section className="py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-sky-50/30 relative" role="region" aria-labelledby="faq-section">
 
           <div className="container mx-auto max-w-5xl relative z-10">
             {/* Section Header - Matching Hero Style */}
             <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 mb-4">
-                <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/20 mb-4">
+                <svg className="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className="text-sm font-semibold text-orange-600">Got Questions?</span>
+                <span className="text-sm font-semibold text-sky-600">Got Questions?</span>
               </div>
               <h2 id="faq-section" className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
                 Frequently Asked{' '}
-                <span className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 bg-clip-text text-transparent">
                   Questions
                 </span>
               </h2>
@@ -1158,14 +1158,14 @@ export default function Home() {
               ].map((faq, idx) => (
                 <div
                   key={idx}
-                  className="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-orange-500/10 hover:border-orange-200 transition-all duration-300 hover:-translate-y-1"
+                  className="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-sky-500/10 hover:border-sky-200 transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-orange-100 to-amber-100 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-sky-100 to-sky-100 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                       {faq.icon}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
+                      <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-sky-600 transition-colors">
                         {faq.question}
                       </h3>
                       <p className="text-gray-600 text-sm leading-relaxed">
@@ -1179,14 +1179,14 @@ export default function Home() {
 
             {/* Bottom CTA - Clean Style */}
             <div className="mt-12 text-center">
-              <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-6 sm:p-8 border border-orange-100">
+              <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-gradient-to-r from-sky-50 to-sky-50 rounded-2xl p-6 sm:p-8 border border-sky-100">
                 <div className="text-center sm:text-left">
                   <h3 className="text-lg font-bold text-gray-900 mb-1">Still have questions?</h3>
                   <p className="text-gray-600 text-sm">Our AI experts are here to help you find the perfect solution</p>
                 </div>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-300 hover:scale-105"
+                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-sky-500 to-sky-600 rounded-xl shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition-all duration-300 hover:scale-105"
                 >
                   Get in Touch
                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

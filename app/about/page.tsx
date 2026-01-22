@@ -32,25 +32,25 @@ const values = [
     icon: Target,
     title: "Customer-Centric",
     description: "Every AI voice agent feature we build is designed to solve real customer problems and drive measurable business value.",
-    color: "from-orange-400 to-orange-500"
+    color: "from-sky-400 to-sky-500"
   },
   {
     icon: Lightbulb,
     title: "Innovation First",
     description: "We push the boundaries of AI voice assistant technology to deliver cutting-edge conversational experiences.",
-    color: "from-orange-400 to-orange-500"
+    color: "from-sky-400 to-sky-500"
   },
   {
     icon: Award,
     title: "Excellence",
     description: "We maintain the highest standards in AI voice agent accuracy, security, and performance.",
-    color: "from-orange-400 to-orange-500"
+    color: "from-sky-400 to-sky-500"
   },
   {
     icon: Users,
     title: "Collaboration",
     description: "We believe in the power of human-AI voice collaboration to transform business communication.",
-    color: "from-orange-400 to-orange-500"
+    color: "from-sky-400 to-sky-500"
   },
 ]
 
@@ -88,12 +88,12 @@ const milestones = [
 ]
 
 const stats = [
-  { number: "500+", label: "Active Businesses Using AI Voice Agents", color: "from-orange-400 to-orange-500" },
-  { number: "2M+", label: "AI Voice Assistant Conversations", color: "from-orange-400 to-orange-500" },
-  { number: "99.9%", label: "AI Voice Agent Uptime SLA", color: "from-orange-400 to-orange-500" },
-  { number: "24/7", label: "AI Voice Support Availability", color: "from-orange-400 to-orange-500" },
-  { number: "25+", label: "Countries Served Globally", color: "from-orange-400 to-orange-500" },
-  { number: "<500ms", label: "AI Voice Response Time", color: "from-orange-400 to-orange-500" },
+  { number: "500+", label: "Active Businesses Using AI Voice Agents", color: "from-sky-400 to-sky-500" },
+  { number: "2M+", label: "AI Voice Assistant Conversations", color: "from-sky-400 to-sky-500" },
+  { number: "99.9%", label: "AI Voice Agent Uptime SLA", color: "from-sky-400 to-sky-500" },
+  { number: "24/7", label: "AI Voice Support Availability", color: "from-sky-400 to-sky-500" },
+  { number: "25+", label: "Countries Served Globally", color: "from-sky-400 to-sky-500" },
+  { number: "<500ms", label: "AI Voice Response Time", color: "from-sky-400 to-sky-500" },
 ]
 
 export default function About() {
@@ -119,39 +119,39 @@ export default function About() {
             {/* Cyberpunk Breadcrumb */}
             <nav className="mb-6 text-xs text-gray-900" aria-label="Breadcrumb">
               <ol className="flex justify-center items-center gap-2">
-                <li><Link href="/" className="hover:text-orange-600">Home</Link></li>
-                <li className="text-orange-500">{'>'}</li>
-                <li className="text-orange-600 font-semibold">About</li>
+                <li><Link href="/" className="hover:text-sky-600">Home</Link></li>
+                <li className="text-sky-500">{'>'}</li>
+                <li className="text-sky-600 font-semibold">About</li>
               </ol>
             </nav>
 
             <div className="mb-4">
               <span
-                className="inline-block px-4 py-2 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
+                className="inline-block px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
                 style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
               >
                 ⚡ About Company
               </span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight bg-gradient-to-r from-orange-600 via-orange-600 to-orange-700 bg-clip-text text-transparent drop-shadow-lg">
-              <span className="block mb-2 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight bg-gradient-to-r from-sky-600 via-sky-600 to-sky-700 bg-clip-text text-transparent drop-shadow-lg">
+              <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
                 About DigitalBot.ai
               </span>
               <span
-                className="inline-block px-4 py-2 bg-orange-500 text-white shadow-xl text-xl sm:text-2xl font-black"
+                className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-xl sm:text-2xl font-black"
                 style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
               >
                 AI Voice Agent Platform
               </span>
             </h1>
             <p className="text-sm text-gray-900 mb-6 max-w-3xl mx-auto leading-relaxed">
-              We're on a mission to democratize <span className="font-bold text-orange-600">AI voice agent technology</span>, making intelligent <span className="font-bold text-orange-600">AI voice assistants</span> accessible to businesses of all sizes.
+              We're on a mission to democratize <span className="font-bold text-sky-600">AI voice agent technology</span>, making intelligent <span className="font-bold text-sky-600">AI voice assistants</span> accessible to businesses of all sizes.
             </p>
 
             {/* Cyberpunk Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto">
               {stats.slice(0, 4).map((stat, idx) => (
-                <div key={idx} className="bg-white border border-orange-500/50 hover:border-orange-400 p-4 shadow-lg hover:scale-105 hover:shadow-orange-500/50 transition-all group" style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'}}>
+                <div key={idx} className="bg-white border border-sky-500/50 hover:border-sky-400 p-4 shadow-lg hover:scale-105 hover:shadow-sky-500/50 transition-all group" style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'}}>
                   <div className={`text-xl sm:text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-1`}>
                     {stat.number}
                   </div>
@@ -177,18 +177,18 @@ export default function About() {
             <div className="text-center mb-10">
               <div className="inline-block mb-4">
                 <span
-                  className="px-4 py-2 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
+                  className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
                   style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                 >
                   Who We Are
                 </span>
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight drop-shadow-lg">
-                <span className="block mb-2 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 bg-clip-text text-transparent">
+                <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
                   Leading AI Voice Agent
                 </span>
                 <span
-                  className="inline-block px-4 py-2 bg-orange-500 text-white shadow-xl text-xl sm:text-2xl font-black"
+                  className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-xl sm:text-2xl font-black"
                   style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                 >
                   Company
@@ -214,17 +214,17 @@ export default function About() {
                   </div>
                 </div>
 
-                <h3 className="text-lg font-bold text-orange-600 mb-3">
+                <h3 className="text-lg font-bold text-sky-600 mb-3">
                   What is DigitalBot.ai?
                 </h3>
                 <p className="text-gray-900 mb-4 leading-relaxed text-sm">
-                  <span className="text-orange-600 font-bold">DigitalBot.ai is an innovative AI voice agent and AI voice assistant platform</span> founded in 2024. We specialize in creating intelligent conversational AI solutions that enable businesses to automate customer service, sales, and support through advanced voice technology.
+                  <span className="text-sky-600 font-bold">DigitalBot.ai is an innovative AI voice agent and AI voice assistant platform</span> founded in 2024. We specialize in creating intelligent conversational AI solutions that enable businesses to automate customer service, sales, and support through advanced voice technology.
                 </p>
                 <p className="text-gray-900 mb-4 leading-relaxed text-sm">
-                  Our <span className="text-orange-600 font-bold">AI voice agent platform</span> serves <span className="text-orange-600 font-bold">500+ businesses worldwide</span>, processing more than <span className="text-orange-600 font-bold">2 million AI voice assistant conversations</span> with industry-leading accuracy and reliability.
+                  Our <span className="text-sky-600 font-bold">AI voice agent platform</span> serves <span className="text-sky-600 font-bold">500+ businesses worldwide</span>, processing more than <span className="text-sky-600 font-bold">2 million AI voice assistant conversations</span> with industry-leading accuracy and reliability.
                 </p>
 
-                <h3 className="text-lg font-bold text-orange-600 mb-3 mt-6">
+                <h3 className="text-lg font-bold text-sky-600 mb-3 mt-6">
                   Why Choose DigitalBot.ai?
                 </h3>
                 <ul className="space-y-2">
@@ -237,7 +237,7 @@ export default function About() {
                     "Personal analytics dashboard for real-time insights"
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <div className="w-3 h-3 bg-orange-500 flex items-center justify-center mt-1 flex-shrink-0" style={{clipPath: 'circle(50%)'}}>
+                      <div className="w-3 h-3 bg-sky-500 flex items-center justify-center mt-1 flex-shrink-0" style={{clipPath: 'circle(50%)'}}>
                         <CheckCircle2 className="w-2 h-2 text-white" />
                       </div>
                       <span className="text-gray-900 text-sm">{item}</span>
@@ -248,7 +248,7 @@ export default function About() {
 
               <div className="relative">
                 {/* Cyberpunk Stats Panel */}
-                <div className="bg-white border border-orange-500/50 hover:border-orange-400 p-6 shadow-xl hover:shadow-orange-500/50 transition-all" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
+                <div className="bg-white border border-sky-500/50 hover:border-sky-400 p-6 shadow-xl hover:shadow-sky-500/50 transition-all" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
                   {/* Stats HD Image */}
                   <div className="relative mb-4 overflow-hidden h-48" style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}>
                     <Image
@@ -260,12 +260,12 @@ export default function About() {
                     <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent"></div>
                   </div>
 
-                  <h3 className="text-lg font-bold text-orange-600 mb-4">
+                  <h3 className="text-lg font-bold text-sky-600 mb-4">
                     AI Voice Agent Platform Stats
                   </h3>
                   <div className="grid grid-cols-2 gap-4">
                     {stats.map((stat, idx) => (
-                      <div key={idx} className="text-center bg-orange-500/10 p-3 border border-orange-500/30" style={{clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'}}>
+                      <div key={idx} className="text-center bg-sky-500/10 p-3 border border-sky-500/30" style={{clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'}}>
                         <div className={`text-lg font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-1`}>
                           {stat.number}
                         </div>
@@ -293,18 +293,18 @@ export default function About() {
             <div className="text-center mb-10">
               <div className="inline-block mb-4">
                 <span
-                  className="px-4 py-2 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
+                  className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
                   style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                 >
                   Our Journey
                 </span>
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight drop-shadow-lg">
-                <span className="block mb-2 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 bg-clip-text text-transparent">
+                <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
                   Our AI Voice Agent Journey
                 </span>
                 <span
-                  className="inline-block px-4 py-2 bg-orange-500 text-white shadow-xl text-xl sm:text-2xl font-black"
+                  className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-xl sm:text-2xl font-black"
                   style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                 >
                   From Startup to Global Leader
@@ -313,7 +313,7 @@ export default function About() {
             </div>
 
             <div className="mb-12">
-              <div className="bg-white  border border-orange-500/50 hover:border-orange-400 p-6 shadow-xl hover:shadow-orange-500/50 transition-all" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
+              <div className="bg-white  border border-sky-500/50 hover:border-sky-400 p-6 shadow-xl hover:shadow-sky-500/50 transition-all" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
                 {/* Story HD Image */}
                 <div className="relative mb-4 overflow-hidden h-48" style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}>
                   <Image
@@ -324,30 +324,30 @@ export default function About() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-white/20 to-transparent"></div>
                   <div className="absolute bottom-2 left-2">
-                    <span className="px-3 py-1 bg-orange-500 text-white text-xs font-bold" style={{clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%)'}}>
+                    <span className="px-3 py-1 bg-sky-500 text-white text-xs font-bold" style={{clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%)'}}>
                       GENESIS_LOG.2024
                     </span>
                   </div>
                 </div>
 
-                <h3 className="text-lg font-bold text-orange-600 mb-3">
+                <h3 className="text-lg font-bold text-sky-600 mb-3">
                   How Did DigitalBot.ai Start?
                 </h3>
                 <p className="text-gray-900 mb-4 leading-relaxed text-sm">
-                  <span className="text-orange-600 font-bold">Founded in early 2024</span>, DigitalBot.ai emerged from a simple observation: businesses were struggling to provide <span className="text-orange-600 font-bold">24/7 customer support</span> while maintaining quality and personal touch. Our founders, with backgrounds in <span className="text-orange-600 font-bold">AI research and enterprise software</span>, saw an opportunity to revolutionize customer service with <span className="text-orange-600 font-bold">AI voice agent technology</span>.
+                  <span className="text-sky-600 font-bold">Founded in early 2024</span>, DigitalBot.ai emerged from a simple observation: businesses were struggling to provide <span className="text-sky-600 font-bold">24/7 customer support</span> while maintaining quality and personal touch. Our founders, with backgrounds in <span className="text-sky-600 font-bold">AI research and enterprise software</span>, saw an opportunity to revolutionize customer service with <span className="text-sky-600 font-bold">AI voice agent technology</span>.
                 </p>
                 <p className="text-gray-900 mb-4 leading-relaxed text-sm">
-                  The problem was clear: traditional customer service was expensive, limited by business hours, and couldn't scale. We asked ourselves: <span className="text-orange-600 font-bold">"What if AI voice assistants could handle customer conversations as naturally as humans, but 24/7 without breaks?"</span>
+                  The problem was clear: traditional customer service was expensive, limited by business hours, and couldn't scale. We asked ourselves: <span className="text-sky-600 font-bold">"What if AI voice assistants could handle customer conversations as naturally as humans, but 24/7 without breaks?"</span>
                 </p>
                 <p className="text-gray-900 leading-relaxed text-sm">
-                  In just one year, we've grown to serve <span className="text-orange-600 font-bold">over 500 businesses worldwide</span>, processing <span className="text-orange-600 font-bold">millions of AI voice assistant conversations</span>. Our AI voice agents have evolved rapidly to become sophisticated conversational agents that understand context, emotion, and intent with <span className="text-orange-600 font-bold">high accuracy</span>.
+                  In just one year, we've grown to serve <span className="text-sky-600 font-bold">over 500 businesses worldwide</span>, processing <span className="text-sky-600 font-bold">millions of AI voice assistant conversations</span>. Our AI voice agents have evolved rapidly to become sophisticated conversational agents that understand context, emotion, and intent with <span className="text-sky-600 font-bold">high accuracy</span>.
                 </p>
               </div>
             </div>
 
             {/* Timeline */}
             <div className="space-y-4">
-              <h3 className="text-lg font-bold text-center text-orange-600 mb-6">
+              <h3 className="text-lg font-bold text-center text-sky-600 mb-6">
                 Milestones in AI Voice Agent Innovation
               </h3>
               {milestones.map((milestone, idx) => (
@@ -358,11 +358,11 @@ export default function About() {
                         <milestone.icon className="w-5 h-5 text-white" />
                       </div>
                     </div>
-                    <div className="flex-1 bg-white  border border-orange-500/50 hover:border-orange-400 p-4 shadow-lg hover:shadow-orange-500/50 transition-all hover:scale-[1.02]" style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}>
+                    <div className="flex-1 bg-white  border border-sky-500/50 hover:border-sky-400 p-4 shadow-lg hover:shadow-sky-500/50 transition-all hover:scale-[1.02]" style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}>
                       <div className={`inline-block px-3 py-1 bg-gradient-to-r ${values[idx % 4].color} text-white font-bold text-xs mb-2`} style={{clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 100%, 4px 100%)'}}>
                         {milestone.year}
                       </div>
-                      <h4 className="text-sm font-bold text-orange-600 mb-1">{milestone.title}</h4>
+                      <h4 className="text-sm font-bold text-sky-600 mb-1">{milestone.title}</h4>
                       <p className="text-gray-900 text-xs">{milestone.description}</p>
                     </div>
                   </div>
@@ -388,25 +388,25 @@ export default function About() {
             <div className="text-center mb-10">
               <div className="inline-block mb-4">
                 <span
-                  className="px-4 py-2 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
+                  className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
                   style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                 >
                   Our Values
                 </span>
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight drop-shadow-lg">
-                <span className="block mb-2 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 bg-clip-text text-transparent">
+                <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
                   Our AI Voice Agent
                 </span>
                 <span
-                  className="inline-block px-4 py-2 bg-orange-500 text-white shadow-xl text-lg sm:text-xl font-black"
+                  className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-lg sm:text-xl font-black"
                   style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                 >
                   Core Values
                 </span>
               </h2>
               <p className="text-sm text-gray-900 max-w-2xl mx-auto">
-                The principles that guide how we build the best <span className="text-orange-600 font-bold">AI voice agent and voice assistant platform</span> for businesses worldwide
+                The principles that guide how we build the best <span className="text-sky-600 font-bold">AI voice agent and voice assistant platform</span> for businesses worldwide
               </p>
             </div>
 
@@ -422,7 +422,7 @@ export default function About() {
                 return (
                   <Card
                     key={index}
-                    className="group text-center border border-orange-500/50 hover:border-orange-400 bg-white shadow-xl hover:shadow-orange-500/50 hover:scale-105 transition-all overflow-hidden"
+                    className="group text-center border border-sky-500/50 hover:border-sky-400 bg-white shadow-xl hover:shadow-sky-500/50 hover:scale-105 transition-all overflow-hidden"
                     style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}
                   >
                     {/* Value HD Image */}
@@ -440,7 +440,7 @@ export default function About() {
                       <div className={`w-10 h-10 bg-gradient-to-br ${value.color} flex items-center justify-center mx-auto mb-3 shadow-xl group-hover:scale-110 transition-transform`} style={{clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'}}>
                         <value.icon className="h-4 w-4 text-white" />
                       </div>
-                      <CardTitle className="text-orange-600 text-sm">{value.title}</CardTitle>
+                      <CardTitle className="text-sky-600 text-sm">{value.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="pt-0 pb-4">
                       <CardDescription className="text-gray-900 text-xs leading-relaxed">{value.description}</CardDescription>
@@ -467,25 +467,25 @@ export default function About() {
             <div className="text-center mb-10">
               <div className="inline-block mb-4">
                 <span
-                  className="px-4 py-2 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
+                  className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
                   style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                 >
                   Query Database Access
                 </span>
               </div>
               <h2 id="faq-section" className="text-2xl sm:text-3xl font-bold mb-4">
-                <span className="block mb-2 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 bg-clip-text text-transparent">
+                <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
                   Common Questions
                 </span>
                 <span
-                  className="inline-block px-4 py-2 bg-orange-500 text-white shadow-xl text-lg sm:text-xl font-black"
+                  className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-lg sm:text-xl font-black"
                   style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                 >
                   About DigitalBot.ai
                 </span>
               </h2>
               <p className="text-sm text-gray-900 max-w-2xl mx-auto">
-                Get answers to frequently asked questions about our <span className="text-orange-600 font-semibold">AI voice agent platform</span>
+                Get answers to frequently asked questions about our <span className="text-sky-600 font-semibold">AI voice agent platform</span>
               </p>
             </div>
 
@@ -495,42 +495,42 @@ export default function About() {
                   number: "01",
                   q: "What does DigitalBot.ai do?",
                   a: "DigitalBot.ai provides AI voice agent and AI voice assistant platform that enables businesses to automate customer service, sales, and support 24/7. Our AI voice agents handle conversations naturally, understand context, and provide instant responses without human intervention.",
-                  gradient: "from-orange-400 to-orange-500"
+                  gradient: "from-sky-400 to-sky-500"
                 },
                 {
                   number: "02",
                   q: "When was DigitalBot.ai founded?",
                   a: "DigitalBot.ai was founded in 2024 by AI research and enterprise software experts. We've rapidly grown to serve 500+ businesses worldwide with 2 million+ AI voice assistant conversations processed.",
-                  gradient: "from-orange-400 to-orange-500"
+                  gradient: "from-sky-400 to-sky-500"
                 },
                 {
                   number: "03",
                   q: "How many businesses use DigitalBot.ai?",
                   a: "Over 500 businesses worldwide use DigitalBot.ai's AI voice agent platform across 25+ countries. We process 2 million+ AI voice assistant conversations with 99.9% uptime and enterprise-grade reliability.",
-                  gradient: "from-orange-400 to-orange-500"
+                  gradient: "from-sky-400 to-sky-500"
                 },
                 {
                   number: "04",
                   q: "What makes DigitalBot.ai different from other AI voice platforms?",
                   a: "DigitalBot.ai offers 24/7 AI voice agents with <500ms response time, 99.9% uptime SLA, multi-language support, personal analytics dashboard, and enterprise-grade security. Our AI voice assistants understand context, emotion, and intent with industry-leading accuracy.",
-                  gradient: "from-orange-400 to-orange-500"
+                  gradient: "from-sky-400 to-sky-500"
                 },
                 {
                   number: "05",
                   q: "Is DigitalBot.ai secure and compliant?",
                   a: "Yes, DigitalBot.ai maintains enterprise-grade security with HIPAA compliance, SOC 2 certification, and end-to-end encryption. Our AI voice agent platform ensures your data is protected with 99.9% uptime SLA and 24/7 monitoring.",
-                  gradient: "from-orange-400 to-orange-500"
+                  gradient: "from-sky-400 to-sky-500"
                 },
                 {
                   number: "06",
                   q: "How quickly can I deploy an AI voice agent?",
                   a: "You can deploy an AI voice agent in minutes with DigitalBot.ai. Our platform offers pre-built templates, easy integration, and instant activation. Start your free 14-day trial today with no credit card required.",
-                  gradient: "from-orange-400 to-orange-500"
+                  gradient: "from-sky-400 to-sky-500"
                 }
               ].map((faq, idx) => (
                 <div
                   key={idx}
-                  className="group relative bg-white  border border-orange-500/50 hover:border-orange-400 p-4 shadow-lg hover:shadow-orange-500/50 transition-all duration-500 hover:scale-[1.02] overflow-hidden"
+                  className="group relative bg-white  border border-sky-500/50 hover:border-sky-400 p-4 shadow-lg hover:shadow-sky-500/50 transition-all duration-500 hover:scale-[1.02] overflow-hidden"
                   style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}
                 >
                   {/* Number Badge */}
@@ -539,7 +539,7 @@ export default function About() {
                   </div>
 
                   {/* Question */}
-                  <h3 className="text-sm font-bold text-orange-600 mb-3 group-hover:text-orange-600 transition-all duration-300">
+                  <h3 className="text-sm font-bold text-sky-600 mb-3 group-hover:text-sky-600 transition-all duration-300">
                     {faq.q}
                   </h3>
 
@@ -564,7 +564,7 @@ export default function About() {
           </div>
 
           <div className="container mx-auto max-w-5xl text-center relative z-10">
-            <div className="bg-white border border-orange-500/50 hover:border-orange-400 p-6 md:p-8 shadow-xl hover:shadow-orange-500/50 hover:scale-[1.02] transition-all relative overflow-hidden group" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
+            <div className="bg-white border border-sky-500/50 hover:border-sky-400 p-6 md:p-8 shadow-xl hover:shadow-sky-500/50 hover:scale-[1.02] transition-all relative overflow-hidden group" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
               {/* CTA HD Image */}
               <div className="absolute inset-0">
                 <Image
@@ -579,7 +579,7 @@ export default function About() {
               <div className="relative z-10">
                 <div className="inline-block mb-4">
                   <span
-                    className="px-4 py-2 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
+                    className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
                     style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                   >
                     Ready to Get Started
@@ -587,32 +587,32 @@ export default function About() {
                 </div>
 
                 <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                  <span className="block mb-2 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500 bg-clip-text text-transparent">
+                  <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
                     Ready to Transform Your Business
                   </span>
                   <span
-                    className="inline-block px-4 py-2 bg-orange-500 text-white shadow-xl text-lg sm:text-xl font-black"
+                    className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-lg sm:text-xl font-black"
                     style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
                   >
                     with AI Voice Agents?
                   </span>
                 </h2>
 
-                <div className="max-w-xl mx-auto mb-6 p-4 bg-white/60 border border-orange-500/50 " style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'}}>
+                <div className="max-w-xl mx-auto mb-6 p-4 bg-white/60 border border-sky-500/50 " style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'}}>
                   <p className="text-sm text-gray-900 leading-relaxed font-medium">
-                    Join <span className="font-bold bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent">500+ businesses</span> using DigitalBot.ai's AI voice assistant platform. Start automating your customer service today with our <span className="font-bold text-orange-600">free 14-day trial</span>.
+                    Join <span className="font-bold bg-gradient-to-r from-sky-400 to-sky-500 bg-clip-text text-transparent">500+ businesses</span> using DigitalBot.ai's AI voice assistant platform. Start automating your customer service today with our <span className="font-bold text-sky-600">free 14-day trial</span>.
                   </p>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Link href="/signup">
-                    <Button className="bg-orange-500 text-white hover:bg-orange-600 hover:scale-105 transition-all px-6 py-4 text-sm font-bold shadow-xl border border-orange-600" style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}>
+                    <Button className="bg-sky-500 text-white hover:bg-sky-600 hover:scale-105 transition-all px-6 py-4 text-sm font-bold shadow-xl border border-sky-600" style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}>
                       Start Free 14-Day Trial
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                   <Link href="/contact">
-                    <Button variant="outline" className="border border-orange-500 text-orange-600 hover:bg-orange-500/20 px-6 py-4 text-sm font-bold shadow-lg hover:scale-105 transition-all">
+                    <Button variant="outline" className="border border-sky-500 text-sky-600 hover:bg-sky-500/20 px-6 py-4 text-sm font-bold shadow-lg hover:scale-105 transition-all">
                       Schedule a Demo
                     </Button>
                   </Link>

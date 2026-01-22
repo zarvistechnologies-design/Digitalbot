@@ -184,32 +184,32 @@ const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {call.name && (
                   <div>
-                    <h4 className="text-xs sm:text-sm font-medium text-orange-600 mb-1">Customer Name</h4>
+                    <h4 className="text-xs sm:text-sm font-medium text-sky-600 mb-1">Customer Name</h4>
                     <p className="text-sm sm:text-base text-green-800">{call.name}</p>
                   </div>
                 )}
                 {call.phone && (
                   <div>
-                    <h4 className="text-xs sm:text-sm font-medium text-orange-600 mb-1">Phone Number</h4>
+                    <h4 className="text-xs sm:text-sm font-medium text-sky-600 mb-1">Phone Number</h4>
                     <p className="text-sm sm:text-base text-green-800 break-all">{formatPhone(call.phone)}</p>
                   </div>
                 )}
                 {call.productInterest && (
                   <div className="col-span-1 sm:col-span-2">
-                    <h4 className="text-xs sm:text-sm font-medium text-orange-600 mb-1">Product Interest</h4>
+                    <h4 className="text-xs sm:text-sm font-medium text-sky-600 mb-1">Product Interest</h4>
                     <p className="text-sm sm:text-base text-green-800">{call.productInterest}</p>
                   </div>
                 )}
                 {call.confidence && (
                   <div>
-                    <h4 className="text-xs sm:text-sm font-medium text-orange-600 mb-1">Confidence Score</h4>
+                    <h4 className="text-xs sm:text-sm font-medium text-sky-600 mb-1">Confidence Score</h4>
                     <p className="text-sm sm:text-base text-green-800">{(call.confidence * 100).toFixed(1)}%</p>
                   </div>
                 )}
               </div>
               {call.customerNeed && (
                 <div className="mt-4">
-                  <h4 className="text-xs sm:text-sm font-medium text-orange-600 mb-1">Customer Need</h4>
+                  <h4 className="text-xs sm:text-sm font-medium text-sky-600 mb-1">Customer Need</h4>
                   <p className="text-sm sm:text-base text-green-800">{call.customerNeed}</p>
                 </div>
               )}
@@ -310,7 +310,7 @@ const PromptEditorModal = ({
             <textarea
               value={currentPrompt}
               onChange={(e) => onChange(e.target.value)}
-              className="w-full h-64 sm:h-96 px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-mono text-xs sm:text-sm"
+              className="w-full h-64 sm:h-96 px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-sky-500 font-mono text-xs sm:text-sm"
               placeholder="Enter your custom prompt here..."
             />
             <p className="text-xs sm:text-sm text-gray-500 mt-2">
@@ -399,7 +399,7 @@ function CallCard({
                     </span>
                   </div>
                 ) : hasTranscription ? (
-                  <div className="flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-700 rounded-lg text-xs sm:text-sm">
+                  <div className="flex items-center gap-1 px-2 py-1 bg-sky-100 text-sky-700 rounded-lg text-xs sm:text-sm">
                     <svg className="h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -420,7 +420,7 @@ function CallCard({
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 mb-2">
-                        <svg className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-4 w-4 sm:h-5 sm:w-5 text-sky-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                         </svg>
                         <h3 className="text-base sm:text-lg font-bold text-green-800">Lead Identified</h3>
@@ -429,25 +429,25 @@ function CallCard({
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
                         {call.name && (
                           <div>
-                            <span className="text-orange-600 font-medium">Customer:</span>
+                            <span className="text-sky-600 font-medium">Customer:</span>
                             <p className="text-green-800 font-semibold break-all">{call.name}</p>
                           </div>
                         )}
                         {call.phone && (
                           <div>
-                            <span className="text-orange-600 font-medium">Phone:</span>
+                            <span className="text-sky-600 font-medium">Phone:</span>
                             <p className="text-green-800 break-all">{formatPhone(call.phone)}</p>
                           </div>
                         )}
                         {call.productInterest && (
                           <div className="col-span-1 sm:col-span-2">
-                            <span className="text-orange-600 font-medium">Interest:</span>
+                            <span className="text-sky-600 font-medium">Interest:</span>
                             <p className="text-green-800">{call.productInterest}</p>
                           </div>
                         )}
                         {call.customerNeed && (
                           <div className="col-span-1 sm:col-span-2">
-                            <span className="text-orange-600 font-medium">Requirements:</span>
+                            <span className="text-sky-600 font-medium">Requirements:</span>
                             <p className="text-green-800">{call.customerNeed}</p>
                           </div>
                         )}
@@ -459,7 +459,7 @@ function CallCard({
                         <div className="text-xl sm:text-2xl font-bold text-green-800">
                           {(call.confidence * 100).toFixed(0)}%
                         </div>
-                        <div className="text-xs text-orange-600 font-medium">Confidence</div>
+                        <div className="text-xs text-sky-600 font-medium">Confidence</div>
                       </div>
                     )}
                   </div>
@@ -482,7 +482,7 @@ function CallCard({
           <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3">
             <button
               onClick={onViewDetails}
-              className="px-4 py-2 text-gray-400 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 border border-gray-200 hover:border-orange-300 text-sm"
+              className="px-4 py-2 text-gray-400 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 border border-gray-200 hover:border-sky-300 text-sm"
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -495,7 +495,7 @@ function CallCard({
               <button
                 onClick={onAnalyze}
                 disabled={isProcessing}
-                className="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-orange-500 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl font-medium text-sm"
+                className="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-sky-500 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl font-medium text-sm"
               >
                 {isProcessing ? (
                   <>
@@ -517,11 +517,11 @@ function CallCard({
               <button
                 onClick={onAnalyze}
                 disabled={isProcessing}
-                className="px-4 py-2 text-orange-600 hover:text-orange-700 hover:bg-orange-50 border border-orange-400 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium disabled:opacity-50 text-sm"
+                className="px-4 py-2 text-sky-600 hover:text-sky-700 hover:bg-sky-50 border border-sky-400 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium disabled:opacity-50 text-sm"
               >
                 {isProcessing ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-orange-600"></div>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-sky-600"></div>
                     <span>Re-analyzing...</span>
                   </>
                 ) : (
@@ -1235,15 +1235,15 @@ export default function LeadsPage() {
               </div>
             </div>
             
-            <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white rounded-2xl shadow-lg border-2 border-sky-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg">
+                <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-sky-500 to-red-600 shadow-lg">
                   <ClockIcon />
                 </div>
               </div>
               <div>
                 <p className="text-slate-600 font-semibold mb-1 text-xs sm:text-sm">Conversion Rate</p>
-                <p className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">{conversionRate}%</p>
+                <p className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-sky-600 to-red-600 bg-clip-text text-transparent mb-2">{conversionRate}%</p>
                 <p className="text-xs sm:text-sm text-slate-500">From analyzed calls</p>
               </div>
             </div>
@@ -1252,12 +1252,12 @@ export default function LeadsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             <div className="bg-white border-2 border-red-200 rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-gradient-to-br from-red-500 to-orange-600 rounded-xl backdrop-blur-sm shadow-md">
+                <div className="p-3 bg-gradient-to-br from-red-500 to-sky-600 rounded-xl backdrop-blur-sm shadow-md">
                   <svg className="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <span className="text-5xl font-black bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">{hotLeads}</span>
+                <span className="text-5xl font-black bg-gradient-to-r from-red-600 to-sky-600 bg-clip-text text-transparent">{hotLeads}</span>
               </div>
               <h3 className="text-xl font-black text-slate-800 mb-1">🔥 Hot Leads</h3>
               <p className="text-sm text-slate-600 font-medium">80%+ confidence score</p>
@@ -1265,12 +1265,12 @@ export default function LeadsPage() {
 
             <div className="bg-white border-2 border-yellow-200 rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl backdrop-blur-sm shadow-md">
+                <div className="p-3 bg-gradient-to-br from-yellow-500 to-sky-500 rounded-xl backdrop-blur-sm shadow-md">
                   <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
-                <span className="text-5xl font-black bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">{warmLeads}</span>
+                <span className="text-5xl font-black bg-gradient-to-r from-yellow-600 to-sky-600 bg-clip-text text-transparent">{warmLeads}</span>
               </div>
               <h3 className="text-xl font-black text-slate-800 mb-1">☀️ Warm Leads</h3>
               <p className="text-sm text-slate-600 font-medium">50-80% confidence score</p>
@@ -1419,7 +1419,7 @@ export default function LeadsPage() {
                 {[
                   { value: 'all', label: 'All', fullLabel: 'All Calls', color: 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200', active: 'bg-gradient-to-r from-purple-500 to-blue-600' },
                   { value: 'leads', label: 'Leads', fullLabel: 'Leads Only', color: 'bg-green-50 text-green-700 border-green-300 hover:bg-green-100', active: 'bg-gradient-to-r from-green-500 to-emerald-600' },
-                  { value: 'pending', label: 'Pending', fullLabel: 'Pending Analysis', color: 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100', active: 'bg-gradient-to-r from-amber-500 to-orange-600' },
+                  { value: 'pending', label: 'Pending', fullLabel: 'Pending Analysis', color: 'bg-sky-50 text-sky-700 border-sky-300 hover:bg-sky-100', active: 'bg-gradient-to-r from-sky-500 to-sky-600' },
                   { value: 'no-leads', label: 'No Leads', fullLabel: 'No Leads', color: 'bg-red-50 text-red-700 border-red-300 hover:bg-red-100', active: 'bg-gradient-to-r from-red-500 to-rose-600' }
                 ].map(filter => (
                   <button
@@ -1441,8 +1441,8 @@ export default function LeadsPage() {
                 <span className="text-slate-700 text-sm font-bold self-center">Lead Score:</span>
                 {[
                   { value: 'all', label: 'All Scores', icon: '⭐', color: 'bg-purple-50 text-purple-700 border-purple-300', active: 'bg-gradient-to-r from-purple-500 to-pink-600' },
-                  { value: 'hot', label: 'Hot (80%+)', icon: '🔥', color: 'bg-red-50 text-red-700 border-red-300', active: 'bg-gradient-to-r from-red-500 to-orange-600' },
-                  { value: 'warm', label: 'Warm (50-80%)', icon: '☀️', color: 'bg-yellow-50 text-yellow-700 border-yellow-300', active: 'bg-gradient-to-r from-yellow-500 to-orange-500' },
+                  { value: 'hot', label: 'Hot (80%+)', icon: '🔥', color: 'bg-red-50 text-red-700 border-red-300', active: 'bg-gradient-to-r from-red-500 to-sky-600' },
+                  { value: 'warm', label: 'Warm (50-80%)', icon: '☀️', color: 'bg-yellow-50 text-yellow-700 border-yellow-300', active: 'bg-gradient-to-r from-yellow-500 to-sky-500' },
                   { value: 'cold', label: 'Cold (<50%)', icon: '❄️', color: 'bg-blue-50 text-blue-700 border-blue-300', active: 'bg-gradient-to-r from-blue-500 to-cyan-600' }
                 ].map(filter => (
                   <button
@@ -1486,9 +1486,9 @@ export default function LeadsPage() {
           </div>
 
           {processingQueue.length > 0 && (
-            <div className="bg-blue-50 border-l-4 border-orange-400 rounded-lg p-4">
+            <div className="bg-blue-50 border-l-4 border-sky-400 rounded-lg p-4">
               <div className="flex items-start">
-                <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-orange-600 mr-3 shrink-0 mt-0.5"></div>
+                <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-sky-600 mr-3 shrink-0 mt-0.5"></div>
                 <div>
                   <h3 className="text-blue-800 font-semibold text-sm sm:text-base">Processing Calls with OpenAI</h3>
                   <p className="text-blue-700 text-xs sm:text-sm">

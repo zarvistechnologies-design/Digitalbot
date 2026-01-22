@@ -17,21 +17,21 @@ export function CTA() {
   ]
 
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-orange-50/50 via-white to-white">
+    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-sky-50/50 via-white to-white">
       {/* Background decorations */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-orange-100/60 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-sky-100/60 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
         
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-orange-100 px-4 py-2 rounded-full border border-orange-200 mb-6">
-            <Award className="w-4 h-4 text-orange-600" />
-            <span className="text-sm font-semibold text-orange-600">Trusted Worldwide</span>
+          <div className="inline-flex items-center gap-2 bg-sky-100 px-4 py-2 rounded-full border border-sky-200 mb-6">
+            <Award className="w-4 h-4 text-sky-600" />
+            <span className="text-sm font-semibold text-sky-600">Trusted Worldwide</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
             Powering Conversations for the
-            <span className="block bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-sky-500 to-sky-500 bg-clip-text text-transparent">
               World's Leading Brands
             </span>
           </h2>
@@ -61,10 +61,10 @@ export function CTA() {
             <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 p-8 w-full max-w-md border border-gray-100/80 hover:shadow-2xl transition-shadow duration-500">
               {/* Card Header */}
               <div className="flex items-center gap-2 mb-8">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-sky-500 flex items-center justify-center">
                   <Shield className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-bold text-orange-500">Trusted Platform</span>
+                <span className="text-lg font-bold text-sky-500">Trusted Platform</span>
               </div>
 
               {/* Stats Grid */}
@@ -72,9 +72,9 @@ export function CTA() {
                 {stats.map((stat, idx) => (
                   <div 
                     key={idx}
-                    className="group p-5 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-orange-100 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100/50 transition-all duration-300 text-center cursor-default"
+                    className="group p-5 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-sky-100 hover:border-sky-300 hover:shadow-lg hover:shadow-sky-100/50 transition-all duration-300 text-center cursor-default"
                   >
-                    <div className="text-2xl sm:text-3xl font-bold text-orange-500 group-hover:scale-110 transition-transform duration-300">
+                    <div className="text-2xl sm:text-3xl font-bold text-sky-500 group-hover:scale-110 transition-transform duration-300">
                       {stat.number}
                     </div>
                     <div className="text-sm text-gray-500 font-medium mt-1">{stat.label}</div>
@@ -86,7 +86,7 @@ export function CTA() {
               <div className="space-y-3">
                 {trustItems.map((item, idx) => (
                   <div key={idx} className="flex items-center gap-3 group">
-                    <item.icon className="w-4 h-4 text-orange-500 flex-shrink-0" />
+                    <item.icon className="w-4 h-4 text-sky-500 flex-shrink-0" />
                     <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">{item.text}</span>
                   </div>
                 ))}
