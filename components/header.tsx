@@ -21,20 +21,13 @@ export function Header() {
     const navItems = [
         { href: "/", label: "Home" },
         { href: "/about", label: "About" },
+        { href: "/services", label: "Solutions", icon: Zap },
         { href: "/how-it-works", label: "How It Works" },
-        { href: "/pricing", label: "Pricing" },
         { href: "/contact", label: "Contact" },
     ]
-    
-    const products = [
-        { href: "/products/inbound-calls", label: "Inbound Calls", desc: "Handle incoming calls intelligently", icon: Phone },
-        { href: "/products/outbound-calls", label: "Outbound Calls", desc: "Automated outreach calls", icon: TrendingUp },
-        { href: "/products/outbound-bulk-calls", label: "Outbound Bulk Calls", desc: "Mass calling campaigns", icon: Zap },
-        { href: "/products/intelligent-voice-agent", label: "Intelligent Voice Agent", desc: "AI-powered voice assistant", icon: Bot },
-        { href: "/products/call-analytics", label: "Call Analytics", desc: "Insights and reporting", icon: BarChart3 },
-        { href: "/products/whatsapp-bot", label: "WhatsApp Bot", desc: "WhatsApp automation", icon: Sparkles },
-    ]
-    
+
+
+
     const services = [
         { href: "/services/ai-voice-bot", label: "AI Voice Bot", desc: "Intelligent voice automation", icon: Bot },
         { href: "/services/voice-ai-business", label: "Voice AI for Business", desc: "Enterprise solutions", icon: TrendingUp },
@@ -45,16 +38,16 @@ export function Header() {
         { href: "/services/ai-sales-agent", label: "AI Sales Agent", desc: "Sales automation", icon: BarChart3 },
         // { href: "/services/ai-virtual-receptionist", label: "Virtual Receptionist", desc: "Front desk AI", icon: Sparkles },
     ]
-    
-    const [productsOpen, setProductsOpen] = useState(false);
+
+
     const [servicesOpen, setServicesOpen] = useState(false);
 
     return (
         <header
             className={cn(
                 "fixed top-0 w-full z-50 transition-all duration-300",
-                isScrolled 
-                    ? "bg-white shadow-sm" 
+                isScrolled
+                    ? "bg-white shadow-sm"
                     : "bg-white"
             )}
         >
@@ -68,27 +61,27 @@ export function Header() {
                         transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
                         className="relative group"
                     >
-                            <Link href="/" className="flex items-center gap-12 relative ml-0 pl-0 mr-2" onClick={() => setIsMenuOpen(false)}>
+                        <Link href="/" className="flex items-center gap-12 relative ml-0 pl-0 mr-2" onClick={() => setIsMenuOpen(false)}>
                             {/* sky glow orbs */}
                             <span className="absolute -top-6 -left-6 w-20 h-21 rounded-full bg-gradient-to-br from-sky-400/25 via-sky-300/15 to-transparent blur-3xl" />
                             <span className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-tl from-sky-400/20 to-sky-300/10 blur-2xl" />
 
                             <div className="relative">
-                <Image
-                  src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
-                  alt="DigitalBot.AI - AI Voice Assistant Platform"
-                  width={1450}
-                  height={460}
-                  priority
-                  quality={125}
-                  className="h-12 max-w-[200px] sm:h-13 sm:max-w-[240px] lg:h-14 lg:max-w-[280px] w-auto relative z-14 ml-0 pl-0 mr-10 transition-all duration-500 group-hover:scale-110"
+                                <Image
+                                    src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
+                                    alt="DigitalBot.AI - AI Voice Assistant Platform"
+                                    width={1450}
+                                    height={460}
+                                    priority
+                                    quality={125}
+                                    className="h-12 max-w-[200px] sm:h-13 sm:max-w-[240px] lg:h-14 lg:max-w-[280px] w-auto relative z-14 ml-0 pl-0 mr-10 transition-all duration-500 group-hover:scale-110"
                                 />
                             </div>
                             {/* Enhanced AI Badge */}
                             <div className="absolute -bottom-2 -right-8 px-3 py-1 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 text-white text-[9px] font-bold shadow-lg shadow-sky-400/60 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-sky-400/30 backdrop-blur-sm"
-                                 style={{
-                                   clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px))'
-                                 }}>
+                                style={{
+                                    clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px))'
+                                }}>
                                 ✨ AI POWERED
                             </div>
                         </Link>
@@ -117,136 +110,7 @@ export function Header() {
                             </Link>
                         ))}
 
-                        {/* Products Dropdown */}
-                        <div
-                            className="relative"
-                            onMouseEnter={() => setProductsOpen(true)}
-                            onMouseLeave={() => setProductsOpen(false)}
-                        >
-                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-sky-500 transition-colors group">
-                                Products
-                                <ChevronDown className={cn(
-                                    "w-4 h-4 transition-transform duration-200",
-                                    productsOpen && "rotate-180"
-                                )} />
-                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-sky-500 transition-all duration-300 w-0 group-hover:w-4/5" />
-                            </button>
-
-                            <AnimatePresence>
-                                {productsOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 8 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: 8 }}
-                                        transition={{ duration: 0.15 }}
-                                        className="absolute right-[-80px] top-full pt-2 w-[850px]"
-                                    >
-                                        <div className="bg-white rounded-2xl shadow-2xl shadow-gray-300/50 border border-gray-200 overflow-hidden">
-                                            <div className="flex">
-                                                {/* Left Section - Hero */}
-                                                <div className="w-[260px] p-6 border-r border-gray-100/60">
-                                                    <h3 className="text-xl font-bold text-gray-900 leading-tight">
-                                                        Our<br />
-                                                        <span className="text-sky-500">Products</span>
-                                                    </h3>
-                                                    <p className="mt-3 text-sm text-gray-600 leading-relaxed">
-                                                        Powerful AI-driven communication tools to transform your business operations.
-                                                    </p>
-                                                    <Link
-                                                        href="/products"
-                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white text-sm font-semibold rounded-full transition-all duration-200"
-                                                    >
-                                                        View All Products
-                                                    </Link>
-                                                </div>
-
-                                                {/* Call Solutions */}
-                                                <div className="flex-1 p-6 border-r border-gray-100 bg-gray-50/30">
-                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                                                        CALL SOLUTIONS
-                                                    </div>
-                                                    <div className="space-y-0.5">
-                                                        {products.slice(0, 3).map((product) => {
-                                                            const Icon = product.icon
-                                                            return (
-                                                                <Link
-                                                                    key={product.href}
-                                                                    href={product.href}
-                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
-                                                                >
-                                                                    <div className="w-8 h-8 rounded-lg bg-sky-100 group-hover:bg-sky-500 flex items-center justify-center transition-colors">
-                                                                        <Icon className="w-4 h-4 text-sky-500 group-hover:text-white transition-colors" />
-                                                                    </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-sky-500 transition-colors">
-                                                                        {product.label}
-                                                                    </span>
-                                                                </Link>
-                                                            )
-                                                        })}
-                                                    </div>
-                                                </div>
-
-                                                {/* AI & Automation */}
-                                                <div className="flex-1 p-6 border-r border-gray-100 bg-gray-50/30">
-                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                                                        AI & AUTOMATION
-                                                    </div>
-                                                    <div className="space-y-0.5">
-                                                        {products.slice(3).map((product) => {
-                                                            const Icon = product.icon
-                                                            return (
-                                                                <Link
-                                                                    key={product.href}
-                                                                    href={product.href}
-                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
-                                                                >
-                                                                    <div className="w-8 h-8 rounded-lg bg-sky-100 group-hover:bg-sky-500 flex items-center justify-center transition-colors">
-                                                                        <Icon className="w-4 h-4 text-sky-500 group-hover:text-white transition-colors" />
-                                                                    </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-sky-500 transition-colors">
-                                                                        {product.label}
-                                                                    </span>
-                                                                </Link>
-                                                            )
-                                                        })}
-                                                    </div>
-                                                </div>
-
-                                                {/* Right Section - Featured Card */}
-                                                <div className="w-[220px] p-4">
-                                                    <div className="h-full bg-gradient-to-br from-green-100 to-green-50 rounded-xl p-4 flex flex-col">
-                                                        <span className="text-[10px] font-bold text-green-600 uppercase tracking-wider">
-                                                            NEW
-                                                        </span>
-                                                        <h4 className="mt-2 text-lg font-bold text-gray-900 leading-snug">
-                                                            AI-Powered<br />
-                                                            Voice<br />
-                                                            Solutions
-                                                        </h4>
-                                                        <div className="mt-auto pt-4">
-                                                            <div className="relative h-24 rounded-lg overflow-hidden mb-3">
-                                                                <Image
-                                                                    src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?w=200&h=150&fit=crop"
-                                                                    alt="Voice Solutions"
-                                                                    fill
-                                                                    className="object-cover"
-                                                                />
-                                                            </div>
-                                                            <Link
-                                                                href="/products"
-                                                                className="inline-flex items-center justify-center w-full py-2 bg-white hover:bg-sky-500 hover:text-white text-sky-500 text-sm font-semibold rounded-full border border-sky-200 transition-all duration-200"
-                                                            >
-                                                                Explore
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                   
 
                         {/* Services Dropdown */}
                         <div
@@ -341,13 +205,13 @@ export function Header() {
                                                             )
                                                         })}
                                                     </div>
-                                                    
+
                                                     {/* Premium Services */}
                                                     <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-5 mb-3">
                                                         PREMIUM
                                                     </div>
                                                     <div className="flex gap-2">
-                                                        <Link 
+                                                        <Link
                                                             href="/services/leads"
                                                             className="flex items-center gap-2 px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium rounded-lg transition-colors"
                                                         >

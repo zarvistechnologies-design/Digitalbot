@@ -2,6 +2,7 @@
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { motion } from "framer-motion";
 import {
   Activity,
   ArrowRight,
@@ -27,8 +28,6 @@ import {
   Stethoscope,
   TrendingUp,
   Users,
-  Volume2,
-  VolumeX,
   Zap
 } from "lucide-react";
 import Image from "next/image";
@@ -59,6 +58,7 @@ const DEMO_WAVEFORM_HEIGHTS = Array.from({ length: 40 }, (_, i) => ({
 
 export default function AppointmentsPage() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlayingHindi, setIsPlayingHindi] = useState(false);
   const [currentDashboard, setCurrentDashboard] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
@@ -69,6 +69,7 @@ export default function AppointmentsPage() {
   
   // Audio ref for real audio playback
   const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRefHindi = useRef<HTMLAudioElement>(null);
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -119,6 +120,22 @@ export default function AppointmentsPage() {
       setIsPlaying(!isPlaying);
     }
   }, [isPlaying]);
+
+  // Hindi Audio playback handler
+  const toggleAudioHindi = useCallback(() => {
+    if (audioRefHindi.current) {
+      if (isPlayingHindi) {
+        audioRefHindi.current.pause();
+      } else {
+        audioRefHindi.current.play().catch(() => {
+          console.log("Hindi audio playback blocked by browser");
+        });
+      }
+      setIsPlayingHindi(!isPlayingHindi);
+    } else {
+      setIsPlayingHindi(!isPlayingHindi);
+    }
+  }, [isPlayingHindi]);
 
   // Audio time update handler
   const handleTimeUpdate = useCallback(() => {
@@ -174,150 +191,235 @@ export default function AppointmentsPage() {
 
       <main id="main-content" className="flex-1 relative z-10" role="main">
 
-        {/* SECTION 1: HERO - Clean Minimal Design */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-blue-50/50 via-white to-sky-50/30" aria-labelledby="hero-title">
-          {/* Background Decorative Curves */}
+        {/* SECTION 1: HERO - Full Screen Like Leads */}
+        <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-white via-sky-50/30 to-white flex items-center" aria-labelledby="hero-title">
+          {/* Animated Background Elements - Leads Style */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-            <svg className="absolute -right-1/4 -top-1/4 w-[800px] h-[800px] opacity-30" viewBox="0 0 800 800">
-              <circle cx="400" cy="400" r="350" fill="none" stroke="rgb(191 219 254)" strokeWidth="80" />
-            </svg>
-            <svg className="absolute -left-1/4 bottom-0 w-[600px] h-[600px] opacity-20" viewBox="0 0 600 600">
-              <circle cx="300" cy="300" r="250" fill="none" stroke="rgb(254 215 170)" strokeWidth="60" />
-            </svg>
+            {/* Floating Orbs */}
+            <div className="absolute top-20 left-10 w-72 h-72 bg-sky-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-sky-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+            
+            {/* Animated Grid Pattern */}
+            <div className="absolute inset-0 opacity-[0.03]" style={{
+              backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)',
+              backgroundSize: '60px 60px'
+            }} />
+            
+            {/* Animated Lines */}
+            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-sky-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
+            <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-sky-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
           </div>
 
-          <div className="max-w-7xl mx-auto px-4 py-16 lg:py-24 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              {/* Left: Content + Audio Players */}
-              <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <h1 id="hero-title" className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-gray-900">
-                  <span className="bg-gradient-to-r from-sky-500 to-sky-500 text-transparent bg-clip-text">
-                    Never Miss Another
-                  </span>
-                  <br />
-                  Appointment Again
+          <div className="container mx-auto relative z-30 max-w-7xl h-full flex items-center">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
+              
+              {/* Left Side - Content */}
+              <div className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2 bg-sky-100 border border-sky-200 px-3 py-1.5 rounded-full mb-6">
+                  <Sparkles className="h-4 w-4 text-sky-600" />
+                  <span className="text-sm font-semibold text-sky-700">AI-Powered Scheduling</span>
+                </div>
+
+                {/* Main Headline */}
+                <h1 id="hero-title" className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+                  <span className="block text-black">Never Miss Another</span>
+                  <span className="block bg-gradient-to-r from-sky-500 via-sky-600 to-sky-600 bg-clip-text text-transparent">Appointment Again</span>
                 </h1>
 
-                <p className="text-gray-600 text-base sm:text-lg max-w-xl mb-10 leading-relaxed">
-                  Your AI-powered virtual receptionist answers calls and WhatsApp messages instantly, schedules appointments automatically, sends confirmations, and keeps doctors perfectly in sync — <strong className="text-sky-600">24/7, without human effort</strong>.
+                {/* Tagline Box */}
+                <div className="bg-gradient-to-r from-sky-50 to-sky-50 border border-sky-200 rounded-2xl p-5 mb-6">
+                  <p className="text-gray-600 text-sm italic mb-1">"Missed calls mean missed revenue and frustrated patients."</p>
+                  <p className="text-sky-600 font-bold text-base uppercase tracking-wider">LET AI HANDLE IT 24/7.</p>
+                </div>
+
+                {/* Description */}
+                <p className="text-gray-600 text-base lg:text-lg mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                  Your AI-powered virtual receptionist answers calls and WhatsApp instantly, schedules appointments automatically, and keeps doctors in sync — <strong className="text-sky-600">24/7, without human effort</strong>.
                 </p>
 
-                {/* Dual Audio Players */}
-                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                {/* Dual Audio Players - Compact Style Like Leads */}
+                <div className="flex flex-col sm:flex-row gap-3 mb-6">
                   {/* English Audio Player */}
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-700 mb-2">For English Listeners</p>
+                    <p className="text-xs font-medium text-gray-500 mb-1.5">🇺🇸 English Demo</p>
                     <button
                       onClick={toggleAudio}
-                      className="w-full bg-white rounded-full px-4 py-3 flex items-center gap-3 shadow-md border border-gray-100 hover:shadow-lg hover:border-sky-200 transition-all group"
+                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-sky-300 transition-all group"
                       aria-label={isPlaying ? "Pause English audio demo" : "Play English audio demo"}
                     >
-                      {/* Waveform Visualization */}
-                      <div className="flex items-center gap-0.5 flex-1 h-8" aria-hidden="true">
-                        {WAVEFORM_HEIGHTS.map((bar, i) => (
-                          <div 
-                            key={i} 
-                            className={`w-1 bg-gray-800 rounded-full transition-all ${isPlaying ? 'animate-pulse' : ''}`}
-                            style={{
-                              height: `${bar.height}%`,
-                              animationDelay: `${bar.delay}s`,
-                              animationDuration: `${bar.duration}s`
-                            }}
-                          />
-                        ))}
+                      <div className="flex-1 flex items-center justify-center h-6">
+                        <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <linearGradient id="pulseGradientAppt" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
+                              <stop stopColor="#0ea5e9" />
+                              <stop offset="1" stopColor="#0284c7" />
+                            </linearGradient>
+                          </defs>
+                          {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
+                            isPlaying ? (
+                              <motion.rect
+                                key={i}
+                                x={6 * i + 1}
+                                width="3"
+                                rx="1.5"
+                                fill="url(#pulseGradientAppt)"
+                                animate={{
+                                  y: [24 - h, 24 - h - 8, 24 - h],
+                                  height: [h, h + 8, h]
+                                }}
+                                transition={{
+                                  repeat: Infinity,
+                                  duration: 0.8 + (i % 4) * 0.1,
+                                  delay: i * 0.05,
+                                  ease: "easeInOut"
+                                }}
+                                y={24 - h}
+                                height={h}
+                              />
+                            ) : (
+                              <rect key={i} x={6 * i + 1} y={24 - h} width="3" height={h} rx="1.5" fill="url(#pulseGradientAppt)" />
+                            )
+                          ))}
+                        </svg>
                       </div>
-                      {/* Play Button */}
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
-                        isPlaying 
-                          ? 'bg-sky-500 text-white' 
-                          : 'bg-sky-500 text-white group-hover:bg-sky-600'
-                      }`}>
-                        {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-sky-500 to-sky-600 text-white shadow-md">
+                        {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                       </div>
                     </button>
                   </div>
 
                   {/* Hindi Audio Player */}
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-700 mb-2">For Hindi Listeners</p>
+                    <p className="text-xs font-medium text-gray-500 mb-1.5">🇮🇳 Hindi Demo</p>
                     <button
-                      className="w-full bg-white rounded-full px-4 py-3 flex items-center gap-3 shadow-md border border-gray-100 hover:shadow-lg hover:border-sky-200 transition-all group"
-                      aria-label="Play Hindi audio demo"
+                      onClick={toggleAudioHindi}
+                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-sky-300 transition-all group"
+                      aria-label={isPlayingHindi ? "Pause Hindi audio demo" : "Play Hindi audio demo"}
                     >
-                      {/* Waveform Visualization */}
-                      <div className="flex items-center gap-0.5 flex-1 h-8" aria-hidden="true">
-                        {WAVEFORM_HEIGHTS.map((bar, i) => (
-                          <div 
-                            key={i} 
-                            className="w-1 bg-gray-800 rounded-full"
-                            style={{ height: `${bar.height}%` }}
-                          />
-                        ))}
+                      <div className="flex-1 flex items-center justify-center h-6">
+                        <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <linearGradient id="pulseGradientApptHindi" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
+                              <stop stopColor="#0ea5e9" />
+                              <stop offset="1" stopColor="#0284c7" />
+                            </linearGradient>
+                          </defs>
+                          {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
+                            isPlayingHindi ? (
+                              <motion.rect
+                                key={i}
+                                x={6 * i + 1}
+                                width="3"
+                                rx="1.5"
+                                fill="url(#pulseGradientApptHindi)"
+                                animate={{
+                                  y: [24 - h, 24 - h - 8, 24 - h],
+                                  height: [h, h + 8, h]
+                                }}
+                                transition={{
+                                  repeat: Infinity,
+                                  duration: 0.8 + (i % 4) * 0.1,
+                                  delay: i * 0.05,
+                                  ease: "easeInOut"
+                                }}
+                                y={24 - h}
+                                height={h}
+                              />
+                            ) : (
+                              <rect key={i} x={6 * i + 1} y={24 - h} width="3" height={h} rx="1.5" fill="url(#pulseGradientApptHindi)" />
+                            )
+                          ))}
+                        </svg>
                       </div>
-                      {/* Play Button */}
-                      <div className="w-10 h-10 bg-sky-500 text-white rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-sky-600 transition-all">
-                        <Play className="w-4 h-4 ml-0.5" />
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-sky-500 to-sky-600 text-white shadow-md">
+                        {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                       </div>
                     </button>
                   </div>
                 </div>
 
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4" role="group" aria-label="Call to action buttons">
+                {/* CTA Buttons - Leads Style */}
+                <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                   <Link
                     href="/signup?service=appointment"
-                    className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-sky-500 text-white px-8 py-4 rounded-xl text-base font-semibold hover:shadow-lg hover:shadow-sky-300/40 hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-                    aria-label="Start your free trial - no credit card required"
+                    className="group px-5 py-2.5 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-bold rounded-lg hover:from-sky-600 hover:to-sky-700 transition-all duration-300 shadow-md shadow-sky-500/20 hover:shadow-lg hover:shadow-sky-500/30 hover:scale-105 flex items-center justify-center gap-2 text-sm"
                   >
                     Start Free Trial
-                    <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
-
                   <Link
                     href="#demo"
-                    className="inline-flex items-center justify-center gap-2 bg-white text-gray-700 px-8 py-4 rounded-xl text-base font-semibold border-2 border-gray-200 hover:border-sky-500 hover:text-sky-600 hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-                    aria-label="Watch a demo of our AI appointment booking"
+                    className="px-5 py-2.5 bg-white text-sky-600 border border-sky-300 font-bold rounded-lg hover:bg-sky-50 hover:border-sky-400 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2 text-sm"
                   >
-                    <Play className="w-5 h-5" aria-hidden="true" />
+                    <Play className="w-4 h-4" fill="currentColor" />
                     Watch Demo
                   </Link>
                 </div>
+
+                {/* Trust Indicators - Leads Style */}
+                <div className="flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-gray-500">
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span className="text-xs">No credit card required</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span className="text-xs">Setup in 5 minutes</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <span className="text-xs">40% less no-shows</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Right: Hero Image with Clean Frame */}
-              <div className={`relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              {/* Right Side - Image with Floating Effects */}
+              <div className={`relative flex justify-center lg:justify-end transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+                {/* Main Image with Floating Effects */}
                 <div className="relative">
-                  {/* Image Frame with Shadow */}
-                  <div className="bg-white rounded-3xl p-3 shadow-2xl shadow-gray-200/50">
-                    <div className="relative rounded-2xl overflow-hidden">
-                      <Image
-                        src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=500&fit=crop"
-                        alt="Doctor using AI appointment scheduling system on tablet"
-                        width={600}
-                        height={500}
-                        className="w-full h-auto object-cover"
-                        priority
-                      />
-                    </div>
+                  {/* Animated Sound Waves SVG */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
+                    <svg width="340" height="340" viewBox="0 0 340 340" fill="none" style={{ filter: 'drop-shadow(0 0 32px #0ea5e9aa)' }}>
+                      <circle cx="170" cy="170" r="80" stroke="#38bdf8" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
+                      <circle cx="170" cy="170" r="110" stroke="#0ea5e9" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
+                      <circle cx="170" cy="170" r="140" stroke="#0284c7" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
+                    </svg>
                   </div>
-
-                  {/* Floating Badge - Top Right */}
-                  <div className="absolute -top-4 -right-4 bg-gradient-to-br from-sky-500 to-sky-500 text-white px-4 py-2 rounded-xl shadow-lg" style={{ animation: 'float 3s ease-in-out infinite' }} aria-hidden="true">
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      <span className="font-bold">24/7</span>
-                    </div>
-                  </div>
-
-                  {/* Floating Badge - Bottom Left */}
-                  <div className="absolute -bottom-4 -left-4 bg-white px-4 py-3 rounded-xl shadow-xl border border-gray-100" style={{ animation: 'float 4s ease-in-out infinite 1s' }} aria-hidden="true">
+                  
+                  <Image
+                    src="/images/image/doctorappointment.png"
+                    alt="Doctor using AI appointment scheduling system"
+                    width={600}
+                    height={500}
+                    className="relative z-20 w-full max-w-md lg:max-w-lg h-auto object-contain rounded-3xl shadow-2xl"
+                    style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
+                    priority
+                  />
+                  
+                  {/* Floating Badge - Bottom Right */}
+                  <div className="absolute bottom-4 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-sky-100 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                        <TrendingUp className="w-5 h-5 text-green-600" />
+                      <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center">
+                        <Clock className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <div className="text-lg font-bold text-gray-900">45%</div>
-                        <div className="text-xs text-gray-500">More Bookings</div>
+                        <p className="text-2xl font-bold text-gray-900">24/7</p>
+                        <p className="text-sm text-gray-500">Always On</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Floating Stats Badge - Top Left */}
+                  <div className="absolute top-4 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-sky-100 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                        <TrendingUp className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold text-gray-900">45%</p>
+                        <p className="text-sm text-gray-500">More Bookings</p>
                       </div>
                     </div>
                   </div>
@@ -1247,6 +1349,12 @@ export default function AppointmentsPage() {
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-10px); }
+        }
+        @keyframes ping {
+          75%, 100% {
+            transform: scale(1.5);
+            opacity: 0;
+          }
         }
         @keyframes pulse {
           0%, 100% { opacity: 0.6; transform: scaleY(1); }

@@ -1,7 +1,7 @@
 "use client"
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, Mic, MicOff, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
+import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
 
@@ -980,50 +980,49 @@ export default function Hero() {
                 <div className="container mx-auto relative z-30 max-w-7xl">
 
                     {/* Main Hero - Image Left, Content Right */}
-                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[70vh]">
+                    <div className="grid lg:grid-cols-2 gap-4 lg:gap-8 items-center min-h-[60vh]">
                         
                         {/* Left Side - Content */}
                         <div className="order-1 lg:order-1 text-center lg:text-left">
                             {/* Badge */}
-                            <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 px-4 py-2 rounded-full mb-6 animate-fade-in-up-1">
+                            <div className="inline-flex items-center gap-1 bg-blue-100 border border-blue-200 px-2 py-1 rounded-full mb-4 animate-fade-in-up-1">
                                 <Sparkles className="h-4 w-4 text-blue-600" />
                                 <span className="text-sm font-semibold text-blue-700">AI-Powered Voice Platform</span>
                             </div>
 
                             {/* Main Headline */}
-                            <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-gray-900 mb-6 leading-tight animate-fade-in-up-2">
-                                Your AI Assistant
-                                <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">
-                                    Never Sleeps
+                            <h1 id="hero-heading" className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-4 leading-tight animate-fade-in-up-2">
+                                <span className="block">
+                                    <span className="text-black">Your AI voice Assistant</span>                            <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
                                 </span>
                             </h1>
 
                             {/* Tagline Box */}
                             <div className="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-2xl p-6 mb-8 animate-fade-in-up-3">
-                                <p className="text-gray-600 text-lg italic mb-2">"Your receptionist sleeps, gets sick, takes breaks."</p>
-                                <p className="text-blue-600 font-bold text-2xl uppercase tracking-wider">WE NEVER DO.</p>
+                                <p className="text-gray-600 text-sm italic mb-1">"Your receptionist sleeps, gets sick, takes breaks."</p>
+                                <p className="text-blue-600 font-bold text-base uppercase tracking-wider">WE NEVER DO.</p>
                             </div>
 
                             {/* Description */}
                             <p className="text-gray-600 text-lg lg:text-xl mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-in-up-3">
-                                Transform your business with <strong className="text-gray-800">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics.
+                                <span className="text-sm lg:text-base">Transform your business with <strong className="text-gray-800">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics.</span>
                             </p>
 
                             {/* CTA Buttons */}
                             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8 animate-fade-in-up-3">
                                 <Link
                                     href="/signup"
-                                    className="group px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 flex items-center justify-center gap-2"
+                                    className="group px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-1 text-sm"
                                 >
                                     Start Free Trial
-                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                                 </Link>
                                 <button
                                     onClick={() => setShowVideo(true)}
-                                    className="px-8 py-4 bg-white text-blue-600 border-2 border-blue-300 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2"
+                                    className="px-4 py-2 bg-white text-blue-600 border border-blue-300 font-bold rounded-lg hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-1 text-sm"
                                     aria-label="Watch demo video"
                                 >
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                                     </svg>
                                     Watch Demo
@@ -1032,33 +1031,49 @@ export default function Hero() {
 
                             {/* Trust Indicators */}
                             <div className="flex flex-wrap gap-6 justify-center lg:justify-start text-sm text-gray-500 animate-fade-in-up-3">
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle className="h-5 w-5 text-green-500" />
-                                    <span>No credit card required</span>
+                                <div className="flex items-center gap-1">
+                                    <CheckCircle className="h-4 w-4 text-green-500" />
+                                    <span className="text-xs">No credit card required</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle className="h-5 w-5 text-green-500" />
-                                    <span>Setup in 5 minutes</span>
+                                <div className="flex items-center gap-1">
+                                    <CheckCircle className="h-4 w-4 text-green-500" />
+                                    <span className="text-xs">Setup in 5 minutes</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle className="h-5 w-5 text-green-500" />
-                                    <span>50+ Languages</span>
+                                <div className="flex items-center gap-1">
+                                    <CheckCircle className="h-4 w-4 text-green-500" />
+                                    <span className="text-xs">50+ Languages</span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Right Side - Image (PNG style, no box) */}
+                        {/* Right Side - Image (PNG style, no box) with Vapi-inspired animation */}
                         <div className="relative order-2 lg:order-2 flex justify-center lg:justify-end">
+                            {/* Vapi Theme Animation: Animated Sound Waves & Glow */}
+                            {mounted && (
+                              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
+                                {/* Vapi Animated SVG Sound Waves & Mic */}
+                                <svg width="340" height="340" viewBox="0 0 340 340" fill="none" className="block" style={{ filter: 'drop-shadow(0 0 32px #38bdf8aa)' }}>
+                                    <circle cx="170" cy="170" r="80" stroke="#38bdf8" strokeWidth="2" fill="none" className="vapi-hero-wave vapi-hero-wave1" />
+                                    <circle cx="170" cy="170" r="110" stroke="#0ea5e9" strokeWidth="2" fill="none" className="vapi-hero-wave vapi-hero-wave2" />
+                                    <circle cx="170" cy="170" r="140" stroke="#f97316" strokeWidth="2" fill="none" className="vapi-hero-wave vapi-hero-wave3" />
+                                    <circle cx="170" cy="170" r="50" fill="#38bdf8" fillOpacity="0.08" />
+                                    <g className="vapi-hero-mic">
+                                        <rect x="155" y="120" width="30" height="60" rx="15" fill="#38bdf8" fillOpacity="0.9" />
+                                        <rect x="165" y="180" width="10" height="30" rx="5" fill="#f97316" />
+                                        <ellipse cx="170" cy="120" rx="15" ry="8" fill="#0ea5e9" fillOpacity="0.7" />
+                                    </g>
+                                </svg>
+                              </div>
+                            )}
                             {/* Main Image - Clean PNG look */}
                             <img
                                 src="/images/landing-hero.png"
                                 alt="AI Voice Assistant"
-                                className="relative z-10 w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain animate-float"
+                                className="relative z-30 w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain animate-float"
                                 style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
                             />
-                            
                             {/* Floating Badge - Bottom Left */}
-                            <div className="absolute bottom-8 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-3 z-20">
+                            <div className="absolute bottom-8 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-3 z-40">
                                 <div className="flex items-center gap-3">
                                     <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
                                         <PhoneCall className="h-6 w-6 text-white" />
@@ -1069,9 +1084,8 @@ export default function Hero() {
                                     </div>
                                 </div>
                             </div>
-
                             {/* Floating Stats Badge - Top Right */}
-                            <div className="absolute top-8 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-2 z-20">
+                            <div className="absolute top-8 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-2 z-40">
                                 <div className="flex items-center gap-3">
                                     <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                                         <TrendingUp className="h-6 w-6 text-white" />
@@ -1083,6 +1097,47 @@ export default function Hero() {
                                 </div>
                             </div>
                         </div>
+            {/* Vapi Animation Styles (global for hero SVG) */}
+            <style>{`
+                .vapi-hero-wave {
+                    opacity: 0.5;
+                    transform-origin: 50% 50%;
+                    stroke-dasharray: 8 8;
+                }
+                .vapi-hero-wave1 {
+                    animation: vapi-wave1 2.5s linear infinite;
+                }
+                .vapi-hero-wave2 {
+                    animation: vapi-wave2 3.2s linear infinite;
+                }
+                .vapi-hero-wave3 {
+                    animation: vapi-wave3 4.1s linear infinite;
+                }
+                @keyframes vapi-wave1 {
+                    0% { stroke-dashoffset: 0; opacity: 0.5; }
+                    50% { opacity: 0.8; }
+                    100% { stroke-dashoffset: 64; opacity: 0.5; }
+                }
+                @keyframes vapi-wave2 {
+                    0% { stroke-dashoffset: 0; opacity: 0.4; }
+                    50% { opacity: 0.7; }
+                    100% { stroke-dashoffset: 64; opacity: 0.4; }
+                }
+                @keyframes vapi-wave3 {
+                    0% { stroke-dashoffset: 0; opacity: 0.3; }
+                    50% { opacity: 0.6; }
+                    100% { stroke-dashoffset: 64; opacity: 0.3; }
+                }
+                .vapi-hero-mic {
+                    filter: drop-shadow(0 0 12px #38bdf8) drop-shadow(0 0 24px #f97316);
+                    transform-origin: 50% 80%;
+                    animation: vapi-mic-bounce 2.2s ease-in-out infinite;
+                }
+                @keyframes vapi-mic-bounce {
+                    0%, 100% { transform: scale(1) translateY(0); }
+                    50% { transform: scale(1.08) translateY(-8px); }
+                }
+            `}</style>
                     </div>
 
                     {/* Feature Cards Below Hero */}
@@ -1122,186 +1177,6 @@ export default function Hero() {
                                 </div>
                             ))}
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Our Solutions - Premium Showcase */}
-            <section className="py-24 px-4 sm:px-8 lg:px-16 bg-gradient-to-b from-white via-blue-50/40 to-white relative overflow-hidden">
-                {/* Animated Background */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse"></div>
-                    <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-                </div>
-                
-                <div className="container mx-auto max-w-7xl relative z-10">
-                    {/* Section Header */}
-                    <div className="text-center mb-16">
-                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-cyan-100 border border-blue-200 px-5 py-2.5 rounded-full mb-6 shadow-sm">
-                            <Sparkles className="h-5 w-5 text-blue-600" />
-                            <span className="text-sm font-bold text-blue-700 uppercase tracking-wider">Our Solutions</span>
-                        </div>
-                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6">
-                            AI-Powered{' '}
-                            <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 bg-clip-text text-transparent">
-                                Ecosystem
-                            </span>
-                        </h2>
-                        <p className="text-gray-600 text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed">
-                            Transform your business with intelligent voice automation that works 24/7
-                        </p>
-                    </div>
-
-                    {/* Services Grid - 3 Column Layout */}
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                        
-                        {/* AI Call Center */}
-                        <Link href="/services/ai-call-center" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                            <div className="relative z-10">
-                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                                    <PhoneCall className="h-8 w-8 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">AI Call Center</h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed">Enterprise-grade contact center with unlimited concurrent calls, intelligent routing & real-time analytics.</p>
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    <span className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full">24/7 Active</span>
-                                    <span className="px-3 py-1 bg-green-50 text-green-600 text-xs font-semibold rounded-full">85% Automation</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
-                                    <span>Explore</span>
-                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
-                                </div>
-                            </div>
-                        </Link>
-
-                        {/* AI Customer Support */}
-                        <Link href="/services/ai-customer-support" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-cyan-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                            <div className="relative z-10">
-                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center mb-6 shadow-lg shadow-cyan-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                                    <Headphones className="h-8 w-8 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">AI Customer Support</h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed">Instant, empathetic responses across all channels. Resolve issues 24/7 with human-like conversations.</p>
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    <span className="px-3 py-1 bg-cyan-50 text-cyan-600 text-xs font-semibold rounded-full">Instant Resolution</span>
-                                    <span className="px-3 py-1 bg-purple-50 text-purple-600 text-xs font-semibold rounded-full">Sentiment AI</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-cyan-600 font-semibold group-hover:gap-3 transition-all">
-                                    <span>Explore</span>
-                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
-                                </div>
-                            </div>
-                        </Link>
-
-                        {/* AI Sales Agent */}
-                        <Link href="/services/ai-sales-agent" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                            <div className="relative z-10">
-                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                                    <TrendingUp className="h-8 w-8 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">AI Sales Agent</h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed">Convert leads while you sleep. AI that qualifies, nurtures, handles objections & closes deals 24/7.</p>
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    <span className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full">45% More Conversions</span>
-                                    <span className="px-3 py-1 bg-amber-50 text-amber-600 text-xs font-semibold rounded-full">Auto Follow-up</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
-                                    <span>Explore</span>
-                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
-                                </div>
-                            </div>
-                        </Link>
-
-                        {/* AI Virtual Receptionist */}
-                        <Link href="/services/ai-virtual-receptionist" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-purple-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-purple-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                            <div className="relative z-10">
-                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                                    <Users className="h-8 w-8 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">AI Virtual Receptionist</h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed">Professional call answering, smart routing, appointment booking & multi-language support.</p>
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    <span className="px-3 py-1 bg-purple-50 text-purple-600 text-xs font-semibold rounded-full">70% Cost Savings</span>
-                                    <span className="px-3 py-1 bg-pink-50 text-pink-600 text-xs font-semibold rounded-full">HIPAA Ready</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-purple-600 font-semibold group-hover:gap-3 transition-all">
-                                    <span>Explore</span>
-                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
-                                </div>
-                            </div>
-                        </Link>
-
-                        {/* AI Voice Bot */}
-                        <Link href="/services/ai-voice-bot" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-emerald-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-emerald-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                            <div className="relative z-10">
-                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                                    <Mic className="h-8 w-8 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors">AI Voice Bot</h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed">Advanced NLP-powered voice automation. Handle unlimited calls with human-like voice synthesis.</p>
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    <span className="px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-semibold rounded-full">Natural Voice</span>
-                                    <span className="px-3 py-1 bg-teal-50 text-teal-600 text-xs font-semibold rounded-full">30+ Languages</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-emerald-600 font-semibold group-hover:gap-3 transition-all">
-                                    <span>Explore</span>
-                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
-                                </div>
-                            </div>
-                        </Link>
-
-                        {/* AI Appointment Scheduling */}
-                        <Link href="/services/appointments" className="group relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-rose-200 transition-all duration-500 hover:-translate-y-3 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-rose-100 to-transparent rounded-bl-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                            <div className="relative z-10">
-                                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center mb-6 shadow-lg shadow-rose-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                                    <Calendar className="h-8 w-8 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-rose-600 transition-colors">AI Appointments</h3>
-                                <p className="text-gray-600 mb-6 leading-relaxed">Smart scheduling, automatic reminders, calendar sync & 60% reduction in no-shows.</p>
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    <span className="px-3 py-1 bg-rose-50 text-rose-600 text-xs font-semibold rounded-full">Auto Reminders</span>
-                                    <span className="px-3 py-1 bg-orange-50 text-orange-600 text-xs font-semibold rounded-full">Calendar Sync</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-rose-600 font-semibold group-hover:gap-3 transition-all">
-                                    <span>Explore</span>
-                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
-                                </div>
-                            </div>
-                        </Link>
-
-                    </div>
-
-                    {/* Bottom Stats Row */}
-                    <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-                        {[
-                            { value: "500+", label: "Businesses Trust Us", icon: Users },
-                            { value: "10M+", label: "Calls Automated", icon: PhoneCall },
-                            { value: "99.9%", label: "Uptime Guaranteed", icon: Shield },
-                            { value: "< 750ms", label: "Response Time", icon: Zap }
-                        ].map((stat, i) => (
-                            <div key={i} className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-center group hover:scale-105 transition-transform duration-300">
-                                <stat.icon className="h-8 w-8 text-blue-400 mx-auto mb-3 group-hover:scale-110 transition-transform" />
-                                <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
-                                <p className="text-gray-400 text-sm">{stat.label}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* CTA Button */}
-                    <div className="text-center mt-12">
-                        <Link
-                            href="/services"
-                            className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 text-white font-bold text-lg rounded-2xl hover:from-blue-600 hover:via-blue-700 hover:to-blue-700 transition-all duration-300 shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40 hover:scale-105"
-                        >
-                            View All Solutions
-                            <ArrowRight className="h-6 w-6" />
-                        </Link>
                     </div>
                 </div>
             </section>
@@ -1549,9 +1424,9 @@ export default function Hero() {
                         </p>
                     </div>
                     <div className="flex justify-center mt-0 pt-0">
-                        <div className="relative w-full  max-w-4xl">
+                        <div className="relative w-full  max-w-3xl">
                             <img
-                                src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/workflow2_itpthn"
+                                src="https://res.cloudinary.com/dvwmbidka/image/upload/e_sharpen:150/work.flowpng_dbolrl"
                                 alt="DigitalBot AI-Driven Conversation Workflow"
                                 className="w-full h-auto object-contain"
                                 loading="lazy"
@@ -1562,13 +1437,13 @@ export default function Hero() {
             </section>
 
 
-            {/* Why Choose DigitalBot - Compact Image Showcase */}
-            <section className="py-16 px-4 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+            {/* Why Choose DigitalBot - Bento Grid Style */}
+            <section className="py-16 px-4 bg-white overflow-hidden">
                 <div className="container mx-auto max-w-6xl">
                     {/* Section Header */}
-                    <div className="text-center mb-12">
+                    <div className="text-center mb-10">
                         <p className="text-blue-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
                             The DigitalBot Advantage
                         </h2>
                         <p className="text-gray-500 max-w-xl mx-auto">
@@ -1576,186 +1451,122 @@ export default function Hero() {
                         </p>
                     </div>
 
-                    {/* Compact Feature Blocks */}
-                    <div className="space-y-5">
+                    {/* Bento Grid Layout */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[120px]">
 
-                        {/* Feature 1 - Instant Setup */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-gradient-to-r from-blue-50 to-blue-100/50 rounded-2xl p-6 lg:p-8">
-                            <div className="order-2 lg:order-1">
-                                <div className="inline-flex items-center gap-1.5 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium mb-3">
+                        {/* Feature 1 - Instant Setup (Large) */}
+                        <div className="col-span-2 row-span-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                            <div>
+                                <div className="inline-flex items-center gap-1.5 bg-white/20 text-white px-2.5 py-1 rounded-full text-xs font-medium mb-3">
                                     <Zap className="h-3 w-3" /> Quick Start
                                 </div>
-                                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">Instant Setup</h3>
-                                <p className="text-sm text-gray-600 mb-4">
-                                    Deploy your AI voice assistant in under 5 minutes with zero-code integration.
+                                <h3 className="text-xl font-bold text-white mb-2">Instant Setup</h3>
+                                <p className="text-sm text-blue-100 mb-3">
+                                    Deploy your AI voice assistant in under 5 minutes with zero-code integration. Connect to your existing systems seamlessly.
                                 </p>
-                                <div className="flex items-center gap-6">
-                                    <div>
-                                        <div className="text-2xl font-bold text-blue-500">5 min</div>
-                                        <div className="text-gray-500 text-xs">Setup Time</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-bold text-blue-500">0</div>
-                                        <div className="text-gray-500 text-xs">Code Required</div>
-                                    </div>
-                                </div>
+                                <ul className="text-xs text-blue-100 space-y-1">
+                                    <li className="flex items-center gap-1.5">
+                                        <CheckCircle className="h-3 w-3 text-blue-200" /> No technical expertise needed
+                                    </li>
+                                
+                                    <li className="flex items-center gap-1.5">
+                                        <CheckCircle className="h-3 w-3 text-blue-200" /> Instant API integration
+                                    </li>
+                                </ul>
                             </div>
-                            <div className="order-1 lg:order-2 flex justify-center">
-                                <img
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-setup-image"
-                                    alt="Instant Setup Dashboard"
-                                    className="w-full max-w-[200px] h-auto object-contain drop-shadow-xl"
-                                    loading="lazy"
-                                />
+                            <div className="flex gap-8">
+                                <div>
+                                    <div className="text-3xl font-bold text-white">5 min</div>
+                                    <div className="text-blue-200 text-xs">Setup Time</div>
+                                </div>
+                                <div>
+                                    <div className="text-3xl font-bold text-white">0</div>
+                                    <div className="text-blue-200 text-xs">Code Required</div>
+                                </div>
                             </div>
                         </div>
 
                         {/* Feature 2 - Enterprise Security */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 lg:p-8">
-                            <div className="flex justify-center">
-                                <img
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-security-image"
-                                    alt="Enterprise Security Shield"
-                                    className="w-full max-w-[200px] h-auto object-contain drop-shadow-xl"
-                                    loading="lazy"
-                                />
+                        <div className="col-span-2 row-span-1 bg-gray-900 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
+                            <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                            <div className="flex items-center gap-2 mb-1">
+                                <Shield className="h-5 w-5 text-emerald-400" />
+                                <h3 className="text-base font-bold text-white">Enterprise Security</h3>
                             </div>
-                            <div>
-                                <div className="inline-flex items-center gap-1.5 bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-medium mb-3">
-                                    <Shield className="h-3 w-3" /> Protected
-                                </div>
-                                <h3 className="text-xl lg:text-2xl font-bold text-white mb-2">Enterprise Security</h3>
-                                <p className="text-sm text-gray-300 mb-4">
-                                    AES-256 encryption, SOC 2 certified, GDPR & HIPAA compliant.
-                                </p>
-                                <div className="flex flex-wrap gap-2">
-                                    <span className="px-3 py-1 bg-white/10 text-white text-xs font-medium rounded">SOC 2</span>
-                                    <span className="px-3 py-1 bg-white/10 text-white text-xs font-medium rounded">GDPR</span>
-                                    <span className="px-3 py-1 bg-white/10 text-white text-xs font-medium rounded">HIPAA</span>
-                                </div>
+                            <p className="text-xs text-gray-400 mb-2">AES-256 encryption, SOC 2 certified, GDPR & HIPAA compliant.</p>
+                            <div className="flex gap-1.5">
+                                <span className="px-2 py-0.5 bg-white/10 text-white text-[10px] font-medium rounded">SOC 2</span>
+                                <span className="px-2 py-0.5 bg-white/10 text-white text-[10px] font-medium rounded">GDPR</span>
+                                <span className="px-2 py-0.5 bg-white/10 text-white text-[10px] font-medium rounded">HIPAA</span>
                             </div>
                         </div>
 
                         {/* Feature 3 - 24/7 Operations */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-gradient-to-r from-purple-50 to-indigo-100/50 rounded-2xl p-6 lg:p-8">
-                            <div className="order-2 lg:order-1">
-                                <div className="inline-flex items-center gap-1.5 bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-medium mb-3">
-                                    <Clock className="h-3 w-3" /> Always On
-                                </div>
-                                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">24/7 Operations</h3>
-                                <p className="text-sm text-gray-600 mb-4">
-                                    Unlimited concurrent conversations with 99.9% uptime SLA.
-                                </p>
-                                <div className="flex items-center gap-6">
-                                    <div>
-                                        <div className="text-2xl font-bold text-purple-500">99.9%</div>
-                                        <div className="text-gray-500 text-xs">Uptime</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-bold text-purple-500">∞</div>
-                                        <div className="text-gray-500 text-xs">Concurrent</div>
-                                    </div>
-                                </div>
+                        <div className="col-span-1 row-span-1 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
+                            <div className="flex items-center gap-2">
+                                <Clock className="h-4 w-4 text-white" />
+                                <h3 className="text-sm font-bold text-white">24/7 Operations</h3>
                             </div>
-                            <div className="order-1 lg:order-2 flex justify-center">
-                                <img
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-247-image"
-                                    alt="24/7 Operations Globe"
-                                    className="w-full max-w-[200px] h-auto object-contain drop-shadow-xl"
-                                    loading="lazy"
-                                />
+                            <div>
+                                <div className="text-2xl font-bold text-white">99.9%</div>
+                                <div className="text-purple-200 text-xs">Uptime SLA</div>
                             </div>
                         </div>
 
                         {/* Feature 4 - Auto-Scaling */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center bg-gradient-to-r from-blue-50 to-cyan-100/50 rounded-2xl p-6 lg:p-8">
-                            <div className="flex justify-center">
-                                <img
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-scaling-image"
-                                    alt="Auto-Scaling Infrastructure"
-                                    className="w-full max-w-[200px] h-auto object-contain drop-shadow-xl"
-                                    loading="lazy"
-                                />
+                        <div className="col-span-1 row-span-1 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
+                            <div className="flex items-center gap-2">
+                                <TrendingUp className="h-4 w-4 text-white" />
+                                <h3 className="text-sm font-bold text-white">Auto-Scaling</h3>
                             </div>
                             <div>
-                                <div className="inline-flex items-center gap-1.5 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium mb-3">
-                                    <TrendingUp className="h-3 w-3" /> Scalable
-                                </div>
-                                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">Auto-Scaling</h3>
-                                <p className="text-sm text-gray-600 mb-4">
-                                    From 10 to 100,000+ conversations instantly. Pay only for what you use.
-                                </p>
-                                <div className="flex items-center gap-6">
-                                    <div>
-                                        <div className="text-2xl font-bold text-blue-500">100K+</div>
-                                        <div className="text-gray-500 text-xs">Conversations</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-bold text-blue-500">$0</div>
-                                        <div className="text-gray-500 text-xs">Overhead</div>
-                                    </div>
-                                </div>
+                                <div className="text-2xl font-bold text-white">100K+</div>
+                                <div className="text-cyan-100 text-xs">Conversations</div>
                             </div>
                         </div>
 
-                        {/* Feature 5 & 6 - Two Column */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-
-                            {/* Omnichannel */}
-                            <div className="bg-gradient-to-br from-rose-50 to-pink-100/50 rounded-2xl p-6 flex items-center gap-5">
-                                <img
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-omnichannel-image"
-                                    alt="Omnichannel Dashboard"
-                                    className="w-24 h-24 object-contain drop-shadow-lg flex-shrink-0"
-                                    loading="lazy"
-                                />
-                                <div>
-                                    <h3 className="text-lg font-bold text-gray-900 mb-1">Omnichannel</h3>
-                                    <p className="text-sm text-gray-600 mb-2">Web, mobile, WhatsApp, SMS, Slack & Teams.</p>
-                                    <div className="text-xl font-bold text-rose-500">6+ Channels</div>
-                                </div>
+                        {/* Feature 5 - Omnichannel */}
+                        <div className="col-span-1 row-span-1 bg-gradient-to-br from-rose-50 to-pink-100 rounded-2xl p-4 flex flex-col justify-between border border-rose-200/50 group hover:shadow-lg transition-shadow">
+                            <div className="flex items-center gap-2">
+                                <MessageSquare className="h-4 w-4 text-rose-500" />
+                                <h3 className="text-sm font-bold text-gray-800">Omnichannel</h3>
                             </div>
-
-                            {/* Proven Results */}
-                            <div className="bg-gradient-to-br from-teal-50 to-emerald-100/50 rounded-2xl p-6 flex items-center gap-5">
-                                <img
-                                    src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/v1/your-results-image"
-                                    alt="Proven Results Analytics"
-                                    className="w-24 h-24 object-contain drop-shadow-lg flex-shrink-0"
-                                    loading="lazy"
-                                />
-                                <div>
-                                    <h3 className="text-lg font-bold text-gray-900 mb-1">Proven Results</h3>
-                                    <p className="text-sm text-gray-600 mb-2">85% automation, 60% cost reduction.</p>
-                                    <div className="text-xl font-bold text-teal-500">90 Day ROI</div>
-                                </div>
+                            <div>
+                                <div className="text-2xl font-bold text-rose-500">6+</div>
+                                <div className="text-gray-500 text-xs">Channels</div>
                             </div>
-
                         </div>
 
-                    </div>
+                        {/* Feature 6 - Proven Results */}
+                        <div className="col-span-1 row-span-1 bg-gradient-to-br from-teal-50 to-emerald-100 rounded-2xl p-4 flex flex-col justify-between border border-teal-200/50 group hover:shadow-lg transition-shadow">
+                            <div className="flex items-center gap-2">
+                                <CheckCircle className="h-4 w-4 text-teal-500" />
+                                <h3 className="text-sm font-bold text-gray-800">Proven Results</h3>
+                            </div>
+                            <div>
+                                <div className="text-2xl font-bold text-teal-500">90 Day</div>
+                                <div className="text-gray-500 text-xs">ROI Payback</div>
+                            </div>
+                        </div>
 
-                    {/* Compact CTA */}
-                    <div className="mt-12 text-center">
-                        <div className="flex flex-col sm:flex-row justify-center gap-3 mb-5">
-                            <Link href="/signup" className="inline-flex items-center justify-center gap-2 bg-blue-500 text-white font-medium py-3 px-8 rounded-lg hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20">
-                                Start Free Trial <ArrowRight className="h-4 w-4" />
-                            </Link>
-                            <Link href="/contact" className="inline-flex items-center justify-center gap-2 text-gray-700 font-medium py-3 px-8 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors">
-                                Book Demo
-                            </Link>
+                        {/* CTA Card */}
+                        <div className="col-span-2 row-span-1 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 flex items-center justify-between border border-gray-200/50">
+                            <div>
+                                <h3 className="text-base font-bold text-gray-900 mb-0.5">Ready to transform your business?</h3>
+                                <p className="text-xs text-gray-500">14-day free trial • No credit card • Cancel anytime</p>
+                            </div>
+                            <div className="flex gap-2">
+                                <Link href="/signup" className="inline-flex items-center gap-1.5 bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors text-sm shadow-lg shadow-blue-500/20">
+                                    Start Free <ArrowRight className="h-3.5 w-3.5" />
+                                </Link>
+                                <Link href="/contact" className="inline-flex items-center gap-1.5 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 hover:bg-white transition-colors text-sm">
+                                    Demo
+                                </Link>
+                            </div>
                         </div>
-                        <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
-                            <span className="flex items-center gap-1.5">
-                                <CheckCircle className="h-4 w-4 text-green-500" /> 14-day free trial
-                            </span>
-                            <span className="flex items-center gap-1.5">
-                                <CheckCircle className="h-4 w-4 text-green-500" /> No credit card
-                            </span>
-                            <span className="flex items-center gap-1.5">
-                                <CheckCircle className="h-4 w-4 text-green-500" /> Cancel anytime
-                            </span>
-                        </div>
+
                     </div>
                 </div>
             </section>
