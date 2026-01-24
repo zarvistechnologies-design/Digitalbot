@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Blog - Machine Learning &amp; Deep Learning Topics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+   @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap");
+
+   body {
+     font-family: "Josefin Sans", sans-serif;
+     background-color: #2f2f2f;
+     color: white;
+     margin: 0;
+     min-height: 100vh;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     padding: 2rem 1rem;
+   }
+   nav {
+     width: 100%;
+     max-width: 1200px;
+     padding: 1rem 2rem;
+     display: flex;
+     justify-content: center;
+     gap: 3rem;
+     background: transparent;
+     font-size: 14px;
+     font-weight: 300;
+     letter-spacing: 0.05em;
+     margin-bottom: 2rem;
+   }
+   nav a {
+     color: white;
+     text-decoration: none;
+     transition: color 0.3s ease;
+     cursor: pointer;
+   }
+   nav a:hover,
+   nav a.active {
+     text-decoration: underline;
+     color: #ddd;
+   }
+   main {
+     width: 100%;
+     max-width: 1200px;
+     display: flex;
+     gap: 2rem;
+   }
+   h1 {
+     font-size: 2.5rem;
+     font-weight: 700;
+     margin-bottom: 2rem;
+     text-align: center;
+     width: 100%;
+   }
+   .topics-list {
+     flex: 1;
+     max-width: 350px;
+     display: grid;
+     grid-template-columns: 1fr;
+     gap: 1rem;
+     overflow-y: auto;
+     max-height: 80vh;
+     border-right: 1px solid rgba(255 255 255 / 0.1);
+     padding-right: 1rem;
+   }
+   .topic-card {
+     background: rgba(255 255 255 / 0.05);
+     border-radius: 12px;
+     box-shadow: 0 0 20px rgba(255 255 255 / 0.1);
+     padding: 0.75rem 1rem;
+     cursor: pointer;
+     transition: background-color 0.3s ease, transform 0.3s ease;
+     font-weight: 500;
+     font-size: 1rem;
+     color: #cbd5e1;
+     border: 1px solid transparent;
+     user-select: none;
+     text-align: left;
+     border-left-width: 4px;
+   }
+   .topic-card:hover {
+     background: rgba(59, 130, 246, 0.3);
+     color: white;
+     border-color: #3b82f6;
+     transform: translateX(5px);
+   }
+   .topic-card.active {
+     background: rgba(59, 130, 246, 0.6);
+     color: white;
+     border-color: #3b82f6;
+     font-weight: 700;
+     transform: translateX(5px);
+   }
+   .topic-content {
+     flex: 2;
+     background: rgba(255 255 255 / 0.05);
+     border-radius: 12px;
+     box-shadow: 0 0 20px rgba(255 255 255 / 0.1);
+     padding: 2rem;
+     max-height: 80vh;
+     overflow-y: auto;
+   }
+   .topic-content h2 {
+     font-size: 2rem;
+     margin-bottom: 1rem;
+     color: #fff;
+   }
+   .topic-content p {
+     font-size: 1.1rem;
+     line-height: 1.6;
+     margin-bottom: 1rem;
+   }
+   @media (max-width: 900px) {
+     main {
+       flex-direction: column;
+     }
+     .topics-list {
+       max-width: 100%;
+       max-height: 300px;
+       border-right: none;
+       border-bottom: 1px solid rgba(255 255 255 / 0.1);
+       padding-right: 0;
+       padding-bottom: 1rem;
+     }
+     .topic-content {
+       max-height: none;
+       margin-top: 1rem;
+     }
+   }
+  </style>
+ </head>
+ <body>
+  <!-- Navigation -->
+  <nav>
+  <a href="{% url 'index' %}">HOME</a>
+  <a href="{% url 'projects' %}">WORK</a>
+  <a href="{% url 'about' %}">ABOUT</a>
+  <a href="{% url 'contact' %}">CONTACT</a>
+  <a href="{% url 'blogs' %}" class="active">BLOGS</a>
+  </nav>
+  <!-- Blog Topics and Content -->
+  <main>
+   <div class="topics-list" role="list" aria-label="List of blog topics">
+    <div class="topic-card active" role="listitem" tabindex="0" data-topic="Supervised Learning">Supervised Learning</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Unsupervised Learning">Unsupervised Learning</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Reinforcement Learning">Reinforcement Learning</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Neural Networks">Neural Networks</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Convolutional Neural Networks (CNNs)">Convolutional Neural Networks (CNNs)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Recurrent Neural Networks (RNNs)">Recurrent Neural Networks (RNNs)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Long Short-Term Memory (LSTM)">Long Short-Term Memory (LSTM)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Generative Adversarial Networks (GANs)">Generative Adversarial Networks (GANs)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Autoencoders">Autoencoders</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Transfer Learning">Transfer Learning</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Support Vector Machines (SVM)">Support Vector Machines (SVM)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Decision Trees">Decision Trees</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Random Forests">Random Forests</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Gradient Boosting Machines">Gradient Boosting Machines</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="K-Nearest Neighbors (KNN)">K-Nearest Neighbors (KNN)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Clustering Algorithms">Clustering Algorithms</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Dimensionality Reduction">Dimensionality Reduction</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Principal Component Analysis (PCA)">Principal Component Analysis (PCA)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Feature Engineering">Feature Engineering</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Hyperparameter Tuning">Hyperparameter Tuning</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Model Evaluation Metrics">Model Evaluation Metrics</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Overfitting and Underfitting">Overfitting and Underfitting</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Cross-Validation">Cross-Validation</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Regularization Techniques">Regularization Techniques</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Batch Normalization">Batch Normalization</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Dropout">Dropout</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Activation Functions">Activation Functions</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Backpropagation">Backpropagation</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Optimization Algorithms">Optimization Algorithms</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Stochastic Gradient Descent (SGD)">Stochastic Gradient Descent (SGD)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Adam Optimizer">Adam Optimizer</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Natural Language Processing (NLP)">Natural Language Processing (NLP)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Computer Vision">Computer Vision</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Time Series Analysis">Time Series Analysis</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Recommender Systems">Recommender Systems</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Explainable AI (XAI)">Explainable AI (XAI)</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Federated Learning">Federated Learning</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Self-Supervised Learning">Self-Supervised Learning</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Capsule Networks">Capsule Networks</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Attention Mechanisms">Attention Mechanisms</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Transformers">Transformers</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="BERT Model">BERT Model</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="GPT Models">GPT Models</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Deep Reinforcement Learning">Deep Reinforcement Learning</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Anomaly Detection">Anomaly Detection</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Data Augmentation">Data Augmentation</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Hyperparameter Optimization">Hyperparameter Optimization</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Model Deployment">Model Deployment</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Ethics in AI">Ethics in AI</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="AI in Healthcare">AI in Healthcare</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="AI in Finance">AI in Finance</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="AI in Autonomous Vehicles">AI in Autonomous Vehicles</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Edge AI">Edge AI</div>
+    <div class="topic-card" role="listitem" tabindex="0" data-topic="Quantum Machine Learning">Quantum Machine Learning</div>
+   </div>
+   <section class="topic-content" aria-live="polite" aria-atomic="true" tabindex="0">
+    <h2>Supervised Learning</h2>
+    <p>
+     Supervised learning is a type of machine learning where the model is trained on labeled data. This means the input data is paired with the correct output, and the model learns to map inputs to outputs. It is commonly used for classification and regression tasks, such as spam detection or predicting house prices.
+    </p>
+   </section>
+  </main>
+  <script>
+   const topics = {
+     "Supervised Learning": `Supervised learning is a type of machine learning where the model is trained on labeled data. This means the input data is paired with the correct output, and the model learns to map inputs to outputs. It is commonly used for classification and regression tasks, such as spam detection or predicting house prices.`,
+     "Unsupervised Learning": `Unsupervised learning involves training models on data without labeled responses. The model tries to find patterns or groupings in the data, such as clustering customers by purchasing behavior or reducing data dimensions for visualization.`,
+     "Reinforcement Learning": `Reinforcement learning is a learning paradigm where an agent learns to make decisions by performing actions and receiving rewards or penalties. It is widely used in robotics, gaming, and autonomous systems.`,
+     "Neural Networks": `Neural networks are computing systems inspired by the human brain's network of neurons. They consist of layers of interconnected nodes that can learn complex patterns in data, forming the basis of deep learning.`,
+     "Convolutional Neural Networks (CNNs)": `CNNs are specialized neural networks designed for processing grid-like data such as images. They use convolutional layers to automatically and adaptively learn spatial hierarchies of features, making them excellent for image recognition tasks.`,
+     "Recurrent Neural Networks (RNNs)": `RNNs are neural networks designed to handle sequential data by maintaining a memory of previous inputs. They are commonly used in language modeling, speech recognition, and time series prediction.`,
+     "Long Short-Term Memory (LSTM)": `LSTM is a type of RNN that can learn long-term dependencies by using special memory cells. It helps overcome the vanishing gradient problem in traditional RNNs, improving performance on tasks like language translation.`,
+     "Generative Adversarial Networks (GANs)": `GANs consist of two neural networks, a generator and a discriminator, competing against each other. The generator creates fake data, while the discriminator tries to detect it. GANs are used for generating realistic images, videos, and more.`,
+     "Autoencoders": `Autoencoders are neural networks used for unsupervised learning of efficient codings. They compress input data into a lower-dimensional representation and then reconstruct the output, useful for anomaly detection and data denoising.`,
+     "Transfer Learning": `Transfer learning involves taking a pre-trained model on one task and fine-tuning it for a different but related task. This approach saves time and resources and often improves performance, especially with limited data.`,
+     "Support Vector Machines (SVM)": `SVMs are supervised learning models used for classification and regression. They find the hyperplane that best separates classes in the feature space, effective in high-dimensional spaces.`,
+     "Decision Trees": `Decision trees are models that split data into branches based on feature values, making decisions at each node. They are easy to interpret and used for classification and regression.`,
+     "Random Forests": `Random forests are ensembles of decision trees that improve accuracy by averaging multiple trees trained on random subsets of data and features, reducing overfitting.`,
+     "Gradient Boosting Machines": `Gradient boosting builds models sequentially, each correcting errors of the previous one. It is a powerful technique used in many winning machine learning competitions.`,
+     "K-Nearest Neighbors (KNN)": `KNN is a simple algorithm that classifies data points based on the majority class among their k nearest neighbors in the feature space.`,
+     "Clustering Algorithms": `Clustering groups similar data points together without labels. Common algorithms include K-means, hierarchical clustering, and DBSCAN.`,
+     "Dimensionality Reduction": `Techniques that reduce the number of features in data while preserving important information, helping visualization and speeding up learning.`,
+     "Principal Component Analysis (PCA)": `PCA is a popular dimensionality reduction method that transforms data into a set of orthogonal components capturing the most variance.`,
+     "Feature Engineering": `The process of creating new input features from raw data to improve model performance.`,
+     "Hyperparameter Tuning": `Adjusting the parameters that control the learning process to optimize model performance.`,
+     "Model Evaluation Metrics": `Metrics like accuracy, precision, recall, F1-score, and ROC-AUC used to assess model quality.`,
+     "Overfitting and Underfitting": `Overfitting occurs when a model learns noise instead of patterns; underfitting happens when a model is too simple to capture data trends.`,
+     "Cross-Validation": `A technique to evaluate model performance by splitting data into training and testing sets multiple times.`,
+     "Regularization Techniques": `Methods like L1 and L2 regularization that prevent overfitting by adding penalties to model complexity.`,
+     "Batch Normalization": `A technique to normalize layer inputs, speeding up training and improving stability.`,
+     "Dropout": `Randomly dropping neurons during training to prevent overfitting.`,
+     "Activation Functions": `Functions like ReLU, sigmoid, and tanh that introduce non-linearity into neural networks.`,
+     "Backpropagation": `The algorithm used to update neural network weights by propagating errors backward.`,
+     "Optimization Algorithms": `Algorithms like SGD, Adam used to minimize loss functions during training.`,
+     "Stochastic Gradient Descent (SGD)": `An optimization method that updates weights using small batches of data for faster convergence.`,
+     "Adam Optimizer": `An adaptive learning rate optimization algorithm widely used in deep learning.`,
+     "Natural Language Processing (NLP)": `Techniques to enable computers to understand and generate human language.`,
+     "Computer Vision": `Enabling machines to interpret and analyze visual data like images and videos.`,
+     "Time Series Analysis": `Analyzing data points collected or recorded at time intervals.`,
+     "Recommender Systems": `Systems that suggest products or content based on user preferences and behavior.`,
+     "Explainable AI (XAI)": `Methods to make AI decisions understandable to humans.`,
+     "Federated Learning": `Training models across decentralized devices while keeping data local for privacy.`,
+     "Self-Supervised Learning": `Learning useful representations from unlabeled data by predicting parts of the input.`,
+     "Capsule Networks": `Neural networks designed to better capture spatial hierarchies in data.`,
+     "Attention Mechanisms": `Techniques that allow models to focus on important parts of input data.`,
+     "Transformers": `A neural network architecture that uses attention mechanisms, revolutionizing NLP.`,
+     "BERT Model": `A transformer-based model pre-trained on large text corpora for language understanding.`,
+     "GPT Models": `Generative models that produce human-like text based on input prompts.`,
+     "Deep Reinforcement Learning": `Combining deep learning with reinforcement learning for complex decision making.`,
+     "Anomaly Detection": `Identifying unusual patterns or outliers in data.`,
+     "Data Augmentation": `Techniques to increase training data diversity by creating modified versions.`,
+     "Hyperparameter Optimization": `Systematic search for the best hyperparameters to improve model performance.`,
+     "Model Deployment": `Making trained models available for real-world use.`,
+     "Ethics in AI": `Ensuring AI systems are fair, transparent, and respect privacy.`,
+     "AI in Healthcare": `Applications of AI to improve medical diagnosis and treatment.`,
+     "AI in Finance": `Using AI for fraud detection, trading, and risk management.`,
+     "AI in Autonomous Vehicles": `Enabling self-driving cars with AI technologies.`,
+     "Edge AI": `Running AI models locally on devices rather than in the cloud.`,
+     "Quantum Machine Learning": `Combining quantum computing with machine learning for new capabilities.`
+   };
+
+   const topicCards = document.querySelectorAll(".topic-card");
+   const contentSection = document.querySelector(".topic-content");
+
+   function setActiveTopic(topic) {
+     topicCards.forEach((card) => {
+       if (card.dataset.topic === topic) {
+         card.classList.add("active");
+         card.setAttribute("aria-current", "true");
+         card.focus();
+       } else {
+         card.classList.remove("active");
+         card.removeAttribute("aria-current");
+       }
+     });
+     contentSection.innerHTML = `
+       <h2>${topic}</h2>
+       <p>${topics[topic]}</p>
+     `;
+     contentSection.focus();
+   }
+
+   topicCards.forEach((card) => {
+     card.addEventListener("click", () => {
+       setActiveTopic(card.dataset.topic);
+     });
+     card.addEventListener("keydown", (e) => {
+       if (e.key === "Enter" || e.key === " ") {
+         e.preventDefault();
+         setActiveTopic(card.dataset.topic);
+       }
+     });
+   });
+
+   // Initialize with first topic
+   setActiveTopic("Supervised Learning");
+  </script>
+ </body>
+</html>
+  </style>
+</head>
+<body>
+  <!-- ...existing content... -->
+</body>
+</html>
+</html>
