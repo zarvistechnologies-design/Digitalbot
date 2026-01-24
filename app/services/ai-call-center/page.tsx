@@ -1,164 +1,176 @@
+"use client";
+
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { VoiceConversationPlayer } from "@/components/voice-conversation-player";
-import { ArrowRight, BarChart3, Bot, Brain, Building2, Check, Clock, HeadphonesIcon, MessageCircle, Mic, Phone, Shield, Target, TrendingUp, Users, Workflow, Zap } from "lucide-react";
-import { Metadata } from "next";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  BarChart3,
+  Bot,
+  Brain,
+  Building2,
+  Check,
+  CheckCircle,
+  Clock,
+  HeadphonesIcon,
+  MessageCircle,
+  Mic,
+  Pause,
+  Phone,
+  Play,
+  Shield,
+  Sparkles,
+  Target,
+  TrendingUp,
+  Users,
+  Zap
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-export const metadata: Metadata = {
-  title: "AI Call Center | 24/7 Automated Call Center Software - DigitalBot.ai 2025",
-  description: "Deploy an AI call center that handles unlimited calls 24/7. Intelligent routing, real-time analytics & CRM integration. Trusted by 500+ businesses. Start free trial.",
-  keywords: [
-    "ai call center",
-    "ai call center software",
-    "automated call center",
-    "ai phone system",
-    "call center automation",
-    "ai customer service",
-    "virtual call center",
-    "ai call routing",
-    "call center ai solution",
-    "ai contact center",
-    "automated phone system",
-    "ai voice call center",
-    "call center automation software",
-    "ai powered call center",
-    "intelligent call routing",
-  ],
-  openGraph: {
-    title: "AI Call Center | 24/7 Automated Call Center Software - DigitalBot.ai 2025",
-    description: "Deploy an AI call center that handles unlimited calls 24/7. Intelligent routing, real-time analytics & CRM integration. Trusted by 500+ businesses.",
-    type: "website",
-    url: "https://digitalbot.ai/services/ai-call-center",
-    images: [
-      {
-        url: "/images/ai-voice-agent.png",
-        width: 1200,
-        height: 630,
-        alt: "AI Call Center Software",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "AI Call Center | 24/7 Automated Call Center Software - DigitalBot.ai 2025",
-    description: "Deploy an AI call center that handles unlimited calls 24/7. Intelligent routing, real-time analytics & CRM integration. Trusted by 500+ businesses.",
-    images: ["/images/ai-voice-agent.png"],
-  },
-};
-
-const benefits = [
+// Core benefits - all 9 items restored with full content and images
+const coreBenefits = [
   {
     icon: Building2,
     title: "Enterprise-Grade Contact Center",
+    stat: "99.9%",
+    statLabel: "Uptime SLA",
     description: "Launch a fully managed AI call center with elastic capacity, carrier-grade reliability, and compliance controls tailored to finance, healthcare, retail, and logistics enterprises.",
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Clock,
     title: "24/7 Intelligent Availability",
+    stat: "24/7",
+    statLabel: "Always On",
     description: "Deliver instant responses across every time zone. AI agents handle calls, email callbacks, and SMS follow-ups round-the-clock with consistent accuracy.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: TrendingUp,
     title: "Productivity Gains",
+    stat: "85%",
+    statLabel: "Automation",
     description: "Automate 85% of routine call center interactions and cut average handle times by 60%, allowing live agents to focus on complex escalations that drive revenue.",
     image: "https://images.unsplash.com/photo-1551434678-efb963407044?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Shield,
     title: "Security & Compliance",
+    stat: "SOC2",
+    statLabel: "Compliant",
     description: "SOC 2, HIPAA, PCI DSS, and GDPR compliant voice infrastructure with end-to-end encryption, redaction, and granular audit trails.",
     image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: HeadphonesIcon,
     title: "Human-Centric Experiences",
+    stat: "NLU",
+    statLabel: "Powered",
     description: "Natural language understanding, sentiment detection, and empathetic speech synthesis deliver conversations that mirror your brand tone.",
     image: "https://images.unsplash.com/photo-1553775282-20af80779df7?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Users,
     title: "Omnichannel Continuity",
+    stat: "5+",
+    statLabel: "Channels",
     description: "Carry context seamlessly from inbound calls to SMS, WhatsApp, email, and live chat handoffs, eliminating repetitive customer verification.",
     image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: BarChart3,
     title: "Real-Time Intelligence",
+    stat: "Live",
+    statLabel: "Analytics",
     description: "Supervisors receive live dashboards with queue analytics, AI quality scoring, agent coaching suggestions, and automated compliance flags.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Zap,
     title: "Rapid Deployment",
+    stat: "<14",
+    statLabel: "Days Live",
     description: "Pre-built call flows, multilingual voice models, and CRM connectors allow enterprises to go live in under 14 days with zero downtime.",
     image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80"
   },
   {
-    icon: Workflow,
+    icon: Brain,
     title: "No-Code Orchestration",
+    stat: "A/B",
+    statLabel: "Testing",
     description: "Design, test, and iterate complex IVR replacements with visual builders, reusable conversation blocks, and A/B testing out of the box.",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
   }
-]
+];
 
+// Use cases - all 4 with full descriptions restored and images
 const useCases = [
   {
     title: "Customer Support Automation",
     description: "Route and resolve high-volume support calls automatically. AI agents authenticate callers, surface knowledge articles, and complete account actions without human intervention.",
-    results: "Reduce cost per call by 70%",
+    result: "Reduce cost per call by 70%",
+    icon: HeadphonesIcon,
+    color: "from-blue-500 to-cyan-500",
     image: "https://images.unsplash.com/photo-1553775282-20af80779df7?auto=format&fit=crop&w=800&q=80"
   },
   {
     title: "Revenue & Upsell Campaigns",
     description: "Run proactive retention and cross-sell campaigns with AI that understands customer history, proposes relevant offers, and captures payments securely.",
-    results: "Grow upsell conversions by 45%",
+    result: "Grow upsell conversions by 45%",
+    icon: TrendingUp,
+    color: "from-emerald-500 to-teal-500",
     image: "https://images.unsplash.com/photo-1551434678-efb963407044?auto=format&fit=crop&w=800&q=80"
   },
   {
     title: "Field Service Dispatch",
     description: "Automatically triage incident calls, schedule engineers, and confirm appointments while syncing updates to workforce management tools in real time.",
-    results: "Cut dispatch delays by 55%",
+    result: "Cut dispatch delays by 55%",
+    icon: Users,
+    color: "from-violet-500 to-purple-500",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80"
   },
   {
     title: "Compliance Hotlines",
     description: "Provide confidential hotlines with voice biometrics, call transcription, and automated routing to the right compliance teams within SLA windows.",
-    results: "Achieve 100% policy adherence",
+    result: "Achieve 100% policy adherence",
+    icon: Shield,
+    color: "from-amber-500 to-orange-500",
     image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=800&q=80"
   }
-]
+];
 
-const featureBlocks = [
+// Advanced features - all 4 with full descriptions restored and images
+const advancedFeatures = [
   {
     icon: Phone,
-    heading: "Carrier-Grade Voice Infrastructure",
-    body: "Redundant SIP trunks, automatic call distribution, and smart failover ensure every inbound and outbound interaction connects instantly and clearly.",
+    title: "Carrier-Grade Voice Infrastructure",
+    description: "Redundant SIP trunks, automatic call distribution, and smart failover ensure every inbound and outbound interaction connects instantly and clearly.",
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Target,
-    heading: "Smart Intent Routing",
-    body: "Machine learning models detect intent in the first three seconds of audio and route customers to AI workflows or human specialists based on priority.",
+    title: "Smart Intent Routing",
+    description: "Machine learning models detect intent in the first three seconds of audio and route customers to AI workflows or human specialists based on priority.",
     image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: MessageCircle,
-    heading: "Agent Assist & Collaboration",
-    body: "Surface live transcripts, objection handling scripts, and AI-generated summaries directly inside your agent desktop for lightning-fast resolutions.",
+    title: "Agent Assist & Collaboration",
+    description: "Surface live transcripts, objection handling scripts, and AI-generated summaries directly inside your agent desktop for lightning-fast resolutions.",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Mic,
-    heading: "Accurate Speech Intelligence",
-    body: "Multi-accent recognition, noise suppression, and adaptive speech synthesis deliver natural, inclusive experiences across 60+ languages.",
+    title: "Accurate Speech Intelligence",
+    description: "Multi-accent recognition, noise suppression, and adaptive speech synthesis deliver natural, inclusive experiences across 60+ languages.",
     image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80"
   }
-]
+];
 
+// FAQ Schema
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -212,8 +224,9 @@ const faqSchema = {
       }
     }
   ]
-}
+};
 
+// Product Schema
 const productSchema = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -237,449 +250,696 @@ const productSchema = {
     "ratingValue": "4.8",
     "reviewCount": "500"
   }
-}
+};
 
 export default function AICallCenter() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  const [activeUseCase, setActiveUseCase] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Fade-in on mount
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  // Auto-rotate use cases
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveUseCase((prev) => (prev + 1) % useCases.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => new Set(prev).add(entry.target.id));
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    const sections = document.querySelectorAll('[data-animate]');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Audio playback handler
+  const toggleAudio = useCallback(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(() => {
+          console.log("Audio playback blocked by browser");
+        });
+      }
+      setIsPlaying(!isPlaying);
+    } else {
+      setIsPlaying(!isPlaying);
+    }
+  }, [isPlaying]);
+
+  const handleAudioEnded = useCallback(() => {
+    setIsPlaying(false);
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Header />
+    <>
+      <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+        {/* Hidden audio element */}
+        <audio
+          ref={audioRef}
+          src="/audio/call-center-demo.mp3"
+          onEnded={handleAudioEnded}
+          preload="metadata"
+        />
 
-      <main className="flex-1">
-        {/* Structured Data */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+        <Header />
 
-        {/* Hero Section - Light Theme */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-gray-50 to-white py-16 md:py-24">
-          {/* Subtle Light Background */}
-          <div className="absolute inset-0 opacity-30">
-            <div
-              className="absolute inset-0"
-              style={{
-                background: 'linear-gradient(rgba(249, 115, 22, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(249, 115, 22, 0.02) 1px, transparent 1px)',
-                backgroundSize: '50px 50px'
-              }}
-            />
-          </div>
+        <main className="flex-1 relative z-10">
+          {/* Structured Data */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
 
-          {/* Floating sky Elements */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-radial from-sky-400/10 to-transparent rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-40 right-20 w-96 h-96 bg-gradient-radial from-sky-300/8 to-transparent rounded-full blur-3xl animate-pulse delay-300" />
-          <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-gradient-radial from-sky-500/5 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
+          {/* HERO SECTION - Modern Two-Column Like Appointments */}
+          <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-white flex items-center">
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {/* Floating Orbs */}
+              <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+              
+              {/* Animated Grid */}
+              <div className="absolute inset-0 opacity-[0.03]" style={{
+                backgroundImage: 'linear-gradient(to right, #3b82f6 1px, transparent 1px), linear-gradient(to bottom, #3b82f6 1px, transparent 1px)',
+                backgroundSize: '60px 60px'
+              }} />
+              
+              {/* Animated Lines */}
+              <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
+              <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
+            </div>
 
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="max-w-5xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white border border-sky-500 px-6 py-2.5 mb-8 font-semibold text-sm uppercase tracking-widest" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <Phone className="w-4 h-4" />
-                <span>Enterprise AI Call Center</span>
-              </div>
-
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
-                <span className="bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 bg-clip-text text-transparent uppercase tracking-wider">
-                  Transform Your Call Center
-                </span>
-                <br />
-                <span className="relative inline-block mt-2">
-                  <span className="relative z-10 text-gray-900 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-widest">
-                    with AI Automation
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-sky-400/10 via-sky-300/10 to-sky-500/10 blur-2xl -z-10 scale-110" />
-                </span>
-              </h1>
-
-              <p className="text-sm sm:text-base md:text-lg mb-10 text-gray-700 max-w-4xl mx-auto leading-relaxed">
-                Deploy an <strong className="text-sky-600">AI call center</strong> that handles unlimited customer calls 24/7 with intelligent routing, real-time analytics, and seamless CRM integration.
-                Trusted by <span className="font-bold text-sky-600">500+ businesses</span> managing <span className="font-bold text-sky-600">2M+ conversations</span> monthly.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                <button className="bg-sky-500 text-white hover:bg-sky-400 font-bold px-8 py-3 text-sm tracking-widest uppercase transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-sky-400/30 flex items-center" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                }}>
-                  <Link href="/signup" className="flex items-center">
-                    Start Free Trial
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Link>
-                </button>
-                <button className="bg-white text-sky-600 border-2 border-sky-400/30 hover:bg-sky-50 font-bold px-8 py-3 text-sm tracking-widest uppercase transition-all" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                }}>
-                  <Link href="/contact" className="flex items-center">
-                    <Phone className="mr-2 w-4 h-4" />
-                    Book Demo
-                  </Link>
-                </button>
-              </div>
-
-              <div className="inline-flex flex-col gap-4 bg-white border border-sky-200 p-6 shadow-lg shadow-sky-100/20" style={{
-                clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-              }}>
-                <div className="flex flex-wrap gap-6 justify-center items-center text-xs sm:text-sm font-medium">
-                  <div className="flex items-center gap-2 text-sky-600 uppercase tracking-widest">
-                    <Check className="w-4 h-4 text-sky-600" />
-                    <span>500+ Active Businesses</span>
+            <div className="container mx-auto relative z-30 max-w-7xl">
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                
+                {/* Left Side - Content */}
+                <div className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  {/* Badge */}
+                  <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 px-4 py-2 rounded-full mb-6">
+                    <Sparkles className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm font-semibold text-blue-700">Enterprise AI Call Center</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sky-600 uppercase tracking-widest">
-                    <Check className="w-4 h-4 text-sky-600" />
-                    <span>4.8/5 Customer Rating</span>
+
+                  {/* Main Headline */}
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+                    <span className="block text-black">Transform Your</span>
+                    <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 bg-clip-text text-transparent">Call Center with AI</span>
+                  </h1>
+
+                  {/* Tagline Box */}
+                  <div className="bg-gradient-to-r from-blue-50 to-blue-50/50 border border-blue-200 rounded-2xl p-5 mb-6">
+                    <p className="text-gray-600 text-sm italic mb-1">&quot;Every missed call is a missed opportunity.&quot;</p>
+                    <p className="text-blue-600 font-bold text-base uppercase tracking-wider">LET AI HANDLE UNLIMITED CALLS 24/7.</p>
                   </div>
-                  <div className="flex items-center gap-2 text-sky-600 uppercase tracking-widest">
-                    <Shield className="w-4 h-4 text-sky-600" />
-                    <span>SOC2 & HIPAA Compliant</span>
+
+                  {/* Description */}
+                  <p className="text-gray-600 text-base lg:text-lg mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    Deploy an <strong className="text-blue-600">AI-powered call center</strong> with intelligent routing, real-time analytics, and seamless CRM integration — trusted by <strong className="text-blue-600">500+ businesses</strong> managing <strong>2M+ conversations</strong> monthly.
+                  </p>
+
+                  {/* Audio Player */}
+                  <div className="mb-6">
+                    <p className="text-xs font-medium text-gray-500 mb-2">🎧 Hear AI in Action</p>
+                    <button
+                      onClick={toggleAudio}
+                      className="w-full max-w-md bg-white rounded-xl px-4 py-3 flex items-center gap-3 shadow-md border border-gray-200 hover:shadow-lg hover:border-blue-300 transition-all group"
+                    >
+                      <div className="flex-1 flex items-center justify-center h-8">
+                        <svg width="160" height="32" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="32" gradientUnits="userSpaceOnUse">
+                              <stop stopColor="#3b82f6" />
+                              <stop offset="1" stopColor="#1d4ed8" />
+                            </linearGradient>
+                          </defs>
+                          {[6, 10, 18, 26, 22, 16, 10, 8, 14, 20, 28, 24, 15, 10, 8, 6, 12, 20, 26, 20, 14, 10, 8, 12, 18, 24].map((h, i) => (
+                            isPlaying ? (
+                              <motion.rect
+                                key={i}
+                                x={6 * i + 2}
+                                width="4"
+                                rx="2"
+                                fill="url(#waveGradient)"
+                                animate={{
+                                  y: [32 - h, 32 - h - 10, 32 - h],
+                                  height: [h, h + 10, h]
+                                }}
+                                transition={{
+                                  repeat: Infinity,
+                                  duration: 0.7 + (i % 4) * 0.1,
+                                  delay: i * 0.04,
+                                  ease: "easeInOut"
+                                }}
+                                y={32 - h}
+                                height={h}
+                              />
+                            ) : (
+                              <rect key={i} x={6 * i + 2} y={32 - h} width="4" height={h} rx="2" fill="url(#waveGradient)" />
+                            )
+                          ))}
+                        </svg>
+                      </div>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg">
+                        {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+                      </div>
+                    </button>
                   </div>
-                  <div className="flex items-center gap-2 text-sky-600 uppercase tracking-widest">
-                    <Clock className="w-4 h-4 text-sky-600" />
-                    <span>24/7 Availability</span>
+
+                  {/* CTA Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
+                    <Link
+                      href="/signup"
+                      className="group px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-2"
+                    >
+                      Start Free Trial
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="px-6 py-3 bg-white text-blue-600 border-2 border-blue-200 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
+                    >
+                      <Phone className="w-4 h-4" />
+                      Book Demo
+                    </Link>
+                  </div>
+
+                  {/* Trust Indicators */}
+                  <div className="flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-gray-500">
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-xs">No credit card</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-xs">Live in 14 days</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-xs">40-60% cost savings</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Benefits Section - Light Theme */}
-        <section className="py-16 bg-gray-50 relative overflow-hidden">
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white border border-sky-500 px-4 py-2 mb-6 font-semibold text-xs uppercase tracking-widest" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <Bot className="w-3 h-3 animate-pulse" />
-                AI Call Center Features
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-sky-500 to-sky-600 bg-clip-text text-transparent uppercase tracking-wider leading-tight">
-                Why Choose DigitalBot
-                <br />
-                <span className="text-gray-900">for AI Call Centers?</span>
-              </h2>
-              <p className="text-sm sm:text-base text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                Powerful automation, intuitive operations, and <strong className="text-sky-600">measurable outcomes</strong> for modern contact centers
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {benefits.map((benefit, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-white border border-sky-200 p-6 hover:border-sky-400 shadow-md hover:shadow-lg hover:shadow-sky-200/50 transition-all duration-500 hover:-translate-y-2"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-                  }}
-                >
-                  {/* HD Image */}
-                  <div className="relative w-full h-24 mb-4 overflow-hidden border border-sky-200" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                  }}>
-                    <Image
-                      src={benefit.image}
-                      alt={benefit.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-sky-900/10 to-white/20"></div>
-                    <div className="absolute bottom-2 left-2">
-                      <div className="w-8 h-8 bg-sky-500 flex items-center justify-center text-white" style={{
-                        clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'
-                      }}>
-                        <benefit.icon className="w-4 h-4" />
+                {/* Right Side - Visual */}
+                <div className={`relative flex justify-center lg:justify-end transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+                  <div className="relative">
+                    {/* Animated Sound Waves */}
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
+                      <svg width="400" height="400" viewBox="0 0 400 400" fill="none" style={{ filter: 'drop-shadow(0 0 40px #3b82f6aa)' }}>
+                        <circle cx="200" cy="200" r="100" stroke="#60a5fa" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
+                        <circle cx="200" cy="200" r="130" stroke="#3b82f6" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
+                        <circle cx="200" cy="200" r="160" stroke="#2563eb" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
+                      </svg>
+                    </div>
+                    
+                    {/* Main Image */}
+                    <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-2xl z-20 bg-gradient-to-br from-blue-100 to-blue-50">
+                      <Image
+                        src="https://images.unsplash.com/photo-1560264280-88b68371db39?auto=format&fit=crop&w=800&q=80"
+                        alt="AI Call Center Dashboard"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
+                    </div>
+                    
+                    {/* Floating Badge - Bottom Right */}
+                    <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                          <Phone className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-gray-900">2M+</p>
+                          <p className="text-sm text-gray-500">Calls/Month</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Floating Badge - Top Left */}
+                    <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
+                          <TrendingUp className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-gray-900">500+</p>
+                          <p className="text-sm text-gray-500">Businesses</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-
-                  <h3 className="text-lg font-bold mb-3 text-sky-600 group-hover:text-sky-700 transition-colors uppercase tracking-wider leading-tight">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-gray-700 text-xs leading-relaxed">
-                    {benefit.description}
-                  </p>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Use Cases Section - Light Theme */}
-        <section className="py-16 bg-white relative overflow-hidden">
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white border border-sky-500 px-4 py-2 mb-6 font-semibold text-xs uppercase tracking-widest" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <Target className="w-3 h-3 animate-pulse" />
-                Proven Use Cases
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-sky-500 to-sky-600 bg-clip-text text-transparent uppercase tracking-wider leading-tight">
-                AI Call Center Use Cases
-                <br />
-                <span className="text-gray-900">& Results</span>
-              </h2>
-              <p className="text-sm sm:text-base text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                Proven automation playbooks that <strong className="text-sky-600">transform every customer touchpoint</strong>
-              </p>
             </div>
+          </section>
 
-            <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
-              {useCases.map((useCase, index) => (
-                <div
-                  key={index}
-                  className="group bg-white border border-sky-200 p-6 hover:border-sky-400 shadow-md hover:shadow-lg hover:shadow-sky-200/50 transition-all duration-500 hover:-translate-y-2"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-                  }}
-                >
-                  {/* HD Image */}
-                  <div className="relative w-full h-32 mb-4 overflow-hidden border border-sky-200" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                  }}>
-                    <Image
-                      src={useCase.image}
-                      alt={useCase.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-sky-900/10 to-white/20"></div>
+          {/* BENEFITS SECTION - Horizontal Stats Cards */}
+          <section 
+            id="benefits-section" 
+            data-animate
+            className="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Bot className="w-4 h-4" />
+                  Why Choose DigitalBot
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Enterprise-Grade <span className="text-blue-600">AI Call Center</span>
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Powerful automation with measurable outcomes for modern contact centers
+                </p>
+              </div>
+
+              {/* Stats Grid - 9 items in 3 rows */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                {coreBenefits.map((benefit, index) => (
+                  <div
+                    key={index}
+                    className={`group bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-2 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    style={{ transitionDelay: `${index * 0.1}s` }}
+                  >
+                    {/* Image */}
+                    <div className="relative h-32 overflow-hidden">
+                      <Image
+                        src={benefit.image}
+                        alt={benefit.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                      <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                          <benefit.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <span className="text-xl font-bold text-white">{benefit.stat}</span>
+                          <span className="text-xs text-white/80 ml-1 uppercase">{benefit.statLabel}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Content */}
+                    <div className="p-4">
+                      <h3 className="font-bold text-gray-900 mb-2 text-sm group-hover:text-blue-600 transition-colors">{benefit.title}</h3>
+                      <p className="text-xs text-gray-600 leading-relaxed">{benefit.description}</p>
+                    </div>
                   </div>
-
-                  <h3 className="text-xl font-bold mb-3 text-sky-600 group-hover:text-sky-700 transition-colors uppercase tracking-wider leading-tight">
-                    {useCase.title}
-                  </h3>
-                  <p className="text-gray-700 text-xs leading-relaxed mb-4">
-                    {useCase.description}
-                  </p>
-                  <span className="inline-flex items-center px-3 py-1.5 bg-sky-100 border border-sky-300 text-sky-700 text-xs font-semibold uppercase tracking-widest" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                  }}>
-                    <Check className="h-3 w-3 mr-2" />
-                    {useCase.results}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Features Section - Light Theme */}
-        <section className="py-16 bg-gray-50 relative overflow-hidden">
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white border border-sky-500 px-4 py-2 mb-6 font-semibold text-xs uppercase tracking-widest" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <Brain className="w-3 h-3 animate-pulse" />
-                Advanced Features
+                ))}
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-sky-500 to-sky-600 bg-clip-text text-transparent uppercase tracking-wider leading-tight">
-                Enterprise-Grade AI
-                <br />
-                <span className="text-gray-900">Call Center Features</span>
-              </h2>
-              <p className="text-sm sm:text-base text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                Deep technical capabilities that keep your contact center <strong className="text-sky-600">fast, compliant, and future-proof</strong>
-              </p>
             </div>
+          </section>
 
-            <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
-              {featureBlocks.map((feature, index) => (
-                <div
-                  key={index}
-                  className="group bg-white border border-sky-200 p-6 hover:border-sky-400 shadow-md hover:shadow-lg hover:shadow-sky-200/50 transition-all duration-500"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-                  }}
-                >
-                  {/* HD Image */}
-                  <div className="relative w-full h-32 mb-4 overflow-hidden border border-sky-200" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                  }}>
+          {/* USE CASES SECTION - Interactive Tabs */}
+          <section 
+            id="usecases-section" 
+            data-animate
+            className="py-20 bg-gray-50 relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-6xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Target className="w-4 h-4" />
+                  Proven Results
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  AI Call Center <span className="text-blue-600">Use Cases</span>
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Transform every customer touchpoint with proven automation playbooks
+                </p>
+              </div>
+
+              {/* Interactive Use Cases */}
+              <div className={`grid lg:grid-cols-5 gap-6 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {/* Tabs */}
+                <div className="lg:col-span-2 flex lg:flex-col gap-2">
+                  {useCases.map((useCase, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveUseCase(index)}
+                      className={`flex-1 lg:flex-none flex items-center gap-3 p-4 rounded-xl transition-all duration-300 text-left ${
+                        activeUseCase === index
+                          ? 'bg-white shadow-lg border-2 border-blue-500'
+                          : 'bg-white/50 border border-gray-200 hover:bg-white hover:shadow-md'
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br ${useCase.color} ${activeUseCase === index ? 'scale-110' : ''} transition-transform`}>
+                        <useCase.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="hidden sm:block">
+                        <h4 className={`font-bold ${activeUseCase === index ? 'text-blue-600' : 'text-gray-700'}`}>
+                          {useCase.title}
+                        </h4>
+                        <p className="text-xs text-gray-500">{useCase.result}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Content */}
+                <div className="lg:col-span-3 bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden">
                     <Image
-                      src={feature.image}
-                      alt={feature.heading}
+                      src={useCases[activeUseCase].image}
+                      alt={useCases[activeUseCase].title}
                       fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="object-cover transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-sky-900/10 to-white/20"></div>
-                    <div className="absolute bottom-2 left-2">
-                      <div className="w-8 h-8 bg-sky-500 flex items-center justify-center text-white" style={{
-                        clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'
-                      }}>
-                        <feature.icon className="w-4 h-4" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`w-14 h-14 rounded-xl flex items-center justify-center bg-gradient-to-br ${useCases[activeUseCase].color}`}>
+                          {(() => {
+                            const Icon = useCases[activeUseCase].icon;
+                            return <Icon className="w-7 h-7 text-white" />;
+                          })()}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-white">{useCases[activeUseCase].title}</h3>
+                          <div className="flex items-center gap-2 mt-1">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-green-400 font-semibold text-sm">{useCases[activeUseCase].result}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  {/* Text Content */}
+                  <div className="p-6">
+                    <p className="text-gray-600 text-base leading-relaxed mb-4">
+                      {useCases[activeUseCase].description}
+                    </p>
+                    <Link
+                      href="/signup"
+                      className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                    >
+                      Get Started <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
-                  <div className="flex items-start gap-4 mb-4">
-                    <h3 className="text-lg font-bold text-sky-600 group-hover:text-sky-700 transition-colors uppercase tracking-wider leading-tight">
-                      {feature.heading}
+          {/* ADVANCED FEATURES - Bento Grid Layout */}
+          <section 
+            id="features-section" 
+            data-animate
+            className="py-20 bg-white relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('features-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Brain className="w-4 h-4" />
+                  Advanced Technology
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Enterprise-Grade <span className="text-blue-600">Features</span>
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Deep technical capabilities for fast, compliant, future-proof contact centers
+                </p>
+              </div>
+
+              {/* Bento Grid */}
+              <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 transition-all duration-700 ${visibleSections.has('features-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {/* Feature 1 - Large Card */}
+                <div className="lg:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={advancedFeatures[0].image}
+                      alt={advancedFeatures[0].title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="relative h-full min-h-[400px] lg:min-h-[500px] p-8 flex flex-col justify-end">
+                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                      {(() => {
+                        const Icon = advancedFeatures[0].icon;
+                        return <Icon className="w-7 h-7 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                      {advancedFeatures[0].title}
                     </h3>
+                    <p className="text-white/80 text-base lg:text-lg leading-relaxed max-w-xl">
+                      {advancedFeatures[0].description}
+                    </p>
                   </div>
-                  <p className="text-gray-700 text-xs leading-relaxed">{feature.body}</p>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        {/* Demo Section - Light Theme */}
-        <section className="py-16 bg-white relative overflow-hidden">
-          <div className="max-w-4xl mx-auto px-4 relative z-10">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white border border-sky-500 px-4 py-2 mb-6 font-semibold text-xs uppercase tracking-widest" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <Mic className="h-3 w-3 animate-pulse" />
-                Live AI Demo
+                {/* Feature 2 - Medium Card */}
+                <div className="group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={advancedFeatures[1].image}
+                      alt={advancedFeatures[1].title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="relative h-full min-h-[240px] p-6 flex flex-col justify-end">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3">
+                      {(() => {
+                        const Icon = advancedFeatures[1].icon;
+                        return <Icon className="w-6 h-6 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {advancedFeatures[1].title}
+                    </h3>
+                    <p className="text-white/80 text-sm leading-relaxed line-clamp-3">
+                      {advancedFeatures[1].description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Feature 3 - Medium Card */}
+                <div className="group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={advancedFeatures[2].image}
+                      alt={advancedFeatures[2].title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="relative h-full min-h-[240px] p-6 flex flex-col justify-end">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3">
+                      {(() => {
+                        const Icon = advancedFeatures[2].icon;
+                        return <Icon className="w-6 h-6 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {advancedFeatures[2].title}
+                    </h3>
+                    <p className="text-white/80 text-sm leading-relaxed line-clamp-3">
+                      {advancedFeatures[2].description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Feature 4 - Wide Card */}
+                <div className="md:col-span-2 lg:col-span-3 group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={advancedFeatures[3].image}
+                      alt={advancedFeatures[3].title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+                  <div className="relative h-full min-h-[200px] lg:min-h-[250px] p-8 flex flex-col justify-center max-w-2xl">
+                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                      {(() => {
+                        const Icon = advancedFeatures[3].icon;
+                        return <Icon className="w-7 h-7 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                      {advancedFeatures[3].title}
+                    </h3>
+                    <p className="text-white/80 text-base lg:text-lg leading-relaxed">
+                      {advancedFeatures[3].description}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-sky-500 to-sky-600 bg-clip-text text-transparent uppercase tracking-wider leading-tight">
-                Hear Our AI Call Center
-                <br />
-                <span className="text-gray-900">in Action</span>
-              </h2>
-              <p className="text-sm sm:text-base text-gray-700 max-w-2xl mx-auto leading-relaxed">
-                Experience how AI <strong className="text-sky-600">routes calls, verifies identities, and resolves requests</strong> with human-level empathy
-              </p>
             </div>
-            <div className="bg-white border border-sky-200 p-6 shadow-lg shadow-sky-100/20" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
-            </div>
-          </div>
-        </section>
+          </section>
 
-        {/* FAQ Section - Light Theme */}
-        <section className="relative py-16 overflow-hidden bg-gray-50">
-          {/* Animated Background Elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 -left-20 w-96 h-96 bg-gradient-radial from-sky-400/8 to-transparent rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-20 -right-20 w-[500px] h-[500px] bg-gradient-radial from-sky-300/6 to-transparent rounded-full blur-3xl animate-pulse delay-300" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-sky-400/5 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
-          </div>
-
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white border border-sky-500 px-4 py-2 mb-6 font-semibold text-xs uppercase tracking-widest" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <HeadphonesIcon className="w-3 h-3 animate-pulse" />
-                Common Questions
+          {/* DEMO SECTION */}
+          <section 
+            id="demo-section" 
+            data-animate
+            className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-4xl">
+              <div className={`text-center mb-8 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Mic className="w-4 h-4" />
+                  Live AI Demo
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Hear AI <span className="text-blue-600">in Action</span>
+                </h2>
+                <p className="text-gray-600">
+                  Experience how AI routes calls, verifies identities, and resolves requests with human-level empathy
+                </p>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-sky-500 to-sky-600 bg-clip-text text-transparent uppercase tracking-wider leading-tight">
-                Frequently Asked
-                <br />
-                <span className="text-gray-900">Questions</span>
-              </h2>
-              <p className="text-sm sm:text-base text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                Quick answers for leaders <strong className="text-sky-600">evaluating AI call center solutions</strong>
-              </p>
-            </div>
 
-            <div className="max-w-5xl mx-auto grid gap-4">
-              {faqSchema.mainEntity.map((faq, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-white border border-sky-200 p-6 hover:border-sky-400 shadow-md hover:shadow-lg hover:shadow-sky-200/50 transition-all duration-500"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-                  }}
-                >
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-10 h-10 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md transition-transform duration-500 group-hover:scale-110" style={{
-                        clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'
-                      }}>
+              <div className={`bg-white rounded-2xl shadow-xl p-6 border border-gray-100 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ SECTION - Accordion Style */}
+          <section 
+            id="faq-section" 
+            data-animate
+            className="py-20 bg-white relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-4xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <HeadphonesIcon className="w-4 h-4" />
+                  FAQ
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Common <span className="text-blue-600">Questions</span>
+                </h2>
+                <p className="text-gray-600">
+                  Quick answers for leaders evaluating AI call center solutions
+                </p>
+              </div>
+
+              <div className={`space-y-4 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {faqSchema.mainEntity.map((faq, index) => (
+                  <details
+                    key={index}
+                    className="group bg-gray-50 rounded-xl overflow-hidden"
+                  >
+                    <summary className="flex items-center gap-4 p-5 cursor-pointer list-none hover:bg-gray-100 transition-colors">
+                      <div className="w-8 h-8 bg-blue-500 text-white rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0">
                         {index + 1}
                       </div>
+                      <h3 className="font-bold text-gray-900 flex-1">{faq.name}</h3>
+                      <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center group-open:rotate-180 transition-transform">
+                        <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </summary>
+                    <div className="px-5 pb-5 pt-0">
+                      <p className="text-gray-600 pl-12">{faq.acceptedAnswer.text}</p>
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold mb-3 text-sky-600 group-hover:text-sky-700 transition-colors uppercase tracking-wider">
-                        {faq.name}
-                      </h3>
-                      <p className="text-gray-700 text-xs leading-relaxed">
-                        {faq.acceptedAnswer.text}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  </details>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Call to Action - Light Theme */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 relative overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-sky-400/15 to-sky-500/15 rounded-full blur-lg animate-pulse" />
-            <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-sky-500/12 to-sky-600/12 rounded-full blur-lg animate-pulse delay-1000" />
-            <div className="absolute top-16 right-32 w-16 h-16 bg-gradient-to-br from-sky-300/20 to-sky-400/20 rounded-full blur-lg animate-pulse delay-500" />
-          </div>
-
-          <div className="container mx-auto max-w-4xl text-left relative z-10">
-            <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-3 py-1 mb-4 border border-sky-500 uppercase tracking-widest" style={{
-              clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-            }}>
-              <Phone className="w-3 h-3" />
-              <span className="text-xs font-bold">Transform Your Call Center</span>
+          {/* CTA SECTION */}
+          <section className="py-20 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+            {/* Background decoration */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
             </div>
 
-            <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-sky-400 to-sky-600 bg-clip-text text-transparent uppercase tracking-wide">
-              Ready to Transform Your Contact Center?
-            </h2>
+            <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+                Ready to Transform Your<br />Contact Center?
+              </h2>
+              <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+                Join 500+ businesses using AI call center technology to deliver world-class experiences and reduce costs by 40-60%.
+              </p>
 
-            <p className="text-gray-700 text-sm mb-6 max-w-2xl leading-relaxed">
-              Join 500+ businesses using AI call center technology to deliver world-class customer experiences, reduce operating costs by 40-60%, and drive measurable ROI.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 mb-6">
-              <Link href="/signup">
-                <button className="group relative bg-sky-500 hover:bg-sky-400 text-white px-6 py-2 text-sm font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-sky-400/30 border border-sky-500 uppercase tracking-wide w-full sm:w-auto flex justify-center items-center" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <Link
+                  href="/signup"
+                  className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+                >
                   Start Free Trial
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </Link>
-
-              <Link href="/contact">
-                <button className="group bg-white hover:bg-sky-50 text-sky-600 hover:text-sky-700 border border-sky-400/30 hover:border-sky-400 px-6 py-2 text-sm font-bold transition-all duration-300 backdrop-blur-md uppercase tracking-wide w-full sm:w-auto flex justify-center items-center" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
-                  <Phone className="w-4 h-4 mr-2" />
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="px-8 py-4 bg-transparent text-white border-2 border-white/30 font-bold rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-5 h-5" />
                   Book Consultation
-                </button>
-              </Link>
-            </div>
+                </Link>
+              </div>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xs text-gray-700">
-              <div className="flex items-center gap-1 px-2 py-1 bg-sky-100 border border-sky-400/20 backdrop-blur-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <Check className="w-3 h-3 text-sky-600" />
-                <span>No Setup Fees</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-sky-100 border border-sky-400/20 backdrop-blur-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <Check className="w-3 h-3 text-sky-600" />
-                <span>Enterprise Security</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-sky-100 border border-sky-400/20 backdrop-blur-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <Check className="w-3 h-3 text-sky-600" />
-                <span>Dedicated Support</span>
+              <div className="flex flex-wrap gap-6 justify-center text-sm text-blue-100">
+                <div className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-green-400" />
+                  <span>No Setup Fees</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-green-400" />
+                  <span>Enterprise Security</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-green-400" />
+                  <span>Dedicated Support</span>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
-  )
+          </section>
+        </main>
+
+        <Footer />
+
+        {/* Float animation keyframes */}
+        <style jsx global>{`
+          @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+          }
+          @keyframes ping {
+            75%, 100% {
+              transform: scale(1.5);
+              opacity: 0;
+            }
+          }
+        `}</style>
+      </div>
+    </>
+  );
 }
 
 

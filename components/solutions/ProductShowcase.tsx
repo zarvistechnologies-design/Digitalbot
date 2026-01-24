@@ -74,12 +74,12 @@ const ProductShowcase = () => {
             <div className="container mx-auto max-w-7xl relative z-10">
                 {/* Section Header */}
                 <div className="text-center mb-12">
-                    <span className="inline-flex items-center gap-2 text-sky-500 text-xs font-semibold tracking-wider uppercase mb-3">
+                    <span className="inline-flex items-center gap-2 text-blue-500 text-xs font-semibold tracking-wider uppercase mb-3">
                         <Sparkles className="h-3.5 w-3.5" />
                         Our Solutions
                     </span>
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
-                        AI-Powered <span className="text-sky-500">Ecosystem</span>
+                        AI-Powered <span className="text-blue-500">Ecosystem</span>
                     </h2>
                     <p className="text-base text-gray-600 max-w-xl mx-auto">
                         Transform your customer communication with intelligent automation
@@ -94,12 +94,12 @@ const ProductShowcase = () => {
                     {/* Card 1 - AI Voice Agent (Tall Left) */}
                     <div 
                         ref={(el) => setCardRef(el, 0)}
-                        className="col-span-12 sm:col-span-6 lg:col-span-3 row-span-2 bg-gradient-to-br from-sky-50 to-sky-100/60 rounded-2xl p-5 relative overflow-hidden group cursor-pointer"
+                        className="col-span-12 sm:col-span-6 lg:col-span-3 row-span-2 bg-gradient-to-br from-blue-50 to-blue-100/60 rounded-2xl p-5 relative overflow-hidden group cursor-pointer"
                     >
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             AI-Powered<br/>Voice Agent
                         </h3>
-                        <Link href="/services/ai-voice-bot" className="inline-flex items-center gap-1 text-sky-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/ai-voice-bot" className="inline-flex items-center gap-1 text-blue-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                         <div className="mt-4 relative">
@@ -109,8 +109,8 @@ const ProductShowcase = () => {
                                 className="w-full h-48 object-cover rounded-xl"
                             />
                             <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-sm flex items-center gap-2">
-                                <div className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center">
-                                    <PhoneCall className="h-3 w-3 text-sky-500" />
+                                <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <PhoneCall className="h-3 w-3 text-blue-500" />
                                 </div>
                                 <span className="text-xs font-medium text-gray-700">24/7 Active</span>
                             </div>
@@ -125,7 +125,7 @@ const ProductShowcase = () => {
                         <h3 className="text-lg font-bold text-gray-900 mb-1">
                             DigitalBot Call<br/>Center
                         </h3>
-                        <Link href="/services/ai-call-center" className="inline-flex items-center gap-1 text-sky-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/ai-call-center" className="inline-flex items-center gap-1 text-blue-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                         {/* Mini UI mockup */}
@@ -241,7 +241,7 @@ const ProductShowcase = () => {
                         <h3 className="text-lg font-bold text-gray-900 mb-1">
                             AI-Powered Conversational<br/>Quality Analysis
                         </h3>
-                        <Link href="/services/conversational-ai" className="inline-flex items-center gap-1 text-sky-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/conversational-ai" className="inline-flex items-center gap-1 text-blue-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>
@@ -256,7 +256,7 @@ const ProductShowcase = () => {
                         <h3 className="text-base font-bold text-gray-900 mb-1">
                             AI Customer<br/>Support
                         </h3>
-                        <Link href="/services/ai-customer-support" className="inline-flex items-center gap-1 text-sky-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/ai-customer-support" className="inline-flex items-center gap-1 text-blue-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>

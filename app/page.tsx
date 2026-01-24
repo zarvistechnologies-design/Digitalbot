@@ -5,8 +5,6 @@ import { Header } from "@/components/header"
 import Hero from "@/components/hero"
 import { Lead } from "@/components/lead"
 
-import { Award, TrendingUp } from "lucide-react"
-import Image from "next/image"
 import Link from "next/link"
 
 export default function Home() {
@@ -15,7 +13,7 @@ export default function Home() {
       {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-sky-400 text-black px-4 py-2 rounded z-50"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-500 text-black px-4 py-2 rounded z-50"
       >
         Skip to main content
       </a>
@@ -138,7 +136,7 @@ export default function Home() {
           <div className="container mx-auto max-w-7xl relative z-10">
             {/* Header */}
             <div className="text-center mb-1 qa-header">
-              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-sky-500 to-sky-400 text-white shadow-lg shadow-sky-300/40 mb-1 relative overflow-hidden group">
+              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 text-white shadow-lg shadow-blue-300/40 mb-1 relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 <div className="flex items-center gap-1 relative z-10">
                   <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
@@ -149,7 +147,7 @@ export default function Home() {
               </div>
               <h2 id="voice-search-qa" className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-1">
                 Common Questions About{' '}
-                <span className="bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">AI Voice Agents</span>
+                <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">AI Voice Agents</span>
               </h2>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
                 Get answers to your most important questions about our AI voice platform
@@ -163,43 +161,43 @@ export default function Home() {
               <div className="space-y-6">
 
                 {/* Q&A 1 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.1s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.1s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
                       Q1
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
                       What is an AI voice agent and how does it work?
                     </h3>
                   </div>
                   <div className="pl-14">
                     <p className="text-gray-600 text-sm leading-relaxed">
                       An AI voice agent is an intelligent conversational system that handles phone calls autonomously using advanced natural language processing.
-                      Unlike human receptionists who need sleep, sick leave, and breaks, our AI voice agents operate <strong className="text-sky-600">24/7/365</strong> without interruption.
+                      Unlike human receptionists who need sleep, sick leave, and breaks, our AI voice agents operate <strong className="text-blue-600">24/7/365</strong> without interruption.
                       They understand spoken language, process customer requests in real-time, access your business data instantly, and respond with natural-sounding speech.
                       Every conversation is analyzed and stored in your personal dashboard with detailed analytics including call duration, customer sentiment, conversion rates, and actionable insights.
                     </p>
                     <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-                      <span className="text-xs bg-sky-50 text-sky-600 px-3 py-1.5 rounded-full font-medium">✓ Natural Language Processing</span>
-                      <span className="text-xs bg-sky-50 text-sky-600 px-3 py-1.5 rounded-full font-medium">✓ 24/7 Availability</span>
-                      <span className="text-xs bg-sky-50 text-sky-600 px-3 py-1.5 rounded-full font-medium">✓ Real-time Analytics</span>
+                      <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full font-medium">✓ Natural Language Processing</span>
+                      <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full font-medium">✓ 24/7 Availability</span>
+                      <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full font-medium">✓ Real-time Analytics</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Q&A 2 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.2s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.2s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
                       Q2
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
                       How quickly can I deploy an AI voice assistant for my business?
                     </h3>
                   </div>
                   <div className="pl-14">
                     <p className="text-gray-600 text-sm leading-relaxed">
-                      Our AI voice assistant platform enables deployment within <strong className="text-sky-600">24-48 hours</strong>. The process includes:
+                      Our AI voice assistant platform enables deployment within <strong className="text-blue-600">24-48 hours</strong>. The process includes:
                       (1) Account creation and dashboard setup - 15 minutes,
                       (2) Business information integration and workflow customization - 2 hours,
                       (3) Voice personality selection and training - 1 hour,
@@ -225,12 +223,12 @@ export default function Home() {
                 </div>
 
                 {/* Q&A 3 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.3s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.3s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
                       Q3
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
                       What makes your AI voice agent better than hiring a human receptionist?
                     </h3>
                   </div>
@@ -239,20 +237,20 @@ export default function Home() {
                       Our AI voice agents never sleep, never get sick, never take breaks, and never need vacations - providing consistent 24/7/365 availability.
                       They handle unlimited simultaneous calls (a human receptionist can only handle one), respond in under 750 milliseconds (humans average 2-3 seconds),
                       work in 50+ languages simultaneously, never forget customer information, provide perfect call transcriptions, generate detailed analytics automatically,
-                      integrate with all your business systems instantly, and cost <strong className="text-sky-600">90% less</strong> than hiring full-time staff. Plus, you get a personal dashboard with real-time insights,
+                      integrate with all your business systems instantly, and cost <strong className="text-blue-600">90% less</strong> than hiring full-time staff. Plus, you get a personal dashboard with real-time insights,
                       conversion tracking, sentiment analysis, and automated reporting that no human receptionist can provide.
                     </p>
                     <div className="grid grid-cols-3 gap-3 mt-4">
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
-                        <div className="text-xl font-bold text-sky-500">∞</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
+                        <div className="text-xl font-bold text-blue-500">∞</div>
                         <div className="text-xs text-gray-500 mt-1">Simultaneous Calls</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
-                        <div className="text-xl font-bold text-sky-500">750ms</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
+                        <div className="text-xl font-bold text-blue-500">750ms</div>
                         <div className="text-xs text-gray-500 mt-1">Response Time</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
-                        <div className="text-xl font-bold text-sky-500">50+</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
+                        <div className="text-xl font-bold text-blue-500">50+</div>
                         <div className="text-xs text-gray-500 mt-1">Languages</div>
                       </div>
                     </div>
@@ -265,18 +263,18 @@ export default function Home() {
               <div className="space-y-6">
 
                 {/* Q&A 4 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.15s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.15s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
                       Q4
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
                       Can AI voice assistants integrate with my existing business systems?
                     </h3>
                   </div>
                   <div className="pl-14">
                     <p className="text-gray-600 text-sm leading-relaxed">
-                      Yes. Our AI voice assistant platform integrates seamlessly with <strong className="text-sky-600">500+ business applications</strong> including Salesforce, HubSpot, Zendesk, Microsoft Dynamics,
+                      Yes. Our AI voice assistant platform integrates seamlessly with <strong className="text-blue-600">500+ business applications</strong> including Salesforce, HubSpot, Zendesk, Microsoft Dynamics,
                       Google Workspace, Slack, Calendly, Shopify, WooCommerce, and custom APIs. Integration takes minutes using pre-built connectors.
                       Your AI agent automatically syncs customer data, updates CRM records, schedules appointments in your calendar, creates support tickets,
                       processes orders, and triggers workflows across your tech stack. Every action is logged in your analytics dashboard with full audit trails,
@@ -284,19 +282,19 @@ export default function Home() {
                     </p>
                     <div className="flex flex-wrap gap-2 mt-4">
                       {['Salesforce', 'HubSpot', 'Zendesk', 'Slack', 'Calendly', 'Shopify', '+494 more'].map((app, i) => (
-                        <span key={i} className="text-xs bg-gray-100 hover:bg-sky-50 hover:scale-105 px-3 py-1.5 rounded-full text-gray-600 hover:text-sky-600 transition-all duration-300 cursor-default">{app}</span>
+                        <span key={i} className="text-xs bg-gray-100 hover:bg-blue-50 hover:scale-105 px-3 py-1.5 rounded-full text-gray-600 hover:text-blue-600 transition-all duration-300 cursor-default">{app}</span>
                       ))}
                     </div>
                   </div>
                 </div>
 
                 {/* Q&A 5 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-sky-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.25s' }}>
+                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.25s' }}>
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-sky-300/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
                       Q5
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-sky-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
                       What analytics and insights do I get with the AI voice agent platform?
                     </h3>
                   </div>
@@ -317,19 +315,19 @@ export default function Home() {
                       (12) Predictive analytics for demand forecasting.
                     </p>
                     <div className="grid grid-cols-4 gap-2 mt-4">
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
                         <div className="text-lg mb-1">📊</div>
                         <div className="text-xs text-gray-600 font-medium">Call Analytics</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
                         <div className="text-lg mb-1">💬</div>
                         <div className="text-xs text-gray-600 font-medium">Transcripts</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
                         <div className="text-lg mb-1">😊</div>
                         <div className="text-xs text-gray-600 font-medium">Sentiment</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-sky-50 rounded-xl border border-sky-100 hover:scale-105 hover:shadow-md hover:border-sky-200 transition-all duration-300 cursor-default">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
                         <div className="text-lg mb-1">📈</div>
                         <div className="text-xs text-gray-600 font-medium">Reports</div>
                       </div>
@@ -338,17 +336,17 @@ export default function Home() {
                 </div>
 
                 {/* CTA Card */}
-                <div className="bg-gradient-to-br from-sky-500 to-sky-400 rounded-2xl p-4 text-white shadow-xl shadow-sky-300/30 qa-card hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden" style={{ animationDelay: '0.35s' }}>
+                <div className="bg-gradient-to-br from-blue-500 via-blue-600 to-blue-600 rounded-2xl p-4 text-white shadow-xl shadow-blue-300/30 qa-card hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden" style={{ animationDelay: '0.35s' }}>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                   <h3 className="text-xl font-bold mb-2 relative z-10">Still have questions?</h3>
-                  <p className="text-sky-100 text-sm mb-4 relative z-10">
+                  <p className="text-blue-100 text-sm mb-4 relative z-10">
                     Our team is ready to help you understand how AI voice agents can transform your business communications.
                   </p>
                   <div className="flex flex-wrap gap-3 relative z-10">
-                    <a href="/contact" className="inline-flex items-center gap-2 bg-white text-sky-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-sky-50 hover:scale-105 transition-all duration-300 shadow-md">
+                    <a href="/contact" className="inline-flex items-center gap-2 bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-md">
                       Contact Us
                     </a>
-                    <a href="/pricing" className="inline-flex items-center gap-2 bg-sky-600/30 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-sky-600/50 hover:scale-105 transition-all duration-300 border border-white/20">
+                    <a href="/pricing" className="inline-flex items-center gap-2 bg-blue-600/30 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600/50 hover:scale-105 transition-all duration-300 border border-white/20">
                       View Pricing
                     </a>
                   </div>
@@ -368,20 +366,20 @@ export default function Home() {
     
 
         {/* FAQ Section - Clean Modern Design */}
-        <section className="py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-sky-50/30 relative" role="region" aria-labelledby="faq-section">
+        <section className="py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-blue-50/30 relative" role="region" aria-labelledby="faq-section">
 
           <div className="container mx-auto max-w-5xl relative z-10">
             {/* Section Header - Matching Hero Style */}
             <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/20 mb-4">
-                <svg className="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
+                <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className="text-sm font-semibold text-sky-600">Got Questions?</span>
+                <span className="text-sm font-semibold text-blue-600">Got Questions?</span>
               </div>
               <h2 id="faq-section" className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
                 Frequently Asked{' '}
-                <span className="bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">
                   Questions
                 </span>
               </h2>
@@ -426,14 +424,14 @@ export default function Home() {
               ].map((faq, idx) => (
                 <div
                   key={idx}
-                  className="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-sky-500/10 hover:border-sky-200 transition-all duration-300 hover:-translate-y-1"
+                  className="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-200 transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-sky-100 to-sky-100 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-100 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
                       {faq.icon}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-sky-600 transition-colors">
+                      <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                         {faq.question}
                       </h3>
                       <p className="text-gray-600 text-sm leading-relaxed">
@@ -447,14 +445,14 @@ export default function Home() {
 
             {/* Bottom CTA - Clean Style */}
             <div className="mt-12 text-center">
-              <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-gradient-to-r from-sky-50 to-sky-50 rounded-2xl p-6 sm:p-8 border border-sky-100">
+              <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-gradient-to-r from-blue-50 to-blue-50 rounded-2xl p-6 sm:p-8 border border-blue-100">
                 <div className="text-center sm:text-left">
                   <h3 className="text-lg font-bold text-gray-900 mb-1">Still have questions?</h3>
                   <p className="text-gray-600 text-sm">Our AI experts are here to help you find the perfect solution</p>
                 </div>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-sky-500 to-sky-600 rounded-xl shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition-all duration-300 hover:scale-105"
+                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105"
                 >
                   Get in Touch
                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

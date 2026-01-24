@@ -105,27 +105,27 @@ export default function Blog() {
           </div>
 
           {/* Floating Gradient Orbs */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-radial from-sky-200/30 to-transparent rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-radial from-sky-200/25 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-sky-200/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
+          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-blue-200/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 via-sky-600 to-sky-700 text-white rounded-full px-5 py-2 mb-8 border-2 border-sky-300 shadow-lg">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white rounded-full px-5 py-2 mb-8 border-2 border-blue-300 shadow-lg">
                 <BookOpen className="w-4 h-4" />
                 <span className="text-sm font-semibold">Insights & Resources</span>
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-sky-500 via-sky-700 to-sky-700 text-transparent bg-clip-text">
+                <span className="bg-gradient-to-r from-blue-500 via-blue-700 to-blue-700 text-transparent bg-clip-text">
                   AI Voice Agent
                 </span>
                 <br />
                 <span className="relative inline-block mt-2">
-                  <span className="relative z-10 bg-gradient-to-r from-sky-500 via-sky-600 to-sky-700 text-transparent bg-clip-text">
+                  <span className="relative z-10 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-transparent bg-clip-text">
                     Blog & Resources
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-sky-200/30 via-sky-300/30 to-sky-400/30 blur-2xl -z-10 scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-200/30 via-blue-300/30 to-blue-400/30 blur-2xl -z-10 scale-110" />
                 </span>
               </h1>
 
@@ -134,12 +134,12 @@ export default function Blog() {
               </p>
 
               <div className="flex flex-wrap gap-6 justify-center items-center">
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-sky-500">
-                  <TrendingUp className="w-5 h-5 text-sky-600" />
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-blue-500">
+                  <TrendingUp className="w-5 h-5 text-blue-600" />
                   <span className="text-sm font-medium text-gray-700">Latest AI Trends</span>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-sky-500">
-                  <BookOpen className="w-5 h-5 text-sky-600" />
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-blue-500">
+                  <BookOpen className="w-5 h-5 text-blue-600" />
                   <span className="text-sm font-medium text-gray-700">Expert Guides</span>
                 </div>
               </div>
@@ -152,16 +152,16 @@ export default function Blog() {
           <section className="py-20 bg-white">
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 via-sky-600 to-sky-700 text-white rounded-full px-5 py-2 mb-4 border-2 border-sky-300 shadow-lg">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white rounded-full px-5 py-2 mb-4 border-2 border-blue-300 shadow-lg">
                   <TrendingUp className="w-4 h-4" />
                   <span className="text-sm font-semibold">Featured Post</span>
                 </div>
-                <h2 className="text-4xl font-bold bg-gradient-to-r from-sky-500 via-sky-700 to-sky-700 text-transparent bg-clip-text">
+                <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-500 via-blue-700 to-blue-700 text-transparent bg-clip-text">
                   Latest Insights
                 </h2>
               </div>
               <div className="max-w-4xl mx-auto group">
-                <div className="bg-gradient-to-br from-white to-gray-50 border-2 border-sky-500 hover:border-sky-500 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+                <div className="bg-gradient-to-br from-white to-gray-50 border-2 border-blue-500 hover:border-blue-500 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
                   {/* Featured Image */}
                   <div className="relative h-80 w-full overflow-hidden">
                     <Image
@@ -172,7 +172,7 @@ export default function Blog() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t bg-white to-transparent" />
-                    <Badge className="absolute top-4 left-4 bg-gradient-to-r from-sky-500 to-sky-600 text-white border-none shadow-lg">
+                    <Badge className="absolute top-4 left-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white border-none shadow-lg">
                       {featuredPost.category}
                     </Badge>
                   </div>
@@ -181,26 +181,26 @@ export default function Blog() {
                   <div className="p-8">
                     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
                       <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-sky-600" />
+                        <User className="h-4 w-4 text-blue-600" />
                         <span>{featuredPost.author}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-sky-600" />
+                        <Calendar className="h-4 w-4 text-blue-600" />
                         <span>{new Date(featuredPost.date).toLocaleDateString()}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-sky-600" />
+                        <Clock className="h-4 w-4 text-blue-600" />
                         <span>{featuredPost.readTime}</span>
                       </div>
                     </div>
-                    <h3 className="text-3xl font-bold mb-4 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-sky-500 group-hover:to-sky-700 group-hover:bg-clip-text transition-all duration-300">
+                    <h3 className="text-3xl font-bold mb-4 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-700 group-hover:bg-clip-text transition-all duration-300">
                       {featuredPost.title}
                     </h3>
                     <p className="text-lg text-gray-600 mb-6 leading-relaxed">
                       {featuredPost.excerpt}
                     </p>
                     <Link href={`/blog/${featuredPost.slug}`}>
-                      <Button className="bg-gradient-to-r from-sky-500 via-sky-600 to-sky-700 hover:from-sky-600 hover:via-sky-700 hover:to-sky-800 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                      <Button className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:via-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300">
                         Read Full Article
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
@@ -213,10 +213,10 @@ export default function Blog() {
         )}
 
         {/* Blog Posts Grid */}
-        <section className="py-20 bg-gradient-to-b from-white to-sky-100">
+        <section className="py-20 bg-gradient-to-b from-white to-blue-100">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-sky-500 via-sky-700 to-sky-700 text-transparent bg-clip-text">
+              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-500 via-blue-700 to-blue-700 text-transparent bg-clip-text">
                 Recent Articles
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -227,7 +227,7 @@ export default function Blog() {
               {regularPosts.map((post, index) => (
                 <div
                   key={index}
-                  className="group bg-white border-2 border-sky-500 hover:border-sky-500 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                  className="group bg-white border-2 border-blue-500 hover:border-blue-500 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
                 >
                   {/* Post Image */}
                   <div className="relative h-48 w-full overflow-hidden">
@@ -244,15 +244,15 @@ export default function Blog() {
                   {/* Post Content */}
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <Badge className="bg-gradient-to-r from-sky-400 to-sky-500 text-white border-none">
+                      <Badge className="bg-gradient-to-r from-blue-400 to-blue-500 text-white border-none">
                         {post.category}
                       </Badge>
                       <div className="flex items-center gap-1 text-sm text-gray-600">
-                        <Clock className="h-4 w-4 text-sky-600" />
+                        <Clock className="h-4 w-4 text-blue-600" />
                         <span>{post.readTime}</span>
                       </div>
                     </div>
-                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-sky-500 group-hover:to-sky-700 group-hover:bg-clip-text transition-all duration-300 line-clamp-2">
+                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-500 group-hover:to-blue-700 group-hover:bg-clip-text transition-all duration-300 line-clamp-2">
                       {post.title}
                     </h3>
                     <p className="text-gray-600 mb-6 leading-relaxed line-clamp-3">
@@ -260,11 +260,11 @@ export default function Blog() {
                     </p>
                     <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                       <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <User className="h-4 w-4 text-sky-600" />
+                        <User className="h-4 w-4 text-blue-600" />
                         <span>{post.author}</span>
                       </div>
                       <Link href={`/blog/${post.slug}`}>
-                        <Button variant="ghost" size="sm" className="text-sky-600 hover:text-sky-700 hover:bg-sky-50">
+                        <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
                           Read More
                           <ArrowRight className="ml-1 h-3 w-3" />
                         </Button>
@@ -284,8 +284,8 @@ export default function Blog() {
         {/* Newsletter Signup */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto bg-gradient-to-br from-sky-50 via-sky-50 to-sky-100 rounded-2xl p-12 text-center border-2 border-sky-500 shadow-xl">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-sky-500 via-sky-700 to-sky-700 text-transparent bg-clip-text">
+            <div className="max-w-3xl mx-auto bg-gradient-to-br from-blue-50 via-blue-50 to-blue-100 rounded-2xl p-12 text-center border-2 border-blue-500 shadow-xl">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-500 via-blue-700 to-blue-700 text-transparent bg-clip-text">
                 Stay Updated
               </h2>
               <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
@@ -295,9 +295,9 @@ export default function Blog() {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full px-6 py-3 rounded-full border-2 border-sky-500 bg-white text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  className="w-full px-6 py-3 rounded-full border-2 border-blue-500 bg-white text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
-                <Button className="bg-gradient-to-r from-sky-500 via-sky-600 to-sky-700 hover:from-sky-600 hover:via-sky-700 hover:to-sky-800 text-white px-8 py-3 rounded-full whitespace-nowrap shadow-lg hover:shadow-xl transition-all duration-300">
+                <Button className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:via-blue-700 hover:to-blue-800 text-white px-8 py-3 rounded-full whitespace-nowrap shadow-lg hover:shadow-xl transition-all duration-300">
                   Subscribe
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>

@@ -70,7 +70,7 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-sky-50/30 via-white to-sky-50/20 text-gray-900">
+    <main className="min-h-screen bg-gradient-to-b from-blue-50/30 via-white to-blue-50/20 text-gray-900">
       <Header />
 
       {/* Hero Section - Clean & Modern */}
@@ -83,15 +83,15 @@ export default function ContactPage() {
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-sky-100 px-4 py-2 rounded-full mb-6">
-              <div className="w-2 h-2 bg-sky-500 rounded-full animate-pulse" />
-              <span className="text-sky-600 font-semibold text-sm">24/7 AI Voice Agent Support</span>
+            <div className="inline-flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-full mb-6">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+              <span className="text-blue-600 font-semibold text-sm">24/7 AI Voice Agent Support</span>
             </div>
             
             {/* Main Heading */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Let's Transform Your{" "}
-              <span className="bg-gradient-to-r from-sky-500 to-sky-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
                 Business Together
               </span>
             </h1>
@@ -112,8 +112,8 @@ export default function ContactPage() {
                 const Icon = stat.icon;
                 return (
                   <div key={idx} className="text-center">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-sky-100 rounded-full mb-3">
-                      <Icon className="w-6 h-6 text-sky-600" />
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-3">
+                      <Icon className="w-6 h-6 text-blue-600" />
                     </div>
                     <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
                     <div className="text-sm text-gray-600">{stat.label}</div>
@@ -132,9 +132,9 @@ export default function ContactPage() {
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 items-start">
 
             {/* Contact Form - Modern & Clean */}
-            <Card className="border-2 border-sky-200/60 bg-gradient-to-br from-white via-sky-50/20 to-white shadow-xl shadow-sky-500/10 rounded-2xl overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-100/40 via-transparent to-transparent rounded-full blur-3xl" />
-              <CardHeader className="p-8 border-b border-sky-100/50 relative z-10 bg-gradient-to-r from-sky-50/30 to-transparent">
+            <Card className="border-2 border-blue-200/60 bg-gradient-to-br from-white via-blue-50/20 to-white shadow-xl shadow-blue-500/10 rounded-2xl overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-100/40 via-transparent to-transparent rounded-full blur-3xl" />
+              <CardHeader className="p-8 border-b border-blue-100/50 relative z-10 bg-gradient-to-r from-blue-50/30 to-transparent">
                 <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
                   Send us a message
                 </CardTitle>
@@ -168,7 +168,7 @@ export default function ContactPage() {
                         placeholder="John"
                         value={form.firstName}
                         onChange={handleChange}
-                        className="h-11 bg-gray-50 border-gray-200 focus:border-sky-500 focus:ring-sky-500"
+                        className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                       />
                     </div>
                     <div>
@@ -180,7 +180,7 @@ export default function ContactPage() {
                         placeholder="Doe"
                         value={form.lastName}
                         onChange={handleChange}
-                        className="h-11 bg-gray-50 border-gray-200 focus:border-sky-500 focus:ring-sky-500"
+                        className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                       />
                     </div>
                   </div>
@@ -188,7 +188,7 @@ export default function ContactPage() {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="email" className="text-sm font-medium text-gray-700 mb-2 block">
-                        Email <span className="text-sky-500">*</span>
+                        Email <span className="text-blue-500">*</span>
                       </Label>
                       <Input
                         id="email"
@@ -197,12 +197,12 @@ export default function ContactPage() {
                         value={form.email}
                         onChange={handleChange}
                         required
-                        className="h-11 bg-gray-50 border-gray-200 focus:border-sky-500 focus:ring-sky-500"
+                        className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                       />
                     </div>
                     <div>
                       <Label htmlFor="phone" className="text-sm font-medium text-gray-700 mb-2 block">
-                        Phone <span className="text-sky-500">*</span>
+                        Phone <span className="text-blue-500">*</span>
                       </Label>
                       <Input
                         id="phone"
@@ -211,7 +211,7 @@ export default function ContactPage() {
                         value={form.phone}
                         onChange={handleChange}
                         required
-                        className="h-11 bg-gray-50 border-gray-200 focus:border-sky-500 focus:ring-sky-500"
+                        className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                       />
                     </div>
                   </div>
@@ -225,16 +225,16 @@ export default function ContactPage() {
                       placeholder="Your Company Name"
                       value={form.company}
                       onChange={handleChange}
-                      className="h-11 bg-gray-50 border-gray-200 focus:border-sky-500 focus:ring-sky-500"
+                      className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
 
                   <div>
                     <Label htmlFor="inquiry" className="text-sm font-medium text-gray-700 mb-2 block">
-                      Inquiry Type <span className="text-sky-500">*</span>
+                      Inquiry Type <span className="text-blue-500">*</span>
                     </Label>
                     <Select value={form.inquiry} onValueChange={handleSelectChange} required>
-                      <SelectTrigger className="h-11 bg-gray-50 border-gray-200 focus:border-sky-500 focus:ring-sky-500">
+                      <SelectTrigger className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                         <SelectValue placeholder="Select inquiry type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -254,7 +254,7 @@ export default function ContactPage() {
                     <Textarea
                       id="message"
                       placeholder="Tell us about your AI voice automation project and how we can help..."
-                      className="min-h-[120px] bg-gray-50 border-gray-200 focus:border-sky-500 focus:ring-sky-500"
+                      className="min-h-[120px] bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                       value={form.message}
                       onChange={handleChange}
                     />
@@ -262,7 +262,7 @@ export default function ContactPage() {
 
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all"
+                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all"
                     disabled={loading}
                   >
                     <MessageCircle className="mr-2 h-5 w-5" />
@@ -298,17 +298,17 @@ export default function ContactPage() {
                   <a
                     key={idx}
                     href={item.action}
-                    className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-sky-300 hover:shadow-md transition-all group"
+                    className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all group"
                   >
-                    <div className="flex-shrink-0 w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center group-hover:bg-sky-500 transition-colors">
-                      <Icon className="w-6 h-6 text-sky-600 group-hover:text-white transition-colors" />
+                    <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors">
+                      <Icon className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
                     </div>
                     <div className="flex-1">
                       <div className="text-sm font-semibold text-gray-500 mb-1">{item.title}</div>
                       <div className="text-lg font-bold text-gray-900 mb-1">{item.value}</div>
                       <div className="text-sm text-gray-600">{item.subtitle}</div>
                     </div>
-                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-sky-500 group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
                   </a>
                 );
               })}
@@ -318,38 +318,38 @@ export default function ContactPage() {
                 <h4 className="text-lg font-bold text-gray-900">Visit Our Offices</h4>
                 
                 {/* US Office */}
-                <div className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-sky-300 hover:shadow-md transition-all group">
-                  <div className="flex-shrink-0 w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center group-hover:bg-sky-500 transition-colors">
-                    <MapPin className="w-6 h-6 text-sky-600 group-hover:text-white transition-colors" />
+                <div className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all group">
+                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors">
+                    <MapPin className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
                   </div>
                   <div className="flex-1">
                     <div className="text-sm font-semibold text-gray-500 mb-1">United States</div>
                     <div className="text-lg font-bold text-gray-900 mb-1">Grand Rapids, Michigan</div>
                     <div className="text-sm text-gray-600">300 Quail Ridge Dr NE, ADA, MI 49301</div>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-sky-500 group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
                 </div>
 
                 {/* India Office */}
-                <div className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-sky-300 hover:shadow-md transition-all group">
-                  <div className="flex-shrink-0 w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center group-hover:bg-sky-500 transition-colors">
-                    <MapPin className="w-6 h-6 text-sky-600 group-hover:text-white transition-colors" />
+                <div className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all group">
+                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors">
+                    <MapPin className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
                   </div>
                   <div className="flex-1">
                     <div className="text-sm font-semibold text-gray-500 mb-1">India</div>
                     <div className="text-lg font-bold text-gray-900 mb-1">Bangalore, Karnataka</div>
                     <div className="text-sm text-gray-600">Behind Manyata Tech Park, Hebbal, Bangalore 560077</div>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-sky-500 group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
 
               {/* Business Hours */}
-              <Card className="border border-gray-200 bg-gradient-to-br from-sky-50 to-white">
+              <Card className="border border-gray-200 bg-gradient-to-br from-blue-50 to-white">
                 <CardContent className="p-5">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center">
-                      <Clock className="w-5 h-5 text-sky-600" />
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-blue-600" />
                     </div>
                     <h3 className="font-bold text-gray-900">Business Hours</h3>
                   </div>
@@ -360,11 +360,11 @@ export default function ContactPage() {
                     </div>
                     <div className="flex justify-between items-center py-2">
                       <span className="text-gray-600">Weekend & Holidays</span>
-                      <span className="font-semibold text-sky-600">AI Support 24/7</span>
+                      <span className="font-semibold text-blue-600">AI Support 24/7</span>
                     </div>
                     <div className="mt-3 pt-3 border-t border-gray-200">
-                      <div className="flex items-center gap-2 text-sky-600">
-                        <div className="w-2 h-2 bg-sky-500 rounded-full animate-pulse" />
+                      <div className="flex items-center gap-2 text-blue-600">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
                         <span className="text-xs font-semibold">AI Voice Agent Always Available</span>
                       </div>
                     </div>

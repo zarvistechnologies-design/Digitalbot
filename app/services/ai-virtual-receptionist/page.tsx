@@ -147,49 +147,49 @@ export default function AIVirtualReceptionist() {
             />
           </div>
 
-          {/* Floating sky Elements */}
-          <div className="absolute top-5 right-10 w-24 h-24 bg-gradient-to-bl from-sky-200/20 to-sky-300/10 rounded-full blur-xl animate-pulse" />
-          <div className="absolute bottom-10 left-5 w-28 h-28 bg-gradient-to-tr from-sky-200/15 to-sky-300/20 rounded-full blur-xl animate-pulse" />
-          <div className="absolute top-1/3 left-1/3 w-20 h-20 bg-gradient-to-r from-sky-200/10 via-sky-300/15 to-sky-400/10 rounded-full blur-lg" />
+          {/* Floating blue Elements */}
+          <div className="absolute top-5 right-10 w-24 h-24 bg-gradient-to-bl from-blue-200/20 to-blue-300/10 rounded-full blur-xl animate-pulse" />
+          <div className="absolute bottom-10 left-5 w-28 h-28 bg-gradient-to-tr from-blue-200/15 to-blue-300/20 rounded-full blur-xl animate-pulse" />
+          <div className="absolute top-1/3 left-1/3 w-20 h-20 bg-gradient-to-r from-blue-200/10 via-blue-300/15 to-blue-400/10 rounded-full blur-lg" />
 
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="grid lg:grid-cols-2 gap-6 items-start">
 
               {/* Left Content */}
               <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-3 py-1 mb-2 border border-sky-400 uppercase tracking-widest" style={{
+                <div className="inline-flex items-center gap-2 bg-blue-500 text-white px-3 py-1 mb-2 border border-blue-400 uppercase tracking-widest" style={{
                   clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
                 }}>
                   <Phone className="w-3 h-3" />
                   <span className="text-xs font-bold">AI-Powered Reception</span>
                 </div>
 
-                <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 bg-clip-text text-transparent mb-3 leading-tight uppercase tracking-wide" style={{
+                <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent mb-3 leading-tight uppercase tracking-wide" style={{
                   textShadow: '0 0 15px rgba(234, 88, 12, 0.2)'
                 }}>
                   AI Virtual Receptionist That Never Sleeps
                 </h1>
 
                 <p className="text-gray-900 text-sm max-w-2xl leading-relaxed mb-4">
-                  Your <span className="text-sky-600 font-semibold">AI-powered virtual receptionist</span> answers every call, books appointments, and routes calls with human-like conversations—24/7, in over 30 languages.
+                  Your <span className="text-blue-600 font-semibold">AI-powered virtual receptionist</span> answers every call, books appointments, and routes calls with human-like conversations—24/7, in over 30 languages.
                 </p>
 
                 {/* Key Features Grid */}
                 <div className="grid grid-cols-3 gap-2 mb-4">
                   <div className="flex items-center gap-1 text-xs">
-                    <span className="w-1.5 h-1.5 bg-sky-600 rounded-full animate-pulse" style={{
+                    <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" style={{
                       boxShadow: '0 0 6px rgba(234, 88, 12, 0.3)'
                     }}></span>
                     <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">24/7 Available</span>
                   </div>
                   <div className="flex items-center gap-1 text-xs">
-                    <span className="w-1.5 h-1.5 bg-sky-600 rounded-full animate-pulse" style={{
+                    <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" style={{
                       boxShadow: '0 0 6px rgba(234, 88, 12, 0.3)'
                     }}></span>
                     <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">Multi-Language</span>
                   </div>
                   <div className="flex items-center gap-1 text-xs">
-                    <span className="w-1.5 h-1.5 bg-sky-600 rounded-full animate-pulse" style={{
+                    <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" style={{
                       boxShadow: '0 0 6px rgba(234, 88, 12, 0.3)'
                     }}></span>
                     <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">HIPAA Compliant</span>
@@ -200,7 +200,7 @@ export default function AIVirtualReceptionist() {
                 <div className="flex flex-col sm:flex-row gap-2">
                   <Link
                     href="/signup"
-                    className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold text-white bg-sky-500 shadow-md hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105 border border-sky-400 uppercase tracking-wide"
+                    className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold text-white bg-blue-500 shadow-md hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 border border-blue-400 uppercase tracking-wide"
                     style={{
                       clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
                     }}
@@ -210,7 +210,7 @@ export default function AIVirtualReceptionist() {
                   </Link>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold text-sky-600 bg-transparent border border-sky-500 hover:bg-sky-50 transition-all duration-300 hover:scale-105 shadow-sm uppercase tracking-wide"
+                    className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold text-blue-600 bg-transparent border border-blue-500 hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-sm uppercase tracking-wide"
                     style={{
                       clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
                     }}
@@ -223,7 +223,7 @@ export default function AIVirtualReceptionist() {
 
               {/* Right HD Image */}
               <div className="relative">
-                <div className="relative h-48 sm:h-56 lg:h-64 rounded-xl overflow-hidden shadow-lg shadow-sky-500/15 border border-sky-200">
+                <div className="relative h-48 sm:h-56 lg:h-64 rounded-xl overflow-hidden shadow-lg shadow-blue-500/15 border border-blue-200">
                   <Image
                     src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
                     alt="AI Virtual Receptionist - 24/7 Call Answering and Appointment Booking System"
@@ -232,21 +232,21 @@ export default function AIVirtualReceptionist() {
                     priority
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-sky-50/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-blue-50/20 to-transparent"></div>
                   <div className="absolute bottom-4 left-4 right-4">
-                    <div className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-sky-200">
+                    <div className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-blue-200">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center shadow-lg border border-sky-400/30">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg border border-blue-400/30">
                           <Phone className="w-4 h-4 text-white" />
                         </div>
                         <div>
                           <div className="text-sm font-bold text-gray-900">Live Reception AI</div>
-                          <div className="text-xs text-sky-600">Answering calls 24/7</div>
+                          <div className="text-xs text-blue-600">Answering calls 24/7</div>
                         </div>
                       </div>
                       <div className="flex items-center justify-between text-xs">
-                        <span className="text-sky-600 font-medium">✓ 70% Cost Reduction</span>
-                        <span className="text-sky-600 font-medium tracking-wide">Never Miss a Call</span>
+                        <span className="text-blue-600 font-medium">✓ 70% Cost Reduction</span>
+                        <span className="text-blue-600 font-medium tracking-wide">Never Miss a Call</span>
                       </div>
                     </div>
                   </div>
@@ -260,13 +260,13 @@ export default function AIVirtualReceptionist() {
         {/* Features Section */}
         <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-sky-200/15 to-sky-300/15 rounded-full blur-lg animate-pulse" />
-            <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-sky-300/12 to-sky-400/12 rounded-full blur-lg animate-pulse delay-1000" />
+            <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-blue-200/15 to-blue-300/15 rounded-full blur-lg animate-pulse" />
+            <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-blue-300/12 to-blue-400/12 rounded-full blur-lg animate-pulse delay-1000" />
           </div>
 
           <div className="container mx-auto max-w-7xl relative z-10">
             <div className="text-left mb-8">
-              <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 bg-clip-text text-transparent uppercase tracking-wide" style={{
+              <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent uppercase tracking-wide" style={{
                 textShadow: '0 0 15px rgba(234, 88, 12, 0.2)'
               }}>
                 Everything Your Front Desk Needs
@@ -280,16 +280,16 @@ export default function AIVirtualReceptionist() {
               {features.map((feature, index) => (
                 <div
                   key={index}
-                  className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15 p-4" style={{
+                  className="group relative bg-blue-50 backdrop-blur-md border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-blue-500/15 p-4" style={{
                     clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
                   }}
                 >
                   <div className="flex gap-3 items-start">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-sky-600 rounded-lg flex items-center justify-center shadow-lg border border-sky-400/30 flex-shrink-0">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg border border-blue-400/30 flex-shrink-0">
                       <feature.icon className="w-4 h-4 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
+                      <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-transparent bg-clip-text tracking-wide">
                         {feature.title}
                       </h3>
                       <p className="text-gray-900 leading-relaxed text-xs">
@@ -306,13 +306,13 @@ export default function AIVirtualReceptionist() {
         {/* Benefits Section */}
         <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-16 right-32 w-16 h-16 bg-gradient-to-br from-sky-200/15 to-sky-300/15 rounded-full blur-lg animate-pulse delay-500" />
-            <div className="absolute bottom-20 left-20 w-28 h-28 bg-gradient-to-br from-sky-400/12 to-sky-500/12 rounded-full blur-lg animate-pulse delay-1000" />
+            <div className="absolute top-16 right-32 w-16 h-16 bg-gradient-to-br from-blue-200/15 to-blue-300/15 rounded-full blur-lg animate-pulse delay-500" />
+            <div className="absolute bottom-20 left-20 w-28 h-28 bg-gradient-to-br from-blue-400/12 to-blue-500/12 rounded-full blur-lg animate-pulse delay-1000" />
           </div>
 
           <div className="container mx-auto max-w-5xl relative z-10">
             <div className="text-left mb-8">
-              <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 bg-clip-text text-transparent uppercase tracking-wide" style={{
+              <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent uppercase tracking-wide" style={{
                 textShadow: '0 0 15px rgba(234, 88, 12, 0.2)'
               }}>
                 Transform Your Reception Experience
@@ -326,11 +326,11 @@ export default function AIVirtualReceptionist() {
               {benefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15 p-4" style={{
+                  className="group relative bg-blue-50 backdrop-blur-md border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-blue-500/15 p-4" style={{
                     clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
                   }}
                 >
-                  <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
+                  <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-transparent bg-clip-text tracking-wide">
                     {benefit.title}
                   </h3>
                   <p className="text-gray-900 leading-relaxed text-xs">
@@ -345,13 +345,13 @@ export default function AIVirtualReceptionist() {
         {/* Use Cases Section */}
         <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-sky-200/15 to-sky-300/15 rounded-full blur-lg animate-pulse" />
-            <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-sky-400/12 to-sky-500/12 rounded-full blur-lg animate-pulse delay-1000" />
+            <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-blue-200/15 to-blue-300/15 rounded-full blur-lg animate-pulse" />
+            <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-blue-400/12 to-blue-500/12 rounded-full blur-lg animate-pulse delay-1000" />
           </div>
 
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-left mb-8">
-              <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 bg-clip-text text-transparent uppercase tracking-wide" style={{
+              <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent uppercase tracking-wide" style={{
                 textShadow: '0 0 15px rgba(234, 88, 12, 0.2)'
               }}>
                 Industry-Specific Solutions
@@ -365,7 +365,7 @@ export default function AIVirtualReceptionist() {
               {useCases.map((useCase, index) => (
                 <div
                   key={index}
-                  className="group relative bg-white backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15 p-4" style={{
+                  className="group relative bg-white backdrop-blur-md border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-blue-500/15 p-4" style={{
                     clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
                   }}
                 >
@@ -377,16 +377,16 @@ export default function AIVirtualReceptionist() {
                       className="object-cover rounded-lg"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-sky-900/20 to-transparent rounded-lg"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-blue-900/20 to-transparent rounded-lg"></div>
                   </div>
                   <div className="mt-3">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
+                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-transparent bg-clip-text tracking-wide">
                       {useCase.title}
                     </h3>
                     <p className="text-gray-900 leading-relaxed text-xs mb-3">
                       {useCase.description}
                     </p>
-                    <span className="inline-flex items-center px-2 py-1 bg-sky-50 text-sky-600 text-xs font-semibold border border-sky-200 backdrop-blur-sm" style={{
+                    <span className="inline-flex items-center px-2 py-1 bg-blue-50 text-blue-600 text-xs font-semibold border border-blue-200 backdrop-blur-sm" style={{
                       clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
                     }}>
                       <Check className="h-3 w-3 mr-1" />
@@ -401,25 +401,25 @@ export default function AIVirtualReceptionist() {
 
         {/* Demo Section */}
         <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-          <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-sky-200/15 to-sky-300/15 rounded-full blur-lg animate-pulse" />
-          <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-sky-400/12 to-sky-500/12 rounded-full blur-lg animate-pulse delay-1000" />
+          <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-blue-200/15 to-blue-300/15 rounded-full blur-lg animate-pulse" />
+          <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-blue-400/12 to-blue-500/12 rounded-full blur-lg animate-pulse delay-1000" />
 
           <div className="max-w-4xl mx-auto relative z-10">
             <div className="text-left mb-8">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-3 py-1 mb-4 border border-sky-500 uppercase tracking-widest" style={{
+              <div className="inline-flex items-center gap-2 bg-blue-500 text-white px-3 py-1 mb-4 border border-blue-500 uppercase tracking-widest" style={{
                 clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
               }}>
                 <Mic className="w-3 h-3 animate-pulse" />
                 <span className="text-xs font-bold">AI Voice Demonstration</span>
               </div>
-              <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 bg-clip-text text-transparent mb-3 uppercase tracking-wide">
+              <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent mb-3 uppercase tracking-wide">
                 Experience Natural AI Conversations
               </h2>
               <p className="text-gray-700 text-sm max-w-2xl leading-relaxed">
                 Listen to how our AI receptionist handles real customer interactions with human-like responses
               </p>
             </div>
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-sky-200">
+            <div className="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-blue-200">
               <VoiceConversationPlayer audioSrc="/sample-receptionist-conversation.mp3" />
             </div>
           </div>
@@ -427,46 +427,46 @@ export default function AIVirtualReceptionist() {
 
         {/* FAQ Section */}
         <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-          {/* sky Background Elements */}
+          {/* blue Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-10 left-20 w-24 h-24 bg-gradient-to-br from-sky-200/20 to-sky-300/20 rounded-full filter blur-xl animate-pulse"></div>
-            <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-br from-sky-400/15 to-sky-500/15 rounded-full filter blur-xl animate-pulse delay-1000"></div>
-            <div className="absolute top-32 right-32 w-20 h-20 bg-gradient-to-br from-sky-300/25 to-sky-400/25 rounded-full filter blur-lg animate-pulse delay-500"></div>
+            <div className="absolute top-10 left-20 w-24 h-24 bg-gradient-to-br from-blue-200/20 to-blue-300/20 rounded-full filter blur-xl animate-pulse"></div>
+            <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-br from-blue-400/15 to-blue-500/15 rounded-full filter blur-xl animate-pulse delay-1000"></div>
+            <div className="absolute top-32 right-32 w-20 h-20 bg-gradient-to-br from-blue-300/25 to-blue-400/25 rounded-full filter blur-lg animate-pulse delay-500"></div>
           </div>
 
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-left mb-8">
               <div className="inline-block mb-3">
-                <span className="px-3 py-1 bg-sky-500 text-white font-semibold text-xs uppercase tracking-wide shadow-md animate-pulse" style={{
+                <span className="px-3 py-1 bg-blue-500 text-white font-semibold text-xs uppercase tracking-wide shadow-md animate-pulse" style={{
                   clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
                 }}>
                   <Phone className="w-3 h-3 inline mr-1" />
                   Common Questions
                 </span>
               </div>
-              <h2 className="text-lg sm:text-xl font-bold mb-3 text-sky-600 uppercase tracking-wide" style={{
+              <h2 className="text-lg sm:text-xl font-bold mb-3 text-blue-600 uppercase tracking-wide" style={{
                 textShadow: '0 0 15px rgba(234, 88, 12, 0.2)'
               }}>
                 AI Virtual Receptionist FAQ
               </h2>
               <p className="text-gray-700 text-sm max-w-3xl leading-relaxed">
-                Everything you need to know about <span className="text-sky-600 font-semibold">AI virtual receptionists</span>
+                Everything you need to know about <span className="text-blue-600 font-semibold">AI virtual receptionists</span>
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-3">
               {/* FAQ 1 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15" style={{
+              <div className="group relative bg-blue-50 backdrop-blur-md border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-blue-500/15" style={{
                 clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
               }}>
                 <div className="flex gap-4 p-4">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-blue-400/30">
                       1
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
+                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-transparent bg-clip-text tracking-wide">
                       How does an AI virtual receptionist work?
                     </h3>
                     <p className="text-gray-900 leading-relaxed text-xs">
@@ -477,17 +477,17 @@ export default function AIVirtualReceptionist() {
               </div>
 
               {/* FAQ 2 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15" style={{
+              <div className="group relative bg-blue-50 backdrop-blur-md border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-blue-500/15" style={{
                 clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
               }}>
                 <div className="flex gap-4 p-4">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-blue-400/30">
                       2
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
+                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-transparent bg-clip-text tracking-wide">
                       Can it handle multiple calls simultaneously?
                     </h3>
                     <p className="text-gray-900 leading-relaxed text-xs">
@@ -498,17 +498,17 @@ export default function AIVirtualReceptionist() {
               </div>
 
               {/* FAQ 3 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15" style={{
+              <div className="group relative bg-blue-50 backdrop-blur-md border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-blue-500/15" style={{
                 clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
               }}>
                 <div className="flex gap-4 p-4">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-blue-400/30">
                       3
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
+                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-transparent bg-clip-text tracking-wide">
                       What if the AI can't answer a question?
                     </h3>
                     <p className="text-gray-900 leading-relaxed text-xs">
@@ -519,17 +519,17 @@ export default function AIVirtualReceptionist() {
               </div>
 
               {/* FAQ 4 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15" style={{
+              <div className="group relative bg-blue-50 backdrop-blur-md border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-blue-500/15" style={{
                 clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
               }}>
                 <div className="flex gap-4 p-4">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-blue-400/30">
                       4
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
+                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-transparent bg-clip-text tracking-wide">
                       How long does setup take?
                     </h3>
                     <p className="text-gray-900 leading-relaxed text-xs">
@@ -540,17 +540,17 @@ export default function AIVirtualReceptionist() {
               </div>
 
               {/* FAQ 5 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15" style={{
+              <div className="group relative bg-blue-50 backdrop-blur-md border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-blue-500/15" style={{
                 clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
               }}>
                 <div className="flex gap-4 p-4">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-blue-400/30">
                       5
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
+                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-transparent bg-clip-text tracking-wide">
                       Is it HIPAA compliant for healthcare?
                     </h3>
                     <p className="text-gray-900 leading-relaxed text-xs">
@@ -561,17 +561,17 @@ export default function AIVirtualReceptionist() {
               </div>
 
               {/* FAQ 6 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15" style={{
+              <div className="group relative bg-blue-50 backdrop-blur-md border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-blue-500/15" style={{
                 clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
               }}>
                 <div className="flex gap-4 p-4">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-blue-400/30">
                       6
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
+                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-transparent bg-clip-text tracking-wide">
                       What's the cost vs hiring a receptionist?
                     </h3>
                     <p className="text-gray-900 leading-relaxed text-xs">
@@ -587,20 +587,20 @@ export default function AIVirtualReceptionist() {
         {/* Call to Action - Light Theme */}
         <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-sky-200/15 to-sky-300/15 rounded-full blur-lg animate-pulse" />
-            <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-sky-400/12 to-sky-500/12 rounded-full blur-lg animate-pulse delay-1000" />
-            <div className="absolute top-16 right-32 w-16 h-16 bg-gradient-to-br from-sky-300/20 to-sky-400/20 rounded-full blur-lg animate-pulse delay-500" />
+            <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-blue-200/15 to-blue-300/15 rounded-full blur-lg animate-pulse" />
+            <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-blue-400/12 to-blue-500/12 rounded-full blur-lg animate-pulse delay-1000" />
+            <div className="absolute top-16 right-32 w-16 h-16 bg-gradient-to-br from-blue-300/20 to-blue-400/20 rounded-full blur-lg animate-pulse delay-500" />
           </div>
 
           <div className="container mx-auto max-w-4xl text-left relative z-10">
-            <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-3 py-1 mb-4 border border-sky-500 uppercase tracking-widest" style={{
+            <div className="inline-flex items-center gap-2 bg-blue-500 text-white px-3 py-1 mb-4 border border-blue-500 uppercase tracking-widest" style={{
               clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
             }}>
               <Phone className="w-3 h-3" />
               <span className="text-xs font-bold">Never Miss Another Call</span>
             </div>
 
-            <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 bg-clip-text text-transparent uppercase tracking-wide" style={{
+            <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent uppercase tracking-wide" style={{
               textShadow: '0 0 15px rgba(234, 88, 12, 0.2)'
             }}>
               Ready to Hire Your AI Receptionist?
@@ -612,7 +612,7 @@ export default function AIVirtualReceptionist() {
 
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <Link href="/signup">
-                <Button className="group relative bg-sky-500 hover:bg-sky-600 text-white px-6 py-2 text-sm font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-sky-500/30 border border-sky-500 uppercase tracking-wide" style={{
+                <Button className="group relative bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 text-sm font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/30 border border-blue-500 uppercase tracking-wide" style={{
                   clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
                 }}>
                   Get Started Free
@@ -621,7 +621,7 @@ export default function AIVirtualReceptionist() {
               </Link>
 
               <Link href="/contact">
-                <Button variant="outline" className="group bg-white hover:bg-sky-50 text-sky-600 hover:text-sky-700 border border-sky-200 hover:border-sky-400 px-6 py-2 text-sm font-bold transition-all duration-300 backdrop-blur-md uppercase tracking-wide" style={{
+                <Button variant="outline" className="group bg-white hover:bg-blue-50 text-blue-600 hover:text-blue-700 border border-blue-200 hover:border-blue-400 px-6 py-2 text-sm font-bold transition-all duration-300 backdrop-blur-md uppercase tracking-wide" style={{
                   clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
                 }}>
                   <Phone className="w-4 h-4 mr-2" />
@@ -631,22 +631,22 @@ export default function AIVirtualReceptionist() {
             </div>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xs text-gray-700">
-              <div className="flex items-center gap-1 px-2 py-1 bg-sky-50 border border-sky-200 backdrop-blur-sm" style={{
+              <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 border border-blue-200 backdrop-blur-sm" style={{
                 clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
               }}>
-                <Check className="w-3 h-3 text-sky-600" />
+                <Check className="w-3 h-3 text-blue-600" />
                 <span>No Credit Card Required</span>
               </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-sky-50 border border-sky-200 backdrop-blur-sm" style={{
+              <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 border border-blue-200 backdrop-blur-sm" style={{
                 clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
               }}>
-                <Check className="w-3 h-3 text-sky-600" />
+                <Check className="w-3 h-3 text-blue-600" />
                 <span>Setup in 3-5 Days</span>
               </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-sky-50 border border-sky-200 backdrop-blur-sm" style={{
+              <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 border border-blue-200 backdrop-blur-sm" style={{
                 clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
               }}>
-                <Check className="w-3 h-3 text-sky-600" />
+                <Check className="w-3 h-3 text-blue-600" />
                 <span>Cancel Anytime</span>
               </div>
             </div>

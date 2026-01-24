@@ -1,165 +1,177 @@
+"use client";
 
-import { Footer } from "@/components/footer"
-import { Header } from "@/components/header"
-import { VoiceConversationPlayer } from "@/components/voice-conversation-player"
-import { ArrowRight, BarChart3, Bot, Check, ClipboardCheck, Clock, Globe, HeartHandshake, MessageCircle, Mic, Shield, Smile, Sparkles, Users, Workflow } from "lucide-react"
-import { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+import { VoiceConversationPlayer } from "@/components/voice-conversation-player";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  BarChart3,
+  Bot,
+  Check,
+  CheckCircle,
+  ClipboardCheck,
+  Clock,
+  Globe,
+  HeartHandshake,
+  MessageCircle,
+  Mic,
+  Pause,
+  Phone,
+  Play,
+  Shield,
+  Smile,
+  Sparkles,
+  Target,
+  TrendingUp,
+  Users,
+  Workflow
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-export const metadata: Metadata = {
-  title: "AI Customer Support | 24/7 Automated Customer Service - DigitalBot.ai 2025",
-  description: "Deploy AI customer support that resolves issues instantly 24/7. Personalized service across all channels. Trusted by 500+ businesses. Start free trial today.",
-  keywords: [
-    "ai customer support",
-    "ai customer service",
-    "automated customer support",
-    "ai support agent",
-    "ai chatbot customer service",
-    "24/7 customer support ai",
-    "ai help desk",
-    "automated support system",
-    "ai customer care",
-    "intelligent customer support",
-    "ai support automation",
-    "virtual customer service agent",
-    "ai powered support",
-    "customer service automation",
-    "ai support platform",
-  ],
-  openGraph: {
-    title: "AI Customer Support | 24/7 Automated Customer Service - DigitalBot.ai 2025",
-    description: "Deploy AI customer support that resolves issues instantly 24/7. Personalized service across all channels. Trusted by 500+ businesses.",
-    type: "website",
-    url: "https://digitalbot.ai/services/ai-customer-support",
-    images: [
-      {
-        url: "/images/ai-voice-agent.png",
-        width: 1200,
-        height: 630,
-        alt: "AI Customer Support Platform",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "AI Customer Support | 24/7 Automated Customer Service - DigitalBot.ai 2025",
-    description: "Deploy AI customer support that resolves issues instantly 24/7. Personalized service across all channels. Trusted by 500+ businesses.",
-    images: ["/images/ai-voice-agent.png"],
-  },
-};
-
+// Benefits data - all 9 original benefits preserved
 const benefits = [
   {
     icon: HeartHandshake,
     title: "Customer Empathy at Scale",
+    stat: "98%",
+    statLabel: "Satisfaction",
     description: "Deliver empathetic conversations in real time with AI agents trained on your brand tone, knowledge base, and historical interactions.",
-    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Clock,
     title: "Instant 24/7 Resolutions",
+    stat: "<2s",
+    statLabel: "Response",
     description: "Provide lightning-fast support across chat, voice, email, and messaging channels with AI that never sleeps and never keeps customers waiting.",
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Sparkles,
     title: "Personalized Journeys",
+    stat: "3x",
+    statLabel: "Engagement",
     description: "Reference past purchases, preferences, and sentiment in every conversation to create delightful, relevant support experiences.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Shield,
     title: "Secure & Compliant",
+    stat: "100%",
+    statLabel: "Compliant",
     description: "HIPAA, SOC 2, and GDPR compliant infrastructure with automatic redaction, encryption, and role-based access control for sensitive cases.",
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=125&brightness=115"
+    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Users,
     title: "Agent Augmentation",
+    stat: "5x",
+    statLabel: "Faster",
     description: "Give human teams AI copilots that summarize tickets, recommend next best actions, and draft responses in seconds.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Bot,
     title: "Unified Knowledge Automation",
+    stat: "1",
+    statLabel: "Platform",
     description: "Connect your FAQs, product docs, LMS, and community forums into a single AI-ready knowledge layer refreshed continuously.",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: BarChart3,
     title: "Outcome-Based Analytics",
+    stat: "360°",
+    statLabel: "Insights",
     description: "Track KPIs like first contact resolution, customer effort, sentiment trends, and churn risk through intuitive dashboards.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Globe,
     title: "Global Language Support",
+    stat: "60+",
+    statLabel: "Languages",
     description: "Serve customers in 60+ languages with natural accents and adaptive translations that preserve context and nuance.",
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Workflow,
     title: "No-Code Automation",
+    stat: "0",
+    statLabel: "Code Needed",
     description: "Build, test, and optimize multi-step customer workflows without writing code using visual journeys and A/B testing tools.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80"
   }
-]
+];
 
+// Use cases - all 4 preserved
 const useCases = [
   {
     title: "Omnichannel Case Deflection",
     description: "Resolve up to 80% of repetitive questions across live chat, social media, and email with AI responses that access your knowledge base instantly.",
-    results: "Cut ticket backlog by 65%",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    result: "Cut ticket backlog by 65%",
+    icon: MessageCircle,
+    color: "from-blue-500 to-blue-600",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
   },
   {
     title: "Proactive Customer Care",
     description: "Automatically detect churn signals and reach out with personalized retention offers before customers submit cancellations.",
-    results: "Reduce churn by 35%",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
+    result: "Reduce churn by 35%",
+    icon: HeartHandshake,
+    color: "from-blue-500 to-blue-600",
+    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80"
   },
   {
     title: "Technical Troubleshooting",
     description: "Guide users through complex troubleshooting sequences with step-by-step instructions, multimedia explanations, and escalation to specialists when needed.",
-    results: "Increase first contact resolution to 92%",
-    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=125&brightness=115"
+    result: "92% first contact resolution",
+    icon: ClipboardCheck,
+    color: "from-blue-500 to-cyan-600",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
   },
   {
     title: "Order & Account Management",
     description: "Handle refunds, order tracking, account updates, and subscription changes automatically while syncing changes to CRM, billing, and ERP systems.",
-    results: "Save 3,000 agent hours per quarter",
-    image: "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=125&brightness=115"
+    result: "Save 3,000 agent hours/quarter",
+    icon: BarChart3,
+    color: "from-cyan-500 to-blue-600",
+    image: "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&q=80"
   }
-]
+];
 
+// Capability blocks - all 4 preserved
 const capabilityBlocks = [
   {
     icon: MessageCircle,
     heading: "Context-Aware Conversation Engine",
     body: "DigitalBot understands intent, sentiment, and emotion across sessions, giving customers consistent, human-quality interactions every time.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=125&brightness=115"
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: ClipboardCheck,
     heading: "Automated Quality Management",
     body: "Score 100% of interactions automatically against custom rubrics, surface coaching opportunities, and enforce compliance in real time.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=125&brightness=115"
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: Smile,
     heading: "Customer Delight Toolkit",
     body: "Trigger loyalty offers, CSAT surveys, and follow-up journeys based on satisfaction levels and lifecycle stages to maximize customer happiness.",
-    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=130&brightness=120"
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
   },
   {
     icon: BarChart3,
     heading: "Unified Support Intelligence",
     body: "Gain a single view of all support metrics, including AI-only vs. blended team performance, trending topics, and agent adoption.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=125&brightness=115"
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
   }
-]
+];
 
+// FAQ Schema for SEO
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -213,8 +225,9 @@ const faqSchema = {
       }
     }
   ]
-}
+};
 
+// Product Schema for SEO
 const productSchema = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -238,519 +251,763 @@ const productSchema = {
     "ratingValue": "4.8",
     "reviewCount": "500"
   }
-}
+};
 
 export default function AICustomerSupport() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlayingHindi, setIsPlayingHindi] = useState(false);
+  const [activeUseCase, setActiveUseCase] = useState(0);
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRefHindi = useRef<HTMLAudioElement>(null);
+
+  // Fade-in on mount
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => new Set(prev).add(entry.target.id));
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    const sections = document.querySelectorAll('[data-animate]');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Auto-rotate use cases
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveUseCase((prev) => (prev + 1) % useCases.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Audio handlers
+  const toggleAudio = useCallback(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(() => console.log("Audio blocked"));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  }, [isPlaying]);
+
+  const toggleAudioHindi = useCallback(() => {
+    if (audioRefHindi.current) {
+      if (isPlayingHindi) {
+        audioRefHindi.current.pause();
+      } else {
+        audioRefHindi.current.play().catch(() => console.log("Hindi audio blocked"));
+      }
+      setIsPlayingHindi(!isPlayingHindi);
+    }
+  }, [isPlayingHindi]);
+
+  const handleAudioEnded = useCallback(() => {
+    setIsPlaying(false);
+  }, []);
+
+  const handleAudioEndedHindi = useCallback(() => {
+    setIsPlayingHindi(false);
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <>
+      <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+        {/* Hidden audio elements */}
+        <audio
+          ref={audioRef}
+          src="/audio/customer-support-demo.mp3"
+          onEnded={handleAudioEnded}
+          preload="metadata"
+        />
+        <audio
+          ref={audioRefHindi}
+          src="/audio/customer-support-spanish.mp3"
+          onEnded={handleAudioEndedHindi}
+          preload="metadata"
+        />
 
-      <main className="flex-1">
-        {/* Structured Data */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+        <Header />
 
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-white py-8 px-3 sm:px-4 lg:px-6">
-          {/* Background Elements */}
-          <div className="absolute inset-0 opacity-10">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `
-                  linear-gradient(rgba(234, 88, 12, 0.1) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(234, 88, 12, 0.1) 1px, transparent 1px)
-                `,
-                backgroundSize: '60px 60px',
-              }}
-            />
-          </div>
+        <main className="flex-1 relative z-10">
+          {/* Structured Data */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
 
-          {/* Floating sky Elements */}
-          <div className="absolute top-5 right-10 w-24 h-24 bg-gradient-to-bl from-sky-200/20 to-sky-300/10 rounded-full blur-xl animate-pulse" />
-          <div className="absolute bottom-10 left-5 w-28 h-28 bg-gradient-to-tr from-sky-200/15 to-sky-300/20 rounded-full blur-xl animate-pulse" />
-          <div className="absolute top-1/3 left-1/3 w-20 h-20 bg-gradient-to-r from-sky-200/10 via-sky-300/15 to-sky-400/10 rounded-full blur-lg" />
+          {/* HERO SECTION - Modern Two-Column Like Appointments */}
+          <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-white flex items-center">
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {/* Floating Orbs */}
+              <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+              
+              {/* Animated Grid */}
+              <div className="absolute inset-0 opacity-[0.03]" style={{
+                backgroundImage: 'linear-gradient(to right, #10b981 1px, transparent 1px), linear-gradient(to bottom, #10b981 1px, transparent 1px)',
+                backgroundSize: '60px 60px'
+              }} />
+              
+              {/* Animated Lines */}
+              <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
+              <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
+            </div>
 
-          <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="grid lg:grid-cols-2 gap-6 items-start">
+            <div className="container mx-auto relative z-30 max-w-7xl">
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                
+                {/* Left Side - Content */}
+                <div className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  {/* Badge */}
+                  <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 px-4 py-2 rounded-full mb-6">
+                    <HeartHandshake className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm font-semibold text-blue-700">AI Customer Support Platform</span>
+                  </div>
 
-              {/* Left Content */}
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-4 py-2 mb-4 border border-sky-400 uppercase tracking-widest" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                }}>
-                  <HeartHandshake className="w-4 h-4" />
-                  <span className="text-xs font-bold">AI Customer Support Platform</span>
-                </div>
+                  {/* Main Headline */}
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-4 leading-tight animate-fade-in-up-2">
+                    <span className="block text-black">AI Customer Support That</span>
+                    <span className="block bg-gradient-to-r from-blue-500 via-blue to-blue-700 bg-clip-text text-transparent">Never Sleeps Always Helps</span>
+                  </h1>
 
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 bg-clip-text text-transparent mb-3 leading-tight text-left">
-                  <span className="block mb-2 bg-clip-text text-transparent bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 drop-shadow-sm tracking-widest uppercase">AI Customer Support</span>
-                  <span className="inline-block px-4 py-2 rounded-xl text-white bg-gradient-to-r from-sky-500 via-sky-400 to-sky-500 shadow-lg shadow-sky-500/30 text-lg sm:text-xl lg:text-2xl relative overflow-hidden border border-sky-400">
-                    <span className="absolute inset-0 bg-gradient-to-tr from-sky-500/25 via-transparent to-transparent"></span>
-                    <span className="relative z-10 uppercase tracking-wider">Never Sleeps, Always Helps</span>
-                  </span>
-                </h1>
+                  {/* Tagline Box */}
+                  <div className="bg-gradient-to-r from-blue-50 to-blue-50/50 border border-blue-200 rounded-2xl p-5 mb-6">
+                    <p className="text-gray-600 text-sm italic mb-1">&quot;Every unanswered ticket is a customer considering your competitor.&quot;</p>
+                    <p className="text-blue-600 font-bold text-base uppercase tracking-wider">LET AI DELIGHT EVERY CUSTOMER 24/7.</p>
+                  </div>
 
-                <div className="p-3 bg-sky-50 backdrop-blur-md border border-sky-200 shadow-md shadow-sky-500/10" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                }}>
-                  <p className="text-xs sm:text-sm font-bold text-sky-600 mb-2">
-                    "Traditional support gets overwhelmed, takes breaks, works limited hours."
+                  {/* Description */}
+                  <p className="text-gray-600 text-base lg:text-lg mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    Deploy <strong className="text-blue-600">AI customer support</strong> that resolves issues instantly across all channels — trusted by <strong className="text-blue-600">500+ businesses</strong> handling <strong>2M+ conversations</strong> monthly.
                   </p>
-                  <p className="text-sm sm:text-base font-extrabold text-white inline-block bg-sky-500 px-3 py-1 shadow-sm shadow-sky-500/30 border border-sky-400 uppercase tracking-wide" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                  }}>
-                    <span className="relative z-10">WE NEVER DO.</span>
-                  </p>
+
+                  {/* Dual Audio Players */}
+                  <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                    {/* English Audio Player */}
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 mb-1.5">🇺🇸 English Demo</p>
+                      <button
+                        onClick={toggleAudio}
+                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all group"
+                      >
+                        <div className="flex-1 flex items-center justify-center h-6">
+                          <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <linearGradient id="pulseGradientSupport" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#3b82f6" />
+                                <stop offset="1" stopColor="#2563eb" />
+                              </linearGradient>
+                            </defs>
+                            {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
+                              isPlaying ? (
+                                <motion.rect
+                                  key={i}
+                                  x={6 * i + 1}
+                                  width="3"
+                                  rx="1.5"
+                                  fill="url(#pulseGradientSupport)"
+                                  animate={{
+                                    y: [24 - h, 24 - h - 8, 24 - h],
+                                    height: [h, h + 8, h]
+                                  }}
+                                  transition={{
+                                    repeat: Infinity,
+                                    duration: 0.8 + (i % 4) * 0.1,
+                                    delay: i * 0.05,
+                                    ease: "easeInOut"
+                                  }}
+                                  y={24 - h}
+                                  height={h}
+                                />
+                              ) : (
+                                <rect key={i} x={6 * i + 1} y={24 - h} width="3" height={h} rx="1.5" fill="url(#pulseGradientSupport)" />
+                              )
+                            ))}
+                          </svg>
+                        </div>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md">
+                          {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
+                        </div>
+                      </button>
+                    </div>
+
+                    {/* Hindi Audio Player */}
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 mb-1.5">🇮🇳 Hindi Demo</p>
+                      <button
+                        onClick={toggleAudioHindi}
+                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all group"
+                      >
+                        <div className="flex-1 flex items-center justify-center h-6">
+                          <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <linearGradient id="pulseGradientSupportHindi" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#3b82f6" />
+                                <stop offset="1" stopColor="#2563eb" />
+                              </linearGradient>
+                            </defs>
+                            {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
+                              isPlayingHindi ? (
+                                <motion.rect
+                                  key={i}
+                                  x={6 * i + 1}
+                                  width="3"
+                                  rx="1.5"
+                                  fill="url(#pulseGradientSupportHindi)"
+                                  animate={{
+                                    y: [24 - h, 24 - h - 8, 24 - h],
+                                    height: [h, h + 8, h]
+                                  }}
+                                  transition={{
+                                    repeat: Infinity,
+                                    duration: 0.8 + (i % 4) * 0.1,
+                                    delay: i * 0.05,
+                                    ease: "easeInOut"
+                                  }}
+                                  y={24 - h}
+                                  height={h}
+                                />
+                              ) : (
+                                <rect key={i} x={6 * i + 1} y={24 - h} width="3" height={h} rx="1.5" fill="url(#pulseGradientSupportHindi)" />
+                              )
+                            ))}
+                          </svg>
+                        </div>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md">
+                          {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* CTA Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
+                    <Link
+                      href="/signup"
+                      className="group px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-2"
+                    >
+                      Start Free Trial
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="px-6 py-3 bg-white text-blue-600 border-2 border-blue-200 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
+                    >
+                      <Phone className="w-4 h-4" />
+                      Book Demo
+                    </Link>
+                  </div>
+
+                  {/* Trust Indicators */}
+                  <div className="flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-gray-500">
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle className="h-4 w-4 text-blue-500" />
+                      <span className="text-xs">No credit card</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle className="h-4 w-4 text-blue-500" />
+                      <span className="text-xs">Live in 10 days</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle className="h-4 w-4 text-blue-500" />
+                      <span className="text-xs">50% cost savings</span>
+                    </div>
+                  </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-gray-900 leading-relaxed">
-                  Transform customer service with <span className="font-bold text-sky-600">AI customer support</span> that resolves inquiries instantly 24/7.
-                  Trusted by <span className="font-semibold text-sky-600">500+ businesses</span> handling <span className="font-semibold text-sky-600">2M+ conversations</span> monthly.
-                  Our <span className="font-bold text-sky-600">AI support platform</span> delivers empathetic, personalized service across all channels.
-                </p>
-
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-600" style={{
-                      boxShadow: '0 0 6px rgba(234, 88, 12, 0.3)'
-                    }}></span>
-                    <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">24/7 Support</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-600" style={{
-                      boxShadow: '0 0 6px rgba(234, 88, 12, 0.3)'
-                    }}></span>
-                    <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">Instant Resolution</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-600" style={{
-                      boxShadow: '0 0 6px rgba(234, 88, 12, 0.3)'
-                    }}></span>
-                    <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">All Channels</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-600" style={{
-                      boxShadow: '0 0 6px rgba(234, 88, 12, 0.3)'
-                    }}></span>
-                    <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">60+ Languages</span>
-                  </div>
-                </div>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Link
-                    href="/signup"
-                    className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold text-white bg-sky-500 shadow-md hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105 border border-sky-400 uppercase tracking-wide"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                    }}
-                  >
-                    Start Free Trial
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold text-sky-600 bg-transparent border border-sky-500 hover:bg-sky-50 transition-all duration-300 hover:scale-105 shadow-sm uppercase tracking-wide"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                    }}
-                  >
-                    <MessageCircle className="w-3 h-3 mr-1" />
-                    Book Demo
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right HD Image */}
-              <div className="relative">
-                <div className="relative h-48 sm:h-56 lg:h-64 rounded-xl overflow-hidden shadow-lg shadow-sky-500/15 border border-sky-200">
-                  <Image
-                    src="https://images.unsplash.com/photo-1553028826-f4804a6dba3b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
-                    alt="AI Customer Support Technology - 24/7 Automated Service Dashboard"
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-sky-50/20 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-sky-200">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center shadow-lg border border-sky-400/30">
-                          <HeartHandshake className="w-4 h-4 text-white" />
+                {/* Right Side - Visual */}
+                <div className={`relative flex justify-center lg:justify-end transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+                  <div className="relative">
+                    {/* Animated Sound Waves */}
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
+                      <svg width="400" height="400" viewBox="0 0 400 400" fill="none" style={{ filter: 'drop-shadow(0 0 40px #10b981aa)' }}>
+                        <circle cx="200" cy="200" r="100" stroke="#34d399" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
+                        <circle cx="200" cy="200" r="130" stroke="#10b981" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
+                        <circle cx="200" cy="200" r="160" stroke="#059669" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
+                      </svg>
+                    </div>
+                    
+                    {/* Main Image */}
+                    <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-2xl z-20 bg-gradient-to-br from-blue-100 to-blue-50">
+                      <Image
+                        src="https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&q=80"
+                        alt="AI Customer Support Dashboard"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
+                    </div>
+                    
+                    {/* Floating Badge - Bottom Right */}
+                    <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                          <MessageCircle className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <div className="text-sm font-bold text-gray-900">Live Support AI</div>
-                          <div className="text-xs text-sky-600">24/7 customer care</div>
+                          <p className="text-2xl font-bold text-gray-900">2M+</p>
+                          <p className="text-sm text-gray-500">Chats/Month</p>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-sky-600 font-medium">✓ Instant Response</span>
-                        <span className="text-sky-600 font-medium tracking-wide">Always Available</span>
-                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* Benefits Section */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-          {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-200/15 to-sky-300/8 rounded-full blur-2xl animate-pulse"></div>
-            <div className="absolute bottom-0 left-0 w-56 h-56 bg-gradient-to-tr from-sky-200/10 to-sky-300/15 rounded-full blur-2xl animate-pulse"></div>
-          </div>
-
-          <div className="container mx-auto max-w-7xl relative z-10">
-            <div className="text-left mb-6">
-              <h2 className="text-lg sm:text-xl font-bold mb-3 text-sky-600 uppercase tracking-wide" style={{
-                textShadow: '0 0 12px rgba(234, 88, 12, 0.2)'
-              }}>
-                AI Customer Support Benefits
-              </h2>
-              <p className="text-gray-900 text-sm max-w-3xl leading-relaxed">
-                Empower your support team with automation that feels human and scales with demand
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {benefits.map((benefit, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/15 overflow-hidden"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                  }}
-                >
-                  {/* Image Header */}
-                  <div className="relative h-32 overflow-hidden">
-                    <Image
-                      src={benefit.image}
-                      alt={`${benefit.title} - AI Customer Support`}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-white/20 to-transparent"></div>
-                    <div className="absolute top-4 left-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center shadow-xl">
-                        <benefit.icon className="w-6 h-6 text-white" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4">
-                    <h3 className="text-sm font-bold text-sky-600 mb-2 uppercase tracking-wide group-hover:text-sky-700 transition-colors duration-300">
-                      {benefit.title}
-                    </h3>
-                    <p className="text-gray-900 text-xs leading-relaxed">
-                      {benefit.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Use Cases Section */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-          <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-sky-200/15 to-sky-300/15 rounded-full blur-lg animate-pulse" />
-          <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-sky-200/12 to-sky-300/12 rounded-full blur-lg animate-pulse delay-1000" />
-
-          <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="text-left mb-6">
-              <h2 className="text-lg sm:text-xl font-bold mb-3 text-sky-600 uppercase tracking-wide" style={{
-                textShadow: '0 0 12px rgba(234, 88, 12, 0.15)'
-              }}>
-                AI Support Use Cases & Proven Results
-              </h2>
-              <p className="text-gray-900 text-sm max-w-3xl leading-relaxed">
-                Real-world outcomes from DigitalBot customers worldwide
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-5">
-              {useCases.map((useCase, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-white backdrop-blur-md rounded-2xl border border-sky-200 hover:border-sky-400 transition-all duration-500 hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/15 overflow-hidden"
-                >
-                  {/* Image Header */}
-                  <div className="relative h-40 overflow-hidden">
-                    <Image
-                      src={useCase.image}
-                      alt={`${useCase.title} - AI Customer Support Use Case`}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-white/20 to-transparent"></div>
-                    <div className="absolute bottom-3 left-3 right-3">
-                      <div className="bg-white/95 backdrop-blur-md rounded-lg px-3 py-1 border border-sky-200">
-                        <div className="flex items-center gap-2 text-xs">
-                          <Check className="w-3 h-3 text-sky-600 animate-pulse" />
-                          <span className="text-gray-900 font-semibold">{useCase.results}</span>
+                    
+                    {/* Floating Badge - Top Left */}
+                    <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                          <TrendingUp className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-gray-900">98%</p>
+                          <p className="text-sm text-gray-500">CSAT Score</p>
                         </div>
                       </div>
                     </div>
                   </div>
-
-                  {/* Content */}
-                  <div className="p-5">
-                    <h3 className="text-base font-bold bg-gradient-to-r from-sky-600 to-sky-500 bg-clip-text text-transparent mb-3 tracking-wide">
-                      {useCase.title}
-                    </h3>
-                    <p className="text-gray-900 leading-relaxed text-sm mb-4">
-                      {useCase.description}
-                    </p>
-                    <span className="inline-flex items-center px-3 py-1 bg-sky-50 text-gray-900 rounded-full text-xs font-semibold border border-sky-200">
-                      <Check className="h-3 w-3 mr-2 text-sky-600" />
-                      {useCase.results}
-                    </span>
-                  </div>
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Features Section */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-200/15 to-sky-300/8 rounded-full blur-2xl animate-pulse"></div>
-            <div className="absolute bottom-0 left-0 w-56 h-56 bg-gradient-to-tr from-sky-200/10 to-sky-300/15 rounded-full blur-2xl animate-pulse"></div>
-          </div>
+          {/* BENEFITS SECTION - Image Cards Grid */}
+          <section 
+            id="benefits-section" 
+            data-animate
+            className="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Sparkles className="w-4 h-4" />
+                  Why Choose DigitalBot
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Enterprise-Grade <span className="text-blue-600">AI Support</span>
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Powerful automation with measurable outcomes for modern support teams
+                </p>
+              </div>
 
-          <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="text-left mb-6">
-              <h2 className="text-lg sm:text-xl font-bold mb-3 text-sky-600 uppercase tracking-wide" style={{
-                textShadow: '0 0 12px rgba(234, 88, 12, 0.15)'
-              }}>
-                Platform Capabilities Support Leaders Trust
-              </h2>
-              <p className="text-gray-900 text-sm max-w-3xl leading-relaxed">
-                Deep technical advantages that keep customers informed and delighted
-              </p>
+              {/* Benefits Grid - 9 items */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                {benefits.map((benefit, index) => (
+                  <div
+                    key={index}
+                    className={`group bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-2 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    style={{ transitionDelay: `${index * 0.1}s` }}
+                  >
+                    {/* Image */}
+                    <div className="relative h-32 overflow-hidden">
+                      <Image
+                        src={benefit.image}
+                        alt={benefit.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                      <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                          <benefit.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <span className="text-white font-bold text-lg">{benefit.stat}</span>
+                          <span className="text-xs text-white/80 ml-1 uppercase">{benefit.statLabel}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Content */}
+                    <div className="p-4">
+                      <h3 className="font-bold text-gray-900 mb-2 text-sm group-hover:text-blue-600 transition-colors">{benefit.title}</h3>
+                      <p className="text-xs text-gray-600 leading-relaxed">{benefit.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
+          </section>
 
-            <div className="grid md:grid-cols-2 gap-5">
-              {capabilityBlocks.map((feature, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-white backdrop-blur-md rounded-2xl border border-sky-200 hover:border-sky-400 transition-all duration-500 hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/15 overflow-hidden"
-                >
-                  {/* Image Header */}
-                  <div className="relative h-40 overflow-hidden">
+          {/* USE CASES SECTION - Interactive Tabs */}
+          <section 
+            id="usecases-section" 
+            data-animate
+            className="py-20 bg-gray-50 relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-6xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Target className="w-4 h-4" />
+                  Proven Results
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  AI Support <span className="text-blue-600">Use Cases</span>
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Real-world outcomes from DigitalBot customers worldwide
+                </p>
+              </div>
+
+              {/* Interactive Use Cases */}
+              <div className={`grid lg:grid-cols-5 gap-6 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {/* Tabs */}
+                <div className="lg:col-span-2 flex lg:flex-col gap-2">
+                  {useCases.map((useCase, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveUseCase(index)}
+                      className={`flex-1 lg:flex-none flex items-center gap-3 p-4 rounded-xl transition-all duration-300 text-left ${
+                        activeUseCase === index
+                          ? 'bg-white shadow-lg border-2 border-blue-500'
+                          : 'bg-white/50 border border-gray-200 hover:bg-white hover:shadow-md'
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br ${useCase.color} ${activeUseCase === index ? 'scale-110' : ''} transition-transform`}>
+                        <useCase.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="hidden sm:block">
+                        <h4 className={`font-bold ${activeUseCase === index ? 'text-blue-600' : 'text-gray-700'}`}>
+                          {useCase.title}
+                        </h4>
+                        <p className="text-xs text-gray-500">{useCase.result}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Content */}
+                <div className="lg:col-span-3 bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden">
                     <Image
-                      src={feature.image}
-                      alt={`${feature.heading} - AI Customer Support Platform`}
+                      src={useCases[activeUseCase].image}
+                      alt={useCases[activeUseCase].title}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-white/20 to-transparent"></div>
-                    <div className="absolute top-4 left-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center shadow-xl">
-                        <feature.icon className="w-6 h-6 text-white" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`w-14 h-14 rounded-xl flex items-center justify-center bg-gradient-to-br ${useCases[activeUseCase].color}`}>
+                          {(() => {
+                            const Icon = useCases[activeUseCase].icon;
+                            return <Icon className="w-7 h-7 text-white" />;
+                          })()}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-white">{useCases[activeUseCase].title}</h3>
+                          <div className="flex items-center gap-2 mt-1">
+                            <CheckCircle className="w-4 h-4 text-blue-400" />
+                            <span className="text-blue-400 font-semibold text-sm">{useCases[activeUseCase].result}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  {/* Text Content */}
+                  <div className="p-6">
+                    <p className="text-gray-600 text-base leading-relaxed mb-4">
+                      {useCases[activeUseCase].description}
+                    </p>
+                    <Link
+                      href="/signup"
+                      className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                    >
+                      Get Started <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
-                  {/* Content */}
-                  <div className="p-5">
-                    <h3 className="text-base font-bold bg-gradient-to-r from-sky-600 to-sky-500 bg-clip-text text-transparent mb-3 tracking-wide">
-                      {feature.heading}
+          {/* CAPABILITIES - Bento Grid Layout */}
+          <section 
+            id="capabilities-section" 
+            data-animate
+            className="py-20 bg-white relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('capabilities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Bot className="w-4 h-4" />
+                  Platform Capabilities
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Support Leaders <span className="text-blue-600">Trust</span>
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Deep technical advantages that keep customers informed and delighted
+                </p>
+              </div>
+
+              {/* Bento Grid */}
+              <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 transition-all duration-700 ${visibleSections.has('capabilities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {/* Feature 1 - Large Card */}
+                <div className="lg:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={capabilityBlocks[0].image}
+                      alt={capabilityBlocks[0].heading}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="relative h-full min-h-[400px] lg:min-h-[500px] p-8 flex flex-col justify-end">
+                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                      {(() => {
+                        const Icon = capabilityBlocks[0].icon;
+                        return <Icon className="w-7 h-7 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                      {capabilityBlocks[0].heading}
                     </h3>
-                    <p className="text-gray-900 leading-relaxed text-sm">
-                      {feature.body}
+                    <p className="text-white/80 text-base lg:text-lg leading-relaxed max-w-xl">
+                      {capabilityBlocks[0].body}
                     </p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        {/* Demo Section */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-          <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-sky-200/15 to-sky-300/15 rounded-full blur-lg animate-pulse" />
-          <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-sky-200/12 to-sky-300/12 rounded-full blur-lg animate-pulse delay-1000" />
+                {/* Feature 2 - Medium Card */}
+                <div className="group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={capabilityBlocks[1].image}
+                      alt={capabilityBlocks[1].heading}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="relative h-full min-h-[240px] p-6 flex flex-col justify-end">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3">
+                      {(() => {
+                        const Icon = capabilityBlocks[1].icon;
+                        return <Icon className="w-6 h-6 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {capabilityBlocks[1].heading}
+                    </h3>
+                    <p className="text-white/80 text-sm leading-relaxed line-clamp-3">
+                      {capabilityBlocks[1].body}
+                    </p>
+                  </div>
+                </div>
 
-          <div className="max-w-4xl mx-auto relative z-10">
-            <div className="text-left mb-8">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-3 py-1 mb-4 border border-sky-400 uppercase tracking-widest" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <Mic className="w-3 h-3 animate-pulse" />
-                <span className="text-xs font-bold">Live AI Demo</span>
+                {/* Feature 3 - Medium Card */}
+                <div className="group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={capabilityBlocks[2].image}
+                      alt={capabilityBlocks[2].heading}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="relative h-full min-h-[240px] p-6 flex flex-col justify-end">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3">
+                      {(() => {
+                        const Icon = capabilityBlocks[2].icon;
+                        return <Icon className="w-6 h-6 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {capabilityBlocks[2].heading}
+                    </h3>
+                    <p className="text-white/80 text-sm leading-relaxed line-clamp-3">
+                      {capabilityBlocks[2].body}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Feature 4 - Wide Card */}
+                <div className="md:col-span-2 lg:col-span-3 group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={capabilityBlocks[3].image}
+                      alt={capabilityBlocks[3].heading}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+                  <div className="relative h-full min-h-[200px] lg:min-h-[250px] p-8 flex flex-col justify-center max-w-2xl">
+                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                      {(() => {
+                        const Icon = capabilityBlocks[3].icon;
+                        return <Icon className="w-7 h-7 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                      {capabilityBlocks[3].heading}
+                    </h3>
+                    <p className="text-white/80 text-base lg:text-lg leading-relaxed">
+                      {capabilityBlocks[3].body}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-sky-600 to-sky-500 bg-clip-text text-transparent mb-3 uppercase tracking-wide">
-                Experience AI Customer Support in Action
-              </h2>
-              <p className="text-gray-900 text-sm max-w-2xl leading-relaxed">
-                Hear how AI resolves support tickets with calm, accurate, and friendly responses your customers will love
-              </p>
             </div>
-            <div className="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-sky-200">
-              <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
-            </div>
-          </div>
-        </section>
+          </section>
 
-        {/* FAQ Section */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-          {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-10 left-20 w-24 h-24 bg-gradient-to-br from-sky-200/15 to-sky-300/15 rounded-full filter blur-xl animate-pulse"></div>
-            <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-br from-sky-200/10 to-sky-300/10 rounded-full filter blur-xl animate-pulse delay-1000"></div>
-            <div className="absolute top-32 right-32 w-20 h-20 bg-gradient-to-br from-sky-200/20 to-sky-300/20 rounded-full filter blur-lg animate-pulse delay-500"></div>
-          </div>
-
-          <div className="container mx-auto max-w-5xl relative z-10">
-            <div className="text-left mb-8">
-              <div className="inline-block mb-3">
-                <span className="px-3 py-1 bg-sky-500 text-white font-semibold text-xs uppercase tracking-wide shadow-md animate-pulse" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
-                  <MessageCircle className="w-3 h-3 inline mr-1" />
-                  Common Questions
-                </span>
+          {/* DEMO SECTION - Full Voice Player */}
+          <section 
+            id="demo-section" 
+            data-animate
+            className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-4xl">
+              <div className={`text-center mb-8 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Mic className="w-4 h-4" />
+                  Live AI Demo
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Experience AI Support <span className="text-blue-600">in Action</span>
+                </h2>
+                <p className="text-gray-600">
+                  Hear how AI resolves support tickets with calm, accurate, and friendly responses
+                </p>
               </div>
-              <h2 className="text-lg sm:text-xl font-bold mb-3 text-sky-600 uppercase tracking-wide" style={{
-                textShadow: '0 0 15px rgba(234, 88, 12, 0.2)'
-              }}>
-                Frequently Asked Questions
-              </h2>
-              <p className="text-gray-900 text-sm max-w-3xl leading-relaxed">
-                Get clarity on how AI customer support fits into your strategy
-              </p>
-            </div>
 
-            <div className="grid gap-3">
-              {faqSchema.mainEntity.map((faq, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-sky-50 backdrop-blur-md border border-sky-200 hover:border-sky-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-500/15"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                  }}
-                >
-                  <div className="flex gap-4 p-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-8 h-8 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
+              <div className={`bg-white rounded-2xl shadow-xl p-6 border border-gray-100 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ SECTION - Accordion Style */}
+          <section 
+            id="faq-section" 
+            data-animate
+            className="py-20 bg-white relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-4xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <MessageCircle className="w-4 h-4" />
+                  FAQ
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Common <span className="text-blue-600">Questions</span>
+                </h2>
+                <p className="text-gray-600">
+                  Quick answers for leaders evaluating AI customer support solutions
+                </p>
+              </div>
+
+              <div className={`space-y-4 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {faqSchema.mainEntity.map((faq, index) => (
+                  <details
+                    key={index}
+                    className="group bg-gray-50 rounded-xl overflow-hidden"
+                  >
+                    <summary className="flex items-center gap-4 p-5 cursor-pointer list-none hover:bg-gray-100 transition-colors">
+                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                         {index + 1}
                       </div>
+                      <span className="font-semibold text-gray-900 flex-1">{faq.name}</span>
+                      <ArrowRight className="w-5 h-5 text-gray-400 group-open:rotate-90 transition-transform" />
+                    </summary>
+                    <div className="px-5 pb-5 pl-17 ml-12">
+                      <p className="text-gray-600">{faq.acceptedAnswer.text}</p>
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
-                        {faq.name}
-                      </h3>
-                      <p className="text-gray-900 leading-relaxed text-xs">
-                        {faq.acceptedAnswer.text}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-          {/* Background */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-200/15 to-sky-300/8 rounded-full blur-2xl animate-pulse"></div>
-            <div className="absolute bottom-0 left-0 w-56 h-56 bg-gradient-to-tr from-sky-200/10 to-sky-300/15 rounded-full blur-2xl animate-pulse"></div>
-          </div>
-
-          <div className="container mx-auto max-w-4xl relative z-10">
-            <div className="text-center">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-4 py-2 mb-6 border border-sky-400 uppercase tracking-widest" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <HeartHandshake className="w-4 h-4" />
-                <span className="text-xs font-bold">Transform Customer Support Today</span>
+                  </details>
+                ))}
               </div>
+            </div>
+          </section>
 
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 leading-tight">
-                <span className="block mb-2 bg-clip-text text-transparent bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 drop-shadow-sm tracking-widest uppercase">
-                  Elevate Your Customer
-                </span>
-                <span className="inline-block px-4 py-2 rounded-xl text-white bg-gradient-to-r from-sky-500 via-sky-400 to-sky-500 shadow-lg shadow-sky-500/30 text-lg sm:text-xl lg:text-2xl relative overflow-hidden border border-sky-400">
-                  <span className="absolute inset-0 bg-gradient-to-tr from-sky-500/25 via-transparent to-transparent"></span>
-                  <span className="relative z-10 uppercase tracking-wider">Support Experience</span>
-                </span>
+          {/* CTA SECTION */}
+          <section className="py-20 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+            {/* Background decoration */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+            </div>
+
+            <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+                Ready to Transform Your<br />Customer Support?
               </h2>
-
-              <p className="text-xs sm:text-sm text-sky-600 mb-6 max-w-3xl mx-auto leading-relaxed">
-                Join <span className="font-bold text-sky-600">500+ businesses</span> delivering proactive, intelligent support experiences.
-                Delight customers, empower agents, and prove <span className="font-bold text-sky-600">ROI</span> with DigitalBot AI.
+              <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+                Join 500+ businesses using AI customer support to deliver world-class experiences and reduce costs by 50%.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-2 justify-center items-center mb-8">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Link
                   href="/signup"
-                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-white bg-sky-500 shadow-md hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105 border border-sky-400 uppercase tracking-wide"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                  }}
+                  className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
                 >
                   Start Free Trial
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-sky-600 bg-transparent border border-sky-500 hover:bg-sky-50 transition-all duration-300 hover:scale-105 shadow-sm uppercase tracking-wide"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                  }}
+                  className="px-8 py-4 bg-transparent text-white border-2 border-white/30 font-bold rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
                 >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Schedule Demo
+                  <Phone className="w-5 h-5" />
+                  Book Consultation
                 </Link>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <div className="flex items-center gap-1 p-2 bg-sky-50 backdrop-blur-sm border border-sky-200" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
-                  <Check className="w-3 h-3 text-sky-600" />
-                  <span className="text-xs font-medium text-gray-900 uppercase tracking-wide">Success Team</span>
+              <div className="flex flex-wrap gap-6 justify-center text-sm text-blue-100">
+                <div className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-blue-400" />
+                  <span>No credit card required</span>
                 </div>
-                <div className="flex items-center gap-1 p-2 bg-sky-50 backdrop-blur-sm border border-sky-200" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
-                  <Check className="w-3 h-3 text-sky-600" />
-                  <span className="text-xs font-medium text-gray-900 uppercase tracking-wide">Clear Pricing</span>
+                <div className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-blue-400" />
+                  <span>Live in 10 days</span>
                 </div>
-                <div className="flex items-center gap-1 p-2 bg-sky-50 backdrop-blur-sm border border-sky-200" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
-                  <Check className="w-3 h-3 text-sky-600" />
-                  <span className="text-xs font-medium text-gray-900 uppercase tracking-wide">Fast Deploy</span>
-                </div>
-                <div className="flex items-center gap-1 p-2 bg-sky-50 backdrop-blur-sm border border-sky-200" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
-                  <Check className="w-3 h-3 text-sky-600" />
-                  <span className="text-xs font-medium text-gray-900 uppercase tracking-wide">24/7 Support</span>
+                <div className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-blue-400" />
+                  <span>Cancel anytime</span>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
-  )
+          </section>
+        </main>
+
+        <Footer />
+
+        {/* CSS Keyframes */}
+        <style jsx global>{`
+          @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+          }
+          @keyframes ping {
+            75%, 100% {
+              transform: scale(2);
+              opacity: 0;
+            }
+          }
+        `}</style>
+      </div>
+    </>
+  );
 }
 
 

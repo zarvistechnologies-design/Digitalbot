@@ -994,7 +994,7 @@ export default function Hero() {
                             {/* Main Headline */}
                             <h1 id="hero-heading" className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-4 leading-tight animate-fade-in-up-2">
                                 <span className="block">
-                                    <span className="text-black">Your AI voice Assistant</span>                            <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
+                                    <span className="text-black">Your AI voice Assistant</span><span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
                                 </span>
                             </h1>
 
@@ -1049,26 +1049,10 @@ export default function Hero() {
 
                         {/* Right Side - Image (PNG style, no box) with Vapi-inspired animation */}
                         <div className="relative order-2 lg:order-2 flex justify-center lg:justify-end">
-                            {/* Vapi Theme Animation: Animated Sound Waves & Glow */}
-                            {mounted && (
-                              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
-                                {/* Vapi Animated SVG Sound Waves & Mic */}
-                                <svg width="340" height="340" viewBox="0 0 340 340" fill="none" className="block" style={{ filter: 'drop-shadow(0 0 32px #38bdf8aa)' }}>
-                                    <circle cx="170" cy="170" r="80" stroke="#38bdf8" strokeWidth="2" fill="none" className="vapi-hero-wave vapi-hero-wave1" />
-                                    <circle cx="170" cy="170" r="110" stroke="#0ea5e9" strokeWidth="2" fill="none" className="vapi-hero-wave vapi-hero-wave2" />
-                                    <circle cx="170" cy="170" r="140" stroke="#f97316" strokeWidth="2" fill="none" className="vapi-hero-wave vapi-hero-wave3" />
-                                    <circle cx="170" cy="170" r="50" fill="#38bdf8" fillOpacity="0.08" />
-                                    <g className="vapi-hero-mic">
-                                        <rect x="155" y="120" width="30" height="60" rx="15" fill="#38bdf8" fillOpacity="0.9" />
-                                        <rect x="165" y="180" width="10" height="30" rx="5" fill="#f97316" />
-                                        <ellipse cx="170" cy="120" rx="15" ry="8" fill="#0ea5e9" fillOpacity="0.7" />
-                                    </g>
-                                </svg>
-                              </div>
-                            )}
+                          
                             {/* Main Image - Clean PNG look */}
                             <img
-                                src="/images/landing-hero.png"
+                                src="https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval/landingpage_dhuzrr"
                                 alt="AI Voice Assistant"
                                 className="relative z-30 w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain animate-float"
                                 style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
@@ -1079,10 +1063,11 @@ export default function Hero() {
                                     <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
                                         <PhoneCall className="h-6 w-6 text-white" />
                                     </div>
-                                    <div>
-                                        <p className="text-2xl font-bold text-gray-900">24/7</p>
-                                        <p className="text-sm text-gray-500">Always Available</p>
+                                     <div>
+                                        <p className="text-2xl font-bold text-gray-900">95%</p>
+                                        <p className="text-sm text-gray-500">Success Rate</p>
                                     </div>
+                                    
                                 </div>
                             </div>
                             {/* Floating Stats Badge - Top Right */}
@@ -1091,9 +1076,9 @@ export default function Hero() {
                                     <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                                         <TrendingUp className="h-6 w-6 text-white" />
                                     </div>
-                                    <div>
-                                        <p className="text-2xl font-bold text-gray-900">95%</p>
-                                        <p className="text-sm text-gray-500">Success Rate</p>
+                                   <div>
+                                        <p className="text-2xl font-bold text-gray-900">24/7</p>
+                                        <p className="text-sm text-gray-500">Always Available</p>
                                     </div>
                                 </div>
                             </div>
@@ -1411,7 +1396,7 @@ export default function Hero() {
                     </div>
                 </div>
             </section>
-         <ProductShowcase/>
+  <ProductShowcase/>
 
 
 
@@ -1420,7 +1405,7 @@ export default function Hero() {
                 <div className="container mx-auto max-w-6xl">
                     {/* Section Header */}
                     <div className="text-center mb-10">
-                        <p className="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
+                        <p className="text-blue-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
                         <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
                             The DigitalBot Advantage
                         </h2>

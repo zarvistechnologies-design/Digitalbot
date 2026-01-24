@@ -1,454 +1,1011 @@
-import { Footer } from "@/components/footer"
-import { Header } from "@/components/header"
-import { Button } from "@/components/ui/button"
-import { VoiceConversationPlayer } from "@/components/voice-conversation-player"
-import { ArrowRight, CheckCircle, Mic, Phone, Target } from "lucide-react"
-import { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
+"use client";
 
-export const metadata: Metadata = {
-  title: "AI Sales Agent | Automated Sales Conversations That Close Deals - DigitalBot.ai 2025",
-  description: "Deploy AI sales agents that qualify leads, handle objections, and close deals 24/7. Trusted by 500+ businesses. 45% higher conversion rates. Start free trial.",
-  keywords: [
-    "ai sales agent",
-    "ai sales automation",
-    "automated sales calls",
-    "ai lead qualification",
-    "sales conversation ai",
-    "ai sales assistant",
-    "sales bot",
-    "ai sales rep",
-    "automated lead generation",
-    "sales ai platform",
-    "ai sales calls",
-    "sales automation software",
-    "ai sales pipeline",
-    "conversational sales ai",
-    "ai sales technology"
-  ],
-  openGraph: {
-    title: "AI Sales Agent | Automated Sales Conversations That Close Deals - DigitalBot.ai 2025",
-    description: "Deploy AI sales agents that qualify leads, handle objections, and close deals 24/7. Trusted by 500+ businesses with 45% higher conversion rates.",
-    type: "website",
-    url: "https://digitalbot.ai/services/ai-sales-agent",
-    images: [
-      {
-        url: "/images/ai-voice-agent.png",
-        width: 1200,
-        height: 630,
-        alt: "AI Sales Agent Platform",
-      },
-    ],
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+import { VoiceConversationPlayer } from "@/components/voice-conversation-player";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  BarChart3,
+  Bot,
+  Check,
+  CheckCircle,
+  DollarSign,
+  Globe,
+  MessageCircle,
+  Mic,
+  Pause,
+  Phone,
+  Play,
+  Rocket,
+  Shield,
+  Sparkles,
+  Target,
+  TrendingUp,
+  Users,
+  Zap
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+// Benefits data - Sales focused
+const benefits = [
+  {
+    icon: Target,
+    title: "Lead Qualification",
+    stat: "3x",
+    statLabel: "More Leads",
+    description: "AI sales agents ask intelligent qualifying questions, score leads based on your criteria, and automatically route hot leads to your sales team.",
+    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80"
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "AI Sales Agent | Automated Sales Conversations That Close Deals - DigitalBot.ai 2025",
-    description: "Deploy AI sales agents that qualify leads, handle objections, and close deals 24/7. Trusted by 500+ businesses with 45% higher conversion rates.",
-    images: ["/images/ai-voice-agent.png"],
+  {
+    icon: Zap,
+    title: "Instant Response",
+    stat: "<5s",
+    statLabel: "Response",
+    description: "Respond to leads instantly 24/7 with AI that never sleeps. 70% reduction in lead response time means more conversions.",
+    image: "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&q=80"
   },
+  {
+    icon: TrendingUp,
+    title: "45% Higher Conversion",
+    stat: "45%",
+    statLabel: "Conversion",
+    description: "Our AI handles objections about price, timing, competition, and features using proven sales techniques that close deals.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    icon: Users,
+    title: "Team Augmentation",
+    stat: "10x",
+    statLabel: "Scale",
+    description: "AI complements your sales team by handling initial outreach and follow-ups, freeing reps to focus on high-value conversations.",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    icon: Globe,
+    title: "24/7 Outreach",
+    stat: "24/7",
+    statLabel: "Always On",
+    description: "Sales reps sleep, take breaks, get tired, need training. AI never does. Always selling, always closing, always available.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    icon: BarChart3,
+    title: "CRM Integration",
+    stat: "100%",
+    statLabel: "Synced",
+    description: "Seamlessly integrates with your CRM to log calls, update records, and trigger automated workflows after every conversation.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    icon: Shield,
+    title: "Objection Handling",
+    stat: "95%",
+    statLabel: "Handled",
+    description: "Trained on thousands of sales conversations to handle common objections about price, timing, competition, and features.",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    icon: DollarSign,
+    title: "Revenue Scaling",
+    stat: "3x",
+    statLabel: "Revenue",
+    description: "Scale revenue without scaling headcount. Automate conversations and close more deals with the same team size.",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    icon: Rocket,
+    title: "Fast Deployment",
+    stat: "7",
+    statLabel: "Days",
+    description: "Most businesses are up and running within 5-7 days. We help configure sales scripts, integrate with CRM, and train the AI.",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80"
+  }
+];
+
+// Use cases
+const useCases = [
+  {
+    title: "Lead Qualification",
+    description: "AI sales agents ask intelligent qualifying questions, score leads based on your criteria, and automatically route hot leads to your sales team while nurturing cold leads.",
+    result: "3x more qualified leads",
+    icon: Target,
+    color: "from-blue-500 to-indigo-600",
+    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    title: "Deal Closing",
+    description: "Handle objections, present pricing, overcome hesitation, and guide prospects to purchase decisions with natural, persuasive conversations.",
+    result: "45% higher conversion",
+    icon: DollarSign,
+    color: "from-indigo-500 to-purple-600",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    title: "Follow-up Automation",
+    description: "Never let a lead go cold. Automatically follow up at the perfect time with personalized messages that move prospects through your pipeline.",
+    result: "70% faster response time",
+    icon: Zap,
+    color: "from-purple-500 to-pink-600",
+    image: "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    title: "Pipeline Management",
+    description: "Track every conversation, update CRM records automatically, and get real-time insights into your sales pipeline performance.",
+    result: "100% CRM accuracy",
+    icon: BarChart3,
+    color: "from-pink-500 to-rose-600",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+  }
+];
+
+// Capability blocks
+const capabilityBlocks = [
+  {
+    icon: MessageCircle,
+    heading: "Natural Sales Conversations",
+    body: "AI that sounds human, handles objections naturally, and builds rapport with prospects using proven sales psychology and techniques.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    icon: Target,
+    heading: "Intelligent Lead Scoring",
+    body: "Automatically score and prioritize leads based on engagement, buying signals, and your custom criteria. Focus on leads that convert.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    icon: TrendingUp,
+    heading: "Sales Performance Analytics",
+    body: "Track conversion rates, call quality, objection patterns, and winning strategies. Optimize your sales process with data-driven insights.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    icon: Bot,
+    heading: "Multi-Channel Outreach",
+    body: "Reach prospects via voice calls, SMS, email, and chat. Consistent messaging across all channels with centralized tracking and reporting.",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
+  }
+];
+
+// FAQ Schema for SEO
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is an AI sales agent and how does it work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An AI sales agent is an intelligent voice assistant that handles sales conversations, qualifies leads, answers questions, handles objections, and closes deals automatically using natural language processing and machine learning."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can AI sales agents replace human sales reps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI sales agents complement your sales team by handling initial outreach, lead qualification, and follow-ups. This frees your human reps to focus on high-value conversations and relationship building."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do AI sales agents qualify leads?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI sales agents ask intelligent qualifying questions, score leads based on your criteria, and automatically route hot leads to your sales team while nurturing cold leads with follow-up campaigns."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the ROI of using AI sales agents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Businesses typically see 45% higher conversion rates, 70% reduction in lead response time, and 3x more qualified leads. ROI is delivered within the first 30-60 days."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can AI sales agents handle objections?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! Our AI is trained on thousands of sales conversations and can handle common objections about price, timing, competition, and features using proven sales techniques."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How quickly can I deploy AI sales agents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most businesses are up and running within 5-7 days. We help configure sales scripts, integrate with CRM, and train the AI on your products/services."
+      }
+    }
+  ]
+};
+
+// Product Schema for SEO
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "DigitalBot AI Sales Agent",
+  "description": "AI-powered sales agent platform that qualifies leads, handles objections, and closes deals 24/7. Trusted by 500+ businesses with 45% higher conversion rates.",
+  "brand": {
+    "@type": "Organization",
+    "name": "DigitalBot.ai",
+    "foundingDate": "2024",
+    "url": "https://digitalbot.ai"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "https://www.digitalbot.ai/services/ai-sales-agent"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "500"
+  }
 };
 
 export default function AISalesAgent() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlayingHindi, setIsPlayingHindi] = useState(false);
+  const [activeUseCase, setActiveUseCase] = useState(0);
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRefHindi = useRef<HTMLAudioElement>(null);
+
+  // Fade-in on mount
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => new Set(prev).add(entry.target.id));
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    const sections = document.querySelectorAll('[data-animate]');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Auto-rotate use cases
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveUseCase((prev) => (prev + 1) % useCases.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Audio handlers
+  const toggleAudio = useCallback(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(() => console.log("Audio blocked"));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  }, [isPlaying]);
+
+  const toggleAudioHindi = useCallback(() => {
+    if (audioRefHindi.current) {
+      if (isPlayingHindi) {
+        audioRefHindi.current.pause();
+      } else {
+        audioRefHindi.current.play().catch(() => console.log("Hindi audio blocked"));
+      }
+      setIsPlayingHindi(!isPlayingHindi);
+    }
+  }, [isPlayingHindi]);
+
+  const handleAudioEnded = useCallback(() => {
+    setIsPlaying(false);
+  }, []);
+
+  const handleAudioEndedHindi = useCallback(() => {
+    setIsPlayingHindi(false);
+  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <>
+      <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+        {/* Hidden audio elements */}
+        <audio
+          ref={audioRef}
+          src="/audio/sales-demo.mp3"
+          onEnded={handleAudioEnded}
+          preload="metadata"
+        />
+        <audio
+          ref={audioRefHindi}
+          src="/audio/sales-demo-hindi.mp3"
+          onEnded={handleAudioEndedHindi}
+          preload="metadata"
+        />
 
-      <main className="flex-1">
-        {/* Hero Section - Light Theme */}
-        <section className="relative overflow-hidden bg-white py-8 px-3 sm:px-4 lg:px-6">
-          {/* Grid Background */}
-          <div className="absolute inset-0 opacity-10">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `
-                  linear-gradient(rgba(234, 88, 12, 0.1) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(234, 88, 12, 0.1) 1px, transparent 1px)
-                `,
-                backgroundSize: '60px 60px',
-              }}
-            />
-          </div>
+        <Header />
 
-          {/* Floating sky Elements */}
-          <div className="absolute top-5 right-10 w-24 h-24 bg-gradient-to-bl from-sky-400/15 to-sky-600/8 rounded-full blur-xl animate-pulse" />
-          <div className="absolute bottom-10 left-5 w-28 h-28 bg-gradient-to-tr from-sky-500/8 to-sky-400/12 rounded-full blur-xl animate-pulse" />
-          <div className="absolute top-1/3 left-1/3 w-20 h-20 bg-gradient-to-r from-sky-300/6 via-sky-400/10 to-sky-500/6 rounded-full blur-lg" />
+        <main className="flex-1 relative z-10">
+          {/* Structured Data */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
 
-          <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="grid lg:grid-cols-2 gap-6 items-start">
+          {/* HERO SECTION - Modern Two-Column */}
+          <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-white flex items-center">
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {/* Floating Orbs */}
+              <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+              
+              {/* Animated Grid */}
+              <div className="absolute inset-0 opacity-[0.03]" style={{
+                backgroundImage: 'linear-gradient(to right, #3b82f6 1px, transparent 1px), linear-gradient(to bottom, #3b82f6 1px, transparent 1px)',
+                backgroundSize: '60px 60px'
+              }} />
+              
+              {/* Animated Lines */}
+              <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
+              <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-indigo-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
+            </div>
 
-              {/* Left Content */}
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-4 py-2 mb-4 border border-sky-500 uppercase tracking-widest" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                }}>
-                  <Target className="w-4 h-4" />
-                  <span className="text-xs font-bold">AI Sales Agent Platform</span>
-                </div>
+            <div className="container mx-auto relative z-30 max-w-7xl">
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                
+                {/* Left Side - Content */}
+                <div className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  {/* Badge */}
+                  <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 px-4 py-2 rounded-full mb-6">
+                    <Target className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm font-semibold text-blue-700">AI Sales Agent Platform</span>
+                  </div>
 
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 bg-clip-text text-transparent mb-3 leading-tight text-left">
-                  <span className="block mb-2 bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 drop-shadow-sm tracking-widest uppercase">AI Sales Agent</span>
-                  <span className="inline-block px-4 py-2 rounded-xl text-white bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 shadow-lg shadow-sky-400/40 text-lg sm:text-xl lg:text-2xl relative overflow-hidden border border-sky-500">
-                    <span className="absolute inset-0 bg-gradient-to-tr from-sky-400/25 via-transparent to-transparent"></span>
-                    <span className="relative z-10 uppercase tracking-wider">Never Stops Selling</span>
-                  </span>
-                </h1>
+                  {/* Main Headline */}
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+                    <span className="block text-black">Sales That</span>
+                    <span className="block bg-gradient-to-r from-blue-500 via-indigo-600 to-blue-700 bg-clip-text text-transparent">Never Stops</span>
+                  </h1>
 
-                <div className="p-3 bg-sky-400/5 backdrop-blur-md border border-sky-400/30 shadow-md shadow-sky-400/20" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                }}>
-                  <p className="text-xs sm:text-sm font-bold text-sky-600 mb-2">
-                    "Sales reps sleep, take breaks, get tired, need training."
+                  {/* Tagline Box */}
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50/50 border border-blue-200 rounded-2xl p-5 mb-6">
+                    <p className="text-gray-600 text-sm italic mb-1">&quot;Sales reps sleep, take breaks, get tired, need training.&quot;</p>
+                    <p className="text-blue-600 font-bold text-base uppercase tracking-wider">WE NEVER DO.</p>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-gray-600 text-base lg:text-lg mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    Transform sales with <strong className="text-blue-600">AI sales agents</strong> that qualify leads, handle objections, and close deals 24/7 — trusted by <strong className="text-blue-600">500+ businesses</strong> with <strong>45% higher conversion</strong> rates.
                   </p>
-                  <p className="text-sm sm:text-base font-extrabold text-white inline-block bg-sky-500 px-3 py-1 shadow-sm shadow-sky-600/30 border border-sky-500 uppercase tracking-wide" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                  }}>
-                    <span className="relative z-10">WE NEVER DO.</span>
-                  </p>
+
+                  {/* Dual Audio Players */}
+                  <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                    {/* English Audio Player */}
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 mb-1.5">🇺🇸 English Demo</p>
+                      <button
+                        onClick={toggleAudio}
+                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all group"
+                      >
+                        <div className="flex-1 flex items-center justify-center h-6">
+                          <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <linearGradient id="pulseGradientSales" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#3b82f6" />
+                                <stop offset="1" stopColor="#2563eb" />
+                              </linearGradient>
+                            </defs>
+                            {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
+                              isPlaying ? (
+                                <motion.rect
+                                  key={i}
+                                  x={6 * i + 1}
+                                  width="3"
+                                  rx="1.5"
+                                  fill="url(#pulseGradientSales)"
+                                  animate={{
+                                    y: [24 - h, 24 - h - 8, 24 - h],
+                                    height: [h, h + 8, h]
+                                  }}
+                                  transition={{
+                                    repeat: Infinity,
+                                    duration: 0.8 + (i % 4) * 0.1,
+                                    delay: i * 0.05,
+                                    ease: "easeInOut"
+                                  }}
+                                  y={24 - h}
+                                  height={h}
+                                />
+                              ) : (
+                                <rect key={i} x={6 * i + 1} y={24 - h} width="3" height={h} rx="1.5" fill="url(#pulseGradientSales)" />
+                              )
+                            ))}
+                          </svg>
+                        </div>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md">
+                          {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
+                        </div>
+                      </button>
+                    </div>
+
+                    {/* Hindi Audio Player */}
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 mb-1.5">🇮🇳 Hindi Demo</p>
+                      <button
+                        onClick={toggleAudioHindi}
+                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all group"
+                      >
+                        <div className="flex-1 flex items-center justify-center h-6">
+                          <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <linearGradient id="pulseGradientSalesHindi" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#3b82f6" />
+                                <stop offset="1" stopColor="#2563eb" />
+                              </linearGradient>
+                            </defs>
+                            {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
+                              isPlayingHindi ? (
+                                <motion.rect
+                                  key={i}
+                                  x={6 * i + 1}
+                                  width="3"
+                                  rx="1.5"
+                                  fill="url(#pulseGradientSalesHindi)"
+                                  animate={{
+                                    y: [24 - h, 24 - h - 8, 24 - h],
+                                    height: [h, h + 8, h]
+                                  }}
+                                  transition={{
+                                    repeat: Infinity,
+                                    duration: 0.8 + (i % 4) * 0.1,
+                                    delay: i * 0.05,
+                                    ease: "easeInOut"
+                                  }}
+                                  y={24 - h}
+                                  height={h}
+                                />
+                              ) : (
+                                <rect key={i} x={6 * i + 1} y={24 - h} width="3" height={h} rx="1.5" fill="url(#pulseGradientSalesHindi)" />
+                              )
+                            ))}
+                          </svg>
+                        </div>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md">
+                          {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* CTA Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
+                    <Link
+                      href="/signup"
+                      className="group px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-2"
+                    >
+                      Start Free Trial
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="px-6 py-3 bg-white text-blue-600 border-2 border-blue-200 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
+                    >
+                      <Phone className="w-4 h-4" />
+                      Book Demo
+                    </Link>
+                  </div>
+
+                  {/* Trust Indicators */}
+                  <div className="flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-gray-500">
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-xs">No credit card</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-xs">Setup in 7 days</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <span className="text-xs">45% more conversions</span>
+                    </div>
+                  </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-                  Transform sales with <span className="font-bold text-sky-600">AI sales agents</span> that qualify leads, handle objections, and close deals 24/7.
-                  Trusted by <span className="font-semibold text-sky-600">500+ businesses</span> with <span className="font-semibold text-sky-600">45% higher conversion</span> rates.
-                  Our <span className="font-bold text-sky-600">AI sales platform</span> automates conversations and scales revenue without scaling headcount.
-                </p>
-
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-500"></span>
-                    <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">Lead Qualification</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-500"></span>
-                    <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">Deal Closing</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-500"></span>
-                    <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">24/7 Outreach</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-sky-500"></span>
-                    <span className="font-medium text-gray-900 uppercase tracking-wide text-xs">CRM Integration</span>
-                  </div>
-                </div>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Link
-                    href="/signup"
-                    className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold text-white bg-sky-500 shadow-md hover:shadow-sky-600/30 transition-all duration-300 hover:scale-105 border border-sky-500 uppercase tracking-wide"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                    }}
-                  >
-                    Start Free Trial
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold text-sky-600 bg-transparent border border-sky-400 hover:bg-sky-400/10 transition-all duration-300 hover:scale-105 shadow-sm uppercase tracking-wide"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                    }}
-                  >
-                    <Phone className="w-3 h-3 mr-1" />
-                    Book Demo
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right HD Image */}
-              <div className="relative">
-                <div className="relative h-48 sm:h-56 lg:h-64 rounded-xl overflow-hidden shadow-lg shadow-sky-400/20 border border-sky-400/30">
-                  <Image
-                    src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
-                    alt="AI Sales Agent Technology - Automated Sales Conversations Dashboard"
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-sky-900/20 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="bg-white backdrop-blur-md rounded-xl p-4 border border-sky-400/50">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-lg border border-sky-400/30">
-                          <Target className="w-4 h-4 text-white" />
+                {/* Right Side - Visual */}
+                <div className={`relative flex justify-center lg:justify-end transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+                  <div className="relative">
+                    {/* Animated Sound Waves */}
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
+                      <svg width="400" height="400" viewBox="0 0 400 400" fill="none" style={{ filter: 'drop-shadow(0 0 40px #3b82f6aa)' }}>
+                        <circle cx="200" cy="200" r="100" stroke="#60a5fa" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
+                        <circle cx="200" cy="200" r="130" stroke="#3b82f6" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
+                        <circle cx="200" cy="200" r="160" stroke="#2563eb" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
+                      </svg>
+                    </div>
+                    
+                    {/* Main Image */}
+                    <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-2xl z-20 bg-gradient-to-br from-blue-100 to-indigo-50">
+                      <Image
+                        src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80"
+                        alt="AI Sales Agent Technology Dashboard"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
+                    </div>
+                    
+                    {/* Floating Badge - Bottom Right */}
+                    <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                          <TrendingUp className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <div className="text-sm font-bold text-gray-900">Live Sales AI</div>
-                          <div className="text-xs text-sky-600">Closing deals 24/7</div>
+                          <p className="text-2xl font-bold text-gray-900">45%</p>
+                          <p className="text-sm text-gray-500">Higher Conversion</p>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-sky-600 font-medium">✓ 45% Higher Conversion</span>
-                        <span className="text-sky-600 font-medium tracking-wide">Always Selling</span>
+                    </div>
+                    
+                    {/* Floating Badge - Top Left */}
+                    <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center">
+                          <Target className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-gray-900">3x</p>
+                          <p className="text-sm text-gray-500">More Leads</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Demo Section - Light Theme */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 relative overflow-hidden">
-          <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-sky-400/15 to-sky-500/15 rounded-full blur-lg animate-pulse" />
-          <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-sky-500/12 to-sky-600/12 rounded-full blur-lg animate-pulse delay-1000" />
-
-          <div className="max-w-4xl mx-auto relative z-10">
-            <div className="text-left mb-8">
-              <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-3 py-1 mb-4 border border-sky-500 uppercase tracking-widest" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <Mic className="w-3 h-3 animate-pulse" />
-                <span className="text-xs font-bold">Live AI Sales Demo</span>
+          {/* BENEFITS SECTION - Image Cards Grid */}
+          <section 
+            id="benefits-section" 
+            data-animate
+            className="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Sparkles className="w-4 h-4" />
+                  Why Choose DigitalBot
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Enterprise-Grade <span className="text-blue-600">AI Sales</span>
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Powerful automation with measurable outcomes for modern sales teams
+                </p>
               </div>
-              <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-sky-400 to-sky-600 bg-clip-text text-transparent mb-3 uppercase tracking-wide">
-                Hear AI Sales Agent in Action
+
+              {/* Benefits Grid - 9 items */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                {benefits.map((benefit, index) => (
+                  <div
+                    key={index}
+                    className={`group bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-2 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    style={{ transitionDelay: `${index * 0.1}s` }}
+                  >
+                    {/* Image */}
+                    <div className="relative h-32 overflow-hidden">
+                      <Image
+                        src={benefit.image}
+                        alt={benefit.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                      <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                          <benefit.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <span className="text-white font-bold text-lg">{benefit.stat}</span>
+                          <span className="text-xs text-white/80 ml-1 uppercase">{benefit.statLabel}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Content */}
+                    <div className="p-4">
+                      <h3 className="font-bold text-gray-900 mb-2 text-sm group-hover:text-blue-600 transition-colors">{benefit.title}</h3>
+                      <p className="text-xs text-gray-600 leading-relaxed">{benefit.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* USE CASES SECTION - Interactive Tabs */}
+          <section 
+            id="usecases-section" 
+            data-animate
+            className="py-20 bg-gray-50 relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-6xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Target className="w-4 h-4" />
+                  Proven Results
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  AI Sales <span className="text-blue-600">Use Cases</span>
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Real-world outcomes from DigitalBot customers worldwide
+                </p>
+              </div>
+
+              {/* Interactive Use Cases */}
+              <div className={`grid lg:grid-cols-5 gap-6 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {/* Tabs */}
+                <div className="lg:col-span-2 flex lg:flex-col gap-2">
+                  {useCases.map((useCase, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveUseCase(index)}
+                      className={`flex-1 lg:flex-none flex items-center gap-3 p-4 rounded-xl transition-all duration-300 text-left ${
+                        activeUseCase === index
+                          ? 'bg-white shadow-lg border-2 border-blue-500'
+                          : 'bg-white/50 border border-gray-200 hover:bg-white hover:shadow-md'
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br ${useCase.color} ${activeUseCase === index ? 'scale-110' : ''} transition-transform`}>
+                        <useCase.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="hidden sm:block">
+                        <h4 className={`font-bold ${activeUseCase === index ? 'text-blue-600' : 'text-gray-700'}`}>
+                          {useCase.title}
+                        </h4>
+                        <p className="text-xs text-gray-500">{useCase.result}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Content */}
+                <div className="lg:col-span-3 bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={useCases[activeUseCase].image}
+                      alt={useCases[activeUseCase].title}
+                      fill
+                      className="object-cover transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`w-14 h-14 rounded-xl flex items-center justify-center bg-gradient-to-br ${useCases[activeUseCase].color}`}>
+                          {(() => {
+                            const Icon = useCases[activeUseCase].icon;
+                            return <Icon className="w-7 h-7 text-white" />;
+                          })()}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-white">{useCases[activeUseCase].title}</h3>
+                          <div className="flex items-center gap-2 mt-1">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-green-400 font-semibold text-sm">{useCases[activeUseCase].result}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Text Content */}
+                  <div className="p-6">
+                    <p className="text-gray-600 text-base leading-relaxed mb-4">
+                      {useCases[activeUseCase].description}
+                    </p>
+                    <Link
+                      href="/signup"
+                      className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                    >
+                      Get Started <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* CAPABILITIES - Bento Grid Layout */}
+          <section 
+            id="capabilities-section" 
+            data-animate
+            className="py-20 bg-white relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-7xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('capabilities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Bot className="w-4 h-4" />
+                  Platform Capabilities
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Sales Leaders <span className="text-blue-600">Trust</span>
+                </h2>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Deep technical advantages that close more deals
+                </p>
+              </div>
+
+              {/* Bento Grid */}
+              <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 transition-all duration-700 ${visibleSections.has('capabilities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {/* Feature 1 - Large Card */}
+                <div className="lg:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={capabilityBlocks[0].image}
+                      alt={capabilityBlocks[0].heading}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="relative h-full min-h-[400px] lg:min-h-[500px] p-8 flex flex-col justify-end">
+                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                      {(() => {
+                        const Icon = capabilityBlocks[0].icon;
+                        return <Icon className="w-7 h-7 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                      {capabilityBlocks[0].heading}
+                    </h3>
+                    <p className="text-white/80 text-base lg:text-lg leading-relaxed max-w-xl">
+                      {capabilityBlocks[0].body}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Feature 2 - Medium Card */}
+                <div className="group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={capabilityBlocks[1].image}
+                      alt={capabilityBlocks[1].heading}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="relative h-full min-h-[240px] p-6 flex flex-col justify-end">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3">
+                      {(() => {
+                        const Icon = capabilityBlocks[1].icon;
+                        return <Icon className="w-6 h-6 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {capabilityBlocks[1].heading}
+                    </h3>
+                    <p className="text-white/80 text-sm leading-relaxed line-clamp-3">
+                      {capabilityBlocks[1].body}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Feature 3 - Medium Card */}
+                <div className="group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={capabilityBlocks[2].image}
+                      alt={capabilityBlocks[2].heading}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="relative h-full min-h-[240px] p-6 flex flex-col justify-end">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3">
+                      {(() => {
+                        const Icon = capabilityBlocks[2].icon;
+                        return <Icon className="w-6 h-6 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {capabilityBlocks[2].heading}
+                    </h3>
+                    <p className="text-white/80 text-sm leading-relaxed line-clamp-3">
+                      {capabilityBlocks[2].body}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Feature 4 - Wide Card */}
+                <div className="md:col-span-2 lg:col-span-3 group relative overflow-hidden rounded-3xl cursor-pointer">
+                  <div className="absolute inset-0">
+                    <Image
+                      src={capabilityBlocks[3].image}
+                      alt={capabilityBlocks[3].heading}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+                  <div className="relative h-full min-h-[200px] lg:min-h-[250px] p-8 flex flex-col justify-center max-w-2xl">
+                    <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                      {(() => {
+                        const Icon = capabilityBlocks[3].icon;
+                        return <Icon className="w-7 h-7 text-white" />;
+                      })()}
+                    </div>
+                    <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                      {capabilityBlocks[3].heading}
+                    </h3>
+                    <p className="text-white/80 text-base lg:text-lg leading-relaxed">
+                      {capabilityBlocks[3].body}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* DEMO SECTION - Full Voice Player */}
+          <section 
+            id="demo-section" 
+            data-animate
+            className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-4xl">
+              <div className={`text-center mb-8 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <Mic className="w-4 h-4" />
+                  Live AI Demo
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Hear AI Sales Agent <span className="text-blue-600">in Action</span>
+                </h2>
+                <p className="text-gray-600">
+                  Listen to how our AI handles real sales conversations and closes deals naturally
+                </p>
+              </div>
+
+              <div className={`bg-white rounded-2xl shadow-xl p-6 border border-gray-100 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <VoiceConversationPlayer audioSrc="/sample-sales-conversation.mp3" />
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ SECTION - Accordion Style */}
+          <section 
+            id="faq-section" 
+            data-animate
+            className="py-20 bg-white relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4 max-w-4xl">
+              <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                  <MessageCircle className="w-4 h-4" />
+                  FAQ
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  AI Sales Agent <span className="text-blue-600">FAQ</span>
+                </h2>
+                <p className="text-gray-600">
+                  Everything you need to know about AI Sales Agents
+                </p>
+              </div>
+
+              <div className={`space-y-4 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {faqSchema.mainEntity.map((faq, index) => (
+                  <details
+                    key={index}
+                    className="group bg-gray-50 rounded-xl overflow-hidden"
+                  >
+                    <summary className="flex items-center gap-4 p-5 cursor-pointer list-none hover:bg-gray-100 transition-colors">
+                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                        {index + 1}
+                      </div>
+                      <span className="font-semibold text-gray-900 flex-1">{faq.name}</span>
+                      <ArrowRight className="w-5 h-5 text-gray-400 group-open:rotate-90 transition-transform" />
+                    </summary>
+                    <div className="px-5 pb-5 pl-17 ml-12">
+                      <p className="text-gray-600">{faq.acceptedAnswer.text}</p>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* CTA SECTION */}
+          <section className="py-20 bg-gradient-to-br from-blue-600 via-indigo-700 to-blue-800 relative overflow-hidden">
+            {/* Background decoration */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+            </div>
+
+            <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+                Ready to 10X Your<br />Sales with AI?
               </h2>
-              <p className="text-gray-700 text-sm max-w-2xl leading-relaxed">
-                Listen to how our AI handles real sales conversations and closes deals naturally
+              <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+                Join 500+ businesses using AI sales agents to qualify more leads, close more deals, and scale revenue without scaling headcount.
               </p>
-            </div>
-            <div className="bg-white backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-sky-400/30">
-              <VoiceConversationPlayer audioSrc="/sample-sales-conversation.mp3" />
-            </div>
-          </div>
-        </section>
 
-        {/* FAQ Section - Light Theme */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-          {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-10 left-20 w-24 h-24 bg-gradient-to-br from-sky-400/20 to-sky-500/20 rounded-full filter blur-xl animate-pulse"></div>
-            <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-br from-sky-500/15 to-sky-600/15 rounded-full filter blur-xl animate-pulse delay-1000"></div>
-            <div className="absolute top-32 right-32 w-20 h-20 bg-gradient-to-br from-sky-300/25 to-sky-400/25 rounded-full filter blur-lg animate-pulse delay-500"></div>
-          </div>
-
-          <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="text-left mb-8">
-              <div className="inline-block mb-3">
-                <span className="px-3 py-1 bg-sky-500 text-white font-semibold text-xs uppercase tracking-wide shadow-md animate-pulse" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
-                  <Target className="w-3 h-3 inline mr-1" />
-                  Common Questions
-                </span>
-              </div>
-              <h2 className="text-lg sm:text-xl font-bold mb-3 text-sky-600 uppercase tracking-wide">
-                AI Sales Agent FAQ
-              </h2>
-              <p className="text-gray-700 text-sm max-w-3xl leading-relaxed">
-                Everything you need to know about <span className="text-sky-600 font-semibold">AI Sales Agents</span>
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-3">
-              {/* FAQ 1 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-400/20 hover:border-sky-400/60 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-400/20" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <div className="flex gap-4 p-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-400 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
-                      1
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
-                      What is an AI sales agent and how does it work?
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-xs">
-                      An AI sales agent is an intelligent voice assistant that handles sales conversations, qualifies leads, answers questions, handles objections, and closes deals automatically using natural language processing and machine learning.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* FAQ 2 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-400/20 hover:border-sky-400/60 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-400/20" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <div className="flex gap-4 p-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-400 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
-                      2
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
-                      Can AI sales agents replace human sales reps?
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-xs">
-                      AI sales agents complement your sales team by handling initial outreach, lead qualification, and follow-ups. This frees your human reps to focus on high-value conversations and relationship building.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* FAQ 3 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-400/20 hover:border-sky-400/60 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-400/20" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <div className="flex gap-4 p-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-400 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
-                      3
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
-                      How do AI sales agents qualify leads?
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-xs">
-                      AI sales agents ask intelligent qualifying questions, score leads based on your criteria, and automatically route hot leads to your sales team while nurturing cold leads with follow-up campaigns.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* FAQ 4 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-400/20 hover:border-sky-400/60 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-400/20" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <div className="flex gap-4 p-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-400 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
-                      4
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
-                      What is the ROI of using AI sales agents?
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-xs">
-                      Businesses typically see 45% higher conversion rates, 70% reduction in lead response time, and 3x more qualified leads. ROI is delivered within the first 30-60 days.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* FAQ 5 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-400/20 hover:border-sky-400/60 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-400/20" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <div className="flex gap-4 p-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-400 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
-                      5
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
-                      Can AI sales agents handle objections?
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-xs">
-                      Yes! Our AI is trained on thousands of sales conversations and can handle common objections about price, timing, competition, and features using proven sales techniques.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* FAQ 6 */}
-              <div className="group relative bg-sky-50 backdrop-blur-md border border-sky-400/20 hover:border-sky-400/60 transition-all duration-300 hover:scale-[1.01] hover:shadow-md hover:shadow-sky-400/20" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <div className="flex gap-4 p-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gradient-to-br from-sky-400 to-sky-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg rotate-12 group-hover:rotate-0 transition-transform duration-300 border border-sky-400/30">
-                      6
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-bold mb-2 bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 text-transparent bg-clip-text tracking-wide">
-                      How quickly can I deploy AI sales agents?
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-xs">
-                      Most businesses are up and running within 5-7 days. We help configure sales scripts, integrate with CRM, and train the AI on your products/services.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Call to Action - Light Theme */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 relative overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-10 left-20 w-20 h-20 bg-gradient-to-br from-sky-400/15 to-sky-500/15 rounded-full blur-lg animate-pulse" />
-            <div className="absolute bottom-10 right-20 w-24 h-24 bg-gradient-to-br from-sky-500/12 to-sky-600/12 rounded-full blur-lg animate-pulse delay-1000" />
-            <div className="absolute top-16 right-32 w-16 h-16 bg-gradient-to-br from-sky-300/20 to-sky-400/20 rounded-full blur-lg animate-pulse delay-500" />
-          </div>
-
-          <div className="container mx-auto max-w-4xl text-left relative z-10">
-            <div className="inline-flex items-center gap-2 bg-sky-500 text-white px-3 py-1 mb-4 border border-sky-500 uppercase tracking-widest" style={{
-              clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-            }}>
-              <Target className="w-3 h-3" />
-              <span className="text-xs font-bold">10X Your Sales Today</span>
-            </div>
-
-            <h2 className="text-lg sm:text-xl font-bold mb-3 bg-gradient-to-r from-sky-400 to-sky-600 bg-clip-text text-transparent uppercase tracking-wide">
-              Ready to 10X Your Sales with AI?
-            </h2>
-
-            <p className="text-gray-700 text-sm mb-6 max-w-2xl leading-relaxed">
-              Join 500+ businesses using AI sales agents to qualify more leads, close more deals, and scale revenue without scaling headcount.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 mb-6">
-              <Link href="/signup">
-                <Button className="group relative bg-sky-500 hover:bg-sky-400 text-white px-6 py-2 text-sm font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-sky-400/30 border border-sky-500 uppercase tracking-wide" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <Link
+                  href="/signup"
+                  className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+                >
                   Start Free Trial
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-
-              <Link href="/contact">
-                <Button variant="outline" className="group bg-white hover:bg-sky-50 text-sky-600 hover:text-sky-700 border border-sky-400/30 hover:border-sky-400 px-6 py-2 text-sm font-bold transition-all duration-300 backdrop-blur-md uppercase tracking-wide" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}>
-                  <Phone className="w-4 h-4 mr-2" />
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="px-8 py-4 bg-transparent text-white border-2 border-white/30 font-bold rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-5 h-5" />
                   Schedule Demo
-                </Button>
-              </Link>
-            </div>
+                </Link>
+              </div>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xs text-gray-700">
-              <div className="flex items-center gap-1 px-2 py-1 bg-sky-100 border border-sky-400/20 backdrop-blur-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <CheckCircle className="w-3 h-3 text-sky-600" />
-                <span>No Credit Card Required</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-sky-100 border border-sky-400/20 backdrop-blur-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <CheckCircle className="w-3 h-3 text-sky-600" />
-                <span>Setup in 7 Days</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-sky-100 border border-sky-400/20 backdrop-blur-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <CheckCircle className="w-3 h-3 text-sky-600" />
-                <span>24/7 Support</span>
+              <div className="flex flex-wrap gap-6 justify-center text-sm text-blue-100">
+                <div className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-green-400" />
+                  <span>No credit card required</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-green-400" />
+                  <span>Setup in 7 days</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="w-5 h-5 text-green-400" />
+                  <span>24/7 Support</span>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
-  )
+          </section>
+        </main>
+
+        <Footer />
+
+        {/* CSS Keyframes */}
+        <style jsx global>{`
+          @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+          }
+          @keyframes ping {
+            75%, 100% {
+              transform: scale(2);
+              opacity: 0;
+            }
+          }
+        `}</style>
+      </div>
+    </>
+  );
 }
 
 

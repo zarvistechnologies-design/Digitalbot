@@ -104,15 +104,15 @@ export default function Careers() {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
         <div className="relative z-10 container mx-auto">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(249,115,22,0.3)]">
             Careers at DigitalBot.ai
           </h1>
-          <p className="text-lg sm:text-xl font-semibold bg-white/90 backdrop-blur-md rounded-xl px-4 py-3 shadow-lg shadow-sky-500/30 border border-sky-500/30 text-gray-700 mb-8 max-w-3xl mx-auto">
-            Join our team and help shape the future of <span className="font-bold bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 bg-clip-text text-transparent">AI-powered business automation</span>. We value innovation, collaboration, and growth.
+          <p className="text-lg sm:text-xl font-semibold bg-white/90 backdrop-blur-md rounded-xl px-4 py-3 shadow-lg shadow-blue-500/30 border border-blue-500/30 text-gray-700 mb-8 max-w-3xl mx-auto">
+            Join our team and help shape the future of <span className="font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">AI-powered business automation</span>. We value innovation, collaboration, and growth.
           </p>
           <Button
             size="lg"
-            className="bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 text-white hover:from-sky-700 hover:to-sky-900 shadow-lg shadow-sky-500/40 rounded-full transition-all duration-300"
+            className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900 shadow-lg shadow-blue-500/40 rounded-full transition-all duration-300"
           >
             View Open Positions
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -124,7 +124,7 @@ export default function Careers() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(249,115,22,0.3)]">
               Why Work With Us?
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -137,13 +137,13 @@ export default function Careers() {
             {benefits.map((benefit, index) => (
               <Card
                 key={index}
-                className="text-center border-2 border-sky-500 shadow-lg shadow-sky-500/30 bg-white/90 backdrop-blur-sm hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/50 transition-all duration-500 rounded-2xl"
+                className="text-center border-2 border-blue-500 shadow-lg shadow-blue-500/30 bg-white/90 backdrop-blur-sm hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-500 rounded-2xl"
               >
                 <CardHeader>
-                  <div className="w-14 h-14 bg-gradient-to-br from-sky-600 to-sky-800 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(249,115,22,0.3)]">
                     <benefit.icon className="h-7 w-7 text-white" />
                   </div>
-                  <CardTitle className="text-lg text-sky-700 font-semibold">
+                  <CardTitle className="text-lg text-blue-700 font-semibold">
                     {benefit.title}
                   </CardTitle>
                 </CardHeader>
@@ -162,7 +162,7 @@ export default function Careers() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(249,115,22,0.3)]">
               Open Positions
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -174,29 +174,29 @@ export default function Careers() {
             {openPositions.map((position, index) => (
               <Card
                 key={index}
-                className="border-2 border-sky-500 bg-white hover:shadow-xl hover:shadow-sky-500/30 hover:-translate-y-1 transition-all duration-300 rounded-2xl"
+                className="border-2 border-blue-500 bg-white hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-1 transition-all duration-300 rounded-2xl"
               >
                 <CardHeader>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                      <CardTitle className="text-xl text-sky-800 font-bold mb-2">
+                      <CardTitle className="text-xl text-blue-800 font-bold mb-2">
                         {position.title}
                       </CardTitle>
                       <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
-                        <Badge className="bg-sky-100 text-sky-700 font-medium">
+                        <Badge className="bg-blue-100 text-blue-700 font-medium">
                           {position.department}
                         </Badge>
                         <div className="flex items-center">
-                          <MapPin className="h-4 w-4 mr-1 text-sky-500" />
+                          <MapPin className="h-4 w-4 mr-1 text-blue-500" />
                           {position.location}
                         </div>
                         <div className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1 text-sky-500" />
+                          <Clock className="h-4 w-4 mr-1 text-blue-500" />
                           {position.type}
                         </div>
                       </div>
                     </div>
-                    <Button className="bg-gradient-to-r from-sky-600 to-sky-800 hover:from-sky-700 hover:to-sky-900 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)] rounded-full">
+                    <Button className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)] rounded-full">
                       Apply Now
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -205,13 +205,13 @@ export default function Careers() {
                 <CardContent>
                   <p className="text-gray-600 mb-4">{position.description}</p>
                   <div>
-                    <h4 className="font-semibold text-sky-700 mb-2">
+                    <h4 className="font-semibold text-blue-700 mb-2">
                       Key Requirements:
                     </h4>
                     <ul className="text-sm text-gray-600 space-y-1">
                       {position.requirements.map((req, reqIndex) => (
                         <li key={reqIndex} className="flex items-center">
-                          <ArrowRight className="h-3 w-3 mr-2 text-sky-500 shrink-0" />
+                          <ArrowRight className="h-3 w-3 mr-2 text-blue-500 shrink-0" />
                           {req}
                         </li>
                       ))}
@@ -227,8 +227,8 @@ export default function Careers() {
       {/* CTA Section */}
       <section className="py-24 px-6 bg-white text-center">
         <div className="container mx-auto">
-          <div className="bg-white/90 rounded-3xl p-12 shadow-xl shadow-sky-500/30 border-2 border-sky-500">
-            <h2 className="text-3xl font-extrabold text-sky-700 mb-4">
+          <div className="bg-white/90 rounded-3xl p-12 shadow-xl shadow-blue-500/30 border-2 border-blue-500">
+            <h2 className="text-3xl font-extrabold text-blue-700 mb-4">
               Don't See the Right Role?
             </h2>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -237,7 +237,7 @@ export default function Careers() {
             </p>
             <Button
               size="lg"
-              className="bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 hover:from-sky-700 hover:to-sky-900 text-white font-semibold rounded-full shadow-lg shadow-sky-500/40"
+              className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold rounded-full shadow-lg shadow-blue-500/40"
             >
               Send Resume
               <ArrowRight className="ml-2 h-4 w-4" />
