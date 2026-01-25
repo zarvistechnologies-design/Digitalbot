@@ -314,7 +314,7 @@ export default function Services() {
               
               return (
                 <Link key={index} href={service.href}>
-                  <Card className="relative bg-white border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_25px_rgba(234,88,12,0.3)] shadow-md hover:shadow-lg transition-all duration-300 h-full group cursor-pointer overflow-hidden" style={{
+                  <Card className="relative bg-white border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_25px_rgba(234,88,12,0.3)] shadow-md transition-all duration-300 h-full group cursor-pointer overflow-hidden" style={{
                     clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
                   }}>
                     {/* HD Service Image */}
@@ -439,7 +439,7 @@ export default function Services() {
               return (
                 <Card
                   key={index}
-                  className="bg-white border border-sky-400/15 hover:border-sky-300/30 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md hover:shadow-lg transition-all duration-300 group overflow-hidden"
+                  className="bg-white border border-sky-400/15 hover:border-sky-300/30 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md transition-all duration-300 group overflow-hidden"
                   style={{
                     clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
                   }}
@@ -532,7 +532,7 @@ export default function Services() {
               return (
                 <div
                   key={idx}
-                  className="relative bg-white p-6 border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md hover:shadow-lg transition-all duration-300 group overflow-hidden"
+                  className="relative bg-white p-6 border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md transition-all duration-300 group overflow-hidden"
                   style={{
                     clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
                   }}

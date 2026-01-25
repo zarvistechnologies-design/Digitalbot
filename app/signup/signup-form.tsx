@@ -4,33 +4,44 @@ import { PageBackground } from '@/components/page-background'
 import axios from 'axios'
 import { motion } from 'framer-motion'
 import { Lock, Mail, Sparkles, User } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 interface SignupFormProps {
   initialService?: string
 }
 
-type ServiceKey = 'lead-analysis' | 'appointment' | ''
+type ServiceKey = 'lead-analysis' | 'appointment' | 'customer-support' | ''
 
 export function SignupForm({ initialService }: SignupFormProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [form, setForm] = useState({ name: '', email: '', password: '' })
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [selectedService, setSelectedService] = useState<ServiceKey>('')
 
-  // Initialize service based on query
+  // Initialize service based on query - read from URL directly
   useEffect(() => {
-    if (!initialService) return
-    if (initialService === 'lead' || initialService === 'lead-analysis') setSelectedService('lead-analysis')
-    else if (initialService === 'appointment') setSelectedService('appointment')
-  }, [initialService])
+    const serviceFromUrl = searchParams.get('service') || initialService
+    if (!serviceFromUrl) return
+    if (serviceFromUrl === 'lead' || serviceFromUrl === 'lead-analysis') setSelectedService('lead-analysis')
+    else if (serviceFromUrl === 'appointment') setSelectedService('appointment')
+    else if (serviceFromUrl === 'customer-support') setSelectedService('customer-support')
+  }, [searchParams, initialService])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }))
+  }
+
+  const getServiceFromUrl = (): ServiceKey => {
+    const serviceFromUrl = searchParams.get('service') || initialService
+    if (serviceFromUrl === 'lead' || serviceFromUrl === 'lead-analysis') return 'lead-analysis'
+    if (serviceFromUrl === 'appointment') return 'appointment'
+    if (serviceFromUrl === 'customer-support') return 'customer-support'
+    return selectedService
   }
 
   const validateForm = () => {
@@ -40,7 +51,9 @@ export function SignupForm({ initialService }: SignupFormProps) {
     else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'Email is invalid'
     if (!form.password) newErrors.password = 'Password is required'
     else if (form.password.length < 6) newErrors.password = 'Password must be at least 6 characters'
-    if (!selectedService) newErrors.service = 'Invalid service selected'
+    
+    const service = getServiceFromUrl()
+    if (!service) newErrors.service = 'Invalid service selected'
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -51,11 +64,14 @@ export function SignupForm({ initialService }: SignupFormProps) {
     if (!validateForm()) return
 
     setLoading(true)
+    
+    // Get service directly from URL to ensure we have it
+    const service = getServiceFromUrl()
 
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api'}/auth/register`, {
         ...form,
-        selectedService,
+        selectedService: service,
       })
 
       alert('Registration successful! Please login to continue.')
@@ -74,6 +90,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
         return { title: 'Lead Analysis Service', gradient: 'from-blue-400 to-blue-700' }
       case 'appointment':
         return { title: 'Appointment Service', gradient: 'from-blue-500 to-blue-600' }
+      case 'customer-support':
+        return { title: 'Customer Support AI', gradient: 'from-cyan-500 to-blue-600' }
       default:
         return { title: 'DigitalBot Service', gradient: 'from-blue-500 to-blue-700' }
     }
