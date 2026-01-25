@@ -5,25 +5,25 @@ import { Header } from "@/components/header";
 import { VoiceConversationPlayer } from "@/components/voice-conversation-player";
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
-  BarChart3,
-  Bot,
-  Check,
-  CheckCircle,
-  DollarSign,
-  Globe,
-  MessageCircle,
-  Mic,
-  Pause,
-  Phone,
-  Play,
-  Rocket,
-  Shield,
-  Sparkles,
-  Target,
-  TrendingUp,
-  Users,
-  Zap
+    ArrowRight,
+    BarChart3,
+    Bot,
+    Check,
+    CheckCircle,
+    DollarSign,
+    Globe,
+    MessageCircle,
+    Mic,
+    Pause,
+    Phone,
+    Play,
+    Rocket,
+    Shield,
+    Sparkles,
+    Target,
+    TrendingUp,
+    Users,
+    Zap
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -326,7 +326,7 @@ export default function AISalesAgent() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+      <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
         {/* Hidden audio elements */}
         <audio
           ref={audioRef}
@@ -589,7 +589,7 @@ export default function AISalesAgent() {
           <section 
             id="benefits-section" 
             data-animate
-            className="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -647,7 +647,7 @@ export default function AISalesAgent() {
           <section 
             id="usecases-section" 
             data-animate
-            className="py-20 bg-gray-50 relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-6xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -740,7 +740,7 @@ export default function AISalesAgent() {
           <section 
             id="capabilities-section" 
             data-animate
-            className="py-20 bg-white relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('capabilities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -873,7 +873,7 @@ export default function AISalesAgent() {
           <section 
             id="demo-section" 
             data-animate
-            className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-8 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -899,7 +899,7 @@ export default function AISalesAgent() {
           <section 
             id="faq-section" 
             data-animate
-            className="py-20 bg-white relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>

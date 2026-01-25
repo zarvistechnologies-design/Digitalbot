@@ -3,32 +3,32 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
-  Award,
-  BarChart3,
-  Bot,
-  Brain,
-  CheckCircle,
-  ChevronDown,
-  Clock,
-  Filter,
-  Globe,
-  Lightbulb,
-  Lock,
-  MessageSquare,
-  Pause,
-  Phone,
-  PhoneCall,
-  PieChart,
-  Play,
-  RefreshCw,
-  Shield,
-  Sparkles,
-  Star,
-  Target,
-  TrendingUp,
-  Users,
-  Zap
+    ArrowRight,
+    Award,
+    BarChart3,
+    Bot,
+    Brain,
+    CheckCircle,
+    ChevronDown,
+    Clock,
+    Filter,
+    Globe,
+    Lightbulb,
+    Lock,
+    MessageSquare,
+    Pause,
+    Phone,
+    PhoneCall,
+    PieChart,
+    Play,
+    RefreshCw,
+    Shield,
+    Sparkles,
+    Star,
+    Target,
+    TrendingUp,
+    Users,
+    Zap
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -128,7 +128,7 @@ export default function LeadsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
       {/* Hidden audio elements */}
       <audio
         ref={audioRef}
@@ -448,7 +448,7 @@ export default function LeadsPage() {
         <section 
           id="section-how"
           data-animate
-          className="px-4 py-20 bg-white"
+          className="px-4 py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-how') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
@@ -675,7 +675,7 @@ export default function LeadsPage() {
         <section 
           id="section-usecases"
           data-animate
-          className="px-4 py-20 bg-white"
+          className="px-4 py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-usecases') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
@@ -710,7 +710,7 @@ export default function LeadsPage() {
         <section 
           id="section-features-grid"
           data-animate
-          className="px-4 py-20 bg-gray-50"
+          className="px-4 py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-features-grid') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
@@ -814,7 +814,7 @@ export default function LeadsPage() {
         <section 
           id="section-faq"
           data-animate
-          className="px-4 py-20 bg-white"
+          className="px-4 py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-4xl mx-auto transition-all duration-700 ${visibleSections.has('section-faq') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
@@ -867,7 +867,7 @@ export default function LeadsPage() {
         <section 
           id="section-security"
           data-animate
-          className="px-4 py-20 bg-gray-50"
+          className="px-4 py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-security') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">

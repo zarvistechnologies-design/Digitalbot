@@ -135,10 +135,10 @@ export default function ConversationalAI() {
 
       <Header />
 
-      <main id="main-content" className="min-h-screen bg-white pt-20" role="main" suppressHydrationWarning>
+      <main id="main-content" className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 pt-20" role="main" suppressHydrationWarning>
 
         {/* Hero Section - Image Left, Content Right */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" role="region" aria-labelledby="main-heading">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="main-heading">
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="grid lg:grid-cols-2 gap-8 items-center flex-row-reverse">
               {/* Left: Image */}
@@ -162,7 +162,7 @@ export default function ConversationalAI() {
                   <span className="text-blue-500 font-semibold text-sm">AI that understands, adapts, and delivers.</span>
                 </div>
                 <p className="text-sm sm:text-base text-gray-900 leading-relaxed">
-                  Deliver natural, intelligent conversations across voice, chat, and messaging channels 24/7. Our platform understands context, emotion, and intent for every customer.
+                  Deliver natural, intzzelligent conversations across voice, chat, and messaging channels 24/7. Our platform understands context, emotion, and intent for every customer.
                 </p>
                 <div className="flex flex-wrap gap-3 text-xs">
                   <div className="bg-blue-400/10 border border-blue-400/30 px-3 py-1 rounded-full font-semibold text-blue-500">30+ Languages</div>
@@ -183,7 +183,7 @@ export default function ConversationalAI() {
         </section>
 
         {/* Stats Section - Now vertical on mobile, horizontal on desktop */}
-        <section className="py-6 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" role="region" aria-labelledby="performance-stats">
+        <section className="py-6 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="performance-stats">
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
               <div className="flex-1 bg-blue-400/5 backdrop-blur-md border border-blue-400/20 p-4 shadow-lg shadow-blue-500/25 rounded-xl flex flex-col items-center">
@@ -206,7 +206,7 @@ export default function ConversationalAI() {
         </section>
 
         {/* Features Section - horizontal scroll on mobile, grid on desktop */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" role="region" aria-labelledby="features-section">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="features-section">
           <div className="absolute top-0 left-1/4 w-24 h-24 bg-blue-500 rounded-full opacity-6 animate-pulse blur-xl"></div>
           <div className="absolute bottom-0 right-1/4 w-28 h-28 bg-blue-400 rounded-full opacity-6 animate-pulse blur-xl"></div>
           <div className="container mx-auto max-w-7xl relative z-10">
@@ -240,7 +240,7 @@ export default function ConversationalAI() {
         </section>
 
         {/* Use Cases Section - Vertical Timeline Style */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" role="region" aria-labelledby="use-cases">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="use-cases">
           <div className="container mx-auto max-w-6xl relative z-10">
             <h2 id="use-cases" className="text-lg sm:text-xl lg:text-2xl font-bold text-left mb-6 text-blue-400 uppercase tracking-wide" style={{
               textShadow: '0 0 15px rgba(249, 115, 22, 0.4)'
@@ -266,7 +266,7 @@ export default function ConversationalAI() {
         </section>
 
         {/* Demo Section - blue Light Theme */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-white">
+        <section className="py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
           {/* Background with gradient orbs */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[10%] left-[5%] w-[400px] h-[400px] bg-gradient-radial from-blue-400/20 to-transparent rounded-full blur-3xl"></div>
@@ -358,7 +358,7 @@ export default function ConversationalAI() {
         </section>
 
         {/* FAQ Section - blue Light Theme */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden" role="region" aria-labelledby="faq-section">
+        <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="faq-section">
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-left mb-6">
               <div className="inline-block mb-3">
@@ -428,7 +428,7 @@ export default function ConversationalAI() {
         </section>
 
         {/* CTA Section - blue Light Theme */}
-        <section className="py-8 px-4 relative overflow-hidden bg-white">
+        <section className="py-8 px-4 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 bg-blue-400 text-black px-4 py-2 mb-6 border border-blue-400 shadow-lg font-semibold text-xs uppercase tracking-wide" style={{

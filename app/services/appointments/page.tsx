@@ -4,46 +4,46 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { motion } from "framer-motion";
 import {
-  Activity,
-  ArrowRight,
-  BarChart3,
-  Bell,
-  Bot,
-  Building2,
-  Calendar,
-  CalendarCheck,
-  CheckCircle,
-  ChevronRight,
-  Clock,
-  Languages,
-  Lock,
-  MessageCircle,
-  Pause,
-  Phone,
-  Play,
-  Server,
-  Shield,
-  Sparkles,
-  Star,
-  Stethoscope,
-  TrendingUp,
-  Users,
-  Zap
+    Activity,
+    ArrowRight,
+    BarChart3,
+    Bell,
+    Bot,
+    Building2,
+    Calendar,
+    CalendarCheck,
+    CheckCircle,
+    ChevronRight,
+    Clock,
+    Languages,
+    Lock,
+    MessageCircle,
+    Pause,
+    Phone,
+    Play,
+    Server,
+    Shield,
+    Sparkles,
+    Star,
+    Stethoscope,
+    TrendingUp,
+    Users,
+    Zap
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Cell,
+    Pie,
+    PieChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis
 } from "recharts";
 
 // Static data moved outside component to prevent re-creation
@@ -204,7 +204,7 @@ export default function AppointmentsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
       {/* Skip to content link for accessibility */}
       <a 
         href="#main-content" 
@@ -473,7 +473,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-ai" 
           data-animate
-          className="px-4 py-12 bg-gradient-to-b from-white to-gray-50" 
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" 
           aria-labelledby="ai-section-title"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -534,7 +534,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-dashboard"
           data-animate
-          className="px-4 py-12 bg-white"
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-dashboard') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -641,7 +641,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-booking"
           data-animate
-          className="px-4 py-16 bg-white"
+          className="px-4 py-16 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-booking') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
@@ -725,7 +725,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-scheduling"
           data-animate
-          className="px-4 py-12 bg-gradient-to-b from-gray-50 to-white"
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-scheduling') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -833,7 +833,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-whatsapp"
           data-animate
-          className="px-4 py-12 bg-white"
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-whatsapp') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-8">
@@ -908,7 +908,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-calendar"
           data-animate
-          className="px-4 py-12 bg-gradient-to-b from-gray-50 to-white"
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-calendar') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -1002,7 +1002,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-results"
           data-animate
-          className="px-4 py-12 bg-gradient-to-b from-gray-50 to-white"
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-results') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-8">
@@ -1337,7 +1337,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-solution"
           data-animate
-          className="px-4 py-12 bg-white"
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-solution') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
@@ -1394,7 +1394,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-demo"
           data-animate
-          className="px-4 py-12 bg-gradient-to-b from-gray-50 to-white"
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-4xl mx-auto text-center transition-all duration-700 ${visibleSections.has('section-demo') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
@@ -1457,7 +1457,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-testimonial"
           data-animate
-          className="px-4 py-12 bg-white" 
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" 
           aria-labelledby="testimonial-title"
         >
           <div className={`max-w-5xl mx-auto transition-all duration-700 ${visibleSections.has('section-testimonial') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -1518,7 +1518,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-security"
           data-animate
-          className="px-4 py-12 bg-gradient-to-b from-gray-50 to-white" 
+          className="px-4 py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" 
           aria-labelledby="security-title"
         >
           <div className={`max-w-5xl mx-auto transition-all duration-700 ${visibleSections.has('section-security') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -1559,7 +1559,7 @@ export default function AppointmentsPage() {
         <section 
           id="section-industries"
           data-animate
-          className="px-4 py-16 bg-gradient-to-b from-gray-50 to-white"
+          className="px-4 py-16 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50"
         >
           <div className={`max-w-7xl mx-auto transition-all duration-700 ${visibleSections.has('section-industries') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">

@@ -35,7 +35,7 @@ export default function Home() {
         {/* SEO-Optimized Content Sections - DO NOT REMOVE */}
 
         {/* Stats Section - Above the Fold */}
-        <section className="py-2 px-3 sm:px-4 lg:px-6 bg-gray-50 relative overflow-hidden" role="region" aria-labelledby="performance-stats">
+        <section className="py-2 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="performance-stats">
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-left md:text-center">
               <div className="bg-white border border-gray-200 p-3 shadow-md transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group">
@@ -64,7 +64,7 @@ export default function Home() {
 
 
         {/* Voice Search Optimized Q&A - Clean Card Design */}
-        <section className="py-2 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden" role="region" aria-labelledby="voice-search-qa">
+        <section className="py-2 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="voice-search-qa">
           {/* CSS Animations */}
           <style dangerouslySetInnerHTML={{
             __html: `
@@ -360,13 +360,13 @@ export default function Home() {
     
 
         {/* AI Voice Agent Platform Features - Redesigned with Images */}
-        <section className="py-6 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden" role="region" aria-labelledby="platform-features">
+        <section className="py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="platform-features">
         </section>
 
     
 
         {/* FAQ Section - Clean Modern Design */}
-        <section className="py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-blue-50/30 relative" role="region" aria-labelledby="faq-section">
+        <section className="py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative" role="region" aria-labelledby="faq-section">
 
           <div className="container mx-auto max-w-5xl relative z-10">
             {/* Section Header - Matching Hero Style */}

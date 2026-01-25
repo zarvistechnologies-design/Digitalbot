@@ -162,7 +162,7 @@ export default function VoiceAIBusiness() {
       <main className="min-h-screen">
 
       {/* Hero Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white min-h-screen flex items-center" role="banner" aria-labelledby="hero-heading">
+      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 min-h-screen flex items-center" role="banner" aria-labelledby="hero-heading">
         <div className="container mx-auto max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-6 items-center">
 
@@ -281,7 +281,7 @@ export default function VoiceAIBusiness() {
       </section>
 
       {/* Introduction Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white" role="region" aria-labelledby="intro-heading">
+      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="intro-heading">
         <div className="container mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-6 items-center">
 
@@ -350,7 +350,7 @@ export default function VoiceAIBusiness() {
       </section>
 
       {/* Benefits Grid - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white" role="region" aria-labelledby="benefits-heading">
+      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="benefits-heading">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
           <div className="text-center mb-6">
@@ -407,7 +407,7 @@ export default function VoiceAIBusiness() {
       </section>
 
       {/* Use Cases Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white" role="region" aria-labelledby="use-cases-heading">
+      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="use-cases-heading">
         <div className="container mx-auto max-w-6xl">
           {/* Section Header */}
           <div className="text-center mb-6">
@@ -452,7 +452,7 @@ export default function VoiceAIBusiness() {
       </section>
 
       {/* Features Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white" role="region" aria-labelledby="features-advanced-heading">
+      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="features-advanced-heading">
         <div className="container mx-auto max-w-6xl">
           {/* Section Header */}
           <div className="text-center mb-6">
@@ -548,7 +548,7 @@ export default function VoiceAIBusiness() {
       </section>
 
       {/* Sample Conversation Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white" role="region" aria-labelledby="demo-heading">
+      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="demo-heading">
         <div className="container mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-6 items-center">
 
@@ -619,7 +619,7 @@ export default function VoiceAIBusiness() {
       </section>
 
       {/* FAQ Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white" role="region" aria-labelledby="faq-heading">
+      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="faq-heading">
         <div className="container mx-auto max-w-6xl">
           {/* Section Header */}
           <div className="text-center mb-6">
@@ -704,7 +704,7 @@ export default function VoiceAIBusiness() {
       </section>
 
       {/* CTA Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white" role="region" aria-labelledby="cta-heading">
+      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="cta-heading">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center">
             {/* CTA Badge */}

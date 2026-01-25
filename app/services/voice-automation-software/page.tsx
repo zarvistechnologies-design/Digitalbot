@@ -124,11 +124,11 @@ export default function VoiceAutomation() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-gray-900">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 text-gray-900">
       <Header />
       <main className="flex-1">
         {/* Hero Section - Modern Light */}
-        <section className="relative overflow-hidden bg-white py-16 md:py-20">
+        <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 py-16 md:py-20">
           <div
             className="absolute inset-0 bg-white bg-cover bg-center"
             style={{
@@ -220,7 +220,7 @@ export default function VoiceAutomation() {
         </section>
 
         {/* Benefits Grid - Modern Light */}
-        <section className="py-12 bg-gray-50">
+        <section className="py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
           <div
             className="absolute inset-0 bg-cover bg-center opacity-5"
             style={{
@@ -282,7 +282,7 @@ export default function VoiceAutomation() {
         </section>
 
         {/* Visual Features Section - Left Image */}
-        <section className="py-12 bg-white">
+        <section className="py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
           <div className="w-full px-3 sm:px-4">
             <div className="grid md:grid-cols-2 gap-8 items-center w-full\">
               {/* Image Left */}
@@ -326,7 +326,7 @@ export default function VoiceAutomation() {
         </section>
 
         {/* Visual Features Section - Right Image */}
-        <section className="py-12 bg-gray-50">
+        <section className="py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
           <div className="w-full px-3 sm:px-4">
             <div className="grid md:grid-cols-2 gap-8 items-center w-full">
               {/* Content Left */}
@@ -370,7 +370,7 @@ export default function VoiceAutomation() {
         </section>
 
         {/* Audio Conversation Demo - Modern Light */}
-        <section className="py-12 px-3 sm:px-4 relative overflow-hidden bg-white">
+        <section className="py-12 px-3 sm:px-4 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
           {/* Light Background */}
           <div
             className="absolute inset-0 bg-cover bg-center opacity-3"
@@ -470,7 +470,7 @@ export default function VoiceAutomation() {
         </section>
 
         {/* FAQ Section - Modern Light */}
-        <section className="relative py-12 overflow-hidden bg-gray-50">
+        <section className="relative py-12 overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
           {/* Light Background */}
           <div
             className="absolute inset-0 bg-cover bg-center opacity-5"
@@ -564,7 +564,7 @@ export default function VoiceAutomation() {
         </section>
 
         {/* CTA Section - Modern Light */}
-        <section className="relative py-12 overflow-hidden bg-white">
+        <section className="relative py-12 overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
           {/* Light Background */}
           <div
             className="absolute inset-0 bg-cover bg-center opacity-3"
