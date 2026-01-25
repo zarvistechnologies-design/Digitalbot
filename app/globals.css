@@ -4,84 +4,84 @@
 
 :root {
   /* Sky Blue and White theme */
-  --background: oklch(1 0 0); /* White */
-  --foreground: oklch(0.2 0.02 240); /* Dark blue-gray */
-  --card: oklch(0.98 0.01 220); /* Very light sky blue */
-  --card-foreground: oklch(0.2 0.02 240); /* Dark blue-gray */
-  --popover: oklch(1 0 0); /* White */
-  --popover-foreground: oklch(0.2 0.02 240); /* Dark blue-gray */
-  --primary: oklch(0.6 0.15 230); /* Sky blue */
-  --primary-foreground: oklch(1 0 0); /* White */
-  --secondary: oklch(0.85 0.08 220); /* Light sky blue */
-  --secondary-foreground: oklch(0.2 0.02 240); /* Dark blue-gray */
-  --muted: oklch(0.95 0.02 220); /* Very light blue */
-  --muted-foreground: oklch(0.4 0.02 240); /* Medium gray-blue */
-  --accent: oklch(0.55 0.18 230); /* Vibrant sky blue */
-  --accent-foreground: oklch(1 0 0); /* White */
-  --destructive: oklch(0.55 0.22 25); /* Red */
-  --destructive-foreground: oklch(1 0 0); /* White */
-  --border: oklch(0.88 0.04 220); /* Light blue border */
-  --input: oklch(1 0 0); /* White */
-  --ring: oklch(0.6 0.15 230 / 0.5); /* Sky blue with transparency */
-  --chart-1: oklch(0.6 0.15 230); /* Sky blue */
-  --chart-2: oklch(0.5 0.12 260); /* Blue-purple */
-  --chart-3: oklch(0.7 0.1 200); /* Cyan-blue */
-  --chart-4: oklch(0.9 0.04 220); /* Light blue */
-  --chart-5: oklch(1 0 0); /* White */
+  --background: #ffffff; /* White */
+  --foreground: #1e293b; /* Dark blue-gray */
+  --card: #f0f9ff; /* Very light sky blue */
+  --card-foreground: #1e293b; /* Dark blue-gray */
+  --popover: #ffffff; /* White */
+  --popover-foreground: #1e293b; /* Dark blue-gray */
+  --primary: #0ea5e9; /* Sky blue */
+  --primary-foreground: #ffffff; /* White */
+  --secondary: #bae6fd; /* Light sky blue */
+  --secondary-foreground: #1e293b; /* Dark blue-gray */
+  --muted: #f0f9ff; /* Very light blue */
+  --muted-foreground: #64748b; /* Medium gray-blue */
+  --accent: #0284c7; /* Vibrant sky blue */
+  --accent-foreground: #ffffff; /* White */
+  --destructive: #ef4444; /* Red */
+  --destructive-foreground: #ffffff; /* White */
+  --border: #e0f2fe; /* Light blue border */
+  --input: #ffffff; /* White */
+  --ring: rgba(14, 165, 233, 0.5); /* Sky blue with transparency */
+  --chart-1: #0ea5e9; /* Sky blue */
+  --chart-2: #6366f1; /* Blue-purple */
+  --chart-3: #06b6d4; /* Cyan-blue */
+  --chart-4: #bae6fd; /* Light blue */
+  --chart-5: #ffffff; /* White */
   --radius: 0.5rem;
-  --sidebar: oklch(0.95 0.02 220); /* Light sky blue sidebar */
-  --sidebar-foreground: oklch(0.2 0.02 240); /* Dark blue-gray */
-  --sidebar-primary: oklch(0.6 0.15 230); /* Sky blue */
-  --sidebar-primary-foreground: oklch(1 0 0); /* White */
-  --sidebar-accent: oklch(0.55 0.18 230); /* Vibrant sky blue */
-  --sidebar-accent-foreground: oklch(1 0 0); /* White */
-  --sidebar-border: oklch(0.85 0.04 220); /* Light blue border */
-  --sidebar-ring: oklch(0.6 0.15 230 / 0.5); /* Sky blue with transparency */
+  --sidebar: #f0f9ff; /* Light sky blue sidebar */
+  --sidebar-foreground: #1e293b; /* Dark blue-gray */
+  --sidebar-primary: #0ea5e9; /* Sky blue */
+  --sidebar-primary-foreground: #ffffff; /* White */
+  --sidebar-accent: #0284c7; /* Vibrant sky blue */
+  --sidebar-accent-foreground: #ffffff; /* White */
+  --sidebar-border: #e0f2fe; /* Light blue border */
+  --sidebar-ring: rgba(14, 165, 233, 0.5); /* Sky blue with transparency */
 }
 
 .dark {
   /* Dark mode with sky blue theme */
-  --background: oklch(0.15 0.02 230); /* Dark blue */
-  --foreground: oklch(1 0 0); /* White */
-  --card: oklch(0.2 0.03 230); /* Dark blue-gray */
-  --card-foreground: oklch(1 0 0); /* White */
-  --popover: oklch(0.15 0.02 230); /* Dark blue */
-  --popover-foreground: oklch(1 0 0); /* White */
-  --primary: oklch(0.7 0.15 220); /* Bright sky blue */
-  --primary-foreground: oklch(0.15 0.02 230); /* Dark blue */
-  --secondary: oklch(0.25 0.03 230); /* Dark blue-gray */
-  --secondary-foreground: oklch(1 0 0); /* White */
-  --muted: oklch(0.2 0.02 230); /* Dark blue-gray */
-  --muted-foreground: oklch(0.7 0.02 220); /* Light blue-gray */
-  --accent: oklch(0.65 0.15 220); /* Sky blue */
-  --accent-foreground: oklch(0.15 0.02 230); /* Dark blue */
-  --destructive: oklch(0.55 0.22 25); /* Red */
-  --destructive-foreground: oklch(1 0 0); /* White */
-  --border: oklch(0.3 0.03 230); /* Dark blue border */
-  --input: oklch(0.2 0.02 230); /* Dark blue-gray */
-  --ring: oklch(0.65 0.15 220 / 0.5); /* Sky blue with transparency */
-  --chart-1: oklch(0.7 0.15 220); /* Bright sky blue */
-  --chart-2: oklch(1 0 0); /* White */
-  --chart-3: oklch(0.5 0.12 230); /* Medium blue */
-  --chart-4: oklch(0.3 0.03 230); /* Dark blue-gray */
-  --chart-5: oklch(0.15 0.02 230); /* Dark blue */
-  --sidebar: oklch(0.12 0.02 230); /* Very dark blue */
-  --sidebar-foreground: oklch(1 0 0); /* White */
-  --sidebar-primary: oklch(0.65 0.15 220); /* Sky blue */
-  --sidebar-primary-foreground: oklch(0.15 0.02 230); /* Dark blue */
-  --sidebar-accent: oklch(0.25 0.03 230); /* Dark blue-gray */
-  --sidebar-accent-foreground: oklch(1 0 0); /* White */
-  --sidebar-border: oklch(0.3 0.03 230); /* Dark blue border */
-  --sidebar-ring: oklch(0.65 0.15 220 / 0.5); /* Sky blue with transparency */
+  --background: #0f172a; /* Dark blue */
+  --foreground: #ffffff; /* White */
+  --card: #1e293b; /* Dark blue-gray */
+  --card-foreground: #ffffff; /* White */
+  --popover: #0f172a; /* Dark blue */
+  --popover-foreground: #ffffff; /* White */
+  --primary: #38bdf8; /* Bright sky blue */
+  --primary-foreground: #0f172a; /* Dark blue */
+  --secondary: #334155; /* Dark blue-gray */
+  --secondary-foreground: #ffffff; /* White */
+  --muted: #1e293b; /* Dark blue-gray */
+  --muted-foreground: #94a3b8; /* Light blue-gray */
+  --accent: #0ea5e9; /* Sky blue */
+  --accent-foreground: #0f172a; /* Dark blue */
+  --destructive: #ef4444; /* Red */
+  --destructive-foreground: #ffffff; /* White */
+  --border: #334155; /* Dark blue border */
+  --input: #1e293b; /* Dark blue-gray */
+  --ring: rgba(56, 189, 248, 0.5); /* Sky blue with transparency */
+  --chart-1: #38bdf8; /* Bright sky blue */
+  --chart-2: #ffffff; /* White */
+  --chart-3: #0284c7; /* Medium blue */
+  --chart-4: #334155; /* Dark blue-gray */
+  --chart-5: #0f172a; /* Dark blue */
+  --sidebar: #0c1222; /* Very dark blue */
+  --sidebar-foreground: #ffffff; /* White */
+  --sidebar-primary: #38bdf8; /* Sky blue */
+  --sidebar-primary-foreground: #0f172a; /* Dark blue */
+  --sidebar-accent: #334155; /* Dark blue-gray */
+  --sidebar-accent-foreground: #ffffff; /* White */
+  --sidebar-border: #334155; /* Dark blue border */
+  --sidebar-ring: rgba(56, 189, 248, 0.5); /* Sky blue with transparency */
 }
 
 @layer base {
   * {
-    border-color: hsl(var(--border));
+    border-color: var(--border);
   }
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
 

@@ -7,6 +7,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 interface User {
   id: string; // example user property
   email: string; // example user property
+  selectedService?: string; // service the user signed up for
   // ... other user properties
 }
 
@@ -22,6 +23,19 @@ export default function LoginPage(): JSX.Element {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
+      // Check user's service to redirect to correct dashboard
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          if (user.selectedService === 'customer-support') {
+            router.push('/customer-support');
+            return;
+          }
+        } catch (e) {
+          // Invalid user data, go to default dashboard
+        }
+      }
       router.push('/dashboard');
     }
   }, [router]);
@@ -69,7 +83,14 @@ export default function LoginPage(): JSX.Element {
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user));
         }
-        router.push('/dashboard');
+        
+        // Redirect based on user's selected service
+        const userService = data.user?.selectedService;
+        if (userService === 'customer-support') {
+          router.push('/customer-support');
+        } else {
+          router.push('/dashboard');
+        }
       } else {
         setError(data.error || 'Login failed');
       }
@@ -151,7 +172,10 @@ export default function LoginPage(): JSX.Element {
         </form>
 
         <p className="text-center text-sm text-gray-400 mt-6">
-          Don't have an account? Contact your administrator
+          Don't have an account?{' '}
+          <a href="/signup?service=lead-analysis" className="text-blue-400 hover:text-blue-300 font-semibold">
+            Sign up here
+          </a>
         </p>
       </div>
     </div>
