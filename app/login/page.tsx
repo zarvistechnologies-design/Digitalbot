@@ -7,12 +7,11 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 interface User {
   id: string; // example user property
   email: string; // example user property
-  selectedService?: string; // service the user signed up for
   // ... other user properties
 }
 
 export default function LoginPage(): JSX.Element {
-  // 1. State variables with explicit
+  // 1. State variables with explicit types
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -23,19 +22,6 @@ export default function LoginPage(): JSX.Element {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      // Check user's service to redirect to correct dashboard
-      const userStr = localStorage.getItem('user');
-      if (userStr) {
-        try {
-          const user = JSON.parse(userStr);
-          if (user.selectedService === 'customer-support') {
-            router.push('/customer-support');
-            return;
-          }
-        } catch (e) {
-          // Invalid user data, go to default dashboard
-        }
-      }
       router.push('/dashboard');
     }
   }, [router]);
@@ -58,7 +44,7 @@ export default function LoginPage(): JSX.Element {
     });
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api';
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
       console.log('🔐 Attempting login to:', API_URL);
       
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -83,14 +69,7 @@ export default function LoginPage(): JSX.Element {
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user));
         }
-        
-        // Redirect based on user's selected service
-        const userService = data.user?.selectedService;
-        if (userService === 'customer-support') {
-          router.push('/customer-support');
-        } else {
-          router.push('/dashboard');
-        }
+        router.push('/dashboard');
       } else {
         setError(data.error || 'Login failed');
       }
@@ -143,7 +122,7 @@ export default function LoginPage(): JSX.Element {
               value={email}
               // 7. Used the typed change handler
               onChange={handleEmailChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
               required
             />
           </div>
@@ -158,30 +137,26 @@ export default function LoginPage(): JSX.Element {
               value={password}
               // 8. Used the typed change handler
               onChange={handlePasswordChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="w-full bg-orange-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-400 mt-6">
-          Don't have an account?{' '}
-          <a href="/signup?service=lead-analysis" className="text-blue-400 hover:text-blue-300 font-semibold">
-            Sign up here
-          </a>
+          Don't have an account? Contact your administrator
         </p>
       </div>
     </div>
   );
 }
-
 
 
 

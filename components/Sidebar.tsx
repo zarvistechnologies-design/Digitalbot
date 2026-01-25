@@ -49,6 +49,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
       
     }
+    if (user?.selectedService === 'customer-support') {
+      serviceItems.push({ name: 'Support Campaigns', href: '/dashboard/customer-support-campaigns', icon: Megaphone });
+      serviceItems.push({ name: 'AI Agents', href: '/dashboard/agents', icon: Bot });
+    }
     return serviceItems;
   };
 

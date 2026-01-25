@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -54,11 +54,21 @@ api.interceptors.response.use(
     if (error.response?.status === 401 || error.response?.status === 403) {
       // Clear all auth data
       if (typeof window !== 'undefined') {
-        console.log('🔒 Clearing invalid session, redirecting to login...');
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        // Only redirect if not already on login page
-        if (!window.location.pathname.includes('/login')) {
+        console.log('🔒 Authentication failed:', error.response?.data?.message || error.response?.data?.error);
+        
+        // Only redirect to login if token is missing or explicitly invalid
+        // Don't redirect for "no phone number assigned" errors
+        const errorMessage = error.response?.data?.error || error.response?.data?.message || '';
+        const shouldRedirect = errorMessage.includes('invalid token') || 
+                              errorMessage.includes('jwt') ||
+                              errorMessage.includes('Token') ||
+                              errorMessage.includes('Unauthorized') ||
+                              !localStorage.getItem('token');
+        
+        if (shouldRedirect && !window.location.pathname.includes('/login')) {
+          console.log('🔒 Clearing invalid session, redirecting to login...');
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
           window.location.href = '/login';
         }
       }

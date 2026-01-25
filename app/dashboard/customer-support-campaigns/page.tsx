@@ -1,908 +1,720 @@
-"use client"
+"use client";
 import Sidebar from "@/components/Sidebar";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+
+const API_BASE = "http://localhost:4000/api";
 
 const getAuthToken = () => {
-    if (typeof window !== 'undefined') {
-        return localStorage.getItem('token');
-    }
-    return null;
-}
-
-// Helper to get user info from token
-const getUserFromToken = () => {
-    if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                return {
-                    email: payload.email,
-                    assignedPhoneNumber: payload.assignedPhoneNumber,
-                    userId: payload.userId
-                };
-            } catch (error) {
-                console.error('Error parsing token:', error);
-            }
-        }
-    }
-    return null;
-}
-
-type Campaign = {
-    _id: string;
-    name: string;
-    type: 'voice' | 'sms' | 'email' | 'multi-channel';
-    status: 'draft' | 'scheduled' | 'active' | 'paused' | 'completed';
-    targetAudience: string;
-    totalContacts: number;
-    contacted: number;
-    successful: number;
-    failed: number;
-    pending: number;
-    startDate?: string;
-    endDate?: string;
-    aiFeatures: {
-        smartScheduling: boolean;
-        abTesting: boolean;
-        sentimentAnalysis: boolean;
-        performancePrediction: boolean;
-        autoOptimization: boolean;
-    };
-    performance: {
-        conversionRate: number;
-        avgSentiment: number;
-        engagementScore: number;
-        predictedROI: number;
-    };
-    createdAt: string;
-    updatedAt: string;
-    createdBy?: string;
-    content?: {
-        voiceAgentId?: string;
-    };
-    millisAI?: {
-        agentId?: string;
-    };
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token");
+  }
+  return null;
 };
 
-type FilterStatus = 'all' | 'active' | 'scheduled' | 'completed' | 'draft' | 'paused';
+type Campaign = {
+  _id: string;
+  name: string;
+  description?: string;
+  campaignType: "rent-reminder" | "payment-reminder" | "appointment-reminder" | "survey" | "notification" | "custom";
+  status: "draft" | "scheduled" | "active" | "paused" | "completed" | "cancelled";
+  targetAudience?: string;
+  totalContacts: number;
+  pending: number;
+  calling: number;
+  completed: number;
+  failed: number;
+  noAnswer: number;
+  millisAgentId: string;
+  fromPhoneNumber?: string;
+  callSettings?: {
+    maxAttempts?: number;
+    retryDelayMinutes?: number;
+    callHoursStart?: number;
+    callHoursEnd?: number;
+  };
+  performance?: {
+    avgCallDuration?: number;
+    successRate?: number;
+    totalCallDuration?: number;
+  };
+  startDate?: string;
+  endDate?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type Agent = {
+  id: string;
+  name: string;
+};
+
+type FilterStatus = "all" | "draft" | "active" | "paused" | "completed" | "cancelled";
 
 // Icons
 const MenuIcon = () => (
-    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
+  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
 );
 
-function CampaignCard({ campaign, onView, onEdit, onToggle, onLaunch, isLaunching, userPhone }: { 
-campaign: Campaign;
-onView: () => void;
-onEdit: () => void;
-onToggle: () => void;
-onLaunch: () => void;
-isLaunching ?: boolean;
-userPhone ?: string;
-}) {
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'active': return 'bg-green-100 text-green-700 border-green-300';
-            case 'scheduled': return 'bg-blue-100 text-blue-700 border-blue-300';
-            case 'completed': return 'bg-gray-100 text-gray-700 border-gray-300';
-            case 'paused': return 'bg-yellow-100 text-yellow-700 border-yellow-300';
-            default: return 'bg-purple-100 text-purple-700 border-purple-300';
-        }
-    };
+const PlusIcon = () => (
+  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+  </svg>
+);
 
-    const getTypeIcon = (type: string) => {
-        switch (type) {
-            case 'voice': return '📞';
-            case 'sms': return '💬';
-            case 'email': return '📧';
-            case 'multi-channel': return '🌐';
-            default: return '📢';
-        }
-    };
+const PlayIcon = () => (
+  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+  </svg>
+);
 
-    return (
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-blue-200 transition-all duration-300 hover:shadow-xl hover:border-blue-400">
-            <div className="p-6">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                            <span className="text-2xl">{getTypeIcon(campaign.type)}</span>
-                            <h3 className="text-xl font-bold text-gray-900">{campaign.name}</h3>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-2">
-                            <span className={`px-3 py-1 rounded-lg text-xs font-bold border-2 ${getStatusColor(campaign.status)}`}>
-                                {campaign.status.toUpperCase()}
-                            </span>
-                            <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-blue-100 text-blue-700 border-2 border-blue-300">
-                                {campaign.type}
-                            </span>
-                            {userPhone && (
-                                <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-sky-100 text-sky-700 border-2 border-sky-300">
-                                    📞 {userPhone}
-                                </span>
-                            )}
-                        </div>
-                    </div>
+const PauseIcon = () => (
+  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M5.75 3a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75V3.75A.75.75 0 007.25 3h-1.5zM12.75 3a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75V3.75a.75.75 0 00-.75-.75h-1.5z" />
+  </svg>
+);
 
-                    {/* Toggle Active/Pause */}
-                    {campaign.status === 'active' || campaign.status === 'paused' ? (
-                        <button
-                            onClick={onToggle}
-                            className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${campaign.status === 'active'
-                                ? 'bg-yellow-500 text-white hover:bg-yellow-600'
-                                : 'bg-green-500 text-white hover:bg-green-600'
-                                }`}
-                        >
-                            {campaign.status === 'active' ? '⏸ Pause' : '▶ Resume'}
-                        </button>
-                    ) : null}
-                </div>
+const TrashIcon = () => (
+  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+  </svg>
+);
 
-                {/* AI Features Badge */}
-                {Object.values(campaign.aiFeatures).some(v => v) && (
-                    <div className="mb-4 p-3 bg-gradient-to-r from-blue-50 to-sky-50 rounded-xl border-2 border-blue-200">
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="text-lg">🤖</span>
-                            <span className="text-sm font-bold text-blue-700">AI-Powered Customer Support</span>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {campaign.aiFeatures.smartScheduling && (
-                                <span className="px-2 py-1 bg-blue-600 text-white rounded text-xs font-semibold">Smart Scheduling</span>
-                            )}
-                            {campaign.aiFeatures.abTesting && (
-                                <span className="px-2 py-1 bg-sky-600 text-white rounded text-xs font-semibold">A/B Testing</span>
-                            )}
-                            {campaign.aiFeatures.sentimentAnalysis && (
-                                <span className="px-2 py-1 bg-indigo-600 text-white rounded text-xs font-semibold">Sentiment AI</span>
-                            )}
-                            {campaign.aiFeatures.performancePrediction && (
-                                <span className="px-2 py-1 bg-cyan-600 text-white rounded text-xs font-semibold">Performance Prediction</span>
-                            )}
-                            {campaign.aiFeatures.autoOptimization && (
-                                <span className="px-2 py-1 bg-teal-600 text-white rounded text-xs font-semibold">Auto-Optimization</span>
-                            )}
-                        </div>
-                    </div>
-                )}
+const UploadIcon = () => (
+  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+  </svg>
+);
 
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-3 border-2 border-blue-200">
-                        <div className="text-xs text-blue-700 font-semibold mb-1">Total Contacts</div>
-                        <div className="text-2xl font-black text-blue-900">{campaign.totalContacts.toLocaleString()}</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-3 border-2 border-green-200">
-                        <div className="text-xs text-green-700 font-semibold mb-1">Successful</div>
-                        <div className="text-2xl font-black text-green-900">{campaign.successful.toLocaleString()}</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-xl p-3 border-2 border-sky-200">
-                        <div className="text-xs text-sky-700 font-semibold mb-1">Pending</div>
-                        <div className="text-2xl font-black text-sky-900">{campaign.pending.toLocaleString()}</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-3 border-2 border-red-200">
-                        <div className="text-xs text-red-700 font-semibold mb-1">Failed</div>
-                        <div className="text-2xl font-black text-red-900">{campaign.failed.toLocaleString()}</div>
-                    </div>
-                </div>
-
-                {/* Performance Metrics */}
-                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4 mb-4 border-2 border-blue-200">
-                    <h4 className="text-sm font-bold text-blue-700 mb-3 flex items-center gap-2">
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                        Performance Metrics
-                    </h4>
-                    <div className="grid grid-cols-2 gap-3">
-                        <div>
-                            <div className="text-xs text-gray-600 mb-1">Resolution Rate</div>
-                            <div className="text-lg font-bold text-gray-900">{campaign.performance.conversionRate.toFixed(1)}%</div>
-                        </div>
-                        <div>
-                            <div className="text-xs text-gray-600 mb-1">Engagement Score</div>
-                            <div className="text-lg font-bold text-gray-900">{campaign.performance.engagementScore.toFixed(1)}/10</div>
-                        </div>
-                        <div>
-                            <div className="text-xs text-gray-600 mb-1">Avg Sentiment</div>
-                            <div className="text-lg font-bold text-gray-900">{campaign.performance.avgSentiment > 0 ? '😊' : campaign.performance.avgSentiment < 0 ? '😞' : '😐'} {campaign.performance.avgSentiment.toFixed(2)}</div>
-                        </div>
-                        <div>
-                            <div className="text-xs text-gray-600 mb-1">CSAT Score</div>
-                            <div className="text-lg font-bold text-green-600">{campaign.performance.predictedROI.toFixed(0)}%</div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-2 flex-col">
-                    {/* Launch button for draft campaigns */}
-                    {campaign.status === 'draft' && (
-                        <button
-                            onClick={onLaunch}
-                            disabled={isLaunching}
-                            className="w-full px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all font-bold text-sm shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {isLaunching ? '⏳ Launching...' : '🚀 Launch Campaign'}
-                        </button>
-                    )}
-
-                    <div className="flex gap-2">
-                        <button
-                            onClick={onView}
-                            className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all font-semibold text-sm"
-                        >
-                            📊 View
-                        </button>
-                        <button
-                            onClick={onEdit}
-                            className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-600 to-indigo-600 text-white rounded-lg hover:from-sky-700 hover:to-indigo-700 transition-all font-semibold text-sm"
-                        >
-                            ✏️ Edit
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
+const RefreshIcon = () => (
+  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+  </svg>
+);
 
 export default function CustomerSupportCampaignsPage() {
-    const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-    const [filteredCampaigns, setFilteredCampaigns] = useState<Campaign[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [creating, setCreating] = useState(false);
-    const [launching, setLaunching] = useState(false);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
-    const [searchTerm, setSearchTerm] = useState('');
-    const [userInfo, setUserInfo] = useState<{ email: string, assignedPhoneNumber: string, userId: string } | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<FilterStatus>("all");
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [agents, setAgents] = useState<Agent[]>([]);
 
-    // Create Campaign Modal states
-    const [showCreateModal, setShowCreateModal] = useState(false);
-    const [campaignName, setCampaignName] = useState('');
-    const [campaignType, setCampaignType] = useState<'voice' | 'sms' | 'email' | 'multi-channel'>('voice');
-    const [targetAudience, setTargetAudience] = useState('');
-    const [agentId, setAgentId] = useState('');
-    const [contacts, setContacts] = useState<Array<{ name: string, phone: string, email?: string }>>([]);
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-    const [uploadStep, setUploadStep] = useState<'form' | 'upload' | 'review'>('form');
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const [isProcessingFile, setIsProcessingFile] = useState(false);
+  // Create campaign form state
+  const [newCampaign, setNewCampaign] = useState({
+    name: "",
+    description: "",
+    campaignType: "rent-reminder" as Campaign["campaignType"],
+    millisAgentId: "",
+    targetAudience: "",
+  });
+  const [uploadedContacts, setUploadedContacts] = useState<any[]>([]);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [parsing, setParsing] = useState(false);
 
-    // Get user info on mount
-    useEffect(() => {
-        const user = getUserFromToken();
-        if (user) {
-            setUserInfo(user);
-            console.log('👤 Logged in user:', user);
-        }
-    }, []);
+  useEffect(() => {
+    fetchCampaigns();
+    loadAgents();
+  }, []);
 
-    // Fetch campaigns from backend API
-    useEffect(() => {
-        const fetchCampaigns = async () => {
-            try {
-                setLoading(true);
-                const token = getAuthToken();
-
-                if (!token) {
-                    console.warn('⚠️ No authentication token found');
-                    setCampaigns([]);
-                    setLoading(false);
-                    return;
-                }
-
-                const API_BASE_URL = 'https://digital-api-tef8.onrender.com/api';
-
-                const response = await fetch(`${API_BASE_URL}/campaigns`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('✅ Fetched campaigns:', data);
-
-                    const campaignsList = data.data?.campaigns || data.campaigns || [];
-                    setCampaigns(campaignsList);
-                    setFilteredCampaigns(campaignsList);
-                } else {
-                    console.error('❌ Failed to fetch campaigns:', response.status);
-                    setCampaigns([]);
-                    setFilteredCampaigns([]);
-                }
-            } catch (error) {
-                console.error('❌ Error fetching campaigns:', error);
-                setCampaigns([]);
-                setFilteredCampaigns([]);
-            } finally {
-                setLoading(false);
-            }
-        };
-
+  // Auto-refresh when there are active campaigns (every 5 seconds)
+  useEffect(() => {
+    const hasActiveCampaign = campaigns.some(c => c.status === 'active');
+    if (hasActiveCampaign) {
+      const interval = setInterval(() => {
         fetchCampaigns();
-    }, []);
-
-    // Filter campaigns when search or filter changes
-    useEffect(() => {
-        let filtered = campaigns;
-
-        // Filter by status
-        if (filterStatus !== 'all') {
-            filtered = filtered.filter(c => c.status === filterStatus);
-        }
-
-        // Filter by search term
-        if (searchTerm) {
-            filtered = filtered.filter(c =>
-                c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                c.targetAudience.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-        }
-
-        setFilteredCampaigns(filtered);
-    }, [filterStatus, searchTerm, campaigns]);
-
-    // Handle file upload and parsing
-    const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-
-        setUploadedFile(file);
-        setIsProcessingFile(true);
-
-        try {
-            // Check file type
-            const fileExtension = file.name.split('.').pop()?.toLowerCase();
-            
-            if (fileExtension === 'csv') {
-                // Parse CSV
-                const text = await file.text();
-                const lines = text.split('\n').filter(line => line.trim());
-                const headers = lines[0].toLowerCase().split(',').map(h => h.trim());
-                
-                const parsedContacts = lines.slice(1).map(line => {
-                    const values = line.split(',').map(v => v.trim());
-                    const contact: { name: string, phone: string, email?: string } = {
-                        name: '',
-                        phone: '',
-                        email: ''
-                    };
-                    
-                    headers.forEach((header, index) => {
-                        if (header.includes('name')) contact.name = values[index] || '';
-                        if (header.includes('phone') || header.includes('mobile') || header.includes('number')) contact.phone = values[index] || '';
-                        if (header.includes('email')) contact.email = values[index] || '';
-                    });
-                    
-                    return contact;
-                }).filter(c => c.phone); // Only keep contacts with phone numbers
-
-                setContacts(parsedContacts);
-                setUploadStep('review');
-            } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
-                // For Excel files, we'd need a library like xlsx
-                alert('📊 Excel file detected! Please convert to CSV format for now, or we can add Excel parsing support.');
-                setUploadedFile(null);
-            } else if (fileExtension === 'pdf') {
-                // For PDF files, we'd need a library like pdf-parse
-                alert('📄 PDF file detected! PDF parsing requires backend processing. Please use CSV format for now.');
-                setUploadedFile(null);
-            } else {
-                alert('❌ Unsupported file format! Please upload CSV, XLSX, or PDF files.');
-                setUploadedFile(null);
-            }
-        } catch (error) {
-            console.error('Error processing file:', error);
-            alert('❌ Failed to process file. Please check the file format and try again.');
-            setUploadedFile(null);
-        } finally {
-            setIsProcessingFile(false);
-        }
-    };
-
-    // Create Campaign Handler
-    const handleCreateCampaign = async () => {
-        if (!campaignName.trim()) {
-            alert('❌ Please enter a campaign name');
-            return;
-        }
-
-        if (contacts.length === 0) {
-            alert('❌ Please upload a file with contacts');
-            return;
-        }
-
-        if (campaignType === 'voice' && !agentId.trim()) {
-            alert('❌ Please enter a Smillis AI Agent ID for voice campaigns');
-            return;
-        }
-
-        const token = getAuthToken();
-        if (!token) {
-            alert('❌ Please login to create a campaign');
-            return;
-        }
-
-        setCreating(true);
-
-        try {
-            const API_BASE_URL = 'https://digital-api-tef8.onrender.com/api';
-
-            const newCampaign = {
-                name: campaignName,
-                type: campaignType,
-                targetAudience: targetAudience || 'Customer Support Contacts',
-                contacts: contacts,
-                aiFeatures: {
-                    smartScheduling: true,
-                    abTesting: false,
-                    sentimentAnalysis: true,
-                    performancePrediction: true,
-                    autoOptimization: true
-                },
-                content: {
-                    voiceAgentId: agentId
-                },
-                millisAI: {
-                    agentId: agentId
-                }
-            };
-
-            const response = await fetch(`${API_BASE_URL}/campaigns`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newCampaign)
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('✅ Campaign created:', data);
-
-                // Add to campaigns list
-                setCampaigns([data.data.campaign, ...campaigns]);
-
-                // Reset form
-                setShowCreateModal(false);
-                setCampaignName('');
-                setTargetAudience('');
-                setAgentId('');
-                setContacts([]);
-                setUploadedFile(null);
-                setUploadStep('form');
-
-                alert(`✅ Campaign "${campaignName}" created successfully with ${contacts.length} contacts!\n\nCalls will be made from: ${userInfo?.assignedPhoneNumber || 'your assigned number'}`);
-            } else {
-                const errorData = await response.json().catch(() => null);
-                const errorMessage = errorData?.error || errorData?.message || response.statusText;
-
-                if (response.status === 401 || response.status === 403) {
-                    alert('❌ Authentication failed. Please login again.');
-                } else {
-                    throw new Error(errorMessage);
-                }
-            }
-        } catch (error) {
-            console.error('Error creating campaign:', error);
-            const message = error instanceof Error ? error.message : 'Unknown error';
-            alert(`❌ Failed to create campaign!\n\nError: ${message}\n\nPlease try again or contact support.`);
-        } finally {
-            setCreating(false);
-        }
-    };
-
-    // Launch Campaign Handler
-    const handleLaunchCampaign = async (campaignId: string) => {
-        const campaign = campaigns.find(c => c._id === campaignId);
-        if (!campaign) {
-            alert('❌ Campaign not found!');
-            return;
-        }
-
-        const campaignAgentId = campaign.content?.voiceAgentId || campaign.millisAI?.agentId;
-        if (campaign.type === 'voice' && (!campaignAgentId || campaignAgentId.trim() === '')) {
-            alert('❌ Cannot launch campaign!\n\nThis voice campaign is missing an AI Voice Agent ID.');
-            return;
-        }
-
-        const token = getAuthToken();
-        if (!token) {
-            alert('❌ Please login to launch a campaign');
-            return;
-        }
-
-        if (!confirm(`🚀 Are you sure you want to launch this campaign?\n\nThis will start making ${campaign.totalContacts} calls using Smillis AI from: ${userInfo?.assignedPhoneNumber || 'your number'}`)) {
-            return;
-        }
-
-        setLaunching(true);
-
-        try {
-            const API_BASE_URL = 'https://digital-api-tef8.onrender.com/api';
-
-            const response = await fetch(`${API_BASE_URL}/campaigns/${campaignId}/launch`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('✅ Campaign launched:', data);
-
-                setCampaigns(campaigns.map(c =>
-                    c._id === campaignId
-                        ? { ...c, status: 'active', ...data.data.campaign }
-                        : c
-                ));
-
-                alert(data.data.message || `✅ Campaign launched successfully!\n\nMaking calls from: ${data.data.fromPhone || userInfo?.assignedPhoneNumber}`);
-            } else {
-                const errorData = await response.json().catch(() => null);
-                const errorMessage = errorData?.error || errorData?.message || response.statusText;
-                throw new Error(errorMessage);
-            }
-        } catch (error) {
-            console.error('Error launching campaign:', error);
-            const message = error instanceof Error ? error.message : 'Unknown error';
-            alert(`❌ Failed to launch campaign!\n\nError: ${message}`);
-        } finally {
-            setLaunching(false);
-        }
-    };
-
-    // Toggle Campaign Status
-    const handleToggleCampaign = async (campaignId: string) => {
-        const campaign = campaigns.find(c => c._id === campaignId);
-        if (!campaign) return;
-
-        const newStatus = campaign.status === 'active' ? 'paused' : 'active';
-        
-        try {
-            // Update local state immediately for better UX
-            setCampaigns(campaigns.map(c =>
-                c._id === campaignId ? { ...c, status: newStatus } : c
-            ));
-        } catch (error) {
-            console.error('Error toggling campaign:', error);
-        }
-    };
-
-    if (loading) {
-        return (
-            <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-100">
-                <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
-                    <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-                </div>
-                <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8 flex items-center justify-center">
-                    <div className="text-center">
-                        <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-white"></div>
-                        </div>
-                        <p className="text-2xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">Loading Campaigns...</p>
-                        <p className="text-sm text-slate-600">Fetching your customer support campaigns</p>
-                    </div>
-                </main>
-            </div>
-        );
+      }, 5000); // Refresh every 5 seconds
+      return () => clearInterval(interval);
     }
+  }, [campaigns]);
 
-    return (
-        <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-100">
-            {/* Mobile Menu Button */}
-            <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border-2 border-blue-200 hover:border-blue-400 transition-all"
-                aria-label="Toggle menu"
-            >
-                <MenuIcon />
-            </button>
+  const loadAgents = () => {
+    const stored = localStorage.getItem("millis_agents");
+    if (stored) {
+      setAgents(JSON.parse(stored));
+    }
+  };
 
-            {/* Overlay for mobile */}
-            {sidebarOpen && (
+  const fetchCampaigns = async () => {
+    try {
+      setLoading(true);
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/customer-campaigns`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setCampaigns(data.data.campaigns || []);
+      } else {
+        setError(data.error || "Failed to fetch campaigns");
+      }
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadFile(file);
+    setParsing(true);
+    try {
+      const token = getAuthToken();
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch(`${API_BASE}/customer-campaigns/parse-excel`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        setUploadedContacts(data.data.contacts || []);
+      } else {
+        alert(data.error || "Failed to parse file");
+      }
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setParsing(false);
+    }
+  };
+
+  const createCampaign = async () => {
+    if (!newCampaign.name || !newCampaign.millisAgentId) {
+      alert("Please enter campaign name and select an AI Agent");
+      return;
+    }
+    if (uploadedContacts.length === 0) {
+      alert("Please upload a file with contacts");
+      return;
+    }
+    try {
+      setActionLoading("create");
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/customer-campaigns`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...newCampaign,
+          contacts: uploadedContacts,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setShowCreateModal(false);
+        setNewCampaign({ name: "", description: "", campaignType: "rent-reminder", millisAgentId: "", targetAudience: "" });
+        setUploadedContacts([]);
+        setUploadFile(null);
+        fetchCampaigns();
+      } else {
+        alert(data.error || "Failed to create campaign");
+      }
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const startCampaign = async (id: string) => {
+    try {
+      setActionLoading(id);
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/customer-campaigns/${id}/start`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchCampaigns();
+      } else {
+        alert(data.error || "Failed to start campaign");
+      }
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const pauseCampaign = async (id: string) => {
+    try {
+      setActionLoading(id);
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/customer-campaigns/${id}/pause`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchCampaigns();
+      } else {
+        alert(data.error || "Failed to pause campaign");
+      }
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const resumeCampaign = async (id: string) => {
+    try {
+      setActionLoading(id);
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/customer-campaigns/${id}/resume`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchCampaigns();
+      } else {
+        alert(data.error || "Failed to resume campaign");
+      }
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const deleteCampaign = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this campaign?")) return;
+    try {
+      setActionLoading(id);
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/customer-campaigns/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchCampaigns();
+      } else {
+        alert(data.error || "Failed to delete campaign");
+      }
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "active": return "bg-green-100 text-green-700 border-green-300";
+      case "paused": return "bg-yellow-100 text-yellow-700 border-yellow-300";
+      case "completed": return "bg-blue-100 text-blue-700 border-blue-300";
+      case "cancelled": return "bg-red-100 text-red-700 border-red-300";
+      default: return "bg-purple-100 text-purple-700 border-purple-300";
+    }
+  };
+
+  const getCampaignTypeLabel = (type: string) => {
+    switch (type) {
+      case "rent-reminder": return "🏠 Rent Reminder";
+      case "payment-reminder": return "💰 Payment Reminder";
+      case "appointment-reminder": return "📅 Appointment Reminder";
+      case "survey": return "📋 Survey";
+      case "notification": return "🔔 Notification";
+      default: return "📞 Custom";
+    }
+  };
+
+  const filteredCampaigns = filter === "all" ? campaigns : campaigns.filter((c) => c.status === filter);
+
+  // Stats
+  const stats = {
+    total: campaigns.length,
+    active: campaigns.filter((c) => c.status === "active").length,
+    totalContacts: campaigns.reduce((sum, c) => sum + c.totalContacts, 0),
+    completed: campaigns.reduce((sum, c) => sum + c.completed, 0),
+    pending: campaigns.reduce((sum, c) => sum + c.pending, 0),
+    failed: campaigns.reduce((sum, c) => sum + c.failed, 0),
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50">
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+      {/* Main Content */}
+      <div className="lg:ml-64 min-h-screen">
+        {/* Mobile Header */}
+        <div className="lg:hidden flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm border-b border-purple-100">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-purple-100 transition-colors">
+            <MenuIcon />
+          </button>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            Support Campaigns
+          </h1>
+          <div className="w-10" />
+        </div>
+
+        <main className="p-4 md:p-6 lg:p-8">
+          {/* Header */}
+          <div className="mb-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Customer Support Campaigns</h1>
+                <p className="text-gray-600 mt-1">Manage automated calling campaigns for customer outreach</p>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={fetchCampaigns}
+                  className="flex items-center gap-2 px-4 py-2 bg-white border border-purple-200 rounded-xl hover:bg-purple-50 transition-colors"
+                >
+                  <RefreshIcon />
+                  <span className="hidden sm:inline">Refresh</span>
+                </button>
+                <button
+                  onClick={() => setShowCreateModal(true)}
+                  className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-opacity shadow-lg"
+                >
+                  <PlusIcon />
+                  New Campaign
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-purple-100">
+              <p className="text-sm text-gray-500">Total Campaigns</p>
+              <p className="text-2xl font-bold text-purple-600">{stats.total}</p>
+            </div>
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-green-100">
+              <p className="text-sm text-gray-500">Active</p>
+              <p className="text-2xl font-bold text-green-600">{stats.active}</p>
+            </div>
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-blue-100">
+              <p className="text-sm text-gray-500">Total Contacts</p>
+              <p className="text-2xl font-bold text-blue-600">{stats.totalContacts}</p>
+            </div>
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-indigo-100">
+              <p className="text-sm text-gray-500">Pending</p>
+              <p className="text-2xl font-bold text-indigo-600">{stats.pending}</p>
+            </div>
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-emerald-100">
+              <p className="text-sm text-gray-500">Completed</p>
+              <p className="text-2xl font-bold text-emerald-600">{stats.completed}</p>
+            </div>
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-red-100">
+              <p className="text-sm text-gray-500">Failed</p>
+              <p className="text-2xl font-bold text-red-600">{stats.failed}</p>
+            </div>
+          </div>
+
+          {/* Filter Tabs */}
+          <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+            {(["all", "draft", "active", "paused", "completed", "cancelled"] as FilterStatus[]).map((status) => (
+              <button
+                key={status}
+                onClick={() => setFilter(status)}
+                className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
+                  filter === status
+                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md"
+                    : "bg-white text-gray-600 hover:bg-purple-50 border border-purple-100"
+                }`}
+              >
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          {/* Campaigns List */}
+          {loading ? (
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-600 border-t-transparent"></div>
+            </div>
+          ) : error ? (
+            <div className="bg-red-50 text-red-600 p-6 rounded-2xl text-center">{error}</div>
+          ) : filteredCampaigns.length === 0 ? (
+            <div className="bg-white rounded-2xl p-12 text-center shadow-sm border border-purple-100">
+              <div className="text-6xl mb-4">📞</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No campaigns yet</h3>
+              <p className="text-gray-500 mb-6">Create your first customer support campaign to get started</p>
+              <button
+                onClick={() => setShowCreateModal(true)}
+                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-opacity"
+              >
+                Create Campaign
+              </button>
+            </div>
+          ) : (
+            <div className="grid gap-4">
+              {filteredCampaigns.map((campaign) => (
                 <div
-                    className="md:hidden fixed inset-0 bg-black/50 z-30"
-                    onClick={() => setSidebarOpen(false)}
-                />
-            )}
+                  key={campaign._id}
+                  className={`bg-white rounded-2xl p-6 shadow-sm border transition-shadow ${
+                    campaign.status === 'active' 
+                      ? 'border-green-300 ring-2 ring-green-100' 
+                      : 'border-purple-100 hover:shadow-md'
+                  }`}
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900">{campaign.name}</h3>
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(campaign.status)}`}>
+                          {campaign.status === 'active' && (
+                            <span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-1.5 animate-pulse" />
+                          )}
+                          {campaign.status}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                        <span>{getCampaignTypeLabel(campaign.campaignType)}</span>
+                        <span>•</span>
+                        <span>{campaign.totalContacts} contacts</span>
+                        <span>•</span>
+                        <span className="text-green-600">{campaign.completed} completed</span>
+                        <span>•</span>
+                        <span className="text-yellow-600">{campaign.pending} pending</span>
+                        {campaign.failed > 0 && (
+                          <>
+                            <span>•</span>
+                            <span className="text-red-600">{campaign.failed} failed</span>
+                          </>
+                        )}
+                        {campaign.performance?.successRate && (
+                          <>
+                            <span>•</span>
+                            <span className="text-blue-600">{campaign.performance.successRate.toFixed(1)}% success</span>
+                          </>
+                        )}
+                      </div>
+                      {/* Progress bar for active campaigns */}
+                      {campaign.status === 'active' && campaign.totalContacts > 0 && (
+                        <div className="mt-3">
+                          <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                            <span>Progress: {campaign.completed + campaign.failed} / {campaign.totalContacts}</span>
+                            <span>{Math.round(((campaign.completed + campaign.failed) / campaign.totalContacts) * 100)}%</span>
+                          </div>
+                          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-gradient-to-r from-green-500 to-emerald-500 transition-all duration-500"
+                              style={{ width: `${((campaign.completed + campaign.failed) / campaign.totalContacts) * 100}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {campaign.status === "draft" && (
+                        <button
+                          onClick={() => startCampaign(campaign._id)}
+                          disabled={actionLoading === campaign._id}
+                          className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors disabled:opacity-50"
+                        >
+                          <PlayIcon />
+                          Start
+                        </button>
+                      )}
+                      {campaign.status === "active" && (
+                        <button
+                          onClick={() => pauseCampaign(campaign._id)}
+                          disabled={actionLoading === campaign._id}
+                          className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-xl hover:bg-yellow-600 transition-colors disabled:opacity-50"
+                        >
+                          <PauseIcon />
+                          Pause
+                        </button>
+                      )}
+                      {campaign.status === "paused" && (
+                        <button
+                          onClick={() => resumeCampaign(campaign._id)}
+                          disabled={actionLoading === campaign._id}
+                          className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors disabled:opacity-50"
+                        >
+                          <PlayIcon />
+                          Resume
+                        </button>
+                      )}
+                      <button
+                        onClick={() => deleteCampaign(campaign._id)}
+                        disabled={actionLoading === campaign._id || campaign.status === 'active'}
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors disabled:opacity-50"
+                        title={campaign.status === 'active' ? 'Pause campaign first' : 'Delete campaign'}
+                      >
+                        <TrashIcon />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
 
-            {/* Sidebar */}
-            <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
-                <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      {/* Create Campaign Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900">Create New Campaign</h2>
+            </div>
+            <div className="p-6 space-y-5">
+              {/* Campaign Name */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Campaign Name *</label>
+                <input
+                  type="text"
+                  value={newCampaign.name}
+                  onChange={(e) => setNewCampaign({ ...newCampaign, name: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder="e.g., January Rent Reminders"
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea
+                  value={newCampaign.description}
+                  onChange={(e) => setNewCampaign({ ...newCampaign, description: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  rows={2}
+                  placeholder="Brief description of this campaign..."
+                />
+              </div>
+
+              {/* Campaign Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Campaign Type *</label>
+                <select
+                  value={newCampaign.campaignType}
+                  onChange={(e) => setNewCampaign({ ...newCampaign, campaignType: e.target.value as Campaign["campaignType"] })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                >
+                  <option value="rent-reminder">🏠 Rent Reminder</option>
+                  <option value="payment-reminder">💰 Payment Reminder</option>
+                  <option value="appointment-reminder">📅 Appointment Reminder</option>
+                  <option value="survey">📋 Survey</option>
+                  <option value="notification">🔔 Notification</option>
+                  <option value="custom">📞 Custom</option>
+                </select>
+              </div>
+
+              {/* AI Agent Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">AI Agent *</label>
+                {agents.length === 0 ? (
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                    <p className="text-yellow-800 text-sm">
+                      No AI agents configured. Please go to{" "}
+                      <a href="/dashboard/agents" className="text-purple-600 underline">
+                        AI Agents
+                      </a>{" "}
+                      page to add your Millis AI agent ID.
+                    </p>
+                  </div>
+                ) : (
+                  <select
+                    value={newCampaign.millisAgentId}
+                    onChange={(e) => setNewCampaign({ ...newCampaign, millisAgentId: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  >
+                    <option value="">Select an AI Agent</option>
+                    {agents.map((agent) => (
+                      <option key={agent.id} value={agent.id}>
+                        {agent.name} ({agent.id.substring(0, 8)}...)
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+
+              {/* File Upload */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Upload Contacts *</label>
+                <div className="border-2 border-dashed border-purple-200 rounded-xl p-6 text-center hover:border-purple-400 transition-colors">
+                  <input
+                    type="file"
+                    accept=".xlsx,.xls,.csv"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <label htmlFor="file-upload" className="cursor-pointer">
+                    <div className="flex flex-col items-center">
+                      <UploadIcon />
+                      <p className="mt-2 text-sm text-gray-600">
+                        {uploadFile ? uploadFile.name : "Click to upload Excel or CSV file"}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-1">Columns: Name, Phone, Flat, Payment Due</p>
+                    </div>
+                  </label>
+                </div>
+                {parsing && <p className="text-purple-600 text-sm mt-2">Parsing file...</p>}
+                {uploadedContacts.length > 0 && (
+                  <p className="text-green-600 text-sm mt-2">✓ {uploadedContacts.length} contacts ready</p>
+                )}
+              </div>
+
+              {/* Preview */}
+              {uploadedContacts.length > 0 && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Preview (first 5)</label>
+                  <div className="bg-gray-50 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm">
+                      <thead className="bg-gray-100">
+                        <tr>
+                          <th className="px-4 py-2 text-left">Name</th>
+                          <th className="px-4 py-2 text-left">Phone</th>
+                          <th className="px-4 py-2 text-left">Flat</th>
+                          <th className="px-4 py-2 text-right">Amount Due</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {uploadedContacts.slice(0, 5).map((c, i) => (
+                          <tr key={i} className="border-t border-gray-200">
+                            <td className="px-4 py-2">{c.name}</td>
+                            <td className="px-4 py-2">{c.phone}</td>
+                            <td className="px-4 py-2">{c.flatNumber || "-"}</td>
+                            <td className="px-4 py-2 text-right">₹{c.paymentDue || 0}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </div>
 
-            <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8">
-                <div className="max-w-8xl mx-auto space-y-6 sm:space-y-8">
-
-                    {/* Header */}
-                    <div className="bg-white rounded-2xl shadow-xl border-2 border-blue-200 p-4 sm:p-6 lg:p-8">
-                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                            <div>
-                                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-cyan-100 border-2 border-blue-300 rounded-xl px-4 py-2 mb-3">
-                                    <span className="text-2xl">🎧</span>
-                                    <span className="text-sm font-bold text-blue-700">AI Customer Support Campaigns</span>
-                                </div>
-                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 mb-2">
-                                    Customer Support <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Campaigns</span>
-                                </h1>
-                                <p className="text-gray-600 text-sm sm:text-base">
-                                    Upload contacts and launch AI-powered support campaigns using Smillis AI
-                                </p>
-                            </div>
-                            <button
-                                onClick={() => {
-                                    setShowCreateModal(true);
-                                    setUploadStep('form');
-                                }}
-                                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl hover:from-blue-700 hover:to-cyan-700 transition-all font-bold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2"
-                            >
-                                <span className="text-xl">➕</span>
-                                <span>Create Campaign</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Filters */}
-                    <div className="bg-white rounded-xl shadow-lg border-2 border-blue-200 p-4">
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            {/* Search */}
-                            <div className="flex-1">
-                                <input
-                                    type="text"
-                                    placeholder="🔍 Search campaigns..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full px-4 py-2 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500"
-                                />
-                            </div>
-                            {/* Status Filter */}
-                            <div className="flex gap-2 flex-wrap">
-                                {(['all', 'active', 'draft', 'paused', 'completed'] as FilterStatus[]).map(status => (
-                                    <button
-                                        key={status}
-                                        onClick={() => setFilterStatus(status)}
-                                        className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
-                                            filterStatus === status
-                                                ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                        }`}
-                                    >
-                                        {status.charAt(0).toUpperCase() + status.slice(1)}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Campaigns Grid */}
-                    {filteredCampaigns.length === 0 ? (
-                        <div className="bg-white rounded-2xl shadow-lg border-2 border-blue-200 p-12 text-center">
-                            <div className="text-6xl mb-4">📞</div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-2">No Campaigns Yet</h3>
-                            <p className="text-gray-600 mb-6">Create your first customer support campaign to get started!</p>
-                            <button
-                                onClick={() => {
-                                    setShowCreateModal(true);
-                                    setUploadStep('form');
-                                }}
-                                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl hover:from-blue-700 hover:to-cyan-700 transition-all font-bold shadow-lg"
-                            >
-                                ➕ Create Campaign
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                            {filteredCampaigns.map(campaign => (
-                                <CampaignCard
-                                    key={campaign._id}
-                                    campaign={campaign}
-                                    onView={() => console.log('View campaign:', campaign._id)}
-                                    onEdit={() => console.log('Edit campaign:', campaign._id)}
-                                    onToggle={() => handleToggleCampaign(campaign._id)}
-                                    onLaunch={() => handleLaunchCampaign(campaign._id)}
-                                    isLaunching={launching}
-                                    userPhone={userInfo?.assignedPhoneNumber}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </main>
-
-            {/* Create Campaign Modal */}
-            {showCreateModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6 border-b border-gray-200">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-2xl font-bold text-gray-900">Create Support Campaign</h2>
-                                <button
-                                    onClick={() => {
-                                        setShowCreateModal(false);
-                                        setUploadStep('form');
-                                        setCampaignName('');
-                                        setTargetAudience('');
-                                        setAgentId('');
-                                        setContacts([]);
-                                        setUploadedFile(null);
-                                    }}
-                                    className="text-gray-600 hover:text-gray-900 transition-colors p-2"
-                                >
-                                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div className="p-6 space-y-6">
-                            {uploadStep === 'form' && (
-                                <>
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Campaign Name *</label>
-                                        <input
-                                            type="text"
-                                            value={campaignName}
-                                            onChange={(e) => setCampaignName(e.target.value)}
-                                            placeholder="e.g., Customer Support Q1 2024"
-                                            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Campaign Type *</label>
-                                        <select
-                                            value={campaignType}
-                                            onChange={(e) => setCampaignType(e.target.value as any)}
-                                            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                                        >
-                                            <option value="voice">📞 Voice (Smillis AI)</option>
-                                            <option value="sms">💬 SMS</option>
-                                            <option value="email">📧 Email</option>
-                                            <option value="multi-channel">🌐 Multi-Channel</option>
-                                        </select>
-                                    </div>
-
-                                    {campaignType === 'voice' && (
-                                        <div>
-                                            <label className="block text-sm font-semibold text-gray-700 mb-2">Smillis AI Agent ID *</label>
-                                            <input
-                                                type="text"
-                                                value={agentId}
-                                                onChange={(e) => setAgentId(e.target.value)}
-                                                placeholder="Enter your Smillis AI Agent ID"
-                                                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                                            />
-                                            <p className="text-xs text-gray-500 mt-1">Get your Agent ID from Smillis AI dashboard</p>
-                                        </div>
-                                    )}
-
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Target Audience</label>
-                                        <input
-                                            type="text"
-                                            value={targetAudience}
-                                            onChange={(e) => setTargetAudience(e.target.value)}
-                                            placeholder="e.g., Existing Customers"
-                                            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                                        />
-                                    </div>
-
-                                    <div className="pt-4 border-t">
-                                        <button
-                                            onClick={() => setUploadStep('upload')}
-                                            className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all font-bold"
-                                        >
-                                            Next: Upload Contacts →
-                                        </button>
-                                    </div>
-                                </>
-                            )}
-
-                            {uploadStep === 'upload' && (
-                                <>
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Upload Contact File *</label>
-                                        <div className="border-2 border-dashed border-blue-300 rounded-lg p-8 text-center hover:border-blue-500 transition-all">
-                                            <input
-                                                ref={fileInputRef}
-                                                type="file"
-                                                accept=".csv,.xlsx,.xls,.pdf"
-                                                onChange={handleFileUpload}
-                                                className="hidden"
-                                            />
-                                            <button
-                                                onClick={() => fileInputRef.current?.click()}
-                                                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all font-bold mb-4"
-                                            >
-                                                📁 Choose File
-                                            </button>
-                                            <p className="text-sm text-gray-600">Supported formats: CSV, XLSX, XLS, PDF</p>
-                                            {uploadedFile && (
-                                                <p className="text-sm text-green-600 mt-2">✅ {uploadedFile.name}</p>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {isProcessingFile && (
-                                        <div className="text-center py-4">
-                                            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600 mx-auto"></div>
-                                            <p className="text-sm text-gray-600 mt-2">Processing file...</p>
-                                        </div>
-                                    )}
-
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => setUploadStep('form')}
-                                            className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all font-bold"
-                                        >
-                                            ← Back
-                                        </button>
-                                    </div>
-                                </>
-                            )}
-
-                            {uploadStep === 'review' && (
-                                <>
-                                    <div>
-                                        <h3 className="text-lg font-bold text-gray-900 mb-4">Review Contacts ({contacts.length})</h3>
-                                        <div className="max-h-64 overflow-y-auto border-2 border-gray-200 rounded-lg">
-                                            <table className="w-full">
-                                                <thead className="bg-gray-50 sticky top-0">
-                                                    <tr>
-                                                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Name</th>
-                                                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Phone</th>
-                                                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Email</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {contacts.slice(0, 50).map((contact, index) => (
-                                                        <tr key={index} className="border-t border-gray-200">
-                                                            <td className="px-4 py-2 text-sm">{contact.name || '-'}</td>
-                                                            <td className="px-4 py-2 text-sm">{contact.phone}</td>
-                                                            <td className="px-4 py-2 text-sm">{contact.email || '-'}</td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        {contacts.length > 50 && (
-                                            <p className="text-xs text-gray-500 mt-2">Showing first 50 of {contacts.length} contacts</p>
-                                        )}
-                                    </div>
-
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => setUploadStep('upload')}
-                                            className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all font-bold"
-                                        >
-                                            ← Back
-                                        </button>
-                                        <button
-                                            onClick={handleCreateCampaign}
-                                            disabled={creating}
-                                            className="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all font-bold disabled:opacity-50"
-                                        >
-                                            {creating ? '⏳ Creating...' : '✅ Create Campaign'}
-                                        </button>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
+            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowCreateModal(false);
+                  setUploadedContacts([]);
+                  setUploadFile(null);
+                }}
+                className="px-5 py-2 text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={createCampaign}
+                disabled={actionLoading === "create"}
+                className="px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                {actionLoading === "create" ? "Creating..." : "Create Campaign"}
+              </button>
+            </div>
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
 }
