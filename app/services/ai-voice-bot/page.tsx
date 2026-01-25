@@ -1,8 +1,7 @@
-"use client"
-
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { ArrowRight, BarChart3, Bot, Brain, CheckCircle, Clock, Globe, Headphones, Mic, Phone, Play, Shield, TrendingUp, Users, Workflow, Zap } from "lucide-react"
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 
