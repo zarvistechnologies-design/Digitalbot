@@ -371,7 +371,7 @@ export default function AICustomerSupport() {
             </div>
 
             <div className="container mx-auto relative z-30 max-w-7xl">
-              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              <div className="grid lg:grid-cols-2 gap-12 lg:gap-32 items-center">
                 
                 {/* Left Side - Content */}
                 <div className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -545,15 +545,14 @@ export default function AICustomerSupport() {
                     </div>
                     
                     {/* Main Image */}
-                    <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-2xl z-20 bg-gradient-to-br from-blue-100 to-blue-50">
+                    <div className="relative w-[34rem] h-[34rem] lg:w-[38rem] lg:h-[38rem] rounded-3xl overflow-hidden z-20  bg-transparent">
                       <Image
-                        src="https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&q=80"
+                        src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/Gemini_Generated_Image_14txfw14txfw14tx_ducve4"
                         alt="AI Customer Support Dashboard"
                         fill
                         className="object-cover"
                         priority
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
                     </div>
                     
                     {/* Floating Badge - Bottom Right */}

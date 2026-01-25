@@ -543,15 +543,15 @@ export default function AISalesAgent() {
                     </div>
                     
                     {/* Main Image */}
-                    <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-2xl z-20 bg-gradient-to-br from-blue-100 to-indigo-50">
+                    <div className="relative w-[28rem] h-[28rem] lg:w-[32rem] lg:h-[32rem] overflow-hidden z-20 bg-transparent">
                       <Image
-                        src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80"
+                        src="https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/Gemini_Generated_Image_qfuhcfqfuhcfqfuh_nheyvx"
                         alt="AI Sales Agent Technology Dashboard"
                         fill
                         className="object-cover"
                         priority
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
+                      {/* Optionally, you can keep a subtle overlay if needed for contrast, but now it's transparent */}
                     </div>
                     
                     {/* Floating Badge - Bottom Right */}

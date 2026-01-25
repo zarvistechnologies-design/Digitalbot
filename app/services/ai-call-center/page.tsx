@@ -473,15 +473,14 @@ export default function AICallCenter() {
                     </div>
                     
                     {/* Main Image */}
-                    <div className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-2xl z-20 bg-gradient-to-br from-blue-100 to-blue-50">
+                    <div className="relative w-[34rem] h-[34rem] lg:w-[38rem] lg:h-[38rem] rounded-3xl overflow-hidden z-20 bg-transparent">
                       <Image
-                        src="https://images.unsplash.com/photo-1560264280-88b68371db39?auto=format&fit=crop&w=800&q=80"
+                        src="https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval/Gemini_Generated_Image_1nuiqi1nuiqi1nui_srcote"
                         alt="AI Call Center Dashboard"
                         fill
                         className="object-cover"
                         priority
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
                     </div>
                     
                     {/* Floating Badge - Bottom Right */}
