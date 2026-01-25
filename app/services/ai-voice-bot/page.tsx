@@ -414,11 +414,11 @@ export default function AIVoiceBot() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <main className="min-h-screen bg-white text-gray-900" role="main">
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 text-gray-900" role="main">
         <Header />
 
         {/* Hero Section */}
-        <section className="pt-20 pb-8 px-3 sm:px-4 lg:px-6 relative overflow-hidden bg-white" aria-labelledby="hero-heading">
+        <section className="pt-20 pb-8 px-3 sm:px-4 lg:px-6 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" aria-labelledby="hero-heading">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-3xl animate-pulse"></div>
@@ -540,7 +540,7 @@ export default function AIVoiceBot() {
         </section>
 
         {/* Features Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" aria-labelledby="features-heading">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="features-heading">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[20%] right-[10%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
@@ -624,7 +624,7 @@ export default function AIVoiceBot() {
         </section>
 
         {/* Use Cases Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" aria-labelledby="usecases-heading">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="usecases-heading">
           {/* Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[30%] left-[20%] w-[150px] h-[150px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
@@ -704,7 +704,7 @@ export default function AIVoiceBot() {
         </section>
 
         {/* Sample Conversation Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
           {/* Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
@@ -738,7 +738,7 @@ export default function AIVoiceBot() {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" role="region" aria-labelledby="faq-section">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="faq-section">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-0 left-1/4 w-24 h-24 bg-gradient-to-br from-blue-200/20 to-blue-300/15 rounded-full filter blur-xl animate-pulse"></div>
@@ -795,7 +795,7 @@ export default function AIVoiceBot() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" aria-labelledby="cta-heading">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="cta-heading">
           {/* Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[20%] left-[10%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>

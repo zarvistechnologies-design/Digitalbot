@@ -70,7 +70,7 @@ const ProductShowcase = () => {
     };
 
     return (
-        <section ref={sectionRef} className="py-16 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
+        <section ref={sectionRef} className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
             <div className="container mx-auto max-w-7xl relative z-10">
                 {/* Section Header */}
                 <div className="text-center mb-12">

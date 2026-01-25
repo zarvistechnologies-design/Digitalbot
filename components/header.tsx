@@ -32,8 +32,9 @@ export function Header() {
         { href: "/services/ai-voice-bot", label: "AI Voice Bot", desc: "Intelligent voice automation", icon: Bot },
         { href: "/services/voice-ai-business", label: "Voice AI for Business", desc: "Enterprise solutions", icon: TrendingUp },
         { href: "/services/voice-automation-software", label: "Voice Automation", desc: "Workflow automation", icon: Zap },
-        { href: "/services/ai-customer-support", label: "AI Customer Support", desc: "24/7 assistance", icon: Sparkles },
+        
         { href: "/services/conversational-ai", label: "Conversational AI", desc: "Natural conversations", icon: Activity },
+        { href: "/services/ai-customer-support", label: "AI Customer Support", desc: "24/7 assistance", icon: Sparkles },
         { href: "/services/ai-call-center", label: "AI Call Center", desc: "Call automation", icon: Phone },
         { href: "/services/ai-sales-agent", label: "AI Sales Agent", desc: "Sales automation", icon: BarChart3 },
         { href: "/services/ai-virtual-receptionist", label: "Virtual Receptionist", desc: "Front desk AI", icon: Sparkles },

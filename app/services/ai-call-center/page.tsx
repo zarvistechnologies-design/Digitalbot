@@ -313,7 +313,7 @@ export default function AICallCenter() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+      <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
         {/* Hidden audio element */}
         <audio
           ref={audioRef}
@@ -428,7 +428,7 @@ export default function AICallCenter() {
                   {/* CTA Buttons */}
                   <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                     <Link
-                      href="/signup"
+                      href="/signup?service=customer-support"
                       className="group px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-2"
                     >
                       Start Free Trial
@@ -576,7 +576,7 @@ export default function AICallCenter() {
           <section 
             id="usecases-section" 
             data-animate
-            className="py-20 bg-gray-50 relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-6xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -669,7 +669,7 @@ export default function AICallCenter() {
           <section 
             id="features-section" 
             data-animate
-            className="py-20 bg-white relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('features-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -828,7 +828,7 @@ export default function AICallCenter() {
           <section 
             id="faq-section" 
             data-animate
-            className="py-20 bg-white relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -888,7 +888,7 @@ export default function AICallCenter() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Link
-                  href="/signup"
+                  href="/signup?service=customer-support"
                   className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
                 >
                   Start Free Trial

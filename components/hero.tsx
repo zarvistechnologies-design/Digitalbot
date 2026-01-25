@@ -1,9 +1,9 @@
 "use client"
+import ProductShowcase from "@/components/solutions/ProductShowcase";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
 import Link from "next/link";
-import ProductShowcase from "@/components/solutions/ProductShowcase"
 import { useEffect, useRef, useState } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -942,7 +942,7 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-20 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-white" role="region" aria-labelledby="hero-heading">
+            <section className="pt-20 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/40 to-blue-50" role="region" aria-labelledby="hero-heading">
 
                 {/* Animated Background Elements */}
                 {mounted && (
@@ -1172,7 +1172,7 @@ export default function Hero() {
             </section>
 
             {/* Section Header - Fixed above the scrolling content */}
-            <section className="py-12 bg-gradient-to-br from-gray-50 to-white">
+            <section className="py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
                 <div className="container mx-auto px-8 text-center">
                     <div className="inline-flex items-center space-x-2 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-400/30 text-sm text-blue-600 font-semibold mb-4 uppercase tracking-widest">
                         <MessageSquare className="h-4 w-4" />
@@ -1188,7 +1188,7 @@ export default function Hero() {
             </section>
 
             {/* AI Voice Use Cases Section - Style Pinned Scroll */}
-            <section ref={storySectionRef} className="h-screen bg-gradient-to-br from-gray-50 to-white overflow-hidden">
+            <section ref={storySectionRef} className="h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
                 <div className="container mx-auto h-full px-8 flex items-center">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
 
@@ -1276,7 +1276,7 @@ export default function Hero() {
             </section>
 
             {/* Scroll-Animated Journey Flowchart - GSAP Enhanced */}
-            <section ref={flowchartRef} className="py-12 px-4 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+            <section ref={flowchartRef} className="py-12 px-4 bg-gradient-to-b from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
                 {/* Background decoration */}
                 <div className="absolute inset-0 pointer-events-none">
                     <div className="absolute top-1/4 left-0 w-64 h-64 bg-blue-200/20 rounded-full blur-3xl"></div>
@@ -1405,7 +1405,7 @@ export default function Hero() {
 
 
             {/* Why Choose DigitalBot - Bento Grid Style */}
-            <section className="py-16 px-4 bg-white overflow-hidden">
+            <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
                 <div className="container mx-auto max-w-6xl">
                     {/* Section Header */}
                     <div className="text-center mb-10">

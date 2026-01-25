@@ -3,26 +3,26 @@ import { Header } from "@/components/header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from "@/components/ui/card";
 import {
-  ArrowRight,
-  BarChart3,
-  Bot,
-  Check,
-  Code,
-  Globe,
-  Headphones,
-  MessageSquare,
-  Phone,
-  Shield,
-  Smartphone,
-  Users,
-  Zap
+    ArrowRight,
+    BarChart3,
+    Bot,
+    Check,
+    Code,
+    Globe,
+    Headphones,
+    MessageSquare,
+    Phone,
+    Shield,
+    Smartphone,
+    Users,
+    Zap
 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -174,11 +174,11 @@ const stats = [
 
 export default function Services() {
   return (
-    <main className="min-h-screen bg-white text-gray-900 relative overflow-hidden">
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 text-gray-900 relative overflow-hidden">
       <Header />
 
       {/* Hero Section - Cyberpunk Design */}
-      <section className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-white">
+      <section className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
         {/* Cyberpunk Grid Background */}
         <div className="fixed inset-0 z-0" style={{
           background: 'linear-gradient(rgba(234, 88, 12, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(234, 88, 12, 0.02) 1px, transparent 1px)',
@@ -269,7 +269,7 @@ export default function Services() {
       </section>
 
       {/* Services Grid - Modern Design */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-white overflow-hidden">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
         {/* Modern Background Elements */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-sky-300/15 via-sky-500/15 to-sky-500/15 rounded-full filter blur-2xl"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-sky-300/15 via-sky-400/15 to-sky-500/15 rounded-full filter blur-2xl"></div>
@@ -314,7 +314,7 @@ export default function Services() {
               
               return (
                 <Link key={index} href={service.href}>
-                  <Card className="relative bg-white border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_25px_rgba(234,88,12,0.3)] shadow-md hover:shadow-lg transition-all duration-300 h-full group cursor-pointer overflow-hidden" style={{
+                  <Card className="relative bg-white border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_25px_rgba(234,88,12,0.3)] shadow-md transition-all duration-300 h-full group cursor-pointer overflow-hidden" style={{
                     clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
                   }}>
                     {/* HD Service Image */}
@@ -385,7 +385,7 @@ export default function Services() {
       </section>
 
       {/* Industries Section - Modern */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-white overflow-hidden">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
         {/* Modern Grid Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-8">
           <div className="absolute inset-0" style={{
@@ -439,7 +439,7 @@ export default function Services() {
               return (
                 <Card
                   key={index}
-                  className="bg-white border border-sky-400/15 hover:border-sky-300/30 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md hover:shadow-lg transition-all duration-300 group overflow-hidden"
+                  className="bg-white border border-sky-400/15 hover:border-sky-300/30 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md transition-all duration-300 group overflow-hidden"
                   style={{
                     clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
                   }}
@@ -479,7 +479,7 @@ export default function Services() {
       </section>
 
       {/* How It Works Section - Modern */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-white overflow-hidden">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
         {/* Modern Background */}
         <div className="absolute top-20 left-1/4 w-64 h-64 bg-gradient-to-br from-sky-300/15 via-sky-400/15 to-sky-500/15 rounded-full filter blur-2xl"></div>
         <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-gradient-to-bl from-sky-300/15 via-sky-500/15 to-sky-500/15 rounded-full filter blur-2xl"></div>
@@ -532,7 +532,7 @@ export default function Services() {
               return (
                 <div
                   key={idx}
-                  className="relative bg-white p-6 border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md hover:shadow-lg transition-all duration-300 group overflow-hidden"
+                  className="relative bg-white p-6 border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md transition-all duration-300 group overflow-hidden"
                   style={{
                     clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
                   }}
@@ -564,7 +564,7 @@ export default function Services() {
       </section>
 
       {/* FAQ Section - Modern */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden" role="region" aria-labelledby="faq-section">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="faq-section">
         {/* Modern Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/4 w-64 h-64 bg-gradient-to-br from-sky-500/15 to-sky-600/15 rounded-full filter blur-2xl animate-float-slow"></div>
@@ -822,7 +822,7 @@ export default function Services() {
       </section>
 
       {/* CTA Section - Modern */}
-      <section className="py-12 px-4 relative overflow-hidden bg-white">
+      <section className="py-12 px-4 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
         {/* Modern Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-8">
           <div className="absolute inset-0" style={{
