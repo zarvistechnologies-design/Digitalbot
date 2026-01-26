@@ -190,6 +190,19 @@
   }
 }
 
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s ease-in-out infinite;
+}
+
 @keyframes gradient-x {
   0%, 100% {
     background-position: 0% 50%;
@@ -214,6 +227,24 @@
 .animate-gradient-x {
   background-size: 200% 200%;
   animation: gradient-x 3s ease infinite;
+}
+
+/* Marquee Animation for Stats */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
 .bg-grid-pattern {

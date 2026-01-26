@@ -1,28 +1,22 @@
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import {
-    ArrowRight,
-    BarChart3,
-    Bot,
-    Check,
-    Code,
-    Globe,
-    Headphones,
-    MessageSquare,
-    Phone,
-    Shield,
-    Smartphone,
-    Users,
-    Zap
+  ArrowRight,
+  BarChart3,
+  Bot,
+  Check,
+  ChevronRight,
+  Code,
+  Globe,
+  Headphones,
+  MessageSquare,
+  Phone,
+  Shield,
+  Smartphone,
+  Star,
+  Users,
+  Zap
 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -177,741 +171,1145 @@ export default function Services() {
     <main className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 text-gray-900 relative overflow-hidden">
       <Header />
 
-      {/* Hero Section - Cyberpunk Design */}
-      <section className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
-        {/* Cyberpunk Grid Background */}
-        <div className="fixed inset-0 z-0" style={{
-          background: 'linear-gradient(rgba(234, 88, 12, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(234, 88, 12, 0.02) 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }}></div>
-
-        {/* Cyberpunk Floating Elements */}
-        <div className="absolute top-20 left-10 w-48 h-48 bg-gradient-to-br from-sky-400/15 via-sky-500/15 to-sky-600/15 rounded-full filter blur-2xl animate-float-slow"></div>
-        <div className="absolute bottom-20 right-10 w-56 h-56 bg-gradient-to-bl from-sky-400/15 via-sky-600/15 to-sky-600/15 rounded-full filter blur-2xl animate-float-reverse"></div>
+      {/* Hero Section - Unique Premium Design */}
+      <section className="pt-4 pb-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex items-center">
+        {/* Dynamic Animated Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100 via-white to-blue-50"></div>
         
-        <div className="relative z-10 container mx-auto text-left md:text-center">
+        {/* Animated Grid Pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `linear-gradient(to right, #3b82f6 1px, transparent 1px), linear-gradient(to bottom, #3b82f6 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }}></div>
+        
+        {/* Floating Orbs */}
+        <div className="absolute top-20 left-[10%] w-72 h-72 bg-blue-400/30 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-20 right-[10%] w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-200/30 to-cyan-200/30 rounded-full blur-[100px]"></div>
+        
+        {/* Animated Lines */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[20%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-300/50 to-transparent"></div>
+          <div className="absolute top-[80%] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-300/30 to-transparent"></div>
+        </div>
+
+        <div className="relative z-10 container mx-auto">
           {/* Breadcrumb */}
-          <nav className="flex justify-start md:justify-center mb-6" aria-label="Breadcrumb">
-            <ol className="inline-flex items-center space-x-2 text-xs bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border border-sky-400/20 shadow-md shadow-sky-500/15">
+          <nav className="flex justify-start mb-6" aria-label="Breadcrumb">
+            <ol className="inline-flex items-center gap-2 text-sm bg-white/80 backdrop-blur-xl px-5 py-2.5 rounded-full border border-blue-100 shadow-lg shadow-blue-500/5">
               <li>
-                <Link href="/" className="text-gray-900 hover:text-sky-600 transition-colors font-medium">
+                <Link href="/" className="text-gray-500 hover:text-blue-600 transition-colors font-medium flex items-center gap-1.5">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                   Home
                 </Link>
               </li>
-              <li className="text-gray-900">→</li>
-              <li className="text-sky-600 font-bold">Services</li>
+              <li><ChevronRight className="w-4 h-4 text-gray-300" /></li>
+              <li className="text-blue-600 font-semibold">Services</li>
             </ol>
           </nav>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 uppercase tracking-wide">
-            <span className="block mb-2 shimmer-text text-sky-600" style={{
-              textShadow: '0 0 15px rgba(234, 88, 12, 0.3)'
-            }}>
-              What AI Voice Assistant
-            </span>
-            <span className="inline-block px-4 py-2 text-white bg-sky-500 shadow-lg text-lg sm:text-xl lg:text-2xl relative overflow-hidden border border-sky-400 hover:shadow-[0_0_30px_rgba(234,88,12,0.5)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-            }}>
-              <span className="relative z-10 font-black tracking-wide">Services Do We Offer?</span>
-            </span>
-          </h1>
-          
-          <div className="max-w-5xl mx-auto mb-6 p-4 bg-gradient-to-r from-sky-500/8 via-white/90 to-sky-600/8 border border-sky-400/30 rounded-xl shadow-lg backdrop-blur-md" style={{
-            clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-          }}>
-            <p className="text-sm sm:text-base text-gray-900 leading-relaxed">
-              We provide <span className="font-bold text-sky-600">comprehensive AI voice assistant services</span> including AI call centers, customer support automation, sales agents, and virtual receptionists. 
-              Trusted by <span className="font-extrabold shimmer-text text-sky-600">500+ businesses</span> across <span className="font-extrabold shimmer-text text-sky-600">25+ countries</span> to handle <span className="font-extrabold shimmer-text text-sky-600">2M+ conversations</span> monthly.
-            </p>
-          </div>
-          
-          {/* Stats Grid - Modern Design */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-6xl mx-auto mb-8">
-            {stats.map((stat, index) => {
-              return (
-                <div
-                  key={index}
-                  className="bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 shadow-md hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] hover:scale-102 transition-all duration-300 relative overflow-hidden group"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                  }}
-                >
-                  <div className="absolute -top-6 -left-6 w-24 h-24 bg-gradient-to-tr from-sky-400/15 via-sky-500/15 to-sky-600/15 rounded-full opacity-15 filter blur-2xl group-hover:opacity-25 transition-opacity"></div>
-                  <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-bl from-sky-400/15 via-sky-600/15 to-sky-600/15 rounded-full opacity-15 filter blur-2xl group-hover:opacity-25 transition-opacity"></div>
-                  <stat.icon className="h-5 w-5 mx-auto mb-2 text-sky-600 relative z-10" />
-                  <div className="text-xl font-extrabold shimmer-text text-sky-600 mb-1 relative z-10">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-gray-900 font-semibold relative z-10 uppercase tracking-wide">{stat.label}</div>
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Content - 7 columns */}
+            <div className="lg:col-span-7 order-2 lg:order-1">
+              {/* Animated Badge */}
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/90 backdrop-blur-xl rounded-full border border-blue-100 shadow-lg shadow-blue-500/10 mb-8 group hover:shadow-xl transition-all">
+                <div className="flex items-center gap-1">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                  <span className="w-2 h-3 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+                  <span className="w-2 h-4 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></span>
                 </div>
-              );
-            })}
+                <span className="text-sm font-semibold text-gray-700">AI Voice Technology</span>
+                <span className="px-2.5 py-1 bg-blue-500 text-white text-xs font-bold rounded-full">NEW</span>
+              </div>
+
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold leading-[1.05] mb-8">
+                <span className="text-gray-900 block">Revolutionize Your</span>
+                <span className="relative inline-block mt-2">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500">
+                    Customer Experience
+                  </span>
+                  <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
+                    <path d="M2 10C50 4 100 2 150 6C200 10 250 4 298 8" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round"/>
+                    <defs>
+                      <linearGradient id="gradient" x1="0" y1="0" x2="300" y2="0">
+                        <stop offset="0%" stopColor="#3b82f6"/>
+                        <stop offset="100%" stopColor="#06b6d4"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </span>
+              </h1>
+              
+              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed mb-6 max-w-2xl">
+                Deploy intelligent AI voice agents that handle <span className="font-bold text-blue-600">millions of conversations</span> across <span className="font-bold text-blue-600">25+ countries</span>. Available 24/7, speaking 60+ languages.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <Link href="/contact">
+                  <Button size="lg" className="group bg-blue-600 hover:bg-blue-700 text-white rounded-2xl px-8 py-7 text-base font-semibold shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all hover:scale-[1.02] relative overflow-hidden">
+                    <span className="relative z-10 flex items-center">
+                      Start Free Trial
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  </Button>
+                </Link>
+                <Link href="/pricing">
+                  <Button size="lg" variant="outline" className="rounded-2xl px-8 py-7 text-base font-semibold border-2 border-gray-200 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50/50 transition-all backdrop-blur-sm bg-white/50">
+                    View Pricing
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Trust Stats Row */}
+              <div className="flex flex-wrap items-center gap-8">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <div className="flex -space-x-2">
+                      {['👨‍💼', '👩‍💻', '👨‍🔬', '👩‍💼'].map((emoji, i) => (
+                        <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 border-2 border-white shadow-md flex items-center justify-center text-lg">
+                          {emoji}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                      <Check className="w-3 h-3 text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-gray-900">500+ Businesses</div>
+                    <div className="text-xs text-gray-500">Trust DigitalBot</div>
+                  </div>
+                </div>
+                
+                <div className="h-10 w-px bg-gray-200 hidden sm:block"></div>
+                
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {[1,2,3,4,5].map((i) => (
+                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <div>
+                    <span className="text-sm font-bold text-gray-900">4.9/5</span>
+                    <span className="text-xs text-gray-500 ml-1">(2.5k reviews)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Visual - 5 columns */}
+            <div className="lg:col-span-5 order-1 lg:order-2 relative">
+              {/* 3D Card Stack Effect */}
+              <div className="relative h-[500px] sm:h-[550px]">
+                {/* Background Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-[40px] blur-3xl"></div>
+                
+                {/* Main Card */}
+                <div className="absolute inset-4 bg-white/90 backdrop-blur-xl rounded-[32px] shadow-2xl shadow-blue-500/20 border border-white/50 overflow-hidden">
+                  {/* Card Header */}
+                  <div className="bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                        <Bot className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-white font-bold">AI Voice Agent</div>
+                        <div className="text-blue-100 text-xs">Enterprise Ready</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
+                      <span className="text-white/90 text-sm font-medium">Live</span>
+                    </div>
+                  </div>
+                  
+                  {/* Card Content */}
+                  <div className="p-6 space-y-4">
+                    {/* Voice Waveform */}
+                    <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-4 border border-blue-100">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-sm font-semibold text-gray-700">Voice Activity</span>
+                        <span className="text-xs text-blue-600 font-medium">Real-time</span>
+                      </div>
+                      <div className="flex items-end justify-center gap-1 h-12">
+                        {[40, 65, 45, 80, 55, 70, 50, 85, 60, 75, 45, 90, 55, 70, 40].map((h, i) => (
+                          <div 
+                            key={i} 
+                            className="w-2 bg-gradient-to-t from-blue-500 to-cyan-400 rounded-full animate-pulse"
+                            style={{ 
+                              height: `${h}%`,
+                              animationDelay: `${i * 0.1}s`,
+                              animationDuration: '1s'
+                            }}
+                          ></div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all cursor-pointer group">
+                        <div className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">2M+</div>
+                        <div className="text-xs text-gray-500">Calls/Month</div>
+                      </div>
+                      <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all cursor-pointer group">
+                        <div className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">&lt;1s</div>
+                        <div className="text-xs text-gray-500">Response</div>
+                      </div>
+                      <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all cursor-pointer group">
+                        <div className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">99.9%</div>
+                        <div className="text-xs text-gray-500">Uptime</div>
+                      </div>
+                      <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all cursor-pointer group">
+                        <div className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">60+</div>
+                        <div className="text-xs text-gray-500">Languages</div>
+                      </div>
+                    </div>
+                    
+                    {/* Active Call Indicator */}
+                    <div className="flex items-center justify-between bg-green-50 rounded-xl p-4 border border-green-100">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center animate-pulse">
+                          <Phone className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-gray-900">Active Calls</div>
+                          <div className="text-xs text-gray-500">Handling right now</div>
+                        </div>
+                      </div>
+                      <div className="text-2xl font-bold text-green-600">847</div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Floating Elements */}
+                <div className="absolute -left-4 top-20 bg-white rounded-2xl p-3 shadow-xl shadow-blue-500/10 border border-blue-50 animate-bounce-slow">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Globe className="w-4 h-4 text-blue-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-gray-700">25+ Countries</span>
+                  </div>
+                </div>
+                
+                <div className="absolute -right-4 top-1/3 bg-white rounded-2xl p-3 shadow-xl shadow-blue-500/10 border border-blue-50 animate-bounce-slow" style={{ animationDelay: '0.5s' }}>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                      <Shield className="w-4 h-4 text-green-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-gray-700">SOC2 Certified</span>
+                  </div>
+                </div>
+                
+                <div className="absolute -left-2 bottom-24 bg-white rounded-2xl p-3 shadow-xl shadow-blue-500/10 border border-blue-50 animate-bounce-slow" style={{ animationDelay: '1s' }}>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                      <Zap className="w-4 h-4 text-yellow-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-gray-700">24/7 Active</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-start md:justify-center">
-            <Link href="/contact">
-              <button className="bg-sky-500 text-white hover:bg-sky-600 font-bold px-4 py-3 text-sm uppercase tracking-wide transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(234,88,12,0.5)] flex items-center" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                Start Free Trial
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </button>
-            </Link>
-            <Link href="/pricing">
-              <button className="bg-transparent text-sky-600 border border-sky-400 hover:bg-sky-400/10 font-bold px-4 py-3 text-sm uppercase tracking-wide transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(234,88,12,0.2)]" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                View Pricing
-              </button>
-            </Link>
+          {/* Bottom Stats Marquee */}
+          <div className="mt-10 relative overflow-hidden">
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-blue-50 via-blue-50/80 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-blue-50 via-blue-50/80 to-transparent z-10 pointer-events-none"></div>
+            <div className="flex gap-6 py-6 animate-marquee hover:pause-animation">
+              {[...stats, ...stats, ...stats, ...stats].map((stat, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 flex items-center gap-4 bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-4 border border-gray-100 shadow-lg shadow-gray-200/30 hover:shadow-xl hover:border-blue-200 transition-all group cursor-pointer"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-blue-500/25">
+                    <stat.icon className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+                    <div className="text-sm text-gray-500">{stat.label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Services Grid - Modern Design */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
-        {/* Modern Background Elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-sky-300/15 via-sky-500/15 to-sky-500/15 rounded-full filter blur-2xl"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-sky-300/15 via-sky-400/15 to-sky-500/15 rounded-full filter blur-2xl"></div>
+      {/* Services Grid - Unique Bento Design */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-white overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Gradient Mesh */}
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100/50 rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-200/40 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          
+          {/* Floating Shapes */}
+          <div className="absolute top-20 right-20 w-20 h-20 border-2 border-blue-200 rounded-2xl rotate-12 animate-bounce-slow opacity-40"></div>
+          <div className="absolute bottom-32 left-16 w-16 h-16 bg-gradient-to-br from-blue-400/20 to-blue-500/20 rounded-full animate-bounce-slow" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute top-1/2 right-10 w-8 h-8 bg-blue-500/30 rounded-lg rotate-45 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
+        </div>
         
-        <div className="container mx-auto relative z-10">
-          <div className="text-left md:text-center mb-10">
-            <div className="inline-block mb-4">
-              <span className="px-4 py-2 bg-sky-500/8 border border-sky-400/20 text-sky-600 font-bold text-xs uppercase tracking-wide shadow-md" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
-                boxShadow: '0 0 10px rgba(234, 88, 12, 0.15)'
-              }}>
-                ⭐ Premium AI Services
-              </span>
+        <div className="container mx-auto relative z-10 max-w-7xl">
+          {/* Section Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full mb-6">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+              <span className="text-blue-600 font-semibold text-sm">Our Services</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold mb-4 uppercase tracking-wide">
-              <span className="block mb-2 shimmer-text text-sky-600" style={{
-                textShadow: '0 0 15px rgba(234, 88, 12, 0.3)'
-              }}>
-                Our AI Voice Assistant
-              </span>
-              <span className="inline-block px-4 py-2 text-white bg-sky-500 shadow-lg border border-sky-400" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                Service Suite
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+              <span className="text-gray-900">AI Voice Solutions</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 bg-clip-text text-transparent">
+                Built for Scale
               </span>
             </h2>
-            <p className="text-sm text-gray-900 max-w-4xl mx-auto leading-relaxed">
-              Choose from our <span className="font-bold text-sky-600">comprehensive suite</span> of AI-powered voice solutions designed to <span className="font-bold text-sky-600">automate and enhance</span> every aspect of your business communication.
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Choose from our comprehensive suite of AI-powered solutions designed to transform your business communication
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {/* Bento Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => {
-              const serviceImages = [
-                'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=400&auto=format&fit=crop', // AI Call Center
-                'https://images.unsplash.com/photo-1553775282-20af80779df7?q=80&w=400&auto=format&fit=crop', // AI Customer Support
-                'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400&auto=format&fit=crop', // AI Sales Agent
-                'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop', // AI Virtual Receptionist
-                'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=400&auto=format&fit=crop', // AI Voice Bot
-                'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=400&auto=format&fit=crop'  // Voice Automation
-              ];
+              // Different card styles based on position
+              const isLarge = index === 0 || index === 3;
+              const isFeatured = service.popular;
               
               return (
-                <Link key={index} href={service.href}>
-                  <Card className="relative bg-white border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_25px_rgba(234,88,12,0.3)] shadow-md transition-all duration-300 h-full group cursor-pointer overflow-hidden" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-                  }}>
-                    {/* HD Service Image */}
-                    <div className="relative h-24 sm:h-28 overflow-hidden">
-                      <img 
-                        src={serviceImages[index]} 
-                        alt={`${service.title} - AI Voice Assistant Service`}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent"></div>
-                      <div className="absolute top-2 left-2">
-                        <div className="p-1 bg-sky-400/15 backdrop-blur-sm border border-sky-300/20 rounded">
-                          <service.icon className="h-4 w-4 text-sky-600" />
+                <Link 
+                  key={index} 
+                  href={service.href}
+                  className={`group ${isLarge && index === 0 ? 'lg:col-span-2' : ''}`}
+                >
+                  <div className={`
+                    relative h-full rounded-3xl overflow-hidden transition-all duration-500
+                    ${isFeatured 
+                      ? 'bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-white shadow-2xl shadow-blue-500/25' 
+                      : 'bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-100/50'
+                    }
+                    hover:-translate-y-2 cursor-pointer
+                  `}>
+                    {/* Decorative Elements */}
+                    {isFeatured && (
+                      <>
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                        {/* Popular Badge */}
+                        <div className="absolute top-4 right-4 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold flex items-center gap-1">
+                          <Star className="w-3 h-3 fill-yellow-300 text-yellow-300" />
+                          Popular
                         </div>
-                      </div>
-                    </div>
-
-                    {/* Modern Glow Effect */}
-                    <div className="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-br from-sky-300/20 via-sky-400/20 to-sky-300/20 rounded-full filter blur-2xl group-hover:blur-xl transition-all"></div>
-                    
-                    {/* Numbered Badge - Modern */}
-                    <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white rounded-lg flex items-center justify-center font-extrabold text-sm shadow-lg transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-300 border border-sky-400" style={{
-                      boxShadow: '0 0 10px rgba(234, 88, 12, 0.4)'
-                    }}>
-                      {String(index + 1).padStart(2, '0')}
-                    </div>
-
-                    {service.popular && (
-                      <Badge className="absolute -top-2 right-4 bg-sky-500 text-white shadow-lg animate-pulse border-2 border-sky-400">
-                        ⭐ Popular
-                      </Badge>
+                      </>
                     )}
-
-                    <CardHeader className="pt-4 pb-3">
-                      <CardTitle className="text-sm font-bold text-sky-600 mb-2 text-center group-hover:text-sky-600 transition-all uppercase tracking-wide">
+                    
+                    {/* Card Content */}
+                    <div className={`relative p-8 ${isLarge && index === 0 ? 'lg:p-10' : ''}`}>
+                      {/* Service Number */}
+                      <div className={`
+                        absolute top-6 left-8 text-7xl font-black opacity-10
+                        ${isFeatured ? 'text-white' : 'text-blue-500'}
+                      `}>
+                        {String(index + 1).padStart(2, '0')}
+                      </div>
+                      
+                      {/* Icon */}
+                      <div className={`
+                        relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6
+                        ${isFeatured 
+                          ? 'bg-white/20 backdrop-blur-sm' 
+                          : 'bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/25'
+                        }
+                        group-hover:scale-110 group-hover:rotate-3 transition-all duration-300
+                      `}>
+                        <service.icon className={`h-7 w-7 ${isFeatured ? 'text-white' : 'text-white'}`} />
+                      </div>
+                      
+                      {/* Title */}
+                      <h3 className={`
+                        text-lg font-bold mb-3 relative z-10
+                        ${isFeatured ? 'text-white' : 'text-gray-900 group-hover:text-blue-600'}
+                        transition-colors
+                      `}>
                         {service.title}
-                      </CardTitle>
-                      <CardDescription className="text-gray-900 text-center leading-relaxed text-xs">
+                      </h3>
+                      
+                      {/* Description */}
+                      <p className={`
+                        mb-6 relative z-10 leading-relaxed
+                        ${isFeatured ? 'text-blue-100' : 'text-gray-600'}
+                      `}>
                         {service.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="pb-4">
-                      <ul className="space-y-1 mb-4">
+                      </p>
+                      
+                      {/* Features with Animated Checkmarks */}
+                      <ul className="space-y-3 mb-6 relative z-10">
                         {service.features.map((feature, idx) => (
                           <li
                             key={idx}
-                            className="flex items-center text-xs text-gray-900 group-hover:text-gray-900 transition-colors"
+                            className="flex items-center gap-3 text-sm"
+                            style={{ animationDelay: `${idx * 100}ms` }}
                           >
-                            <div className="w-3 h-3 rounded-full bg-sky-500 flex items-center justify-center mr-2 flex-shrink-0">
-                              <Check className="h-2 w-2 text-white" />
+                            <div className={`
+                              w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0
+                              ${isFeatured 
+                                ? 'bg-white/20' 
+                                : 'bg-blue-100 group-hover:bg-blue-500 group-hover:scale-110'
+                              }
+                              transition-all duration-300
+                            `}>
+                              <Check className={`h-3 w-3 ${isFeatured ? 'text-white' : 'text-blue-600 group-hover:text-white'} transition-colors`} />
                             </div>
-                            <span className="font-medium">{feature}</span>
+                            <span className={isFeatured ? 'text-white/90' : 'text-gray-700'}>
+                              {feature}
+                            </span>
                           </li>
                         ))}
                       </ul>
-                      <div className="flex items-center justify-center text-sky-600 group-hover:text-sky-600 transition-colors font-bold pt-3 border-t border-sky-400/15 uppercase tracking-wide text-xs">
-                        Learn More
-                        <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      
+                      {/* CTA Button */}
+                      <div className={`
+                        flex items-center gap-2 font-semibold relative z-10
+                        ${isFeatured ? 'text-white' : 'text-blue-600'}
+                        group-hover:gap-4 transition-all duration-300
+                      `}>
+                        <span>Explore Service</span>
+                        <div className={`
+                          w-8 h-8 rounded-full flex items-center justify-center
+                          ${isFeatured 
+                            ? 'bg-white/20 group-hover:bg-white/30' 
+                            : 'bg-blue-100 group-hover:bg-blue-500'
+                          }
+                          transition-all duration-300
+                        `}>
+                          <ArrowRight className={`h-4 w-4 ${isFeatured ? 'text-white' : 'text-blue-600 group-hover:text-white'} group-hover:translate-x-0.5 transition-all`} />
+                        </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                    
+                    {/* Bottom Gradient Line for Non-Featured */}
+                    {!isFeatured && (
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    )}
+                  </div>
                 </Link>
               );
             })}
+          </div>
+          
+          {/* Bottom CTA */}
+          <div className="mt-16 text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-gradient-to-r from-blue-50 via-blue-100/50 to-blue-50 rounded-3xl border border-blue-100">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                  <Zap className="h-6 w-6 text-white" />
+                </div>
+                <div className="text-left">
+                  <p className="font-semibold text-gray-900">Need a Custom Solution?</p>
+                  <p className="text-sm text-gray-600">Let's build something unique for your business</p>
+                </div>
+              </div>
+              <Link href="/contact">
+                <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full px-6 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all">
+                  Contact Us
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Industries Section - Modern */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
-        {/* Modern Grid Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-8">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `linear-gradient(to right, rgba(234, 88, 12, 0.2) 1px, transparent 1px),
-                             linear-gradient(to bottom, rgba(234, 88, 12, 0.2) 1px, transparent 1px)`,
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-white via-blue-50/50 to-white overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100/60 rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-200/50 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-blue-100/30 to-cyan-100/30 rounded-full filter blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-50 border border-blue-200 rounded-full mb-6">
+              <Globe className="w-4 h-4 text-blue-600" />
+              <span className="text-blue-600 font-semibold text-sm">Global Reach</span>
+              <span className="px-2 py-0.5 bg-blue-600 text-white text-xs font-bold rounded-full">25+ Countries</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+              <span className="text-gray-900">Industries We</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 bg-clip-text text-transparent">
+                Serve & Transform
+              </span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Our AI voice assistants are <span className="font-semibold text-blue-600">trusted across multiple industries</span> to deliver exceptional customer experiences and <span className="font-semibold text-blue-600">operational efficiency</span>.
+            </p>
+          </div>
+
+          {/* Horizontal Scrolling Cards */}
+          <div className="relative">
+            {/* Gradient Fade Left */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+            {/* Gradient Fade Right */}
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+            
+            {/* Scrolling Container */}
+            <div className="flex gap-6 pb-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {industries.map((industry, index) => {
+                const industryImages = [
+                  'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=600&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=600&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=600&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=600&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1528716321680-815a8cdb8cbe?q=80&w=600&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1497486751825-1233686d5d80?q=80&w=600&auto=format&fit=crop'
+                ];
+                
+                return (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-[300px] sm:w-[340px] snap-center group cursor-pointer"
+                  >
+                    {/* Card with white background and image on top */}
+                    <div className="relative bg-white rounded-3xl overflow-hidden shadow-lg shadow-gray-200/60 hover:shadow-2xl hover:shadow-blue-200/50 transition-all duration-500 hover:-translate-y-2 border border-gray-100 hover:border-blue-200">
+                      {/* Image Section */}
+                      <div className="relative h-48 overflow-hidden">
+                        <img 
+                          src={industryImages[index]} 
+                          alt={`${industry.name} - AI Voice Solutions`}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          loading="lazy"
+                        />
+                        {/* Subtle gradient for image bottom */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+                        
+                        {/* Number Badge */}
+                        <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center font-bold text-blue-600 text-lg shadow-lg">
+                          {String(index + 1).padStart(2, '0')}
+                        </div>
+                        
+                        {/* Icon floating at bottom */}
+                        <div className="absolute -bottom-6 right-6 w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-xl shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 border-4 border-white">
+                          <industry.icon className="h-6 w-6 text-white" />
+                        </div>
+                      </div>
+                      
+                      {/* Content Section */}
+                      <div className="p-6 pt-4">
+                        {/* Title */}
+                        <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                          {industry.name}
+                        </h3>
+                        
+                        {/* Description */}
+                        <p className="text-gray-600 text-sm leading-relaxed mb-5">
+                          {industry.description}
+                        </p>
+                        
+                        {/* CTA */}
+                        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                          <span className="text-blue-600 font-semibold text-sm">Explore Solutions</span>
+                          <div className="w-9 h-9 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-blue-500 transition-all duration-300">
+                            <ArrowRight className="h-4 w-4 text-blue-600 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Bottom Accent Line */}
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Scroll Indicators */}
+            <div className="flex justify-center gap-2 mt-8">
+              {industries.map((_, index) => (
+                <div key={index} className="w-2 h-2 rounded-full bg-blue-200 hover:bg-blue-500 transition-colors cursor-pointer"></div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Bottom Stats */}
+          <div className="mt-10 flex flex-wrap justify-center gap-6 lg:gap-12">
+            {[
+              { value: '25+', label: 'Countries Served', icon: Globe },
+              { value: '6+', label: 'Industries', icon: Users },
+              { value: '99%', label: 'Client Satisfaction', icon: Star },
+            ].map((stat, idx) => (
+              <div key={idx} className="flex items-center gap-4 group cursor-pointer">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all">
+                  <stat.icon className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{stat.value}</div>
+                  <div className="text-sm text-gray-500">{stat.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+      {/* Features Showcase Section */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-white overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-10 w-72 h-72 bg-blue-100/50 rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-20 left-10 w-80 h-80 bg-blue-50 rounded-full filter blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto relative z-10 max-w-6xl">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-50 border border-blue-200 rounded-full mb-6">
+              <Zap className="w-4 h-4 text-blue-600" />
+              <span className="text-blue-600 font-semibold text-sm">Powerful Features</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+              <span className="text-gray-900">Everything You Need to</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
+                Automate Communication
+              </span>
+            </h2>
+          </div>
+
+          {/* Feature Cards - Alternating Layout */}
+          <div className="space-y-12">
+            {[
+              {
+                icon: MessageSquare,
+                title: 'Natural Conversations',
+                desc: 'Our AI understands context, handles interruptions, and responds naturally just like a human agent. Powered by advanced NLP for seamless customer interactions.',
+                features: ['Context awareness', 'Multi-turn dialogue', 'Emotion detection', 'Smart interruptions'],
+                image: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?q=80&w=600&auto=format&fit=crop',
+                reverse: false
+              },
+              {
+                icon: BarChart3,
+                title: 'Real-Time Analytics',
+                desc: 'Get instant insights into call performance, customer sentiment, and conversion rates. Make data-driven decisions to optimize your voice AI.',
+                features: ['Live dashboards', 'Call transcripts', 'Sentiment analysis', 'ROI tracking'],
+                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop',
+                reverse: true
+              },
+              {
+                icon: Code,
+                title: 'Easy Integration',
+                desc: 'Connect with your existing tools in minutes. Our platform integrates with 100+ popular CRMs, helpdesks, and business applications.',
+                features: ['Salesforce', 'HubSpot', 'Zendesk', 'Custom APIs'],
+                image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=600&auto=format&fit=crop',
+                reverse: false
+              }
+            ].map((feature, idx) => (
+              <div key={idx} className={`flex flex-col ${feature.reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 lg:gap-12 items-center`}>
+                {/* Image */}
+                <div className="w-full lg:w-1/2">
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-blue-200/50 group">
+                    <img 
+                      src={feature.image} 
+                      alt={feature.title}
+                      className="w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
+                    <div className="absolute bottom-4 left-4 w-14 h-14 rounded-2xl bg-white shadow-xl flex items-center justify-center">
+                      <feature.icon className="h-7 w-7 text-blue-600" />
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="w-full lg:w-1/2">
+                  <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                    {feature.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    {feature.features.map((f, i) => (
+                      <span key={i} className="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium border border-blue-100">
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-50 via-white to-blue-50 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-10 w-64 h-64 bg-blue-100/50 rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-blue-200/30 rounded-full filter blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto relative z-10 max-w-6xl">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-50 border border-blue-200 rounded-full mb-6">
+              <Star className="w-4 h-4 text-blue-600 fill-blue-600" />
+              <span className="text-blue-600 font-semibold text-sm">Client Success Stories</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+              <span className="text-gray-900">Trusted by Leading</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
+                Businesses Worldwide
+              </span>
+            </h2>
+          </div>
+
+          <div className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {[
+              {
+                quote: "DigitalBot transformed our customer service. We now handle 3x more calls with better satisfaction scores.",
+                author: "Sarah Chen",
+                role: "VP of Operations",
+                company: "TechFlow Inc.",
+                rating: 5
+              },
+              {
+                quote: "The AI voice quality is incredible. Our customers often can't tell they're speaking with an AI assistant.",
+                author: "Michael Rodriguez",
+                role: "Customer Success Director",
+                company: "GlobalHealth",
+                rating: 5
+              },
+              {
+                quote: "Setup was seamless and the ROI was visible within the first month. Best investment we've made.",
+                author: "Emily Watson",
+                role: "CEO",
+                company: "Innovate Solutions",
+                rating: 5
+              },
+              {
+                quote: "24/7 availability without hiring night shifts. Our response time dropped from hours to seconds.",
+                author: "James Park",
+                role: "Operations Manager",
+                company: "Swift Retail",
+                rating: 5
+              }
+            ].map((testimonial, idx) => (
+              <div key={idx} className="flex-shrink-0 w-[350px] snap-center">
+                <div className="bg-white rounded-3xl p-8 shadow-xl shadow-blue-100/50 border border-gray-100 hover:shadow-2xl hover:border-blue-200 transition-all duration-300 hover:-translate-y-2 h-full">
+                  {/* Rating */}
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  
+                  {/* Quote */}
+                  <p className="text-gray-700 leading-relaxed mb-6 text-lg">
+                    "{testimonial.quote}"
+                  </p>
+                  
+                  {/* Author */}
+                  <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
+                      {testimonial.author.charAt(0)}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900">{testimonial.author}</div>
+                      <div className="text-sm text-gray-500">{testimonial.role}, {testimonial.company}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Integration Partners Section */}
+      <section className="py-10 px-4 sm:px-6 lg:px-8 relative bg-white overflow-hidden border-y border-gray-100">
+        <div className="container mx-auto relative z-10">
+          <div className="text-center mb-8">
+            <p className="text-gray-500 font-medium text-sm uppercase tracking-wider mb-2">Seamless Integrations</p>
+            <h3 className="text-2xl font-bold text-gray-900">Works with your favorite tools</h3>
+          </div>
+          
+          {/* Scrolling logos */}
+          <div className="relative overflow-hidden">
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10"></div>
+            <div className="flex gap-12 animate-marquee">
+              {['Salesforce', 'HubSpot', 'Zendesk', 'Slack', 'Microsoft Teams', 'Zoom', 'Google', 'Twilio', 'Salesforce', 'HubSpot', 'Zendesk', 'Slack'].map((brand, idx) => (
+                <div key={idx} className="flex-shrink-0 px-8 py-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all">
+                  <span className="text-gray-600 font-semibold text-lg whitespace-nowrap">{brand}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section - Modern Timeline */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-white overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-80 h-80 bg-blue-100/60 rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-50 rounded-full filter blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-100/20 to-cyan-100/20 rounded-full filter blur-3xl"></div>
+        </div>
+        
+        <div className="container mx-auto relative z-10 max-w-6xl">
+          {/* Section Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-50 border border-blue-200 rounded-full mb-6">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+              <span className="text-blue-600 font-semibold text-sm">Simple Setup Process</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+              <span className="text-gray-900">Get Started in</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 bg-clip-text text-transparent">
+                Three Easy Steps
+              </span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Transform your business communication with AI voice technology. Our streamlined process gets you up and running in <span className="font-semibold text-blue-600">less than 2 weeks</span>.
+            </p>
+          </div>
+
+          {/* Timeline Cards */}
+          <div className="relative">
+            {/* Connecting Line - Desktop */}
+            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 -translate-y-1/2 rounded-full"></div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6">
+              {[
+                {
+                  step: "01",
+                  title: "Consultation & Setup",
+                  description: "We analyze your business needs and configure your AI voice assistant with custom workflows, integrations, and brand personality.",
+                  icon: Phone,
+                  duration: "Day 1-3",
+                  features: ["Business analysis", "Workflow design", "Voice customization"]
+                },
+                {
+                  step: "02",
+                  title: "Training & Integration",
+                  description: "Our team trains your AI on your specific use cases and seamlessly integrates with your existing CRM, phone system, and tools.",
+                  icon: Code,
+                  duration: "Day 4-7",
+                  features: ["AI training", "CRM integration", "Testing & QA"]
+                },
+                {
+                  step: "03",
+                  title: "Launch & Optimize",
+                  description: "Go live with 24/7 AI voice support and continuously improve performance with real-time analytics and ongoing optimization.",
+                  icon: Zap,
+                  duration: "Day 8+",
+                  features: ["Go live", "Performance monitoring", "Continuous improvement"]
+                },
+              ].map((item, idx) => (
+                <div key={idx} className="relative group">
+                  {/* Card */}
+                  <div className="bg-white rounded-3xl p-8 shadow-xl shadow-blue-100/50 border border-gray-100 hover:shadow-2xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-3 h-full">
+                    {/* Step Number - Floating Circle */}
+                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 lg:relative lg:top-0 lg:left-0 lg:translate-x-0">
+                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 border-4 border-white">
+                        {item.step}
+                      </div>
+                    </div>
+                    
+                    {/* Duration Badge */}
+                    <div className="flex justify-between items-center mt-4 lg:mt-0 mb-4">
+                      <span className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full border border-blue-100">
+                        {item.duration}
+                      </span>
+                      <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                        <item.icon className="w-5 h-5 text-blue-600" />
+                      </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed mb-5">
+                      {item.description}
+                    </p>
+                    
+                    {/* Features List */}
+                    <div className="space-y-2">
+                      {item.features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center">
+                            <Check className="w-3 h-3 text-blue-600" />
+                          </div>
+                          <span className="text-sm text-gray-600">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Arrow Connector - Mobile */}
+                  {idx < 2 && (
+                    <div className="lg:hidden flex justify-center my-4">
+                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                        <ArrowRight className="w-4 h-4 text-blue-600 rotate-90" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Bottom CTA */}
+          <div className="mt-10 text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-gradient-to-r from-blue-50 via-white to-blue-50 rounded-3xl border border-blue-100 shadow-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                  <Headphones className="h-6 w-6 text-white" />
+                </div>
+                <div className="text-left">
+                  <p className="font-semibold text-gray-900">Ready to Get Started?</p>
+                  <p className="text-sm text-gray-600">Book a free consultation with our team</p>
+                </div>
+              </div>
+              <Link href="/contact">
+                <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full px-6 shadow-lg shadow-blue-500/25 hover:shadow-xl transition-all">
+                  Schedule Demo
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section - Clean Modern Design */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-blue-50 relative overflow-hidden" role="region" aria-labelledby="faq-section">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-80 h-80 bg-blue-100/50 rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-50 rounded-full filter blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-blue-100/30 to-cyan-100/30 rounded-full filter blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto max-w-5xl relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-50 border border-blue-200 rounded-full mb-6">
+              <MessageSquare className="w-4 h-4 text-blue-600" />
+              <span className="text-blue-600 font-semibold text-sm">Got Questions?</span>
+            </div>
+            <h2 id="faq-section" className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+              <span className="text-gray-900">Frequently Asked</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 bg-clip-text text-transparent">
+                Questions
+              </span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Everything you need to know about our <span className="font-semibold text-blue-600">AI Voice Assistant Services</span>
+            </p>
+          </div>
+          
+          {/* FAQ Cards Grid */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              {
+                question: "What AI voice assistant services do you offer?",
+                answer: "We offer comprehensive AI voice solutions including AI call centers, customer support automation, sales agents, virtual receptionists, voice bots, and enterprise voice automation software. Each service is customizable to your business needs.",
+                icon: Bot
+              },
+              {
+                question: "How quickly can I implement AI voice services?",
+                answer: "Most businesses launch their AI voice assistant within 5-10 days. We handle setup, CRM integration, conversation training, and testing with hands-on support throughout.",
+                icon: Zap
+              },
+              {
+                question: "Which industries benefit from AI voice assistants?",
+                answer: "AI voice assistants transform healthcare, real estate, hospitality, e-commerce, financial services, and technology sectors. Any business with customer communication needs benefits from 24/7 automation.",
+                icon: Globe
+              },
+              {
+                question: "Can AI voice services integrate with my existing systems?",
+                answer: "Yes! Our platform integrates with popular CRMs (Salesforce, HubSpot, Zoho), phone systems, help desk software, scheduling tools, and custom APIs for seamless data synchronization.",
+                icon: Code
+              },
+              {
+                question: "What ROI can I expect from AI voice automation?",
+                answer: "Businesses typically see 40-60% cost reduction, 85% faster response times, and 45% higher conversion rates. ROI is usually visible within 30-60 days of implementation.",
+                icon: BarChart3
+              },
+              {
+                question: "Is AI voice technology secure and compliant?",
+                answer: "Absolutely. Our platform is SOC 2 and HIPAA compliant with end-to-end encryption, data privacy controls, GDPR compliance, and comprehensive audit trails.",
+                icon: Shield
+              },
+              {
+                question: "How does AI handle multiple languages?",
+                answer: "Our AI voice assistants support 60+ languages with natural accents and context-aware translations. The system automatically detects the caller's language and responds fluently.",
+                icon: Globe
+              },
+              {
+                question: "What support do you provide after launch?",
+                answer: "We provide 24/7 technical support, regular performance optimization, conversation training updates, analytics reviews, and dedicated account management.",
+                icon: Headphones
+              },
+              {
+                question: "Can I customize the AI voice and personality?",
+                answer: "Yes! Customize voice tone, personality, speaking style, and conversation flow to match your brand. Choose from multiple voice options and train on your specific terminology.",
+                icon: Users
+              },
+              {
+                question: "Do I need technical expertise to use AI voice services?",
+                answer: "Not at all! Our platform features a no-code visual builder for creating conversations. We handle all technical setup, integration, and maintenance.",
+                icon: Code
+              },
+              {
+                question: "How scalable are AI voice assistant services?",
+                answer: "Infinitely scalable! Our cloud infrastructure handles unlimited concurrent calls without quality degradation, from 10 to 10,000+ calls daily.",
+                icon: Zap
+              },
+              {
+                question: "What analytics and reporting do you provide?",
+                answer: "Our real-time dashboard shows call volume, conversation outcomes, customer sentiment, response times, conversion rates, and ROI metrics with exportable reports.",
+                icon: BarChart3
+              }
+            ].map((faq, idx) => (
+              <div 
+                key={idx} 
+                className="group bg-white rounded-2xl p-6 shadow-lg shadow-blue-100/50 border border-gray-100 hover:shadow-xl hover:border-blue-200 hover:-translate-y-1 transition-all duration-300"
+              >
+                {/* Header */}
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform">
+                    <faq.icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-xs font-semibold text-blue-500 mb-1 block">FAQ {String(idx + 1).padStart(2, '0')}</span>
+                    <h3 className="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">
+                      {faq.question}
+                    </h3>
+                  </div>
+                </div>
+                
+                {/* Answer */}
+                <p className="text-gray-600 text-sm leading-relaxed pl-14">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+          
+          {/* Bottom CTA */}
+          <div className="mt-10 text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-white rounded-3xl border border-blue-100 shadow-xl shadow-blue-100/50">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                  <MessageSquare className="h-6 w-6 text-white" />
+                </div>
+                <div className="text-left">
+                  <p className="font-semibold text-gray-900">Still have questions?</p>
+                  <p className="text-sm text-gray-600">Our team is here to help you</p>
+                </div>
+              </div>
+              <Link href="/contact">
+                <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full px-6 shadow-lg shadow-blue-500/25 hover:shadow-xl transition-all">
+                  Contact Support
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Clean Modern Design */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/30 rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-400/20 rounded-full filter blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full filter blur-3xl"></div>
+          {/* Grid Pattern */}
+          <div className="absolute inset-0 opacity-[0.05]" style={{
+            backgroundImage: `linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)`,
             backgroundSize: '40px 40px'
           }}></div>
         </div>
         
-        <div className="container mx-auto relative z-10">
-          <div className="text-left md:text-center mb-10">
-            <div className="inline-block mb-4" style={{
-              clipPath: 'polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)'
-            }}>
-              <span className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wide shadow-lg border border-sky-400 block" style={{
-                boxShadow: '0 0 12px rgba(234, 88, 12, 0.4)'
-              }}>
-                🌍 Global Reach
-              </span>
+        <div className="container mx-auto relative z-10 max-w-4xl">
+          {/* Main CTA Card */}
+          <div className="text-center">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-8">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-white/90 font-semibold text-sm">Limited Time Offer</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold mb-4">
-              <span className="block mb-2 shimmer-text text-sky-600" style={{
-                clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))',
-                background: 'linear-gradient(90deg, #ea580c, #ea7f1f, #ea580c)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-              }}>
-                Industries We Serve
-              </span>
-              <span className="inline-block text-gray-900 text-lg font-semibold">
-                Across <span className="text-sky-600">25+ Countries</span>
-              </span>
-            </h2>
-            <p className="text-sm text-gray-700 max-w-4xl mx-auto leading-relaxed">
-              Our AI voice assistants are <span className="font-bold text-sky-600">trusted across multiple industries</span> to deliver exceptional customer experiences and <span className="font-bold text-sky-600">operational efficiency</span>.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {industries.map((industry, index) => {
-              const industryImages = [
-                'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=400&auto=format&fit=crop', // Healthcare
-                'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=400&auto=format&fit=crop', // Real Estate
-                'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=400&auto=format&fit=crop', // E-commerce
-                'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=400&auto=format&fit=crop', // Finance
-                'https://images.unsplash.com/photo-1528716321680-815a8cdb8cbe?q=80&w=400&auto=format&fit=crop', // Hospitality
-                'https://images.unsplash.com/photo-1497486751825-1233686d5d80?q=80&w=400&auto=format&fit=crop'  // Education
-              ];
-              
-              return (
-                <Card
-                  key={index}
-                  className="bg-white border border-sky-400/15 hover:border-sky-300/30 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md transition-all duration-300 group overflow-hidden"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                  }}
-                >
-                  <CardContent className="p-4 text-center relative">
-                    {/* HD Industry Image */}
-                    <div className="relative w-full h-20 mb-3 overflow-hidden" style={{
-                      clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                    }}>
-                      <img 
-                        src={industryImages[index]} 
-                        alt={`${industry.name} - AI Voice Solutions`}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent"></div>
-                      <div className="absolute bottom-1 left-1">
-                        <div className="p-1 bg-sky-400/15 backdrop-blur-sm border border-sky-300/20 rounded">
-                          <industry.icon className="h-4 w-4 text-sky-300" />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Modern Glow */}
-                    <div className="absolute -top-6 -right-6 w-20 h-20 bg-gradient-to-br from-sky-300/15 via-sky-400/15 to-sky-300/15 rounded-full filter blur-xl group-hover:blur-lg transition-all"></div>
-                    
-                    <h3 className="text-sm font-bold text-sky-600 mb-2 group-hover:text-sky-600 transition-all relative z-10 uppercase tracking-wide">
-                      {industry.name}
-                    </h3>
-                    <p className="text-xs text-gray-700 font-medium relative z-10">{industry.description}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section - Modern */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
-        {/* Modern Background */}
-        <div className="absolute top-20 left-1/4 w-64 h-64 bg-gradient-to-br from-sky-300/15 via-sky-400/15 to-sky-500/15 rounded-full filter blur-2xl"></div>
-        <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-gradient-to-bl from-sky-300/15 via-sky-500/15 to-sky-500/15 rounded-full filter blur-2xl"></div>
-        
-        <div className="container mx-auto relative z-10">
-          <div className="text-left md:text-center mb-10">
-            <div className="inline-block mb-4" style={{
-              clipPath: 'polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)'
-            }}>
-              <span className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wide shadow-lg border border-sky-400 block" style={{
-                boxShadow: '0 0 12px rgba(234, 88, 12, 0.4)'
-              }}>
-                🚀 Simple Setup
-              </span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold mb-4">
-              <span className="block mb-2 text-gray-900">
-                How Do Our AI Voice
-              </span>
-              <span className="inline-block px-4 py-2 text-white bg-sky-500 shadow-lg border border-sky-400" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))',
-                boxShadow: '0 0 20px rgba(234, 88, 12, 0.4)'
-              }}>
-                Services Work?
-              </span>
-            </h2>
-            <p className="text-sm text-gray-700 max-w-4xl mx-auto leading-relaxed">
-              Get started in <span className="font-bold text-sky-600">three simple steps</span> and transform your business communication with <span className="font-bold text-sky-600">AI voice technology</span>.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              {
-                step: "1",
-                title: "Consultation & Setup",
-                description: "We analyze your business needs and configure your AI voice assistant with custom workflows, integrations, and brand personality.",
-              },
-              {
-                step: "2",
-                title: "Training & Integration",
-                description: "Our team trains your AI on your specific use cases and seamlessly integrates with your existing CRM, phone system, and tools.",
-              },
-              {
-                step: "3",
-                title: "Launch & Optimize",
-                description: "Go live with 24/7 AI voice support and continuously improve performance with real-time analytics and ongoing optimization.",
-              },
-            ].map((item, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="relative bg-white p-6 border border-sky-400/20 hover:border-sky-300/40 hover:scale-102 hover:shadow-[0_0_20px_rgba(234,88,12,0.2)] shadow-md transition-all duration-300 group overflow-hidden"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-                  }}
-                >
-                  {/* Modern Glow */}
-                  <div className="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-br from-sky-300/20 via-sky-400/20 to-sky-300/20 rounded-full filter blur-2xl group-hover:blur-xl transition-all"></div>
-                  
-                  {/* Step Number Badge - Modern */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-10 bg-sky-500 text-white font-extrabold text-lg shadow-lg transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-300 border-2 border-sky-400 flex items-center justify-center" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                    boxShadow: '0 0 15px rgba(234, 88, 12, 0.4)'
-                  }}>
-                    {item.step}
-                  </div>
-
-                  <div className="pt-8 relative z-10">
-                    <h3 className="text-lg font-extrabold text-sky-600 mb-3 text-center group-hover:text-sky-600 transition-all uppercase tracking-wide">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-700 text-center leading-relaxed font-medium text-sm">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section - Modern */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="faq-section">
-        {/* Modern Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-64 h-64 bg-gradient-to-br from-sky-500/15 to-sky-600/15 rounded-full filter blur-2xl animate-float-slow"></div>
-          <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-gradient-to-br from-sky-400/15 to-sky-500/15 rounded-full filter blur-2xl animate-float-reverse"></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-br from-sky-500/15 to-sky-600/15 rounded-full filter blur-2xl animate-pulse"></div>
-        </div>
-
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="text-left md:text-center mb-10">
-            <div className="inline-block mb-4" style={{
-              clipPath: 'polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)'
-            }}>
-              <span className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wide shadow-lg block" style={{
-                boxShadow: '0 0 12px rgba(234, 88, 12, 0.4)'
-              }}>
-                Got Questions? We've Got Answers
-              </span>
-            </div>
-            <h2 id="faq-section" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4">
-              <span className="block mb-2 text-gray-900">Frequently Asked</span>
-              <span className="shimmer-text text-sky-600" style={{
-                clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))',
-                background: 'linear-gradient(90deg, #ea580c, #ea7f1f, #ea580c)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                animation: 'shimmer 2s infinite'
-              }}>
-                Questions
-              </span>
-            </h2>
-            <p className="text-gray-700 text-sm max-w-4xl mx-auto leading-relaxed">
-              Everything you need to know about <span className="text-sky-600 font-semibold">AI Voice Assistant Services</span>
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-4">
-            {/* FAQ 1 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 10px rgba(234, 88, 12, 0.4)'
-              }}>
-                01
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                What AI voice assistant services do you offer?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                We offer comprehensive AI voice solutions including AI call centers, customer support automation, sales agents, virtual receptionists, voice bots, and enterprise voice automation software. Each service is customizable to your business needs and integrates seamlessly with your existing systems.
-              </p>
-            </div>
-
-            {/* FAQ 2 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 10px rgba(234, 88, 12, 0.4)'
-              }}>
-                02
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                How quickly can I implement AI voice services?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                Most businesses launch their AI voice assistant within 5-10 days. We handle setup, CRM integration, conversation training, and testing. Our team provides hands-on support to ensure smooth deployment and immediate value delivery.
-              </p>
-            </div>
-
-            {/* FAQ 3 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 10px rgba(234, 88, 12, 0.4)'
-              }}>
-                03
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                Which industries benefit from AI voice assistants?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                AI voice assistants transform healthcare, real estate, hospitality, e-commerce, financial services, and technology sectors. Any business with customer communication needs benefits from 24/7 availability, instant responses, and scalable automation without hiring additional staff.
-              </p>
-            </div>
-
-            {/* FAQ 4 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 15px rgba(234, 88, 12, 0.5)'
-              }}>
-                04
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                Can AI voice services integrate with my existing systems?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                Yes! Our AI voice platform integrates with popular CRMs (Salesforce, HubSpot, Zoho), phone systems, help desk software, scheduling tools, and custom APIs. We ensure seamless data flow and real-time synchronization with your tech stack.
-              </p>
-            </div>
-
-            {/* FAQ 5 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 15px rgba(234, 88, 12, 0.5)'
-              }}>
-                05
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                What ROI can I expect from AI voice automation?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                Businesses typically see 40-60% cost reduction, 85% faster response times, and 45% higher conversion rates. AI voice services deliver ROI within 30-60 days by eliminating staffing costs, reducing missed calls, and providing 24/7 availability without overtime or benefits.
-              </p>
-            </div>
-
-            {/* FAQ 6 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 15px rgba(234, 88, 12, 0.5)'
-              }}>
-                06
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                Is AI voice technology secure and compliant?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                Absolutely. Our platform is SOC 2 and HIPAA compliant with end-to-end encryption, data privacy controls, GDPR compliance, and comprehensive audit trails. All conversations are encrypted and stored securely with role-based access controls.
-              </p>
-            </div>
-
-            {/* FAQ 7 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 15px rgba(234, 88, 12, 0.5)'
-              }}>
-                07
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                How does AI handle multiple languages?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                Our AI voice assistants support 60+ languages with natural accents and context-aware translations. The system automatically detects the caller's language and responds fluently, making it perfect for global businesses serving diverse customer bases.
-              </p>
-            </div>
-
-            {/* FAQ 8 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 15px rgba(234, 88, 12, 0.5)'
-              }}>
-                08
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                What support do you provide after launch?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                We provide 24/7 technical support, regular performance optimization, conversation training updates, analytics reviews, and dedicated account management. Our team monitors your AI continuously and makes improvements based on real conversation data.
-              </p>
-            </div>
-
-            {/* FAQ 9 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 15px rgba(234, 88, 12, 0.5)'
-              }}>
-                09
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                Can I customize the AI voice and personality?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                Yes! You can customize voice tone, personality, speaking style, and conversation flow to match your brand. Choose from multiple voice options, adjust response speeds, and train the AI on your specific terminology and brand guidelines.
-              </p>
-            </div>
-
-            {/* FAQ 10 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 15px rgba(234, 88, 12, 0.5)'
-              }}>
-                10
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                Do I need technical expertise to use AI voice services?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                Not at all! Our platform features a no-code visual builder for creating and managing conversations. We handle all technical setup, integration, and maintenance. You simply define your business rules and we make the AI work for you.
-              </p>
-            </div>
-
-            {/* FAQ 11 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 15px rgba(234, 88, 12, 0.5)'
-              }}>
-                11
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                How scalable are AI voice assistant services?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                Infinitely scalable! Our cloud infrastructure handles unlimited concurrent calls without quality degradation. Whether you receive 10 calls or 10,000 calls daily, the AI maintains consistent performance with no additional setup or hiring required.
-              </p>
-            </div>
-
-            {/* FAQ 12 */}
-            <div className="group relative bg-white backdrop-blur-md p-4 border border-sky-400/20 hover:border-sky-300/40 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(234,88,12,0.2)]" style={{
-              clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-            }}>
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-md rotate-12 group-hover:rotate-0 transition-transform" style={{
-                clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))',
-                boxShadow: '0 0 15px rgba(234, 88, 12, 0.5)'
-              }}>
-                12
-              </div>
-              <h3 className="text-sm font-bold text-sky-600 mb-3 mt-2 uppercase tracking-wide">
-                What analytics and reporting do you provide?
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-xs">
-                Our real-time dashboard shows call volume, conversation outcomes, customer sentiment, response times, conversion rates, and ROI metrics. Access detailed transcripts, identify trends, and export custom reports to track performance against your business KPIs.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section - Modern */}
-      <section className="py-12 px-4 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
-        {/* Modern Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-8">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle, rgba(234, 88, 12, 0.3) 1px, transparent 1px)`,
-            backgroundSize: '20px 20px'
-          }}></div>
-        </div>
-        <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-sky-400/20 via-sky-500/20 to-sky-600/20 rounded-full filter blur-2xl animate-float-slow"></div>
-        <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-tl from-sky-400/20 via-sky-500/20 to-sky-600/20 rounded-full filter blur-2xl animate-float-reverse"></div>
-        
-        <div className="container mx-auto relative z-10">
-          <div className="bg-white p-6 md:p-8 border-2 border-sky-400/30 hover:border-sky-300/50 shadow-lg hover:shadow-[0_0_30px_rgba(234,88,12,0.3)] hover:scale-[1.01] transition-all text-left md:text-center relative overflow-hidden group" style={{
-            clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-          }}>
-            {/* Modern Inner Glow */}
-            <div className="absolute -top-20 -left-20 w-60 h-60 bg-gradient-to-br from-sky-300/20 via-sky-400/20 to-sky-500/20 rounded-full filter blur-3xl group-hover:blur-2xl transition-all"></div>
-            <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-gradient-to-tl from-sky-300/20 via-sky-500/20 to-sky-300/20 rounded-full filter blur-3xl group-hover:blur-2xl transition-all"></div>
             
-            <div className="relative z-10">
-              <div className="inline-block mb-6" style={{
-                clipPath: 'polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)'
-              }}>
-                <span className="px-6 py-3 bg-sky-500 text-white font-bold text-sm uppercase tracking-wider shadow-2xl block border-2 border-sky-400" style={{
-                  boxShadow: '0 0 20px rgba(234, 88, 12, 0.5)'
-                }}>
-                  Limited Time Offer
-                </span>
-              </div>
-              
-              <h2 className="text-2xl sm:text-3xl font-extrabold mb-4">
-                <span className="block mb-2 text-gray-900">
-                  Ready to Transform Your
-                </span>
-                <span className="inline-block px-4 py-2 text-white bg-sky-500 shadow-lg border border-sky-400 animate-gradient relative" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))',
-                  boxShadow: '0 0 20px rgba(234, 88, 12, 0.4)'
-                }}>
-                  <span className="relative z-10">Business Communication?</span>
-                </span>
-              </h2>
-              
-              <div className="max-w-3xl mx-auto mb-6 p-4 bg-gradient-to-r from-sky-500/8 via-sky-400/4 to-sky-500/8 border border-sky-400/20" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <p className="text-sm text-gray-900 leading-relaxed font-medium">
-                  Join <span className="font-extrabold text-sky-600">500+ businesses</span> already using DigitalBot.ai to handle <span className="font-extrabold text-sky-600">millions of customer conversations</span> with AI voice technology. <span className="font-bold text-sky-600">Start your free trial today</span>.
-                </p>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
-                <Link href="/contact">
-                  <Button className="bg-sky-500 text-white hover:bg-sky-600 hover:scale-102 transition-all px-6 py-3 text-sm font-bold shadow-lg border border-sky-400 uppercase tracking-wide" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
-                    boxShadow: '0 0 15px rgba(234, 88, 12, 0.4)'
-                  }}>
-                    Start Free Trial Now
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-                <Link href="/pricing">
-                  <Button variant="outline" className="border border-sky-400 text-sky-600 hover:bg-sky-400/10 px-6 py-3 text-sm font-bold shadow-md hover:scale-102 transition-all uppercase tracking-wide" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                  }}>
-                    View Pricing Plans
-                  </Button>
-                </Link>
-              </div>
-              
-              <div className="flex flex-wrap items-center justify-center gap-6 text-gray-900 text-sm mt-8">
-                <span className="inline-flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-sky-500 animate-pulse" style={{
-                    boxShadow: '0 0 10px rgba(234, 88, 12, 0.5)'
-                  }}></span>
-                  <span className="font-semibold text-gray-900 uppercase tracking-wide">No Credit Card Required</span>
-                </span>
-                <span className="text-sky-500">•</span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-sky-500 animate-pulse" style={{
-                    boxShadow: '0 0 10px rgba(234, 88, 12, 0.5)'
-                  }}></span>
-                  <span className="font-semibold text-gray-900 uppercase tracking-wide">Cancel Anytime</span>
-                </span>
-                <span className="text-sky-500">•</span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-sky-500 animate-pulse" style={{
-                    boxShadow: '0 0 10px rgba(234, 88, 12, 0.5)'
-                  }}></span>
-                  <span className="font-semibold text-gray-900 uppercase tracking-wide">5-Min Setup</span>
-                </span>
+            {/* Heading */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+              Ready to Transform Your
+              <br />
+              <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">
+                Business Communication?
+              </span>
+            </h2>
+            
+            {/* Description */}
+            <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
+              Join <span className="font-bold text-white">500+ businesses</span> already using DigitalBot.ai to handle <span className="font-bold text-white">millions of customer conversations</span> with AI voice technology.
+            </p>
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12">
+              <Link href="/contact">
+                <Button className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 text-base font-bold rounded-full shadow-2xl shadow-blue-900/30 hover:shadow-white/20 hover:-translate-y-1 transition-all">
+                  Start Free Trial Now
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+          
+            </div>
+            
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+              {[
+                { icon: Check, text: 'No Credit Card Required' },
+                { icon: Check, text: '14-Day Free Trial' },
+                { icon: Check, text: '5-Minute Setup' },
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-green-400/20 flex items-center justify-center">
+                    <item.icon className="w-3 h-3 text-green-400" />
+                  </div>
+                  <span className="text-white/80 text-sm font-medium">{item.text}</span>
+                </div>
+              ))}
+            </div>
+            
+            {/* Stats Row */}
+            <div className="mt-16 pt-10 border-t border-white/10">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {[
+                  { value: '500+', label: 'Happy Customers' },
+                  { value: '10M+', label: 'Calls Handled' },
+                  { value: '99.9%', label: 'Uptime SLA' },
+                  { value: '4.9/5', label: 'Customer Rating' },
+                ].map((stat, idx) => (
+                  <div key={idx} className="text-center">
+                    <div className="text-3xl sm:text-4xl font-bold text-white mb-1">{stat.value}</div>
+                    <div className="text-sm text-blue-200">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
