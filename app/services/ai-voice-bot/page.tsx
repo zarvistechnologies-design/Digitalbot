@@ -540,35 +540,49 @@ export default function AIVoiceBot() {
         </section>
 
         {/* Features Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" aria-labelledby="features-heading">
-          {/* Background Elements */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-50 via-white to-orange-50 relative overflow-hidden" aria-labelledby="features-heading">
+          {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[20%] right-[10%] w-[200px] h-[200px] bg-gradient-radial from-orange-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute bottom-[10%] left-[10%] w-[250px] h-[250px] bg-gradient-radial from-orange-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
+            <div className="absolute top-[10%] right-[5%] w-[400px] h-[400px] bg-gradient-radial from-orange-300/40 to-transparent rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-[5%] left-[5%] w-[350px] h-[350px] bg-gradient-radial from-amber-300/30 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-orange-200/20 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+            
+            {/* Floating Particles */}
+            <div className="absolute top-[20%] left-[15%] w-3 h-3 bg-orange-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s' }}></div>
+            <div className="absolute top-[60%] right-[20%] w-2 h-2 bg-amber-500 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
+            <div className="absolute bottom-[30%] left-[25%] w-4 h-4 bg-orange-300 rounded-full animate-bounce opacity-40" style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
+            <div className="absolute top-[40%] right-[10%] w-2 h-2 bg-orange-500 rounded-full animate-ping opacity-30"></div>
+            <div className="absolute bottom-[20%] right-[30%] w-3 h-3 bg-amber-400 rounded-full animate-ping opacity-25" style={{ animationDelay: '1.5s' }}></div>
+            
+            {/* Grid Pattern */}
+            <div className="absolute inset-0 opacity-[0.03]" style={{
+              backgroundImage: 'linear-gradient(orange 1px, transparent 1px), linear-gradient(90deg, orange 1px, transparent 1px)',
+              backgroundSize: '50px 50px'
+            }}></div>
           </div>
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
-            <div className="text-left mb-6">
-              <div className="inline-block mb-3">
-                <span className="px-3 py-1 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-orange-400" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                }}>
-                  AI Voice Bot Features
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 mb-4">
+                <div className="h-px w-8 bg-gradient-to-r from-transparent to-orange-500"></div>
+                <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-orange-500/30 rounded-full animate-pulse">
+                  ✨ Powerful Features
                 </span>
+                <div className="h-px w-8 bg-gradient-to-l from-transparent to-orange-500"></div>
               </div>
-              <h2 id="features-heading" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
-                <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent">
+              <h2 id="features-heading" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4">
+                <span className="bg-gradient-to-r from-gray-900 via-orange-600 to-gray-900 bg-clip-text text-transparent">
                   Everything Your AI Voice Bot Needs
                 </span>
               </h2>
-              <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                Enterprise-grade <strong className="text-orange-600">AI voice bot</strong> capabilities designed to transform your customer communication and automate phone interactions
+              <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Enterprise-grade <strong className="text-orange-600 font-semibold">AI voice bot</strong> capabilities designed to transform your customer communication
               </p>
             </div>
 
-            {/* Features Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {/* Features Grid - Bento Style */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((feature, index) => {
                 const images = [
                   'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop',
@@ -578,47 +592,90 @@ export default function AIVoiceBot() {
                   'https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2070&auto=format&fit=crop',
                   'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop'
                 ];
+                const gradients = [
+                  'from-orange-500 to-amber-500',
+                  'from-amber-500 to-yellow-500',
+                  'from-orange-600 to-red-500',
+                  'from-yellow-500 to-orange-500',
+                  'from-red-500 to-orange-500',
+                  'from-amber-600 to-orange-500'
+                ];
                 return (
                   <article
                     key={index}
-                    className="group bg-orange-50 backdrop-blur-md p-3 shadow-lg shadow-orange-500/15 border border-orange-200 transition-all duration-300 hover:scale-[1.01] hover:shadow-orange-400/25 relative overflow-hidden"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                    }}
+                    className="group relative bg-white rounded-2xl shadow-xl shadow-orange-500/10 border border-orange-100 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/20 hover:-translate-y-2 overflow-hidden"
                     itemScope
                     itemType="https://schema.org/SoftwareFeature"
                   >
-                    {/* HD Image Header */}
-                    <div className="relative h-32 -mx-3 -mt-3 mb-3 overflow-hidden">
+                    {/* Image Header with Overlay */}
+                    <div className="relative h-44 overflow-hidden">
                       <Image
                         src={images[index]}
                         alt={`${feature.title} - AI Voice Bot Feature`}
                         fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="object-cover group-hover:scale-110 transition-transform duration-700"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-white/20 to-transparent"></div>
-                      <div className="absolute top-2 left-2">
-                        <div className="w-8 h-8 bg-orange-500 flex items-center justify-center shadow-lg border border-orange-400" style={{
-                          clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                        }}>
-                          <feature.icon className="h-4 w-4 text-white" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      
+                      {/* Floating Icon Badge */}
+                      <div className="absolute top-4 left-4">
+                        <div className={`w-12 h-12 bg-gradient-to-br ${gradients[index]} rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                          <feature.icon className="h-6 w-6 text-white" />
                         </div>
+                      </div>
+                      
+                      {/* Feature Number */}
+                      <div className="absolute top-4 right-4 w-8 h-8 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
+                        <span className="text-white font-bold text-sm">0{index + 1}</span>
+                      </div>
+                      
+                      {/* Title on Image */}
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <h3 itemProp="name" className="text-lg font-bold text-white drop-shadow-lg">
+                          {feature.title}
+                        </h3>
                       </div>
                     </div>
 
-                    {/* Decorative Glow */}
-                    <div className="absolute -top-8 -right-8 w-24 h-24 bg-gradient-to-tr from-orange-300/20 via-orange-400/15 to-orange-500/15 rounded-full filter blur-xl group-hover:opacity-30 transition-opacity duration-300"></div>
-
                     {/* Content */}
-                    <h3 itemProp="name" className="text-sm font-bold text-gray-900 mb-2 relative z-10">
-                      {feature.title}
-                    </h3>
-                    <p itemProp="description" className="text-xs text-gray-700 leading-relaxed relative z-10">
-                      {feature.description}
-                    </p>
+                    <div className="p-5 relative">
+                      {/* Decorative Corner */}
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-orange-100 to-transparent rounded-bl-full opacity-50"></div>
+                      
+                      <p itemProp="description" className="text-sm text-gray-600 leading-relaxed relative z-10">
+                        {feature.description}
+                      </p>
+                      
+                      {/* Learn More Link */}
+                      <div className="mt-4 flex items-center text-orange-600 font-semibold text-sm group-hover:text-orange-700 transition-colors">
+                        <span>Learn more</span>
+                        <svg className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    {/* Bottom Gradient Line */}
+                    <div className={`h-1 bg-gradient-to-r ${gradients[index]} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}></div>
                   </article>
                 );
               })}
+            </div>
+
+            {/* Bottom CTA */}
+            <div className="mt-12 text-center">
+              <div className="inline-flex items-center gap-4 p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-lg">
+                <div className="flex -space-x-2">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm border-2 border-white">1K+</div>
+                </div>
+                <p className="text-sm text-gray-700">
+                  <strong className="text-orange-600">1,000+ businesses</strong> already using our AI Voice Bot features
+                </p>
+                <Link href="/signup" className="px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm rounded-full shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-105 transition-all duration-300">
+                  Get Started Free →
+                </Link>
+              </div>
             </div>
           </div>
         </section>

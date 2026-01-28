@@ -161,115 +161,186 @@ export default function VoiceAIBusiness() {
 
       <main className="min-h-screen">
 
-      {/* Hero Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 min-h-screen flex items-center" role="banner" aria-labelledby="hero-heading">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid lg:grid-cols-2 gap-6 items-center">
+      {/* Hero Section - Premium Light Theme */}
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-white via-sky-50/50 to-blue-50" role="banner" aria-labelledby="hero-heading">
+        {/* Decorative Background Elements */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(56,189,248,0.15),rgba(255,255,255,0))]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        
+        {/* Animated Gradient Orbs */}
+        <div className="absolute top-20 left-[10%] w-72 h-72 bg-sky-200/40 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-32 right-[5%] w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `linear-gradient(#0ea5e9 1px, transparent 1px), linear-gradient(90deg, #0ea5e9 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }}></div>
+
+        {/* Floating Dots */}
+        <div className="absolute top-1/4 left-[20%] w-2 h-2 bg-sky-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s' }}></div>
+        <div className="absolute top-1/3 right-[25%] w-3 h-3 bg-blue-400 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4s', animationDelay: '0.5s' }}></div>
+        <div className="absolute bottom-1/3 left-[30%] w-2 h-2 bg-cyan-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '1s' }}></div>
+        <div className="absolute top-2/3 right-[15%] w-2.5 h-2.5 bg-sky-300 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
+
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-20 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
             {/* Left Content */}
-            <div className="text-center lg:text-left">
-              {/* Hero Badge */}
-              <div className="inline-block mb-4">
-                <span
-                  className="inline-flex items-center px-3 py-1.5 text-xs font-bold text-white bg-sky-600 shadow-md hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105 border border-sky-600 uppercase tracking-wide"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                  }}
-                >
-                  <Zap className="mr-2 w-3 h-3" />
-                  Enterprise Voice AI
+            <div className="text-center lg:text-left space-y-8">
+              {/* Animated Badge */}
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 border border-sky-200 shadow-lg shadow-sky-100/50 backdrop-blur-sm">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
                 </span>
+                <span className="text-blue-600 text-sm font-semibold tracking-wide">Enterprise Voice AI Platform</span>
               </div>
 
-              {/* H1 Heading - Cyberpunk Style */}
-              <h1 id="hero-heading" className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-                <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
+              {/* Main Heading */}
+              <h1 id="hero-heading" className="space-y-3">
+                <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 leading-tight">
                   Voice AI for Business
                 </span>
-                <span
-                  className="inline-block px-4 py-2 text-white bg-sky-600 shadow-lg text-xl sm:text-2xl lg:text-3xl font-bold uppercase tracking-wide border border-sky-600 hover:shadow-sky-400/50 transition-all duration-300"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-                  }}
-                >
-                  Transform Experience
+                <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold leading-tight">
+                  <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">
+                    Transform Experience
+                  </span>
                 </span>
               </h1>
 
-              {/* SEO-Rich Description */}
-              <div
-                className="mb-6 p-4 bg-white/80 border border-sky-400/30 shadow-lg backdrop-blur-sm"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                }}
-              >
-                <p className="text-sm sm:text-base text-gray-900 leading-relaxed">
-                  Enterprise-grade <strong className="text-sky-600">voice AI for business</strong> that automates customer service, accelerates sales, and boosts productivity by <strong className="text-sky-600">400%</strong>. Deploy in <strong className="text-sky-600">48 hours</strong> with zero infrastructure.
-                </p>
+              {/* Description Card */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="relative p-6 bg-white/90 backdrop-blur-sm rounded-2xl border border-blue-100 shadow-xl shadow-blue-100/30">
+                  <p className="text-gray-600 text-sm lg:text-base leading-relaxed">
+                    Enterprise-grade <strong className="text-gray-800">voice AI for business</strong> that automates customer service, accelerates sales, and boosts productivity by <span className="text-blue-600 font-medium">400%</span>. Deploy in <span className="text-blue-600 font-medium">48 hours</span> with zero infrastructure.
+                  </p>
+                </div>
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
                   href="/signup"
-                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-white bg-sky-600 shadow-md hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105 border border-sky--600 uppercase tracking-wide"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                  }}
+                  className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold text-base shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
                 >
-                  <Target className="mr-2 w-3 h-3" />
-                  Start Free Trial
+                  <Target className="relative mr-2 w-5 h-5" />
+                  <span className="relative">Start Free Trial</span>
+                  <span className="relative ml-2 group-hover:translate-x-1 transition-transform">→</span>
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-sky-600 bg-transparent border border-sky-600 hover:bg-sky-400/10 transition-all duration-300 hover:scale-105 shadow-sm uppercase tracking-wide"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                  }}
+                  className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-white border-2 border-blue-200 text-blue-600 font-bold text-base hover:border-blue-300 hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg"
                 >
-                  <Mic className="mr-2 w-3 h-3" />
-                  Schedule Demo
+                  <Mic className="relative mr-2 w-5 h-5" />
+                  <span className="relative">Schedule Demo</span>
                 </Link>
               </div>
 
               {/* Trust Signals */}
-              <div className="grid grid-cols-3 gap-2 text-xs">
-                {["10,000+ Businesses", "4.9/5 Rating", "No Credit Card"].map((signal, idx) => (
-                  <div key={idx} className="flex items-center gap-1 justify-center lg:justify-start">
-                    <span className="w-1 h-1 rounded-full bg-sky-600" style={{
-                      boxShadow: '0 0 4px rgba(234, 88, 12, 0.4)'
-                    }}></span>
-                    <span className="font-medium text-gray-900">{signal}</span>
+              <div className="flex flex-wrap justify-center lg:justify-start gap-8 pt-6">
+                {[
+                  { value: "10,000+", label: "Businesses", icon: "🏢" },
+                  { value: "4.9/5", label: "Rating", icon: "⭐" },
+                  { value: "Free", label: "No CC Required", icon: "✓" }
+                ].map((stat, idx) => (
+                  <div key={idx} className="flex items-center gap-3 px-4 py-2 bg-white/70 rounded-xl border border-blue-100 shadow-sm">
+                    <span className="text-xl">{stat.icon}</span>
+                    <div>
+                      <div className="text-lg font-bold text-gray-900">{stat.value}</div>
+                      <div className="text-xs text-gray-500">{stat.label}</div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right HD Image */}
+            {/* Right Visual */}
             <div className="relative">
-              <div className="relative h-48 sm:h-56 lg:h-64 rounded-xl overflow-hidden shadow-lg shadow-sky-400/20 border border-sky-400/30">
-                <Image
-                  src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
-                  alt="Voice AI for Business Technology - Enterprise Communication Dashboard"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-sky-900/20 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-sky-400/50">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-lg border border-sky-400/30">
-                        <Building2 className="w-4 h-4 text-white" />
+              {/* Glow Effect */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-sky-200/50 via-blue-200/50 to-cyan-200/50 rounded-3xl blur-2xl"></div>
+              
+              {/* Main Image Container */}
+              <div className="relative">
+                <div className="relative h-80 sm:h-96 lg:h-[450px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-sky-200/50">
+                  <Image
+                    src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
+                    alt="Voice AI for Business Technology - Enterprise Communication Dashboard"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-sky-900/70 via-sky-800/20 to-transparent"></div>
+                  
+                  {/* Bottom Info Card */}
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-sky-100">
+                      <div className="flex items-center gap-4 mb-3">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-lg shadow-sky-400/30">
+                          <Building2 className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                          <div className="text-lg font-bold text-gray-900">Enterprise Voice AI</div>
+                          <div className="text-sm text-sky-600 font-medium">Business Automation Platform</div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="text-sm font-bold text-white">Enterprise Voice AI</div>
-                        <div className="text-xs text-sky-400">Business automation</div>
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-2 text-sm font-semibold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full">
+                          <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                          Live & Ready
+                        </span>
+                        <div className="flex items-center gap-1">
+                          {[...Array(5)].map((_, i) => (
+                            <span key={i} className="text-amber-400 text-sm">★</span>
+                          ))}
+                          <span className="text-sm text-gray-600 ml-1 font-medium">4.9</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-sky-400 font-medium">✓ 400%+ Productivity</span>
-                      <span className="text-sky-400 font-medium tracking-wide">48hr Deploy</span>
+                  </div>
+                </div>
+
+                {/* Floating Stats Cards */}
+                <div className="absolute -top-6 -right-4 lg:-right-8 animate-bounce" style={{ animationDuration: '3s' }}>
+                  <div className="px-5 py-3 bg-white rounded-2xl border border-emerald-100 shadow-xl shadow-emerald-100/50">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-md">
+                        <TrendingUp className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xl font-black text-emerald-600">+400%</div>
+                        <div className="text-xs text-gray-500">Productivity</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute top-1/4 -left-4 lg:-left-8 animate-bounce" style={{ animationDuration: '4s', animationDelay: '0.5s' }}>
+                  <div className="px-5 py-3 bg-white rounded-2xl border border-sky-100 shadow-xl shadow-sky-100/50">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-md">
+                        <Clock className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xl font-black text-sky-600">48hrs</div>
+                        <div className="text-xs text-gray-500">Deployment</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute -bottom-4 left-1/4 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1s' }}>
+                  <div className="px-5 py-3 bg-white rounded-2xl border border-violet-100 shadow-xl shadow-violet-100/50">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center shadow-md">
+                        <Users className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-xl font-black text-violet-600">24/7</div>
+                        <div className="text-xs text-gray-500">Available</div>
+                      </div>
                     </div>
                   </div>
                 </div>

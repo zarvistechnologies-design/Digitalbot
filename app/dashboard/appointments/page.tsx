@@ -559,7 +559,8 @@ export default function AppointmentsPage() {
 
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-      const dateStr = date.toISOString().split("T")[0];
+      // Use local date components - not UTC
+      const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
       const dateAppts = getAppointmentsForDate(date);
       const isToday = date.toDateString() === new Date().toDateString();
       const isSelected = selectedDate === dateStr;
