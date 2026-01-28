@@ -143,7 +143,7 @@ export function Lead() {
                 <div className="relative">
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-blue-500/20">
                     <Image 
-                      src="https://res.cloudinary.com/dvwmbidka/image/upload/v1737953912/ai-assistant-dashboard_rfjmhe.jpg"
+                      src="https://res.cloudinary.com/dvwmbidka/image/upload/v1748463847/landingpage_dhuzrr.png"
                       alt="AI Voice Assistant Dashboard"
                       width={600}
                       height={350}

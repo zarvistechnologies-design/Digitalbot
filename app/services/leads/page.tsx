@@ -129,16 +129,16 @@ export default function LeadsPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
-      {/* Hidden audio elements */}
+      {/* Hidden audio elements - using existing audio files */}
       <audio
         ref={audioRef}
-        src="/audio/lead-scoring-sample.mp3"
+        src="/audio/lead-generation-sample.mp3"
         onEnded={handleAudioEnded}
         preload="metadata"
       />
       <audio
         ref={audioRefHindi}
-        src="/audio/lead-scoring-hindi-sample.mp3"
+        src="/audio/lead-generation-sample.mp3"
         onEnded={handleAudioEndedHindi}
         preload="metadata"
       />
