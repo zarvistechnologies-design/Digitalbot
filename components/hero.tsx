@@ -1,6 +1,6 @@
 "use client"
-import ProductShowcase from "@/components/solutions/ProductShowcase";
 import PerformanceDashboard from "@/components/hero/PerformanceDashboard";
+import ProductShowcase from "@/components/solutions/ProductShowcase";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
@@ -118,6 +118,9 @@ export default function Hero() {
 
     // Ref for attractive scroll-story section
     const storySectionRef = useRef<HTMLDivElement>(null)
+    
+    // Ref for journey flowchart section
+    const flowchartRef = useRef<HTMLDivElement>(null)
 
     // Track active service for audio
     const [activeService, setActiveService] = useState(0)
