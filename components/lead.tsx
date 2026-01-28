@@ -76,20 +76,23 @@ export function Lead() {
   return (
     <>
       {/* Main Lead Section */}
-      <section className="relative py-20 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50">
+      <section className="relative py-20 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-br from-blue-200/40 to-cyan-200/30 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 -right-20 w-80 h-80 bg-gradient-to-br from-purple-200/30 to-blue-200/40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-100/20 to-transparent rounded-full blur-3xl" />
+          <div className="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-br from-amber-200/40 to-orange-200/30 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 -right-20 w-80 h-80 bg-gradient-to-br from-violet-200/40 to-purple-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-emerald-100/20 to-transparent rounded-full blur-3xl" />
+          <div className="absolute top-40 right-1/3 w-64 h-64 bg-gradient-to-br from-rose-200/30 to-pink-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
         </div>
 
         {/* Floating Shapes */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-32 left-[15%] w-4 h-4 bg-blue-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
-          <div className="absolute top-48 right-[20%] w-3 h-3 bg-purple-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
-          <div className="absolute bottom-32 left-[25%] w-5 h-5 bg-cyan-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-          <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-orange-400 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
+          <div className="absolute top-32 left-[15%] w-4 h-4 bg-amber-400 rounded-full opacity-70 animate-bounce" style={{ animationDuration: '3s' }} />
+          <div className="absolute top-48 right-[20%] w-3 h-3 bg-violet-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
+          <div className="absolute bottom-32 left-[25%] w-5 h-5 bg-emerald-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+          <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-rose-400 rounded-full opacity-70 animate-ping" style={{ animationDuration: '2s' }} />
+          <div className="absolute bottom-48 right-[30%] w-3 h-3 bg-cyan-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1.5s' }} />
+          <div className="absolute top-24 left-[40%] w-2 h-2 bg-orange-400 rounded-full opacity-50 animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.8s' }} />
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -122,13 +125,13 @@ export function Lead() {
                 {/* Feature Cards Grid */}
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { icon: Zap, text: "5 Min Setup" },
-                    { icon: Shield, text: "No Card Required" },
-                    { icon: Headphones, text: "Free Consultation" },
-                    { icon: Building2, text: "Enterprise Ready" }
+                    { icon: Zap, text: "5 Min Setup", gradient: "from-amber-400 to-orange-500", bgColor: "bg-amber-50", borderColor: "border-amber-200" },
+                    { icon: Shield, text: "No Card Required", gradient: "from-emerald-400 to-teal-500", bgColor: "bg-emerald-50", borderColor: "border-emerald-200" },
+                    { icon: Headphones, text: "Free Consultation", gradient: "from-violet-400 to-purple-500", bgColor: "bg-violet-50", borderColor: "border-violet-200" },
+                    { icon: Building2, text: "Enterprise Ready", gradient: "from-rose-400 to-pink-500", bgColor: "bg-rose-50", borderColor: "border-rose-200" }
                   ].map((feature, idx) => (
-                    <div key={idx} className="group p-4 bg-blue-50 rounded-xl border-blue-100 border hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                      <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-lg">
+                    <div key={idx} className={`group p-4 ${feature.bgColor} rounded-xl ${feature.borderColor} border hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}>
+                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-lg`}>
                         <feature.icon className="w-5 h-5 text-white" />
                       </div>
                       <p className="text-gray-800 font-semibold text-sm">{feature.text}</p>
