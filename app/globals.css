@@ -688,3 +688,33 @@
   .animate-blob {
     animation: animate-blob 7s infinite;
   }
+
+/* Voice Wave Animation for Hero */
+@keyframes bounce-bar {
+  0%, 100% {
+    transform: scaleY(0.6);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-bounce-bar {
+  animation: bounce-bar 0.8s ease-in-out infinite;
+}
+
+/* Slow pulse for background glow */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}

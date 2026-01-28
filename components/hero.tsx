@@ -944,146 +944,172 @@ export default function Hero() {
 
             <section className="pt-20 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/40 to-blue-50" role="region" aria-labelledby="hero-heading">
 
-                {/* Animated Background Elements */}
-                {mounted && (
-                    <>
-                        {/* Floating Orbs */}
-                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                            <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-float"></div>
-                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-3xl animate-pulse-slow"></div>
-                        </div>
-                        
-                        {/* Animated Grid Pattern */}
-                        <div className="absolute inset-0 opacity-[0.03]" style={{
-                            backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)',
-                            backgroundSize: '60px 60px'
-                        }}></div>
-                        
-                        {/* Floating Particles */}
-                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                            {[...Array(20)].map((_, i) => (
-                                <div
-                                    key={i}
-                                    className="absolute w-2 h-2 bg-blue-400/30 rounded-full animate-float"
-                                    style={{
-                                        left: `${Math.random() * 100}%`,
-                                        top: `${Math.random() * 100}%`,
-                                        animationDelay: `${Math.random() * 5}s`,
-                                        animationDuration: `${3 + Math.random() * 4}s`
-                                    }}
-                                ></div>
-                            ))}
-                        </div>
-
-                        {/* Animated Lines */}
-                        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse-slow"></div>
-                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/15 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
-                    </>
-                )}
-
                 <div className="container mx-auto relative z-30 max-w-7xl">
 
                     {/* Main Hero - Image Left, Content Right */}
-                    <div className="grid lg:grid-cols-2 gap-4 lg:gap-8 items-center min-h-[60vh]">
+                    <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center min-h-[65vh]">
                         
                         {/* Left Side - Content */}
-                        <div className="order-1 lg:order-1 text-center lg:text-left">
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-1 bg-blue-100 border border-blue-200 px-2 py-1 rounded-full mb-4 animate-fade-in-up-1">
-                                <Sparkles className="h-4 w-4 text-blue-600" />
-                                <span className="text-sm font-semibold text-blue-700">AI-Powered Voice Platform</span>
+                        <div className="order-1 lg:order-1 text-center lg:text-left relative">
+                            {/* Badge with pulse effect */}
+                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full mb-5 animate-fade-in-up-1 shadow-lg shadow-blue-500/25 relative overflow-hidden group">
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                                <div className="flex items-center gap-0.5">
+                                    <span className="w-1.5 h-2 bg-white/80 rounded-full animate-pulse" />
+                                    <span className="w-1.5 h-3 bg-white/80 rounded-full animate-pulse" style={{ animationDelay: '0.15s' }} />
+                                    <span className="w-1.5 h-4 bg-white/80 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }} />
+                                </div>
+                                <Sparkles className="h-4 w-4" />
+                                <span className="text-sm font-semibold">AI-Powered Voice Platform</span>
                             </div>
 
                             {/* Main Headline */}
-                            <h1 id="hero-heading" className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-4 leading-tight animate-fade-in-up-2">
-                                <span className="block">
-                                    <span className="text-black">Your AI voice Assistant</span><span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
-                                </span>
+                            <h1 id="hero-heading" className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-5 leading-tight animate-fade-in-up-2">
+                                <span className="block mb-1">Your AI Voice Assistant</span>
+                                <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
                             </h1>
 
-                            {/* Tagline Box */}
-                            <div className="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-2xl p-6 mb-8 animate-fade-in-up-3">
-                                <p className="text-gray-600 text-sm italic mb-1">"Your receptionist sleeps, gets sick, takes breaks."</p>
-                                <p className="text-blue-600 font-bold text-base uppercase tracking-wider">WE NEVER DO.</p>
+                            {/* Unique Tagline Box with comparison */}
+                            <div className="bg-white border border-blue-100 rounded-2xl p-5 mb-6 animate-fade-in-up-3 shadow-lg relative overflow-hidden">
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-blue-600" />
+                                <div className="flex items-start gap-4">
+                                    <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                        <span className="text-xl">😴</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-gray-500 text-sm italic">"Your receptionist sleeps, gets sick, takes breaks."</p>
+                                        <p className="text-blue-600 font-bold text-base uppercase tracking-wider mt-1">WE NEVER DO.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* New: Key Benefits Row */}
+                            <div className="flex flex-wrap gap-3 mb-6 animate-fade-in-up-3">
+                                {[
+                                    { icon: "⚡", text: "Instant Response" },
+                                    { icon: "🎯", text: "99.9% Accuracy" },
+                                    { icon: "🌍", text: "50+ Languages" }
+                                ].map((item, i) => (
+                                    <div key={i} className="flex items-center gap-2 bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-full">
+                                        <span className="text-sm">{item.icon}</span>
+                                        <span className="text-xs font-medium text-gray-700">{item.text}</span>
+                                    </div>
+                                ))}
                             </div>
 
                             {/* Description */}
-                            <p className="text-gray-600 text-lg lg:text-xl mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-in-up-3">
-                                <span className="text-sm lg:text-base">Transform your business with <strong className="text-gray-800">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics.</span>
+                            <p className="text-gray-600 text-sm lg:text-base mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-in-up-3">
+                                Transform your business with <strong className="text-gray-800">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics — <span className="text-blue-600 font-medium">saving you 70% on costs</span>.
                             </p>
 
-                            {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8 animate-fade-in-up-3">
+                            {/* CTA Buttons - Slightly bigger */}
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-6 animate-fade-in-up-3">
                                 <Link
                                     href="/signup"
-                                    className="group px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-1 text-sm"
+                                    className="group px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-2"
                                 >
                                     Start Free Trial
-                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                 </Link>
                                 <button
                                     onClick={() => setShowVideo(true)}
-                                    className="px-4 py-2 bg-white text-blue-600 border border-blue-300 font-bold rounded-lg hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-1 text-sm"
+                                    className="group px-6 py-3 bg-white text-blue-600 border-2 border-blue-200 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
                                     aria-label="Watch demo video"
                                 >
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                                    </svg>
+                                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                        </svg>
+                                    </div>
                                     Watch Demo
                                 </button>
                             </div>
 
                             {/* Trust Indicators */}
-                            <div className="flex flex-wrap gap-6 justify-center lg:justify-start text-sm text-gray-500 animate-fade-in-up-3">
-                                <div className="flex items-center gap-1">
+                            <div className="flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-gray-500 animate-fade-in-up-3">
+                                <div className="flex items-center gap-1.5">
                                     <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <span className="text-xs">No credit card required</span>
+                                    <span className="text-xs font-medium">No credit card</span>
                                 </div>
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-1.5">
                                     <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <span className="text-xs">Setup in 5 minutes</span>
+                                    <span className="text-xs font-medium">5 min setup</span>
                                 </div>
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-1.5">
                                     <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <span className="text-xs">50+ Languages</span>
+                                    <span className="text-xs font-medium">Cancel anytime</span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Right Side - Image (PNG style, no box) with Vapi-inspired animation */}
+                        {/* Right Side - Image with enhanced floating elements */}
                         <div className="relative order-2 lg:order-2 flex justify-center lg:justify-end">
+                            {/* Subtle background glow */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div className="w-72 h-72 bg-blue-200/30 rounded-full blur-3xl animate-pulse-slow" />
+                            </div>
                           
-                            {/* Main Image - Clean PNG look */}
+                            {/* Main Image */}
                             <img
                                 src="https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval/landingpage_dhuzrr"
                                 alt="AI Voice Assistant"
                                 className="relative z-30 w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain animate-float"
-                                style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
+                                style={{ filter: 'drop-shadow(0 25px 50px rgba(59, 130, 246, 0.2))' }}
                             />
-                            {/* Floating Badge - Bottom Left */}
-                            <div className="absolute bottom-8 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-3 z-40">
+                            
+                            {/* Floating Badge - Bottom Left - Enhanced */}
+                            <div className="absolute bottom-6 left-0 bg-white rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-3 z-40 hover:scale-105 transition-transform">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md">
                                         <PhoneCall className="h-6 w-6 text-white" />
                                     </div>
-                                     <div>
+                                    <div>
                                         <p className="text-2xl font-bold text-gray-900">95%</p>
-                                        <p className="text-sm text-gray-500">Success Rate</p>
+                                        <p className="text-xs text-gray-500">Success Rate</p>
                                     </div>
-                                    
+                                </div>
+                                {/* Mini chart indicator */}
+                                <div className="flex gap-0.5 mt-2">
+                                    {[40, 60, 50, 80, 70, 95].map((h, i) => (
+                                        <div key={i} className="w-1.5 bg-blue-500 rounded-full" style={{ height: `${h * 0.2}px` }} />
+                                    ))}
                                 </div>
                             </div>
+                            
                             {/* Floating Stats Badge - Top Right */}
-                            <div className="absolute top-8 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-2 z-40">
+                            <div className="absolute top-6 right-0 bg-white rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-2 z-40 hover:scale-105 transition-transform">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md">
                                         <TrendingUp className="h-6 w-6 text-white" />
                                     </div>
-                                   <div>
+                                    <div>
                                         <p className="text-2xl font-bold text-gray-900">24/7</p>
-                                        <p className="text-sm text-gray-500">Always Available</p>
+                                        <p className="text-xs text-gray-500">Always Online</p>
                                     </div>
+                                </div>
+                                {/* Live indicator */}
+                                <div className="flex items-center gap-1.5 mt-2">
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                                    </span>
+                                    <span className="text-xs font-medium text-green-600">Live Now</span>
+                                </div>
+                            </div>
+                            
+                            {/* New: Voice Wave Badge - Middle Right */}
+                            <div className="absolute bottom-1/3 right-2 bg-white rounded-xl shadow-lg p-3 border border-blue-100 z-40 animate-fade-in-up-2">
+                                <div className="flex items-center gap-2">
+                                    <div className="flex items-end gap-0.5 h-5">
+                                        {[1, 2, 3, 4, 3, 2, 1].map((h, i) => (
+                                            <div 
+                                                key={i} 
+                                                className="w-1 bg-blue-500 rounded-full animate-bounce-bar"
+                                                style={{ height: `${h * 5}px`, animationDelay: `${i * 0.1}s` }}
+                                            />
+                                        ))}
+                                    </div>
+                                    <span className="text-xs font-medium text-gray-600">AI Speaking</span>
                                 </div>
                             </div>
                         </div>
