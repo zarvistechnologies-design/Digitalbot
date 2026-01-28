@@ -1,0 +1,27 @@
+[
+  {
+    "resume": "Senior Python Developer with 5 years experience. Expert in Django, FastAPI, PostgreSQL. Built scalable REST APIs. Strong problem-solving skills.",
+    "job_description": "Looking for Senior Python Developer. Must have Django/FastAPI experience. Database knowledge required. 4+ years experience.",
+    "score": 0.92
+  },
+  {
+    "resume": "Junior JavaScript developer, 1 year experience. Knows React and Node.js. Fresh graduate.",
+    "job_description": "Senior Python Developer with 5+ years experience. Django expert needed.",
+    "score": 0.15
+  },
+  {
+    "resume": "Full-stack developer. 3 years Python, Django, React. PostgreSQL, Docker experience. Built multiple web applications.",
+    "job_description": "Full-stack developer needed. Python backend, React frontend. Database and Docker knowledge required.",
+    "score": 0.88
+  },
+  {
+    "resume": "Data Scientist with ML expertise. Python, TensorFlow, scikit-learn. 4 years experience in NLP and computer vision.",
+    "job_description": "Web developer position. PHP, WordPress, MySQL. No Python required.",
+    "score": 0.25
+  },
+  {
+    "resume": "Python automation engineer. 6 years experience. Expert in FastAPI, async programming, Redis, RabbitMQ. DevOps experience.",
+    "job_description": "Backend Python developer. FastAPI required. Message queues experience preferred. 5+ years.",
+    "score": 0.85
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "trained_at": "2025-10-27T18:09:45.784502",
+  "epochs": 4,
+  "batch_size": 16,
+  "learning_rate": 2e-05,
+  "training_samples": 2462,
+  "base_model": "sentence-transformers/all-MiniLM-L6-v2"
+}

@@ -1,5 +1,6 @@
 "use client"
 import ProductShowcase from "@/components/solutions/ProductShowcase";
+import PerformanceDashboard from "@/components/hero/PerformanceDashboard";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
@@ -115,10 +116,6 @@ export default function Hero() {
     const [volumeLevel, setVolumeLevel] = useState(0)
     const [isConnecting, setIsConnecting] = useState(false)
 
-    // Scroll animation for flowchart
-    const [flowchartVisible, setFlowchartVisible] = useState(false)
-    const flowchartRef = useRef<HTMLDivElement>(null)
-
     // Ref for attractive scroll-story section
     const storySectionRef = useRef<HTMLDivElement>(null)
 
@@ -204,58 +201,6 @@ export default function Hero() {
                 }
             });
         }, storySectionRef);
-
-        return () => ctx.revert();
-    }, [mounted]);
-
-    // GSAP Journey Flowchart animation
-    useEffect(() => {
-        if (!mounted || !flowchartRef.current) return;
-
-        const ctx = gsap.context(() => {
-            const header = flowchartRef.current?.querySelector('.journey-header');
-            const line = flowchartRef.current?.querySelector('.journey-line');
-            const steps = gsap.utils.toArray<HTMLElement>('.journey-step');
-
-            // Initial states
-            gsap.set(header, { opacity: 0, y: 30 });
-            gsap.set(line, { scaleX: 0, transformOrigin: 'left center' });
-            gsap.set(steps, { opacity: 0, y: 40 });
-
-            // Create scroll-triggered animation
-            ScrollTrigger.create({
-                trigger: flowchartRef.current,
-                start: "top 80%",
-                onEnter: () => {
-                    // Animate header first
-                    gsap.to(header, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.6,
-                        ease: "power2.out"
-                    });
-
-                    // Animate the connecting line
-                    gsap.to(line, {
-                        scaleX: 1,
-                        duration: 1,
-                        delay: 0.3,
-                        ease: "power2.inOut"
-                    });
-
-                    // Stagger animate the steps
-                    gsap.to(steps, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.5,
-                        stagger: 0.15,
-                        delay: 0.5,
-                        ease: "back.out(1.2)"
-                    });
-                },
-                once: true
-            });
-        }, flowchartRef);
 
         return () => ctx.revert();
     }, [mounted]);
@@ -445,31 +390,6 @@ export default function Hero() {
             allAudio.forEach((audio) => {
                 audio.removeEventListener('play', handleAudioPlay);
             });
-        };
-    }, [mounted]);
-
-    // Scroll detection for flowchart section
-    useEffect(() => {
-        if (!mounted || !flowchartRef.current) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setFlowchartVisible(true);
-                }
-            },
-            {
-                threshold: 0.1,
-                rootMargin: '0px'
-            }
-        );
-
-        observer.observe(flowchartRef.current);
-
-        return () => {
-            if (flowchartRef.current) {
-                observer.unobserve(flowchartRef.current);
-            }
         };
     }, [mounted]);
 
@@ -986,98 +906,112 @@ export default function Hero() {
                         {/* Left Side - Content */}
                         <div className="order-1 lg:order-1 text-center lg:text-left">
                             {/* Badge */}
-                            <div className="inline-flex items-center gap-1 bg-blue-100 border border-blue-200 px-2 py-1 rounded-full mb-4 animate-fade-in-up-1">
-                                <Sparkles className="h-4 w-4 text-blue-600" />
-                                <span className="text-sm font-semibold text-blue-700">AI-Powered Voice Platform</span>
+                            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 px-4 py-2 rounded-full mb-6 animate-fade-in-up-1 shadow-sm">
+                                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <Sparkles className="h-3 w-3 text-white" />
+                                </div>
+                                <span className="text-sm font-bold text-blue-700">AI-Powered Voice Platform</span>
                             </div>
 
                             {/* Main Headline */}
-                            <h1 id="hero-heading" className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-4 leading-tight animate-fade-in-up-2">
+                            <h1 id="hero-heading" className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 mb-6 leading-[1.1] animate-fade-in-up-2">
                                 <span className="block">
-                                    <span className="text-black">Your AI voice Assistant</span><span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
+                                    <span className="text-gray-900">Your AI Voice Assistant</span>
+                                    <span className="block text-blue-600 mt-2">Never Sleeps</span>
                                 </span>
                             </h1>
 
                             {/* Tagline Box */}
-                            <div className="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-2xl p-6 mb-8 animate-fade-in-up-3">
-                                <p className="text-gray-600 text-sm italic mb-1">"Your receptionist sleeps, gets sick, takes breaks."</p>
-                                <p className="text-blue-600 font-bold text-base uppercase tracking-wider">WE NEVER DO.</p>
+                            <div className="bg-white border-l-4 border-blue-600 rounded-xl p-5 mb-8 animate-fade-in-up-3 shadow-lg shadow-blue-500/5">
+                                <p className="text-gray-500 text-base italic mb-2">"Your receptionist sleeps, gets sick, takes breaks."</p>
+                                <p className="text-blue-600 font-black text-lg uppercase tracking-wider">WE NEVER DO.</p>
                             </div>
 
                             {/* Description */}
-                            <p className="text-gray-600 text-lg lg:text-xl mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-in-up-3">
-                                <span className="text-sm lg:text-base">Transform your business with <strong className="text-gray-800">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics.</span>
+                            <p className="text-gray-600 text-base lg:text-lg mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-in-up-3">
+                                Transform your business with <strong className="text-gray-900">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics.
                             </p>
 
                             {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8 animate-fade-in-up-3">
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10 animate-fade-in-up-3">
                                 <Link
                                     href="/signup"
-                                    className="group px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-1 text-sm"
+                                    className="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 flex items-center justify-center gap-2 text-base relative overflow-hidden"
                                 >
-                                    Start Free Trial
-                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <span className="relative flex items-center gap-2">
+                                        Start Free Trial
+                                        <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                                    </span>
                                 </Link>
                                 <button
                                     onClick={() => setShowVideo(true)}
-                                    className="px-4 py-2 bg-white text-blue-600 border border-blue-300 font-bold rounded-lg hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-1 text-sm"
+                                    className="group px-8 py-4 bg-white text-blue-600 border-2 border-blue-200 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-base"
                                     aria-label="Watch demo video"
                                 >
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                                    </svg>
+                                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                                        <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                                        </svg>
+                                    </div>
                                     Watch Demo
                                 </button>
                             </div>
 
                             {/* Trust Indicators */}
-                            <div className="flex flex-wrap gap-6 justify-center lg:justify-start text-sm text-gray-500 animate-fade-in-up-3">
-                                <div className="flex items-center gap-1">
-                                    <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <span className="text-xs">No credit card required</span>
+                            <div className="flex flex-wrap gap-6 justify-center lg:justify-start animate-fade-in-up-3">
+                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+                                    <CheckCircle className="h-5 w-5 text-blue-600" />
+                                    <span className="text-sm text-gray-700 font-medium">No credit card required</span>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <span className="text-xs">Setup in 5 minutes</span>
+                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+                                    <CheckCircle className="h-5 w-5 text-blue-600" />
+                                    <span className="text-sm text-gray-700 font-medium">Setup in 5 minutes</span>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <span className="text-xs">50+ Languages</span>
+                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+                                    <CheckCircle className="h-5 w-5 text-blue-600" />
+                                    <span className="text-sm text-gray-700 font-medium">50+ Languages</span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Right Side - Image (PNG style, no box) with Vapi-inspired animation */}
+                        {/* Right Side - Image with Glow Effect */}
                         <div className="relative order-2 lg:order-2 flex justify-center lg:justify-end">
+                            
+                            {/* Glow Effect Behind Image */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div className="w-80 h-80 lg:w-96 lg:h-96 bg-blue-400/20 rounded-full blur-[100px] animate-pulse-slow" />
+                            </div>
                           
                             {/* Main Image - Clean PNG look */}
                             <img
                                 src="https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval/landingpage_dhuzrr"
                                 alt="AI Voice Assistant"
                                 className="relative z-30 w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain animate-float"
-                                style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
+                                style={{ filter: 'drop-shadow(0 30px 60px rgba(59, 130, 246, 0.25))' }}
                             />
+                            
                             {/* Floating Badge - Bottom Left */}
-                            <div className="absolute bottom-8 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-3 z-40">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-                                        <PhoneCall className="h-6 w-6 text-white" />
+                            <div className="absolute bottom-12 left-0 bg-white rounded-2xl shadow-2xl shadow-blue-500/10 p-5 border border-gray-100 animate-fade-in-up-3 z-40 hover:scale-105 transition-transform cursor-default">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                                        <PhoneCall className="h-7 w-7 text-white" />
                                     </div>
-                                     <div>
-                                        <p className="text-2xl font-bold text-gray-900">95%</p>
-                                        <p className="text-sm text-gray-500">Success Rate</p>
+                                    <div>
+                                        <p className="text-3xl font-black text-gray-900">95%</p>
+                                        <p className="text-sm text-gray-500 font-medium">Success Rate</p>
                                     </div>
-                                    
                                 </div>
                             </div>
+                            
                             {/* Floating Stats Badge - Top Right */}
-                            <div className="absolute top-8 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-2 z-40">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                                        <TrendingUp className="h-6 w-6 text-white" />
+                            <div className="absolute top-12 right-0 bg-white rounded-2xl shadow-2xl shadow-blue-500/10 p-5 border border-gray-100 animate-fade-in-up-2 z-40 hover:scale-105 transition-transform cursor-default">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                                        <TrendingUp className="h-7 w-7 text-white" />
                                     </div>
-                                   <div>
-                                        <p className="text-2xl font-bold text-gray-900">24/7</p>
+                                    <div>
+                                        <p className="text-3xl font-black text-gray-900">24/7</p>
                                         <p className="text-sm text-gray-500">Always Available</p>
                                     </div>
                                 </div>
@@ -1271,132 +1205,10 @@ export default function Hero() {
                 </div>
             </section>
 
-            {/* Scroll-Animated Journey Flowchart - GSAP Enhanced */}
-            <section ref={flowchartRef} className="py-12 px-4 bg-gradient-to-b from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
-                {/* Background decoration */}
-                <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-1/4 left-0 w-64 h-64 bg-blue-200/20 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-blue-300/20 rounded-full blur-3xl"></div>
-                </div>
+            {/* Real-Time Performance Dashboard */}
+            <PerformanceDashboard />
 
-                <div className="container mx-auto max-w-5xl relative z-10">
-
-                    {/* Section Header */}
-                    <div className="text-center mb-10 journey-header">
-                        <div className="inline-flex items-center gap-2 bg-blue-100 px-4 py-1.5 rounded-full text-blue-600 text-xs font-semibold mb-3 uppercase tracking-wider">
-                            <Zap className="h-3 w-3" />
-                            How It Works
-                        </div>
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                            Your Journey to <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">Effortless Communication</span>
-                        </h2>
-                        <p className="text-sm sm:text-base text-gray-600 max-w-xl mx-auto">Transform your business in 4 simple steps</p>
-                    </div>
-
-                    {/* Horizontal Timeline - Desktop / Vertical - Mobile */}
-                    <div className="relative">
-                        {/* Connecting Line - Horizontal on desktop */}
-                        <div className="journey-line absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-red-400 via-blue-500 to-green-500 hidden md:block"></div>
-
-                        {/* Steps Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4">
-
-                            {/* Step 1 */}
-                            <div className="journey-step relative">
-                                <div className="flex flex-col items-center">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-full shadow-lg flex items-center justify-center mb-4 relative z-10 border-4 border-white">
-                                        <span className="text-white font-bold text-sm">1</span>
-                                    </div>
-                                    <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full text-center group">
-                                        <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                                            <span className="text-2xl">❌</span>
-                                        </div>
-                                        <h3 className="text-sm font-bold text-gray-900 mb-1">The Problem</h3>
-                                        <p className="text-xs text-gray-500 leading-relaxed">Missing calls & high costs draining resources</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Step 2 */}
-                            <div className="journey-step relative">
-                                <div className="flex flex-col items-center">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-lg flex items-center justify-center mb-4 relative z-10 border-4 border-white">
-                                        <span className="text-white font-bold text-sm">2</span>
-                                    </div>
-                                    <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full text-center group">
-                                        <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                                            <Zap className="h-6 w-6 text-blue-600" />
-                                        </div>
-                                        <h3 className="text-sm font-bold text-gray-900 mb-1">AI Solution</h3>
-                                        <p className="text-xs text-gray-500 leading-relaxed">24/7 intelligent voice handling</p>
-                                        <div className="mt-2 flex flex-wrap justify-center gap-1">
-                                            <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Human-like</span>
-                                            <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">50+ Languages</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Step 3 */}
-                            <div className="journey-step relative">
-                                <div className="flex flex-col items-center">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-lg flex items-center justify-center mb-4 relative z-10 border-4 border-white">
-                                        <span className="text-white font-bold text-sm">3</span>
-                                    </div>
-                                    <div className="bg-white rounded-xl p-4 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 w-full text-center group">
-                                        <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                                            <Users className="h-6 w-6 text-blue-600" />
-                                        </div>
-                                        <h3 className="text-sm font-bold text-gray-900 mb-1">Quick Setup</h3>
-                                        <p className="text-xs text-gray-500 leading-relaxed">5-minute setup, no coding needed</p>
-                                        <div className="mt-2 space-y-1">
-                                            <div className="flex items-center justify-center gap-1 text-[10px] text-gray-600">
-                                                <CheckCircle className="h-3 w-3 text-blue-500" /> Choose use case
-                                            </div>
-                                            <div className="flex items-center justify-center gap-1 text-[10px] text-gray-600">
-                                                <CheckCircle className="h-3 w-3 text-blue-500" /> Connect & go live
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Step 4 */}
-                            <div className="journey-step relative">
-                                <div className="flex flex-col items-center">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-full shadow-lg flex items-center justify-center mb-4 relative z-10 border-4 border-white">
-                                        <CheckCircle className="h-5 w-5 text-white" />
-                                    </div>
-                                    <div className="bg-gradient-to-br from-green-50 to-white rounded-xl p-4 shadow-lg border border-green-200 hover:shadow-xl hover:border-green-300 transition-all duration-300 w-full text-center group">
-                                        <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                                            <TrendingUp className="h-6 w-6 text-green-600" />
-                                        </div>
-                                        <h3 className="text-sm font-bold text-gray-900 mb-1">Results</h3>
-                                        <div className="grid grid-cols-2 gap-2 mt-2">
-                                            <div className="bg-white rounded-lg p-1.5">
-                                                <div className="text-sm font-bold text-green-600">85%</div>
-                                                <div className="text-[9px] text-gray-500">Cost Cut</div>
-                                            </div>
-                                            <div className="bg-white rounded-lg p-1.5">
-                                                <div className="text-sm font-bold text-green-600">24/7</div>
-                                                <div className="text-[9px] text-gray-500">Available</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* CTA Button */}
-                        <div className="mt-8 text-center">
-                            <Link href="/signup" className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-8 rounded-full hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-sm">
-                                Get Started Now <ArrowRight className="h-4 w-4" />
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-  <ProductShowcase/>
+            <ProductShowcase/>
 
 
 
