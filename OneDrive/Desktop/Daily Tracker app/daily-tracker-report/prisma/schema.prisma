@@ -1,0 +1,206 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String   @id @default(cuid())
+  email            String   @unique
+  name             String
+  passwordHash     String
+  timezone         String   @default("UTC")
+  wakeTime         String   @default("07:00")
+  sleepTime        String   @default("23:00")
+  workStartTime    String   @default("09:00")
+  workEndTime      String   @default("17:00")
+  notificationTime String   @default("22:00")
+  peakEnergyTime   String   @default("morning") // morning, afternoon, evening, night
+  lowEnergyTime    String   @default("afternoon")
+  onboardingComplete Boolean @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  goals                  Goal[]
+  dailyLogs              DailyLog[]
+  weeklyReports          WeeklyReport[]
+  procrastinationPatterns ProcrastinationPattern[]
+  accounts               Account[]
+  sessions               Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Goal {
+  id              String    @id @default(cuid())
+  userId          String
+  title           String
+  description     String?
+  imageUrl        String?
+  startDate       DateTime
+  targetEndDate   DateTime
+  actualEndDate   DateTime?
+  status          String    @default("active") // active, completed, paused
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks       Task[]
+  dailyPlans  DailyPlan[]
+  finalReport FinalReport?
+}
+
+model Task {
+  id               String   @id @default(cuid())
+  goalId           String
+  title            String
+  description      String?
+  difficultyLevel  String   // easy, medium, hard
+  estimatedHours   Float
+  actualHours      Float?
+  category         String?
+  dependencies     String[] // Array of task IDs
+  orderIndex       Int
+  completionStatus String   @default("pending") // pending, in_progress, completed, skipped
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  goal      Goal       @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  dailyLogs DailyLog[]
+  scheduledTasks ScheduledTask[]
+}
+
+model DailyPlan {
+  id        String   @id @default(cuid())
+  goalId    String
+  userId    String
+  date      DateTime @db.Date
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  goal           Goal            @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  scheduledTasks ScheduledTask[]
+
+  @@unique([goalId, date])
+}
+
+model ScheduledTask {
+  id             String   @id @default(cuid())
+  dailyPlanId    String
+  taskId         String
+  timeSlot       String   // e.g., "09:00-11:00"
+  energyRequired String   // low, medium, high
+  orderIndex     Int
+  createdAt      DateTime @default(now())
+
+  dailyPlan DailyPlan @relation(fields: [dailyPlanId], references: [id], onDelete: Cascade)
+  task      Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
+}
+
+model DailyLog {
+  id              String   @id @default(cuid())
+  userId          String
+  taskId          String
+  date            DateTime @db.Date
+  completed       Boolean  @default(false)
+  skipped         Boolean  @default(false)
+  timeSpent       Float?
+  energyLevel     String?  // low, medium, high
+  mood            String?  // happy, neutral, down, stressed
+  remarksText     String?
+  remarksVoiceUrl String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, taskId, date])
+  @@index([userId, date])
+}
+
+model ProcrastinationPattern {
+  id            String   @id @default(cuid())
+  userId        String
+  taskId        String?
+  patternType   String   // time_of_day, after_task, energy_level, mood, day_of_week
+  patternDetail Json
+  frequency     Int      @default(1)
+  suggestedFix  String
+  implemented   Boolean  @default(false)
+  effectiveness Float?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WeeklyReport {
+  id                  String   @id @default(cuid())
+  userId              String
+  goalId              String
+  weekStartDate       DateTime @db.Date
+  weekEndDate         DateTime @db.Date
+  completionRate      Float
+  tasksCompleted      Int
+  tasksPlanned        Int
+  insights            Json
+  energyInsights      Json
+  moodInsights        Json
+  procrastinationData Json
+  createdAt           DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, goalId, weekStartDate])
+}
+
+model FinalReport {
+  id          String   @id @default(cuid())
+  goalId      String   @unique
+  pdfUrl      String?
+  reportData  Json
+  generatedAt DateTime @default(now())
+
+  goal Goal @relation(fields: [goalId], references: [id], onDelete: Cascade)
+}

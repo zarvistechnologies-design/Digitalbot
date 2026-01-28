@@ -4,8 +4,20 @@ import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import Hero from "@/components/hero"
 import { Lead } from "@/components/lead"
+import dynamic from "next/dynamic"
 
 import Link from "next/link"
+
+// Dynamic imports for landing page components (client-side only)
+const VoiceDemoWidget = dynamic(() => import("@/components/landing/VoiceDemoWidget"), { ssr: false })
+const CustomerLogos = dynamic(() => import("@/components/landing/CustomerLogos"), { ssr: false })
+const TestimonialCarousel = dynamic(() => import("@/components/landing/TestimonialCarousel"), { ssr: false })
+const AnimatedStats = dynamic(() => import("@/components/landing/AnimatedStats"), { ssr: false })
+const LiveCallFeed = dynamic(() => import("@/components/landing/LiveCallFeed"), { ssr: false })
+const ComparisonTable = dynamic(() => import("@/components/landing/ComparisonTable"), { ssr: false })
+const ExitIntentPopup = dynamic(() => import("@/components/landing/ExitIntentPopup"), { ssr: false })
+const StickyCTA = dynamic(() => import("@/components/landing/StickyCTA"), { ssr: false })
+const LiveChatWidget = dynamic(() => import("@/components/landing/LiveChatWidget"), { ssr: false })
 
 export default function Home() {
   return (
@@ -22,71 +34,35 @@ export default function Home() {
 
       <main id="main-content" className="min-h-screen" role="main" suppressHydrationWarning>
         <Hero />
-   
-
-        {/* Lead Form - Positioned Below Hero */}
         
+        {/* Customer Logos - Social Proof */}
+        <CustomerLogos />
+
+        {/* Animated Stats */}
+        <AnimatedStats />
 
         {/* Modern CTA Component */}
         <CTA />
+        
+        {/* Live Call Feed - Shows real-time activity */}
+        <LiveCallFeed />
      
         <Lead/>
-
-        {/* SEO-Optimized Content Sections - DO NOT REMOVE */}
-
-        {/* Stats Section - Above the Fold */}
-        <section className="py-2 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="performance-stats">
-          <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-left md:text-center">
-              <div className="bg-white border border-gray-200 p-3 shadow-md transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group">
-                <div className="absolute -top-4 -left-4 w-16 h-16 bg-gray-200 rounded-full opacity-15 filter blur-xl group-hover:opacity-25 transition-opacity"></div>
-                <div className="text-lg sm:text-xl font-bold text-gray-800 relative z-10">99.9%</div>
-                <div className="mt-1 text-gray-600 font-semibold text-xs relative z-10 uppercase tracking-wider">Uptime Guarantee</div>
-                <p className="mt-1 text-xs text-gray-500 relative z-10">Enterprise-grade reliability</p>
-              </div>
-
-              <div className="bg-white border border-gray-200 p-3 shadow-md transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group">
-                <div className="absolute -top-4 -left-4 w-16 h-16 bg-gray-200 rounded-full opacity-15 filter blur-xl group-hover:opacity-25 transition-opacity"></div>
-                <div className="text-lg sm:text-xl font-bold text-gray-800 relative z-10">&lt;750ms</div>
-                <div className="mt-1 text-gray-600 font-semibold text-xs relative z-10 uppercase tracking-wider">AI Response Time</div>
-                <p className="mt-1 text-xs text-gray-500 relative z-10">Lightning-fast interactions</p>
-              </div>
-
-              <div className="bg-white border border-gray-200 p-3 shadow-md transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group">
-                <div className="absolute -top-4 -left-4 w-16 h-16 bg-gray-200 rounded-full opacity-15 filter blur-xl group-hover:opacity-25 transition-opacity"></div>
-                <div className="text-lg sm:text-xl font-bold text-gray-800 relative z-10">24/7</div>
-                <div className="mt-1 text-gray-600 font-semibold text-xs relative z-10 uppercase tracking-wider">Always Available</div>
-                <p className="mt-1 text-xs text-gray-500 relative z-10">Never sleeps or takes breaks</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
+        
+        {/* Testimonials */}
+        <TestimonialCarousel />
+        
+        {/* Comparison Table */}
+        <ComparisonTable />
 
         {/* Voice Search Optimized Q&A - Clean Card Design */}
-        <section className="py-2 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="voice-search-qa">
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-blue-50 relative overflow-hidden" role="region" aria-labelledby="voice-search-qa">
           {/* CSS Animations */}
           <style dangerouslySetInnerHTML={{
             __html: `
             @keyframes fadeSlideUp {
               from { opacity: 0; transform: translateY(30px); }
               to { opacity: 1; transform: translateY(0); }
-            }
-            @keyframes fadeSlideLeft {
-              from { opacity: 0; transform: translateX(-30px); }
-              to { opacity: 1; transform: translateX(0); }
-            }
-            @keyframes fadeSlideRight {
-              from { opacity: 0; transform: translateX(30px); }
-              to { opacity: 1; transform: translateX(0); }
-            }
-            @keyframes shimmer {
-              0% { background-position: -200% 0; }
-              100% { background-position: 200% 0; }
-            }
-            @keyframes float {
-              0%, 100% { transform: translateY(0); }
-              50% { transform: translateY(-8px); }
             }
             @keyframes scaleIn {
               from { opacity: 0; transform: scale(0.9); }
@@ -99,55 +75,32 @@ export default function Home() {
             .qa-card:nth-child(1) { animation-delay: 0.1s; }
             .qa-card:nth-child(2) { animation-delay: 0.2s; }
             .qa-card:nth-child(3) { animation-delay: 0.3s; }
-            .qa-card-right {
-              opacity: 0;
-              animation: fadeSlideUp 0.6s ease-out forwards;
-            }
-            .qa-card-right:nth-child(1) { animation-delay: 0.15s; }
-            .qa-card-right:nth-child(2) { animation-delay: 0.25s; }
-            .qa-card-right:nth-child(3) { animation-delay: 0.35s; }
             .qa-header {
               opacity: 0;
               animation: scaleIn 0.5s ease-out forwards;
             }
-            .qa-badge-shimmer {
-              background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-              background-size: 200% 100%;
-              animation: shimmer 3s infinite;
-            }
-            .qa-number:hover {
-              animation: float 0.5s ease-in-out;
-            }
-            .stat-card {
-              transition: all 0.3s ease;
-            }
-            .stat-card:hover {
-              transform: translateY(-4px) scale(1.05);
-              box-shadow: 0 8px 20px rgba(251, 146, 60, 0.2);
-            }
-            .integration-tag {
-              transition: all 0.2s ease;
-            }
-            .integration-tag:hover {
-              transform: scale(1.08);
-            }
           `}} />
 
-          <div className="container mx-auto max-w-7xl relative z-10">
+          {/* Subtle Background Elements */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-200/30 rounded-full blur-3xl"></div>
+          </div>
+
+          <div className="container mx-auto max-w-6xl relative z-10">
             {/* Header */}
-            <div className="text-center mb-1 qa-header">
-              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 text-white shadow-lg shadow-blue-300/40 mb-1 relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                <div className="flex items-center gap-1 relative z-10">
+            <div className="text-center mb-12 qa-header">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-300/40 mb-6">
+                <div className="flex items-center gap-1">
                   <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
                   <span className="w-2 h-3 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></span>
                   <span className="w-2 h-4 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></span>
                 </div>
-                <span className="text-sm font-semibold tracking-wide relative z-10">Common Questions</span>
+                <span className="text-sm font-semibold tracking-wide">Common Questions</span>
               </div>
-              <h2 id="voice-search-qa" className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-1">
+              <h2 id="voice-search-qa" className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
                 Common Questions About{' '}
-                <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">AI Voice Agents</span>
+                <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">AI Voice Agents</span>
               </h2>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
                 Get answers to your most important questions about our AI voice platform
@@ -155,29 +108,33 @@ export default function Home() {
             </div>
 
             {/* Q&A Grid - Two Column Layout */}
-            <div className="grid lg:grid-cols-2 gap-2 lg:gap-3">
+            <div className="grid lg:grid-cols-2 gap-8">
 
               {/* Left Column */}
               <div className="space-y-6">
 
                 {/* Q&A 1 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.1s' }}>
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
+                <div className="qa-card group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300" style={{ animationDelay: '0.1s' }}>
+                  <div className="flex items-start gap-4 mb-5">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform">
                       Q1
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-bold text-lg leading-snug pt-2 group-hover:text-blue-600 transition-colors">
                       What is an AI voice agent and how does it work?
                     </h3>
                   </div>
-                  <div className="pl-14">
+                  
+                  <div className="pl-16 space-y-4">
                     <p className="text-gray-600 text-sm leading-relaxed">
                       An AI voice agent is an intelligent conversational system that handles phone calls autonomously using advanced natural language processing.
                       Unlike human receptionists who need sleep, sick leave, and breaks, our AI voice agents operate <strong className="text-blue-600">24/7/365</strong> without interruption.
+                    </p>
+                    <p className="text-gray-600 text-sm leading-relaxed">
                       They understand spoken language, process customer requests in real-time, access your business data instantly, and respond with natural-sounding speech.
                       Every conversation is analyzed and stored in your personal dashboard with detailed analytics including call duration, customer sentiment, conversion rates, and actionable insights.
                     </p>
-                    <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-gray-100">
+                    
+                    <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
                       <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full font-medium">✓ Natural Language Processing</span>
                       <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full font-medium">✓ 24/7 Availability</span>
                       <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full font-medium">✓ Real-time Analytics</span>
@@ -186,26 +143,49 @@ export default function Home() {
                 </div>
 
                 {/* Q&A 2 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.2s' }}>
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
+                <div className="qa-card group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300" style={{ animationDelay: '0.2s' }}>
+                  <div className="flex items-start gap-4 mb-5">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform">
                       Q2
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-bold text-lg leading-snug pt-2 group-hover:text-blue-600 transition-colors">
                       How quickly can I deploy an AI voice assistant for my business?
                     </h3>
                   </div>
-                  <div className="pl-14">
+                  
+                  <div className="pl-16 space-y-4">
                     <p className="text-gray-600 text-sm leading-relaxed">
-                      Our AI voice assistant platform enables deployment within <strong className="text-blue-600">24-48 hours</strong>. The process includes:
-                      (1) Account creation and dashboard setup - 15 minutes,
-                      (2) Business information integration and workflow customization - 2 hours,
-                      (3) Voice personality selection and training - 1 hour,
-                      (4) Phone number provisioning or existing number integration - immediate,
-                      (5) Testing and quality assurance - 4 hours,
-                      (6) Live deployment with full analytics tracking. You'll have access to real-time dashboards showing every call, conversation transcript, customer data, and performance metrics from day one.
+                      Our AI voice assistant platform enables deployment within <strong className="text-blue-600">24-48 hours</strong>. The streamlined process includes:
                     </p>
-                    <div className="flex items-center gap-3 mt-4">
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="flex items-start gap-2 text-sm text-gray-600">
+                        <span className="text-blue-500 mt-0.5">①</span>
+                        <span>Account creation & dashboard setup - 15 min</span>
+                      </div>
+                      <div className="flex items-start gap-2 text-sm text-gray-600">
+                        <span className="text-blue-500 mt-0.5">②</span>
+                        <span>Business integration & customization - 2 hrs</span>
+                      </div>
+                      <div className="flex items-start gap-2 text-sm text-gray-600">
+                        <span className="text-blue-500 mt-0.5">③</span>
+                        <span>Voice personality selection & training - 1 hr</span>
+                      </div>
+                      <div className="flex items-start gap-2 text-sm text-gray-600">
+                        <span className="text-blue-500 mt-0.5">④</span>
+                        <span>Phone number provisioning - immediate</span>
+                      </div>
+                      <div className="flex items-start gap-2 text-sm text-gray-600">
+                        <span className="text-blue-500 mt-0.5">⑤</span>
+                        <span>Testing & quality assurance - 4 hrs</span>
+                      </div>
+                      <div className="flex items-start gap-2 text-sm text-gray-600">
+                        <span className="text-blue-500 mt-0.5">⑥</span>
+                        <span>Live deployment with full analytics</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-100">
                       <div className="flex items-center gap-1.5 text-xs bg-green-50 text-green-600 px-3 py-1.5 rounded-full font-medium">
                         <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                         Fast Setup
@@ -223,34 +203,50 @@ export default function Home() {
                 </div>
 
                 {/* Q&A 3 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.3s' }}>
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
+                <div className="qa-card group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300" style={{ animationDelay: '0.3s' }}>
+                  <div className="flex items-start gap-4 mb-5">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform">
                       Q3
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-bold text-lg leading-snug pt-2 group-hover:text-blue-600 transition-colors">
                       What makes your AI voice agent better than hiring a human receptionist?
                     </h3>
                   </div>
-                  <div className="pl-14">
+                  
+                  <div className="pl-16 space-y-4">
                     <p className="text-gray-600 text-sm leading-relaxed">
-                      Our AI voice agents never sleep, never get sick, never take breaks, and never need vacations - providing consistent 24/7/365 availability.
-                      They handle unlimited simultaneous calls (a human receptionist can only handle one), respond in under 750 milliseconds (humans average 2-3 seconds),
-                      work in 50+ languages simultaneously, never forget customer information, provide perfect call transcriptions, generate detailed analytics automatically,
-                      integrate with all your business systems instantly, and cost <strong className="text-blue-600">90% less</strong> than hiring full-time staff. Plus, you get a personal dashboard with real-time insights,
-                      conversion tracking, sentiment analysis, and automated reporting that no human receptionist can provide.
+                      Our AI voice agents never sleep, never get sick, never take breaks, and never need vacations - providing consistent <strong className="text-blue-600">24/7/365</strong> availability.
                     </p>
-                    <div className="grid grid-cols-3 gap-3 mt-4">
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
-                        <div className="text-xl font-bold text-blue-500">∞</div>
+                    
+                    <div className="bg-gray-50 rounded-xl p-4 space-y-2">
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        • Handle unlimited simultaneous calls (humans can only handle one)
+                      </p>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        • Respond in under 750ms (humans average 2-3 seconds)
+                      </p>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        • Work in 50+ languages simultaneously
+                      </p>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        • Never forget customer information
+                      </p>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        • Cost <strong className="text-blue-600">90% less</strong> than full-time staff
+                      </p>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-3 pt-4 border-t border-gray-100">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+                        <div className="text-2xl font-bold text-blue-600">∞</div>
                         <div className="text-xs text-gray-500 mt-1">Simultaneous Calls</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
-                        <div className="text-xl font-bold text-blue-500">750ms</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+                        <div className="text-2xl font-bold text-blue-600">750ms</div>
                         <div className="text-xs text-gray-500 mt-1">Response Time</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
-                        <div className="text-xl font-bold text-blue-500">50+</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+                        <div className="text-2xl font-bold text-blue-600">50+</div>
                         <div className="text-xs text-gray-500 mt-1">Languages</div>
                       </div>
                     </div>
@@ -263,72 +259,103 @@ export default function Home() {
               <div className="space-y-6">
 
                 {/* Q&A 4 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.15s' }}>
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
+                <div className="qa-card group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300" style={{ animationDelay: '0.15s' }}>
+                  <div className="flex items-start gap-4 mb-5">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform">
                       Q4
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-bold text-lg leading-snug pt-2 group-hover:text-blue-600 transition-colors">
                       Can AI voice assistants integrate with my existing business systems?
                     </h3>
                   </div>
-                  <div className="pl-14">
+                  
+                  <div className="pl-16 space-y-4">
                     <p className="text-gray-600 text-sm leading-relaxed">
-                      Yes. Our AI voice assistant platform integrates seamlessly with <strong className="text-blue-600">500+ business applications</strong> including Salesforce, HubSpot, Zendesk, Microsoft Dynamics,
-                      Google Workspace, Slack, Calendly, Shopify, WooCommerce, and custom APIs. Integration takes minutes using pre-built connectors.
-                      Your AI agent automatically syncs customer data, updates CRM records, schedules appointments in your calendar, creates support tickets,
-                      processes orders, and triggers workflows across your tech stack. Every action is logged in your analytics dashboard with full audit trails,
-                      real-time synchronization, and bi-directional data flow ensuring your entire team stays informed and aligned.
+                      Yes! Our AI voice assistant platform integrates seamlessly with <strong className="text-blue-600">500+ business applications</strong> including Salesforce, HubSpot, Zendesk, Microsoft Dynamics, Google Workspace, Slack, Calendly, Shopify, WooCommerce, and custom APIs.
                     </p>
-                    <div className="flex flex-wrap gap-2 mt-4">
+                    
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      Integration takes minutes using pre-built connectors. Your AI agent automatically syncs customer data, updates CRM records, schedules appointments, creates support tickets, processes orders, and triggers workflows across your tech stack.
+                    </p>
+                    
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      Every action is logged in your analytics dashboard with full audit trails, real-time synchronization, and bi-directional data flow.
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
                       {['Salesforce', 'HubSpot', 'Zendesk', 'Slack', 'Calendly', 'Shopify', '+494 more'].map((app, i) => (
-                        <span key={i} className="text-xs bg-gray-100 hover:bg-blue-50 hover:scale-105 px-3 py-1.5 rounded-full text-gray-600 hover:text-blue-600 transition-all duration-300 cursor-default">{app}</span>
+                        <span key={i} className="text-xs bg-gray-100 hover:bg-blue-50 px-3 py-1.5 rounded-full text-gray-600 hover:text-blue-600 transition-all cursor-default">{app}</span>
                       ))}
                     </div>
                   </div>
                 </div>
 
                 {/* Q&A 5 */}
-                <div className="group bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1 qa-card" style={{ animationDelay: '0.25s' }}>
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-300/50">
+                <div className="qa-card group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300" style={{ animationDelay: '0.25s' }}>
+                  <div className="flex items-start gap-4 mb-5">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform">
                       Q5
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg leading-tight pt-2 group-hover:text-blue-600 transition-colors duration-300">
+                    <h3 className="text-gray-900 font-bold text-lg leading-snug pt-2 group-hover:text-blue-600 transition-colors">
                       What analytics and insights do I get with the AI voice agent platform?
                     </h3>
                   </div>
-                  <div className="pl-14">
+                  
+                  <div className="pl-16 space-y-4">
                     <p className="text-gray-600 text-sm leading-relaxed">
                       Your personal dashboard provides comprehensive real-time analytics:
-                      (1) Call volume and duration metrics with hourly/daily/weekly/monthly breakdowns,
-                      (2) Complete conversation transcripts with searchable keyword indexing,
-                      (3) Customer sentiment analysis using AI emotion detection,
-                      (4) Conversion rate tracking from initial call to completed action,
-                      (5) Lead quality scoring and automatic qualification,
-                      (6) Peak hour identification for staffing optimization,
-                      (7) Common question analysis for FAQ development,
-                      (8) Revenue attribution linking calls to closed deals,
-                      (9) Multi-language performance comparison,
-                      (10) Custom business KPI tracking,
-                      (11) Automated executive reports, and
-                      (12) Predictive analytics for demand forecasting.
                     </p>
-                    <div className="grid grid-cols-4 gap-2 mt-4">
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
-                        <div className="text-lg mb-1">📊</div>
-                        <div className="text-xs text-gray-600 font-medium">Call Analytics</div>
+                    
+                    <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-500">•</span>
+                        Call volume & duration metrics
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
-                        <div className="text-lg mb-1">💬</div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-500">•</span>
+                        Conversation transcripts
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-500">•</span>
+                        Customer sentiment analysis
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-500">•</span>
+                        Conversion rate tracking
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-500">•</span>
+                        Lead quality scoring
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-500">•</span>
+                        Peak hour identification
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-500">•</span>
+                        Revenue attribution
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-500">•</span>
+                        Predictive analytics
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-4 gap-2 pt-4 border-t border-gray-100">
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+                        <div className="text-xl mb-1">📊</div>
+                        <div className="text-xs text-gray-600 font-medium">Analytics</div>
+                      </div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+                        <div className="text-xl mb-1">💬</div>
                         <div className="text-xs text-gray-600 font-medium">Transcripts</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
-                        <div className="text-lg mb-1">😊</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+                        <div className="text-xl mb-1">😊</div>
                         <div className="text-xs text-gray-600 font-medium">Sentiment</div>
                       </div>
-                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:scale-105 hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-default">
-                        <div className="text-lg mb-1">📈</div>
+                      <div className="text-center p-3 bg-gradient-to-b from-white to-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+                        <div className="text-xl mb-1">📈</div>
                         <div className="text-xs text-gray-600 font-medium">Reports</div>
                       </div>
                     </div>
@@ -336,19 +363,22 @@ export default function Home() {
                 </div>
 
                 {/* CTA Card */}
-                <div className="bg-gradient-to-br from-blue-500 via-blue-600 to-blue-600 rounded-2xl p-4 text-white shadow-xl shadow-blue-300/30 qa-card hover:-translate-y-1 transition-all duration-500 group relative overflow-hidden" style={{ animationDelay: '0.35s' }}>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                  <h3 className="text-xl font-bold mb-2 relative z-10">Still have questions?</h3>
-                  <p className="text-blue-100 text-sm mb-4 relative z-10">
-                    Our team is ready to help you understand how AI voice agents can transform your business communications.
-                  </p>
-                  <div className="flex flex-wrap gap-3 relative z-10">
-                    <a href="/contact" className="inline-flex items-center gap-2 bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-md">
-                      Contact Us
-                    </a>
-                    <a href="/pricing" className="inline-flex items-center gap-2 bg-blue-600/30 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600/50 hover:scale-105 transition-all duration-300 border border-white/20">
-                      View Pricing
-                    </a>
+                <div className="qa-card bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 text-white shadow-xl shadow-blue-500/30 relative overflow-hidden" style={{ animationDelay: '0.35s' }}>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-1000"></div>
+                  
+                  <div className="relative z-10">
+                    <h3 className="text-xl font-bold mb-3">Still have questions?</h3>
+                    <p className="text-blue-100 text-sm mb-6 leading-relaxed">
+                      Our team is ready to help you understand how AI voice agents can transform your business communications.
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      <a href="/contact" className="inline-flex items-center gap-2 bg-white text-blue-600 px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-50 hover:scale-105 transition-all shadow-lg">
+                        Contact Us
+                      </a>
+                      <a href="/pricing" className="inline-flex items-center gap-2 bg-white/10 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-white/20 hover:scale-105 transition-all border border-white/20 backdrop-blur-sm">
+                        View Pricing
+                      </a>
+                    </div>
                   </div>
                 </div>
 
@@ -356,14 +386,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-    
-
-        {/* AI Voice Agent Platform Features - Redesigned with Images */}
-        <section className="py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" role="region" aria-labelledby="platform-features">
-        </section>
-
-    
 
         {/* FAQ Section - Clean Modern Design */}
         <section className="py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative" role="region" aria-labelledby="faq-section">
@@ -674,11 +696,15 @@ export default function Home() {
       </main>
 
       <Footer />
+      
+      {/* Floating Widgets - Client-side only */}
+      <VoiceDemoWidget />
+      <LiveChatWidget />
+      <StickyCTA />
+      <ExitIntentPopup />
     </>
   )
 }
-
-
 
 
 

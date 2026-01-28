@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Projects - Sumit Rathore Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap");
+
+    body {
+      font-family: "Josefin Sans", sans-serif;
+      background-color: #2f2f2f;
+      color: white;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    nav {
+      width: 100%;
+      max-width: 1200px;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 2rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    nav a:hover,
+    nav a.active {
+      text-decoration: underline;
+      color: #ddd;
+    }
+    main {
+      width: 100%;
+      max-width: 1200px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      background: rgba(255 255 255 / 0.05);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255 255 255 / 0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      color: white;
+      text-decoration: none;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.7);
+    }
+    .project-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(255 255 255 / 0.1);
+    }
+    .project-content {
+      padding: 1rem 1.25rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .project-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .project-description {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #cbd5e1;
+      flex-grow: 1;
+    }
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .project-image {
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="{% url 'index' %}">HOME</a>
+    <a href="{% url 'projects' %}" class="active">WORK</a>
+    <a href="{% url 'about' %}">ABOUT</a>
+    <a href="{% url 'contact' %}">CONTACT</a>
+    <a href="{% url 'blogs' %}">BLOGS</a>
+  </nav>
+
+  <!-- Projects Content -->
+  <main>
+    <h1>My Projects</h1>
+    <div class="projects-grid" role="list">
+      <a aria-label="Project 1 - AI Chatbot" class="project-card" href="https://example.com/project1" rel="noopener" role="listitem" target="_blank">
+        <img alt="Screenshot of AI Chatbot project interface" class="project-image" src="https://storage.googleapis.com/a1aa/image/a3420ba8-efbe-4406-2f2a-0640730f50bf.jpg" width="600" height="400"/>
+        <div class="project-content">
+          <h2 class="project-title">AI Chatbot</h2>
+          <p class="project-description">An intelligent chatbot that understands natural language and provides helpful responses using machine learning.</p>
+        </div>
+      </a>
+      <a aria-label="Project 2 - Data Visualization Dashboard" class="project-card" href="https://example.com/project2" rel="noopener" role="listitem" target="_blank">
+        <img alt="Screenshot of Data Visualization Dashboard with charts and graphs" class="project-image" src="https://storage.googleapis.com/a1aa/image/4c38cf1c-cfaa-4ddd-2b9a-384af0106b99.jpg" width="600" height="400"/>
+        <div class="project-content">
+          <h2 class="project-title">Data Visualization Dashboard</h2>
+          <p class="project-description">A dashboard to visualize complex datasets with interactive charts and real-time updates.</p>
+        </div>
+      </a>
+      <a aria-label="Project 3 - Image Recognition App" class="project-card" href="https://example.com/project3" rel="noopener" role="listitem" target="_blank">
+        <img alt="Screenshot of Image Recognition App identifying objects" class="project-image" src="https://storage.googleapis.com/a1aa/image/89256636-5b0e-4e64-0264-b69e92998a36.jpg" width="600" height="400"/>
+        <div class="project-content">
+          <h2 class="project-title">Image Recognition App</h2>
+          <p class="project-description">An app that uses deep learning to identify objects and scenes in images with high accuracy.</p>
+        </div>
+      </a>
+      <a aria-label="Project 4 - Predictive Analytics Tool" class="project-card" href="https://example.com/project4" rel="noopener" role="listitem" target="_blank">
+        <img alt="Screenshot of Predictive Analytics Tool showing forecasts" class="project-image" src="https://storage.googleapis.com/a1aa/image/d153f93b-b98d-41f7-05c4-1d49470e4fb0.jpg" width="600" height="400"/>
+        <div class="project-content">
+          <h2 class="project-title">Predictive Analytics Tool</h2>
+          <p class="project-description">A tool that forecasts trends and behaviors using historical data and machine learning models.</p>
+        </div>
+      </a>
+      <a aria-label="Project 5 - Natural Language Processing" class="project-card" href="https://example.com/project5" rel="noopener" role="listitem" target="_blank">
+        <img alt="Screenshot of NLP project analyzing text data" class="project-image" src="https://storage.googleapis.com/a1aa/image/f48e1b47-75bc-4332-bbbb-89217358d68d.jpg" width="600" height="400"/>
+        <div class="project-content">
+          <h2 class="project-title">Natural Language Processing</h2>
+          <p class="project-description">A project focused on understanding and generating human language using advanced NLP techniques.</p>
+        </div>
+      </a>
+    </div>
+  </main>
+  </style>
+</head>
+<body>
+  <!-- ...existing content... -->
+</body>
+</html>
+</html>
