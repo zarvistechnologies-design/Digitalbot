@@ -223,9 +223,9 @@ export default function VoiceAutomationSoftwarePage() {
 
       <div className="min-h-screen bg-gradient-to-br from-white via-blue-50/50 to-blue-50">
         <Header />
-        <main className="pt-16 sm:pt-20">
+        <main className="min-h-screen">
           {/* Hero Section - Premium Light Theme */}
-          <section className="relative py-16 sm:py-20 lg:py-24 overflow-hidden">
+          <section className="relative min-h-screen flex items-center overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/50 to-blue-100/30" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.15),transparent_50%)]" />
