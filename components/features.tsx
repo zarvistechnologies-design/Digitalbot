@@ -20,7 +20,7 @@ const features: Feature[] = [
         icon: Bot,
         title: "Intelligent AI Chatbots",
         description: "Deploy smart conversational AI that understands context, learns from interactions, and provides human-like responses with advanced natural language understanding.",
-        gradient: "from-sky-500 to-sky-500",
+        gradient: "from-sky-500 to-sky-501",
         stats: [{ label: "Accuracy", value: "99.2%" }, { label: "Languages", value: "50+" }]
     },
     {
