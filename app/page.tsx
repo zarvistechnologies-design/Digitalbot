@@ -16,7 +16,6 @@ const AnimatedStats = dynamic(() => import("@/components/landing/AnimatedStats")
 const LiveCallFeed = dynamic(() => import("@/components/landing/LiveCallFeed"), { ssr: false })
 const ComparisonTable = dynamic(() => import("@/components/landing/ComparisonTable"), { ssr: false })
 const ExitIntentPopup = dynamic(() => import("@/components/landing/ExitIntentPopup"), { ssr: false })
-const StickyCTA = dynamic(() => import("@/components/landing/StickyCTA"), { ssr: false })
 const LiveChatWidget = dynamic(() => import("@/components/landing/LiveChatWidget"), { ssr: false })
 
 export default function Home() {
@@ -718,7 +717,6 @@ export default function Home() {
       {/* Floating Widgets - Client-side only */}
       <VoiceDemoWidget />
       <LiveChatWidget />
-      <StickyCTA />
       <ExitIntentPopup />
     </>
   )
