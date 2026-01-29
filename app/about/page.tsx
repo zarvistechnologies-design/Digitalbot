@@ -1,56 +1,99 @@
+"use client"
+
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, Award, Building2, CheckCircle2, Globe, Lightbulb, Target, TrendingUp, Users, Zap } from "lucide-react"
-import type { Metadata } from "next"
-import Image from "next/image"
+import { ArrowRight, Award, BarChart3, Building2, CheckCircle, Globe, Heart, Lightbulb, Phone, Rocket, Shield, Sparkles, Star, Target, TrendingUp, Users, Zap } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useRef, useState } from "react"
 
-export const metadata: Metadata = {
-  title: "About DigitalBot.ai - Leading AI Voice Agent & Voice Assistant Company 2025",
-  description: "Learn about DigitalBot.ai, the innovative AI voice agent and voice assistant platform. Founded 2024, serving 500+ businesses with 2M+ conversations. 99.9% uptime, 24/7 AI automation.",
-  keywords: "about digitalbot, ai voice agent company, voice assistant platform, ai company, conversational ai company, voice ai technology, ai automation company, digital voice assistant, ai customer service company, voice agent provider, ai voice technology company, enterprise ai voice, business automation company, ai voice solutions, voice assistant technology company",
-  openGraph: {
-    title: "About DigitalBot.ai - Leading AI Voice Agent & Voice Assistant Company 2025",
-    description: "Learn about DigitalBot.ai, the innovative AI voice agent and voice assistant platform. Founded 2024, serving 500+ businesses with 2M+ conversations.",
-    url: "https://digitalbot.ai/about",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "About DigitalBot.ai - Leading AI Voice Agent & Voice Assistant Company 2025",
-    description: "Learn about DigitalBot.ai, the innovative AI voice agent platform. Founded 2024, serving 500+ businesses with 2M+ conversations.",
-  },
-  alternates: {
-    canonical: "https://digitalbot.ai/about",
-  },
+// Animated counter component
+function AnimatedCounter({ end, suffix = "", prefix = "", duration = 2000 }: { end: number; suffix?: string; prefix?: string; duration?: number }) {
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!isVisible) return
+
+    let startTime: number
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime
+      const progress = Math.min((currentTime - startTime) / duration, 1)
+      setCount(Math.floor(progress * end))
+      if (progress < 1) {
+        requestAnimationFrame(animate)
+      }
+    }
+    requestAnimationFrame(animate)
+  }, [isVisible, end, duration])
+
+  return (
+    <span ref={ref}>
+      {prefix}{count.toLocaleString()}{suffix}
+    </span>
+  )
+}
+
+// Mini Bar Chart Component
+function MiniBarChart({ data, colors }: { data: number[]; colors: string[] }) {
+  return (
+    <div className="flex items-end gap-1 h-16">
+      {data.map((value, i) => (
+        <div
+          key={i}
+          className={`w-3 rounded-t-sm ${colors[i % colors.length]} transition-all duration-500`}
+          style={{ height: `${value}%` }}
+        />
+      ))}
+    </div>
+  )
 }
 
 const values = [
   {
     icon: Target,
     title: "Customer-Centric",
-    description: "Every AI voice agent feature we build is designed to solve real customer problems and drive measurable business value.",
-    color: "from-sky-400 to-sky-500"
+    description: "Every feature we build solves real customer problems and drives measurable business value.",
+    gradient: "from-blue-500 to-cyan-500",
+    bgColor: "bg-blue-50"
   },
   {
     icon: Lightbulb,
     title: "Innovation First",
-    description: "We push the boundaries of AI voice assistant technology to deliver cutting-edge conversational experiences.",
-    color: "from-sky-400 to-sky-500"
+    description: "We push the boundaries of AI voice technology to deliver cutting-edge experiences.",
+    gradient: "from-amber-500 to-orange-500",
+    bgColor: "bg-amber-50"
   },
   {
     icon: Award,
     title: "Excellence",
-    description: "We maintain the highest standards in AI voice agent accuracy, security, and performance.",
-    color: "from-sky-400 to-sky-500"
+    description: "We maintain the highest standards in accuracy, security, and performance.",
+    gradient: "from-emerald-500 to-teal-500",
+    bgColor: "bg-emerald-50"
   },
   {
-    icon: Users,
+    icon: Heart,
     title: "Collaboration",
-    description: "We believe in the power of human-AI voice collaboration to transform business communication.",
-    color: "from-sky-400 to-sky-500"
+    description: "We believe in the power of human-AI collaboration to transform businesses.",
+    gradient: "from-rose-500 to-pink-500",
+    bgColor: "bg-rose-50"
   },
 ]
 
@@ -58,42 +101,45 @@ const milestones = [
   {
     year: "2024 Q1",
     title: "Founded DigitalBot.ai",
-    description: "Started with a vision to democratize AI voice agent technology for businesses worldwide",
-    icon: Building2
+    description: "Started with a vision to democratize AI voice technology",
+    icon: Building2,
+    color: "bg-blue-500"
   },
   {
     year: "2024 Q2",
     title: "First 100 Customers",
-    description: "Reached our first milestone serving 100+ businesses with AI voice assistant solutions",
-    icon: TrendingUp
+    description: "Reached milestone serving 100+ businesses globally",
+    icon: Users,
+    color: "bg-emerald-500"
   },
   {
     year: "2024 Q3",
     title: "Platform Launch",
-    description: "Officially launched AI voice agent platform with multi-language support and analytics dashboard",
-    icon: Globe
+    description: "Multi-language support with analytics dashboard",
+    icon: Globe,
+    color: "bg-violet-500"
   },
   {
     year: "2024 Q4",
     title: "1M+ Conversations",
-    description: "Processed over 1 million AI voice assistant conversations with high accuracy rates",
-    icon: Zap
+    description: "Processed over 1 million voice conversations",
+    icon: Zap,
+    color: "bg-amber-500"
   },
   {
     year: "2025",
-    title: "Rapid Growth & Expansion",
-    description: "Growing rapidly with hundreds of businesses adopting our AI voice agent platform",
-    icon: Award
+    title: "Rapid Growth",
+    description: "500+ businesses, expanding to new markets",
+    icon: Rocket,
+    color: "bg-rose-500"
   },
 ]
 
-const stats = [
-  { number: "500+", label: "Active Businesses Using AI Voice Agents", color: "from-sky-400 to-sky-500" },
-  { number: "2M+", label: "AI Voice Assistant Conversations", color: "from-sky-400 to-sky-500" },
-  { number: "99.9%", label: "AI Voice Agent Uptime SLA", color: "from-sky-400 to-sky-500" },
-  { number: "24/7", label: "AI Voice Support Availability", color: "from-sky-400 to-sky-500" },
-  { number: "25+", label: "Countries Served Globally", color: "from-sky-400 to-sky-500" },
-  { number: "<500ms", label: "AI Voice Response Time", color: "from-sky-400 to-sky-500" },
+const teamStats = [
+  { label: "Team Members", value: 50, suffix: "+", icon: Users, color: "text-blue-600", bgColor: "bg-blue-50" },
+  { label: "Countries", value: 25, suffix: "+", icon: Globe, color: "text-emerald-600", bgColor: "bg-emerald-50" },
+  { label: "Years Experience", value: 100, suffix: "+", icon: Award, color: "text-violet-600", bgColor: "bg-violet-50" },
+  { label: "Patents Filed", value: 12, suffix: "", icon: Lightbulb, color: "text-amber-600", bgColor: "bg-amber-50" },
 ]
 
 export default function About() {
@@ -102,583 +148,352 @@ export default function About() {
       <Header />
 
       <main className="min-h-screen bg-white">
-        {/* Hero Section - Cyberpunk Full Width */}
-        <section className="pt-24 pb-12 px-3 sm:px-4 lg:px-6 relative overflow-hidden bg-white">
-          {/* Cyberpunk Background */}
+        {/* Hero Section */}
+        <section className="pt-28 pb-20 px-4 relative overflow-hidden">
+          {/* Animated Background */}
           <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle, #ea580c 1px, transparent 1px)`,
-              backgroundSize: '30px 30px',
-              opacity: 0.08
-            }}></div>
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-[100px] animate-pulse" />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-200/30 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-100/20 rounded-full blur-[120px]" />
           </div>
 
+          {/* Floating Elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-32 left-[10%] w-4 h-4 bg-blue-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
+            <div className="absolute top-48 right-[15%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
+            <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-emerald-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+            <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-amber-400 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
+          </div>
 
-
-          <div className="container mx-auto max-w-7xl relative z-10 text-center">
-            {/* Cyberpunk Breadcrumb */}
-            <nav className="mb-6 text-xs text-gray-900" aria-label="Breadcrumb">
-              <ol className="flex justify-center items-center gap-2">
-                <li><Link href="/" className="hover:text-sky-600">Home</Link></li>
-                <li className="text-sky-500">{'>'}</li>
-                <li className="text-sky-600 font-semibold">About</li>
+          <div className="container mx-auto max-w-6xl relative z-10">
+            {/* Breadcrumb */}
+            <nav className="mb-8 text-sm" aria-label="Breadcrumb">
+              <ol className="flex items-center gap-2">
+                <li><Link href="/" className="text-gray-500 hover:text-blue-600 transition-colors">Home</Link></li>
+                <li className="text-gray-400">/</li>
+                <li className="text-blue-600 font-semibold">About</li>
               </ol>
             </nav>
 
-            <div className="mb-4">
-              <span
-                className="inline-block px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
-                style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-              >
-                ⚡ About Company
-              </span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight bg-gradient-to-r from-sky-600 via-sky-600 to-sky-700 bg-clip-text text-transparent drop-shadow-lg">
-              <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                About DigitalBot.ai
-              </span>
-              <span
-                className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-xl sm:text-2xl font-black"
-                style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-              >
-                AI Voice Agent Platform
-              </span>
-            </h1>
-            <p className="text-sm text-gray-900 mb-6 max-w-3xl mx-auto leading-relaxed">
-              We're on a mission to democratize <span className="font-bold text-sky-600">AI voice agent technology</span>, making intelligent <span className="font-bold text-sky-600">AI voice assistants</span> accessible to businesses of all sizes.
-            </p>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left Content */}
+              <div>
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full mb-6">
+                  <Sparkles className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-bold text-blue-600">About Our Company</span>
+                </div>
 
-            {/* Cyberpunk Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto">
-              {stats.slice(0, 4).map((stat, idx) => (
-                <div key={idx} className="bg-white border border-sky-500/50 hover:border-sky-400 p-4 shadow-lg hover:scale-105 hover:shadow-sky-500/50 transition-all group" style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'}}>
-                  <div className={`text-xl sm:text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-1`}>
-                    {stat.number}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
+                  Building the Future of
+                  <span className="block text-blue-600 mt-2">AI Voice Technology</span>
+                </h1>
+
+                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                  We're on a mission to democratize AI voice technology, making intelligent voice assistants accessible to businesses of all sizes. Our platform handles millions of conversations with human-like quality.
+                </p>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-wrap gap-4">
+                  <Link href="/contact" className="group px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/30 hover:shadow-xl flex items-center gap-2">
+                    Get in Touch
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <Link href="/services" className="px-6 py-3 bg-white border-2 border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all">
+                    Our Services
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right - Stats Dashboard */}
+              <div className="relative">
+                <div className="bg-white rounded-3xl shadow-2xl shadow-blue-500/10 p-8 border border-gray-100">
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-8">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">Company Overview</h3>
+                      <p className="text-sm text-gray-500">Real-time metrics</p>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-1 bg-emerald-100 rounded-full">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                      <span className="text-xs font-semibold text-emerald-700">Live</span>
+                    </div>
                   </div>
-                  <div className="text-xs text-gray-900 font-medium">{stat.label}</div>
+
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-2 gap-6 mb-8">
+                    <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-5">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+                          <Users className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-sm text-gray-600">Customers</span>
+                      </div>
+                      <p className="text-3xl font-black text-gray-900">
+                        <AnimatedCounter end={500} suffix="+" />
+                      </p>
+                    </div>
+                    <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-2xl p-5">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center">
+                          <Phone className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-sm text-gray-600">Calls/Day</span>
+                      </div>
+                      <p className="text-3xl font-black text-gray-900">
+                        <AnimatedCounter end={50} suffix="K" />
+                      </p>
+                    </div>
+                    <div className="bg-gradient-to-br from-violet-50 to-violet-100/50 rounded-2xl p-5">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center">
+                          <Shield className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-sm text-gray-600">Uptime</span>
+                      </div>
+                      <p className="text-3xl font-black text-gray-900">99.9%</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-2xl p-5">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center">
+                          <Globe className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-sm text-gray-600">Languages</span>
+                      </div>
+                      <p className="text-3xl font-black text-gray-900">
+                        <AnimatedCounter end={50} suffix="+" />
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Growth Chart */}
+                  <div className="bg-gray-50 rounded-2xl p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-sm font-semibold text-gray-700">Monthly Growth</span>
+                      <span className="text-xs text-emerald-600 font-bold flex items-center gap-1">
+                        <TrendingUp className="w-3 h-3" /> +127%
+                      </span>
+                    </div>
+                    <MiniBarChart 
+                      data={[30, 45, 55, 40, 65, 75, 60, 85, 95, 80, 100, 90]} 
+                      colors={['bg-blue-400', 'bg-blue-500', 'bg-blue-600']}
+                    />
+                    <div className="flex justify-between mt-2 text-xs text-gray-400">
+                      <span>Jan</span>
+                      <span>Jun</span>
+                      <span>Dec</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating Badge */}
+                <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                      <Star className="w-6 h-6 text-white fill-white" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-gray-900">4.9</p>
+                      <p className="text-xs text-gray-500">Customer Rating</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Mission Section */}
+        <section className="py-20 px-4 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+          {/* Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+              backgroundSize: '24px 24px'
+            }} />
+          </div>
+
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6">
+                  <Rocket className="w-4 h-4 text-white" />
+                  <span className="text-sm font-bold text-white">Our Mission</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                  Transforming Business Communication with AI
+                </h2>
+                <p className="text-lg text-blue-100 mb-8 leading-relaxed">
+                  We envision a world where every business, regardless of size, has access to intelligent AI voice technology. Our platform empowers companies to deliver exceptional customer experiences 24/7.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  {['Human-like Conversations', 'Instant Responses', 'Always Available'].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg">
+                      <CheckCircle className="w-4 h-4 text-emerald-400" />
+                      <span className="text-sm text-white font-medium">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Stats Cards */}
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { label: 'Conversations', value: '10M+', icon: Phone, color: 'from-emerald-400 to-teal-500' },
+                  { label: 'Response Time', value: '<500ms', icon: Zap, color: 'from-amber-400 to-orange-500' },
+                  { label: 'Satisfaction', value: '98%', icon: Heart, color: 'from-rose-400 to-pink-500' },
+                  { label: 'Cost Saved', value: '$5M+', icon: TrendingUp, color: 'from-violet-400 to-purple-500' },
+                ].map((stat, i) => (
+                  <div key={i} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4`}>
+                      <stat.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <p className="text-3xl font-black text-white mb-1">{stat.value}</p>
+                    <p className="text-sm text-blue-200">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Values Section */}
+        <section className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full mb-6">
+                <Heart className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-bold text-blue-600">Our Core Values</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
+                What Drives Us Forward
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                These principles guide every decision we make and every product we build.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {values.map((value, i) => (
+                <div
+                  key={i}
+                  className={`group ${value.bgColor} rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2`}
+                >
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${value.gradient} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
+                    <value.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{value.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* System Core Info - Cyberpunk Full Width */}
-        <section className="py-12 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" id="who-we-are">
-          {/* Cyberpunk Background */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `linear-gradient(45deg, #ea580c 1px, transparent 1px),
-                               linear-gradient(-45deg, #ea580c 1px, transparent 1px)`,
-              backgroundSize: '20px 20px',
-              opacity: 0.06
-            }}></div>
-          </div>
-          <div className="container mx-auto max-w-7xl relative z-10">
-            <div className="text-center mb-10">
-              <div className="inline-block mb-4">
-                <span
-                  className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
-                  style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                >
-                  Who We Are
-                </span>
+        {/* Timeline Section */}
+        <section className="py-20 px-4 bg-white">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-violet-50 border border-violet-200 rounded-full mb-6">
+                <Rocket className="w-4 h-4 text-violet-600" />
+                <span className="text-sm font-bold text-violet-600">Our Journey</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight drop-shadow-lg">
-                <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                  Leading AI Voice Agent
-                </span>
-                <span
-                  className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-xl sm:text-2xl font-black"
-                  style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                >
-                  Company
-                </span>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
+                Milestones & Achievements
               </h2>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div className="relative">
-                {/* Cyberpunk HD Image */}
-                <div className="mb-6 relative overflow-hidden h-64" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
-                  <Image
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
-                    alt="AI Neural Network - Advanced Voice Technology"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/10 to-transparent"></div>
-                  <div className="absolute bottom-3 left-3">
-                    <span className="px-3 py-1 bg-cyan-400 text-black text-xs font-bold" style={{clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%)'}}>
-                      CORE_SYSTEM.exe
-                    </span>
-                  </div>
-                </div>
-
-                <h3 className="text-lg font-bold text-sky-600 mb-3">
-                  What is DigitalBot.ai?
-                </h3>
-                <p className="text-gray-900 mb-4 leading-relaxed text-sm">
-                  <span className="text-sky-600 font-bold">DigitalBot.ai is an innovative AI voice agent and AI voice assistant platform</span> founded in 2024. We specialize in creating intelligent conversational AI solutions that enable businesses to automate customer service, sales, and support through advanced voice technology.
-                </p>
-                <p className="text-gray-900 mb-4 leading-relaxed text-sm">
-                  Our <span className="text-sky-600 font-bold">AI voice agent platform</span> serves <span className="text-sky-600 font-bold">500+ businesses worldwide</span>, processing more than <span className="text-sky-600 font-bold">2 million AI voice assistant conversations</span> with industry-leading accuracy and reliability.
-                </p>
-
-                <h3 className="text-lg font-bold text-sky-600 mb-3 mt-6">
-                  Why Choose DigitalBot.ai?
-                </h3>
-                <ul className="space-y-2">
-                  {[
-                    "24/7 AI voice agent availability - never sleeps, never takes breaks",
-                    "99.9% uptime SLA for enterprise reliability",
-                    "<500ms AI voice response time for natural conversations",
-                    "25+ countries served with multi-language support",
-                    "Enterprise-grade security and HIPAA compliance",
-                    "Personal analytics dashboard for real-time insights"
-                  ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3">
-                      <div className="w-3 h-3 bg-sky-500 flex items-center justify-center mt-1 flex-shrink-0" style={{clipPath: 'circle(50%)'}}>
-                        <CheckCircle2 className="w-2 h-2 text-white" />
-                      </div>
-                      <span className="text-gray-900 text-sm">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="relative">
-                {/* Cyberpunk Stats Panel */}
-                <div className="bg-white border border-sky-500/50 hover:border-sky-400 p-6 shadow-xl hover:shadow-sky-500/50 transition-all" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
-                  {/* Stats HD Image */}
-                  <div className="relative mb-4 overflow-hidden h-48" style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}>
-                    <Image
-                      src="/images/image/AI Voice Agent Platform Stats.png"
-                      alt="AI Analytics Dashboard - Real-time Stats"
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent"></div>
-                  </div>
-
-                  <h3 className="text-lg font-bold text-sky-600 mb-4">
-                    AI Voice Agent Platform Stats
-                  </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {stats.map((stat, idx) => (
-                      <div key={idx} className="text-center bg-sky-500/10 p-3 border border-sky-500/30" style={{clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'}}>
-                        <div className={`text-lg font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-1`}>
-                          {stat.number}
-                        </div>
-                        <div className="text-xs text-gray-900 font-medium">{stat.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Neural History - Cyberpunk Full Width */}
-        <section className="py-12 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" id="our-story">
-          {/* Cyberpunk Background */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle, #ea580c 1px, transparent 1px)`,
-              backgroundSize: '25px 25px',
-              opacity: 0.08
-            }}></div>
-          </div>
-          <div className="container mx-auto max-w-7xl relative z-10">
-            <div className="text-center mb-10">
-              <div className="inline-block mb-4">
-                <span
-                  className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
-                  style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                >
-                  Our Journey
-                </span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight drop-shadow-lg">
-                <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                  Our AI Voice Agent Journey
-                </span>
-                <span
-                  className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-xl sm:text-2xl font-black"
-                  style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                >
-                  From Startup to Global Leader
-                </span>
-              </h2>
-            </div>
-
-            <div className="mb-12">
-              <div className="bg-white  border border-sky-500/50 hover:border-sky-400 p-6 shadow-xl hover:shadow-sky-500/50 transition-all" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
-                {/* Story HD Image */}
-                <div className="relative mb-4 overflow-hidden h-48" style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}>
-                  <Image
-                    src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2070&auto=format&fit=crop"
-                    alt="DigitalBot.ai Genesis - AI Voice Technology Innovation"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-white/20 to-transparent"></div>
-                  <div className="absolute bottom-2 left-2">
-                    <span className="px-3 py-1 bg-sky-500 text-white text-xs font-bold" style={{clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%)'}}>
-                      GENESIS_LOG.2024
-                    </span>
-                  </div>
-                </div>
-
-                <h3 className="text-lg font-bold text-sky-600 mb-3">
-                  How Did DigitalBot.ai Start?
-                </h3>
-                <p className="text-gray-900 mb-4 leading-relaxed text-sm">
-                  <span className="text-sky-600 font-bold">Founded in early 2024</span>, DigitalBot.ai emerged from a simple observation: businesses were struggling to provide <span className="text-sky-600 font-bold">24/7 customer support</span> while maintaining quality and personal touch. Our founders, with backgrounds in <span className="text-sky-600 font-bold">AI research and enterprise software</span>, saw an opportunity to revolutionize customer service with <span className="text-sky-600 font-bold">AI voice agent technology</span>.
-                </p>
-                <p className="text-gray-900 mb-4 leading-relaxed text-sm">
-                  The problem was clear: traditional customer service was expensive, limited by business hours, and couldn't scale. We asked ourselves: <span className="text-sky-600 font-bold">"What if AI voice assistants could handle customer conversations as naturally as humans, but 24/7 without breaks?"</span>
-                </p>
-                <p className="text-gray-900 leading-relaxed text-sm">
-                  In just one year, we've grown to serve <span className="text-sky-600 font-bold">over 500 businesses worldwide</span>, processing <span className="text-sky-600 font-bold">millions of AI voice assistant conversations</span>. Our AI voice agents have evolved rapidly to become sophisticated conversational agents that understand context, emotion, and intent with <span className="text-sky-600 font-bold">high accuracy</span>.
-                </p>
-              </div>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                From a small startup to a global AI voice platform - here's our story.
+              </p>
             </div>
 
             {/* Timeline */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-bold text-center text-sky-600 mb-6">
-                Milestones in AI Voice Agent Innovation
-              </h3>
-              {milestones.map((milestone, idx) => (
-                <div key={idx} className="relative">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                      <div className={`w-12 h-12 bg-gradient-to-br ${values[idx % 4].color} flex items-center justify-center shadow-xl`} style={{clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'}}>
-                        <milestone.icon className="w-5 h-5 text-white" />
+            <div className="relative">
+              {/* Line */}
+              <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-violet-500 to-rose-500 -translate-x-1/2 hidden lg:block rounded-full" />
+
+              <div className="space-y-8 lg:space-y-12">
+                {milestones.map((milestone, i) => (
+                  <div key={i} className={`relative lg:flex items-center ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
+                    {/* Content */}
+                    <div className={`lg:w-1/2 ${i % 2 === 0 ? 'lg:pr-16 lg:text-right' : 'lg:pl-16'}`}>
+                      <div className={`bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all inline-block ${i % 2 === 0 ? 'lg:ml-auto' : ''}`}>
+                        <span className="text-sm font-bold text-blue-600 mb-2 block">{milestone.year}</span>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">{milestone.title}</h3>
+                        <p className="text-gray-600 text-sm">{milestone.description}</p>
                       </div>
                     </div>
-                    <div className="flex-1 bg-white  border border-sky-500/50 hover:border-sky-400 p-4 shadow-lg hover:shadow-sky-500/50 transition-all hover:scale-[1.02]" style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}>
-                      <div className={`inline-block px-3 py-1 bg-gradient-to-r ${values[idx % 4].color} text-white font-bold text-xs mb-2`} style={{clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 100%, 4px 100%)'}}>
-                        {milestone.year}
+
+                    {/* Icon */}
+                    <div className="absolute left-1/2 -translate-x-1/2 hidden lg:flex">
+                      <div className={`w-12 h-12 ${milestone.color} rounded-full flex items-center justify-center shadow-lg`}>
+                        <milestone.icon className="w-6 h-6 text-white" />
                       </div>
-                      <h4 className="text-sm font-bold text-sky-600 mb-1">{milestone.title}</h4>
-                      <p className="text-gray-900 text-xs">{milestone.description}</p>
                     </div>
+
+                    {/* Empty space for other side */}
+                    <div className="lg:w-1/2 hidden lg:block" />
                   </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Team Stats Section */}
+        <section className="py-20 px-4 bg-gradient-to-br from-gray-50 via-white to-blue-50">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-200 rounded-full mb-6">
+                <Users className="w-4 h-4 text-emerald-600" />
+                <span className="text-sm font-bold text-emerald-600">Our Team</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
+                The People Behind DigitalBot
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                A diverse team of AI engineers, designers, and customer success experts.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {teamStats.map((stat, i) => (
+                <div key={i} className={`${stat.bgColor} rounded-2xl p-8 shadow-lg border border-gray-100 text-center hover:shadow-xl transition-all hover:-translate-y-1`}>
+                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md">
+                    <stat.icon className={`w-8 h-8 ${stat.color}`} />
+                  </div>
+                  <p className="text-4xl font-black text-gray-900 mb-2">
+                    <AnimatedCounter end={stat.value} suffix={stat.suffix} />
+                  </p>
+                  <p className="text-gray-600 font-medium">{stat.label}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Core Values - Cyberpunk Full Width */}
-        <section className="py-12 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" id="our-values">
-          {/* Cyberpunk Background */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `linear-gradient(45deg, #ea580c 1px, transparent 1px),
-                               linear-gradient(-45deg, #ea580c 1px, transparent 1px)`,
-              backgroundSize: '15px 15px',
-              opacity: 0.06
-            }}></div>
-          </div>
-
-          <div className="container mx-auto max-w-7xl relative z-10">
-            <div className="text-center mb-10">
-              <div className="inline-block mb-4">
-                <span
-                  className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
-                  style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                >
-                  Our Values
-                </span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight drop-shadow-lg">
-                <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                  Our AI Voice Agent
-                </span>
-                <span
-                  className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-lg sm:text-xl font-black"
-                  style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                >
-                  Core Values
-                </span>
-              </h2>
-              <p className="text-sm text-gray-900 max-w-2xl mx-auto">
-                The principles that guide how we build the best <span className="text-sky-600 font-bold">AI voice agent and voice assistant platform</span> for businesses worldwide
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {values.map((value, index) => {
-                const valueImages = [
-                  'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2070&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2070&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=2070&auto=format&fit=crop'
-                ];
-
-                return (
-                  <Card
-                    key={index}
-                    className="group text-center border border-sky-500/50 hover:border-sky-400 bg-white shadow-xl hover:shadow-sky-500/50 hover:scale-105 transition-all overflow-hidden"
-                    style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}
-                  >
-                    {/* Value HD Image */}
-                    <div className="relative h-28 overflow-hidden">
-                      <Image
-                        src={valueImages[index]}
-                        alt={value.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent"></div>
-                    </div>
-
-                    <CardHeader className="pt-3 pb-2">
-                      <div className={`w-10 h-10 bg-gradient-to-br ${value.color} flex items-center justify-center mx-auto mb-3 shadow-xl group-hover:scale-110 transition-transform`} style={{clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'}}>
-                        <value.icon className="h-4 w-4 text-white" />
-                      </div>
-                      <CardTitle className="text-sky-600 text-sm">{value.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="pt-0 pb-4">
-                      <CardDescription className="text-gray-900 text-xs leading-relaxed">{value.description}</CardDescription>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+        {/* CTA Section */}
+        <section className="py-20 px-4 bg-gradient-to-br from-blue-600 to-blue-800">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6">
+              Ready to Transform Your Business?
+            </h2>
+            <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+              Join 500+ companies already using DigitalBot to automate their customer communications.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link href="/signup" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
+                Start Free Trial
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link href="/contact" className="px-8 py-4 bg-blue-500/30 text-white font-bold rounded-xl hover:bg-blue-500/50 transition-all border border-white/30">
+                Contact Sales
+              </Link>
             </div>
           </div>
         </section>
-
-        {/* System FAQ - Cyberpunk Full Width */}
-        <section className="py-12 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" id="faq" role="region" aria-labelledby="faq-section">
-          {/* Cyberpunk Background */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle, #ea580c 1px, transparent 1px)`,
-              backgroundSize: '20px 20px',
-              opacity: 0.08
-            }}></div>
-          </div>
-
-          <div className="container mx-auto max-w-7xl relative z-10">
-            <div className="text-center mb-10">
-              <div className="inline-block mb-4">
-                <span
-                  className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
-                  style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                >
-                  Query Database Access
-                </span>
-              </div>
-              <h2 id="faq-section" className="text-2xl sm:text-3xl font-bold mb-4">
-                <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                  Common Questions
-                </span>
-                <span
-                  className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-lg sm:text-xl font-black"
-                  style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                >
-                  About DigitalBot.ai
-                </span>
-              </h2>
-              <p className="text-sm text-gray-900 max-w-2xl mx-auto">
-                Get answers to frequently asked questions about our <span className="text-sky-600 font-semibold">AI voice agent platform</span>
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-3">
-              {[
-                {
-                  number: "01",
-                  q: "What does DigitalBot.ai do?",
-                  a: "DigitalBot.ai provides AI voice agent and AI voice assistant platform that enables businesses to automate customer service, sales, and support 24/7. Our AI voice agents handle conversations naturally, understand context, and provide instant responses without human intervention.",
-                  gradient: "from-sky-400 to-sky-500"
-                },
-                {
-                  number: "02",
-                  q: "When was DigitalBot.ai founded?",
-                  a: "DigitalBot.ai was founded in 2024 by AI research and enterprise software experts. We've rapidly grown to serve 500+ businesses worldwide with 2 million+ AI voice assistant conversations processed.",
-                  gradient: "from-sky-400 to-sky-500"
-                },
-                {
-                  number: "03",
-                  q: "How many businesses use DigitalBot.ai?",
-                  a: "Over 500 businesses worldwide use DigitalBot.ai's AI voice agent platform across 25+ countries. We process 2 million+ AI voice assistant conversations with 99.9% uptime and enterprise-grade reliability.",
-                  gradient: "from-sky-400 to-sky-500"
-                },
-                {
-                  number: "04",
-                  q: "What makes DigitalBot.ai different from other AI voice platforms?",
-                  a: "DigitalBot.ai offers 24/7 AI voice agents with <500ms response time, 99.9% uptime SLA, multi-language support, personal analytics dashboard, and enterprise-grade security. Our AI voice assistants understand context, emotion, and intent with industry-leading accuracy.",
-                  gradient: "from-sky-400 to-sky-500"
-                },
-                {
-                  number: "05",
-                  q: "Is DigitalBot.ai secure and compliant?",
-                  a: "Yes, DigitalBot.ai maintains enterprise-grade security with HIPAA compliance, SOC 2 certification, and end-to-end encryption. Our AI voice agent platform ensures your data is protected with 99.9% uptime SLA and 24/7 monitoring.",
-                  gradient: "from-sky-400 to-sky-500"
-                },
-                {
-                  number: "06",
-                  q: "How quickly can I deploy an AI voice agent?",
-                  a: "You can deploy an AI voice agent in minutes with DigitalBot.ai. Our platform offers pre-built templates, easy integration, and instant activation. Start your free 14-day trial today with no credit card required.",
-                  gradient: "from-sky-400 to-sky-500"
-                }
-              ].map((faq, idx) => (
-                <div
-                  key={idx}
-                  className="group relative bg-white  border border-sky-500/50 hover:border-sky-400 p-4 shadow-lg hover:shadow-sky-500/50 transition-all duration-500 hover:scale-[1.02] overflow-hidden"
-                  style={{clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'}}
-                >
-                  {/* Number Badge */}
-                  <div className={`inline-flex items-center justify-center w-8 h-8 bg-gradient-to-br ${faq.gradient} text-white font-bold text-sm mb-3 shadow-lg transform group-hover:rotate-12 transition-transform duration-500`} style={{clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'}}>
-                    {faq.number}
-                  </div>
-
-                  {/* Question */}
-                  <h3 className="text-sm font-bold text-sky-600 mb-3 group-hover:text-sky-600 transition-all duration-300">
-                    {faq.q}
-                  </h3>
-
-                  {/* Answer */}
-                  <p className="text-gray-900 leading-relaxed text-xs">
-                    {faq.a}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* System Access CTA - Cyberpunk Full Width */}
-        <section className="py-12 px-3 relative overflow-hidden bg-white">
-          {/* Cyberpunk Background */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle, #ea580c 1px, transparent 1px)`,
-              backgroundSize: '20px 20px'
-            }}></div>
-          </div>
-
-          <div className="container mx-auto max-w-5xl text-center relative z-10">
-            <div className="bg-white border border-sky-500/50 hover:border-sky-400 p-6 md:p-8 shadow-xl hover:shadow-sky-500/50 hover:scale-[1.02] transition-all relative overflow-hidden group" style={{clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'}}>
-              {/* CTA HD Image */}
-              <div className="absolute inset-0">
-                <Image
-                  src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=2070&auto=format&fit=crop"
-                  alt="AI Voice Agent Platform - Get Started"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-white/40"></div>
-              </div>
-
-              <div className="relative z-10">
-                <div className="inline-block mb-4">
-                  <span
-                    className="px-4 py-2 bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl animate-pulse"
-                    style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                  >
-                    Ready to Get Started
-                  </span>
-                </div>
-
-                <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                  <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                    Ready to Transform Your Business
-                  </span>
-                  <span
-                    className="inline-block px-4 py-2 bg-sky-500 text-white shadow-xl text-lg sm:text-xl font-black"
-                    style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}
-                  >
-                    with AI Voice Agents?
-                  </span>
-                </h2>
-
-                <div className="max-w-xl mx-auto mb-6 p-4 bg-white/60 border border-sky-500/50 " style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'}}>
-                  <p className="text-sm text-gray-900 leading-relaxed font-medium">
-                    Join <span className="font-bold bg-gradient-to-r from-sky-400 to-sky-500 bg-clip-text text-transparent">500+ businesses</span> using DigitalBot.ai's AI voice assistant platform. Start automating your customer service today with our <span className="font-bold text-sky-600">free 14-day trial</span>.
-                  </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Link href="/signup">
-                    <Button className="bg-sky-500 text-white hover:bg-sky-600 hover:scale-105 transition-all px-6 py-4 text-sm font-bold shadow-xl border border-sky-600" style={{clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)'}}>
-                      Start Free 14-Day Trial
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                  <Link href="/contact">
-                    <Button variant="outline" className="border border-sky-500 text-sky-600 hover:bg-sky-500/20 px-6 py-4 text-sm font-bold shadow-lg hover:scale-105 transition-all">
-                      Schedule a Demo
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Structured Data for GEO */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "AboutPage",
-              "mainEntity": {
-                "@type": "Organization",
-                "name": "DigitalBot.ai",
-                "alternateName": "DigitalBot AI Voice Agent Platform",
-                "url": "https://digitalbot.ai",
-                "logo": "https://digitalbot.ai/logo.png",
-                "foundingDate": "2024",
-                "founders": [
-                  {
-                    "@type": "Person",
-                    "name": "DigitalBot.ai Founders"
-                  }
-                ],
-                "description": "DigitalBot.ai is an innovative AI voice agent and AI voice assistant platform founded in 2024. We serve 500+ businesses worldwide with 2 million+ conversations, 99.9% uptime, and 24/7 AI automation.",
-                "slogan": "AI Voice Agents That Never Sleep",
-                "numberOfEmployees": {
-                  "@type": "QuantitativeValue",
-                  "value": "10-50"
-                },
-                "areaServed": {
-                  "@type": "Place",
-                  "name": "Worldwide - 25+ Countries"
-                },
-                "knowsAbout": ["AI Voice Agent", "AI Voice Assistant", "Conversational AI", "Voice Automation", "Customer Service AI", "Voice Technology", "Natural Language Processing"],
-                "sameAs": [
-                  "https://twitter.com/digitalbot_ai",
-                  "https://linkedin.com/company/digitalbot-ai"
-                ],
-                "aggregateRating": {
-                  "@type": "AggregateRating",
-                  "ratingValue": "4.8",
-                  "reviewCount": "500",
-                  "bestRating": "5"
-                }
-              },
-              "speakable": {
-                "@type": "SpeakableSpecification",
-                "cssSelector": ["h1", "h2", "#who-we-are", "#our-story"]
-              }
-            })
-          }}
-        />
       </main>
 
       <Footer />
     </>
   )
 }
-
-
-
-
-
