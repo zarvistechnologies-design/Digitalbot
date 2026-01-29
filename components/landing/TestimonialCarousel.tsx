@@ -72,10 +72,10 @@ const testimonials = [
 ]
 
 const stats = [
-  { icon: Users, value: "500+", label: "Happy Clients", color: "text-blue-500" },
-  { icon: TrendingUp, value: "10M+", label: "Calls Handled", color: "text-emerald-500" },
-  { icon: Award, value: "4.9/5", label: "Avg Rating", color: "text-amber-500" },
-  { icon: Zap, value: "99.9%", label: "Uptime", color: "text-purple-500" }
+  { icon: Users, value: "500+", label: "Happy Clients", color: "text-blue-600", bgColor: "bg-blue-50", iconBg: "bg-blue-500" },
+  { icon: TrendingUp, value: "10M+", label: "Calls Handled", color: "text-emerald-600", bgColor: "bg-emerald-50", iconBg: "bg-emerald-500" },
+  { icon: Award, value: "4.9/5", label: "Avg Rating", color: "text-amber-600", bgColor: "bg-amber-50", iconBg: "bg-amber-500" },
+  { icon: Zap, value: "99.9%", label: "Uptime", color: "text-violet-600", bgColor: "bg-violet-50", iconBg: "bg-violet-500" }
 ]
 
 export default function TestimonialCarousel() {
@@ -151,11 +151,13 @@ export default function TestimonialCarousel() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white rounded-2xl p-6 shadow-lg shadow-gray-100 border border-gray-100 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className={`${stat.bgColor} rounded-2xl p-6 shadow-lg border border-gray-100 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2`}
             >
-              <stat.icon className={`w-8 h-8 mx-auto mb-3 ${stat.color}`} />
-              <div className="text-2xl md:text-3xl font-bold text-gray-900">{stat.value}</div>
-              <div className="text-sm text-gray-500">{stat.label}</div>
+              <div className={`w-12 h-12 ${stat.iconBg} rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg`}>
+                <stat.icon className="w-6 h-6 text-white" />
+              </div>
+              <div className={`text-2xl md:text-3xl font-bold text-gray-900`}>{stat.value}</div>
+              <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </div>

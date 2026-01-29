@@ -1,4 +1,4 @@
-"use client"
+ "use client"
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { TrendingUp, Phone, Clock, Globe, Zap, Shield } from 'lucide-react'
@@ -11,9 +11,11 @@ interface StatProps {
   icon: React.ElementType
   duration?: number
   decimals?: number
+  color?: string
+  bgColor?: string
 }
 
-function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, duration = 2, decimals = 0 }: StatProps) {
+function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, duration = 2, decimals = 0, color = 'from-blue-500 to-blue-600', bgColor = 'from-blue-50 to-blue-100/50' }: StatProps) {
   const [count, setCount] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
@@ -51,9 +53,9 @@ function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, dura
       transition={{ duration: 0.6 }}
       className="group relative"
     >
-      <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100 hover:border-blue-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+      <div className={`bg-gradient-to-br ${bgColor} rounded-2xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2`}>
         {/* Icon */}
-        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-blue-500/20">
+        <div className={`w-14 h-14 bg-gradient-to-br ${color} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg`}>
           <Icon className="h-7 w-7 text-white" />
         </div>
 
@@ -61,26 +63,23 @@ function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, dura
         <div className="text-4xl md:text-5xl font-black text-gray-900 mb-2">
           {prefix}
           <span className="tabular-nums">{formattedValue}</span>
-          <span className="text-blue-500">{suffix}</span>
+          <span className={`bg-gradient-to-r ${color} bg-clip-text text-transparent`}>{suffix}</span>
         </div>
 
         {/* Label */}
         <p className="text-gray-600 font-medium">{label}</p>
-
-        {/* Decorative corner */}
-        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-blue-50 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
       </div>
     </motion.div>
   )
 }
 
 const stats = [
-  { value: 10, suffix: 'M+', label: 'Calls Handled', icon: Phone },
-  { value: 99.9, suffix: '%', label: 'Uptime Guarantee', icon: Shield, decimals: 1 },
-  { value: 500, suffix: 'ms', prefix: '<', label: 'Response Time', icon: Zap },
-  { value: 50, suffix: '+', label: 'Languages Supported', icon: Globe },
-  { value: 24, suffix: '/7', label: 'AI Availability', icon: Clock },
-  { value: 300, suffix: '%', label: 'Average ROI', icon: TrendingUp },
+  { value: 10, suffix: 'M+', label: 'Calls Handled', icon: Phone, color: 'from-blue-500 to-blue-600', bgColor: 'from-blue-50 to-blue-100/50' },
+  { value: 99.9, suffix: '%', label: 'Uptime Guarantee', icon: Shield, decimals: 1, color: 'from-emerald-500 to-teal-500', bgColor: 'from-emerald-50 to-emerald-100/50' },
+  { value: 500, suffix: 'ms', prefix: '<', label: 'Response Time', icon: Zap, color: 'from-amber-500 to-orange-500', bgColor: 'from-amber-50 to-amber-100/50' },
+  { value: 50, suffix: '+', label: 'Languages Supported', icon: Globe, color: 'from-violet-500 to-purple-500', bgColor: 'from-violet-50 to-violet-100/50' },
+  { value: 24, suffix: '/7', label: 'AI Availability', icon: Clock, color: 'from-rose-500 to-pink-500', bgColor: 'from-rose-50 to-rose-100/50' },
+  { value: 300, suffix: '%', label: 'Average ROI', icon: TrendingUp, color: 'from-cyan-500 to-blue-500', bgColor: 'from-cyan-50 to-cyan-100/50' },
 ]
 
 export default function AnimatedStats() {
@@ -122,6 +121,8 @@ export default function AnimatedStats() {
               label={stat.label}
               icon={stat.icon}
               decimals={stat.decimals}
+              color={stat.color}
+              bgColor={stat.bgColor}
             />
           ))}
         </div>
