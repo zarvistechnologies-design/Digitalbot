@@ -1,58 +1,44 @@
+"use client"
+
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
+<<<<<<< HEAD
 import { ArrowRight, BarChart3, Bot, Brain, CheckCircle, Clock, Globe, Headphones, Mic, Phone, Play, Shield, TrendingUp, Users, Workflow, Zap } from "lucide-react"
 import type { Metadata } from "next"
 import Image from "next/image"
+=======
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
 import Link from "next/link"
+import { BenefitsGrid, FeaturesGrid, UseCasesGrid, FAQSection, VoiceConversationPlayer, HeroCTAButtons, TrustIndicators, FinalCTASection } from "./components"
 
-export const metadata: Metadata = {
-  title: 'AI Voice Bot for Customer Service | 24/7 Phone Call Automation | DigitalBot.ai',
-  description: 'Deploy AI Voice Bot powered by advanced Natural Language Processing to automate customer conversations. Handle unlimited calls simultaneously with human-like voice synthesis, reduce costs by 70%, and provide instant responses 24/7. No coding required - launch your AI Voice Bot in minutes.',
-  keywords: [
-    'AI Voice Bot',
-    'AI Voice Assistant',
-    'Voice Automation',
-    'Customer Service AI',
-    'Phone Call Automation',
-    'Natural Language Processing',
-    'AI Customer Support',
-    'Voice Bot Platform',
-    'Automated Phone System',
-    '24/7 AI Assistant',
-    'Voice AI Technology',
-    'Customer Service Automation',
-    'AI Receptionist',
-    'Voice Recognition AI',
-    'Business Phone AI'
-  ],
-  authors: [{ name: 'DigitalBot.ai' }],
-  creator: 'DigitalBot.ai',
-  publisher: 'DigitalBot.ai',
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://www.digitalbot.ai/services/ai-voice-bot',
-    title: 'AI Voice Bot for Customer Service | 24/7 Phone Call Automation',
-    description: 'Deploy AI Voice Bot to automate customer conversations 24/7. Handle unlimited calls simultaneously, reduce costs by 70%, and get instant responses with natural language processing.',
-    siteName: 'DigitalBot.ai',
-    images: [
-      {
-        url: 'https://www.digitalbot.ai/og-ai-voice-bot.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'AI Voice Bot Platform - 24/7 Customer Service Automation',
+// Pre-computed FAQ entities for JSON-LD
+const faqEntities = [
+  { "@type": "Question", "name": "What is an AI Voice Bot?", "acceptedAnswer": { "@type": "Answer", "text": "An AI Voice Bot is an advanced artificial intelligence system that uses natural language processing (NLP) and machine learning to conduct voice conversations with customers." } },
+  { "@type": "Question", "name": "How does an AI Voice Bot work?", "acceptedAnswer": { "@type": "Answer", "text": "AI Voice Bots work through Speech Recognition, Natural Language Processing, AI Decision Engine, Voice Synthesis, and Continuous Learning." } },
+  { "@type": "Question", "name": "What are the benefits of using AI Voice Bot?", "acceptedAnswer": { "@type": "Answer", "text": "24/7 Availability, Cost Reduction up to 70%, Unlimited Scalability, Consistent Service Quality, Faster Response Times, and Multilingual Support." } },
+  { "@type": "Question", "name": "Can AI Voice Bot understand different accents?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, our AI Voice Bot supports 50+ languages and automatically detects the caller's language, adapting in real-time." } },
+  { "@type": "Question", "name": "How quickly can I deploy an AI Voice Bot?", "acceptedAnswer": { "@type": "Answer", "text": "With DigitalBot.ai, you can deploy a fully functional AI Voice Bot in as little as 5-10 minutes." } },
+]
+
+// Structured data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "AI Voice Bot by DigitalBot.ai",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Customer Service Software",
+      "operatingSystem": "Web, iOS, Android, Windows, macOS",
+      "offers": {
+        "@type": "Offer",
+        "price": "55",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2025-12-31",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.digitalbot.ai/pricing"
       },
+<<<<<<< HEAD
     ],
   },
   twitter: {
@@ -235,177 +221,47 @@ const VoiceConversationPlayer = () => {
       </div>
     </div>
   )
+=======
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "1250",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "description": "AI Voice Bot platform for automated customer service with natural language processing, 24/7 availability, and unlimited scalability.",
+      "url": "https://www.digitalbot.ai/services/ai-voice-bot",
+      "image": "https://www.digitalbot.ai/og-ai-voice-bot.jpg",
+      "publisher": {
+        "@type": "Organization",
+        "name": "DigitalBot.ai",
+        "logo": { "@type": "ImageObject", "url": "https://www.digitalbot.ai/logo.png" }
+      },
+      "featureList": [
+        "24/7 Automated Voice Assistance",
+        "Natural Language Processing",
+        "Multi-language Support (50+ Languages)",
+        "Real-time Analytics Dashboard",
+        "Enterprise Security & Compliance"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqEntities
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.digitalbot.ai" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://www.digitalbot.ai/services" },
+        { "@type": "ListItem", "position": 3, "name": "AI Voice Bot", "item": "https://www.digitalbot.ai/services/ai-voice-bot" }
+      ]
+    }
+  ]
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
 }
 
 export default function AIVoiceBot() {
-
-  // Comprehensive JSON-LD Structured Data for Maximum SEO
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "name": "AI Voice Bot by DigitalBot.ai",
-        "applicationCategory": "BusinessApplication",
-        "applicationSubCategory": "Customer Service Software",
-        "operatingSystem": "Web, iOS, Android, Windows, macOS",
-        "offers": {
-          "@type": "Offer",
-          "price": "55",
-          "priceCurrency": "USD",
-          "priceValidUntil": "2025-12-31",
-          "availability": "https://schema.org/InStock",
-          "url": "https://www.digitalbot.ai/pricing"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "ratingCount": "1250",
-          "bestRating": "5",
-          "worstRating": "1"
-        },
-        "review": {
-          "@type": "Review",
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
-          "author": {
-            "@type": "Person",
-            "name": "Sarah Johnson"
-          },
-          "reviewBody": "Best AI voice bot platform we've used. Reduced our call center costs by 70% while improving customer satisfaction."
-        },
-        "description": "AI Voice Bot platform for automated customer service with natural language processing, 24/7 availability, and unlimited scalability. Deploy intelligent voice assistants in minutes.",
-        "url": "https://www.digitalbot.ai/services/ai-voice-bot",
-        "image": "https://www.digitalbot.ai/og-ai-voice-bot.jpg",
-        "publisher": {
-          "@type": "Organization",
-          "name": "DigitalBot.ai",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://www.digitalbot.ai/logo.png"
-          }
-        },
-        "featureList": [
-          "24/7 Automated Voice Assistance",
-          "Natural Language Processing",
-          "Multi-language Support (50+ Languages)",
-          "Real-time Analytics Dashboard",
-          "Enterprise Security & Compliance",
-          "Omnichannel Integration",
-          "No-Code Conversation Builder",
-          "CRM Integration",
-          "Sentiment Analysis",
-          "Voice Emotion Detection"
-        ],
-        "screenshot": "https://www.digitalbot.ai/screenshots/ai-voice-bot-dashboard.jpg"
-      },
-      {
-        "@type": "Product",
-        "name": "AI Voice Bot Solution",
-        "description": "Enterprise AI voice automation platform for customer service, sales, and support. Automate phone conversations with human-like AI voice bots.",
-        "brand": {
-          "@type": "Brand",
-          "name": "DigitalBot.ai"
-        },
-        "offers": {
-          "@type": "AggregateOffer",
-          "priceCurrency": "USD",
-          "lowPrice": "55",
-          "highPrice": "999",
-          "offerCount": "3",
-          "availability": "https://schema.org/InStock"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "1250"
-        }
-      },
-      {
-        "@type": "Service",
-        "serviceType": "AI Voice Bot Implementation",
-        "provider": {
-          "@type": "Organization",
-          "name": "DigitalBot.ai"
-        },
-        "areaServed": "Worldwide",
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "AI Voice Bot Services",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "AI Voice Bot Setup & Configuration"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Custom Voice Bot Development"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Voice Bot Analytics & Optimization"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": faqs.map((faq, index) => ({
-          "@type": "Question",
-          "name": faq.question,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.answer
-          }
-        }))
-      },
-      {
-        "@type": "VideoObject",
-        "name": "AI Voice Bot Demo - DigitalBot.ai",
-        "description": "See how AI Voice Bot handles customer conversations with natural language processing and human-like responses",
-        "thumbnailUrl": "https://www.digitalbot.ai/video-thumbnail-ai-voice-bot.jpg",
-        "uploadDate": "2024-01-15",
-        "duration": "PT2M30S",
-        "contentUrl": "https://www.digitalbot.ai/videos/ai-voice-bot-demo.mp4"
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://www.digitalbot.ai"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Services",
-            "item": "https://www.digitalbot.ai/services"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "AI Voice Bot",
-            "item": "https://www.digitalbot.ai/services/ai-voice-bot"
-          }
-        ]
-      }
-    ]
-  }
-
   return (
     <>
       {/* JSON-LD Structured Data */}
@@ -451,15 +307,22 @@ export default function AIVoiceBot() {
               </ol>
             </nav>
 
+<<<<<<< HEAD
             {/* Hero Badge */}
             <div className="inline-block mb-3">
               <span className="px-3 py-1 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg animate-pulse border border-orange-400" style={{
+=======
+            {/* Badge */}
+            <div className="inline-block mb-4">
+              <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
                 clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
               }}>
-                🤖 #1 AI Voice Bot Platform
+                #1 AI Voice Bot Platform
               </span>
             </div>
 
+<<<<<<< HEAD
             {/* H1 Heading */}
             <h1 id="hero-heading" className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 leading-tight">
               <span className="block mb-2 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent">
@@ -476,6 +339,22 @@ export default function AIVoiceBot() {
             {/* SEO-Rich Description */}
             <div className="max-w-4xl mx-auto mb-6 p-3 bg-orange-50 backdrop-blur-md border border-orange-200 shadow-md shadow-orange-500/10" style={{
               clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
+=======
+            {/* Main Headline */}
+            <h1 id="hero-heading" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight leading-tight">
+              <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+                AI Voice Bot
+              </span>
+              <br />
+              <span className="text-gray-900 text-lg sm:text-xl lg:text-2xl">
+                Intelligent Voice Automation for Business
+              </span>
+            </h1>
+
+            {/* Description */}
+            <div className="max-w-3xl mx-auto mb-6 bg-blue-100/40 backdrop-blur-sm p-3 border border-blue-200 shadow-lg shadow-blue-500/15" style={{
+              clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
             }}>
               <p className="text-xs sm:text-sm text-gray-900 leading-relaxed font-medium">
                 Deploy <strong className="text-orange-600">AI Voice Bot</strong> powered by advanced <strong className="text-orange-600">Natural Language Processing</strong> to automate customer conversations. Handle unlimited calls simultaneously with <strong className="text-orange-600">human-like voice synthesis</strong>, reduce costs by 70%, and provide instant responses 24/7. No coding required - launch your <strong className="text-orange-600">AI Voice Bot</strong> in minutes.
@@ -483,6 +362,7 @@ export default function AIVoiceBot() {
             </div>
 
             {/* Key Benefits Grid */}
+<<<<<<< HEAD
             <div className="grid grid-cols-1 md:grid-cols-4 gap-3 max-w-5xl mx-auto mb-6">
               {benefits.map((benefit, index) => (
                 <div key={index} className="bg-orange-50 backdrop-blur-md p-3 shadow-lg shadow-orange-500/15 border border-orange-200 transition-transform duration-300 hover:scale-[1.02] hover:shadow-orange-400/25 relative overflow-hidden group" style={{
@@ -536,10 +416,20 @@ export default function AIVoiceBot() {
                 <span className="font-semibold text-gray-900">1000+ Businesses Use AI Voice Bot</span>
               </div>
             </div>
+=======
+            <BenefitsGrid />
+
+            {/* CTA Buttons */}
+            <HeroCTAButtons />
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
         </section>
 
+        {/* Trust Indicators */}
+        <TrustIndicators />
+
         {/* Features Section */}
+<<<<<<< HEAD
         <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-50 via-white to-orange-50 relative overflow-hidden" aria-labelledby="features-heading">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -559,21 +449,43 @@ export default function AIVoiceBot() {
               backgroundImage: 'linear-gradient(orange 1px, transparent 1px), linear-gradient(90deg, orange 1px, transparent 1px)',
               backgroundSize: '50px 50px'
             }}></div>
+=======
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="features-heading">
+          {/* Background */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
+            <div className="absolute bottom-[20%] right-[10%] w-[180px] h-[180px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
+<<<<<<< HEAD
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 mb-4">
                 <div className="h-px w-8 bg-gradient-to-r from-transparent to-orange-500"></div>
                 <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-orange-500/30 rounded-full animate-pulse">
                   ✨ Powerful Features
+=======
+            <div className="text-left mb-6">
+              <div className="inline-block mb-3">
+                <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
+                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
+                }}>
+                  Enterprise-Grade Features
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
                 </span>
                 <div className="h-px w-8 bg-gradient-to-l from-transparent to-orange-500"></div>
               </div>
+<<<<<<< HEAD
               <h2 id="features-heading" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4">
                 <span className="bg-gradient-to-r from-gray-900 via-orange-600 to-gray-900 bg-clip-text text-transparent">
                   Everything Your AI Voice Bot Needs
+=======
+              <h2 id="features-heading" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
+                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+                  AI Voice Bot Features
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
                 </span>
               </h2>
               <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -581,6 +493,7 @@ export default function AIVoiceBot() {
               </p>
             </div>
 
+<<<<<<< HEAD
             {/* Features Grid - Bento Style */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((feature, index) => {
@@ -677,6 +590,10 @@ export default function AIVoiceBot() {
                 </Link>
               </div>
             </div>
+=======
+            {/* Features Grid */}
+            <FeaturesGrid />
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
         </section>
 
@@ -709,6 +626,7 @@ export default function AIVoiceBot() {
             </div>
 
             {/* Use Cases Grid */}
+<<<<<<< HEAD
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
               {useCases.map((useCase, index) => {
                 const images = [
@@ -757,6 +675,9 @@ export default function AIVoiceBot() {
                 );
               })}
             </div>
+=======
+            <UseCasesGrid />
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
         </section>
 
@@ -764,6 +685,7 @@ export default function AIVoiceBot() {
         <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden">
           {/* Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
+<<<<<<< HEAD
             <div className="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-gradient-radial from-orange-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
             <div className="absolute bottom-[10%] right-[5%] w-[250px] h-[250px] bg-gradient-radial from-orange-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
             <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[150px] h-[150px] bg-gradient-radial from-orange-300/20 to-transparent rounded-full blur-xl animate-pulse"></div>
@@ -784,35 +706,71 @@ export default function AIVoiceBot() {
               </h2>
               <p className="text-sm text-gray-700 max-w-2xl mx-auto">
                 Listen to how our <strong className="text-orange-600">AI voice bot</strong> handles real customer interactions with human-like responses
+=======
+            <div className="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
+            <div className="absolute bottom-[10%] right-[5%] w-[250px] h-[250px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
+          </div>
+
+          <div className="container mx-auto relative z-10 max-w-7xl">
+            {/* Section Header */}
+            <div className="text-left mb-6">
+              <div className="inline-block mb-3">
+                <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
+                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
+                }}>
+                  Experience AI Voice
+                </span>
+              </div>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
+                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+                  Hear AI Voice Bot in Action
+                </span>
+              </h2>
+              <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                Listen to how our <strong className="text-blue-600">AI voice bot</strong> handles real customer interactions with natural conversation flow
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
               </p>
             </div>
 
-            {/* Audio Player Card */}
-            <div className="relative">
+            {/* Voice Demo Player */}
+            <div className="max-w-2xl mx-auto">
               <VoiceConversationPlayer />
             </div>
           </div>
         </section>
 
         {/* FAQ Section */}
+<<<<<<< HEAD
         <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" role="region" aria-labelledby="faq-section">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-0 left-1/4 w-24 h-24 bg-gradient-to-br from-orange-200/20 to-orange-300/15 rounded-full filter blur-xl animate-pulse"></div>
             <div className="absolute bottom-0 right-1/4 w-28 h-28 bg-gradient-to-br from-orange-200/25 to-orange-300/20 rounded-full filter blur-xl animate-pulse"></div>
             <div className="absolute top-1/2 left-1/2 w-20 h-20 bg-gradient-to-br from-orange-300/15 to-orange-400/15 rounded-full filter blur-lg animate-pulse"></div>
+=======
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="faq-heading">
+          {/* Background */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-[15%] left-[10%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
+            <div className="absolute bottom-[15%] right-[10%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
 
-          <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
             <div className="text-left mb-6">
               <div className="inline-block mb-3">
+<<<<<<< HEAD
                 <span className="px-3 py-1 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg animate-pulse border border-orange-400" style={{
+=======
+                <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
                   clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
                 }}>
-                  Got Questions? We've Got Answers
+                  Frequently Asked Questions
                 </span>
               </div>
+<<<<<<< HEAD
               <h2 id="faq-section" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 text-gray-900">
                 <span className="block mb-1">Frequently Asked</span>
                 <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent" style={{
@@ -823,10 +781,20 @@ export default function AIVoiceBot() {
               </h2>
               <p className="text-gray-700 text-sm max-w-3xl mx-auto leading-relaxed">
                 Everything you need to know about <span className="text-orange-600 font-semibold">AI Voice Bots</span> and how to implement them
+=======
+              <h2 id="faq-heading" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
+                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+                  AI Voice Bot FAQ
+                </span>
+              </h2>
+              <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                Get answers to common questions about <strong className="text-blue-600">AI voice bot</strong> technology and implementation
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
               </p>
             </div>
 
             {/* FAQ Grid */}
+<<<<<<< HEAD
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
               {faqs.map((faq, index) => {
                 return (
@@ -957,7 +925,17 @@ export default function AIVoiceBot() {
         </section>
 
         <Footer />
+=======
+            <FAQSection />
+          </div>
+        </section>
+
+        {/* Final CTA Section */}
+        <FinalCTASection />
+>>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
       </main>
+
+      <Footer />
     </>
   )
 }
