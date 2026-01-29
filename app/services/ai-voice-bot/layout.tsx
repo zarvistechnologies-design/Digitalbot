@@ -71,9 +71,5 @@ export default function AIVoiceBotLayout({
 }: {
   children: React.ReactNode
 }) {
-<<<<<<< HEAD
-  return <>{children}</>
-=======
   return children
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
 }

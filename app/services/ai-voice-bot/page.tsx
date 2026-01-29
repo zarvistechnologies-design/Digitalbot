@@ -2,12 +2,6 @@
 
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
-<<<<<<< HEAD
-import { ArrowRight, BarChart3, Bot, Brain, CheckCircle, Clock, Globe, Headphones, Mic, Phone, Play, Shield, TrendingUp, Users, Workflow, Zap } from "lucide-react"
-import type { Metadata } from "next"
-import Image from "next/image"
-=======
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
 import Link from "next/link"
 import { BenefitsGrid, FeaturesGrid, UseCasesGrid, FAQSection, VoiceConversationPlayer, HeroCTAButtons, TrustIndicators, FinalCTASection } from "./components"
 
@@ -38,190 +32,6 @@ const structuredData = {
         "availability": "https://schema.org/InStock",
         "url": "https://www.digitalbot.ai/pricing"
       },
-<<<<<<< HEAD
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'AI Voice Bot for Customer Service | 24/7 Phone Call Automation',
-    description: 'Deploy AI Voice Bot to automate customer conversations 24/7. Handle unlimited calls simultaneously and reduce costs by 70%.',
-    site: '@DigitalBotAI',
-    creator: '@DigitalBotAI',
-    images: ['https://www.digitalbot.ai/og-ai-voice-bot.jpg'],
-  },
-  alternates: {
-    canonical: 'https://www.digitalbot.ai/services/ai-voice-bot',
-  },
-  other: {
-    'fb:app_id': '12345678901234567',
-  },
-}
-
-const features = [
-  {
-    icon: Brain,
-    title: "Advanced AI Technology",
-    description: "Powered by cutting-edge natural language processing and deep learning algorithms for accurate voice understanding and human-like responses."
-  },
-  {
-    icon: Mic,
-    title: "Natural Voice Synthesis",
-    description: "Crystal-clear, human-like voice output with emotion detection and contextual tone adjustment for authentic conversations."
-  },
-  {
-    icon: Workflow,
-    title: "Custom Conversation Flows",
-    description: "Design tailored dialogue paths for your specific business needs with our intuitive no-code conversation builder."
-  },
-  {
-    icon: BarChart3,
-    title: "Real-Time Analytics Dashboard",
-    description: "Comprehensive insights into every conversation with detailed metrics, sentiment analysis, and performance tracking."
-  },
-  {
-    icon: Shield,
-    title: "Enterprise-Grade Security",
-    description: "Bank-level encryption, SOC 2 compliance, GDPR ready with end-to-end data protection and privacy controls."
-  },
-  {
-    icon: Bot,
-    title: "Omnichannel Integration",
-    description: "Seamlessly deploy across phone systems, web chat, mobile apps, WhatsApp, SMS, and messaging platforms."
-  },
-]
-
-const benefits = [
-  {
-    icon: Clock,
-    title: "24/7 Availability",
-    stat: "100%",
-    description: "Never miss a customer call, day or night"
-  },
-  {
-    icon: Users,
-    title: "Unlimited Scalability",
-    stat: "∞",
-    description: "Handle thousands of calls simultaneously"
-  },
-  {
-    icon: TrendingUp,
-    title: "Cost Reduction",
-    stat: "70%",
-    description: "Lower operational costs vs human agents"
-  },
-  {
-    icon: Zap,
-    title: "Instant Response",
-    stat: "<1s",
-    description: "Lightning-fast AI-powered responses"
-  },
-]
-
-const useCases = [
-  {
-    title: "Customer Support Automation",
-    description: "Handle FAQs, troubleshooting, and support tickets automatically with AI voice bots that understand context and provide accurate solutions.",
-    icon: Headphones
-  },
-  {
-    title: "Appointment Scheduling",
-    description: "Automate booking, rescheduling, and reminders for appointments across healthcare, salons, and service businesses.",
-    icon: Phone
-  },
-  {
-    title: "Lead Qualification",
-    description: "Engage prospects, qualify leads, and route high-value opportunities to your sales team automatically.",
-    icon: TrendingUp
-  },
-  {
-    title: "Order Status & Tracking",
-    description: "Provide instant updates on orders, deliveries, and shipments without human intervention.",
-    icon: Globe
-  },
-]
-
-const faqs = [
-  {
-    question: "What is an AI Voice Bot?",
-    answer: "An AI Voice Bot is an advanced artificial intelligence system that uses natural language processing (NLP) and machine learning to conduct voice conversations with customers. It can understand spoken language, interpret intent, process requests, and respond with human-like voice synthesis - all automatically and 24/7. AI Voice Bots handle customer service, sales, support, and information queries without human intervention, providing instant responses while learning and improving from every interaction."
-  },
-  {
-    question: "How does an AI Voice Bot work?",
-    answer: "AI Voice Bots work through several sophisticated technologies: (1) Speech Recognition converts spoken words into text using advanced algorithms. (2) Natural Language Processing (NLP) analyzes the text to understand intent, context, and meaning. (3) AI Decision Engine processes the request and determines the appropriate response based on trained data and business logic. (4) Voice Synthesis converts the response text back into natural-sounding speech. (5) Continuous Learning improves accuracy over time by analyzing conversation patterns and outcomes."
-  },
-  {
-    question: "What are the benefits of using AI Voice Bot for my business?",
-    answer: "AI Voice Bots deliver multiple business benefits: (1) 24/7 Availability - Handle calls anytime without human agents. (2) Cost Reduction - Save up to 70% on customer service costs. (3) Unlimited Scalability - Manage thousands of simultaneous calls without wait times. (4) Consistent Service Quality - Provide uniform, error-free responses every time. (5) Faster Response Times - Instant answers within 1 second. (6) Data-Driven Insights - Analytics on every conversation for continuous improvement. (7) Multilingual Support - Communicate in multiple languages automatically."
-  },
-  {
-    question: "Can AI Voice Bot understand different accents and languages?",
-    answer: "Yes, modern AI Voice Bots are trained on diverse datasets including multiple accents, dialects, and languages. Our AI Voice Bot supports 50+ languages and automatically detects the caller's language, adapting in real-time. The advanced NLP models recognize regional accents (American, British, Australian, Indian English, etc.) and colloquial expressions. The system continuously learns from interactions to improve accuracy across different speech patterns, making it ideal for global businesses serving diverse customer bases."
-  },
-  {
-    question: "How quickly can I deploy an AI Voice Bot?",
-    answer: "With DigitalBot.ai, you can deploy a fully functional AI Voice Bot in as little as 5-10 minutes. Our platform offers: (1) Pre-built Templates for common use cases (customer support, appointment booking, lead qualification). (2) No-Code Builder - Design conversation flows visually without programming. (3) One-Click Integration with existing phone systems, CRM, and business tools. (4) Instant Testing & Preview before going live. Most businesses are operational within 24 hours, compared to traditional development that takes weeks or months."
-  },
-  {
-    question: "Is my customer data secure with AI Voice Bot?",
-    answer: "Absolutely. Security is our top priority. Our AI Voice Bot employs: (1) End-to-End Encryption - All voice data encrypted in transit and at rest using AES-256. (2) SOC 2 Type II Compliance - Regular third-party security audits. (3) GDPR & CCPA Compliant - Full data privacy compliance for global regulations. (4) Role-Based Access Controls - Granular permissions for team members. (5) Data Retention Policies - Automatic deletion per your requirements. (6) Regular Security Updates - Continuous monitoring and threat protection. Your customer conversations and data are protected with bank-level security."
-  },
-  {
-    question: "What industries can benefit from AI Voice Bot?",
-    answer: "AI Voice Bots deliver value across virtually all industries: (1) Healthcare - Appointment scheduling, prescription refills, patient support. (2) E-commerce - Order tracking, product inquiries, returns processing. (3) Banking & Finance - Account inquiries, transaction support, fraud alerts. (4) Real Estate - Property inquiries, showing scheduling, lead qualification. (5) Hospitality - Reservations, concierge services, guest support. (6) Telecommunications - Technical support, billing inquiries, service upgrades. (7) Insurance - Claims processing, policy information, quote requests. (8) Education - Admissions, course information, student support. Any business receiving customer calls can leverage AI Voice Bots."
-  },
-  {
-    question: "Can AI Voice Bot integrate with my existing systems?",
-    answer: "Yes, our AI Voice Bot offers seamless integration with popular business tools: (1) CRM Systems - Salesforce, HubSpot, Zoho, Pipedrive. (2) Help Desk - Zendesk, Freshdesk, Intercom, Help Scout. (3) Phone Systems - Twilio, RingCentral, 8x8, Vonage. (4) Calendars - Google Calendar, Outlook, Calendly. (5) E-commerce - Shopify, WooCommerce, Magento. (6) Custom APIs - RESTful API access for proprietary systems. (7) Databases - MySQL, PostgreSQL, MongoDB. Integration typically takes minutes using our pre-built connectors or custom webhooks."
-  },
-  {
-    question: "How much does AI Voice Bot cost?",
-    answer: "AI Voice Bot pricing is flexible and scales with your needs. Plans start at $55/month for 300 AI voice minutes (ideal for small businesses), $145/month for 1000 minutes (growing businesses), with custom enterprise packages for high-volume needs. All plans include: unlimited voice channels, 24/7 support, real-time analytics, CRM integration, and free trial period. No setup fees, no hidden costs, and you only pay for actual voice minutes used. Contact us for a custom quote based on your specific requirements and volume."
-  },
-  {
-    question: "What makes DigitalBot.ai's AI Voice Bot different from competitors?",
-    answer: "Our AI Voice Bot stands out through: (1) Superior Accuracy - 95%+ intent recognition vs industry average of 80%. (2) Human-Like Voice - Most natural-sounding synthesis with emotion and tone. (3) Fastest Deployment - Live in minutes, not weeks. (4) No-Code Platform - Anyone can build flows without technical skills. (5) Advanced Analytics - Deep insights into every conversation. (6) Multilingual Excellence - True understanding in 50+ languages, not just translation. (7) White-Glove Support - Dedicated success team for implementation. (8) Proven ROI - Clients see 70% cost reduction and 40% higher customer satisfaction on average."
-  }
-]
-
-// VoiceConversationPlayer Component
-const VoiceConversationPlayer = () => {
-  return (
-    <div className="bg-white/90 backdrop-blur-md border border-orange-200 p-6 shadow-2xl shadow-orange-500/15 relative overflow-hidden" style={{
-      clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-    }}>
-      <div className="absolute -top-4 -left-4 w-16 h-16 bg-orange-300 rounded-full opacity-15 filter blur-xl"></div>
-      <div className="relative z-10">
-        <div className="flex items-center justify-center mb-6 h-24 bg-gradient-to-br from-orange-100/30 to-orange-200/20 border border-orange-200 relative overflow-hidden" style={{
-          clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-        }}>
-          <div className="flex items-center justify-center gap-1.5 h-16">
-            {Array.from({ length: 30 }, (_, i) => {
-              const height = Math.sin(i * 0.5) * 15 + 20;
-              return (
-                <div
-                  key={i}
-                  className="w-1.5 bg-gradient-to-t from-orange-500 via-orange-400 to-orange-300 opacity-60"
-                  style={{
-                    height: `${height}px`,
-                    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
-                  }}
-                />
-              );
-            })}
-          </div>
-        </div>
-        <div className="flex items-center justify-center">
-          <div className="inline-flex items-center gap-3 px-6 py-3 bg-orange-500 text-white font-bold text-sm uppercase tracking-wider shadow-lg hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 border border-orange-400" style={{
-            clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-          }}>
-            <Play className="w-4 h-4" />
-            <span>Play AI Voice Demo</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-=======
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.9",
@@ -258,7 +68,6 @@ const VoiceConversationPlayer = () => {
       ]
     }
   ]
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
 }
 
 export default function AIVoiceBot() {
@@ -270,36 +79,36 @@ export default function AIVoiceBot() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <main className="min-h-screen bg-white text-gray-900" role="main">
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 text-gray-900" role="main">
         <Header />
 
         {/* Hero Section */}
-        <section className="pt-20 pb-8 px-3 sm:px-4 lg:px-6 relative overflow-hidden bg-white" aria-labelledby="hero-heading">
+        <section className="pt-20 pb-8 px-3 sm:px-4 lg:px-6 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" aria-labelledby="hero-heading">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] bg-gradient-radial from-orange-200/30 to-transparent rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-[10%] right-[5%] w-[350px] h-[350px] bg-gradient-radial from-orange-200/25 to-transparent rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute top-[60%] left-[60%] w-[250px] h-[250px] bg-gradient-radial from-orange-300/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-[10%] right-[5%] w-[350px] h-[350px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute top-[60%] left-[60%] w-[250px] h-[250px] bg-gradient-radial from-blue-300/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
           </div>
 
           <div className="container mx-auto text-center relative z-10 max-w-6xl">
             {/* Breadcrumb Navigation */}
             <nav aria-label="Breadcrumb" className="mb-4">
-              <ol className="flex items-center justify-center space-x-2 text-xs text-orange-600" itemScope itemType="https://schema.org/BreadcrumbList">
+              <ol className="flex items-center justify-center space-x-2 text-xs text-blue-600" itemScope itemType="https://schema.org/BreadcrumbList">
                 <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
                   <Link href="/" className="hover:text-gray-900 transition-colors" itemProp="item">
                     <span itemProp="name">Home</span>
                   </Link>
                   <meta itemProp="position" content="1" />
                 </li>
-                <li className="text-orange-600">/</li>
+                <li className="text-blue-600">/</li>
                 <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
                   <Link href="/services" className="hover:text-gray-900 transition-colors" itemProp="item">
                     <span itemProp="name">Services</span>
                   </Link>
                   <meta itemProp="position" content="2" />
                 </li>
-                <li className="text-orange-600">/</li>
+                <li className="text-blue-600">/</li>
                 <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
                   <span itemProp="name" className="text-gray-900 font-semibold">AI Voice Bot</span>
                   <meta itemProp="position" content="3" />
@@ -307,39 +116,15 @@ export default function AIVoiceBot() {
               </ol>
             </nav>
 
-<<<<<<< HEAD
-            {/* Hero Badge */}
-            <div className="inline-block mb-3">
-              <span className="px-3 py-1 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg animate-pulse border border-orange-400" style={{
-=======
             {/* Badge */}
             <div className="inline-block mb-4">
               <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
                 clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
               }}>
                 #1 AI Voice Bot Platform
               </span>
             </div>
 
-<<<<<<< HEAD
-            {/* H1 Heading */}
-            <h1 id="hero-heading" className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 leading-tight">
-              <span className="block mb-2 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent">
-                AI Voice Bot for Customer Service
-              </span>
-              <span className="inline-block px-4 py-2 text-white bg-orange-500 shadow-lg shadow-orange-500/30 text-lg sm:text-xl lg:text-2xl relative overflow-hidden border border-orange-400" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <span className="absolute inset-0 bg-gradient-to-tr from-orange-500/30 via-transparent to-transparent"></span>
-                <span className="relative z-10">Automate 24/7 Phone Calls</span>
-              </span>
-            </h1>
-
-            {/* SEO-Rich Description */}
-            <div className="max-w-4xl mx-auto mb-6 p-3 bg-orange-50 backdrop-blur-md border border-orange-200 shadow-md shadow-orange-500/10" style={{
-              clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-=======
             {/* Main Headline */}
             <h1 id="hero-heading" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight leading-tight">
               <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
@@ -354,74 +139,17 @@ export default function AIVoiceBot() {
             {/* Description */}
             <div className="max-w-3xl mx-auto mb-6 bg-blue-100/40 backdrop-blur-sm p-3 border border-blue-200 shadow-lg shadow-blue-500/15" style={{
               clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
             }}>
               <p className="text-xs sm:text-sm text-gray-900 leading-relaxed font-medium">
-                Deploy <strong className="text-orange-600">AI Voice Bot</strong> powered by advanced <strong className="text-orange-600">Natural Language Processing</strong> to automate customer conversations. Handle unlimited calls simultaneously with <strong className="text-orange-600">human-like voice synthesis</strong>, reduce costs by 70%, and provide instant responses 24/7. No coding required - launch your <strong className="text-orange-600">AI Voice Bot</strong> in minutes.
+                Deploy <strong className="text-blue-600">AI Voice Bot</strong> powered by advanced <strong className="text-blue-600">Natural Language Processing</strong> to automate customer conversations. Handle unlimited calls simultaneously with <strong className="text-blue-600">human-like voice synthesis</strong>, reduce costs by 70%, and provide instant responses 24/7. No coding required - launch your <strong className="text-blue-600">AI Voice Bot</strong> in minutes.
               </p>
             </div>
 
             {/* Key Benefits Grid */}
-<<<<<<< HEAD
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 max-w-5xl mx-auto mb-6">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="bg-orange-50 backdrop-blur-md p-3 shadow-lg shadow-orange-500/15 border border-orange-200 transition-transform duration-300 hover:scale-[1.02] hover:shadow-orange-400/25 relative overflow-hidden group" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-                }}>
-                  <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-tr from-orange-300/30 via-orange-400/20 to-orange-500/20 rounded-full filter blur-xl group-hover:opacity-25 transition-opacity"></div>
-                  <benefit.icon className="h-6 w-6 text-orange-600 mx-auto mb-2 relative z-10" style={{
-                    filter: 'drop-shadow(0 0 6px rgba(234, 88, 12, 0.2))'
-                  }} />
-                  <div className="text-lg sm:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 mb-1 relative z-10" style={{
-                    textShadow: '0 0 15px rgba(234, 88, 12, 0.2)'
-                  }}>{benefit.stat}</div>
-                  <p className="font-extrabold text-gray-900 mb-1 relative z-10 text-xs">{benefit.title}</p>
-                  <p className="text-xs text-orange-600 relative z-10">{benefit.description}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-2 justify-center">
-              <Link href="/signup" className="inline-flex items-center justify-center px-3 py-1.5 bg-orange-500 text-white font-bold text-xs shadow-md shadow-orange-500/30 hover:scale-105 transition-all duration-300 border border-orange-400 uppercase tracking-wide" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                Start Free Trial <ArrowRight className="ml-1 h-3 w-3" />
-              </Link>
-              <Link href="/contact" className="inline-flex items-center justify-center px-3 py-1.5 border border-orange-500 text-orange-600 bg-transparent hover:bg-orange-50 hover:scale-105 transition-all duration-300 shadow-sm font-bold text-xs uppercase tracking-wide" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                Watch Demo <Play className="ml-1 h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Trust Signals */}
-            <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs text-orange-600">
-              <div className="flex items-center gap-1 px-2 py-1 bg-orange-50 backdrop-blur-sm border border-orange-200 shadow-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <CheckCircle className="h-3 w-3 text-orange-600" />
-                <span className="font-semibold text-gray-900">No Credit Card Required</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-orange-50 backdrop-blur-sm border border-orange-200 shadow-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <CheckCircle className="h-3 w-3 text-orange-600" />
-                <span className="font-semibold text-gray-900">Setup in 5 Minutes</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-orange-50 backdrop-blur-sm border border-orange-200 shadow-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <CheckCircle className="h-3 w-3 text-orange-600" />
-                <span className="font-semibold text-gray-900">1000+ Businesses Use AI Voice Bot</span>
-              </div>
-            </div>
-=======
             <BenefitsGrid />
 
             {/* CTA Buttons */}
             <HeroCTAButtons />
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
         </section>
 
@@ -429,284 +157,75 @@ export default function AIVoiceBot() {
         <TrustIndicators />
 
         {/* Features Section */}
-<<<<<<< HEAD
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-50 via-white to-orange-50 relative overflow-hidden" aria-labelledby="features-heading">
-          {/* Animated Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[10%] right-[5%] w-[400px] h-[400px] bg-gradient-radial from-orange-300/40 to-transparent rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-[5%] left-[5%] w-[350px] h-[350px] bg-gradient-radial from-amber-300/30 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-orange-200/20 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-            
-            {/* Floating Particles */}
-            <div className="absolute top-[20%] left-[15%] w-3 h-3 bg-orange-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s' }}></div>
-            <div className="absolute top-[60%] right-[20%] w-2 h-2 bg-amber-500 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
-            <div className="absolute bottom-[30%] left-[25%] w-4 h-4 bg-orange-300 rounded-full animate-bounce opacity-40" style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
-            <div className="absolute top-[40%] right-[10%] w-2 h-2 bg-orange-500 rounded-full animate-ping opacity-30"></div>
-            <div className="absolute bottom-[20%] right-[30%] w-3 h-3 bg-amber-400 rounded-full animate-ping opacity-25" style={{ animationDelay: '1.5s' }}></div>
-            
-            {/* Grid Pattern */}
-            <div className="absolute inset-0 opacity-[0.03]" style={{
-              backgroundImage: 'linear-gradient(orange 1px, transparent 1px), linear-gradient(90deg, orange 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
-            }}></div>
-=======
         <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="features-heading">
           {/* Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
             <div className="absolute bottom-[20%] right-[10%] w-[180px] h-[180px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
-<<<<<<< HEAD
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 mb-4">
-                <div className="h-px w-8 bg-gradient-to-r from-transparent to-orange-500"></div>
-                <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-orange-500/30 rounded-full animate-pulse">
-                  ✨ Powerful Features
-=======
             <div className="text-left mb-6">
               <div className="inline-block mb-3">
                 <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
                   clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
                 }}>
                   Enterprise-Grade Features
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
                 </span>
-                <div className="h-px w-8 bg-gradient-to-l from-transparent to-orange-500"></div>
               </div>
-<<<<<<< HEAD
-              <h2 id="features-heading" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4">
-                <span className="bg-gradient-to-r from-gray-900 via-orange-600 to-gray-900 bg-clip-text text-transparent">
-                  Everything Your AI Voice Bot Needs
-=======
               <h2 id="features-heading" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
                 <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
                   AI Voice Bot Features
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
                 </span>
               </h2>
-              <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Enterprise-grade <strong className="text-orange-600 font-semibold">AI voice bot</strong> capabilities designed to transform your customer communication
+              <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                Enterprise-grade <strong className="text-blue-600">AI voice bot</strong> capabilities designed to transform your customer communication and automate phone interactions
               </p>
             </div>
 
-<<<<<<< HEAD
-            {/* Features Grid - Bento Style */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature, index) => {
-                const images = [
-                  'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=2070&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2070&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop'
-                ];
-                const gradients = [
-                  'from-orange-500 to-amber-500',
-                  'from-amber-500 to-yellow-500',
-                  'from-orange-600 to-red-500',
-                  'from-yellow-500 to-orange-500',
-                  'from-red-500 to-orange-500',
-                  'from-amber-600 to-orange-500'
-                ];
-                return (
-                  <article
-                    key={index}
-                    className="group relative bg-white rounded-2xl shadow-xl shadow-orange-500/10 border border-orange-100 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/20 hover:-translate-y-2 overflow-hidden"
-                    itemScope
-                    itemType="https://schema.org/SoftwareFeature"
-                  >
-                    {/* Image Header with Overlay */}
-                    <div className="relative h-44 overflow-hidden">
-                      <Image
-                        src={images[index]}
-                        alt={`${feature.title} - AI Voice Bot Feature`}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      
-                      {/* Floating Icon Badge */}
-                      <div className="absolute top-4 left-4">
-                        <div className={`w-12 h-12 bg-gradient-to-br ${gradients[index]} rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                          <feature.icon className="h-6 w-6 text-white" />
-                        </div>
-                      </div>
-                      
-                      {/* Feature Number */}
-                      <div className="absolute top-4 right-4 w-8 h-8 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
-                        <span className="text-white font-bold text-sm">0{index + 1}</span>
-                      </div>
-                      
-                      {/* Title on Image */}
-                      <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <h3 itemProp="name" className="text-lg font-bold text-white drop-shadow-lg">
-                          {feature.title}
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-5 relative">
-                      {/* Decorative Corner */}
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-orange-100 to-transparent rounded-bl-full opacity-50"></div>
-                      
-                      <p itemProp="description" className="text-sm text-gray-600 leading-relaxed relative z-10">
-                        {feature.description}
-                      </p>
-                      
-                      {/* Learn More Link */}
-                      <div className="mt-4 flex items-center text-orange-600 font-semibold text-sm group-hover:text-orange-700 transition-colors">
-                        <span>Learn more</span>
-                        <svg className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
-                    </div>
-                    
-                    {/* Bottom Gradient Line */}
-                    <div className={`h-1 bg-gradient-to-r ${gradients[index]} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`}></div>
-                  </article>
-                );
-              })}
-            </div>
-
-            {/* Bottom CTA */}
-            <div className="mt-12 text-center">
-              <div className="inline-flex items-center gap-4 p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl border border-orange-200 shadow-lg">
-                <div className="flex -space-x-2">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm border-2 border-white">1K+</div>
-                </div>
-                <p className="text-sm text-gray-700">
-                  <strong className="text-orange-600">1,000+ businesses</strong> already using our AI Voice Bot features
-                </p>
-                <Link href="/signup" className="px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm rounded-full shadow-lg shadow-orange-500/30 hover:shadow-xl hover:scale-105 transition-all duration-300">
-                  Get Started Free →
-                </Link>
-              </div>
-            </div>
-=======
             {/* Features Grid */}
             <FeaturesGrid />
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
         </section>
 
         {/* Use Cases Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" aria-labelledby="usecases-heading">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="usecases-heading">
           {/* Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[30%] left-[20%] w-[150px] h-[150px] bg-gradient-radial from-orange-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute bottom-[20%] right-[15%] w-[200px] h-[200px] bg-gradient-radial from-orange-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
+            <div className="absolute top-[30%] left-[20%] w-[150px] h-[150px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
+            <div className="absolute bottom-[20%] right-[15%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
           </div>
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
             <div className="text-left mb-6">
               <div className="inline-block mb-3">
-                <span className="px-3 py-1 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-orange-400" style={{
+                <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
                   clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
                 }}>
                   Real-World Applications
                 </span>
               </div>
               <h2 id="usecases-heading" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
-                <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
                   AI Voice Bot Use Cases
                 </span>
               </h2>
               <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                See how businesses leverage <strong className="text-orange-600">AI voice bot</strong> technology to streamline operations and enhance customer experience
+                See how businesses leverage <strong className="text-blue-600">AI voice bot</strong> technology to streamline operations and enhance customer experience
               </p>
             </div>
 
             {/* Use Cases Grid */}
-<<<<<<< HEAD
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-              {useCases.map((useCase, index) => {
-                const images = [
-                  'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2340&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=2076&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2070&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2072&auto=format&fit=crop'
-                ];
-                return (
-                  <article
-                    key={index}
-                    className="group bg-orange-50 backdrop-blur-md p-3 shadow-lg shadow-orange-500/15 border border-orange-200 transition-all duration-300 hover:scale-[1.01] hover:shadow-orange-400/25 relative overflow-hidden"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                    }}
-                  >
-                    {/* HD Image Header */}
-                    <div className="relative h-32 -mx-3 -mt-3 mb-3 overflow-hidden">
-                      <Image
-                        src={images[index]}
-                        alt={`${useCase.title} - AI Voice Bot Use Case`}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-white/30 to-transparent"></div>
-                      <div className="absolute bottom-2 left-2">
-                        <div className="w-8 h-8 bg-orange-500 flex items-center justify-center shadow-lg border border-orange-400" style={{
-                          clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                        }}>
-                          <useCase.icon className="h-4 w-4 text-white" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Decorative Glow */}
-                    <div className="absolute -top-8 -left-8 w-24 h-24 bg-gradient-to-br from-orange-300/20 via-orange-400/15 to-orange-500/15 rounded-full filter blur-xl group-hover:opacity-30 transition-opacity"></div>
-
-                    {/* Content */}
-                    <h3 className="text-sm font-bold text-gray-900 mb-2 relative z-10">
-                      {useCase.title}
-                    </h3>
-                    <p className="text-xs text-gray-700 leading-relaxed relative z-10">
-                      {useCase.description}
-                    </p>
-                  </article>
-                );
-              })}
-            </div>
-=======
             <UseCasesGrid />
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
         </section>
 
         {/* Sample Conversation Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden">
+        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
           {/* Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-<<<<<<< HEAD
-            <div className="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-gradient-radial from-orange-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute bottom-[10%] right-[5%] w-[250px] h-[250px] bg-gradient-radial from-orange-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[150px] h-[150px] bg-gradient-radial from-orange-300/20 to-transparent rounded-full blur-xl animate-pulse"></div>
-          </div>
-
-          <div className="max-w-4xl mx-auto relative z-10">
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center space-x-2 bg-orange-100 backdrop-blur-sm px-2 py-1 border border-orange-200 shadow-sm mb-3" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <Mic className="h-3 w-3 text-orange-600 animate-pulse" />
-                <span className="font-medium text-gray-900 text-xs">AI Voice Demonstration</span>
-              </div>
-              <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent mb-2" style={{
-                textShadow: '0 0 15px rgba(234, 88, 12, 0.15)'
-              }}>
-                Experience Natural AI Conversations
-              </h2>
-              <p className="text-sm text-gray-700 max-w-2xl mx-auto">
-                Listen to how our <strong className="text-orange-600">AI voice bot</strong> handles real customer interactions with human-like responses
-=======
             <div className="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
             <div className="absolute bottom-[10%] right-[5%] w-[250px] h-[250px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
           </div>
@@ -728,7 +247,6 @@ export default function AIVoiceBot() {
               </h2>
               <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
                 Listen to how our <strong className="text-blue-600">AI voice bot</strong> handles real customer interactions with natural conversation flow
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
               </p>
             </div>
 
@@ -740,48 +258,23 @@ export default function AIVoiceBot() {
         </section>
 
         {/* FAQ Section */}
-<<<<<<< HEAD
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" role="region" aria-labelledby="faq-section">
-          {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 left-1/4 w-24 h-24 bg-gradient-to-br from-orange-200/20 to-orange-300/15 rounded-full filter blur-xl animate-pulse"></div>
-            <div className="absolute bottom-0 right-1/4 w-28 h-28 bg-gradient-to-br from-orange-200/25 to-orange-300/20 rounded-full filter blur-xl animate-pulse"></div>
-            <div className="absolute top-1/2 left-1/2 w-20 h-20 bg-gradient-to-br from-orange-300/15 to-orange-400/15 rounded-full filter blur-lg animate-pulse"></div>
-=======
         <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="faq-heading">
           {/* Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[15%] left-[10%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
             <div className="absolute bottom-[15%] right-[10%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
           </div>
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
             <div className="text-left mb-6">
               <div className="inline-block mb-3">
-<<<<<<< HEAD
-                <span className="px-3 py-1 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg animate-pulse border border-orange-400" style={{
-=======
                 <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
                   clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
                 }}>
                   Frequently Asked Questions
                 </span>
               </div>
-<<<<<<< HEAD
-              <h2 id="faq-section" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 text-gray-900">
-                <span className="block mb-1">Frequently Asked</span>
-                <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent" style={{
-                  textShadow: '0 0 15px rgba(234, 88, 12, 0.15)'
-                }}>
-                  Questions
-                </span>
-              </h2>
-              <p className="text-gray-700 text-sm max-w-3xl mx-auto leading-relaxed">
-                Everything you need to know about <span className="text-orange-600 font-semibold">AI Voice Bots</span> and how to implement them
-=======
               <h2 id="faq-heading" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
                 <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
                   AI Voice Bot FAQ
@@ -789,156 +282,23 @@ export default function AIVoiceBot() {
               </h2>
               <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
                 Get answers to common questions about <strong className="text-blue-600">AI voice bot</strong> technology and implementation
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
               </p>
             </div>
 
             {/* FAQ Grid */}
-<<<<<<< HEAD
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {faqs.map((faq, index) => {
-                return (
-                  <div key={index} className="group relative bg-orange-50 backdrop-blur-md p-3 border border-orange-200 hover:border-orange-400 transition-all duration-300 hover:scale-[1.01] hover:shadow-lg hover:shadow-orange-500/15" style={{
-                    clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                  }}>
-                    <div className="absolute -top-1 -left-1 w-6 h-6 bg-orange-500 flex items-center justify-center text-white font-bold text-xs shadow-sm rotate-12 group-hover:rotate-0 transition-transform border border-orange-400" style={{
-                      clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'
-                    }}>
-                      {String(index + 1).padStart(2, '0')}
-                    </div>
-                    <h3 className="text-sm font-bold bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent mb-2 mt-1">
-                      {faq.question}
-                    </h3>
-                    <p className="text-xs text-gray-700 leading-relaxed">
-                      {faq.answer}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-white relative overflow-hidden" aria-labelledby="cta-heading">
-          {/* Background */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[20%] left-[10%] w-[200px] h-[200px] bg-gradient-radial from-orange-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute bottom-[20%] right-[10%] w-[250px] h-[250px] bg-gradient-radial from-orange-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[180px] h-[180px] bg-gradient-radial from-orange-300/20 to-transparent rounded-full blur-xl animate-pulse"></div>
-          </div>
-
-          <div className="container mx-auto max-w-5xl text-center relative z-10">
-            {/* CTA Badge */}
-            <div className="inline-block mb-3">
-              <span className="px-3 py-1 bg-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg animate-pulse border border-orange-400" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                🚀 Start Free Trial
-              </span>
-            </div>
-
-            {/* CTA Heading */}
-            <h2 id="cta-heading" className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 leading-tight">
-              <span className="block mb-2 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent">
-                Transform Customer Service
-              </span>
-              <span className="inline-block px-4 py-2 text-white bg-orange-500 shadow-lg shadow-orange-500/30 text-lg sm:text-xl lg:text-2xl relative overflow-hidden border border-orange-400" style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}>
-                <span className="absolute inset-0 bg-gradient-to-tr from-orange-500/30 via-transparent to-transparent"></span>
-                <span className="relative z-10">With AI Voice Bot Today</span>
-              </span>
-            </h2>
-
-            {/* CTA Description */}
-            <div className="max-w-3xl mx-auto mb-6 p-3 bg-orange-50 backdrop-blur-md border border-orange-200 shadow-md shadow-orange-500/10" style={{
-              clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
-            }}>
-              <p className="text-xs sm:text-sm text-gray-900 leading-relaxed font-medium">
-                Launch your <strong className="text-orange-600">AI voice bot</strong> in <strong className="text-orange-600">5 minutes</strong> and start automating customer conversations. <strong className="text-orange-600">No credit card required.</strong> Join 1000+ businesses saving 70% on support costs.
-              </p>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-2 justify-center mb-6">
-              <Link href="/signup" className="inline-flex items-center justify-center px-3 py-1.5 bg-orange-500 text-white font-bold text-xs shadow-md shadow-orange-500/30 hover:scale-105 transition-all duration-300 border border-orange-400 uppercase tracking-wide" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                Start Free Trial Now <ArrowRight className="ml-1 h-3 w-3" />
-              </Link>
-              <Link href="/contact" className="inline-flex items-center justify-center px-3 py-1.5 border border-orange-500 text-orange-600 bg-transparent hover:bg-orange-50 hover:scale-105 transition-all duration-300 shadow-sm font-bold text-xs uppercase tracking-wide" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <Phone className="mr-1 h-3 w-3" />
-                Book Live Demo
-              </Link>
-            </div>
-
-            {/* Trust Signals - Cyberpunk Cards */}
-            <div className="flex flex-wrap justify-center gap-3 items-center">
-              <div className="flex items-center gap-2 px-3 py-2 bg-orange-100 backdrop-blur-md border border-orange-200 shadow-lg shadow-orange-500/10 hover:scale-105 transition-all duration-300 group relative overflow-hidden" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-orange-300/20 via-orange-400/15 to-orange-500/15 rounded-full filter blur-xl group-hover:opacity-30 transition-opacity"></div>
-                <Shield className="h-4 w-4 text-orange-600 relative z-10" />
-                <span className="font-bold text-gray-900 relative z-10 text-xs">Enterprise Security</span>
-              </div>
-              <div className="flex items-center gap-2 px-3 py-2 bg-orange-100 backdrop-blur-md border border-orange-200 shadow-lg shadow-orange-500/10 hover:scale-105 transition-all duration-300 group relative overflow-hidden" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-orange-300/20 via-orange-400/15 to-orange-500/15 rounded-full filter blur-xl group-hover:opacity-30 transition-opacity"></div>
-                <Headphones className="h-4 w-4 text-orange-600 relative z-10" />
-                <span className="font-bold text-gray-900 relative z-10 text-xs">24/7 Support</span>
-              </div>
-              <div className="flex items-center gap-2 px-3 py-2 bg-orange-100 backdrop-blur-md border border-orange-200 shadow-lg shadow-orange-500/10 hover:scale-105 transition-all duration-300 group relative overflow-hidden" style={{
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-              }}>
-                <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-orange-300/20 via-orange-400/15 to-orange-500/15 rounded-full filter blur-xl group-hover:opacity-30 transition-opacity"></div>
-                <TrendingUp className="h-4 w-4 text-orange-600 relative z-10" />
-                <span className="font-bold text-gray-900 relative z-10 text-xs">1000+ Businesses</span>
-              </div>
-            </div>
-
-            {/* Additional Trust Signals */}
-            <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs text-orange-600">
-              <div className="flex items-center gap-1 px-2 py-1 bg-orange-100 backdrop-blur-sm border border-orange-200 shadow-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <CheckCircle className="h-3 w-3 text-orange-600" />
-                <span className="font-semibold text-gray-900">Free 14-Day Trial</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-orange-100 backdrop-blur-sm border border-orange-200 shadow-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <CheckCircle className="h-3 w-3 text-orange-600" />
-                <span className="font-semibold text-gray-900">Cancel Anytime</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-orange-100 backdrop-blur-sm border border-orange-200 shadow-sm" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                <CheckCircle className="h-3 w-3 text-orange-600" />
-                <span className="font-semibold text-gray-900">Setup in 5 Minutes</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <Footer />
-=======
             <FAQSection />
           </div>
         </section>
 
         {/* Final CTA Section */}
         <FinalCTASection />
->>>>>>> bac5f2a6123da4d7fd066b4d35bfc365e5e7f94f
       </main>
 
       <Footer />
     </>
   )
 }
+
 
 
 
