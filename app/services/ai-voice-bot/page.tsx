@@ -3,7 +3,7 @@
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import Link from "next/link"
-import { BenefitsGrid, FeaturesGrid, UseCasesGrid, FAQSection, VoiceConversationPlayer, HeroCTAButtons, TrustIndicators, FinalCTASection } from "./components"
+import { BenefitsGrid, FAQSection, FeaturesGrid, FinalCTASection, HeroCTAButtons, TrustIndicators, UseCasesGrid, VoiceConversationPlayer } from "./components"
 
 // Pre-computed FAQ entities for JSON-LD
 const faqEntities = [
@@ -79,108 +79,123 @@ export default function AIVoiceBot() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 text-gray-900" role="main">
-        <Header />
+      {/* Skip to main content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-500 text-white px-4 py-2 rounded-lg z-50"
+      >
+        Skip to main content
+      </a>
 
-        {/* Hero Section */}
-        <section className="pt-20 pb-8 px-3 sm:px-4 lg:px-6 relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" aria-labelledby="hero-heading">
+      <Header />
+
+      <main id="main-content" className="min-h-screen" role="main" suppressHydrationWarning>
+
+        {/* Hero Section - Premium Redesign */}
+        <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-white via-blue-50/50 to-blue-50" aria-labelledby="hero-heading">
           {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-[10%] right-[5%] w-[350px] h-[350px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute top-[60%] left-[60%] w-[250px] h-[250px] bg-gradient-radial from-blue-300/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.15),transparent_50%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(56,189,248,0.1),transparent_50%)]"></div>
+          
+          {/* Decorative Blur Orbs */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
+          
+          {/* Floating Decorative Icons */}
+          <div className="absolute top-32 right-20 opacity-10">
+            <div className="w-24 h-24 border-2 border-blue-300 rounded-2xl rotate-12"></div>
+          </div>
+          <div className="absolute bottom-40 left-20 opacity-10">
+            <div className="w-16 h-16 border-2 border-blue-300 rounded-full"></div>
           </div>
 
-          <div className="container mx-auto text-center relative z-10 max-w-6xl">
-            {/* Breadcrumb Navigation */}
-            <nav aria-label="Breadcrumb" className="mb-4">
-              <ol className="flex items-center justify-center space-x-2 text-xs text-blue-600" itemScope itemType="https://schema.org/BreadcrumbList">
-                <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
-                  <Link href="/" className="hover:text-gray-900 transition-colors" itemProp="item">
-                    <span itemProp="name">Home</span>
-                  </Link>
-                  <meta itemProp="position" content="1" />
-                </li>
-                <li className="text-blue-600">/</li>
-                <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
-                  <Link href="/services" className="hover:text-gray-900 transition-colors" itemProp="item">
-                    <span itemProp="name">Services</span>
-                  </Link>
-                  <meta itemProp="position" content="2" />
-                </li>
-                <li className="text-blue-600">/</li>
-                <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
-                  <span itemProp="name" className="text-gray-900 font-semibold">AI Voice Bot</span>
-                  <meta itemProp="position" content="3" />
-                </li>
-              </ol>
-            </nav>
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="max-w-5xl mx-auto text-center">
+              
+              {/* Breadcrumb Navigation */}
+              <nav aria-label="Breadcrumb" className="mb-6">
+                <ol className="flex items-center justify-center space-x-2 text-sm text-blue-600" itemScope itemType="https://schema.org/BreadcrumbList">
+                  <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+                    <Link href="/" className="hover:text-blue-800 transition-colors font-medium" itemProp="item">
+                      <span itemProp="name">Home</span>
+                    </Link>
+                    <meta itemProp="position" content="1" />
+                  </li>
+                  <li className="text-blue-400">/</li>
+                  <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+                    <Link href="/services" className="hover:text-blue-800 transition-colors font-medium" itemProp="item">
+                      <span itemProp="name">Services</span>
+                    </Link>
+                    <meta itemProp="position" content="2" />
+                  </li>
+                  <li className="text-blue-400">/</li>
+                  <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+                    <span itemProp="name" className="text-gray-800 font-semibold">AI Voice Bot</span>
+                    <meta itemProp="position" content="3" />
+                  </li>
+                </ol>
+              </nav>
 
-            {/* Badge */}
-            <div className="inline-block mb-4">
-              <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
-                clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-              }}>
-                #1 AI Voice Bot Platform
-              </span>
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 border border-blue-200 rounded-full mb-6">
+                <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                <span className="text-sm font-semibold text-blue-700">#1 AI Voice Bot Platform</span>
+              </div>
+
+              {/* Main Headline */}
+              <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                <span className="text-gray-900">Intelligent </span>
+                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+                  AI Voice Bot
+                </span>
+                <br />
+                <span className="text-gray-700 text-2xl sm:text-3xl lg:text-4xl font-medium">
+                  for Automated Customer Conversations
+                </span>
+              </h1>
+
+              {/* Description Card */}
+              <div className="max-w-3xl mx-auto mb-8">
+                <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-blue-100 shadow-lg shadow-blue-500/10">
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    Deploy <strong className="text-blue-600">AI Voice Bot</strong> powered by advanced <strong className="text-blue-600">Natural Language Processing</strong> to automate customer conversations. Handle unlimited calls simultaneously with <strong className="text-blue-600">human-like voice synthesis</strong>, reduce costs by 70%, and provide instant responses 24/7.
+                  </p>
+                </div>
+              </div>
+
+              {/* Key Benefits Grid */}
+              <BenefitsGrid />
+
+              {/* CTA Buttons */}
+              <HeroCTAButtons />
             </div>
-
-            {/* Main Headline */}
-            <h1 id="hero-heading" className="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-4 tracking-tight leading-tight">
-              <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                AI Voice Bot
-              </span>
-              <br />
-              <span className="text-gray-900 text-lg sm:text-xl lg:text-2xl">
-                Intelligent Voice Automation for Business
-              </span>
-            </h1>
-
-            {/* Description */}
-            <div className="max-w-3xl mx-auto mb-6 bg-blue-100/40 backdrop-blur-sm p-3 border border-blue-200 shadow-lg shadow-blue-500/15" style={{
-              clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-            }}>
-              <p className="text-xs sm:text-sm text-gray-900 leading-relaxed font-medium">
-                Deploy <strong className="text-blue-600">AI Voice Bot</strong> powered by advanced <strong className="text-blue-600">Natural Language Processing</strong> to automate customer conversations. Handle unlimited calls simultaneously with <strong className="text-blue-600">human-like voice synthesis</strong>, reduce costs by 70%, and provide instant responses 24/7. No coding required - launch your <strong className="text-blue-600">AI Voice Bot</strong> in minutes.
-              </p>
-            </div>
-
-            {/* Key Benefits Grid */}
-            <BenefitsGrid />
-
-            {/* CTA Buttons */}
-            <HeroCTAButtons />
           </div>
         </section>
 
         {/* Trust Indicators */}
         <TrustIndicators />
 
-        {/* Features Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="features-heading">
-          {/* Background */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute bottom-[20%] right-[10%] w-[180px] h-[180px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
-          </div>
+        {/* Features Section - Premium */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-blue-50 relative overflow-hidden" aria-labelledby="features-heading">
+          {/* Background Elements */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_70%)]"></div>
+          <div className="absolute top-20 right-20 w-64 h-64 bg-blue-100/40 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl"></div>
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
-            <div className="text-left mb-6">
-              <div className="inline-block mb-3">
-                <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                }}>
-                  Enterprise-Grade Features
-                </span>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 border border-blue-200 rounded-full mb-4">
+                <span className="text-sm font-semibold text-blue-700">Enterprise-Grade Features</span>
               </div>
-              <h2 id="features-heading" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
-                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+              <h2 id="features-heading" className="text-3xl sm:text-4xl font-bold mb-4">
+                <span className="text-gray-900">Powerful </span>
+                <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
                   AI Voice Bot Features
                 </span>
               </h2>
-              <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                Enterprise-grade <strong className="text-blue-600">AI voice bot</strong> capabilities designed to transform your customer communication and automate phone interactions
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Enterprise-grade <strong className="text-blue-600">AI voice bot</strong> capabilities designed to transform your customer communication
               </p>
             </div>
 
@@ -189,31 +204,26 @@ export default function AIVoiceBot() {
           </div>
         </section>
 
-        {/* Use Cases Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="usecases-heading">
-          {/* Background */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[30%] left-[20%] w-[150px] h-[150px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute bottom-[20%] right-[15%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
-          </div>
+        {/* Use Cases Section - Premium */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-blue-50/50 to-white relative overflow-hidden" aria-labelledby="usecases-heading">
+          {/* Background Elements */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.1),transparent_60%)]"></div>
+          <div className="absolute top-40 left-10 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl"></div>
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
-            <div className="text-left mb-6">
-              <div className="inline-block mb-3">
-                <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                }}>
-                  Real-World Applications
-                </span>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 border border-blue-200 rounded-full mb-4">
+                <span className="text-sm font-semibold text-blue-700">Real-World Applications</span>
               </div>
-              <h2 id="usecases-heading" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
-                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                  AI Voice Bot Use Cases
+              <h2 id="usecases-heading" className="text-3xl sm:text-4xl font-bold mb-4">
+                <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+                  AI Voice Bot
                 </span>
+                <span className="text-gray-900"> Use Cases</span>
               </h2>
-              <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                See how businesses leverage <strong className="text-blue-600">AI voice bot</strong> technology to streamline operations and enhance customer experience
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                See how businesses leverage <strong className="text-blue-600">AI voice bot</strong> technology to streamline operations
               </p>
             </div>
 
@@ -222,66 +232,56 @@ export default function AIVoiceBot() {
           </div>
         </section>
 
-        {/* Sample Conversation Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
-          {/* Background */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute bottom-[10%] right-[5%] w-[250px] h-[250px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
-          </div>
+        {/* Voice Demo Section - Premium */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-blue-50 relative overflow-hidden">
+          {/* Background Elements */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(59,130,246,0.1),transparent_60%)]"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl"></div>
 
-          <div className="container mx-auto relative z-10 max-w-7xl">
+          <div className="container mx-auto relative z-10 max-w-4xl">
             {/* Section Header */}
-            <div className="text-left mb-6">
-              <div className="inline-block mb-3">
-                <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                }}>
-                  Experience AI Voice
-                </span>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 border border-blue-200 rounded-full mb-4">
+                <span className="text-sm font-semibold text-blue-700">Experience AI Voice</span>
               </div>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
-                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                  Hear AI Voice Bot in Action
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                <span className="text-gray-900">Hear </span>
+                <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+                  AI Voice Bot
                 </span>
+                <span className="text-gray-900"> in Action</span>
               </h2>
-              <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                Listen to how our <strong className="text-blue-600">AI voice bot</strong> handles real customer interactions with natural conversation flow
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Listen to how our <strong className="text-blue-600">AI voice bot</strong> handles real customer interactions
               </p>
             </div>
 
             {/* Voice Demo Player */}
-            <div className="max-w-2xl mx-auto">
-              <VoiceConversationPlayer />
-            </div>
+            <VoiceConversationPlayer />
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden" aria-labelledby="faq-heading">
-          {/* Background */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-[15%] left-[10%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute bottom-[15%] right-[10%] w-[200px] h-[200px] bg-gradient-radial from-blue-200/25 to-transparent rounded-full blur-xl animate-pulse"></div>
-          </div>
+        {/* FAQ Section - Premium */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-blue-50/50 to-white relative overflow-hidden" aria-labelledby="faq-heading">
+          {/* Background Elements */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.06),transparent_70%)]"></div>
+          <div className="absolute top-20 left-10 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl"></div>
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
-            <div className="text-left mb-6">
-              <div className="inline-block mb-3">
-                <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg border border-blue-400" style={{
-                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                }}>
-                  Frequently Asked Questions
-                </span>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 border border-blue-200 rounded-full mb-4">
+                <span className="text-sm font-semibold text-blue-700">Frequently Asked Questions</span>
               </div>
-              <h2 id="faq-heading" className="text-lg sm:text-xl lg:text-2xl font-bold mb-3">
-                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                  AI Voice Bot FAQ
+              <h2 id="faq-heading" className="text-3xl sm:text-4xl font-bold mb-4">
+                <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+                  AI Voice Bot
                 </span>
+                <span className="text-gray-900"> FAQ</span>
               </h2>
-              <p className="text-sm text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                Get answers to common questions about <strong className="text-blue-600">AI voice bot</strong> technology and implementation
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Get answers to common questions about <strong className="text-blue-600">AI voice bot</strong> technology
               </p>
             </div>
 

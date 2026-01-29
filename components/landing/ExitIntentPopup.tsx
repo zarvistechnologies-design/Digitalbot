@@ -84,7 +84,7 @@ export default function ExitIntentPopup() {
 
               {/* Subheadline */}
               <p className="text-gray-600 mb-6">
-                Get <span className="font-bold text-blue-600">500 FREE minutes</span> to test our AI voice platform. No credit card required!
+                Get <span className="font-bold text-blue-600">500 credits FREE</span> to test our AI voice platform. No credit card required!
               </p>
 
               {/* Urgency Banner */}
@@ -97,7 +97,7 @@ export default function ExitIntentPopup() {
 
               {/* Benefits */}
               <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm text-gray-600">
-                <span className="flex items-center gap-1">✓ 500 free minutes</span>
+                <span className="flex items-center gap-1">✓ 500 free credits</span>
                 <span className="flex items-center gap-1">✓ No credit card</span>
                 <span className="flex items-center gap-1">✓ Cancel anytime</span>
               </div>
@@ -105,10 +105,10 @@ export default function ExitIntentPopup() {
               {/* CTA Buttons */}
               <div className="space-y-3">
                 <Link 
-                  href="/signup"
+                  href="/Contact"
                   className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:scale-[1.02]"
                 >
-                  Claim My 500 Free Minutes
+                  Claim My 500 Free Credits
                   <ArrowRight className="h-5 w-5" />
                 </Link>
                 
@@ -116,7 +116,7 @@ export default function ExitIntentPopup() {
                   onClick={handleClose}
                   className="w-full py-3 text-gray-500 hover:text-gray-700 font-medium transition-colors text-sm"
                 >
-                  No thanks, I don't want free minutes
+                  No thanks, I don't want free Credits
                 </button>
               </div>
             </div>
