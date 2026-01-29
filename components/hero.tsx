@@ -915,6 +915,44 @@ export default function Hero() {
 
             <section className="pt-20 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/40 to-blue-50" role="region" aria-labelledby="hero-heading">
 
+                {/* Animated Background Elements */}
+                {mounted && (
+                    <>
+                        {/* Floating Orbs */}
+                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                            <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-float"></div>
+                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-3xl animate-pulse-slow"></div>
+                        </div>
+                        
+                        {/* Animated Grid Pattern */}
+                        <div className="absolute inset-0 opacity-[0.03]" style={{
+                            backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)',
+                            backgroundSize: '60px 60px'
+                        }}></div>
+                        
+                        {/* Floating Particles */}
+                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                            {[...Array(20)].map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="absolute w-2 h-2 bg-blue-400/30 rounded-full animate-float"
+                                    style={{
+                                        left: `${Math.random() * 100}%`,
+                                        top: `${Math.random() * 100}%`,
+                                        animationDelay: `${Math.random() * 5}s`,
+                                        animationDuration: `${3 + Math.random() * 4}s`
+                                    }}
+                                ></div>
+                            ))}
+                        </div>
+
+                        {/* Animated Lines */}
+                        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse-slow"></div>
+                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/15 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+                    </>
+                )}
+
                 <div className="container mx-auto relative z-30 max-w-7xl">
 
                     {/* Main Hero - Image Left, Content Right */}
@@ -968,18 +1006,18 @@ export default function Hero() {
                             </div>
 
                             {/* Trust Indicators */}
-                            <div className="flex flex-wrap gap-6 justify-center lg:justify-start text-sm text-gray-500 animate-fade-in-up-3">
-                                <div className="flex items-center gap-1">
-                                    <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <span className="text-xs">No credit card required</span>
+                            <div className="flex flex-wrap gap-6 justify-center lg:justify-start animate-fade-in-up-3">
+                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+                                    <CheckCircle className="h-5 w-5 text-blue-600" />
+                                    <span className="text-sm text-gray-700 font-medium">No credit card required</span>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <span className="text-xs">Setup in 5 minutes</span>
+                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+                                    <CheckCircle className="h-5 w-5 text-blue-600" />
+                                    <span className="text-sm text-gray-700 font-medium">Setup in 5 minutes</span>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <CheckCircle className="h-4 w-4 text-green-500" />
-                                    <span className="text-xs">50+ Languages</span>
+                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+                                    <CheckCircle className="h-5 w-5 text-blue-600" />
+                                    <span className="text-sm text-gray-700 font-medium">50+ Languages</span>
                                 </div>
                             </div>
                         </div>
@@ -995,10 +1033,10 @@ export default function Hero() {
                                 style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
                             />
                             {/* Floating Badge - Bottom Left */}
-                            <div className="absolute bottom-8 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-3 z-40">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-                                        <PhoneCall className="h-6 w-6 text-white" />
+                            <div className="absolute bottom-12 left-0 bg-white rounded-2xl shadow-2xl shadow-blue-500/10 p-5 border border-gray-100 animate-fade-in-up-3 z-40 hover:scale-105 transition-transform cursor-default">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                                        <PhoneCall className="h-7 w-7 text-white" />
                                     </div>
                                      <div>
                                         <p className="text-2xl font-bold text-gray-900">95%</p>
@@ -1007,13 +1045,13 @@ export default function Hero() {
                                 </div>
                             </div>
                             {/* Floating Stats Badge - Top Right */}
-                            <div className="absolute top-8 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 animate-fade-in-up-2 z-40">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                                        <TrendingUp className="h-6 w-6 text-white" />
+                            <div className="absolute top-12 right-0 bg-white rounded-2xl shadow-2xl shadow-blue-500/10 p-5 border border-gray-100 animate-fade-in-up-2 z-40 hover:scale-105 transition-transform cursor-default">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                                        <TrendingUp className="h-7 w-7 text-white" />
                                     </div>
-                                   <div>
-                                        <p className="text-2xl font-bold text-gray-900">24/7</p>
+                                    <div>
+                                        <p className="text-3xl font-black text-gray-900">24/7</p>
                                         <p className="text-sm text-gray-500">Always Available</p>
                                     </div>
                                 </div>
@@ -1089,17 +1127,17 @@ export default function Hero() {
                     {/* Feature Cards Below Hero */}
                     <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
-                            { icon: PhoneCall, title: "Smart Call Handling", desc: "AI handles unlimited concurrent calls with human-like conversations", color: "from-blue-500 to-blue-600" },
-                            { icon: BarChart3, title: "Real-Time Analytics", desc: "Track every call with detailed insights and performance metrics", color: "from-blue-500 to-blue-600" },
-                            { icon: Clock, title: "24/7 Availability", desc: "Never miss a call. Your AI assistant works around the clock", color: "from-cyan-500 to-cyan-600" },
-                            { icon: Globe, title: "50+ Languages", desc: "Communicate with customers in their preferred language", color: "from-teal-500 to-teal-600" }
+                            { icon: PhoneCall, title: "Smart Call Handling", desc: "AI handles unlimited concurrent calls with human-like conversations", gradient: "from-blue-500 to-cyan-500", bgColor: "bg-blue-50", borderColor: "border-blue-200", hoverBorder: "hover:border-blue-400" },
+                            { icon: BarChart3, title: "Real-Time Analytics", desc: "Track every call with detailed insights and performance metrics", gradient: "from-emerald-500 to-teal-500", bgColor: "bg-emerald-50", borderColor: "border-emerald-200", hoverBorder: "hover:border-emerald-400" },
+                            { icon: Clock, title: "24/7 Availability", desc: "Never miss a call. Your AI assistant works around the clock", gradient: "from-violet-500 to-purple-500", bgColor: "bg-violet-50", borderColor: "border-violet-200", hoverBorder: "hover:border-violet-400" },
+                            { icon: Globe, title: "50+ Languages", desc: "Communicate with customers in their preferred language", gradient: "from-amber-500 to-orange-500", bgColor: "bg-amber-50", borderColor: "border-amber-200", hoverBorder: "hover:border-amber-400" }
                         ].map((feature, i) => (
                             <div
                                 key={i}
-                                className="group bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 hover:-translate-y-2"
+                                className={`group ${feature.bgColor} rounded-2xl p-6 shadow-lg border ${feature.borderColor} hover:shadow-xl ${feature.hoverBorder} transition-all duration-300 hover:-translate-y-2`}
                                 style={{ animationDelay: `${i * 0.1}s` }}
                             >
-                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                                     <feature.icon className="h-7 w-7 text-white" />
                                 </div>
                                 <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
@@ -1109,17 +1147,20 @@ export default function Hero() {
                     </div>
 
                     {/* Stats Bar */}
-                    <div className="mt-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl p-8 shadow-2xl shadow-blue-500/30">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="mt-16 bg-white rounded-3xl p-8 shadow-2xl border border-gray-100">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                             {[
-                                { value: "99.9%", label: "Uptime Guarantee" },
-                                { value: "750ms", label: "Response Time" },
-                                { value: "10M+", label: "Calls Handled" },
-                                { value: "500+", label: "Happy Clients" }
+                                { value: "99.9%", label: "Uptime Guarantee", bgColor: "bg-blue-500", lightBg: "bg-blue-50" },
+                                { value: "750ms", label: "Response Time", bgColor: "bg-emerald-500", lightBg: "bg-emerald-50" },
+                                { value: "10M+", label: "Calls Handled", bgColor: "bg-violet-500", lightBg: "bg-violet-50" },
+                                { value: "500+", label: "Happy Clients", bgColor: "bg-amber-500", lightBg: "bg-amber-50" }
                             ].map((stat, i) => (
-                                <div key={i} className="text-center">
-                                    <p className="text-3xl lg:text-4xl font-bold text-white mb-1">{stat.value}</p>
-                                    <p className="text-blue-100 text-sm">{stat.label}</p>
+                                <div key={i} className={`${stat.lightBg} rounded-2xl p-6 text-center border border-gray-100`}>
+                                    <div className={`w-12 h-12 ${stat.bgColor} rounded-xl mx-auto mb-3 flex items-center justify-center shadow-lg`}>
+                                        <span className="text-white text-lg font-bold">{i + 1}</span>
+                                    </div>
+                                    <p className="text-2xl lg:text-3xl font-bold text-gray-900 mb-1">{stat.value}</p>
+                                    <p className="text-gray-600 text-sm">{stat.label}</p>
                                 </div>
                             ))}
                         </div>

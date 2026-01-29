@@ -1,17 +1,10 @@
 "use client"
 
-import { useState, ChangeEvent, FormEvent } from "react"
-import Image from "next/image"
-import { Phone, Mail, MapPin, MessageCircle, CheckCircle, XCircle, ArrowRight, Clock, Users, Bot, Headphones, Shield } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { Header } from "@/components/header"
+import { ArrowRight, Award, CheckCircle, Clock, Globe, Headphones, Mail, MapPin, MessageSquare, Phone, Send, Shield, Sparkles, Star, TrendingUp, Users, Zap } from "lucide-react"
+import Link from "next/link"
+import { useState, ChangeEvent, FormEvent, useEffect, useRef } from "react"
 
 interface ContactFormState {
   firstName: string
@@ -22,6 +15,122 @@ interface ContactFormState {
   inquiry: string
   message: string
 }
+
+// Animated counter component
+function AnimatedCounter({ end, suffix = "", duration = 2000 }: { end: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!isVisible) return
+
+    let startTime: number
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime
+      const progress = Math.min((currentTime - startTime) / duration, 1)
+      setCount(Math.floor(progress * end))
+      if (progress < 1) {
+        requestAnimationFrame(animate)
+      }
+    }
+    requestAnimationFrame(animate)
+  }, [isVisible, end, duration])
+
+  return (
+    <span ref={ref}>
+      {count.toLocaleString()}{suffix}
+    </span>
+  )
+}
+
+const contactMethods = [
+  {
+    icon: Phone,
+    title: "Call Us",
+    description: "Speak with our team directly",
+    value: "+1 (555) 123-4567",
+    action: "tel:+15551234567",
+    gradient: "from-blue-500 to-cyan-500",
+    bgColor: "from-blue-50 to-blue-100/50",
+    borderColor: "border-blue-200",
+    iconBg: "bg-blue-500"
+  },
+  {
+    icon: Mail,
+    title: "Email Us",
+    description: "Get a response within 2 hours",
+    value: "hello@digitalbot.ai",
+    action: "mailto:hello@digitalbot.ai",
+    gradient: "from-emerald-500 to-teal-500",
+    bgColor: "from-emerald-50 to-emerald-100/50",
+    borderColor: "border-emerald-200",
+    iconBg: "bg-emerald-500"
+  },
+  {
+    icon: MessageSquare,
+    title: "Live Chat",
+    description: "Chat with our AI assistant",
+    value: "Available 24/7",
+    action: "#chat",
+    gradient: "from-violet-500 to-purple-500",
+    bgColor: "from-violet-50 to-violet-100/50",
+    borderColor: "border-violet-200",
+    iconBg: "bg-violet-500"
+  },
+  {
+    icon: MapPin,
+    title: "Visit Us",
+    description: "Our headquarters",
+    value: "San Francisco, CA",
+    action: "#location",
+    gradient: "from-amber-500 to-orange-500",
+    bgColor: "from-amber-50 to-amber-100/50",
+    borderColor: "border-amber-200",
+    iconBg: "bg-amber-500"
+  },
+]
+
+const inquiryTypes = [
+  { value: "demo", label: "Request a Demo" },
+  { value: "pricing", label: "Pricing Inquiry" },
+  { value: "support", label: "Technical Support" },
+  { value: "partnership", label: "Partnership" },
+  { value: "other", label: "General Question" },
+]
+
+const stats = [
+  { value: 500, suffix: "+", label: "Happy Clients", icon: Users, color: "text-blue-600", bgColor: "bg-blue-50", iconBg: "bg-blue-500" },
+  { value: 98, suffix: "%", label: "Satisfaction Rate", icon: Star, color: "text-emerald-600", bgColor: "bg-emerald-50", iconBg: "bg-emerald-500" },
+  { value: 2, suffix: "hr", label: "Avg Response", icon: Clock, color: "text-violet-600", bgColor: "bg-violet-50", iconBg: "bg-violet-500" },
+  { value: 50, suffix: "+", label: "Languages", icon: Globe, color: "text-amber-600", bgColor: "bg-amber-50", iconBg: "bg-amber-500" },
+]
+
+const benefits = [
+  { icon: Zap, text: "Lightning-fast responses", description: "Get answers within 2 hours", color: "from-blue-500 to-cyan-500", bgColor: "bg-blue-50" },
+  { icon: Users, text: "Dedicated support team", description: "Personal account manager", color: "from-emerald-500 to-teal-500", bgColor: "bg-emerald-50" },
+  { icon: Globe, text: "Global coverage", description: "Support in 50+ languages", color: "from-violet-500 to-purple-500", bgColor: "bg-violet-50" },
+  { icon: Shield, text: "Enterprise security", description: "SOC2 & HIPAA compliant", color: "from-amber-500 to-orange-500", bgColor: "bg-amber-50" },
+  { icon: Award, text: "Industry leaders", description: "Trusted by Fortune 500", color: "from-rose-500 to-pink-500", bgColor: "bg-rose-50" },
+  { icon: TrendingUp, text: "Proven results", description: "300% average ROI", color: "from-cyan-500 to-blue-500", bgColor: "bg-cyan-50" },
+]
 
 export default function ContactPage() {
   const [form, setForm] = useState<ContactFormState>({
@@ -37,12 +146,8 @@ export default function ContactPage() {
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.id]: e.target.value }))
-  }
-
-  const handleSelectChange = (value: string) => {
-    setForm(prev => ({ ...prev, inquiry: value }))
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -52,16 +157,22 @@ export default function ContactPage() {
     setSuccess("")
 
     try {
-      const response = await fetch("https://digital-api-tef8.onrender.com/api/contact", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
+        body: JSON.stringify({
+          access_key: "8f0556d8-66c3-4e2d-810e-5de948aff5ce",
+          ...form
+        })
       })
 
-      if (!response.ok) throw new Error("Failed to send message")
-
-      setSuccess("Message sent successfully! We'll get back to you within 2 minutes.")
-      setForm({ firstName: "", lastName: "", email: "", phone: "", company: "", inquiry: "", message: "" })
+      const data = await response.json()
+      if (data.success) {
+        setSuccess("Message sent successfully! We'll get back to you within 2 hours.")
+        setForm({ firstName: "", lastName: "", email: "", phone: "", company: "", inquiry: "", message: "" })
+      } else {
+        throw new Error("Failed to send message")
+      }
     } catch (err) {
       setError("Failed to send message. Please try again or contact us directly.")
     } finally {
@@ -70,359 +181,467 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-blue-50/30 via-white to-blue-50/20 text-gray-900">
+    <>
       <Header />
 
-      {/* Hero Section - Clean & Modern */}
-      <section className="pt-24 pb-12 px-4 relative overflow-hidden">
-        {/* Subtle Background */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(249,115,22,0.12),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(249,115,22,0.08),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.8),transparent_70%)]" />
-        
-        <div className="container mx-auto max-w-7xl relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-full mb-6">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-              <span className="text-blue-600 font-semibold text-sm">24/7 AI Voice Agent Support</span>
-            </div>
-            
-            {/* Main Heading */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Let's Transform Your{" "}
-              <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
-                Business Together
-              </span>
-            </h1>
-            
-            {/* Subheading */}
-            <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              Ready to elevate your customer experience with AI voice agents? Our experts are just a message away. 
-              Let's discuss how we can help your business grow with 24/7 AI automation.
-            </p>
-            
-            {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto">
-              {[
-                { icon: Users, value: "500+", label: "Businesses" },
-                { icon: Bot, value: "2M+", label: "Conversations" },
-                { icon: Clock, value: "24/7", label: "Support" }
-              ].map((stat, idx) => {
-                const Icon = stat.icon;
-                return (
-                  <div key={idx} className="text-center">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-3">
-                      <Icon className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                    <div className="text-sm text-gray-600">{stat.label}</div>
-                  </div>
-                );
-              })}
-            </div>
+      <main className="min-h-screen bg-white">
+        {/* Hero Section */}
+        <section className="pt-28 pb-20 px-4 relative overflow-hidden">
+          {/* Animated Background */}
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-[100px] animate-pulse" />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-200/30 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-100/20 rounded-full blur-[120px]" />
+            <div className="absolute top-1/4 right-1/3 w-72 h-72 bg-amber-100/20 rounded-full blur-[100px]" />
           </div>
-        </div>
-      </section>
 
-      {/* Main Content - Contact Form & Info */}
-      <section className="pb-20 px-4 relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(249,115,22,0.06),transparent_50%)]" />
-        <div className="container mx-auto max-w-7xl relative z-10">
-          <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 items-start">
+          {/* Colorful Floating Dots */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-32 left-[10%] w-4 h-4 bg-blue-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
+            <div className="absolute top-48 right-[15%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
+            <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-emerald-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+            <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-amber-400 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
+            <div className="absolute bottom-1/4 right-[25%] w-3 h-3 bg-rose-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.8s' }} />
+            <div className="absolute top-2/3 left-[8%] w-4 h-4 bg-cyan-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '2.8s', animationDelay: '1.2s' }} />
+          </div>
 
-            {/* Contact Form - Modern & Clean */}
-            <Card className="border-2 border-blue-200/60 bg-gradient-to-br from-white via-blue-50/20 to-white shadow-xl shadow-blue-500/10 rounded-2xl overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-100/40 via-transparent to-transparent rounded-full blur-3xl" />
-              <CardHeader className="p-8 border-b border-blue-100/50 relative z-10 bg-gradient-to-r from-blue-50/30 to-transparent">
-                <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
-                  Send us a message
-                </CardTitle>
-                <CardDescription className="text-gray-600">
-                  Fill out the form below and we'll get back to you within 2 minutes
-                </CardDescription>
-              </CardHeader>
-              
-              <CardContent className="p-8 relative z-10">
-                {success && (
-                  <div className="bg-green-50 border border-green-200 text-green-800 p-4 rounded-lg mb-6 flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{success}</span>
-                  </div>
-                )}
-                {error && (
-                  <div className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-lg mb-6 flex items-start gap-3">
-                    <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{error}</span>
-                  </div>
-                )}
-                
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="firstName" className="text-sm font-medium text-gray-700 mb-2 block">
-                        First Name
-                      </Label>
-                      <Input
-                        id="firstName"
-                        placeholder="John"
-                        value={form.firstName}
-                        onChange={handleChange}
-                        className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="lastName" className="text-sm font-medium text-gray-700 mb-2 block">
-                        Last Name
-                      </Label>
-                      <Input
-                        id="lastName"
-                        placeholder="Doe"
-                        value={form.lastName}
-                        onChange={handleChange}
-                        className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
+          <div className="container mx-auto max-w-6xl relative z-10">
+            {/* Breadcrumb */}
+            <nav className="mb-8 text-sm" aria-label="Breadcrumb">
+              <ol className="flex items-center gap-2">
+                <li><Link href="/" className="text-gray-500 hover:text-blue-600 transition-colors">Home</Link></li>
+                <li className="text-gray-400">/</li>
+                <li className="text-blue-600 font-semibold">Contact</li>
+              </ol>
+            </nav>
 
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="email" className="text-sm font-medium text-gray-700 mb-2 block">
-                        Email <span className="text-blue-500">*</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="john@company.com"
-                        value={form.email}
-                        onChange={handleChange}
-                        required
-                        className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="phone" className="text-sm font-medium text-gray-700 mb-2 block">
-                        Phone <span className="text-blue-500">*</span>
-                      </Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="+1 (555) 123-4567"
-                        value={form.phone}
-                        onChange={handleChange}
-                        required
-                        className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="company" className="text-sm font-medium text-gray-700 mb-2 block">
-                      Company
-                    </Label>
-                    <Input
-                      id="company"
-                      placeholder="Your Company Name"
-                      value={form.company}
-                      onChange={handleChange}
-                      className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="inquiry" className="text-sm font-medium text-gray-700 mb-2 block">
-                      Inquiry Type <span className="text-blue-500">*</span>
-                    </Label>
-                    <Select value={form.inquiry} onValueChange={handleSelectChange} required>
-                      <SelectTrigger className="h-11 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500">
-                        <SelectValue placeholder="Select inquiry type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="sales">💼 Sales Inquiry</SelectItem>
-                        <SelectItem value="support">🛠️ Technical Support</SelectItem>
-                        <SelectItem value="partnership">🤝 Partnership</SelectItem>
-                        <SelectItem value="demo">🎯 Request Demo</SelectItem>
-                        <SelectItem value="other">💡 Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="message" className="text-sm font-medium text-gray-700 mb-2 block">
-                      Message
-                    </Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tell us about your AI voice automation project and how we can help..."
-                      className="min-h-[120px] bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                      value={form.message}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all"
-                    disabled={loading}
-                  >
-                    <MessageCircle className="mr-2 h-5 w-5" />
-                    {loading ? "SENDING..." : "SEND MESSAGE"}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-
-            {/* Contact Information - Clean Cards */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Other ways to reach us</h3>
-              
-              {[
-                {
-                  icon: Mail,
-                  title: "Email Us",
-                  value: "hello@metic.ai",
-                  subtitle: "We'll respond within 2 minutes",
-                  action: "mailto:hello@metic.ai"
-                },
-                {
-                  icon: Phone,
-                  title: "Call Us",
-                  value: "+91 95823 67843",
-                  subtitle: "Available 24/7 for voice support",
-                  action: "tel:+919582367843"
-                }
-              ].map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <a
-                    key={idx}
-                    href={item.action}
-                    className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all group"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors">
-                      <Icon className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-semibold text-gray-500 mb-1">{item.title}</div>
-                      <div className="text-lg font-bold text-gray-900 mb-1">{item.value}</div>
-                      <div className="text-sm text-gray-600">{item.subtitle}</div>
-                    </div>
-                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
-                  </a>
-                );
-              })}
-
-              {/* Office Locations */}
-              <div className="space-y-3 pt-2">
-                <h4 className="text-lg font-bold text-gray-900">Visit Our Offices</h4>
-                
-                {/* US Office */}
-                <div className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all group">
-                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors">
-                    <MapPin className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-sm font-semibold text-gray-500 mb-1">United States</div>
-                    <div className="text-lg font-bold text-gray-900 mb-1">Grand Rapids, Michigan</div>
-                    <div className="text-sm text-gray-600">300 Quail Ridge Dr NE, ADA, MI 49301</div>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left Content */}
+              <div>
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full mb-6 shadow-lg shadow-blue-500/30">
+                  <Sparkles className="w-4 h-4" />
+                  <span className="text-sm font-bold">Get In Touch</span>
                 </div>
 
-                {/* India Office */}
-                <div className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all group">
-                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors">
-                    <MapPin className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
+                  Let's Start a
+                  <span className="block bg-gradient-to-r from-blue-600 via-violet-600 to-blue-600 bg-clip-text text-transparent mt-2">Conversation</span>
+                </h1>
+
+                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                  Have questions about our AI voice platform? We're here to help. Reach out and we'll respond within <strong className="text-blue-600">2 hours</strong>.
+                </p>
+
+                {/* Quick Features */}
+                <div className="flex flex-wrap gap-3 mb-8">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full">
+                    <Clock className="w-4 h-4 text-blue-600" />
+                    <span className="text-sm text-gray-700 font-medium">2hr Response</span>
                   </div>
-                  <div className="flex-1">
-                    <div className="text-sm font-semibold text-gray-500 mb-1">India</div>
-                    <div className="text-lg font-bold text-gray-900 mb-1">Bangalore, Karnataka</div>
-                    <div className="text-sm text-gray-600">Behind Manyata Tech Park, Hebbal, Bangalore 560077</div>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-200 rounded-full">
+                    <Shield className="w-4 h-4 text-emerald-600" />
+                    <span className="text-sm text-gray-700 font-medium">Enterprise Security</span>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
+                  <div className="flex items-center gap-2 px-4 py-2 bg-violet-50 border border-violet-200 rounded-full">
+                    <Users className="w-4 h-4 text-violet-600" />
+                    <span className="text-sm text-gray-700 font-medium">Dedicated Team</span>
+                  </div>
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-wrap gap-4">
+                  <Link href="#contact-form" className="group px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/30 hover:shadow-xl flex items-center gap-2">
+                    Send Message
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <Link href="tel:+15551234567" className="px-6 py-3 bg-white border-2 border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all flex items-center gap-2">
+                    <Phone className="w-4 h-4" />
+                    Call Now
+                  </Link>
                 </div>
               </div>
 
-              {/* Business Hours */}
-              <Card className="border border-gray-200 bg-gradient-to-br from-blue-50 to-white">
-                <CardContent className="p-5">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <Clock className="w-5 h-5 text-blue-600" />
+              {/* Right - Stats Dashboard */}
+              <div className="relative">
+                <div className="bg-white rounded-3xl shadow-2xl shadow-blue-500/10 p-8 border border-gray-100">
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-8">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">Contact Stats</h3>
+                      <p className="text-sm text-gray-500">Real-time metrics</p>
                     </div>
-                    <h3 className="font-bold text-gray-900">Business Hours</h3>
+                    <div className="flex items-center gap-2 px-3 py-1 bg-emerald-100 rounded-full">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                      <span className="text-xs font-semibold text-emerald-700">Live</span>
+                    </div>
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                      <span className="text-gray-600">Monday - Friday</span>
-                      <span className="font-semibold text-gray-900">9:00 AM - 6:00 PM</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-gray-600">Weekend & Holidays</span>
-                      <span className="font-semibold text-blue-600">AI Support 24/7</span>
-                    </div>
-                    <div className="mt-3 pt-3 border-t border-gray-200">
-                      <div className="flex items-center gap-2 text-blue-600">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-                        <span className="text-xs font-semibold">AI Voice Agent Always Available</span>
+
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-2 gap-4">
+                    {stats.map((stat, i) => (
+                      <div key={i} className={`${stat.bgColor} rounded-2xl p-5 hover:shadow-lg transition-all hover:-translate-y-1`}>
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className={`w-10 h-10 ${stat.iconBg} rounded-xl flex items-center justify-center shadow-lg`}>
+                            <stat.icon className="w-5 h-5 text-white" />
+                          </div>
+                          <span className="text-sm text-gray-600">{stat.label}</span>
+                        </div>
+                        <p className={`text-3xl font-black ${stat.color}`}>
+                          <AnimatedCounter end={stat.value} suffix={stat.suffix} />
+                        </p>
                       </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Floating Badge */}
+                <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 border border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
+                      <Star className="w-6 h-6 text-white fill-white" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black text-gray-900">4.9</p>
+                      <p className="text-xs text-gray-500">Customer Rating</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* FAQ Section - Clean & Simple */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-7xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-lg text-gray-600">
-              Quick answers about our AI voice automation platform
-            </p>
+        {/* Contact Methods - Blue Section */}
+        <section className="py-20 px-4 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+          {/* Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+              backgroundSize: '24px 24px'
+            }} />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              {
-                question: "How quickly can I get started?",
-                answer: "Most businesses are up and running within 5-7 days. We handle the entire setup process including integration with your existing systems."
-              },
-              {
-                question: "What's included in support?",
-                answer: "24/7 technical support, regular system updates, performance monitoring, and dedicated account management for enterprise clients."
-              },
-              {
-                question: "Do you offer custom integrations?",
-                answer: "Yes! We integrate with CRMs, help desk software, phone systems, and custom APIs. Our team handles all technical implementation."
-              },
-              {
-                question: "Is there a free trial available?",
-                answer: "Absolutely! We offer a 14-day free trial with full access to our AI voice platform and dedicated onboarding support."
-              }
-            ].map((faq, idx) => (
-              <Card key={idx} className="border border-gray-200 bg-white hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">
-                    {faq.question}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {faq.answer}
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
+                <MessageSquare className="w-4 h-4 text-white" />
+                <span className="text-sm font-bold text-white">Multiple Ways to Reach Us</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
+                Choose Your Preferred Channel
+              </h2>
+              <p className="text-lg text-blue-100 max-w-2xl mx-auto">
+                We're available across multiple channels to ensure you can reach us in the way that works best for you.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {contactMethods.map((method, i) => (
+                <a
+                  key={i}
+                  href={method.action}
+                  className="group bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2"
+                >
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${method.gradient} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
+                    <method.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{method.title}</h3>
+                  <p className="text-blue-200 text-sm mb-3">{method.description}</p>
+                  <p className="text-white font-semibold">{method.value}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Benefits Section - White */}
+        <section className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-violet-50 border border-violet-200 rounded-full mb-6">
+                <Award className="w-4 h-4 text-violet-600" />
+                <span className="text-sm font-bold text-violet-600">Why Contact Us</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
+                World-Class Support Experience
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                We're committed to providing you with the best support experience in the industry.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {benefits.map((benefit, i) => (
+                <div
+                  key={i}
+                  className={`group ${benefit.bgColor} rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2`}
+                >
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${benefit.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
+                    <benefit.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.text}</h3>
+                  <p className="text-gray-600">{benefit.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Main Contact Form Section */}
+        <section id="contact-form" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-white to-violet-50 relative overflow-hidden">
+          {/* Background Elements */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-100/30 rounded-full blur-3xl"></div>
+          </div>
+
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-start">
+              {/* Left - Info */}
+              <div>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full mb-6">
+                  <Headphones className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-bold text-blue-600">Contact Form</span>
+                </div>
+
+                <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6">
+                  We're Here to Help You <span className="text-blue-600">Succeed</span>
+                </h2>
+
+                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                  Whether you're exploring AI voice solutions or ready to transform your business, our team is ready to assist you every step of the way.
+                </p>
+
+                {/* Benefits List */}
+                <div className="space-y-4 mb-8">
+                  {[
+                    { icon: Clock, text: "Average response time under 2 hours", color: "from-blue-500 to-cyan-500", bgColor: "bg-blue-50" },
+                    { icon: Users, text: "Dedicated account manager for enterprise", color: "from-emerald-500 to-teal-500", bgColor: "bg-emerald-50" },
+                    { icon: Globe, text: "Support available in 50+ languages", color: "from-violet-500 to-purple-500", bgColor: "bg-violet-50" },
+                    { icon: Shield, text: "Secure and compliant communication", color: "from-amber-500 to-orange-500", bgColor: "bg-amber-50" },
+                  ].map((benefit, i) => (
+                    <div key={i} className={`flex items-center gap-4 p-4 ${benefit.bgColor} rounded-xl border border-gray-100`}>
+                      <div className={`w-10 h-10 bg-gradient-to-br ${benefit.color} rounded-xl flex items-center justify-center shadow-lg`}>
+                        <benefit.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="text-gray-700 font-medium">{benefit.text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mini Stats */}
+                <div className="grid grid-cols-3 gap-4">
+                  {[
+                    { value: "500+", label: "Happy Clients", bgColor: "bg-blue-50", color: "text-blue-600" },
+                    { value: "24/7", label: "Support", bgColor: "bg-emerald-50", color: "text-emerald-600" },
+                    { value: "98%", label: "Satisfaction", bgColor: "bg-violet-50", color: "text-violet-600" },
+                  ].map((stat, i) => (
+                    <div key={i} className={`text-center p-4 ${stat.bgColor} rounded-xl border border-gray-100`}>
+                      <p className={`text-2xl font-black ${stat.color}`}>{stat.value}</p>
+                      <p className="text-sm text-gray-600">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right - Form */}
+              <div className="bg-white rounded-3xl shadow-2xl shadow-blue-500/10 p-8 border border-gray-100">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                    <Send className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">Send us a Message</h3>
+                    <p className="text-sm text-gray-500">We'll get back to you within 2 hours</p>
+                  </div>
+                </div>
+
+                {success && (
+                  <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-emerald-600" />
+                    <span className="text-emerald-700 font-medium">{success}</span>
+                  </div>
+                )}
+
+                {error && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                    <span className="text-red-700 font-medium">{error}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-2">
+                        First Name *
+                      </label>
+                      <input
+                        type="text"
+                        id="firstName"
+                        value={form.firstName}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+                        placeholder="John"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="lastName" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Last Name *
+                      </label>
+                      <input
+                        type="text"
+                        id="lastName"
+                        value={form.lastName}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+                        placeholder="Doe"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Work Email *
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+                        placeholder="john@company.com"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        value={form.phone}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+                        placeholder="+1 (555) 000-0000"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="company" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Company *
+                      </label>
+                      <input
+                        type="text"
+                        id="company"
+                        value={form.company}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+                        placeholder="Your Company Inc."
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="inquiry" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Inquiry Type *
+                      </label>
+                      <select
+                        id="inquiry"
+                        value={form.inquiry}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+                      >
+                        <option value="">Select an option</option>
+                        {inquiryTypes.map((type) => (
+                          <option key={type.value} value={type.value}>{type.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Message *
+                    </label>
+                    <textarea
+                      id="message"
+                      value={form.message}
+                      onChange={handleChange}
+                      required
+                      rows={4}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none hover:border-blue-300"
+                      placeholder="Tell us about your needs..."
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/30 hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group"
+                  >
+                    {loading ? (
+                      <span>Sending...</span>
+                    ) : (
+                      <>
+                        Send Message
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                  </button>
+
+                  <p className="text-xs text-gray-500 text-center">
+                    By submitting, you agree to our{" "}
+                    <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>
                   </p>
-                </CardContent>
-              </Card>
-            ))}
+                </form>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* CTA Section - Blue */}
+        <section className="py-20 px-4 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+          {/* Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+              backgroundSize: '24px 24px'
+            }} />
+          </div>
+
+          <div className="container mx-auto max-w-4xl text-center relative z-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
+              <Zap className="w-4 h-4 text-white" />
+              <span className="text-sm font-bold text-white">Start Today</span>
+            </div>
+
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6">
+              Ready to Get Started?
+            </h2>
+            <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+              Start your free trial today and experience the power of AI voice agents. No credit card required.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link href="/signup" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
+                Start Free Trial
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link href="/pricing" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold rounded-xl hover:bg-white/20 transition-all border border-white/30 flex items-center gap-2">
+                View Pricing
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
 
       <Footer />
-    </main>
+    </>
   )
 }

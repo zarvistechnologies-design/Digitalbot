@@ -61,8 +61,15 @@ export default function LiveCallFeed() {
   }
 
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
-      <div className="container mx-auto px-4 max-w-6xl">
+    <section className="py-20 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+      {/* Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+          backgroundSize: '24px 24px'
+        }} />
+      </div>
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left - Content */}
           <motion.div
@@ -70,22 +77,22 @@ export default function LiveCallFeed() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold mb-6">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-full text-sm font-semibold mb-6">
+              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
               Live Activity
             </span>
             
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Calls Happening <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500">Right Now</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              Calls Happening <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Right Now</span>
             </h2>
             
-            <p className="text-gray-600 text-lg mb-8">
+            <p className="text-blue-100 text-lg mb-8">
               Watch real-time AI conversations powering businesses across 50+ countries. Every second, DigitalBot handles hundreds of calls simultaneously.
             </p>
 
             {/* Live Counter */}
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 mb-8">
-              <p className="text-blue-100 text-sm font-medium mb-2">Total Calls Handled</p>
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 mb-8">
+              <p className="text-blue-200 text-sm font-medium mb-2">Total Calls Handled</p>
               <div className="text-4xl md:text-5xl font-black text-white tabular-nums">
                 {totalCalls.toLocaleString()}
               </div>
@@ -94,17 +101,17 @@ export default function LiveCallFeed() {
 
             {/* Features */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Globe className="h-5 w-5 text-blue-600" />
+              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
+                <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                  <Globe className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-gray-700 font-medium">50+ Languages</span>
+                <span className="text-white font-medium">50+ Languages</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Clock className="h-5 w-5 text-blue-600" />
+              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
+                <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                  <Clock className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-gray-700 font-medium">24/7 Active</span>
+                <span className="text-white font-medium">24/7 Active</span>
               </div>
             </div>
           </motion.div>

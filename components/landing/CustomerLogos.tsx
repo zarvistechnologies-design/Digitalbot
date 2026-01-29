@@ -14,25 +14,32 @@ const logos = [
 
 export default function CustomerLogos() {
   return (
-    <section className="py-12 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+    <section className="py-12 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 overflow-hidden relative">
+      {/* Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+          backgroundSize: '24px 24px'
+        }} />
+      </div>
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-10"
+          className="text-center mb-10 relative z-10"
         >
-          <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">
+          <p className="text-blue-100 text-sm font-medium uppercase tracking-wider">
             Trusted by innovative companies worldwide
           </p>
         </motion.div>
 
         {/* Logo Marquee */}
-        <div className="relative">
+        <div className="relative z-10">
           {/* Gradient Overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-blue-700 to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-blue-700 to-transparent z-10 pointer-events-none"></div>
 
           {/* Scrolling Container */}
           <div className="flex overflow-hidden">
@@ -49,7 +56,7 @@ export default function CustomerLogos() {
               {[...logos, ...logos].map((logo, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 h-8 w-32 flex items-center justify-center grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-300"
+                  className="flex-shrink-0 h-8 w-32 flex items-center justify-center brightness-0 invert opacity-70 hover:opacity-100 transition-all duration-300"
                 >
                   <img
                     src={logo.src}
@@ -68,23 +75,23 @@ export default function CustomerLogos() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-8 mt-12 pt-8 border-t border-gray-100"
+          className="flex flex-wrap justify-center gap-8 mt-12 pt-8 border-t border-white/20 relative z-10"
         >
-          <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">500+</p>
-            <p className="text-sm text-gray-500">Businesses</p>
+          <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
+            <p className="text-3xl font-bold text-white">500+</p>
+            <p className="text-sm text-blue-200">Businesses</p>
           </div>
-          <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">10M+</p>
-            <p className="text-sm text-gray-500">Calls Handled</p>
+          <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
+            <p className="text-3xl font-bold text-white">10M+</p>
+            <p className="text-sm text-blue-200">Calls Handled</p>
           </div>
-          <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">50+</p>
-            <p className="text-sm text-gray-500">Countries</p>
+          <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
+            <p className="text-3xl font-bold text-white">50+</p>
+            <p className="text-sm text-blue-200">Countries</p>
           </div>
-          <div className="text-center">
-            <p className="text-3xl font-bold text-gray-900">99.9%</p>
-            <p className="text-sm text-gray-500">Uptime</p>
+          <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
+            <p className="text-3xl font-bold text-white">99.9%</p>
+            <p className="text-sm text-blue-200">Uptime</p>
           </div>
         </motion.div>
       </div>
