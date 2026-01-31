@@ -955,7 +955,7 @@ export default function Hero() {
 
                 <div className="container mx-auto relative z-30 max-w-7xl">
 
-                    {/* Main Hero - Image Left, Content Right */}
+                    {/* Main Hero - Content Only */}
                     <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center min-h-[65vh]">
                         
                         {/* Left Side - Content */}
@@ -1022,106 +1022,22 @@ export default function Hero() {
                             </div>
                         </div>
 
-                        {/* Right Side - Image (PNG style, no box) with Vapi-inspired animation */}
+                        {/* Right Side - Video */}
                         <div className="relative order-2 lg:order-2 flex justify-center lg:justify-end">
-                          
-                            {/* Main Image */}
-                            <img
-                                src="https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval/landingpage_dhuzrr"
-                                alt="AI Voice Assistant"
-                                className="relative z-30 w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain animate-float"
-                                style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
-                            />
-                            {/* Floating Badge - Bottom Left */}
-                            <div className="absolute bottom-12 left-0 bg-white rounded-2xl shadow-2xl shadow-blue-500/10 p-5 border border-gray-100 animate-fade-in-up-3 z-40 hover:scale-105 transition-transform cursor-default">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
-                                        <PhoneCall className="h-7 w-7 text-white" />
-                                    </div>
-                                     <div>
-                                        <p className="text-2xl font-bold text-gray-900">95%</p>
-                                        <p className="text-sm text-gray-500">Success Rate</p>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Floating Stats Badge - Top Right */}
-                            <div className="absolute top-12 right-0 bg-white rounded-2xl shadow-2xl shadow-blue-500/10 p-5 border border-gray-100 animate-fade-in-up-2 z-40 hover:scale-105 transition-transform cursor-default">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
-                                        <TrendingUp className="h-7 w-7 text-white" />
-                                    </div>
-                                    <div>
-                                        <p className="text-3xl font-black text-gray-900">24/7</p>
-                                        <p className="text-sm text-gray-500">Always Available</p>
-                                    </div>
-                                </div>
-                                {/* Live indicator */}
-                                <div className="flex items-center gap-1.5 mt-2">
-                                    <span className="relative flex h-2 w-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-                                    </span>
-                                    <span className="text-xs font-medium text-green-600">Live Now</span>
-                                </div>
-                            </div>
-                            
-                            {/* New: Voice Wave Badge - Middle Right */}
-                            <div className="absolute bottom-1/3 right-2 bg-white rounded-xl shadow-lg p-3 border border-blue-100 z-40 animate-fade-in-up-2">
-                                <div className="flex items-center gap-2">
-                                    <div className="flex items-end gap-0.5 h-5">
-                                        {[1, 2, 3, 4, 3, 2, 1].map((h, i) => (
-                                            <div 
-                                                key={i} 
-                                                className="w-1 bg-blue-500 rounded-full animate-bounce-bar"
-                                                style={{ height: `${h * 5}px`, animationDelay: `${i * 0.1}s` }}
-                                            />
-                                        ))}
-                                    </div>
-                                    <span className="text-xs font-medium text-gray-600">AI Speaking</span>
-                                </div>
+                            <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl">
+                                <video
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    className="w-full h-auto object-contain rounded-2xl shadow-2xl animate-float"
+                                    style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
+                                >
+                                    <source src="https://res.cloudinary.com/dew9qfpbl/video/upload/v1769846799/User_Speaks_np03ly.mp4" type="video/mp4" />
+                                    Your browser does not support the video tag.
+                                </video>
                             </div>
                         </div>
-            {/* Vapi Animation Styles (global for hero SVG) */}
-            <style>{`
-                .vapi-hero-wave {
-                    opacity: 0.5;
-                    transform-origin: 50% 50%;
-                    stroke-dasharray: 8 8;
-                }
-                .vapi-hero-wave1 {
-                    animation: vapi-wave1 2.5s linear infinite;
-                }
-                .vapi-hero-wave2 {
-                    animation: vapi-wave2 3.2s linear infinite;
-                }
-                .vapi-hero-wave3 {
-                    animation: vapi-wave3 4.1s linear infinite;
-                }
-                @keyframes vapi-wave1 {
-                    0% { stroke-dashoffset: 0; opacity: 0.5; }
-                    50% { opacity: 0.8; }
-                    100% { stroke-dashoffset: 64; opacity: 0.5; }
-                }
-                @keyframes vapi-wave2 {
-                    0% { stroke-dashoffset: 0; opacity: 0.4; }
-                    50% { opacity: 0.7; }
-                    100% { stroke-dashoffset: 64; opacity: 0.4; }
-                }
-                @keyframes vapi-wave3 {
-                    0% { stroke-dashoffset: 0; opacity: 0.3; }
-                    50% { opacity: 0.6; }
-                    100% { stroke-dashoffset: 64; opacity: 0.3; }
-                }
-                .vapi-hero-mic {
-                    filter: drop-shadow(0 0 12px #38bdf8) drop-shadow(0 0 24px #f97316);
-                    transform-origin: 50% 80%;
-                    animation: vapi-mic-bounce 2.2s ease-in-out infinite;
-                }
-                @keyframes vapi-mic-bounce {
-                    0%, 100% { transform: scale(1) translateY(0); }
-                    50% { transform: scale(1.08) translateY(-8px); }
-                }
-            `}</style>
                     </div>
 
                     {/* Feature Cards Below Hero */}
@@ -1166,6 +1082,7 @@ export default function Hero() {
                         </div>
                     </div>
                 </div>
+
             </section>
 
             {/* Section Header - Fixed above the scrolling content */}
