@@ -1,6 +1,7 @@
 "use client"
 import PerformanceDashboard from "@/components/hero/PerformanceDashboard";
 import ProductShowcase from "@/components/solutions/ProductShowcase";
+import CustomerLogos from "@/components/landing/CustomerLogos";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
@@ -95,12 +96,6 @@ const services = [
 ];
 
 export default function Hero() {
-    const stats = [
-        { label: "Uptime Guarantee", value: 99.9, suffix: "%", formatter: (val: number) => val.toFixed(1) },
-        { label: "P99 AI Inference Latency", value: 750, suffix: "ms", formatter: (val: number) => val.toLocaleString() },
-        { label: "AI Support Coverage", value: 24, suffix: "/7", formatter: (val: number) => `${val} ` }
-    ];
-
     const [counts, setCounts] = useState([0, 0, 0])
     const [showVideo, setShowVideo] = useState(false)
     const handleCloseVideo = () => setShowVideo(false);
@@ -395,32 +390,6 @@ export default function Hero() {
     useEffect(() => {
         soundBarHeightsRef.current = Array.from({ length: 60 }, () => Math.random())
     }, []);
-
-    useEffect(() => {
-        const intervals: number[] = []
-        stats.forEach((stat, index) => {
-            let start = 0
-            const end = stat.value
-            const duration = 2000
-            const stepTime = Math.floor(duration / (end / (index === 0 ? 0.1 : 1))) || 50
-
-            const timer = setInterval(() => {
-                start += (index === 0 ? 0.1 : 1)
-                if (start >= end) {
-                    start = end
-                    clearInterval(timer)
-                }
-                setCounts(prev => {
-                    const newCounts = [...prev]
-                    newCounts[index] = start
-                    return newCounts
-                })
-            }, stepTime)
-            intervals.push(timer as unknown as number)
-        })
-
-        return () => intervals.forEach(clearInterval)
-    }, [])
 
     // Audio auto-pause functionality - pause other audio when one plays
     useEffect(() => {
@@ -1065,29 +1034,12 @@ export default function Hero() {
                             </div>
                         ))}
                     </div>
-
-                    {/* Stats Bar */}
-                    <div className="mt-16 bg-white rounded-3xl p-8 shadow-2xl border border-gray-100">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                            {[
-                                { value: "99.9%", label: "Uptime Guarantee", bgColor: "bg-blue-500", lightBg: "bg-blue-50" },
-                                { value: "750ms", label: "Response Time", bgColor: "bg-emerald-500", lightBg: "bg-emerald-50" },
-                                { value: "10M+", label: "Calls Handled", bgColor: "bg-violet-500", lightBg: "bg-violet-50" },
-                                { value: "500+", label: "Happy Clients", bgColor: "bg-amber-500", lightBg: "bg-amber-50" }
-                            ].map((stat, i) => (
-                                <div key={i} className={`${stat.lightBg} rounded-2xl p-6 text-center border border-gray-100`}>
-                                    <div className={`w-12 h-12 ${stat.bgColor} rounded-xl mx-auto mb-3 flex items-center justify-center shadow-lg`}>
-                                        <span className="text-white text-lg font-bold">{i + 1}</span>
-                                    </div>
-                                    <p className="text-2xl lg:text-3xl font-bold text-gray-900 mb-1">{stat.value}</p>
-                                    <p className="text-gray-600 text-sm">{stat.label}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
                 </div>
 
             </section>
+
+            {/* Customer Logos - Social Proof */}
+            <CustomerLogos />
 
             {/* Section Header - Fixed above the scrolling content */}
             <section className="py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">

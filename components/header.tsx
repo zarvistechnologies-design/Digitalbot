@@ -1,7 +1,7 @@
 "use client"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
-import { Activity, BarChart3, Bot, ChevronDown, Menu, Phone, Sparkles, TrendingUp, X, Zap } from "lucide-react"
+import { Activity, BarChart3, Bot, ChevronDown, Facebook, Instagram, Menu, Phone, Sparkles, TrendingUp, X, Zap } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -266,14 +266,32 @@ export function Header() {
                         </div>
                     </nav>
 
-                    {/* CTA Button */}
-                    <Link
-                        href="/login"
-                        className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
-                    >
-                        <Sparkles className="w-4 h-4" />
-                        Get Started
-                    </Link>
+                    {/* Social Icons & CTA Button */}
+                    <div className="hidden lg:flex items-center gap-3">
+                        <a
+                            href="https://www.instagram.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-200 group"
+                        >
+                            <Instagram className="w-4 h-4 text-white" />
+                        </a>
+                        <a
+                            href="https://www.facebook.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 group"
+                        >
+                            <Facebook className="w-4 h-4 text-white" />
+                        </a>
+                        <Link
+                            href="/login"
+                            className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
+                        >
+                            <Sparkles className="w-4 h-4" />
+                            Get Started
+                        </Link>
+                    </div>
 
                     {/* Mobile Menu Button */}
                     <button

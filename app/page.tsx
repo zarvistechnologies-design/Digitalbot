@@ -15,8 +15,6 @@ const TestimonialCarousel = dynamic(() => import("@/components/landing/Testimoni
 const AnimatedStats = dynamic(() => import("@/components/landing/AnimatedStats"), { ssr: false })
 const LiveCallFeed = dynamic(() => import("@/components/landing/LiveCallFeed"), { ssr: false })
 const ComparisonTable = dynamic(() => import("@/components/landing/ComparisonTable"), { ssr: false })
-const ExitIntentPopup = dynamic(() => import("@/components/landing/ExitIntentPopup"), { ssr: false })
-const LiveChatWidget = dynamic(() => import("@/components/landing/LiveChatWidget"), { ssr: false })
 
 export default function Home() {
   return (
@@ -33,9 +31,6 @@ export default function Home() {
 
       <main id="main-content" className="min-h-screen" role="main" suppressHydrationWarning>
         <Hero />
-        
-        {/* Customer Logos - Social Proof */}
-        <CustomerLogos />
 
         {/* Animated Stats */}
         <AnimatedStats />
@@ -716,8 +711,6 @@ export default function Home() {
       
       {/* Floating Widgets - Client-side only */}
       <VoiceDemoWidget />
-      <LiveChatWidget />
-      <ExitIntentPopup />
     </>
   )
 }

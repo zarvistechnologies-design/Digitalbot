@@ -55,111 +55,10 @@ export default function PerformanceDashboard() {
                 </div>
 
                 {/* Main Dashboard Grid */}
-                <div className="grid lg:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-3 gap-6">
                     
-                    {/* Left Column - Big Chart */}
-                    <div className="lg:col-span-2">
-                        <div className="bg-white rounded-3xl p-6 shadow-xl shadow-blue-100/50 border border-gray-100 h-full">
-                            <div className="flex items-center justify-between mb-6">
-                                <div>
-                                    <h3 className="text-lg font-bold text-gray-900">Call Volume & Success Rate</h3>
-                                    <p className="text-sm text-gray-500">Last 7 days performance</p>
-                                </div>
-                                <div className="flex items-center gap-4 text-sm">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                                        <span className="text-gray-600">Calls Handled</span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                                        <span className="text-gray-600">Success Rate</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Chart Area */}
-                            <div className="relative h-64">
-                                {/* Y-axis labels */}
-                                <div className="absolute left-0 top-0 bottom-8 w-12 flex flex-col justify-between text-xs text-gray-400">
-                                    <span>500</span>
-                                    <span>375</span>
-                                    <span>250</span>
-                                    <span>125</span>
-                                    <span>0</span>
-                                </div>
-
-                                {/* Chart Container */}
-                                <div className="ml-14 h-full relative">
-                                    {/* Grid lines */}
-                                    <div className="absolute inset-0 flex flex-col justify-between pb-8">
-                                        {[...Array(5)].map((_, i) => (
-                                            <div key={i} className="border-t border-gray-100 w-full"></div>
-                                        ))}
-                                    </div>
-
-                                    {/* Bar Chart */}
-                                    <div className="absolute inset-0 flex items-end justify-between gap-2 pb-8 px-2">
-                                        {[
-                                            { calls: 320, success: 94 },
-                                            { calls: 380, success: 96 },
-                                            { calls: 290, success: 92 },
-                                            { calls: 420, success: 97 },
-                                            { calls: 450, success: 95 },
-                                            { calls: 480, success: 98 },
-                                            { calls: 510, success: 99 },
-                                        ].map((day, i) => (
-                                            <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                                                <div className="relative w-full flex justify-center gap-1">
-                                                    <div 
-                                                        className="w-5 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-md bar-animate shadow-md"
-                                                        style={{ 
-                                                            height: `${(day.calls / 500) * 180}px`,
-                                                            animationDelay: `${i * 0.1}s`
-                                                        }}
-                                                    ></div>
-                                                    <div 
-                                                        className="w-5 bg-gradient-to-t from-green-500 to-green-400 rounded-t-md bar-animate shadow-md"
-                                                        style={{ 
-                                                            height: `${(day.success / 100) * 180}px`,
-                                                            animationDelay: `${i * 0.1 + 0.05}s`
-                                                        }}
-                                                    ></div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* X-axis labels */}
-                                    <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 text-xs text-gray-400">
-                                        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => (
-                                            <span key={i} className="flex-1 text-center">{day}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Chart Summary */}
-                            <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-3 gap-4">
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-gray-900">2,850</div>
-                                    <div className="text-xs text-gray-500">Total Calls</div>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-green-600">96.7%</div>
-                                    <div className="text-xs text-gray-500">Avg Success Rate</div>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-blue-600">+32%</div>
-                                    <div className="text-xs text-gray-500">vs Last Week</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Right Column - Metric Cards */}
-                    <div className="space-y-4">
-                        {/* Response Time Card */}
-                        <div className="metric-card bg-white rounded-2xl p-5 shadow-lg shadow-blue-100/30 border border-gray-100 group hover:shadow-xl hover:border-blue-200 transition-all duration-300">
+                    {/* Response Time Card */}
+                    <div className="metric-card bg-white rounded-2xl p-5 shadow-lg shadow-blue-100/30 border border-gray-100 group hover:shadow-xl hover:border-blue-200 transition-all duration-300">
                             <div className="flex items-center justify-between mb-3">
                                 <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                                     <Zap className="w-6 h-6 text-blue-600" />
@@ -227,7 +126,6 @@ export default function PerformanceDashboard() {
                             </div>
                         </div>
                     </div>
-                </div>
 
                 {/* Bottom Stats Row */}
                 <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
