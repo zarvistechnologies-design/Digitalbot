@@ -269,7 +269,7 @@ export function Header() {
                     {/* Social Icons & CTA Button */}
                     <div className="hidden lg:flex items-center gap-3">
                         <a
-                            href="https://www.instagram.com"
+                            href="https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-200 group"
@@ -277,7 +277,7 @@ export function Header() {
                             <Instagram className="w-4 h-4 text-white" />
                         </a>
                         <a
-                            href="https://www.facebook.com"
+                            href="https://www.facebook.com/profile.php?id=61583885495540"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 group"
