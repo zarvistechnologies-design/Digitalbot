@@ -1,7 +1,7 @@
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { VoiceConversationPlayer } from "@/components/voice-conversation-player"
-import { BarChart3, BrainCircuit, Building2, Clock, HeadphonesIcon, Mic, Phone, Shield, Target, TrendingUp, Users, Workflow, Zap } from "lucide-react"
+import { ArrowRight, BarChart3, BrainCircuit, Building2, CheckCircle, Clock, HeadphonesIcon, MessageCircle, Mic, Phone, Shield, Target, TrendingUp, Users, Workflow, Zap } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 const faqSchema = {
@@ -162,13 +162,13 @@ export default function VoiceAIBusiness() {
       <main className="min-h-screen">
 
       {/* Hero Section - Premium Light Theme */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-white via-sky-50/50 to-blue-50" role="banner" aria-labelledby="hero-heading">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-white via-blue-50/50 to-blue-50" role="banner" aria-labelledby="hero-heading">
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(56,189,248,0.15),rgba(255,255,255,0))]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(59,130,246,0.1),transparent_50%)]"></div>
         
         {/* Animated Gradient Orbs */}
-        <div className="absolute top-20 left-[10%] w-72 h-72 bg-sky-200/40 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-20 left-[10%] w-72 h-72 bg-blue-200/40 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-32 right-[5%] w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
 
@@ -179,10 +179,10 @@ export default function VoiceAIBusiness() {
         }}></div>
 
         {/* Floating Dots */}
-        <div className="absolute top-1/4 left-[20%] w-2 h-2 bg-sky-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s' }}></div>
+        <div className="absolute top-1/4 left-[20%] w-2 h-2 bg-blue-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s' }}></div>
         <div className="absolute top-1/3 right-[25%] w-3 h-3 bg-blue-400 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4s', animationDelay: '0.5s' }}></div>
         <div className="absolute bottom-1/3 left-[30%] w-2 h-2 bg-cyan-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '1s' }}></div>
-        <div className="absolute top-2/3 right-[15%] w-2.5 h-2.5 bg-sky-300 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
+        <div className="absolute top-2/3 right-[15%] w-2.5 h-2.5 bg-blue-300 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
 
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -190,7 +190,7 @@ export default function VoiceAIBusiness() {
             {/* Left Content */}
             <div className="text-center lg:text-left space-y-8">
               {/* Animated Badge */}
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 border border-sky-200 shadow-lg shadow-sky-100/50 backdrop-blur-sm">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 border border-blue-200 shadow-lg shadow-blue-100/50 backdrop-blur-sm">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
@@ -260,11 +260,11 @@ export default function VoiceAIBusiness() {
             {/* Right Visual */}
             <div className="relative">
               {/* Glow Effect */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-sky-200/50 via-blue-200/50 to-cyan-200/50 rounded-3xl blur-2xl"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-200/50 via-blue-200/50 to-cyan-200/50 rounded-3xl blur-2xl"></div>
               
               {/* Main Image Container */}
               <div className="relative">
-                <div className="relative h-80 sm:h-96 lg:h-[450px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-sky-200/50">
+                <div className="relative h-80 sm:h-96 lg:h-[450px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-blue-200/50">
                   <Image
                     src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
                     alt="Voice AI for Business Technology - Enterprise Communication Dashboard"
@@ -272,18 +272,18 @@ export default function VoiceAIBusiness() {
                     className="object-cover"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-sky-900/70 via-sky-800/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/70 via-blue-800/20 to-transparent"></div>
                   
                   {/* Bottom Info Card */}
                   <div className="absolute bottom-6 left-6 right-6">
-                    <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-sky-100">
+                    <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-blue-100">
                       <div className="flex items-center gap-4 mb-3">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-lg shadow-sky-400/30">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-400/30">
                           <Building2 className="w-6 h-6 text-white" />
                         </div>
                         <div>
                           <div className="text-lg font-bold text-gray-900">Enterprise Voice AI</div>
-                          <div className="text-sm text-sky-600 font-medium">Business Automation Platform</div>
+                          <div className="text-sm text-blue-600 font-medium">Business Automation Platform</div>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
@@ -318,13 +318,13 @@ export default function VoiceAIBusiness() {
                 </div>
 
                 <div className="absolute top-1/4 -left-4 lg:-left-8 animate-bounce" style={{ animationDuration: '4s', animationDelay: '0.5s' }}>
-                  <div className="px-5 py-3 bg-white rounded-2xl border border-sky-100 shadow-xl shadow-sky-100/50">
+                  <div className="px-5 py-3 bg-white rounded-2xl border border-blue-100 shadow-xl shadow-blue-100/50">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-md">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md">
                         <Clock className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <div className="text-xl font-black text-sky-600">48hrs</div>
+                        <div className="text-xl font-black text-blue-600">48hrs</div>
                         <div className="text-xs text-gray-500">Deployment</div>
                       </div>
                     </div>
@@ -351,65 +351,171 @@ export default function VoiceAIBusiness() {
         </div>
       </section>
 
-      {/* Introduction Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="intro-heading">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid lg:grid-cols-2 gap-6 items-center">
+      {/* Introduction Section - Premium Redesign */}
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="intro-heading">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/80 to-blue-50"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.15),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-blue-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl"></div>
+        
+        {/* Floating Icons */}
+        <div className="absolute top-1/4 right-[15%] w-12 h-12 bg-white rounded-2xl shadow-lg shadow-blue-200/50 flex items-center justify-center border border-blue-100 animate-bounce" style={{ animationDuration: '4s' }}>
+          <BrainCircuit className="w-6 h-6 text-blue-500" />
+        </div>
+        <div className="absolute bottom-1/3 left-[10%] w-10 h-10 bg-white rounded-xl shadow-lg shadow-blue-200/50 flex items-center justify-center border border-blue-100 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
+          <Mic className="w-5 h-5 text-blue-500" />
+        </div>
 
-            {/* Left Content */}
-            <div>
-              <div className="mb-4">
-                <span
-                  className="inline-flex items-center px-3 py-1.5 text-xs font-bold text-black bg-sky-600 shadow-md border border-sky-600 uppercase tracking-wide"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                  }}
-                >
-                  Complete Guide
-                </span>
+        <div className="container mx-auto max-w-7xl relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-12 lg:mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200 shadow-lg shadow-blue-100/50 mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              </span>
+              <span className="text-blue-600 text-sm font-semibold">Complete Guide</span>
+            </div>
+            <h2 id="intro-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+              <span className="text-gray-900">What is </span>
+              <span className="bg-gradient-to-r from-blue-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">Voice AI for Business?</span>
+            </h2>
+            <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
+              The future of enterprise communication is here
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+            {/* Left Content - 7 cols */}
+            <div className="lg:col-span-7 space-y-6">
+              {/* Feature Cards */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                {[
+                  {
+                    icon: BrainCircuit,
+                    title: "Advanced NLP",
+                    desc: "Understands context, intent & nuance in human speech"
+                  },
+                  {
+                    icon: Workflow,
+                    title: "Smart Automation",
+                    desc: "Handles thousands of simultaneous conversations"
+                  }
+                ].map((item, i) => (
+                  <div key={i} className="group p-5 bg-white rounded-2xl border border-blue-100 shadow-lg shadow-blue-100/30 hover:shadow-xl hover:shadow-blue-200/40 hover:border-blue-200 transition-all duration-300 hover:-translate-y-1">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-blue-300/30 group-hover:scale-110 transition-transform">
+                      <item.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+                    <p className="text-sm text-gray-600">{item.desc}</p>
+                  </div>
+                ))}
               </div>
-              <h2 id="intro-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                  What is Voice AI for Business?
-                </span>
-              </h2>
-              <div className="space-y-3 text-xs sm:text-sm text-gray-900 leading-relaxed">
-                <p>
-                  <strong className="text-sky-600">Voice AI for business</strong> represents the cutting edge of enterprise automation technology, combining advanced natural language processing, machine learning, and conversational AI to revolutionize how companies interact with customers. Unlike traditional IVR systems or simple chatbots, modern voice AI for business understands context, intent, and nuance in human speech.
-                </p>
-                <p>
-                  Today's businesses face unprecedented challenges: rising customer expectations, 24/7 availability demands, global talent shortages, and pressure to reduce operational costs while improving service quality. <strong className="text-sky-600">Voice AI for business</strong> solves these challenges by providing scalable, intelligent automation that handles thousands of simultaneous conversations.
-                </p>
-                <p>
-                  The technology powering voice AI for business has reached a tipping point. Recent breakthroughs in large language models, speech synthesis, and real-time processing enable AI systems to conduct sophisticated multi-turn conversations, handle complex business logic, integrate with enterprise systems, and provide personalized experiences.
-                </p>
+
+              {/* Main Content Card */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-blue-500 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="relative p-6 sm:p-8 bg-white rounded-2xl border border-blue-100 shadow-xl">
+                  <div className="space-y-4 text-gray-600 leading-relaxed">
+                    <p>
+                      <strong className="text-gray-900">Voice AI for business</strong> represents the cutting edge of enterprise automation, combining advanced <span className="text-blue-600 font-medium">natural language processing</span>, machine learning, and conversational AI to revolutionize customer interactions.
+                    </p>
+                    <p>
+                      Unlike traditional IVR systems, modern voice AI understands context and nuance. It solves today's challenges: <span className="text-blue-600 font-medium">24/7 availability</span>, talent shortages, and pressure to reduce costs while improving quality.
+                    </p>
+                    <p>
+                      Recent breakthroughs in LLMs and real-time processing enable AI to conduct sophisticated conversations, handle complex logic, and deliver <span className="text-blue-600 font-medium">personalized experiences</span> at scale.
+                    </p>
+                  </div>
+
+                  {/* Stats Row */}
+                  <div className="flex flex-wrap gap-4 mt-6 pt-6 border-t border-blue-100">
+                    {[
+                      { value: "98%", label: "Accuracy" },
+                      { value: "<500ms", label: "Response" },
+                      { value: "50+", label: "Languages" }
+                    ].map((stat, i) => (
+                      <div key={i} className="flex items-center gap-3 px-4 py-2 bg-blue-50 rounded-xl">
+                        <span className="text-xl font-bold text-blue-600">{stat.value}</span>
+                        <span className="text-sm text-gray-500">{stat.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Right HD Image */}
-            <div className="relative">
-              <div className="relative h-48 sm:h-56 lg:h-64 rounded-xl overflow-hidden shadow-lg shadow-sky-400/20 border border-sky-400/30">
+            {/* Right Visual - 5 cols */}
+            <div className="lg:col-span-5 relative">
+              {/* Glow */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-200/50 via-blue-200/50 to-cyan-200/50 rounded-3xl blur-2xl"></div>
+              
+              {/* Main Image */}
+              <div className="relative h-[400px] sm:h-[450px] lg:h-[500px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-blue-200/50">
                 <Image
                   src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop"
                   alt="Voice AI Technology Dashboard - Business Analytics and Customer Service Automation"
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-sky-900/20 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-sky-400/50">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-lg border border-sky-400/30">
-                        <BrainCircuit className="w-4 h-4 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-800/20 to-transparent"></div>
+                
+                {/* Bottom Card */}
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-blue-100">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-400/30">
+                        <BrainCircuit className="w-7 h-7 text-white" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-white">AI Intelligence</div>
-                        <div className="text-xs text-sky-400">Natural language processing</div>
+                        <div className="text-lg font-bold text-gray-900">AI Intelligence</div>
+                        <div className="text-sm text-blue-600">Natural Language Processing</div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-sky-400 font-medium">✓ 98% Accuracy</span>
-                      <span className="text-sky-400 font-medium tracking-wide">Real-time</span>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-2 text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full">
+                        <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                        Active & Learning
+                      </span>
+                      <div className="flex items-center gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className="text-amber-400 text-sm">★</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Stat Cards */}
+              <div className="absolute -top-4 -right-4 lg:-right-8 animate-bounce" style={{ animationDuration: '3s' }}>
+                <div className="px-4 py-3 bg-white rounded-2xl border border-blue-100 shadow-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-lg font-black text-emerald-600">+400%</div>
+                      <div className="text-xs text-gray-500">Productivity</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute top-1/3 -left-4 lg:-left-8 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+                <div className="px-4 py-3 bg-white rounded-2xl border border-blue-100 shadow-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-lg font-black text-blue-600">24/7</div>
+                      <div className="text-xs text-gray-500">Available</div>
                     </div>
                   </div>
                 </div>
@@ -420,101 +526,138 @@ export default function VoiceAIBusiness() {
         </div>
       </section>
 
-      {/* Benefits Grid - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="benefits-heading">
-        <div className="container mx-auto max-w-7xl">
+      {/* Benefits Grid - Premium Redesign */}
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="benefits-heading">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-sky-50/50 to-white"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.08),transparent_70%)]"></div>
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-1/4 left-0 w-72 h-72 bg-sky-100/40 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl"></div>
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: `radial-gradient(circle, #0ea5e9 1px, transparent 1px)`,
+          backgroundSize: '30px 30px'
+        }}></div>
+
+        <div className="container mx-auto max-w-7xl relative z-10">
           {/* Section Header */}
-          <div className="text-center mb-6">
-            <div className="inline-block mb-3">
-              <span
-                className="px-3 py-1.5 text-xs font-bold text-black bg-sky-600 shadow-md border border-sky-600 uppercase tracking-wide"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                }}
-              >
-                Enterprise Benefits
-              </span>
+          <div className="text-center mb-12 lg:mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-sky-200 shadow-lg shadow-sky-100/50 mb-6">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-sky-400 to-blue-500 flex items-center justify-center">
+                <TrendingUp className="w-3 h-3 text-white" />
+              </div>
+              <span className="text-sky-600 text-sm font-semibold">Enterprise Benefits</span>
             </div>
-            <h2 id="benefits-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                Why Leading Enterprises Choose Voice AI
-              </span>
+            <h2 id="benefits-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+              <span className="text-gray-900">Why Leading Enterprises </span>
+              <span className="bg-gradient-to-r from-sky-500 via-blue-500 to-sky-600 bg-clip-text text-transparent">Choose Voice AI</span>
             </h2>
-            <p className="text-sm sm:text-base text-gray-900 max-w-2xl mx-auto leading-relaxed">
-              Discover how <strong className="text-sky-600">voice AI for business</strong> transforms operations and delivers measurable ROI
+            <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
+              Discover how <span className="text-sky-600 font-medium">voice AI for business</span> transforms operations and delivers measurable ROI
             </p>
           </div>
 
           {/* Benefits Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {benefits.map((benefit, i) => (
               <div
                 key={i}
-                className="bg-white border border-sky-400/30 p-4 shadow-lg backdrop-blur-sm hover:border-sky-400 hover:shadow-sky-500/20 transition-all duration-300 hover:scale-105 group"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}
+                className="group relative"
               >
-                <div className="flex items-start gap-3">
-                  <div
-                    className="w-8 h-8 bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-lg border border-sky-400/30 group-hover:scale-110 transition-transform"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'
-                    }}
-                  >
-                    <benefit.icon className="w-4 h-4 text-white" />
+                {/* Glow effect on hover */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                
+                <div className="relative h-full bg-white rounded-2xl p-6 border border-sky-100 shadow-lg shadow-sky-100/20 hover:shadow-xl hover:shadow-sky-200/30 hover:border-sky-200 transition-all duration-300 hover:-translate-y-1">
+                  {/* Icon */}
+                  <div className="w-14 h-14 bg-gradient-to-br from-sky-400 to-blue-500 rounded-2xl flex items-center justify-center mb-5 shadow-lg shadow-sky-300/30 group-hover:scale-110 transition-transform duration-300">
+                    <benefit.icon className="w-7 h-7 text-white" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-bold text-gray-900 mb-2 leading-tight">{benefit.title}</h3>
-                    <p className="text-xs text-gray-900 leading-relaxed">
-                      {benefit.description}
-                    </p>
-                  </div>
+                  
+                  {/* Content */}
+                  <h3 className="text-lg font-bold text-gray-900 mb-3">{benefit.title}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    {benefit.description}
+                  </p>
+                  
+                  {/* Bottom accent */}
+                  <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Bottom CTA */}
+          <div className="text-center mt-12">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-bold rounded-xl shadow-lg shadow-sky-500/25 hover:shadow-xl hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105"
+            >
+              Explore All Benefits
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Use Cases Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="use-cases-heading">
-        <div className="container mx-auto max-w-6xl">
+      {/* Use Cases Section - Premium Redesign */}
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="use-cases-heading">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-white to-blue-50"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(56,189,248,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(59,130,246,0.08),transparent_50%)]"></div>
+        
+        {/* Decorative */}
+        <div className="absolute top-20 right-20 w-64 h-64 bg-sky-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl"></div>
+
+        <div className="container mx-auto max-w-7xl relative z-10">
           {/* Section Header */}
-          <div className="text-center mb-6">
-            <h2 id="use-cases-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                Voice AI for Business: Real-World Applications & Results
-              </span>
+          <div className="text-center mb-12 lg:mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-sky-200 shadow-lg shadow-sky-100/50 mb-6">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
+                <CheckCircle className="w-3 h-3 text-white" />
+              </div>
+              <span className="text-sky-600 text-sm font-semibold">Real-World Results</span>
+            </div>
+            <h2 id="use-cases-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+              <span className="bg-gradient-to-r from-sky-500 via-blue-500 to-sky-600 bg-clip-text text-transparent">Voice AI in Action</span>
             </h2>
-            <p className="text-sm sm:text-base text-white max-w-2xl mx-auto leading-relaxed">
-              See how businesses across industries leverage voice AI to achieve breakthrough performance improvements.
+            <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
+              See how businesses across industries achieve breakthrough performance improvements
             </p>
           </div>
 
           {/* Use Cases Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {useCases.map((useCase, i) => (
               <div
                 key={i}
-                className="bg-white border border-sky-400/30 p-4 shadow-lg backdrop-blur-sm hover:border-sky-400 hover:shadow-sky-500/20 transition-all duration-300 hover:scale-105 group"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                }}
+                className="group relative"
               >
-                <div className="mb-3">
-                  <h3 className="text-sm font-bold text-gray-900 mb-2 leading-tight">{useCase.title}</h3>
-                  <p className="text-xs text-gray-900 leading-relaxed mb-3">
+                <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                
+                <div className="relative h-full bg-white rounded-2xl p-6 lg:p-8 border border-sky-100 shadow-lg shadow-sky-100/20 hover:shadow-xl hover:shadow-sky-200/30 hover:border-sky-200 transition-all duration-300 hover:-translate-y-1">
+                  {/* Header */}
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
+                      <Building2 className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">{useCase.title}</h3>
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 rounded-full">
+                        <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
+                        <span className="text-xs font-semibold text-emerald-600">{useCase.results}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Description */}
+                  <p className="text-sm text-gray-600 leading-relaxed">
                     {useCase.description}
                   </p>
-                  <div
-                    className="inline-flex items-center px-2 py-1 bg-sky-400/20 border border-sky-400/50 text-xs font-semibold text-gray-900 shadow-sm"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'
-                    }}
-                  >
-                    ✓ {useCase.results}
-                  </div>
                 </div>
               </div>
             ))}
@@ -522,23 +665,36 @@ export default function VoiceAIBusiness() {
         </div>
       </section>
 
-      {/* Features Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="features-advanced-heading">
-        <div className="container mx-auto max-w-6xl">
+      {/* Features Section - Premium Redesign */}
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="features-advanced-heading">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-blue-50/30 to-white"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.06),transparent_70%)]"></div>
+        
+        {/* Decorative */}
+        <div className="absolute top-1/3 left-10 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/3 right-10 w-80 h-80 bg-sky-100/20 rounded-full blur-3xl"></div>
+
+        <div className="container mx-auto max-w-7xl relative z-10">
           {/* Section Header */}
-          <div className="text-center mb-6">
-            <h2 id="features-advanced-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                Advanced Capabilities: How Voice AI for Business Works
-              </span>
+          <div className="text-center mb-12 lg:mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200 shadow-lg shadow-blue-100/50 mb-6">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                <BrainCircuit className="w-3 h-3 text-white" />
+              </div>
+              <span className="text-blue-600 text-sm font-semibold">Advanced Technology</span>
+            </div>
+            <h2 id="features-advanced-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+              <span className="text-gray-900">How </span>
+              <span className="bg-gradient-to-r from-blue-500 via-sky-500 to-blue-600 bg-clip-text text-transparent">Voice AI Works</span>
             </h2>
-            <p className="text-sm sm:text-base text-white max-w-2xl mx-auto leading-relaxed">
-              Enterprise-grade technology stack powering the most sophisticated voice AI for business solutions.
+            <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
+              Enterprise-grade technology stack powering the most sophisticated voice AI solutions
             </p>
           </div>
 
           {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {[
               {
                 icon: BrainCircuit,
@@ -583,34 +739,37 @@ export default function VoiceAIBusiness() {
             ].map((feature, i) => (
               <div
                 key={i}
-                className="bg-white border border-sky-400/30 p-4 shadow-lg backdrop-blur-sm hover:border-sky-400 hover:shadow-sky-500/20 transition-all duration-300 hover:scale-105 group"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                }}
+                className="group relative"
               >
-                <div className="flex items-start gap-3 mb-3">
-                  <div
-                    className="w-8 h-8 bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-lg border border-sky-400/30 group-hover:scale-110 transition-transform"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px))'
-                    }}
-                  >
-                    <feature.icon className="w-4 h-4 text-white" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-sky-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                
+                <div className="relative h-full bg-white rounded-2xl p-6 lg:p-8 border border-blue-100 shadow-lg shadow-blue-100/20 hover:shadow-xl hover:shadow-blue-200/30 hover:border-blue-200 transition-all duration-300 hover:-translate-y-1">
+                  {/* Header */}
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
+                      <feature.icon className="w-7 h-7 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-1">{feature.title}</h3>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-bold text-gray-900 mb-2 leading-tight">{feature.title}</h3>
-                    <p className="text-xs text-gray-900 leading-relaxed mb-3">
-                      {feature.description}
-                    </p>
-                    <ul className="space-y-1">
-                      {feature.features.map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs">
-                          <span className="text-sky-600 font-bold mt-0.5">✓</span>
-                          <span className="text-gray-900">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  
+                  {/* Description */}
+                  <p className="text-sm text-gray-600 leading-relaxed mb-5">
+                    {feature.description}
+                  </p>
+                  
+                  {/* Features List */}
+                  <ul className="space-y-2">
+                    {feature.features.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-3 text-sm">
+                        <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <CheckCircle className="w-3 h-3 text-blue-500" />
+                        </div>
+                        <span className="text-gray-700">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             ))}
@@ -618,67 +777,77 @@ export default function VoiceAIBusiness() {
         </div>
       </section>
 
-      {/* Sample Conversation Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="demo-heading">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid lg:grid-cols-2 gap-6 items-center">
+      {/* Sample Conversation Section - Premium Redesign */}
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="demo-heading">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-white to-blue-50"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(56,189,248,0.1),transparent_50%)]"></div>
+        
+        {/* Decorative */}
+        <div className="absolute top-1/4 right-10 w-64 h-64 bg-sky-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-10 w-72 h-72 bg-blue-200/20 rounded-full blur-3xl"></div>
+
+        <div className="container mx-auto max-w-7xl relative z-10">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left Content */}
             <div>
-              <div className="mb-4">
-                <span
-                  className="inline-flex items-center px-3 py-1.5 text-xs font-bold text-black bg-sky-600 shadow-md border border-sky-600 uppercase tracking-wide"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                  }}
-                >
-                  <Mic className="mr-2 w-3 h-3" />
-                  Voice AI Demo
-                </span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-sky-200 shadow-lg shadow-sky-100/50 mb-6">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-sky-400 to-blue-500 flex items-center justify-center">
+                  <Mic className="w-3 h-3 text-white" />
+                </div>
+                <span className="text-sky-600 text-sm font-semibold">Voice AI Demo</span>
               </div>
-              <h2 id="demo-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
-                  Experience Voice AI for Business in Action
-                </span>
+              
+              <h2 id="demo-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+                <span className="text-gray-900">Experience </span>
+                <span className="bg-gradient-to-r from-sky-500 via-blue-500 to-sky-600 bg-clip-text text-transparent">Voice AI in Action</span>
               </h2>
-              <p className="text-sm sm:text-base text-gray-900 leading-relaxed mb-4">
+              <p className="text-gray-500 text-base sm:text-lg leading-relaxed mb-8">
                 Listen to how our voice AI for business handles real customer interactions with natural, intelligent responses that drive satisfaction and conversion.
               </p>
 
-              <div
-                className="bg-white border border-sky-400/30 p-4 shadow-lg backdrop-blur-sm"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                }}
-              >
-                <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
+              {/* Voice Player Card */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="relative bg-white rounded-2xl p-6 border border-sky-100 shadow-xl">
+                  <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
+                </div>
               </div>
             </div>
 
-            {/* Right HD Image */}
+            {/* Right Visual */}
             <div className="relative">
-              <div className="relative h-48 sm:h-56 lg:h-64 rounded-xl overflow-hidden shadow-lg shadow-sky-400/20 border border-sky-400/30">
+              {/* Glow */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-sky-200/50 via-blue-200/50 to-cyan-200/50 rounded-3xl blur-2xl"></div>
+              
+              <div className="relative h-[350px] sm:h-[400px] lg:h-[450px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-sky-200/50">
                 <Image
                   src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2070&auto=format&fit=crop"
                   alt="Voice AI Customer Service Dashboard - Real-time Analytics and Performance Metrics"
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-sky-900/20 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-sky-400/50">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-lg border border-sky-400/30">
-                        <HeadphonesIcon className="w-4 h-4 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-t from-sky-900/80 via-sky-800/20 to-transparent"></div>
+                
+                {/* Bottom Card */}
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-sky-100">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-lg shadow-sky-400/30">
+                        <HeadphonesIcon className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-white">Live Demo</div>
-                        <div className="text-xs text-sky-400">Voice AI conversation</div>
+                        <div className="text-lg font-bold text-gray-900">Live Demo</div>
+                        <div className="text-sm text-sky-600">Voice AI Conversation</div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-sky-400 font-medium">✓ Natural Speech</span>
-                      <span className="text-sky-400 font-medium tracking-wide">Real-time</span>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-2 text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full">
+                        <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                        Natural Speech
+                      </span>
+                      <span className="text-sm font-medium text-sky-600">Real-time</span>
                     </div>
                   </div>
                 </div>
@@ -689,36 +858,40 @@ export default function VoiceAIBusiness() {
         </div>
       </section>
 
-      {/* FAQ Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="faq-heading">
-        <div className="container mx-auto max-w-6xl">
+      {/* FAQ Section - Premium Redesign */}
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="faq-heading">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-blue-50/30 to-white"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.06),transparent_70%)]"></div>
+        
+        {/* Decorative */}
+        <div className="absolute top-20 left-1/4 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-sky-100/20 rounded-full blur-3xl"></div>
+
+        <div className="container mx-auto max-w-4xl relative z-10">
           {/* Section Header */}
-          <div className="text-center mb-6">
-            <div className="inline-block mb-3">
-              <span
-                className="px-3 py-1.5 text-xs font-bold text-black bg-sky-600 shadow-md border border-sky-600 uppercase tracking-wide"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))'
-                }}
-              >
-                Got Questions? We've Got Answers
-              </span>
+          <div className="text-center mb-12 lg:mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200 shadow-lg shadow-blue-100/50 mb-6">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                <MessageCircle className="w-3 h-3 text-white" />
+              </div>
+              <span className="text-blue-600 text-sm font-semibold">Got Questions?</span>
             </div>
-            <h2 id="faq-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
-              <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
+            <h2 id="faq-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+              <span className="bg-gradient-to-r from-blue-500 via-sky-500 to-blue-600 bg-clip-text text-transparent">
                 Frequently Asked
               </span>
-              <span className="bg-gradient-to-r from-sky-400 to-sky-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                 Questions
               </span>
             </h2>
             <p className="text-sm sm:text-base text-gray-900 max-w-2xl mx-auto leading-relaxed">
-              Everything you need to know about <span className="text-sky-600 font-semibold">Voice AI for Business</span>
+              Everything you need to know about <span className="text-blue-600 font-semibold">Voice AI for Business</span>
             </p>
           </div>
 
           {/* FAQ Grid */}
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-5">
             {[
               {
                 question: "What is voice AI for business?",
@@ -747,112 +920,109 @@ export default function VoiceAIBusiness() {
             ].map((faq, index) => (
               <div
                 key={index}
-                className="bg-white border border-sky-400/30 p-4 shadow-lg backdrop-blur-sm hover:border-sky-400 hover:shadow-sky-500/20 transition-all duration-300 hover:scale-105 group"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                }}
+                className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-blue-100 shadow-lg shadow-blue-100/30 hover:shadow-xl hover:shadow-blue-200/40 hover:border-blue-300 transition-all duration-300 hover:-translate-y-1"
               >
-                <div className="flex items-start gap-3 mb-3">
-                  <div
-                    className="w-6 h-6 bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-lg border border-sky-400/30 font-bold text-xs text-white group-hover:scale-110 transition-transform"
-                    style={{
-                      clipPath: 'polygon(0 0, calc(100% - 3px) 0, 100% 3px, 100% 100%, 3px 100%, 0 calc(100% - 3px))'
-                    }}
-                  >
-                    {String(index + 1).padStart(2, '0')}
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-400/0 via-sky-400/0 to-blue-500/0 group-hover:from-blue-400/5 group-hover:via-sky-400/5 group-hover:to-blue-500/5 transition-all duration-300" />
+                
+                <div className="relative z-10">
+                  <div className="flex items-start gap-4 mb-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-400/30 font-bold text-xs text-white group-hover:scale-110 transition-transform duration-300">
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+                    <h3 className="text-sm font-bold text-gray-800 leading-tight flex-1 group-hover:text-blue-700 transition-colors">
+                      {faq.question}
+                    </h3>
                   </div>
-                  <h3 className="text-sm font-bold text-gray-900 leading-tight flex-1">
-                    {faq.question}
-                  </h3>
+                  <p className="text-xs text-gray-600 leading-relaxed ml-12">
+                    {faq.answer}
+                  </p>
                 </div>
-                <p className="text-xs text-gray-900 leading-relaxed ml-9">
-                  {faq.answer}
-                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section - sky Theme */}
-      <section className="py-8 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50" role="region" aria-labelledby="cta-heading">
-        <div className="container mx-auto max-w-6xl">
+      {/* CTA Section - Premium Redesign */}
+      <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="cta-heading">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-blue-600 to-blue-800"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(59,130,246,0.3),transparent_50%)]"></div>
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-10 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-300/10 rounded-full blur-3xl"></div>
+        
+        {/* Floating Icons */}
+        <div className="absolute top-1/4 left-[10%] w-12 h-12 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/20 animate-bounce" style={{ animationDuration: '4s' }}>
+          <Phone className="w-6 h-6 text-white/80" />
+        </div>
+        <div className="absolute bottom-1/4 right-[10%] w-10 h-10 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
+          <Zap className="w-5 h-5 text-white/80" />
+        </div>
+
+        <div className="container mx-auto max-w-4xl relative z-10">
           <div className="text-center">
             {/* CTA Badge */}
-            <div className="inline-block mb-4">
-              <span
-                className="inline-flex items-center px-3 py-1.5 text-xs font-bold text-white bg-sky-600 shadow-md hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105 border border-sky-600 uppercase tracking-wide"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}
-              >
-                <Zap className="mr-2 w-3 h-3" />
-                Start Your Free Trial
-              </span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 shadow-lg mb-8">
+              <div className="w-6 h-6 rounded-full bg-blue-400/30 flex items-center justify-center">
+                <Zap className="w-3 h-3 text-white" />
+              </div>
+              <span className="text-white text-sm font-semibold">Limited Time Offer</span>
             </div>
 
             {/* CTA Heading */}
-            <h2 id="cta-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 leading-tight">
-              <span className="block mb-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500 bg-clip-text text-transparent">
+            <h2 id="cta-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight">
+              <span className="block text-white mb-2">
                 Ready to Transform Your Business
               </span>
-              <span
-                className="inline-block px-4 py-2 text-white bg-sky-600 shadow-lg text-lg sm:text-xl lg:text-2xl font-bold uppercase tracking-wide border border-sky-600 hover:shadow-sky-400/50 transition-all duration-300"
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))'
-                }}
-              >
+              <span className="bg-gradient-to-r from-blue-200 via-white to-blue-200 bg-clip-text text-transparent">
                 With Voice AI Today?
               </span>
             </h2>
 
             {/* CTA Description */}
-            <div
-              className="max-w-3xl mx-auto mb-6 p-4 bg-white border border-sky-400/30 shadow-lg backdrop-blur-sm"
-              style={{
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-              }}
-            >
-              <p className="text-sm sm:text-base text-gray-900 leading-relaxed">
-                Join <strong className="text-sky-600">10,000+ businesses</strong> using voice AI to automate customer service, accelerate sales, and boost productivity by <strong className="text-sky-600">400%</strong>. Start your free trial today with no credit card required.
-              </p>
+            <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
+              Join <span className="font-bold text-white">10,000+ businesses</span> using voice AI to automate customer service, accelerate sales, and boost productivity by <span className="font-bold text-white">400%</span>.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Link
+                href="/signup"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-blue-700 bg-white rounded-xl shadow-xl shadow-blue-900/30 hover:shadow-2xl hover:shadow-blue-900/40 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+              >
+                Start Free Trial Now
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-white bg-blue-500/20 backdrop-blur-sm border-2 border-blue-300/40 rounded-xl hover:bg-blue-400/30 hover:border-blue-200/60 transition-all duration-300 hover:scale-105"
+              >
+                <Phone className="w-5 h-5" />
+                Talk to Voice AI Specialist
+              </Link>
             </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
-                <Link
-                  href="/signup"
-                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-black bg-sky-600 shadow-md hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105 border border-sky-600 uppercase tracking-wide"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                  }}
-                >
-                  Start Free Trial Now
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-bold text-sky-600 bg-transparent border border-sky-400 hover:bg-sky-600/10 transition-all duration-300 hover:scale-105 shadow-sm uppercase tracking-wide"
-                  style={{
-                    clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))'
-                  }}
-                >
-                  Talk to Voice AI Specialist
-                </Link>
-              </div>
-
-              {/* Trust Signals */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-                {["No Credit Card Required", "Deploy in 48 Hours", "24/7 Expert Support", "Cancel Anytime"].map((signal, idx) => (
-                  <div key={idx} className="flex items-center gap-1 justify-center">
-                    <span className="w-1 h-1 rounded-full bg-sky-600" style={{
-                      boxShadow: '0 0 4px rgba(234, 88, 12, 0.4)'
-                    }}></span>
-                    <span className="font-medium text-gray-900">{signal}</span>
-                  </div>
-                ))}
-              </div>
+            {/* Trust Signals */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { text: "No Credit Card Required", icon: CheckCircle },
+                { text: "Deploy in 48 Hours", icon: Zap },
+                { text: "24/7 Expert Support", icon: Phone },
+                { text: "Cancel Anytime", icon: Shield }
+              ].map((signal, idx) => (
+                <div key={idx} className="flex items-center gap-2 justify-center bg-blue-500/10 backdrop-blur-sm rounded-xl py-3 px-4 border border-blue-300/20">
+                  <signal.icon className="w-4 h-4 text-blue-200" />
+                  <span className="text-sm font-medium text-blue-100">{signal.text}</span>
+                </div>
+              ))}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
       <Footer />
       </main>

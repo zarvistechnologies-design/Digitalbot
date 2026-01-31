@@ -218,8 +218,8 @@ export default function Hero() {
             const steps = gsap.utils.toArray<HTMLElement>('.journey-step');
 
             // Initial states
-            gsap.set(header, { opacity: 0, y: 30 });
-            gsap.set(line, { scaleX: 0, transformOrigin: 'left center' });
+            if (header) gsap.set(header, { opacity: 0, y: 30 });
+            if (line) gsap.set(line, { scaleX: 0, transformOrigin: 'left center' });
             gsap.set(steps, { opacity: 0, y: 40 });
 
             // Create scroll-triggered animation
@@ -228,20 +228,24 @@ export default function Hero() {
                 start: "top 80%",
                 onEnter: () => {
                     // Animate header first
-                    gsap.to(header, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.6,
-                        ease: "power2.out"
-                    });
+                    if (header) {
+                        gsap.to(header, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.6,
+                            ease: "power2.out"
+                        });
+                    }
 
                     // Animate the connecting line
-                    gsap.to(line, {
-                        scaleX: 1,
-                        duration: 1,
-                        delay: 0.3,
-                        ease: "power2.inOut"
-                    });
+                    if (line) {
+                        gsap.to(line, {
+                            scaleX: 1,
+                            duration: 1,
+                            delay: 0.3,
+                            ease: "power2.inOut"
+                        });
+                    }
 
                     // Stagger animate the steps
                     gsap.to(steps, {
