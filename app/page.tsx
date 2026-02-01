@@ -13,8 +13,6 @@ const VoiceDemoWidget = dynamic(() => import("@/components/landing/VoiceDemoWidg
 const CustomerLogos = dynamic(() => import("@/components/landing/CustomerLogos"), { ssr: false })
 const TestimonialCarousel = dynamic(() => import("@/components/landing/TestimonialCarousel"), { ssr: false })
 const AnimatedStats = dynamic(() => import("@/components/landing/AnimatedStats"), { ssr: false })
-const LiveCallFeed = dynamic(() => import("@/components/landing/LiveCallFeed"), { ssr: false })
-const ComparisonTable = dynamic(() => import("@/components/landing/ComparisonTable"), { ssr: false })
 
 export default function Home() {
   return (
@@ -37,17 +35,8 @@ export default function Home() {
 
         {/* Modern CTA Component */}
         <CTA />
-        
-        {/* Live Call Feed - Shows real-time activity */}
-        <LiveCallFeed />
      
         <Lead/>
-        
-        {/* Testimonials */}
-        <TestimonialCarousel />
-        
-        {/* Comparison Table */}
-        <ComparisonTable />
 
         {/* Voice Search Optimized Q&A - Clean Card Design */}
         <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-blue-50 relative overflow-hidden" role="region" aria-labelledby="voice-search-qa">

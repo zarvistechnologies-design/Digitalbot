@@ -1,5 +1,4 @@
 "use client"
-import PerformanceDashboard from "@/components/hero/PerformanceDashboard";
 import ProductShowcase from "@/components/solutions/ProductShowcase";
 import CustomerLogos from "@/components/landing/CustomerLogos";
 import gsap from "gsap";
@@ -1144,9 +1143,6 @@ export default function Hero() {
                     </div>
                 </div>
             </section>
-
-            {/* Real-Time Performance Dashboard */}
-            <PerformanceDashboard />
 
             <ProductShowcase/>
 
