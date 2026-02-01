@@ -30,9 +30,6 @@ export default function Home() {
       <main id="main-content" className="min-h-screen" role="main" suppressHydrationWarning>
         <Hero />
 
-        {/* Animated Stats */}
-        <AnimatedStats />
-
         {/* Modern CTA Component */}
         <CTA />
      

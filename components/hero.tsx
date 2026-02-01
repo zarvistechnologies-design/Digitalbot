@@ -1,6 +1,6 @@
 "use client"
 import ProductShowcase from "@/components/solutions/ProductShowcase";
-import CustomerLogos from "@/components/landing/CustomerLogos";
+import AnimatedStats from "@/components/landing/AnimatedStats";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
@@ -1037,8 +1037,8 @@ export default function Hero() {
 
             </section>
 
-            {/* Customer Logos - Social Proof */}
-            <CustomerLogos />
+            {/* Numbers That Speak for Themselves */}
+            <AnimatedStats />
 
             {/* Section Header - Fixed above the scrolling content */}
             <section className="py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
@@ -1162,11 +1162,11 @@ export default function Hero() {
                         </p>
                     </div>
 
-                    {/* Bento Grid Layout */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[120px]">
+                    {/* Grid Layout - All cards equal size */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                        {/* Feature 1 - Instant Setup (Large) */}
-                        <div className="col-span-2 row-span-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
+                        {/* Feature 1 - Instant Setup */}
+                        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px]">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                             <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
                             <div>
@@ -1187,7 +1187,7 @@ export default function Hero() {
                                     </li>
                                 </ul>
                             </div>
-                            <div className="flex gap-8">
+                            <div className="flex gap-8 mt-4">
                                 <div>
                                     <div className="text-3xl font-bold text-white">5 min</div>
                                     <div className="text-orange-200 text-xs">Setup Time</div>
@@ -1200,84 +1200,106 @@ export default function Hero() {
                         </div>
 
                         {/* Feature 2 - Enterprise Security */}
-                        <div className="col-span-2 row-span-1 bg-gray-900 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
+                        <div className="bg-gray-900 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px]">
                             <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                            <div className="flex items-center gap-2 mb-1">
-                                <Shield className="h-5 w-5 text-emerald-400" />
-                                <h3 className="text-base font-bold text-white">Enterprise Security</h3>
+                            <div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Shield className="h-5 w-5 text-emerald-400" />
+                                    <h3 className="text-lg font-bold text-white">Enterprise Security</h3>
+                                </div>
+                                <p className="text-sm text-gray-400 mb-4">AES-256 encryption, SOC 2 certified, GDPR & HIPAA compliant for maximum data protection.</p>
                             </div>
-                            <p className="text-xs text-gray-400 mb-2">AES-256 encryption, SOC 2 certified, GDPR & HIPAA compliant.</p>
-                            <div className="flex gap-1.5">
-                                <span className="px-2 py-0.5 bg-white/10 text-white text-[10px] font-medium rounded">SOC 2</span>
-                                <span className="px-2 py-0.5 bg-white/10 text-white text-[10px] font-medium rounded">GDPR</span>
-                                <span className="px-2 py-0.5 bg-white/10 text-white text-[10px] font-medium rounded">HIPAA</span>
+                            <div className="flex flex-wrap gap-2 mt-auto">
+                                <span className="px-3 py-1.5 bg-white/10 text-white text-xs font-medium rounded">SOC 2</span>
+                                <span className="px-3 py-1.5 bg-white/10 text-white text-xs font-medium rounded">GDPR</span>
+                                <span className="px-3 py-1.5 bg-white/10 text-white text-xs font-medium rounded">HIPAA</span>
                             </div>
                         </div>
 
                         {/* Feature 3 - 24/7 Operations */}
-                        <div className="col-span-1 row-span-1 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
-                            <div className="flex items-center gap-2">
-                                <Clock className="h-4 w-4 text-white" />
-                                <h3 className="text-sm font-bold text-white">24/7 Operations</h3>
-                            </div>
+                        <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px]">
                             <div>
-                                <div className="text-2xl font-bold text-white">99.9%</div>
-                                <div className="text-purple-200 text-xs">Uptime SLA</div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Clock className="h-5 w-5 text-white" />
+                                    <h3 className="text-lg font-bold text-white">24/7 Operations</h3>
+                                </div>
+                                <p className="text-sm text-purple-100 mb-4">
+                                    Uninterrupted service with industry-leading uptime. Your AI assistants never sleep, ensuring constant availability for your customers.
+                                </p>
+                            </div>
+                            <div className="mt-auto">
+                                <div className="text-4xl font-bold text-white">99.9%</div>
+                                <div className="text-purple-200 text-sm">Uptime SLA Guarantee</div>
                             </div>
                         </div>
 
                         {/* Feature 4 - Auto-Scaling */}
-                        <div className="col-span-1 row-span-1 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
-                            <div className="flex items-center gap-2">
-                                <TrendingUp className="h-4 w-4 text-white" />
-                                <h3 className="text-sm font-bold text-white">Auto-Scaling</h3>
-                            </div>
+                        <div className="bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px]">
                             <div>
-                                <div className="text-2xl font-bold text-white">100K+</div>
-                                <div className="text-amber-100 text-xs">Conversations</div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <TrendingUp className="h-5 w-5 text-white" />
+                                    <h3 className="text-lg font-bold text-white">Auto-Scaling</h3>
+                                </div>
+                                <p className="text-sm text-amber-100 mb-4">
+                                    Handle spikes effortlessly with intelligent auto-scaling. From 10 to 100,000+ simultaneous conversations without performance degradation.
+                                </p>
+                            </div>
+                            <div className="mt-auto">
+                                <div className="text-4xl font-bold text-white">100K+</div>
+                                <div className="text-amber-100 text-sm">Concurrent Conversations</div>
                             </div>
                         </div>
 
                         {/* Feature 5 - Omnichannel */}
-                        <div className="col-span-1 row-span-1 bg-gradient-to-br from-orange-50 to-amber-100 rounded-2xl p-4 flex flex-col justify-between border border-orange-200/50 group hover:shadow-lg transition-shadow">
-                            <div className="flex items-center gap-2">
-                                <MessageSquare className="h-4 w-4 text-orange-500" />
-                                <h3 className="text-sm font-bold text-gray-800">Omnichannel</h3>
-                            </div>
+                        <div className="bg-gradient-to-br from-orange-50 to-amber-100 rounded-2xl p-6 flex flex-col justify-between border border-orange-200/50 group hover:shadow-lg transition-shadow min-h-[280px]">
                             <div>
-                                <div className="text-2xl font-bold text-orange-500">6+</div>
-                                <div className="text-gray-500 text-xs">Channels</div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <MessageSquare className="h-5 w-5 text-orange-500" />
+                                    <h3 className="text-lg font-bold text-gray-800">Omnichannel Support</h3>
+                                </div>
+                                <p className="text-sm text-gray-600 mb-4">
+                                    Seamless integration across phone, web, mobile, SMS, WhatsApp, and social media platforms.
+                                </p>
+                            </div>
+                            <div className="mt-auto">
+                                <div className="text-4xl font-bold text-orange-500">6+</div>
+                                <div className="text-gray-600 text-sm">Integrated Channels</div>
                             </div>
                         </div>
 
                         {/* Feature 6 - Proven Results */}
-                        <div className="col-span-1 row-span-1 bg-gradient-to-br from-teal-50 to-emerald-100 rounded-2xl p-4 flex flex-col justify-between border border-teal-200/50 group hover:shadow-lg transition-shadow">
-                            <div className="flex items-center gap-2">
-                                <CheckCircle className="h-4 w-4 text-teal-500" />
-                                <h3 className="text-sm font-bold text-gray-800">Proven Results</h3>
-                            </div>
+                        <div className="bg-gradient-to-br from-teal-50 to-emerald-100 rounded-2xl p-6 flex flex-col justify-between border border-teal-200/50 group hover:shadow-lg transition-shadow min-h-[280px]">
                             <div>
-                                <div className="text-2xl font-bold text-teal-500">90 Day</div>
-                                <div className="text-gray-500 text-xs">ROI Payback</div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <CheckCircle className="h-5 w-5 text-teal-500" />
+                                    <h3 className="text-lg font-bold text-gray-800">Proven Results</h3>
+                                </div>
+                                <p className="text-sm text-gray-600 mb-4">
+                                    Industry-leading ROI with measurable impact. Most clients see positive returns within the first quarter of deployment.
+                                </p>
+                            </div>
+                            <div className="mt-auto">
+                                <div className="text-4xl font-bold text-teal-500">90 Days</div>
+                                <div className="text-gray-600 text-sm">Average ROI Payback</div>
                             </div>
                         </div>
 
-                        {/* CTA Card */}
-                        <div className="col-span-2 row-span-1 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 flex items-center justify-between border border-gray-200/50">
-                            <div>
-                                <h3 className="text-base font-bold text-gray-900 mb-0.5">Ready to transform your business?</h3>
-                                <p className="text-xs text-gray-500">14-day free trial • No credit card • Cancel anytime</p>
-                            </div>
-                            <div className="flex gap-2">
-                                <Link href="/signup" className="inline-flex items-center gap-1.5 bg-orange-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors text-sm shadow-lg shadow-orange-500/20">
-                                    Start Free <ArrowRight className="h-3.5 w-3.5" />
-                                </Link>
-                                <Link href="/contact" className="inline-flex items-center gap-1.5 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 hover:bg-white transition-colors text-sm">
-                                    Demo
-                                </Link>
-                            </div>
-                        </div>
+                    </div>
 
+                    {/* CTA Section */}
+                    <div className="mt-8 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between border border-gray-200/50 gap-4">
+                        <div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-1">Ready to transform your business?</h3>
+                            <p className="text-sm text-gray-500">14-day free trial • No credit card • Cancel anytime</p>
+                        </div>
+                        <div className="flex gap-3">
+                            <Link href="/signup" className="inline-flex items-center gap-2 bg-orange-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20">
+                                Start Free <ArrowRight className="h-4 w-4" />
+                            </Link>
+                            <Link href="/contact" className="inline-flex items-center gap-2 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 hover:bg-white transition-colors">
+                                Book Demo
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>
