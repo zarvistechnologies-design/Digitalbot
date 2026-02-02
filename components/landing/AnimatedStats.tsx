@@ -76,7 +76,7 @@ function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, dura
 const stats = [
   { value: 10, suffix: 'M+', label: 'Calls Handled', icon: Phone, color: 'from-blue-500 to-blue-600', bgColor: 'from-blue-50 to-blue-100/50' },
   { value: 99.9, suffix: '%', label: 'Uptime Guarantee', icon: Shield, decimals: 1, color: 'from-emerald-500 to-teal-500', bgColor: 'from-emerald-50 to-emerald-100/50' },
-  { value: 500, suffix: 'ms', prefix: '<', label: 'Response Time', icon: Zap, color: 'from-amber-500 to-orange-500', bgColor: 'from-amber-50 to-amber-100/50' },
+  { value: 750, suffix: 'ms', prefix: '<', label: 'Response Time', icon: Zap, color: 'from-amber-500 to-orange-500', bgColor: 'from-amber-50 to-amber-100/50' },
   { value: 50, suffix: '+', label: 'Languages Supported', icon: Globe, color: 'from-violet-500 to-purple-500', bgColor: 'from-violet-50 to-violet-100/50' },
   { value: 24, suffix: '/7', label: 'AI Availability', icon: Clock, color: 'from-rose-500 to-pink-500', bgColor: 'from-rose-50 to-rose-100/50' },
   { value: 300, suffix: '%', label: 'Average ROI', icon: TrendingUp, color: 'from-cyan-500 to-blue-500', bgColor: 'from-cyan-50 to-cyan-100/50' },

@@ -91,22 +91,22 @@ const ProductShowcase = () => {
                     
                     {/* Row 1 */}
                     
-                    {/* Card 1 - AI Voice Agent (Tall Left) */}
+                    {/* Card 1 - AI Voice Agent */}
                     <div 
                         ref={(el) => setCardRef(el, 0)}
-                        className="col-span-12 sm:col-span-6 lg:col-span-3 row-span-2 bg-gradient-to-br from-blue-50 to-blue-100/60 rounded-2xl p-5 relative overflow-hidden group cursor-pointer"
+                        className="col-span-12 sm:col-span-6 lg:col-span-3 bg-gradient-to-br from-blue-50 to-blue-100/60 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
                     >
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             AI-Powered<br/>Voice Agent
                         </h3>
-                        <Link href="/services/ai-voice-bot" className="inline-flex items-center gap-1 text-blue-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/ai-voice-bot" className="inline-flex items-center gap-1 text-blue-500 font-medium text-sm hover:gap-2 transition-all mb-4">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
-                        <div className="mt-4 relative">
+                        <div className="mt-auto relative flex-1">
                             <img 
                                 src="/images/image/ai agent.jpg" 
                                 alt="AI Voice Agent"
-                                className="w-full h-48 object-cover rounded-xl"
+                                className="w-full h-full object-cover rounded-xl"
                             />
                             <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-sm flex items-center gap-2">
                                 <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
@@ -120,9 +120,9 @@ const ProductShowcase = () => {
                     {/* Card 2 - Smart Call Center */}
                     <div 
                         ref={(el) => setCardRef(el, 1)}
-                        className="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors"
+                        className="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors h-[260px] flex flex-col"
                     >
-                        <h3 className="text-lg font-bold text-gray-900 mb-1">
+                        <h3 className="text-xl font-bold text-gray-900 mb-1">
                             DigitalBot Call<br/>Center
                         </h3>
                         <Link href="/services/ai-call-center" className="inline-flex items-center gap-1 text-blue-500 font-medium text-sm hover:gap-2 transition-all">
@@ -156,7 +156,7 @@ const ProductShowcase = () => {
                     {/* Card 3 - Circular Automation Graphic */}
                     <div 
                         ref={(el) => setCardRef(el, 2)}
-                        className="col-span-12 lg:col-span-6 bg-white border border-gray-50 rounded-2xl p-6 relative overflow-hidden group cursor-pointer flex items-center justify-center"
+                        className="col-span-12 lg:col-span-6 bg-white border border-gray-50 rounded-2xl p-6 relative overflow-hidden group cursor-pointer flex items-center justify-center h-[300px]"
                     >
                         <div className="relative w-40 h-40">
                             {/* Animated circles */}
@@ -191,7 +191,7 @@ const ProductShowcase = () => {
                     {/* Card 4 - Stats Card (40%) */}
                     <div 
                         ref={(el) => setCardRef(el, 3)}
-                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer"
+                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[180px] flex flex-col justify-center"
                     >
                         <div className="flex items-start justify-between">
                             <div>
@@ -208,19 +208,19 @@ const ProductShowcase = () => {
                     {/* Card 5 - Platform (with person image) */}
                     <div 
                         ref={(el) => setCardRef(el, 4)}
-                        className="col-span-6 lg:col-span-3 row-span-2 bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer"
+                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
                     >
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             DigitalBot<br/>Platform
                         </h3>
-                        <Link href="/services" className="inline-flex items-center gap-1 text-cyan-600 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services" className="inline-flex items-center gap-1 text-cyan-600 font-medium text-sm hover:gap-2 transition-all mb-4">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
-                        <div className="mt-4 relative">
+                        <div className="mt-auto relative flex-1">
                             <img 
                                 src="/images/image/digitalbot platform.jpg" 
                                 alt="Platform User"
-                                className="w-full h-44 object-cover rounded-xl"
+                                className="w-full h-full object-cover rounded-xl"
                             />
                             <div className="absolute bottom-3 left-3 flex items-center gap-2">
                                 <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center">
@@ -236,9 +236,9 @@ const ProductShowcase = () => {
                     {/* Card 6 - Conversational AI */}
                     <div 
                         ref={(el) => setCardRef(el, 5)}
-                        className="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors"
+                        className="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors h-[180px] flex flex-col justify-center"
                     >
-                        <h3 className="text-lg font-bold text-gray-900 mb-1">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">
                             AI-Powered Conversational<br/>Quality Analysis
                         </h3>
                         <Link href="/services/conversational-ai" className="inline-flex items-center gap-1 text-blue-500 font-medium text-sm hover:gap-2 transition-all">
@@ -251,9 +251,9 @@ const ProductShowcase = () => {
                     {/* Card 7 - Customer Support */}
                     <div 
                         ref={(el) => setCardRef(el, 6)}
-                        className="col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors"
+                        className="col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors h-[160px] flex flex-col justify-center"
                     >
-                        <h3 className="text-base font-bold text-gray-900 mb-1">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">
                             AI Customer<br/>Support
                         </h3>
                         <Link href="/services/ai-customer-support" className="inline-flex items-center gap-1 text-blue-500 font-medium text-sm hover:gap-2 transition-all">
@@ -264,13 +264,13 @@ const ProductShowcase = () => {
                     {/* Card 8 - VoiceStream */}
                     <div 
                         ref={(el) => setCardRef(el, 7)}
-                        className="col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors flex items-center gap-4"
+                        className="col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors h-[160px] flex flex-col items-center justify-center gap-3"
                     >
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-violet-500 flex items-center justify-center shadow-lg flex-shrink-0">
-                            <Headphones className="h-5 w-5 text-white" />
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-400 to-violet-500 flex items-center justify-center shadow-lg flex-shrink-0">
+                            <Headphones className="h-6 w-6 text-white" />
                         </div>
-                        <div>
-                            <p className="text-base font-bold text-gray-900">VoiceStream</p>
+                        <div className="text-center">
+                            <p className="text-lg font-bold text-gray-900">VoiceStream</p>
                             <Link href="/services/voice-ai-business" className="inline-flex items-center gap-1 text-purple-500 font-medium text-sm hover:gap-2 transition-all">
                                 Learn More <ArrowRight className="h-3.5 w-3.5" />
                             </Link>

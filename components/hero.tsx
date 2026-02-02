@@ -1,8 +1,8 @@
 "use client"
 import ProductShowcase from "@/components/solutions/ProductShowcase";
 import AnimatedStats from "@/components/landing/AnimatedStats";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
@@ -129,13 +129,13 @@ export default function Hero() {
         soundBarHeightsRef.current = Array.from({ length: 12 }, () => Math.random())
     }, [])
 
-    // GSAP  pinned scroll showcase
+    // GSAP pinned scroll showcase with ScrollTrigger
     useEffect(() => {
         if (!mounted || !storySectionRef.current) return;
 
         const ctx = gsap.context(() => {
-            const illustrations = gsap.utils.toArray<HTMLElement>(".exo-illustration");
-            const contents = gsap.utils.toArray<HTMLElement>(".exo-content");
+            const illustrations = gsap.utils.toArray<HTMLElement>('.exo-illustration');
+            const contents = gsap.utils.toArray<HTMLElement>('.exo-content');
 
             // Initial states - all hidden except first
             illustrations.forEach((el, i) => {
@@ -151,7 +151,7 @@ export default function Hero() {
                 });
             });
 
-            // Floating animation for images
+            // Floating animation for images using GSAP
             illustrations.forEach((el) => {
                 const img = el.querySelector('img');
                 if (img) {
@@ -165,7 +165,7 @@ export default function Hero() {
                 }
             });
 
-            // Scroll-based service switching
+            // ScrollTrigger for pinned scroll showcase
             ScrollTrigger.create({
                 trigger: storySectionRef.current,
                 start: "top top",
@@ -202,24 +202,29 @@ export default function Hero() {
         return () => ctx.revert();
     }, [mounted]);
 
-    // GSAP Journey Flowchart animation
+    // GSAP Journey Flowchart animation with ScrollTrigger
     useEffect(() => {
         if (!mounted || !flowchartRef.current) return;
 
         const ctx = gsap.context(() => {
-            const header = flowchartRef.current?.querySelector('.journey-header');
-            const line = flowchartRef.current?.querySelector('.journey-line');
+            const header = flowchartRef.current!.querySelector('.journey-header') as HTMLElement;
+            const line = flowchartRef.current!.querySelector('.journey-line') as HTMLElement;
             const steps = gsap.utils.toArray<HTMLElement>('.journey-step');
 
-            // Initial states
-            if (header) gsap.set(header, { opacity: 0, y: 30 });
-            if (line) gsap.set(line, { scaleX: 0, transformOrigin: 'left center' });
+            // Initial states using GSAP
+            if (header) {
+                gsap.set(header, { opacity: 0, y: 30 });
+            }
+            if (line) {
+                gsap.set(line, { scaleX: 0, transformOrigin: 'left center' });
+            }
             gsap.set(steps, { opacity: 0, y: 40 });
 
-            // Create scroll-triggered animation
+            // ScrollTrigger animation
             ScrollTrigger.create({
                 trigger: flowchartRef.current,
                 start: "top 80%",
+                once: true,
                 onEnter: () => {
                     // Animate header first
                     if (header) {
@@ -227,7 +232,7 @@ export default function Hero() {
                             opacity: 1,
                             y: 0,
                             duration: 0.6,
-                            ease: "power2.out"
+                            ease: 'power2.out'
                         });
                     }
 
@@ -237,7 +242,7 @@ export default function Hero() {
                             scaleX: 1,
                             duration: 1,
                             delay: 0.3,
-                            ease: "power2.inOut"
+                            ease: 'power2.inOut'
                         });
                     }
 
@@ -248,10 +253,9 @@ export default function Hero() {
                         duration: 0.5,
                         stagger: 0.15,
                         delay: 0.5,
-                        ease: "back.out(1.2)"
+                        ease: 'back.out(1.7)'
                     });
-                },
-                once: true
+                }
             });
         }, flowchartRef);
 
@@ -925,52 +929,53 @@ export default function Hero() {
                     </>
                 )}
 
-                <div className="container mx-auto relative z-30 max-w-7xl">
+                <div className="container mx-auto relative z-30 max-w-7xl px-4 sm:px-6 lg:px-8">
 
                     {/* Main Hero - Content Only */}
-                    <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center min-h-[65vh]">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[70vh] sm:min-h-[65vh] py-12 sm:py-16 lg:py-20">
                         
                         {/* Left Side - Content */}
-                        <div className="order-1 lg:order-1 text-center lg:text-left">
+                        <div className="order-2 lg:order-1 text-center lg:text-left space-y-6">
                             {/* Badge */}
-                            <div className="inline-flex items-center gap-1 bg-blue-100 border border-blue-200 px-2 py-1 rounded-full mb-4 animate-fade-in-up-1">
-                                <Sparkles className="h-4 w-4 text-blue-600" />
-                                <span className="text-sm font-semibold text-blue-700">AI-Powered Voice Platform</span>
+                            <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full animate-fade-in-up-1">
+                                <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+                                <span className="text-xs sm:text-sm font-semibold text-blue-700">AI-Powered Voice Platform</span>
                             </div>
 
                             {/* Main Headline */}
-                            <h1 id="hero-heading" className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-4 leading-tight animate-fade-in-up-2">
-                                <span className="block">
-                                    <span className="text-black">Your AI voice Assistant</span><span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
+                            <h1 id="hero-heading" className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 leading-tight animate-fade-in-up-2">
+                                <span className="block mb-2">
+                                    <span className="text-black">Your AI voice Assistant</span>
                                 </span>
+                                <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
                             </h1>
 
                             {/* Tagline Box */}
-                            <div className="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-2xl p-6 mb-8 animate-fade-in-up-3">
-                                <p className="text-gray-600 text-sm italic mb-1">"Your receptionist sleeps, gets sick, takes breaks."</p>
-                                <p className="text-blue-600 font-bold text-base uppercase tracking-wider">WE NEVER DO.</p>
+                            <div className="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-2xl p-4 sm:p-6 animate-fade-in-up-3 max-w-2xl mx-auto lg:mx-0">
+                                <p className="text-gray-600 text-xs sm:text-sm italic mb-2">"Your receptionist sleeps, gets sick, takes breaks."</p>
+                                <p className="text-blue-600 font-bold text-sm sm:text-base uppercase tracking-wider">WE NEVER DO.</p>
                             </div>
 
                             {/* Description */}
-                            <p className="text-gray-600 text-lg lg:text-xl mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-in-up-3">
-                                <span className="text-sm lg:text-base">Transform your business with <strong className="text-gray-800">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics.</span>
+                            <p className="text-gray-600 text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-in-up-3">
+                                Transform your business with <strong className="text-gray-800">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics.
                             </p>
 
                             {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8 animate-fade-in-up-3">
+                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in-up-3">
                                 <Link
                                     href="/signup"
-                                    className="group px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-1 text-sm"
+                                    className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 flex items-center justify-center gap-2 text-sm sm:text-base"
                                 >
                                     Start Free Trial
-                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
                                 </Link>
                                 <button
                                     onClick={() => setShowVideo(true)}
-                                    className="px-4 py-2 bg-white text-blue-600 border border-blue-300 font-bold rounded-lg hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-1 text-sm"
+                                    className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 border-2 border-blue-300 font-bold rounded-lg hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base"
                                     aria-label="Watch demo video"
                                 >
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                                     </svg>
                                     Watch Demo
@@ -978,25 +983,25 @@ export default function Hero() {
                             </div>
 
                             {/* Trust Indicators */}
-                            <div className="flex flex-wrap gap-6 justify-center lg:justify-start animate-fade-in-up-3">
-                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
-                                    <CheckCircle className="h-5 w-5 text-blue-600" />
-                                    <span className="text-sm text-gray-700 font-medium">No credit card required</span>
+                            <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in-up-3">
+                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg shadow-sm">
+                                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0" />
+                                    <span className="text-xs sm:text-sm text-gray-700 font-medium whitespace-nowrap">No credit card</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
-                                    <CheckCircle className="h-5 w-5 text-blue-600" />
-                                    <span className="text-sm text-gray-700 font-medium">Setup in 5 minutes</span>
+                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg shadow-sm">
+                                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0" />
+                                    <span className="text-xs sm:text-sm text-gray-700 font-medium whitespace-nowrap">5-min setup</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
-                                    <CheckCircle className="h-5 w-5 text-blue-600" />
-                                    <span className="text-sm text-gray-700 font-medium">50+ Languages</span>
+                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg shadow-sm">
+                                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0" />
+                                    <span className="text-xs sm:text-sm text-gray-700 font-medium whitespace-nowrap">50+ Languages</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right Side - Video */}
-                        <div className="relative order-2 lg:order-2 flex justify-center lg:justify-end">
-                            <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl">
+                        <div className="relative order-1 lg:order-2 flex justify-center lg:justify-end px-4 sm:px-0">
+                            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
                                 <video
                                     autoPlay
                                     loop
@@ -1013,7 +1018,7 @@ export default function Hero() {
                     </div>
 
                     {/* Feature Cards Below Hero */}
-                    <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                         {[
                             { icon: PhoneCall, title: "Smart Call Handling", desc: "AI handles unlimited concurrent calls with human-like conversations", gradient: "from-blue-500 to-cyan-500", bgColor: "bg-blue-50", borderColor: "border-blue-200", hoverBorder: "hover:border-blue-400" },
                             { icon: BarChart3, title: "Real-Time Analytics", desc: "Track every call with detailed insights and performance metrics", gradient: "from-emerald-500 to-teal-500", bgColor: "bg-emerald-50", borderColor: "border-emerald-200", hoverBorder: "hover:border-emerald-400" },
@@ -1041,34 +1046,34 @@ export default function Hero() {
             <AnimatedStats />
 
             {/* Section Header - Fixed above the scrolling content */}
-            <section className="py-12 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
-                <div className="container mx-auto px-8 text-center">
-                    <div className="inline-flex items-center space-x-2 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-400/30 text-sm text-blue-600 font-semibold mb-4 uppercase tracking-widest">
+            <section className="py-8 sm:py-12 lg:py-16 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div className="inline-flex items-center space-x-2 bg-blue-500/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-blue-400/30 text-xs sm:text-sm text-blue-600 font-semibold mb-4 uppercase tracking-widest">
                         <MessageSquare className="h-4 w-4" />
                         <span>🎯 Our AI Voice Services</span>
                     </div>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
                         Choose Your AI Voice Solution
                     </h2>
-                    <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
                         Select from our comprehensive suite of AI voice services. Each solution is ready to deploy on our platform and can be customized for your business needs.
                     </p>
                 </div>
             </section>
 
             {/* AI Voice Use Cases Section - Style Pinned Scroll */}
-            <section ref={storySectionRef} className="h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
-                <div className="container mx-auto h-full px-8 flex items-center">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+            <section ref={storySectionRef} className="min-h-screen lg:h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden py-12 lg:py-0">
+                <div className="container mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full items-stretch">
 
                         {/* LEFT: Floating Illustrations */}
-                        <div className="relative h-[85vh] max-h-[600px] flex items-center justify-start pl-2">
+                        <div className="relative h-[40vh] sm:h-[50vh] lg:h-[85vh] max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] flex items-center justify-center lg:justify-start">
                             {services.map((s, i) => (
-                                <div key={i} className={`exo-illustration absolute inset-0 flex items-center justify-start ${i === 0 ? '' : 'pointer-events-none'}`}>
+                                <div key={i} className={`exo-illustration absolute inset-0 flex items-center justify-center lg:justify-start ${i === 0 ? '' : 'pointer-events-none'}`}>
                                     <img
                                         src={s.img}
                                         alt={s.title}
-                                        className="exo-main-img h-[75vh] max-h-[550px] object-contain drop-shadow-2xl"
+                                        className="exo-main-img h-[35vh] sm:h-[45vh] lg:h-[75vh] max-h-[350px] sm:max-h-[450px] lg:max-h-[550px] object-contain drop-shadow-2xl"
                                     />
                                 </div>
                             ))}

@@ -12,7 +12,7 @@ const competitors = [
     features: {
       pricing: "$0.05/min",
       languages: "50+",
-      latency: "<500ms",
+      latency: "<750ms",
       uptime: "99.9%",
       freeMinutes: "500",
       customVoice: true,

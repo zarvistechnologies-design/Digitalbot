@@ -10,7 +10,7 @@ import Link from "next/link"
 
 // Dynamic imports for landing page components (client-side only)
 const VoiceDemoWidget = dynamic(() => import("@/components/landing/VoiceDemoWidget"), { ssr: false })
-const CustomerLogos = dynamic(() => import("@/components/landing/CustomerLogos"), { ssr: false })
+
 const TestimonialCarousel = dynamic(() => import("@/components/landing/TestimonialCarousel"), { ssr: false })
 const AnimatedStats = dynamic(() => import("@/components/landing/AnimatedStats"), { ssr: false })
 
