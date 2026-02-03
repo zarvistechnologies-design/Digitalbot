@@ -475,18 +475,16 @@ export default function Services() {
           {/* Bento Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => {
-              // Different card styles based on position
-              const isLarge = index === 0 || index === 3;
               const isFeatured = service.popular;
               
               return (
                 <Link 
                   key={index} 
                   href={service.href}
-                  className={`group ${isLarge && index === 0 ? 'lg:col-span-2' : ''}`}
+                  className="group"
                 >
                   <div className={`
-                    relative h-full rounded-3xl overflow-hidden transition-all duration-500
+                    relative h-full min-h-[480px] rounded-3xl overflow-hidden transition-all duration-500
                     ${isFeatured 
                       ? 'bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-white shadow-2xl shadow-blue-500/25' 
                       : 'bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-100/50'
@@ -507,7 +505,7 @@ export default function Services() {
                     )}
                     
                     {/* Card Content */}
-                    <div className={`relative p-8 ${isLarge && index === 0 ? 'lg:p-10' : ''}`}>
+                    <div className="relative p-8">
                       {/* Service Number */}
                       <div className={`
                         absolute top-6 left-8 text-7xl font-black opacity-10

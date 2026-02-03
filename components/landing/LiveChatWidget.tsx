@@ -13,7 +13,7 @@ interface Message {
 const botResponses: Record<string, string> = {
   "pricing": "Our pricing starts at just $0.05/minute with 500 free minutes to get started. No credit card required! Would you like me to explain our plans in detail?",
   "demo": "I'd love to show you a demo! You can try our live AI voice demo by clicking the microphone button in the bottom right, or I can arrange a personalized demo with our team. Which would you prefer?",
-  "features": "DigitalBot offers: 50+ languages, <500ms latency, 24/7 availability, CRM integrations, HIPAA compliance, custom voice cloning, and real-time analytics. What feature interests you most?",
+  "features": "DigitalBot offers: 50+ languages, <750ms latency, 24/7 availability, CRM integrations, HIPAA compliance, custom voice cloning, and real-time analytics. What feature interests you most?",
   "integration": "We integrate with 50+ platforms including Salesforce, HubSpot, Calendly, Google Calendar, Zapier, and more. We also have a full REST API for custom integrations!",
   "support": "We offer 24/7 premium support for all customers. You can reach us via chat, email, or phone. Enterprise customers get a dedicated success manager.",
   "default": "Thanks for reaching out! I can help with pricing, demos, features, integrations, or support questions. What would you like to know about DigitalBot?"

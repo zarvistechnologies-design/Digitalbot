@@ -340,7 +340,7 @@ export default function About() {
               <div className="grid grid-cols-2 gap-4">
                 {[
                   { label: 'Conversations', value: '10M+', icon: Phone, color: 'from-emerald-400 to-teal-500' },
-                  { label: 'Response Time', value: '<500ms', icon: Zap, color: 'from-amber-400 to-orange-500' },
+                  { label: 'Response Time', value: '<750ms', icon: Zap, color: 'from-amber-400 to-orange-500' },
                   { label: 'Satisfaction', value: '98%', icon: Heart, color: 'from-rose-400 to-pink-500' },
                   { label: 'Cost Saved', value: '$5M+', icon: TrendingUp, color: 'from-violet-400 to-purple-500' },
                 ].map((stat, i) => (

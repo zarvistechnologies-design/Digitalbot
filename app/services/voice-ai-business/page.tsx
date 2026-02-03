@@ -437,7 +437,7 @@ export default function VoiceAIBusiness() {
                   <div className="flex flex-wrap gap-4 mt-6 pt-6 border-t border-blue-100">
                     {[
                       { value: "98%", label: "Accuracy" },
-                      { value: "<500ms", label: "Response" },
+                      { value: "<750ms", label: "Response" },
                       { value: "50+", label: "Languages" }
                     ].map((stat, i) => (
                       <div key={i} className="flex items-center gap-3 px-4 py-2 bg-blue-50 rounded-xl">

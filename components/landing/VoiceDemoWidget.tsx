@@ -14,7 +14,7 @@ export default function VoiceDemoWidget() {
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [vapiLoaded, setVapiLoaded] = useState(false)
   const [micPermission, setMicPermission] = useState<'granted' | 'denied' | 'pending'>('pending')
-  const [transcript, setTranscript] = useState("Click the button to start talking with our AI assistant!")
+  const [transcript, setTranscript] = useState("Click 'Start Voice Demo' to begin talking with our AI assistant. Speak clearly and naturally!")
   const [callStatus, setCallStatus] = useState('')
   const [callDuration, setCallDuration] = useState(0)
   const [volumeLevel, setVolumeLevel] = useState(0)
@@ -65,8 +65,8 @@ export default function VoiceDemoWidget() {
         vapiInstance.on('call-start', () => {
           setIsCallActive(true)
           setIsConnecting(false)
-          setTranscript("Connected! Listening for your voice...")
-          setCallStatus('Call active - Listening')
+          setTranscript("✓ Connected! I'm listening - speak now...")
+          setCallStatus('Active - Listening for your voice')
           setCallDuration(0)
           callTimerRef.current = setInterval(() => {
             setCallDuration(prev => prev + 1)
@@ -110,11 +110,57 @@ export default function VoiceDemoWidget() {
           }
         })
 
+        // Handle volume level updates
+        vapiInstance.on('volume-level', (level: number) => {
+          setVolumeLevel(level)
+        })
+
         vapiInstance.on('message', (message: any) => {
-          if (message.type === 'transcript' && message.transcriptType === 'final') {
-            setTranscript(message.transcript)
-          } else if (message.type === 'end-of-speech') {
-            setCallStatus('Assistant is processing...')
+          console.log('Vapi message:', message) // Debug logging
+          
+          // Handle transcript messages
+          if (message.type === 'transcript') {
+            const text = message.transcript || message.transcriptText || ''
+            
+            if (message.transcriptType === 'final') {
+              // Final transcript - update display
+              if (message.role === 'user') {
+                setTranscript(`You: ${text}`)
+              } else if (message.role === 'assistant') {
+                setTranscript(`AI: ${text}`)
+              } else {
+                setTranscript(text)
+              }
+            } else if (message.transcriptType === 'partial') {
+              // Partial transcript - show in real-time
+              if (text) {
+                setTranscript(`${message.role === 'user' ? 'You' : 'AI'}: ${text}...`)
+              }
+            }
+          }
+          // Handle conversation updates
+          else if (message.type === 'conversation-update') {
+            const lastMessage = message.conversation?.[message.conversation.length - 1]
+            if (lastMessage) {
+              const text = lastMessage.content || lastMessage.transcript || ''
+              if (text) {
+                setTranscript(`${lastMessage.role === 'user' ? 'You' : 'AI'}: ${text}`)
+              }
+            }
+          }
+          // Handle function calls
+          else if (message.type === 'function-call') {
+            setCallStatus('Processing your request...')
+          }
+          // Handle speech updates
+          else if (message.type === 'speech-update') {
+            if (message.status === 'started') {
+              setCallStatus(message.role === 'user' ? 'Listening...' : 'Speaking...')
+            }
+          }
+          // Handle end of user speech
+          else if (message.type === 'end-of-speech') {
+            setCallStatus('Processing...')
           }
         })
 
@@ -207,7 +253,15 @@ export default function VoiceDemoWidget() {
       setCallStatus('Connecting...')
       setTranscript("Connecting to AI assistant...")
       
-      await vapiRef.current.start(VAPI_ASSISTANT_ID)
+      // Start call with configuration for better speech recognition
+      await vapiRef.current.start(VAPI_ASSISTANT_ID, {
+        // Enhanced speech recognition settings
+        transcriber: {
+          provider: 'deepgram',
+          model: 'nova-2',
+          language: 'en'
+        }
+      })
     } catch (error: any) {
       const errorMsg = error?.message || error?.error?.message || 'Unknown error'
       setCallStatus(`Failed: ${errorMsg}`)
