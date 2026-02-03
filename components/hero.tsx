@@ -98,18 +98,7 @@ export default function Hero() {
     const [counts, setCounts] = useState([0, 0, 0])
     const [showVideo, setShowVideo] = useState(false)
     const handleCloseVideo = () => setShowVideo(false);
-    const vapiRef = useRef<any>(null)
-    const [isCallActive, setIsCallActive] = useState(false)
-    const [isSpeaking, setIsSpeaking] = useState(false)
-    const [transcript, setTranscript] = useState("Hello! I'm your AI assistant. Click the microphone to start a conversation in any Language.")
-    const [callStatus, setCallStatus] = useState("")
-    const [vapiLoaded, setVapiLoaded] = useState(false)
-    const soundBarHeightsRef = useRef<number[]>([])
-    const [callDuration, setCallDuration] = useState(0)
-    const callDurationRef = useRef<NodeJS.Timeout | null>(null)
-    const [volumeLevel, setVolumeLevel] = useState(0)
-    const [isConnecting, setIsConnecting] = useState(false)
-
+    
     // Ref for attractive scroll-story section
     const storySectionRef = useRef<HTMLDivElement>(null)
     
@@ -125,8 +114,6 @@ export default function Hero() {
     // Mount effect - only run on client
     useEffect(() => {
         setMounted(true)
-        // Initialize stable random heights for sound bars
-        soundBarHeightsRef.current = Array.from({ length: 12 }, () => Math.random())
     }, [])
 
     // GSAP pinned scroll showcase with ScrollTrigger
@@ -261,138 +248,6 @@ export default function Hero() {
 
         return () => ctx.revert();
     }, [mounted]);
-
-    // Initialize Vapi only on client side
-    useEffect(() => {
-        if (typeof window === 'undefined') return
-
-        let vapiInstance: any = null
-
-        const initVapi = async () => {
-            try {
-                const VapiModule = await import('@vapi-ai/web')
-                vapiInstance = new VapiModule.default('00119fad-8530-413f-9699-e47cada57939')
-                vapiRef.current = vapiInstance
-                setVapiLoaded(true)
-
-                vapiInstance.on('call-start', () => {
-                    setIsCallActive(true)
-                    setIsConnecting(false)
-                    setTranscript("Listening for your request...")
-                    setCallStatus('Call active - Listening')
-                    setCallDuration(0)
-                    callDurationRef.current = setInterval(() => {
-                        setCallDuration(prev => prev + 1)
-                    }, 1000)
-                })
-
-                vapiInstance.on('call-end', () => {
-                    setIsCallActive(false)
-                    setIsSpeaking(false)
-                    setIsConnecting(false)
-                    setTranscript("Hello! I'm your AI assistant. Click the microphone to start a conversation.")
-                    setCallStatus('Call ended')
-                    if (callDurationRef.current) {
-                        clearInterval(callDurationRef.current)
-                        callDurationRef.current = null
-                    }
-                    setCallDuration(0)
-                    setVolumeLevel(0)
-                })
-
-                vapiInstance.on('speech-start', () => {
-                    setIsSpeaking(true)
-                    setCallStatus('Assistant speaking...')
-                    // Simulate volume fluctuation
-                    const volumeInterval = setInterval(() => {
-                        setVolumeLevel(Math.random() * 100)
-                    }, 100)
-                        ; (vapiInstance as any)._volumeInterval = volumeInterval
-                })
-
-                vapiInstance.on('speech-end', () => {
-                    setIsSpeaking(false)
-                    setCallStatus('Call active - Listening')
-                    setVolumeLevel(0)
-                    if ((vapiInstance as any)._volumeInterval) {
-                        clearInterval((vapiInstance as any)._volumeInterval)
-                    }
-                })
-
-                vapiInstance.on('message', (message: any) => {
-                    if (message.type === 'transcript' && message.transcriptType === 'final') {
-                        setTranscript(message.transcript)
-                    } else if (message.type === 'end-of-speech') {
-                        setCallStatus('Assistant is processing...')
-                    }
-                })
-
-                vapiInstance.on('error', (error: any) => {
-                    console.error('VAPI Error:', error)
-                    setCallStatus(`Error: ${error.message || 'Unknown error'}`)
-                    setIsCallActive(false)
-                })
-            } catch (error) {
-                console.error('Failed to initialize Vapi:', error)
-                setCallStatus('Failed to initialize voice assistant')
-            }
-        }
-
-        initVapi()
-
-        return () => {
-            if (vapiRef.current) {
-                try {
-                    vapiRef.current.stop()
-                } catch (e) {
-                    console.error('Error stopping Vapi:', e)
-                }
-            }
-            // Cleanup call duration timer
-            if (callDurationRef.current) {
-                clearInterval(callDurationRef.current)
-            }
-        }
-    }, [])
-
-    const toggleCall = async () => {
-        if (!vapiRef.current || !vapiLoaded) {
-            setCallStatus('Initialization in progress...')
-            return
-        }
-
-        if (isCallActive) {
-            try {
-                vapiRef.current.stop()
-                setCallStatus('Stopping call...')
-            } catch (error) {
-                console.error('Error stopping call :', error)
-            }
-        } else {
-            try {
-                setCallStatus('Requesting microphone...')
-                try {
-                    await navigator.mediaDevices.getUserMedia({ audio: true })
-                } catch (err) {
-                    console.error('Microphone permission denied:', err)
-                    setCallStatus('Microphone permission denied')
-                    alert('Please allow microphone access to use the voice assistant')
-                    return
-                }
-                setCallStatus('Starting call...')
-                setIsConnecting(true)
-                await vapiRef.current.start('9ca19724-1f6c-48d1-8c62-a6107d585592')
-            } catch (error) {
-                console.error('Error starting call:', error)
-                setCallStatus(`Failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
-            }
-        }
-    }
-
-    // Generate random bar heights for equalizer animation
-    useEffect(() => {
-        soundBarHeightsRef.current = Array.from({ length: 60 }, () => Math.random())
-    }, []);
 
     // Audio auto-pause functionality - pause other audio when one plays
     useEffect(() => {

@@ -13,6 +13,7 @@ export default function VoiceDemoWidget() {
   const [isConnecting, setIsConnecting] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [vapiLoaded, setVapiLoaded] = useState(false)
+  const [micPermission, setMicPermission] = useState<'granted' | 'denied' | 'pending'>('pending')
   const [transcript, setTranscript] = useState("Click the button to start talking with our AI assistant!")
   const [callStatus, setCallStatus] = useState('')
   const [callDuration, setCallDuration] = useState(0)
@@ -20,6 +21,7 @@ export default function VoiceDemoWidget() {
   const callTimerRef = useRef<NodeJS.Timeout | null>(null)
   const vapiRef = useRef<any>(null)
   const volumeIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const originalConsoleErrorRef = useRef<typeof console.error | null>(null)
 
   // Sound wave animation
   const [soundBars] = useState(() => Array.from({ length: 8 }, () => Math.random()))
@@ -32,6 +34,23 @@ export default function VoiceDemoWidget() {
     if (vapiRef.current) return
 
     let vapiInstance: any = null
+
+    // Suppress setSinkId and audio processor errors that occur in some browsers
+    originalConsoleErrorRef.current = console.error
+    console.error = (...args: any[]) => {
+      const errorMessage = args[0]?.toString() || ''
+      if (
+        errorMessage.includes('setSinkId') ||
+        errorMessage.includes('unsupported input processor') ||
+        errorMessage.includes('AbortError') ||
+        errorMessage.includes('Meeting has ended') ||
+        errorMessage.includes('Meeting ended') ||
+        errorMessage.includes('ejection')
+      ) {
+        return
+      }
+      originalConsoleErrorRef.current?.apply(console, args)
+    }
 
     const initVapi = async () => {
       try {
@@ -97,7 +116,14 @@ export default function VoiceDemoWidget() {
         })
 
         vapiInstance.on('error', (error: any) => {
-          setCallStatus(`Error: ${error.message || 'Unknown error'}`)
+          const errorMsg = error?.message || error?.error?.message || 'Unknown error'
+          // Handle common Vapi errors with user-friendly messages
+          if (errorMsg.includes('Meeting has ended') || errorMsg.includes('Meeting ended')) {
+            setCallStatus('Call ended - Please try again')
+            setTranscript('The call ended unexpectedly. Please try again.')
+          } else {
+            setCallStatus(`Error: ${errorMsg}`)
+          }
           setIsCallActive(false)
           setIsConnecting(false)
         })
@@ -109,6 +135,9 @@ export default function VoiceDemoWidget() {
     initVapi()
 
     return () => {
+      if (originalConsoleErrorRef.current) {
+        console.error = originalConsoleErrorRef.current
+      }
       if (callTimerRef.current) clearInterval(callTimerRef.current)
       if (volumeIntervalRef.current) clearInterval(volumeIntervalRef.current)
       if (vapiRef.current) {
@@ -121,34 +150,58 @@ export default function VoiceDemoWidget() {
     }
   }, [])
 
+  // Request microphone permission when modal opens for faster connection
+  useEffect(() => {
+    if (isOpen && micPermission === 'pending') {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(() => {
+          setMicPermission('granted')
+          setCallStatus('Ready to connect')
+        })
+        .catch(() => {
+          setMicPermission('denied')
+          setCallStatus('Microphone access needed')
+          setTranscript('Please allow microphone access to use the voice assistant')
+        })
+    }
+  }, [isOpen, micPermission])
+
   const startCall = async () => {
     if (!vapiRef.current || !vapiLoaded) {
       setCallStatus('Initializing...')
-      // Try again after a short delay
       setTimeout(() => {
         if (vapiRef.current && vapiLoaded) {
           startCall()
         } else {
           setCallStatus('Please wait and try again...')
         }
-      }, 1000)
+      }, 300)
       return
     }
 
-    try {
-      setCallStatus('Requesting microphone...')
-      // Request microphone permissions explicitly
+    // Check mic permission
+    if (micPermission === 'denied') {
+      setCallStatus('Microphone permission denied')
+      setTranscript('Please allow microphone access and refresh the page')
+      return
+    }
+
+    // Request mic if still pending
+    if (micPermission === 'pending') {
       try {
         await navigator.mediaDevices.getUserMedia({ audio: true })
+        setMicPermission('granted')
       } catch (err) {
+        setMicPermission('denied')
         setCallStatus('Microphone permission denied')
         setTranscript('Please allow microphone access to use the voice assistant')
-        alert('Please allow microphone access to use the voice assistant')
         return
       }
+    }
 
+    try {
       setIsConnecting(true)
-      setCallStatus('Starting call...')
+      setCallStatus('Connecting...')
       setTranscript("Connecting to AI assistant...")
       
       await vapiRef.current.start(VAPI_ASSISTANT_ID)
