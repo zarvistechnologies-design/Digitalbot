@@ -89,7 +89,7 @@ export function Navigation() {
           {/* CTA Button */}
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="outline" size="sm" asChild>
-              <Link href="/contact">Get Started</Link>
+              <Link href="/contact#contact-form">Get Started</Link>
             </Button>
             <Button size="sm" className="bg-accent hover:bg-accent/90" asChild>
               <Link href="/pricing">Try Free</Link>
@@ -130,10 +130,10 @@ export function Navigation() {
                   className="w-full bg-transparent"
                   asChild
                 >
-                  <Link href="/contact">Get Started</Link>
+                  <Link href="/contact#contact-form">Get Started</Link>
                 </Button>
                 <Button className="w-full bg-accent hover:bg-accent/90" asChild>
-                  <Link href="/contact">Try Free</Link>
+                  <Link href="/contact#contact-form">Try Free</Link>
                 </Button>
               </div>
             </div>

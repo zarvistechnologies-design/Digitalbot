@@ -435,7 +435,7 @@ export default function AICallCenter() {
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                     <Link
-                      href="/contact"
+                      href="/contact#contact-form"
                       className="px-6 py-3 bg-white text-blue-600 border-2 border-blue-200 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
                     >
                       <Phone className="w-4 h-4" />
@@ -654,7 +654,7 @@ export default function AICallCenter() {
                       {useCases[activeUseCase].description}
                     </p>
                     <Link
-                      href="/contact"
+                      href="/contact#contact-form"
                       className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
                     >
                       Get Started <ArrowRight className="w-4 h-4" />
@@ -895,7 +895,7 @@ export default function AICallCenter() {
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/contact#contact-form"
                   className="px-8 py-4 bg-transparent text-white border-2 border-white/30 font-bold rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   <Phone className="w-5 h-5" />

@@ -278,14 +278,14 @@ export default function VoiceAutomationSoftwarePage() {
                   {/* CTA Buttons */}
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                     <Link 
-                      href="/contact"
+                      href="/contact#contact-form"
                       className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg shadow-blue-200/50 hover:shadow-xl hover:shadow-blue-300/50 hover:-translate-y-0.5"
                     >
                       Start Free Trial
                       <ArrowRight className="w-5 h-5" />
                     </Link>
                     <Link 
-                      href="/contact"
+                      href="/contact#contact-form"
                       className="inline-flex items-center justify-center gap-2 bg-white border-2 border-blue-200 text-blue-700 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 hover:border-blue-300 transition-all duration-300"
                     >
                       <Phone className="w-5 h-5" />
@@ -726,14 +726,14 @@ export default function VoiceAutomationSoftwarePage() {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                   <Link 
-                    href="/contact"
+                    href="/contact#contact-form"
                     className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 shadow-lg shadow-blue-900/20"
                   >
                     Get Started Free
                     <ArrowRight className="w-5 h-5" />
                   </Link>
                   <Link 
-                    href="/contact"
+                    href="/contact#contact-form"
                     className="inline-flex items-center justify-center gap-2 bg-transparent border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/10 hover:border-white/50 transition-all duration-300"
                   >
                     <Phone className="w-5 h-5" />

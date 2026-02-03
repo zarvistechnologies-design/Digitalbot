@@ -352,7 +352,7 @@ export default function Home() {
                       Our team is ready to help you understand how AI voice agents can transform your business communications.
                     </p>
                     <div className="flex flex-wrap gap-3">
-                      <a href="/contact" className="inline-flex items-center gap-2 bg-white text-blue-600 px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-50 hover:scale-105 transition-all shadow-lg">
+                      <a href="/contact#contact-form" className="inline-flex items-center gap-2 bg-white text-blue-600 px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-50 hover:scale-105 transition-all shadow-lg">
                         Contact Us
                       </a>
                       <a href="/pricing" className="inline-flex items-center gap-2 bg-white/10 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-white/20 hover:scale-105 transition-all border border-white/20 backdrop-blur-sm">
@@ -471,7 +471,7 @@ export default function Home() {
                   <p className="text-gray-600 text-sm">Our AI experts are here to help you find the perfect solution</p>
                 </div>
                 <Link
-                  href="/contact"
+                  href="/contact#contact-form"
                   className="inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105"
                 >
                   Get in Touch

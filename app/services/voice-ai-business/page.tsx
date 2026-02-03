@@ -223,7 +223,7 @@ export default function VoiceAIBusiness() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
-                  href="/contact"
+                  href="/contact#contact-form"
                   className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold text-base shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
                 >
                   <Target className="relative mr-2 w-5 h-5" />
@@ -231,7 +231,7 @@ export default function VoiceAIBusiness() {
                   <span className="relative ml-2 group-hover:translate-x-1 transition-transform">→</span>
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/contact#contact-form"
                   className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-white border-2 border-blue-200 text-blue-600 font-bold text-base hover:border-blue-300 hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg"
                 >
                   <Mic className="relative mr-2 w-5 h-5" />
@@ -592,7 +592,7 @@ export default function VoiceAIBusiness() {
           {/* Bottom CTA */}
           <div className="text-center mt-12">
             <Link
-              href="/contact"
+              href="/contact#contact-form"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-bold rounded-xl shadow-lg shadow-sky-500/25 hover:shadow-xl hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105"
             >
               Explore All Benefits
@@ -991,14 +991,14 @@ export default function VoiceAIBusiness() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link
-                href="/contact"
+                href="/contact#contact-form"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-blue-700 bg-white rounded-xl shadow-xl shadow-blue-900/30 hover:shadow-2xl hover:shadow-blue-900/40 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
               >
                 Start Free Trial Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
-                href="/contact"
+                href="/contact#contact-form"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-white bg-blue-500/20 backdrop-blur-sm border-2 border-blue-300/40 rounded-xl hover:bg-blue-400/30 hover:border-blue-200/60 transition-all duration-300 hover:scale-105"
               >
                 <Phone className="w-5 h-5" />

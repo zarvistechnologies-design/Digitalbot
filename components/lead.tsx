@@ -463,11 +463,11 @@ export function Lead() {
                 <p className="text-gray-400">Start your free trial today. No credit card required.</p>
               </div>
               <div className="flex items-center gap-4">
-                <a href="/contact" className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all hover:scale-105 flex items-center gap-2">
+                <a href="/contact#contact-form" className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all hover:scale-105 flex items-center gap-2">
                   Get Started Free
                   <ArrowRight className="w-5 h-5" />
                 </a>
-                <a href="/contact" className="px-8 py-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-all border border-white/20">
+                <a href="/contact#contact-form" className="px-8 py-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-all border border-white/20">
                   Talk to Sales
                 </a>
               </div>

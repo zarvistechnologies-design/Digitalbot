@@ -285,14 +285,14 @@ export default function AIVirtualReceptionist() {
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
-                    href="/contact"
+                    href="/contact#contact-form"
                     className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
                   >
                     Hire AI Receptionist
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                   <Link
-                    href="/contact"
+                    href="/contact#contact-form"
                     className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-blue-600 bg-white border-2 border-blue-500 rounded-xl hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-md"
                   >
                     <Phone className="w-5 h-5 mr-2" />
@@ -746,14 +746,14 @@ export default function AIVirtualReceptionist() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Link href="/contact">
+              <Link href="/contact#contact-form">
                 <Button size="lg" className="group bg-white text-blue-600 hover:bg-gray-50 px-8 py-6 text-lg font-bold shadow-2xl hover:shadow-white/30 transition-all duration-300 hover:scale-105">
                   Get Started Free
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
 
-              <Link href="/contact">
+              <Link href="/contact#contact-form">
                 <Button size="lg" variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-6 text-lg font-bold backdrop-blur-sm transition-all duration-300">
                   <Phone className="w-5 h-5 mr-2" />
                   Schedule Demo

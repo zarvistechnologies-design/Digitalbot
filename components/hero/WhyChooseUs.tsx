@@ -123,10 +123,10 @@ export default function WhyChooseUs() {
                             <p className="text-xs text-gray-500">14-day free trial • No credit card • Cancel anytime</p>
                         </div>
                         <div className="flex gap-2">
-                            <Link href="/contact" className="inline-flex items-center gap-1.5 bg-orange-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors text-sm shadow-lg shadow-orange-500/20">
+                            <Link href="/contact#contact-form" className="inline-flex items-center gap-1.5 bg-orange-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-orange-600 transition-colors text-sm shadow-lg shadow-orange-500/20">
                                 Start Free <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
-                            <Link href="/contact" className="inline-flex items-center gap-1.5 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 hover:bg-white transition-colors text-sm">
+                            <Link href="/contact#contact-form" className="inline-flex items-center gap-1.5 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 hover:bg-white transition-colors text-sm">
                                 Demo
                             </Link>
                         </div>

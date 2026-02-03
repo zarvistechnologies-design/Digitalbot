@@ -105,7 +105,7 @@ export default function ExitIntentPopup() {
               {/* CTA Buttons */}
               <div className="space-y-3">
                 <Link 
-                  href="/Contact"
+                  href="/contact#contact-form"
                   className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:scale-[1.02]"
                 >
                   Claim My 500 Free Credits

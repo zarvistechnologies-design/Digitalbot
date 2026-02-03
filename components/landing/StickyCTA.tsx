@@ -42,7 +42,7 @@ export default function StickyCTA() {
               {/* Right - CTA */}
               <div className="flex items-center gap-3">
                 <Link
-                  href="/contact"
+                  href="/contact#contact-form"
                   className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:scale-105 text-sm whitespace-nowrap"
                 >
                   Start Free Trial
@@ -50,7 +50,7 @@ export default function StickyCTA() {
                 </Link>
                 
                 <Link
-                  href="/contact"
+                  href="/contact#contact-form"
                   className="hidden sm:inline-flex items-center px-5 py-3 text-gray-700 font-medium hover:text-blue-600 transition-colors text-sm whitespace-nowrap"
                 >
                   Book Demo

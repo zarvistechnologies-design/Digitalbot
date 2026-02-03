@@ -925,7 +925,7 @@ export default function LeadsPage() {
               </Link>
 
               <Link
-                href="/contact"
+                href="/contact#contact-form"
                 className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-8 py-4 rounded-lg text-base font-bold border-2 border-white/50 hover:border-white hover:bg-white/10 transition-all duration-300"
               >
                 Talk to Sales

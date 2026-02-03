@@ -149,7 +149,7 @@ export function Header() {
                                                         Discover how DigitalBot helps enterprises deliver AI-powered voice automation, intelligent support, and measurable results.
                                                     </p>
                                                     <Link
-                                                        href="/contact"
+                                                        href="/contact#contact-form"
                                                         className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white text-sm font-semibold rounded-full transition-all duration-200"
                                                     >
                                                         Request a Demo

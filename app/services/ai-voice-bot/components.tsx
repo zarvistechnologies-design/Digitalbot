@@ -13,11 +13,11 @@ const iconMap: Record<string, LucideIcon> = {
 export function HeroCTAButtons() {
   return (
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-      <Link href="/contact" className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-base rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 transition-all duration-300">
+      <Link href="/contact#contact-form" className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-base rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 transition-all duration-300">
         Start Free Trial
         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
       </Link>
-      <Link href="/contact" className="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-blue-200 text-blue-600 font-semibold text-base rounded-xl hover:bg-blue-50 hover:border-blue-300 hover:scale-105 transition-all duration-300 shadow-lg shadow-blue-500/10">
+      <Link href="/contact#contact-form" className="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-blue-200 text-blue-600 font-semibold text-base rounded-xl hover:bg-blue-50 hover:border-blue-300 hover:scale-105 transition-all duration-300 shadow-lg shadow-blue-500/10">
         <Play className="mr-2 h-5 w-5" />
         Watch Demo
       </Link>
@@ -85,11 +85,11 @@ export function FinalCTASection() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <Link href="/contact" className="group inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold text-base rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+          <Link href="/contact#contact-form" className="group inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold text-base rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
             Start Free Trial
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <Link href="/contact" className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white/30 text-white font-semibold text-base rounded-xl hover:bg-white/10 hover:border-white/50 hover:scale-105 transition-all duration-300">
+          <Link href="/contact#contact-form" className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white/30 text-white font-semibold text-base rounded-xl hover:bg-white/10 hover:border-white/50 hover:scale-105 transition-all duration-300">
             Schedule Demo
           </Link>
         </div>

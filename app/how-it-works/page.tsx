@@ -384,11 +384,11 @@ export default function HowItWorksPage() {
               Join 500+ companies using DigitalBot's AI workflow to automate their customer interactions.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/contact" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
+              <Link href="/contact#contact-form" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/contact" className="px-8 py-4 bg-blue-500/30 text-white font-bold rounded-xl hover:bg-blue-500/50 transition-all border border-white/30">
+              <Link href="/contact#contact-form" className="px-8 py-4 bg-blue-500/30 text-white font-bold rounded-xl hover:bg-blue-500/50 transition-all border border-white/30">
                 Schedule Demo
               </Link>
             </div>

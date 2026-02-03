@@ -819,7 +819,7 @@ export default function Hero() {
                             {/* CTA Buttons */}
                             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in-up-3">
                                 <Link
-                                    href="/contact"
+                                    href="/contact#contact-form"
                                     className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 flex items-center justify-center gap-2 text-sm sm:text-base"
                                 >
                                     Start Free Trial
@@ -1153,10 +1153,10 @@ export default function Hero() {
                             <p className="text-sm text-gray-500">14-day free trial • No credit card • Cancel anytime</p>
                         </div>
                         <div className="flex gap-3">
-                            <Link href="/contact" className="inline-flex items-center gap-2 bg-orange-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20">
+                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 bg-orange-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20">
                                 Start Free <ArrowRight className="h-4 w-4" />
                             </Link>
-                            <Link href="/contact" className="inline-flex items-center gap-2 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 hover:bg-white transition-colors">
+                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 hover:bg-white transition-colors">
                                 Book Demo
                             </Link>
                         </div>

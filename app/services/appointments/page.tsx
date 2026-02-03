@@ -1057,7 +1057,7 @@ export default function AppointmentsPage() {
             {/* CTA */}
             <div className="text-center">
               <Link
-                href="/contact"
+                href="/contact#contact-form"
                 className="inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-xl font-semibold border-2 border-blue-200 hover:border-blue-500 hover:shadow-lg transition-all"
               >
                 <Phone className="w-4 h-4" />

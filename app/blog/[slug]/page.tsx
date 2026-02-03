@@ -1308,7 +1308,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                   <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                     Discover how AI voice agents can revolutionize your business communication and boost customer satisfaction
                   </p>
-                  <Link href="/contact">
+                  <Link href="/contact#contact-form">
                     <Button size="lg" className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:via-blue-700 hover:to-blue-800 text-white text-lg px-10 py-7 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
                       Get Started Free
                       <ArrowRight className="ml-2 h-5 w-5" />

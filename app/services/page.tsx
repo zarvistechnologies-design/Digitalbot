@@ -246,7 +246,7 @@ export default function Services() {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link href="/contact">
+                <Link href="/contact#contact-form">
                   <Button size="lg" className="group bg-blue-600 hover:bg-blue-700 text-white rounded-2xl px-8 py-7 text-base font-semibold shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all hover:scale-[1.02] relative overflow-hidden">
                     <span className="relative z-10 flex items-center">
                       Start Free Trial
@@ -610,7 +610,7 @@ export default function Services() {
                   <p className="text-sm text-gray-600">Let's build something unique for your business</p>
                 </div>
               </div>
-              <Link href="/contact">
+              <Link href="/contact#contact-form">
                 <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full px-6 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all">
                   Contact Us
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -1079,7 +1079,7 @@ export default function Services() {
                   <p className="text-sm text-gray-600">Book a free consultation with our team</p>
                 </div>
               </div>
-              <Link href="/contact">
+              <Link href="/contact#contact-form">
                 <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full px-6 shadow-lg shadow-blue-500/25 hover:shadow-xl transition-all">
                   Schedule Demo
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -1219,7 +1219,7 @@ export default function Services() {
                   <p className="text-sm text-gray-600">Our team is here to help you</p>
                 </div>
               </div>
-              <Link href="/contact">
+              <Link href="/contact#contact-form">
                 <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full px-6 shadow-lg shadow-blue-500/25 hover:shadow-xl transition-all">
                   Contact Support
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -1269,7 +1269,7 @@ export default function Services() {
             
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12">
-              <Link href="/contact">
+              <Link href="/contact#contact-form">
                 <Button className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 text-base font-bold rounded-full shadow-2xl shadow-blue-900/30 hover:shadow-white/20 hover:-translate-y-1 transition-all">
                   Start Free Trial Now
                   <ArrowRight className="ml-2 h-5 w-5" />

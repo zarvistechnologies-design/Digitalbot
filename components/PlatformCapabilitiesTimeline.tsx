@@ -189,7 +189,7 @@ export default function PlatformCapabilitiesTimeline() {
         {/* Bottom CTA */}
         <div className="text-center mt-8 pt-6 border-t border-gray-100">
           <div className="inline-flex flex-col sm:flex-row items-center gap-3">
-            <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-sky-500 text-white text-sm font-medium rounded-lg hover:bg-sky-600 transition-colors">
+            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 px-6 py-3 bg-sky-500 text-white text-sm font-medium rounded-lg hover:bg-sky-600 transition-colors">
               Start Free Trial
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

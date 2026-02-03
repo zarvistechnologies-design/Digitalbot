@@ -341,11 +341,11 @@ export default function TestimonialCarousel() {
         >
           <p className="text-gray-500 mb-4">Ready to transform your business?</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="/contact" className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all hover:scale-105 flex items-center gap-2">
+            <a href="/contact#contact-form" className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all hover:scale-105 flex items-center gap-2">
               Start Free Trial
               <Zap className="w-5 h-5" />
             </a>
-            <a href="/contact" className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl border border-blue-200 hover:border-blue-300 hover:shadow-lg transition-all">
+            <a href="/contact#contact-form" className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl border border-blue-200 hover:border-blue-300 hover:shadow-lg transition-all">
               Talk to Sales
             </a>
           </div>
