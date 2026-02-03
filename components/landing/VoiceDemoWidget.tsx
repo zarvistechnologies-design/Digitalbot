@@ -35,7 +35,7 @@ export default function VoiceDemoWidget() {
 
     let vapiInstance: any = null
 
-    // Suppress setSinkId and audio processor errors that occur in some browsers
+    // Suppress Vapi SDK errors that occur in some browsers (non-critical)
     originalConsoleErrorRef.current = console.error
     console.error = (...args: any[]) => {
       const errorMessage = args[0]?.toString() || ''
@@ -45,7 +45,10 @@ export default function VoiceDemoWidget() {
         errorMessage.includes('AbortError') ||
         errorMessage.includes('Meeting has ended') ||
         errorMessage.includes('Meeting ended') ||
-        errorMessage.includes('ejection')
+        errorMessage.includes('ejection') ||
+        errorMessage.includes('krisp') ||
+        errorMessage.includes('WASM') ||
+        errorMessage.includes('unloading')
       ) {
         return
       }
