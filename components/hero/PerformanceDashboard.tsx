@@ -155,7 +155,7 @@ export default function PerformanceDashboard() {
                 {/* CTA */}
                 <div className="mt-12 text-center">
                     <Link 
-                        href="/signup" 
+                        href="/contact" 
                         className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold py-4 px-10 rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105"
                     >
                         <span>Start Free Trial</span>

@@ -1,109 +1,186 @@
 "use client"
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Mic, MicOff, Phone, PhoneOff, X, Volume2, Sparkles } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Mic, Phone, PhoneOff, Sparkles, Volume2, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+
+// Same Vapi credentials used on the hero page
+const VAPI_PUBLIC_KEY = '00119fad-8530-413f-9699-e47cada57939'
+const VAPI_ASSISTANT_ID = '9ca19724-1f6c-48d1-8c62-a6107d585592'
 
 export default function VoiceDemoWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [isCallActive, setIsCallActive] = useState(false)
   const [isConnecting, setIsConnecting] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const [vapiLoaded, setVapiLoaded] = useState(false)
   const [transcript, setTranscript] = useState("Click the button to start talking with our AI assistant!")
+  const [callStatus, setCallStatus] = useState('')
   const [callDuration, setCallDuration] = useState(0)
+  const [volumeLevel, setVolumeLevel] = useState(0)
   const callTimerRef = useRef<NodeJS.Timeout | null>(null)
   const vapiRef = useRef<any>(null)
+  const volumeIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   // Sound wave animation
   const [soundBars] = useState(() => Array.from({ length: 8 }, () => Math.random()))
 
+  // Initialize Vapi on component mount (ready before modal opens)
   useEffect(() => {
-    // Load Vapi SDK
-    const loadVapi = async () => {
+    if (typeof window === 'undefined') return
+
+    // Don't reinitialize if already loaded
+    if (vapiRef.current) return
+
+    let vapiInstance: any = null
+
+    const initVapi = async () => {
       try {
-        const Vapi = (await import("@vapi-ai/web")).default
-        vapiRef.current = new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || "")
-        
-        vapiRef.current.on("call-start", () => {
+        const VapiModule = await import('@vapi-ai/web')
+        vapiInstance = new VapiModule.default(VAPI_PUBLIC_KEY)
+        vapiRef.current = vapiInstance
+        setVapiLoaded(true)
+
+        vapiInstance.on('call-start', () => {
           setIsCallActive(true)
           setIsConnecting(false)
-          setTranscript("Connected! Start speaking...")
+          setTranscript("Connected! Listening for your voice...")
+          setCallStatus('Call active - Listening')
+          setCallDuration(0)
           callTimerRef.current = setInterval(() => {
             setCallDuration(prev => prev + 1)
           }, 1000)
         })
-        
-        vapiRef.current.on("call-end", () => {
+
+        vapiInstance.on('call-end', () => {
           setIsCallActive(false)
           setIsSpeaking(false)
+          setIsConnecting(false)
           setTranscript("Call ended. Click to start again!")
-          if (callTimerRef.current) clearInterval(callTimerRef.current)
+          setCallStatus('Call ended')
+          if (callTimerRef.current) {
+            clearInterval(callTimerRef.current)
+            callTimerRef.current = null
+          }
+          if (volumeIntervalRef.current) {
+            clearInterval(volumeIntervalRef.current)
+            volumeIntervalRef.current = null
+          }
           setCallDuration(0)
+          setVolumeLevel(0)
+        })
+
+        vapiInstance.on('speech-start', () => {
+          setIsSpeaking(true)
+          setCallStatus('Assistant speaking...')
+          // Simulate volume fluctuation
+          volumeIntervalRef.current = setInterval(() => {
+            setVolumeLevel(Math.random() * 100)
+          }, 100)
         })
         
-        vapiRef.current.on("speech-start", () => setIsSpeaking(true))
-        vapiRef.current.on("speech-end", () => setIsSpeaking(false))
-        
-        vapiRef.current.on("message", (msg: any) => {
-          if (msg.type === "transcript" && msg.transcriptType === "final") {
-            setTranscript(msg.transcript)
+        vapiInstance.on('speech-end', () => {
+          setIsSpeaking(false)
+          setCallStatus('Call active - Listening')
+          setVolumeLevel(0)
+          if (volumeIntervalRef.current) {
+            clearInterval(volumeIntervalRef.current)
+            volumeIntervalRef.current = null
           }
         })
+
+        vapiInstance.on('message', (message: any) => {
+          if (message.type === 'transcript' && message.transcriptType === 'final') {
+            setTranscript(message.transcript)
+          } else if (message.type === 'end-of-speech') {
+            setCallStatus('Assistant is processing...')
+          }
+        })
+
+        vapiInstance.on('error', (error: any) => {
+          setCallStatus(`Error: ${error.message || 'Unknown error'}`)
+          setIsCallActive(false)
+          setIsConnecting(false)
+        })
       } catch (error) {
-        console.log("Vapi not available, using demo mode")
+        setCallStatus('Failed to initialize voice assistant')
       }
     }
-    
-    if (isOpen) loadVapi()
-    
+
+    initVapi()
+
     return () => {
       if (callTimerRef.current) clearInterval(callTimerRef.current)
+      if (volumeIntervalRef.current) clearInterval(volumeIntervalRef.current)
+      if (vapiRef.current) {
+        try {
+          vapiRef.current.stop()
+        } catch (e) {
+          // Silent error
+        }
+      }
     }
-  }, [isOpen])
+  }, [])
 
   const startCall = async () => {
-    setIsConnecting(true)
-    setTranscript("Connecting to AI assistant...")
-    
-    if (vapiRef.current) {
-      try {
-        await vapiRef.current.start(process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || "")
-      } catch (error) {
-        // Demo mode fallback
-        setTimeout(() => {
-          setIsCallActive(true)
-          setIsConnecting(false)
-          setTranscript("Hi! I'm DigitalBot. I can help you with appointment scheduling, customer support, or lead generation. What would you like to know?")
-          callTimerRef.current = setInterval(() => {
-            setCallDuration(prev => prev + 1)
-          }, 1000)
-          
-          // Simulate AI speaking
-          setTimeout(() => setIsSpeaking(true), 500)
-          setTimeout(() => setIsSpeaking(false), 3000)
-        }, 1500)
-      }
-    } else {
-      // Demo mode
+    if (!vapiRef.current || !vapiLoaded) {
+      setCallStatus('Initializing...')
+      // Try again after a short delay
       setTimeout(() => {
-        setIsCallActive(true)
-        setIsConnecting(false)
-        setTranscript("Hi! I'm DigitalBot. I can help you with appointment scheduling, customer support, or lead generation. What would you like to know?")
-        callTimerRef.current = setInterval(() => {
-          setCallDuration(prev => prev + 1)
-        }, 1000)
-        setTimeout(() => setIsSpeaking(true), 500)
-        setTimeout(() => setIsSpeaking(false), 3000)
-      }, 1500)
+        if (vapiRef.current && vapiLoaded) {
+          startCall()
+        } else {
+          setCallStatus('Please wait and try again...')
+        }
+      }, 1000)
+      return
+    }
+
+    try {
+      setCallStatus('Requesting microphone...')
+      // Request microphone permissions explicitly
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true })
+      } catch (err) {
+        setCallStatus('Microphone permission denied')
+        setTranscript('Please allow microphone access to use the voice assistant')
+        alert('Please allow microphone access to use the voice assistant')
+        return
+      }
+
+      setIsConnecting(true)
+      setCallStatus('Starting call...')
+      setTranscript("Connecting to AI assistant...")
+      
+      await vapiRef.current.start(VAPI_ASSISTANT_ID)
+    } catch (error: any) {
+      const errorMsg = error?.message || error?.error?.message || 'Unknown error'
+      setCallStatus(`Failed: ${errorMsg}`)
+      setIsConnecting(false)
+      setTranscript(`Failed to start call: ${errorMsg}. Please try again.`)
     }
   }
 
   const endCall = () => {
     if (vapiRef.current) {
-      vapiRef.current.stop()
+      try {
+        vapiRef.current.stop()
+        setCallStatus('Stopping call...')
+      } catch (error) {
+        // Silent error
+      }
+    }
+    if (volumeIntervalRef.current) {
+      clearInterval(volumeIntervalRef.current)
+      volumeIntervalRef.current = null
     }
     setIsCallActive(false)
     setIsSpeaking(false)
-    if (callTimerRef.current) clearInterval(callTimerRef.current)
+    setIsConnecting(false)
+    setVolumeLevel(0)
+    if (callTimerRef.current) {
+      clearInterval(callTimerRef.current)
+      callTimerRef.current = null
+    }
     setCallDuration(0)
     setTranscript("Call ended. Click to start again!")
   }

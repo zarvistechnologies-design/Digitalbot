@@ -1,6 +1,6 @@
 "use client"
-import ProductShowcase from "@/components/solutions/ProductShowcase";
 import AnimatedStats from "@/components/landing/AnimatedStats";
+import ProductShowcase from "@/components/solutions/ProductShowcase";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
@@ -889,7 +889,7 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-20 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/40 to-blue-50" role="region" aria-labelledby="hero-heading">
+            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/40 to-blue-50" role="region" aria-labelledby="hero-heading">
 
                 {/* Animated Background Elements */}
                 {mounted && (
@@ -964,7 +964,7 @@ export default function Hero() {
                             {/* CTA Buttons */}
                             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in-up-3">
                                 <Link
-                                    href="/signup"
+                                    href="/contact"
                                     className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 flex items-center justify-center gap-2 text-sm sm:text-base"
                                 >
                                     Start Free Trial
@@ -1298,7 +1298,7 @@ export default function Hero() {
                             <p className="text-sm text-gray-500">14-day free trial • No credit card • Cancel anytime</p>
                         </div>
                         <div className="flex gap-3">
-                            <Link href="/signup" className="inline-flex items-center gap-2 bg-orange-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20">
+                            <Link href="/contact" className="inline-flex items-center gap-2 bg-orange-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20">
                                 Start Free <ArrowRight className="h-4 w-4" />
                             </Link>
                             <Link href="/contact" className="inline-flex items-center gap-2 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 hover:bg-white transition-colors">

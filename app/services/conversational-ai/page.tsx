@@ -274,7 +274,7 @@ export default function ConversationalAI() {
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Link href="/signup" className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:-translate-y-1">
+                  <Link href="/contact" className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:-translate-y-1">
                     Get Started Free
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
@@ -667,7 +667,7 @@ export default function ConversationalAI() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
                 <Link
-                  href="/signup"
+                  href="/contact"
                   className="group inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-blue-700 bg-white rounded-xl shadow-xl shadow-blue-900/30 hover:shadow-2xl hover:shadow-blue-900/40 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                 >
                   Get Started Free

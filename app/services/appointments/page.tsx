@@ -1057,7 +1057,7 @@ export default function AppointmentsPage() {
             {/* CTA */}
             <div className="text-center">
               <Link
-                href="/contact?demo=appointments"
+                href="/contact"
                 className="inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-xl font-semibold border-2 border-blue-200 hover:border-blue-500 hover:shadow-lg transition-all"
               >
                 <Phone className="w-4 h-4" />
@@ -1320,13 +1320,7 @@ export default function AppointmentsPage() {
                     <Bot className="w-5 h-5" />
                     Get Voice AI Demo
                   </Link>
-                  <Link
-                    href="/pricing"
-                    className="inline-flex items-center justify-center gap-2 bg-blue-500/30 text-white px-8 py-4 rounded-2xl font-semibold text-lg border border-white/20 hover:bg-blue-500/50 transition-all"
-                  >
-                    View Pricing
-                    <ArrowRight className="w-5 h-5" />
-                  </Link>
+                
                 </div>
               </div>
             </div>
@@ -1442,7 +1436,7 @@ export default function AppointmentsPage() {
               </div>
 
               <Link
-                href="/contact?demo=appointments"
+                href="/signup?demo=appointments"
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-blue-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg hover:shadow-blue-300/40 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 aria-label="Watch the full appointment booking demo"
               >

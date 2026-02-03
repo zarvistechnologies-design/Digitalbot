@@ -215,7 +215,7 @@ export default function ComparisonTable() {
           className="text-center mt-12"
         >
           <Link 
-            href="/signup"
+            href="/contact"
             className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl hover:scale-105"
           >
             Start Free Trial - 500 Minutes Free

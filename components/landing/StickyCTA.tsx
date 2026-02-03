@@ -42,7 +42,7 @@ export default function StickyCTA() {
               {/* Right - CTA */}
               <div className="flex items-center gap-3">
                 <Link
-                  href="/signup"
+                  href="/contact"
                   className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:scale-105 text-sm whitespace-nowrap"
                 >
                   Start Free Trial

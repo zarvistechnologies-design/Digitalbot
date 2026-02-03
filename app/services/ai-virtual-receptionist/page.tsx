@@ -285,7 +285,7 @@ export default function AIVirtualReceptionist() {
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
-                    href="/signup"
+                    href="/contact"
                     className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
                   >
                     Hire AI Receptionist
@@ -746,7 +746,7 @@ export default function AIVirtualReceptionist() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Link href="/signup">
+              <Link href="/contact">
                 <Button size="lg" className="group bg-white text-blue-600 hover:bg-gray-50 px-8 py-6 text-lg font-bold shadow-2xl hover:shadow-white/30 transition-all duration-300 hover:scale-105">
                   Get Started Free
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />

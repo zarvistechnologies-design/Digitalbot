@@ -51,7 +51,7 @@ export function Footer() {
                 </p>
               </div>
               <Link
-                href="/signup"
+                href="/contact"
                 className="group/btn px-8 py-4 bg-white text-blue-600 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 flex items-center gap-3 whitespace-nowrap border-2 border-blue-500/30 uppercase tracking-widest"
               >
                 <span className="text-blue-600">

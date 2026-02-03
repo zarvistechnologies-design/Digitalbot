@@ -481,7 +481,7 @@ export default function About() {
               Join 500+ companies already using DigitalBot to automate their customer communications.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/signup" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
+              <Link href="/contact" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>

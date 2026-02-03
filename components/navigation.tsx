@@ -130,10 +130,10 @@ export function Navigation() {
                   className="w-full bg-transparent"
                   asChild
                 >
-                  <Link href="/signup">Get Started</Link>
+                  <Link href="/contact">Get Started</Link>
                 </Button>
                 <Button className="w-full bg-accent hover:bg-accent/90" asChild>
-                  <Link href="/signup">Try Free</Link>
+                  <Link href="/contact">Try Free</Link>
                 </Button>
               </div>
             </div>

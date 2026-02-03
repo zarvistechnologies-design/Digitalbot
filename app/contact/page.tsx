@@ -99,8 +99,8 @@ const contactMethods = [
     icon: MapPin,
     title: "Visit Us",
     description: "Our headquarters",
-    value: "San Francisco, CA",
-    action: "#location",
+    value: "Behind Manyata Tech Park, Hebbal, Bangalore 560077",
+    action: "India: Behind Manyata Tech Park, Hebbal, Bangalore 560077",
     gradient: "from-amber-500 to-orange-500",
     bgColor: "from-amber-50 to-amber-100/50",
     borderColor: "border-amber-200",
@@ -255,7 +255,7 @@ export default function ContactPage() {
                     Send Message
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                  <Link href="tel:+15551234567" className="px-6 py-3 bg-white border-2 border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all flex items-center gap-2">
+                  <Link href="tel:+919880774053" className="px-6 py-3 bg-white border-2 border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all flex items-center gap-2">
                     <Phone className="w-4 h-4" />
                     Call Now
                   </Link>
@@ -629,7 +629,7 @@ export default function ContactPage() {
               Start your free trial today and experience the power of AI voice agents. No credit card required.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/signup" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
+              <Link href="/contact" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>

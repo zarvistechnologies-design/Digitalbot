@@ -428,7 +428,7 @@ export default function AICallCenter() {
                   {/* CTA Buttons */}
                   <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                     <Link
-                      href="/signup?service=customer-support"
+                      href="/contact?service=customer-support"
                       className="group px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-2"
                     >
                       Start Free Trial
@@ -654,7 +654,7 @@ export default function AICallCenter() {
                       {useCases[activeUseCase].description}
                     </p>
                     <Link
-                      href="/signup"
+                      href="/contact"
                       className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
                     >
                       Get Started <ArrowRight className="w-4 h-4" />
@@ -888,7 +888,7 @@ export default function AICallCenter() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Link
-                  href="/signup?service=customer-support"
+                  href="/contact?service=customer-support"
                   className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
                 >
                   Start Free Trial

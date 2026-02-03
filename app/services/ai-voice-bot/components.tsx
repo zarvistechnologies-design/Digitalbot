@@ -13,7 +13,7 @@ const iconMap: Record<string, LucideIcon> = {
 export function HeroCTAButtons() {
   return (
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-      <Link href="/signup" className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-base rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 transition-all duration-300">
+      <Link href="/contact" className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-base rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 transition-all duration-300">
         Start Free Trial
         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
       </Link>
@@ -85,7 +85,7 @@ export function FinalCTASection() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <Link href="/signup" className="group inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold text-base rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+          <Link href="/contact" className="group inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold text-base rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
             Start Free Trial
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </Link>
