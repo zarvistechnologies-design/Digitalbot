@@ -2,21 +2,21 @@
 import Sidebar from "@/components/Sidebar";
 import { calendarAPI, doctorsAPI } from "@/lib/api";
 import {
-    AlertCircle,
-    Calendar,
-    Check,
-    Clock,
-    Edit,
-    ExternalLink,
-    Mail,
-    Phone,
-    Plus,
-    RefreshCw,
-    Search,
-    Stethoscope,
-    Trash2,
-    User,
-    X,
+  AlertCircle,
+  Calendar,
+  Check,
+  Clock,
+  Edit,
+  ExternalLink,
+  Mail,
+  Phone,
+  Plus,
+  RefreshCw,
+  Search,
+  Stethoscope,
+  Trash2,
+  User,
+  X,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -31,6 +31,8 @@ interface Doctor {
   calendarId?: string;
   calendarConnected?: boolean;
   slotDuration: number;
+  allowMultipleBookings?: boolean;
+  maxPatientsPerSlot?: number;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
   active: boolean;
@@ -51,6 +53,8 @@ interface DoctorFormData {
   phone2: string;
   email: string;
   slotDuration: number;
+  allowMultipleBookings: boolean;
+  maxPatientsPerSlot: number;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
   defaultBlockedTimes: BlockedTime[];
@@ -91,6 +95,8 @@ const initialFormData: DoctorFormData = {
   phone2: "",
   email: "",
   slotDuration: 30,
+  allowMultipleBookings: false,
+  maxPatientsPerSlot: 1,
   defaultWorkingHours: { start: "09:00", end: "17:00" },
   workingDays: [1, 2, 3, 4, 5],
   defaultBlockedTimes: [],
@@ -182,6 +188,8 @@ export default function DoctorsPage() {
       phone2: doctor.phone2 || "",
       email: doctor.email || "",
       slotDuration: doctor.slotDuration,
+      allowMultipleBookings: doctor.allowMultipleBookings || false,
+      maxPatientsPerSlot: doctor.maxPatientsPerSlot || 1,
       defaultWorkingHours: doctor.defaultWorkingHours,
       workingDays: doctor.workingDays,
       defaultBlockedTimes: (doctor as unknown as { defaultBlockedTimes?: BlockedTime[] }).defaultBlockedTimes || [],
@@ -350,6 +358,11 @@ export default function DoctorsPage() {
                     <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4" />
                       {doctor.slotDuration} min slots
+                      {doctor.allowMultipleBookings && (
+                        <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
+                          {doctor.maxPatientsPerSlot || 1} patients/slot
+                        </span>
+                      )}
                     </div>
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
@@ -536,6 +549,62 @@ export default function DoctorsPage() {
                 <p className="text-xs text-gray-500 mt-1">
                   Common values: 15, 20, 30, 45, 60 minutes (or enter custom value)
                 </p>
+              </div>
+
+              {/* Multiple Bookings Per Slot */}
+              <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Allow Multiple Patients Per Slot
+                    </label>
+                    <p className="text-xs text-gray-500">
+                      Enable for walk-in clinics or group sessions
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        allowMultipleBookings: !formData.allowMultipleBookings,
+                      })
+                    }
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      formData.allowMultipleBookings ? "bg-blue-600" : "bg-gray-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        formData.allowMultipleBookings ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                {formData.allowMultipleBookings && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Max Patients Per Slot
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="20"
+                      value={formData.maxPatientsPerSlot}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          maxPatientsPerSlot: Math.min(20, Math.max(1, parseInt(e.target.value) || 1)),
+                        })
+                      }
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Up to 20 patients can be booked in the same time slot
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Working Hours */}
