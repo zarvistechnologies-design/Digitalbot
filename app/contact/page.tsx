@@ -224,12 +224,12 @@ export default function ContactPage() {
                   <span className="text-sm font-bold">Get In Touch</span>
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
                   Let's Start a
                   <span className="block bg-gradient-to-r from-blue-600 via-violet-600 to-blue-600 bg-clip-text text-transparent mt-2">Conversation</span>
                 </h1>
 
-                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed">
                   Have questions about our AI voice platform? We're here to help. Reach out and we'll respond within <strong className="text-blue-600">2 hours</strong>.
                 </p>
 
@@ -263,8 +263,8 @@ export default function ContactPage() {
               </div>
 
               {/* Right - Stats Dashboard */}
-              <div className="relative">
-                <div className="bg-white rounded-3xl shadow-2xl shadow-blue-500/10 p-8 border border-gray-100">
+              <div className="relative mt-8 lg:mt-0">
+                <div className="bg-white rounded-3xl shadow-2xl shadow-blue-500/10 p-6 sm:p-8 border border-gray-100">
                   {/* Header */}
                   <div className="flex items-center justify-between mb-8">
                     <div>
@@ -278,16 +278,16 @@ export default function ContactPage() {
                   </div>
 
                   {/* Stats Grid */}
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     {stats.map((stat, i) => (
-                      <div key={i} className={`${stat.bgColor} rounded-2xl p-5 hover:shadow-lg transition-all hover:-translate-y-1`}>
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className={`w-10 h-10 ${stat.iconBg} rounded-xl flex items-center justify-center shadow-lg`}>
-                            <stat.icon className="w-5 h-5 text-white" />
+                      <div key={i} className={`${stat.bgColor} rounded-2xl p-3 sm:p-5 hover:shadow-lg transition-all hover:-translate-y-1`}>
+                        <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                          <div className={`w-8 h-8 sm:w-10 sm:h-10 ${stat.iconBg} rounded-xl flex items-center justify-center shadow-lg`}>
+                            <stat.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                           </div>
-                          <span className="text-sm text-gray-600">{stat.label}</span>
+                          <span className="text-xs sm:text-sm text-gray-600">{stat.label}</span>
                         </div>
-                        <p className={`text-3xl font-black ${stat.color}`}>
+                        <p className={`text-2xl sm:text-3xl font-black ${stat.color}`}>
                           <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                         </p>
                       </div>
@@ -296,7 +296,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Floating Badge */}
-                <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 border border-gray-100">
+                <div className="hidden sm:block absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 border border-gray-100">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
                       <Star className="w-6 h-6 text-white fill-white" />
@@ -312,82 +312,6 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Contact Methods - Blue Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
-          {/* Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '24px 24px'
-            }} />
-          </div>
-
-          <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
-                <MessageSquare className="w-4 h-4 text-white" />
-                <span className="text-sm font-bold text-white">Multiple Ways to Reach Us</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-                Choose Your Preferred Channel
-              </h2>
-              <p className="text-lg text-blue-100 max-w-2xl mx-auto">
-                We're available across multiple channels to ensure you can reach us in the way that works best for you.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {contactMethods.map((method, i) => (
-                <a
-                  key={i}
-                  href={method.action}
-                  className="group bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2"
-                >
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${method.gradient} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
-                    <method.icon className="w-7 h-7 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{method.title}</h3>
-                  <p className="text-blue-200 text-sm mb-3">{method.description}</p>
-                  <p className="text-white font-semibold">{method.value}</p>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Benefits Section - White */}
-        <section className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-violet-50 border border-violet-200 rounded-full mb-6">
-                <Award className="w-4 h-4 text-violet-600" />
-                <span className="text-sm font-bold text-violet-600">Why Contact Us</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
-                World-Class Support Experience
-              </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                We're committed to providing you with the best support experience in the industry.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {benefits.map((benefit, i) => (
-                <div
-                  key={i}
-                  className={`group ${benefit.bgColor} rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2`}
-                >
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${benefit.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
-                    <benefit.icon className="w-7 h-7 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.text}</h3>
-                  <p className="text-gray-600">{benefit.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Main Contact Form Section */}
         <section id="contact-form" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-white to-violet-50 relative overflow-hidden">
           {/* Background Elements */}
@@ -396,64 +320,15 @@ export default function ContactPage() {
             <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-100/30 rounded-full blur-3xl"></div>
           </div>
 
-          <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="grid lg:grid-cols-2 gap-12 items-start">
-              {/* Left - Info */}
-              <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full mb-6">
-                  <Headphones className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-bold text-blue-600">Contact Form</span>
-                </div>
-
-                <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6">
-                  We're Here to Help You <span className="text-blue-600">Succeed</span>
-                </h2>
-
-                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                  Whether you're exploring AI voice solutions or ready to transform your business, our team is ready to assist you every step of the way.
-                </p>
-
-                {/* Benefits List */}
-                <div className="space-y-4 mb-8">
-                  {[
-                    { icon: Clock, text: "Average response time under 2 hours", color: "from-blue-500 to-cyan-500", bgColor: "bg-blue-50" },
-                    { icon: Users, text: "Dedicated account manager for enterprise", color: "from-emerald-500 to-teal-500", bgColor: "bg-emerald-50" },
-                    { icon: Globe, text: "Support available in 50+ languages", color: "from-violet-500 to-purple-500", bgColor: "bg-violet-50" },
-                    { icon: Shield, text: "Secure and compliant communication", color: "from-amber-500 to-orange-500", bgColor: "bg-amber-50" },
-                  ].map((benefit, i) => (
-                    <div key={i} className={`flex items-center gap-4 p-4 ${benefit.bgColor} rounded-xl border border-gray-100`}>
-                      <div className={`w-10 h-10 bg-gradient-to-br ${benefit.color} rounded-xl flex items-center justify-center shadow-lg`}>
-                        <benefit.icon className="w-5 h-5 text-white" />
-                      </div>
-                      <span className="text-gray-700 font-medium">{benefit.text}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Mini Stats */}
-                <div className="grid grid-cols-3 gap-4">
-                  {[
-                    { value: "500+", label: "Happy Clients", bgColor: "bg-blue-50", color: "text-blue-600" },
-                    { value: "24/7", label: "Support", bgColor: "bg-emerald-50", color: "text-emerald-600" },
-                    { value: "98%", label: "Satisfaction", bgColor: "bg-violet-50", color: "text-violet-600" },
-                  ].map((stat, i) => (
-                    <div key={i} className={`text-center p-4 ${stat.bgColor} rounded-xl border border-gray-100`}>
-                      <p className={`text-2xl font-black ${stat.color}`}>{stat.value}</p>
-                      <p className="text-sm text-gray-600">{stat.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right - Form */}
-              <div className="bg-white rounded-3xl shadow-2xl shadow-blue-500/10 p-8 border border-gray-100">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
-                    <Send className="w-6 h-6 text-white" />
+          <div className="container mx-auto max-w-2xl relative z-10">
+            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl shadow-blue-500/10 p-6 sm:p-8 border border-gray-100">
+                <div className="flex items-center gap-3 mb-6 sm:mb-8">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                    <Send className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">Send us a Message</h3>
-                    <p className="text-sm text-gray-500">We'll get back to you within 2 hours</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900">Send us a Message</h3>
+                    <p className="text-xs sm:text-sm text-gray-500">We'll get back to you within 2 hours</p>
                   </div>
                 </div>
 
@@ -602,6 +477,81 @@ export default function ContactPage() {
                   </p>
                 </form>
               </div>
+          </div>
+        </section>
+
+        {/* Contact Methods - Blue Section */}
+        <section className="py-20 px-4 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+          {/* Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+              backgroundSize: '24px 24px'
+            }} />
+          </div>
+
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
+                <MessageSquare className="w-4 h-4 text-white" />
+                <span className="text-sm font-bold text-white">Multiple Ways to Reach Us</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-4">
+                Choose Your Preferred Channel
+              </h2>
+              <p className="text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+                We're available across multiple channels to ensure you can reach us in the way that works best for you.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {contactMethods.map((method, i) => (
+                <a
+                  key={i}
+                  href={method.action}
+                  className="group bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2"
+                >
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${method.gradient} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
+                    <method.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{method.title}</h3>
+                  <p className="text-blue-200 text-sm mb-3">{method.description}</p>
+                  <p className="text-white font-semibold">{method.value}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Benefits Section - White */}
+        <section className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-violet-50 border border-violet-200 rounded-full mb-6">
+                <Award className="w-4 h-4 text-violet-600" />
+                <span className="text-sm font-bold text-violet-600">Why Contact Us</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-4">
+                World-Class Support Experience
+              </h2>
+              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+                We're committed to providing you with the best support experience in the industry.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {benefits.map((benefit, i) => (
+                <div
+                  key={i}
+                  className={`group ${benefit.bgColor} rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2`}
+                >
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${benefit.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
+                    <benefit.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.text}</h3>
+                  <p className="text-gray-600">{benefit.description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -622,19 +572,19 @@ export default function ContactPage() {
               <span className="text-sm font-bold text-white">Start Today</span>
             </div>
 
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6">
               Ready to Get Started?
             </h2>
-            <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
               Start your free trial today and experience the power of AI voice agents. No credit card required.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/contact" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
+              <Link href="#contact-form" className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg flex items-center gap-2">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/pricing" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold rounded-xl hover:bg-white/20 transition-all border border-white/30 flex items-center gap-2">
-                View Pricing
+              <Link href="#contact-form" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold rounded-xl hover:bg-white/20 transition-all border border-white/30 flex items-center gap-2">
+                Contact Us
               </Link>
             </div>
           </div>

@@ -289,7 +289,7 @@ export function Header() {
                             className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
                         >
                             <Sparkles className="w-4 h-4" />
-                            Get Started
+                            Login
                         </Link>
                     </div>
 
@@ -344,8 +344,28 @@ export function Header() {
                                     ))}
                                 </div>
 
+                                {/* Mobile Social Icons */}
+                                <div className="pt-4 px-4 flex items-center justify-center gap-3">
+                                    <a
+                                        href="https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-200"
+                                    >
+                                        <Instagram className="w-5 h-5 text-white" />
+                                    </a>
+                                    <a
+                                        href="https://www.facebook.com/profile.php?id=61583885495540"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200"
+                                    >
+                                        <Facebook className="w-5 h-5 text-white" />
+                                    </a>
+                                </div>
+
                                 {/* Mobile CTA */}
-                                <div className="pt-4 px-4">
+                                <div className="pt-3 px-4">
                                     <Link
                                         href="/login"
                                         className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
