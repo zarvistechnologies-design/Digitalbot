@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bot, Calendar, CalendarCheck, CreditCard, LayoutDashboard, LogOut, Megaphone, PhoneCall, Stethoscope, Users, X } from 'lucide-react';
+import { Bot, Calendar, CalendarCheck, CreditCard, LayoutDashboard, LogOut, Megaphone, PhoneCall, PlusCircle, Stethoscope, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -45,6 +45,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     }
     if (user?.selectedService === 'appointment') {
       serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
+      serviceItems.push({ name: 'Book Appointment', href: '/dashboard/book-appointment', icon: PlusCircle });
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
       

@@ -259,6 +259,47 @@ export const availabilityAPI = {
 };
 
 // ========================================
+// APPOINTMENTS API
+// ========================================
+export const appointmentsAPI = {
+  // Get all appointments
+  getAll: (params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    from_date?: string;
+    to_date?: string;
+    phone?: string;
+    source?: string;
+  }) => api.get('/appointments', { params }),
+  
+  // Get appointment by ID
+  getById: (id: string) => api.get(`/appointments/${id}`),
+  
+  // Create appointment manually
+  create: (data: {
+    name: string;
+    phone: string;
+    reason?: string;
+    date: string;
+    time: string;
+    notes?: string;
+    doctorName?: string;
+    doctorId?: string;
+  }) => api.post('/appointments', data),
+  
+  // Update appointment
+  update: (id: string, data: Record<string, unknown>) => api.put(`/appointments/${id}`, data),
+  
+  // Get calendar appointments
+  getCalendar: (year: number, month: number) => 
+    api.get('/appointments/calendar', { params: { year, month } }),
+  
+  // Get stats summary
+  getStats: () => api.get('/appointments/stats/summary'),
+};
+
+// ========================================
 // CALENDAR API (Google Calendar Integration)
 // ========================================
 export const calendarAPI = {
