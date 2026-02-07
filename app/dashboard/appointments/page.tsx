@@ -406,7 +406,7 @@ function AppointmentModal({
                     <Bot className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-white">AI Follow-up Assistant</h3>
+                    <h3 className="text-sm font-bold text-white">AI Patient Follow-up Assistant</h3>
                     <p className="text-violet-200 text-[10px]">Automated post-consultation care</p>
                   </div>
                 </div>
@@ -440,14 +440,14 @@ function AppointmentModal({
               <button
                 onClick={() => {
                   // TODO: Connect to AI Agent for automated follow-up call
-                  alert(`Follow-up call will be initiated to ${apt.name} at ${apt.phone}\n\nAI Agent integration coming soon!`);
+                  alert(`Follow-up call will be initiated to ${apt.name} at ${apt.phone}`);
                 }}
                 className="w-full group relative overflow-hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-lg p-3 text-sm font-semibold transition-all hover:shadow-xl hover:shadow-violet-500/25"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative flex items-center justify-center gap-2">
                   <Bot className="w-4 h-4" />
-                  <span>Start AI consultation Follow-up Call</span>
+                  <span> AI consultation Follow-up Call</span>
                   <div className="flex items-center gap-0.5 bg-white/20 px-1.5 py-0.5 rounded-full text-[10px]">
                     <Zap className="w-2.5 h-2.5" />
                     Auto
