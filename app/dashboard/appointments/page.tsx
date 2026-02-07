@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import {
   AlertCircle,
   ArrowLeft,
+  Bot,
   Building2,
   Calendar,
   CheckCircle2,
@@ -10,6 +11,7 @@ import {
   ChevronRight,
   Clock,
   FileText,
+  HeartPulse,
   Mail,
   Phone,
   RefreshCw,
@@ -391,14 +393,95 @@ function AppointmentModal({
               </button>
             </div>
 
-            <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-              <p className="text-sm text-blue-900 flex items-start gap-2">
-                <Mail className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                <span className="font-medium">
-                  Confirming this appointment will automatically send an email notification to the assigned doctor
-                  with all appointment details.
-                </span>
-              </p>
+            
+          </div>
+
+          {/* Follow-up Call Section */}
+          <div className="relative overflow-hidden bg-white border-2 border-gray-200 rounded-2xl">
+            {/* Header with gradient background */}
+            <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 px-5 py-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-1.5 bg-white/20 backdrop-blur-sm rounded-lg">
+                    <Bot className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-white">AI Follow-up Assistant</h3>
+                    <p className="text-violet-200 text-[10px]">Automated post-consultation care</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
+                  <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-white text-[10px] font-medium">Ready</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-4">
+              {/* Patient Info Card */}
+              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg mb-4">
+                <div className="p-2 bg-gradient-to-br from-violet-500 to-purple-500 rounded-full">
+                  <User className="w-4 h-4 text-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-gray-900">{apt.name}</p>
+                  <p className="text-xs text-gray-500 flex items-center gap-1">
+                    <Phone className="w-2.5 h-2.5" /> {apt.phone}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] text-gray-500">Last Visit</p>
+                  <p className="text-xs font-semibold text-gray-700">{new Date(apt.date).toLocaleDateString()}</p>
+                </div>
+              </div>
+
+              {/* Main Action Button */}
+              <button
+                onClick={() => {
+                  // TODO: Connect to AI Agent for automated follow-up call
+                  alert(`Follow-up call will be initiated to ${apt.name} at ${apt.phone}\n\nAI Agent integration coming soon!`);
+                }}
+                className="w-full group relative overflow-hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-lg p-3 text-sm font-semibold transition-all hover:shadow-xl hover:shadow-violet-500/25"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative flex items-center justify-center gap-2">
+                  <Bot className="w-4 h-4" />
+                  <span>Start AI consultation Follow-up Call</span>
+                  <div className="flex items-center gap-0.5 bg-white/20 px-1.5 py-0.5 rounded-full text-[10px]">
+                    <Zap className="w-2.5 h-2.5" />
+                    Auto
+                  </div>
+                </div>
+              </button>
+
+              {/* Follow-up Type Selection */}
+              <div className="mt-4">
+                <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide mb-2">Select Follow-up Type</p>
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={() => alert('Health review follow-up scheduled!')}
+                    className="flex-1 flex items-center justify-center gap-1.5 p-2 bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200 rounded-lg hover:border-rose-400 hover:shadow-md transition-all group"
+                  >
+                    <HeartPulse className="w-3.5 h-3.5 text-rose-500 group-hover:scale-110 transition-transform" />
+                    <span className="text-xs font-medium text-gray-700">Health</span>
+                  </button>
+                  <button
+                    onClick={() => alert('Post-appointment follow-up scheduled!')}
+                    className="flex-1 flex items-center justify-center gap-1.5 p-2 bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg hover:border-sky-400 hover:shadow-md transition-all group"
+                  >
+                    <Calendar className="w-3.5 h-3.5 text-sky-500 group-hover:scale-110 transition-transform" />
+                    <span className="text-xs font-medium text-gray-700">Post Visit</span>
+                  </button>
+                  <button
+                    onClick={() => alert('Medication follow-up scheduled!')}
+                    className="flex-1 flex items-center justify-center gap-1.5 p-2 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-lg hover:border-amber-400 hover:shadow-md transition-all group"
+                  >
+                    <Stethoscope className="w-3.5 h-3.5 text-amber-500 group-hover:scale-110 transition-transform" />
+                    <span className="text-xs font-medium text-gray-700">Medication</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -983,9 +1066,23 @@ export default function AppointmentsPage() {
                             <div className="flex items-start justify-between mb-3">
                               <div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-1">{apt.name}</h3>
-                                <div className="flex items-center gap-2 text-sm text-gray-600">
-                                  <Phone className="w-4 h-4" />
-                                  <span className="font-medium">{apt.phone}</span>
+                                <div className="flex items-center gap-3 text-sm text-gray-600">
+                                  <div className="flex items-center gap-2">
+                                    <Phone className="w-4 h-4" />
+                                    <span className="font-medium">{apt.phone}</span>
+                                  </div>
+                                  {/* Quick Follow-up Button */}
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      alert(`Follow-up call to ${apt.name}\nPhone: ${apt.phone}\n\nAI Agent integration coming soon!`);
+                                    }}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg text-xs font-bold hover:from-emerald-600 hover:to-teal-600 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
+                                    title="Follow-up Call"
+                                  >
+                                    <Bot className="w-3.5 h-3.5" />
+                                    <span>Follow-up</span>
+                                  </button>
                                 </div>
                               </div>
                               <StatusBadge status={apt.status} />
