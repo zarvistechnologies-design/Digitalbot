@@ -72,19 +72,6 @@ const ProductShowcase = () => {
     return (
         <section ref={sectionRef} className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
             <div className="container mx-auto max-w-7xl relative z-10">
-                {/* Section Header */}
-                <div className="text-center mb-12">
-                    <span className="inline-flex items-center gap-2 text-blue-500 text-xs font-semibold tracking-wider uppercase mb-3">
-                        <Sparkles className="h-3.5 w-3.5" />
-                        Our Solutions
-                    </span>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
-                        AI-Powered <span className="text-blue-500">Ecosystem</span>
-                    </h2>
-                    <p className="text-base text-gray-600 max-w-xl mx-auto">
-                        Transform your customer communication with intelligent automation
-                    </p>
-                </div>
 
                 {/* Bento Grid Layout - Matching Reference */}
                 <div className="grid grid-cols-12 gap-4 lg:gap-5">

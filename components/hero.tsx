@@ -1,6 +1,5 @@
 "use client"
 import AnimatedStats from "@/components/landing/AnimatedStats";
-import ProductShowcase from "@/components/solutions/ProductShowcase";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
@@ -19,7 +18,7 @@ const services = [
         color: "from-blue-500 to-red-500",
         stat: "95%",
         statLabel: "Booking Success Rate",
-        audio: "/audio/doctor-appointment-sample.mp3",
+        audio: "/audio/doctor-appointment-sample.mp3",          
         features: [
             { icon: "Calendar", text: "Smart scheduling with real-time calendar sync" },
             { icon: "Clock", text: "Instant SMS & email confirmations" },
@@ -1003,10 +1002,6 @@ export default function Hero() {
                     </div>
                 </div>
             </section>
-
-            <ProductShowcase/>
-
-
 
             {/* Why Choose DigitalBot - Bento Grid Style */}
             <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
