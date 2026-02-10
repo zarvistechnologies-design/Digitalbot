@@ -217,7 +217,7 @@ export default function AIVirtualReceptionist() {
             
             {/* Animated Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{
-              backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)',
+              backgroundImage: 'linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)',
               backgroundSize: '60px 60px'
             }} />
             

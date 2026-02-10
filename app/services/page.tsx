@@ -178,7 +178,7 @@ export default function Services() {
         
         {/* Animated Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `linear-gradient(to right, #3b82f6 1px, transparent 1px), linear-gradient(to bottom, #3b82f6 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }}></div>
         
@@ -232,8 +232,8 @@ export default function Services() {
                     <path d="M2 10C50 4 100 2 150 6C200 10 250 4 298 8" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round"/>
                     <defs>
                       <linearGradient id="gradient" x1="0" y1="0" x2="300" y2="0">
-                        <stop offset="0%" stopColor="#3b82f6"/>
-                        <stop offset="100%" stopColor="#06b6d4"/>
+                        <stop offset="0%" stopColor="#f97316"/>
+                        <stop offset="100%" stopColor="#fb923c"/>
                       </linearGradient>
                     </defs>
                   </svg>

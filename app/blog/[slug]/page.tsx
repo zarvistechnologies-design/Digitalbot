@@ -275,7 +275,7 @@ const blogPosts = {
       <p><strong>Conversation Length:</strong> Monitor the average number of exchanges per conversation. Very short interactions might indicate quick, successful resolutions—or frustrated users abandoning the conversation. Very long interactions could mean comprehensive support or users struggling to get answers. Context determines which interpretation applies.</p>
 
       <h3>Response Quality Indicators</h3>
-      <p><strong>Average Response Time:</strong> Modern customers expect instantaneous responses. Your <a href="/" class="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 underline-offset-2">AI Voice Agent</a> should consistently respond in under two seconds. Slower response times create perception of system lag and diminish the user experience.</p>
+      <p><strong>Average Response Time:</strong> Modern customers expect instantaneous responses. Your <a href="/" class="text-orange-600 hover:text-orange-700 font-semibold underline decoration-2 underline-offset-2">AI Voice Agent</a> should consistently respond in under two seconds. Slower response times create perception of system lag and diminish the user experience.</p>
 
       <p><strong>Resolution Rate:</strong> This critical metric measures what percentage of conversations conclude with the customer's issue fully resolved without human intervention. Industry leaders achieve resolution rates between 70-85% for routine inquiries. If yours falls significantly below this range, it signals gaps in your knowledge base or conversation design.</p>
 
@@ -410,7 +410,7 @@ const blogPosts = {
         <li>"I'd like to come in sometime soon"</li>
       </ul>
 
-      <p>Sophisticated NLP systems recognize all these variations as expressions of the same scheduling intent. They've learned through exposure to thousands of examples that despite different wording, these phrases share a common purpose. This enables <a href="/" class="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 underline-offset-2">AI Voice Agent</a> systems to respond appropriately regardless of individual communication styles.</p>
+      <p>Sophisticated NLP systems recognize all these variations as expressions of the same scheduling intent. They've learned through exposure to thousands of examples that despite different wording, these phrases share a common purpose. This enables <a href="/" class="text-orange-600 hover:text-orange-700 font-semibold underline decoration-2 underline-offset-2">AI Voice Agent</a> systems to respond appropriately regardless of individual communication styles.</p>
 
       <h3>Entity Extraction: Capturing Critical Information</h3>
       <p>Identifying intent solves only half the puzzle. Systems also need to extract specific data points from user input—entities that provide the details necessary to fulfill requests:</p>
@@ -608,7 +608,7 @@ const blogPosts = {
       <h2>The Strategic Response</h2>
       
       <h3>Designing a Comprehensive Solution</h3>
-      <p>After evaluating multiple approaches—hiring aggressively, outsourcing, or implementing self-service portals—TechCorp's leadership chose a more transformative path. They would deploy an <a href="/" class="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 underline-offset-2">AI Voice Agent</a> platform capable of handling routine inquiries while seamlessly escalating complex issues to human specialists.</p>
+      <p>After evaluating multiple approaches—hiring aggressively, outsourcing, or implementing self-service portals—TechCorp's leadership chose a more transformative path. They would deploy an <a href="/" class="text-orange-600 hover:text-orange-700 font-semibold underline decoration-2 underline-offset-2">AI Voice Agent</a> platform capable of handling routine inquiries while seamlessly escalating complex issues to human specialists.</p>
 
       <p>The solution needed to deliver:</p>
       <ul>
@@ -745,7 +745,7 @@ const blogPosts = {
       <p>In a multi-channel approach, you offer customer service across several platforms—website chat, email, social media, phone—but each operates somewhat independently. A customer who starts a conversation on your website might need to re-explain their situation if they follow up via email. Information lives in separate silos, creating friction and inefficiency.</p>
 
       <h3>Omnichannel: Unified, Contextual Experiences</h3>
-      <p>Omnichannel elevates multi-channel by connecting all touchpoints through shared customer data and conversation history. When someone starts an inquiry on your website, continues it via WhatsApp an hour later, and completes their purchase through your mobile app that evening, the experience flows seamlessly. Your <a href="/" class="text-blue-600 hover:text-blue-700 font-semibold underline decoration-2 underline-offset-2">AI Voice Agent</a> maintains perfect context throughout, eliminating repetition and frustration.</p>
+      <p>Omnichannel elevates multi-channel by connecting all touchpoints through shared customer data and conversation history. When someone starts an inquiry on your website, continues it via WhatsApp an hour later, and completes their purchase through your mobile app that evening, the experience flows seamlessly. Your <a href="/" class="text-orange-600 hover:text-orange-700 font-semibold underline decoration-2 underline-offset-2">AI Voice Agent</a> maintains perfect context throughout, eliminating repetition and frustration.</p>
 
       <p>This distinction matters enormously to customers. Research consistently shows that people value effort reduction over almost any other service attribute. Seamless omnichannel experiences minimize customer effort dramatically, driving satisfaction and loyalty.</p>
 
@@ -1147,7 +1147,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
               style={{
                 backgroundImage: `
                   linear-gradient(to right, rgb(147, 51, 234) 1px, transparent 1px),
-                  linear-gradient(to bottom, rgb(59, 130, 246) 1px, transparent 1px)
+                  linear-gradient(to bottom, rgb(249, 115, 22) 1px, transparent 1px)
                 `,
                 backgroundSize: '60px 60px'
               }}
@@ -1158,13 +1158,13 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
             <div className="max-w-4xl mx-auto">
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 mb-6 transition-colors"
+                className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 mb-6 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Back to Blog
               </Link>
 
-              <Badge className="mb-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white border-none">
+              <Badge className="mb-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white border-none">
                 {post.category}
               </Badge>
 
@@ -1174,11 +1174,11 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
               <div className="flex flex-wrap items-center gap-6 text-gray-300 mb-8">
                 <div className="flex items-center gap-2">
-                  <User className="h-5 w-5 text-blue-400" />
+                  <User className="h-5 w-5 text-orange-400" />
                   <span>{post.author}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-blue-400" />
+                  <Calendar className="h-5 w-5 text-orange-400" />
                   <span>{new Date(post.date).toLocaleDateString('en-US', { 
                     year: 'numeric', 
                     month: 'long', 
@@ -1186,7 +1186,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                   })}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-blue-400" />
+                  <Clock className="h-5 w-5 text-orange-400" />
                   <span>{post.readTime}</span>
                 </div>
               </div>
@@ -1217,48 +1217,48 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
         </section>
 
         {/* Article Content */}
-        <section className="relative py-20 bg-gradient-to-b from-white via-blue-50 to-purple-50 overflow-hidden">
+        <section className="relative py-20 bg-gradient-to-b from-white via-orange-50 to-amber-50 overflow-hidden">
           {/* Floating Gradient Orbs */}
-          <div className="absolute top-20 right-10 w-96 h-96 bg-gradient-radial from-blue-200/20 to-transparent rounded-full blur-3xl animate-pulse" />
+          <div className="absolute top-20 right-10 w-96 h-96 bg-gradient-radial from-orange-200/20 to-transparent rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-40 left-10 w-80 h-80 bg-gradient-radial from-purple-200/20 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
           
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto">
               {/* Article Content Card */}
-              <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-purple-100">
+              <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-orange-100">
                 <article 
                   className="prose prose-lg max-w-none
                     prose-headings:font-bold
-                    prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-8 prose-h2:pb-4 prose-h2:border-b-2 prose-h2:border-blue-200 prose-h2:bg-gradient-to-r prose-h2:from-blue-500 prose-h2:via-blue-600 prose-h2:to-blue-700 prose-h2:text-transparent prose-h2:bg-clip-text
+                    prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-8 prose-h2:pb-4 prose-h2:border-b-2 prose-h2:border-orange-200 prose-h2:bg-gradient-to-r prose-h2:from-orange-500 prose-h2:via-orange-600 prose-h2:to-orange-700 prose-h2:text-transparent prose-h2:bg-clip-text
                     prose-h3:text-2xl prose-h3:mt-12 prose-h3:mb-6 prose-h3:text-white prose-h3:font-bold
                     prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-lg
-                    prose-a:text-blue-400 prose-a:font-semibold prose-a:no-underline hover:prose-a:text-blue-300 prose-a:underline prose-a:decoration-2 prose-a:underline-offset-4 hover:prose-a:decoration-blue-500
+                    prose-a:text-orange-400 prose-a:font-semibold prose-a:no-underline hover:prose-a:text-orange-300 prose-a:underline prose-a:decoration-2 prose-a:underline-offset-4 hover:prose-a:decoration-orange-500
                     prose-strong:text-white prose-strong:font-bold
-                    prose-ul:my-10 prose-ul:space-y-4 prose-ul:bg-gradient-to-br prose-ul:from-blue-50 prose-ul:via-blue-100 prose-ul:to-blue-100 prose-ul:p-10 prose-ul:rounded-2xl prose-ul:border-2 prose-ul:border-blue-200 prose-ul:shadow-lg
-                    prose-ol:my-10 prose-ol:space-y-4 prose-ol:bg-gradient-to-br prose-ol:from-blue-50 prose-ol:via-blue-100 prose-ol:to-blue-100 prose-ol:p-10 prose-ol:rounded-2xl prose-ol:border-2 prose-ol:border-blue-200 prose-ol:shadow-lg
+                    prose-ul:my-10 prose-ul:space-y-4 prose-ul:bg-gradient-to-br prose-ul:from-orange-50 prose-ul:via-orange-100 prose-ul:to-orange-100 prose-ul:p-10 prose-ul:rounded-2xl prose-ul:border-2 prose-ul:border-orange-200 prose-ul:shadow-lg
+                    prose-ol:my-10 prose-ol:space-y-4 prose-ol:bg-gradient-to-br prose-ol:from-orange-50 prose-ol:via-orange-100 prose-ol:to-orange-100 prose-ol:p-10 prose-ol:rounded-2xl prose-ol:border-2 prose-ol:border-orange-200 prose-ol:shadow-lg
                     prose-li:text-gray-200 prose-li:text-lg prose-li:leading-relaxed prose-li:pl-2
-                    prose-li:marker:text-blue-600 prose-li:marker:font-bold prose-li:marker:text-xl
-                    prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-8 prose-blockquote:pr-8 prose-blockquote:not-italic prose-blockquote:text-gray-200 prose-blockquote:bg-gradient-to-r prose-blockquote:from-blue-50 prose-blockquote:to-blue-100 prose-blockquote:py-8 prose-blockquote:my-12 prose-blockquote:rounded-r-xl prose-blockquote:shadow-lg prose-blockquote:font-semibold prose-blockquote:text-xl
-                    prose-code:text-blue-400 prose-code:bg-blue-900/30 prose-code:px-3 prose-code:py-1 prose-code:rounded-md prose-code:font-semibold prose-code:text-base
+                    prose-li:marker:text-orange-600 prose-li:marker:font-bold prose-li:marker:text-xl
+                    prose-blockquote:border-l-4 prose-blockquote:border-orange-500 prose-blockquote:pl-8 prose-blockquote:pr-8 prose-blockquote:not-italic prose-blockquote:text-gray-200 prose-blockquote:bg-gradient-to-r prose-blockquote:from-orange-50 prose-blockquote:to-orange-100 prose-blockquote:py-8 prose-blockquote:my-12 prose-blockquote:rounded-r-xl prose-blockquote:shadow-lg prose-blockquote:font-semibold prose-blockquote:text-xl
+                    prose-code:text-orange-400 prose-code:bg-orange-900/30 prose-code:px-3 prose-code:py-1 prose-code:rounded-md prose-code:font-semibold prose-code:text-base
                   "
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
 
                 {/* Decorative Divider */}
                 <div className="my-16 flex items-center justify-center">
-                  <div className="h-1 w-32 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 rounded-full"></div>
-                  <div className="mx-4 text-2xl text-blue-400">✦</div>
-                  <div className="h-1 w-32 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 rounded-full"></div>
+                  <div className="h-1 w-32 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 rounded-full"></div>
+                  <div className="mx-4 text-2xl text-orange-400">✦</div>
+                  <div className="h-1 w-32 bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 rounded-full"></div>
                 </div>
 
                 {/* Share Section */}
-                <div className="mt-16 pt-8 border-t-2 border-gradient-to-r from-blue-200 via-blue-300 to-blue-200">
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-100 rounded-2xl border-2 border-blue-200">
+                <div className="mt-16 pt-8 border-t-2 border-gradient-to-r from-orange-200 via-orange-300 to-orange-200">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 bg-gradient-to-br from-orange-50 via-orange-100 to-orange-100 rounded-2xl border-2 border-orange-200">
                     <div>
-                      <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-transparent bg-clip-text mb-2">Share this article</h3>
+                      <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 text-transparent bg-clip-text mb-2">Share this article</h3>
                       <p className="text-gray-600">Help others discover valuable insights</p>
                     </div>
-                    <Button className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:via-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                    <Button className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 text-white shadow-lg hover:shadow-xl transition-all duration-300">
                       <Share2 className="mr-2 h-4 w-4" />
                       Share
                     </Button>
@@ -1266,13 +1266,13 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 </div>
 
                 {/* Author Bio */}
-                <div className="mt-12 p-8 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-100 rounded-2xl border-2 border-blue-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="mt-12 p-8 bg-gradient-to-br from-orange-50 via-orange-100 to-orange-100 rounded-2xl border-2 border-orange-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-start gap-6">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 flex items-center justify-center text-white text-2xl font-bold flex-shrink-0 shadow-lg">
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 flex items-center justify-center text-white text-2xl font-bold flex-shrink-0 shadow-lg">
                       {post.author.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-transparent bg-clip-text mb-2">About {post.author}</h4>
+                      <h4 className="text-xl font-bold bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 text-transparent bg-clip-text mb-2">About {post.author}</h4>
                       <p className="text-gray-700 leading-relaxed">
                         {post.author} is a thought leader in AI and conversational technologies, with years of experience helping businesses transform their customer service operations through innovative AI solutions.
                       </p>
@@ -1297,7 +1297,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                   />
                 </div>
                 <div className="relative text-center p-12 md:p-16">
-                  <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white rounded-full px-5 py-2 mb-6 border-2 border-blue-300 shadow-lg">
+                  <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 text-white rounded-full px-5 py-2 mb-6 border-2 border-orange-300 shadow-lg">
                     <BookOpen className="w-4 h-4" />
                     <span className="text-sm font-semibold">Ready to Get Started?</span>
                   </div>
@@ -1309,7 +1309,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                     Discover how AI voice agents can revolutionize your business communication and boost customer satisfaction
                   </p>
                   <Link href="/contact#contact-form">
-                    <Button size="lg" className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:via-blue-700 hover:to-blue-800 text-white text-lg px-10 py-7 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
+                    <Button size="lg" className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 text-white text-lg px-10 py-7 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
                       Get Started Free
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>

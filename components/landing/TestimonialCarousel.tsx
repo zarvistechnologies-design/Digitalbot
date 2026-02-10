@@ -28,7 +28,7 @@ const testimonials = [
     stats: { metric: "4x", label: "More qualified leads" },
     video: true,
     industry: "Technology",
-    color: "from-blue-500 to-cyan-500"
+    color: "from-orange-500 to-amber-500"
   },
   {
     id: 3,
@@ -72,7 +72,7 @@ const testimonials = [
 ]
 
 const stats = [
-  { icon: Users, value: "500+", label: "Happy Clients", color: "text-blue-600", bgColor: "bg-blue-50", iconBg: "bg-blue-500" },
+  { icon: Users, value: "500+", label: "Happy Clients", color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
   { icon: TrendingUp, value: "10M+", label: "Calls Handled", color: "text-emerald-600", bgColor: "bg-emerald-50", iconBg: "bg-emerald-500" },
   { icon: Award, value: "4.9/5", label: "Avg Rating", color: "text-amber-600", bgColor: "bg-amber-50", iconBg: "bg-amber-500" },
   { icon: Zap, value: "99.9%", label: "Uptime", color: "text-violet-600", bgColor: "bg-violet-50", iconBg: "bg-violet-500" }
@@ -111,13 +111,13 @@ export default function TestimonialCarousel() {
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Gradient Orbs */}
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-100 to-cyan-100 rounded-full blur-3xl opacity-60 -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-orange-100 to-amber-100 rounded-full blur-3xl opacity-60 -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-100 to-pink-100 rounded-full blur-3xl opacity-60 translate-x-1/2 translate-y-1/2" />
         <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-br from-amber-50 to-orange-50 rounded-full blur-3xl opacity-40 -translate-x-1/2 -translate-y-1/2" />
         
         {/* Dot Pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #3b82f6 1px, transparent 0)`,
+          backgroundImage: `radial-gradient(circle at 1px 1px, #f97316 1px, transparent 0)`,
           backgroundSize: '32px 32px'
         }} />
       </div>
@@ -130,12 +130,12 @@ export default function TestimonialCarousel() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full mb-6">
-            <Sparkles className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-semibold text-blue-700">Trusted Worldwide</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full mb-6">
+            <Sparkles className="w-4 h-4 text-orange-600" />
+            <span className="text-sm font-semibold text-orange-700">Trusted Worldwide</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Loved by <span className="text-blue-600">Industry Leaders</span>
+            Loved by <span className="text-orange-600">Industry Leaders</span>
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
             Join 500+ companies transforming customer experience with AI-powered voice solutions
@@ -315,7 +315,7 @@ export default function TestimonialCarousel() {
                       </button>
                       <button
                         onClick={handleNext}
-                        className="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-all hover:shadow-lg"
+                        className="w-10 h-10 rounded-xl bg-orange-600 hover:bg-orange-700 flex items-center justify-center transition-all hover:shadow-lg"
                       >
                         <ChevronRight className="h-5 w-5 text-white" />
                       </button>
@@ -324,7 +324,7 @@ export default function TestimonialCarousel() {
                 </div>
 
                 {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 px-4 py-2 bg-blue-600 text-white text-sm font-bold rounded-xl shadow-lg">
+                <div className="absolute -top-4 -right-4 px-4 py-2 bg-orange-600 text-white text-sm font-bold rounded-xl shadow-lg">
                   ⭐ {currentTestimonial.stats.metric}
                 </div>
               </motion.div>
@@ -341,11 +341,11 @@ export default function TestimonialCarousel() {
         >
           <p className="text-gray-500 mb-4">Ready to transform your business?</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="/contact#contact-form" className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all hover:scale-105 flex items-center gap-2">
+            <a href="/contact#contact-form" className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all hover:scale-105 flex items-center gap-2">
               Start Free Trial
               <Zap className="w-5 h-5" />
             </a>
-            <a href="/contact#contact-form" className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl border border-blue-200 hover:border-blue-300 hover:shadow-lg transition-all">
+            <a href="/contact#contact-form" className="px-8 py-4 bg-white text-orange-600 font-semibold rounded-xl border border-orange-200 hover:border-orange-300 hover:shadow-lg transition-all">
               Talk to Sales
             </a>
           </div>

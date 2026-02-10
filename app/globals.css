@@ -3,76 +3,76 @@
 @tailwind utilities;
 
 :root {
-  /* Sky Blue and White theme */
+  /* Orange and White theme */
   --background: #ffffff; /* White */
-  --foreground: #1e293b; /* Dark blue-gray */
-  --card: #f0f9ff; /* Very light sky blue */
-  --card-foreground: #1e293b; /* Dark blue-gray */
+  --foreground: #1f2937; /* Dark gray */
+  --card: #fff7ed; /* Very light orange */
+  --card-foreground: #1f2937; /* Dark gray */
   --popover: #ffffff; /* White */
-  --popover-foreground: #1e293b; /* Dark blue-gray */
-  --primary: #0ea5e9; /* Sky blue */
+  --popover-foreground: #1f2937; /* Dark gray */
+  --primary: #f97316; /* Orange */
   --primary-foreground: #ffffff; /* White */
-  --secondary: #bae6fd; /* Light sky blue */
-  --secondary-foreground: #1e293b; /* Dark blue-gray */
-  --muted: #f0f9ff; /* Very light blue */
-  --muted-foreground: #64748b; /* Medium gray-blue */
-  --accent: #0284c7; /* Vibrant sky blue */
+  --secondary: #fed7aa; /* Light orange */
+  --secondary-foreground: #1f2937; /* Dark gray */
+  --muted: #fff7ed; /* Very light orange */
+  --muted-foreground: #6b7280; /* Medium gray */
+  --accent: #ea580c; /* Deep orange */
   --accent-foreground: #ffffff; /* White */
   --destructive: #ef4444; /* Red */
   --destructive-foreground: #ffffff; /* White */
-  --border: #e0f2fe; /* Light blue border */
+  --border: #fed7aa; /* Light orange border */
   --input: #ffffff; /* White */
-  --ring: rgba(14, 165, 233, 0.5); /* Sky blue with transparency */
-  --chart-1: #0ea5e9; /* Sky blue */
-  --chart-2: #6366f1; /* Blue-purple */
-  --chart-3: #06b6d4; /* Cyan-blue */
-  --chart-4: #bae6fd; /* Light blue */
+  --ring: rgba(249, 115, 22, 0.5); /* Orange with transparency */
+  --chart-1: #f97316; /* Orange */
+  --chart-2: #fb923c; /* Light orange */
+  --chart-3: #fdba74; /* Soft orange */
+  --chart-4: #ffedd5; /* Pale orange */
   --chart-5: #ffffff; /* White */
   --radius: 0.5rem;
-  --sidebar: #f0f9ff; /* Light sky blue sidebar */
-  --sidebar-foreground: #1e293b; /* Dark blue-gray */
-  --sidebar-primary: #0ea5e9; /* Sky blue */
+  --sidebar: #fff7ed; /* Light orange sidebar */
+  --sidebar-foreground: #1f2937; /* Dark gray */
+  --sidebar-primary: #f97316; /* Orange */
   --sidebar-primary-foreground: #ffffff; /* White */
-  --sidebar-accent: #0284c7; /* Vibrant sky blue */
+  --sidebar-accent: #ea580c; /* Deep orange */
   --sidebar-accent-foreground: #ffffff; /* White */
-  --sidebar-border: #e0f2fe; /* Light blue border */
-  --sidebar-ring: rgba(14, 165, 233, 0.5); /* Sky blue with transparency */
+  --sidebar-border: #fed7aa; /* Light orange border */
+  --sidebar-ring: rgba(249, 115, 22, 0.5); /* Orange with transparency */
 }
 
 .dark {
-  /* Dark mode with sky blue theme */
-  --background: #0f172a; /* Dark blue */
+  /* Dark mode with orange accents */
+  --background: #0f172a; /* Dark slate */
   --foreground: #ffffff; /* White */
-  --card: #1e293b; /* Dark blue-gray */
+  --card: #1f2937; /* Dark gray */
   --card-foreground: #ffffff; /* White */
-  --popover: #0f172a; /* Dark blue */
+  --popover: #0f172a; /* Dark slate */
   --popover-foreground: #ffffff; /* White */
-  --primary: #38bdf8; /* Bright sky blue */
-  --primary-foreground: #0f172a; /* Dark blue */
-  --secondary: #334155; /* Dark blue-gray */
+  --primary: #fb923c; /* Bright orange */
+  --primary-foreground: #0f172a; /* Dark slate */
+  --secondary: #374151; /* Dark gray */
   --secondary-foreground: #ffffff; /* White */
-  --muted: #1e293b; /* Dark blue-gray */
-  --muted-foreground: #94a3b8; /* Light blue-gray */
-  --accent: #0ea5e9; /* Sky blue */
-  --accent-foreground: #0f172a; /* Dark blue */
+  --muted: #1f2937; /* Dark gray */
+  --muted-foreground: #9ca3af; /* Light gray */
+  --accent: #f97316; /* Orange */
+  --accent-foreground: #0f172a; /* Dark slate */
   --destructive: #ef4444; /* Red */
   --destructive-foreground: #ffffff; /* White */
-  --border: #334155; /* Dark blue border */
-  --input: #1e293b; /* Dark blue-gray */
-  --ring: rgba(56, 189, 248, 0.5); /* Sky blue with transparency */
-  --chart-1: #38bdf8; /* Bright sky blue */
-  --chart-2: #ffffff; /* White */
-  --chart-3: #0284c7; /* Medium blue */
-  --chart-4: #334155; /* Dark blue-gray */
-  --chart-5: #0f172a; /* Dark blue */
-  --sidebar: #0c1222; /* Very dark blue */
+  --border: #374151; /* Dark gray border */
+  --input: #1f2937; /* Dark gray */
+  --ring: rgba(251, 146, 60, 0.5); /* Orange with transparency */
+  --chart-1: #fb923c; /* Bright orange */
+  --chart-2: #f97316; /* Orange */
+  --chart-3: #fdba74; /* Soft orange */
+  --chart-4: #1f2937; /* Dark gray */
+  --chart-5: #0f172a; /* Dark slate */
+  --sidebar: #0c1222; /* Very dark slate */
   --sidebar-foreground: #ffffff; /* White */
-  --sidebar-primary: #38bdf8; /* Sky blue */
-  --sidebar-primary-foreground: #0f172a; /* Dark blue */
-  --sidebar-accent: #334155; /* Dark blue-gray */
+  --sidebar-primary: #fb923c; /* Bright orange */
+  --sidebar-primary-foreground: #0f172a; /* Dark slate */
+  --sidebar-accent: #374151; /* Dark gray */
   --sidebar-accent-foreground: #ffffff; /* White */
-  --sidebar-border: #334155; /* Dark blue border */
-  --sidebar-ring: rgba(56, 189, 248, 0.5); /* Sky blue with transparency */
+  --sidebar-border: #374151; /* Dark gray border */
+  --sidebar-ring: rgba(251, 146, 60, 0.5); /* Orange with transparency */
 }
 
 @layer base {
@@ -304,8 +304,8 @@
 }
 
 .prose .bg-gradient-to-br.from-blue-100 {
-  background: linear-gradient(to bottom right, rgb(219, 234, 254), rgb(233, 213, 255), rgb(252, 231, 243));
-  border-left: 4px solid rgb(147, 51, 234);
+  background: linear-gradient(to bottom right, rgb(255, 237, 213), rgb(254, 215, 170), rgb(251, 191, 36));
+  border-left: 4px solid rgb(234, 88, 12);
   padding: 2rem;
   border-radius: 0 1rem 1rem 0;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -315,7 +315,7 @@
 .prose .bg-gradient-to-br.from-blue-100 p:first-child {
   font-size: 1.25rem;
   font-weight: 700;
-  color: rgb(88, 28, 135);
+  color: rgb(124, 45, 18);
   margin-bottom: 0.75rem;
 }
 
@@ -348,7 +348,7 @@
 
 .prose .bg-white.border-2.border-blue-300 {
   background: white;
-  border: 2px solid rgb(147, 197, 253);
+  border: 2px solid rgb(253, 186, 116);
   border-radius: 1rem;
   padding: 2rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -358,7 +358,7 @@
 .prose .bg-white.border-2.border-blue-300 p:first-child {
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(to right, rgb(59, 130, 246), rgb(99, 102, 241), rgb(147, 51, 234));
+  background: linear-gradient(to right, rgb(249, 115, 22), rgb(234, 88, 12), rgb(251, 146, 60));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -428,14 +428,14 @@
 }
 
 .premium-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  box-shadow: 0 20px 40px rgba(249, 115, 22, 0.4);
   transition: all 0.3s ease;
 }
 
 .premium-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 25px 50px rgba(102, 126, 234, 0.6);
+  box-shadow: 0 25px 50px rgba(249, 115, 22, 0.6);
 }
 
 /* Floating animation for elements */

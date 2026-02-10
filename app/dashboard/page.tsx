@@ -53,7 +53,7 @@ export default function AnalyticsOverview() {
   const [callStatus, setCallStatus] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const chartColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+  const chartColors = ['#f97316', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
 
   useEffect(() => {
     setMounted(true);
@@ -441,8 +441,8 @@ export default function AnalyticsOverview() {
                       <AreaChart data={analytics.dailyStats}>
                         <defs>
                           <linearGradient id="callsGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
-                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                            <stop offset="5%" stopColor="#f97316" stopOpacity={0.4} />
+                            <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
                           </linearGradient>
                           <linearGradient id="completedGradient" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
@@ -454,7 +454,7 @@ export default function AnalyticsOverview() {
                         <YAxis stroke="#64748b" fontSize={10} />
                         <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.95)', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '12px' }} />
                         <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }} />
-                        <Area type="monotone" dataKey="calls" stroke="#3b82f6" fillOpacity={1} fill="url(#callsGradient)" strokeWidth={2} name="Total Calls" />
+                        <Area type="monotone" dataKey="calls" stroke="#f97316" fillOpacity={1} fill="url(#callsGradient)" strokeWidth={2} name="Total Calls" />
                         <Area type="monotone" dataKey="completed" stroke="#10b981" fillOpacity={1} fill="url(#completedGradient)" strokeWidth={2} name="Completed" />
                       </AreaChart>
                     </ResponsiveContainer>
@@ -478,7 +478,7 @@ export default function AnalyticsOverview() {
                               <defs>
                                 <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
                                   <stop offset="0%" stopColor="#8b5cf6" stopOpacity={1} />
-                                  <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.8} />
+                                  <stop offset="100%" stopColor="#f97316" stopOpacity={0.8} />
                                 </linearGradient>
                               </defs>
                               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -541,7 +541,7 @@ export default function AnalyticsOverview() {
                           <YAxis stroke="#64748b" fontSize={10} />
                           <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.95)', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '12px' }} />
                           <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }} />
-                          <Line type="monotone" dataKey="calls" stroke="#3b82f6" strokeWidth={2} dot={{ fill: '#3b82f6', r: 4 }} activeDot={{ r: 6 }} name="Total Calls" />
+                          <Line type="monotone" dataKey="calls" stroke="#f97316" strokeWidth={2} dot={{ fill: '#f97316', r: 4 }} activeDot={{ r: 6 }} name="Total Calls" />
                           <Line type="monotone" dataKey="successRate" stroke="#10b981" strokeWidth={2} dot={{ fill: '#10b981', r: 4 }} activeDot={{ r: 6 }} name="Success Rate %" strokeDasharray="5 5" />
                         </LineChart>
                       </ResponsiveContainer>

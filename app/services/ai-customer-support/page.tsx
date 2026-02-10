@@ -411,8 +411,8 @@ export default function AICustomerSupport() {
                           <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                               <linearGradient id="pulseGradientSupport" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
-                                <stop stopColor="#3b82f6" />
-                                <stop offset="1" stopColor="#2563eb" />
+                                <stop stopColor="#f97316" />
+                                <stop offset="1" stopColor="#ea580c" />
                               </linearGradient>
                             </defs>
                             {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
@@ -459,8 +459,8 @@ export default function AICustomerSupport() {
                           <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                               <linearGradient id="pulseGradientSupportHindi" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
-                                <stop stopColor="#3b82f6" />
-                                <stop offset="1" stopColor="#2563eb" />
+                                <stop stopColor="#f97316" />
+                                <stop offset="1" stopColor="#ea580c" />
                               </linearGradient>
                             </defs>
                             {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (

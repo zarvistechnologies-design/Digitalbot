@@ -315,7 +315,7 @@ export default function Hero() {
         <>
             {/* Video Modal Overlay */}
             {showVideo && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/70 backdrop-blur-sm">
                     <div className="relative w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">
                         <button
                             onClick={handleCloseVideo}
@@ -596,8 +596,8 @@ export default function Hero() {
                 50% { transform: translateX(-50%) rotate(5deg); }
             }
             @keyframes antenna-glow-bot {
-                0%, 100% { box-shadow: 0 0 10px #38bdf8, 0 0 20px #38bdf8; }
-                50% { box-shadow: 0 0 20px #38bdf8, 0 0 40px #38bdf8, 0 0 60px #38bdf8; }
+                0%, 100% { box-shadow: 0 0 10px #fb923c, 0 0 20px #fb923c; }
+                50% { box-shadow: 0 0 20px #fb923c, 0 0 40px #fb923c, 0 0 60px #fb923c; }
             }
             @keyframes eye-look-bot {
                 0%, 40%, 100% { transform: translateX(0); }
@@ -650,9 +650,9 @@ export default function Hero() {
             .walking-bot-leg-right { animation: leg-walk-right-bot 0.5s ease-in-out infinite; transform-origin: top center; }
             .walking-bot-sparkle { animation: sparkle-bot 1.5s ease-in-out infinite; }
             .walking-bot-sparkle-delay { animation: sparkle-bot 1.5s ease-in-out infinite 0.5s; }
-            .walking-bot-antenna-glow { animation: antenna-glow-bot 1s ease-in-out infinite; box-shadow: 0 0 10px #38bdf8, 0 0 20px #38bdf8; }
-            .walking-bot-eyeball { box-shadow: 0 0 15px #38bdf8, inset 0 2px 4px rgba(255,255,255,0.5); }
-            .walking-bot-chest { box-shadow: 0 0 20px #38bdf8, 0 0 40px #38bdf8; }
+            .walking-bot-antenna-glow { animation: antenna-glow-bot 1s ease-in-out infinite; box-shadow: 0 0 10px #fb923c, 0 0 20px #fb923c; }
+            .walking-bot-eyeball { box-shadow: 0 0 15px #fb923c, inset 0 2px 4px rgba(255,255,255,0.5); }
+            .walking-bot-chest { box-shadow: 0 0 20px #fb923c, 0 0 40px #fb923c; }
 
             .animate-fade-in-up-1 {
                 animation: fade-in-up 1s ease-out forwards;
@@ -757,7 +757,7 @@ export default function Hero() {
                         
                         {/* Animated Grid Pattern */}
                         <div className="absolute inset-0 opacity-[0.03]" style={{
-                            backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)',
+                            backgroundImage: 'linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)',
                             backgroundSize: '60px 60px'
                         }}></div>
                         
@@ -799,7 +799,7 @@ export default function Hero() {
                             {/* Main Headline */}
                             <h1 id="hero-heading" className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 leading-tight animate-fade-in-up-2">
                                 <span className="block mb-2">
-                                    <span className="text-black">Your AI voice Assistant</span>
+                                    <span className="text-gray-900">Your AI voice Assistant</span>
                                 </span>
                                 <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
                             </h1>
@@ -1055,19 +1055,19 @@ export default function Hero() {
                         </div>
 
                         {/* Feature 2 - Enterprise Security */}
-                        <div className="bg-gray-900 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px]">
-                            <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div className="bg-white rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px] border border-orange-200/60">
+                            <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <Shield className="h-5 w-5 text-emerald-400" />
-                                    <h3 className="text-lg font-bold text-white">Enterprise Security</h3>
+                                    <Shield className="h-5 w-5 text-orange-500" />
+                                    <h3 className="text-lg font-bold text-gray-900">Enterprise Security</h3>
                                 </div>
-                                <p className="text-sm text-gray-400 mb-4">AES-256 encryption, SOC 2 certified, GDPR & HIPAA compliant for maximum data protection.</p>
+                                <p className="text-sm text-gray-600 mb-4">AES-256 encryption, SOC 2 certified, GDPR & HIPAA compliant for maximum data protection.</p>
                             </div>
                             <div className="flex flex-wrap gap-2 mt-auto">
-                                <span className="px-3 py-1.5 bg-white/10 text-white text-xs font-medium rounded">SOC 2</span>
-                                <span className="px-3 py-1.5 bg-white/10 text-white text-xs font-medium rounded">GDPR</span>
-                                <span className="px-3 py-1.5 bg-white/10 text-white text-xs font-medium rounded">HIPAA</span>
+                                <span className="px-3 py-1.5 bg-orange-50 text-orange-700 text-xs font-medium rounded border border-orange-200/60">SOC 2</span>
+                                <span className="px-3 py-1.5 bg-orange-50 text-orange-700 text-xs font-medium rounded border border-orange-200/60">GDPR</span>
+                                <span className="px-3 py-1.5 bg-orange-50 text-orange-700 text-xs font-medium rounded border border-orange-200/60">HIPAA</span>
                             </div>
                         </div>
 

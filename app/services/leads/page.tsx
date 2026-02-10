@@ -158,7 +158,7 @@ export default function LeadsPage() {
             
             {/* Animated Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{
-              backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)',
+              backgroundImage: 'linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)',
               backgroundSize: '60px 60px'
             }} />
             
@@ -176,10 +176,10 @@ export default function LeadsPage() {
                 <div className="relative">
                   {/* Animated Sound Waves SVG */}
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
-                    <svg width="340" height="340" viewBox="0 0 340 340" fill="none" style={{ filter: 'drop-shadow(0 0 32px #38bdf8aa)' }}>
-                      <circle cx="170" cy="170" r="80" stroke="#38bdf8" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
-                      <circle cx="170" cy="170" r="110" stroke="#0ea5e9" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
-                      <circle cx="170" cy="170" r="140" stroke="#3b82f6" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
+                    <svg width="340" height="340" viewBox="0 0 340 340" fill="none" style={{ filter: 'drop-shadow(0 0 32px #fb923caa)' }}>
+                      <circle cx="170" cy="170" r="80" stroke="#fb923c" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
+                      <circle cx="170" cy="170" r="110" stroke="#f97316" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
+                      <circle cx="170" cy="170" r="140" stroke="#f97316" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
                     </svg>
                   </div>
                   
@@ -189,7 +189,7 @@ export default function LeadsPage() {
                     width={600}
                     height={500}
                     className="relative z-20 w-full max-w-md lg:max-w-lg h-auto object-contain rounded-3xl shadow-2xl"
-                    style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
+                    style={{ filter: 'drop-shadow(0 25px 50px rgba(249, 115, 22, 0.15))' }}
                     priority
                   />
                   
@@ -261,8 +261,8 @@ export default function LeadsPage() {
                         <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <defs>
                             <linearGradient id="pulseGradientLead" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
-                              <stop stopColor="#3b82f6" />
-                              <stop offset="1" stopColor="#2563eb" />
+                              <stop stopColor="#f97316" />
+                              <stop offset="1" stopColor="#ea580c" />
                             </linearGradient>
                           </defs>
                           {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
@@ -310,8 +310,8 @@ export default function LeadsPage() {
                         <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <defs>
                             <linearGradient id="pulseGradientLeadHindi" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
-                              <stop stopColor="#3b82f6" />
-                              <stop offset="1" stopColor="#2563eb" />
+                              <stop stopColor="#f97316" />
+                              <stop offset="1" stopColor="#ea580c" />
                             </linearGradient>
                           </defs>
                           {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (

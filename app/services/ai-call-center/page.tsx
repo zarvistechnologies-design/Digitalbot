@@ -340,7 +340,7 @@ export default function AICallCenter() {
               
               {/* Animated Grid */}
               <div className="absolute inset-0 opacity-[0.03]" style={{
-                backgroundImage: 'linear-gradient(to right, #3b82f6 1px, transparent 1px), linear-gradient(to bottom, #3b82f6 1px, transparent 1px)',
+                backgroundImage: 'linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)',
                 backgroundSize: '60px 60px'
               }} />
               
@@ -388,8 +388,8 @@ export default function AICallCenter() {
                         <svg width="160" height="32" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <defs>
                             <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="32" gradientUnits="userSpaceOnUse">
-                              <stop stopColor="#3b82f6" />
-                              <stop offset="1" stopColor="#1d4ed8" />
+                              <stop stopColor="#f97316" />
+                              <stop offset="1" stopColor="#c2410c" />
                             </linearGradient>
                           </defs>
                           {[6, 10, 18, 26, 22, 16, 10, 8, 14, 20, 28, 24, 15, 10, 8, 6, 12, 20, 26, 20, 14, 10, 8, 12, 18, 24].map((h, i) => (
@@ -465,10 +465,10 @@ export default function AICallCenter() {
                   <div className="relative">
                     {/* Animated Sound Waves */}
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
-                      <svg width="400" height="400" viewBox="0 0 400 400" fill="none" style={{ filter: 'drop-shadow(0 0 40px #3b82f6aa)' }}>
-                        <circle cx="200" cy="200" r="100" stroke="#60a5fa" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
-                        <circle cx="200" cy="200" r="130" stroke="#3b82f6" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
-                        <circle cx="200" cy="200" r="160" stroke="#2563eb" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
+                      <svg width="400" height="400" viewBox="0 0 400 400" fill="none" style={{ filter: 'drop-shadow(0 0 40px #f97316aa)' }}>
+                        <circle cx="200" cy="200" r="100" stroke="#fb923c" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
+                        <circle cx="200" cy="200" r="130" stroke="#f97316" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
+                        <circle cx="200" cy="200" r="160" stroke="#ea580c" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
                       </svg>
                     </div>
                     

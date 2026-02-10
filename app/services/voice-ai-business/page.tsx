@@ -164,8 +164,8 @@ export default function VoiceAIBusiness() {
       {/* Hero Section - Premium Light Theme */}
       <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-white via-blue-50/50 to-blue-50" role="banner" aria-labelledby="hero-heading">
         {/* Decorative Background Elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(56,189,248,0.15),rgba(255,255,255,0))]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(249,115,22,0.15),rgba(255,255,255,0))]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(249,115,22,0.1),transparent_50%)]"></div>
         
         {/* Animated Gradient Orbs */}
         <div className="absolute top-20 left-[10%] w-72 h-72 bg-blue-200/40 rounded-full blur-3xl animate-pulse"></div>
@@ -174,7 +174,7 @@ export default function VoiceAIBusiness() {
 
         {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `linear-gradient(#0ea5e9 1px, transparent 1px), linear-gradient(90deg, #0ea5e9 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(#f97316 1px, transparent 1px), linear-gradient(90deg, #f97316 1px, transparent 1px)`,
           backgroundSize: '50px 50px'
         }}></div>
 
@@ -355,8 +355,8 @@ export default function VoiceAIBusiness() {
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="intro-heading">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/80 to-blue-50"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.15),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(249,115,22,0.15),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,115,22,0.1),transparent_50%)]"></div>
         
         {/* Decorative Elements */}
         <div className="absolute top-20 left-10 w-64 h-64 bg-blue-200/30 rounded-full blur-3xl"></div>
@@ -530,7 +530,7 @@ export default function VoiceAIBusiness() {
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="benefits-heading">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-white via-sky-50/50 to-white"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.08),transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.08),transparent_70%)]"></div>
         
         {/* Decorative Elements */}
         <div className="absolute top-1/4 left-0 w-72 h-72 bg-sky-100/40 rounded-full blur-3xl"></div>
@@ -538,7 +538,7 @@ export default function VoiceAIBusiness() {
         
         {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `radial-gradient(circle, #0ea5e9 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle, #f97316 1px, transparent 1px)`,
           backgroundSize: '30px 30px'
         }}></div>
 
@@ -606,8 +606,8 @@ export default function VoiceAIBusiness() {
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="use-cases-heading">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-white to-blue-50"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(56,189,248,0.1),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(59,130,246,0.08),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(249,115,22,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(249,115,22,0.08),transparent_50%)]"></div>
         
         {/* Decorative */}
         <div className="absolute top-20 right-20 w-64 h-64 bg-sky-200/30 rounded-full blur-3xl"></div>
@@ -669,7 +669,7 @@ export default function VoiceAIBusiness() {
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="features-advanced-heading">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-white via-blue-50/30 to-white"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.06),transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.06),transparent_70%)]"></div>
         
         {/* Decorative */}
         <div className="absolute top-1/3 left-10 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl"></div>
@@ -781,7 +781,7 @@ export default function VoiceAIBusiness() {
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="demo-heading">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-white to-blue-50"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(56,189,248,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,115,22,0.1),transparent_50%)]"></div>
         
         {/* Decorative */}
         <div className="absolute top-1/4 right-10 w-64 h-64 bg-sky-200/30 rounded-full blur-3xl"></div>
@@ -862,7 +862,7 @@ export default function VoiceAIBusiness() {
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="faq-heading">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-white via-blue-50/30 to-white"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.06),transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.06),transparent_70%)]"></div>
         
         {/* Decorative */}
         <div className="absolute top-20 left-1/4 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl"></div>
@@ -949,7 +949,7 @@ export default function VoiceAIBusiness() {
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-blue-600 to-blue-800"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(59,130,246,0.3),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,115,22,0.3),transparent_50%)]"></div>
         
         {/* Decorative Elements */}
         <div className="absolute top-10 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>

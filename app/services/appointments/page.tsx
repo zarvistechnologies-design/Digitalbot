@@ -70,7 +70,7 @@ const DEMO_WAVEFORM_HEIGHTS = Array.from({ length: 40 }, (_, i) => ({
 
 // Comparison data: Voice Assistant vs Normal Booking
 const BOOKING_METHOD_DATA = [
-  { name: 'Voice AI', value: 78, color: '#3b82f6' },
+  { name: 'Voice AI', value: 78, color: '#f97316' },
   { name: 'Normal', value: 22, color: '#d1d5db' },
 ];
 
@@ -242,7 +242,7 @@ export default function AppointmentsPage() {
             
             {/* Animated Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{
-              backgroundImage: 'linear-gradient(to right, #0ea5e9 1px, transparent 1px), linear-gradient(to bottom, #0ea5e9 1px, transparent 1px)',
+              backgroundImage: 'linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)',
               backgroundSize: '60px 60px'
             }} />
             
@@ -293,8 +293,8 @@ export default function AppointmentsPage() {
                         <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <defs>
                             <linearGradient id="pulseGradientAppt" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
-                              <stop stopColor="#0ea5e9" />
-                              <stop offset="1" stopColor="#0284c7" />
+                              <stop stopColor="#f97316" />
+                              <stop offset="1" stopColor="#ea580c" />
                             </linearGradient>
                           </defs>
                           {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
@@ -342,8 +342,8 @@ export default function AppointmentsPage() {
                         <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <defs>
                             <linearGradient id="pulseGradientApptHindi" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
-                              <stop stopColor="#0ea5e9" />
-                              <stop offset="1" stopColor="#0284c7" />
+                              <stop stopColor="#f97316" />
+                              <stop offset="1" stopColor="#ea580c" />
                             </linearGradient>
                           </defs>
                           {[4, 8, 14, 20, 16, 12, 7, 5, 10, 15, 22, 18, 11, 7, 5, 4, 8, 14, 20, 16].map((h, i) => (
@@ -421,10 +421,10 @@ export default function AppointmentsPage() {
                 <div className="relative">
                   {/* Animated Sound Waves SVG */}
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
-                    <svg width="340" height="340" viewBox="0 0 340 340" fill="none" style={{ filter: 'drop-shadow(0 0 32px #0ea5e9aa)' }}>
-                      <circle cx="170" cy="170" r="80" stroke="#38bdf8" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
-                      <circle cx="170" cy="170" r="110" stroke="#0ea5e9" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
-                      <circle cx="170" cy="170" r="140" stroke="#0284c7" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
+                    <svg width="340" height="340" viewBox="0 0 340 340" fill="none" style={{ filter: 'drop-shadow(0 0 32px #f97316aa)' }}>
+                      <circle cx="170" cy="170" r="80" stroke="#fb923c" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
+                      <circle cx="170" cy="170" r="110" stroke="#f97316" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
+                      <circle cx="170" cy="170" r="140" stroke="#ea580c" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
                     </svg>
                   </div>
                   
@@ -1080,7 +1080,7 @@ export default function AppointmentsPage() {
             <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-green-200/20 rounded-full blur-3xl" style={{ animation: 'float 8s ease-in-out infinite', animationDelay: '3s' }} />
             <div className="absolute top-1/2 left-0 w-64 h-64 bg-blue-100/40 rounded-full blur-2xl" />
             <div className="absolute inset-0 opacity-[0.02]" style={{
-              backgroundImage: 'radial-gradient(circle at 1px 1px, #3b82f6 1px, transparent 0)',
+              backgroundImage: 'radial-gradient(circle at 1px 1px, #f97316 1px, transparent 0)',
               backgroundSize: '32px 32px'
             }} />
           </div>
@@ -1098,7 +1098,7 @@ export default function AppointmentsPage() {
                 Voice AI Booking <span className="relative inline-block">
                   <span className="text-blue-600">Crushes</span>
                   <svg className="absolute -bottom-1 left-0 w-full" height="8" viewBox="0 0 100 8" preserveAspectRatio="none">
-                    <path d="M0 7 Q50 0 100 7" stroke="#3b82f6" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                    <path d="M0 7 Q50 0 100 7" stroke="#f97316" strokeWidth="3" fill="none" strokeLinecap="round"/>
                   </svg>
                 </span> Traditional Methods
               </h2>
@@ -1214,7 +1214,7 @@ export default function AppointmentsPage() {
                       <PieChart>
                         <defs>
                           <linearGradient id="voiceGradient" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#3b82f6" />
+                            <stop offset="0%" stopColor="#f97316" />
                             <stop offset="100%" stopColor="#22c55e" />
                           </linearGradient>
                         </defs>
@@ -1270,7 +1270,7 @@ export default function AppointmentsPage() {
                         <YAxis type="category" dataKey="category" tick={{ fill: '#6b7280', fontSize: 10 }} axisLine={{ stroke: '#e5e7eb' }} width={100} />
                         <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }} />
                         <Bar dataKey="normal" fill="#e5e7eb" radius={[0, 6, 6, 0]} name="Traditional" />
-                        <Bar dataKey="voiceAI" fill="#3b82f6" radius={[0, 6, 6, 0]} name="Voice AI" />
+                        <Bar dataKey="voiceAI" fill="#f97316" radius={[0, 6, 6, 0]} name="Voice AI" />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>

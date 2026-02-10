@@ -34,7 +34,7 @@ export default function Home() {
         <CTA />
 
         {/* AI-Powered Ecosystem Section */}
-        <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 overflow-hidden">
+        <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-orange-50 to-orange-100 overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -190,7 +190,7 @@ export default function Home() {
                     { icon: '📊', label: 'Analytics', color: 'from-rose-500 to-pink-500' },
                     { icon: '🔗', label: 'API Access', color: 'from-indigo-500 to-blue-500' }
                   ].map((feature, i) => (
-                    <div key={i} className="group flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r hover:scale-105 transition-transform duration-300 cursor-default shadow-lg" style={{ background: `linear-gradient(135deg, ${feature.color.includes('blue') ? '#3b82f6' : feature.color.includes('violet') ? '#8b5cf6' : feature.color.includes('emerald') ? '#10b981' : feature.color.includes('amber') ? '#f59e0b' : feature.color.includes('rose') ? '#f43f5e' : '#6366f1'}, ${feature.color.includes('cyan') ? '#06b6d4' : feature.color.includes('purple') ? '#a855f7' : feature.color.includes('teal') ? '#14b8a6' : feature.color.includes('orange') ? '#f97316' : feature.color.includes('pink') ? '#ec4899' : '#3b82f6'})` }}>
+                    <div key={i} className="group flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r hover:scale-105 transition-transform duration-300 cursor-default shadow-lg" style={{ background: `linear-gradient(135deg, ${feature.color.includes('blue') ? '#f97316' : feature.color.includes('violet') ? '#8b5cf6' : feature.color.includes('emerald') ? '#10b981' : feature.color.includes('amber') ? '#f59e0b' : feature.color.includes('rose') ? '#f43f5e' : '#6366f1'}, ${feature.color.includes('cyan') ? '#06b6d4' : feature.color.includes('purple') ? '#a855f7' : feature.color.includes('teal') ? '#14b8a6' : feature.color.includes('orange') ? '#f97316' : feature.color.includes('pink') ? '#ec4899' : '#f97316'})` }}>
                       <span className="text-xl">{feature.icon}</span>
                       <span className="text-white font-semibold text-sm">{feature.label}</span>
                     </div>
