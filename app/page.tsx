@@ -45,18 +45,18 @@ export default function Home() {
           <div className="container mx-auto max-w-7xl relative z-10">
             {/* Section Header */}
             <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-400/30 backdrop-blur-sm mb-6">
-                <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500/15 to-amber-500/15 border border-orange-400/30 backdrop-blur-sm mb-6">
+                <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                <span className="text-sm font-semibold text-cyan-300 uppercase tracking-wider">Enterprise Intelligence</span>
+                <span className="text-sm font-semibold text-orange-700 uppercase tracking-wider">Enterprise Intelligence</span>
               </div>
               
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-cyan-300">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500">
                 AI-Powered Ecosystem
               </h2>
               
-              <p className="text-xl text-blue-100/80 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 A unified intelligence platform that connects every touchpoint of your business communication, delivering insights in real-time across all channels.
               </p>
             </div>
@@ -65,35 +65,35 @@ export default function Home() {
             <div className="grid lg:grid-cols-3 gap-8 mb-16">
               
               {/* Core AI Engine */}
-              <div className="group relative bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-xl rounded-3xl p-8 border border-blue-400/20 hover:border-cyan-400/40 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 hover:-translate-y-2">
+              <div className="group relative bg-gradient-to-br from-orange-500/10 to-amber-500/10 backdrop-blur-xl rounded-3xl p-8 border border-orange-400/20 hover:border-orange-400/40 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/20 hover:-translate-y-2">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-blue-500/50">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-orange-500/40">
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                     </svg>
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-orange-600 transition-colors">
                     Neural Intelligence Core
                   </h3>
                   
-                  <p className="text-blue-100/70 mb-6 leading-relaxed">
+                  <p className="text-gray-600 mb-6 leading-relaxed">
                     Advanced NLP engine that understands context, sentiment, and intent across 50+ languages with 98.7% accuracy.
                   </p>
                   
                   <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-sm text-blue-200/80">
-                      <div className="w-1.5 h-1.5 rounded-full bg-cyan-400"></div>
+                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                      <div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
                       <span>Real-time conversation analysis</span>
                     </div>
-                    <div className="flex items-center gap-3 text-sm text-blue-200/80">
-                      <div className="w-1.5 h-1.5 rounded-full bg-cyan-400"></div>
+                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                      <div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
                       <span>Emotion & sentiment detection</span>
                     </div>
-                    <div className="flex items-center gap-3 text-sm text-blue-200/80">
-                      <div className="w-1.5 h-1.5 rounded-full bg-cyan-400"></div>
+                    <div className="flex items-center gap-3 text-sm text-gray-600">
+                      <div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
                       <span>Intent prediction & routing</span>
                     </div>
                   </div>
@@ -111,23 +111,23 @@ export default function Home() {
                     </svg>
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">
                     Universal Integration Hub
                   </h3>
                   
-                  <p className="text-violet-100/70 mb-6 leading-relaxed">
+                  <p className="text-gray-600 mb-6 leading-relaxed">
                     Seamlessly connects with 500+ business tools. Pre-built connectors for CRMs, calendars, payment systems & more.
                   </p>
                   
                   <div className="flex flex-wrap gap-2 mb-4">
                     {['Salesforce', 'HubSpot', 'Slack', 'Zendesk', 'Shopify', 'Stripe'].map((app, i) => (
-                      <span key={i} className="px-3 py-1.5 rounded-full bg-violet-500/20 border border-violet-400/30 text-xs text-violet-200 font-medium backdrop-blur-sm">
+                      <span key={i} className="px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-400/30 text-xs text-violet-700 font-medium backdrop-blur-sm">
                         {app}
                       </span>
                     ))}
                   </div>
                   
-                  <div className="text-sm text-violet-200/60 font-medium">
+                  <div className="text-sm text-violet-700/70 font-medium">
                     + 494 more integrations
                   </div>
                 </div>
@@ -144,22 +144,22 @@ export default function Home() {
                     </svg>
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-emerald-300 transition-colors">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">
                     Predictive Analytics Engine
                   </h3>
                   
-                  <p className="text-emerald-100/70 mb-6 leading-relaxed">
+                  <p className="text-gray-600 mb-6 leading-relaxed">
                     Turn conversations into actionable insights. ML-powered analytics that predict customer behavior & optimize performance.
                   </p>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-4 rounded-xl bg-emerald-500/10 border border-emerald-400/20">
-                      <div className="text-2xl font-bold text-emerald-300 mb-1">98.7%</div>
-                      <div className="text-xs text-emerald-200/60">Accuracy Rate</div>
+                      <div className="text-2xl font-bold text-emerald-700 mb-1">98.7%</div>
+                      <div className="text-xs text-emerald-700/70">Accuracy Rate</div>
                     </div>
                     <div className="text-center p-4 rounded-xl bg-teal-500/10 border border-teal-400/20">
-                      <div className="text-2xl font-bold text-teal-300 mb-1">&lt;200ms</div>
-                      <div className="text-xs text-teal-200/60">Response Time</div>
+                      <div className="text-2xl font-bold text-teal-700 mb-1">&lt;200ms</div>
+                      <div className="text-xs text-teal-700/70">Response Time</div>
                     </div>
                   </div>
                 </div>
@@ -167,16 +167,16 @@ export default function Home() {
             </div>
 
             {/* Central Ecosystem Visualization */}
-            <div className="relative bg-gradient-to-br from-slate-800/50 to-blue-900/30 backdrop-blur-2xl rounded-3xl p-12 border border-blue-400/20 overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl"></div>
+            <div className="relative bg-gradient-to-br from-white via-orange-50 to-orange-100 backdrop-blur-2xl rounded-3xl p-12 border border-orange-200/60 overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl"></div>
               
               <div className="relative z-10 text-center">
-                <h3 className="text-3xl font-bold text-white mb-6">
+                <h3 className="text-3xl font-bold text-gray-900 mb-6">
                   One Platform. Infinite Possibilities.
                 </h3>
                 
-                <p className="text-blue-100/70 max-w-2xl mx-auto mb-10 leading-relaxed">
+                <p className="text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
                   DigitalBot.ai unifies AI voice agents, live chat, SMS automation, email intelligence, and analytics into a single command center. Deploy across all channels in minutes, not months.
                 </p>
                 
@@ -199,14 +199,14 @@ export default function Home() {
                 
                 {/* CTA Button */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <a href="#contact-form" className="group px-8 py-4 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-lg shadow-2xl shadow-cyan-500/50 hover:shadow-cyan-500/70 hover:scale-105 transition-all duration-300 flex items-center gap-3">
+                  <a href="#contact-form" className="group px-8 py-4 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-lg shadow-2xl shadow-orange-500/40 hover:shadow-orange-500/60 hover:scale-105 transition-all duration-300 flex items-center gap-3">
                     <span>Explore the Ecosystem</span>
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </a>
                   
-                  <a href="/docs" className="px-8 py-4 rounded-full border-2 border-blue-400/30 text-blue-100 font-semibold text-lg hover:bg-blue-500/10 hover:border-blue-400/50 transition-all duration-300 backdrop-blur-sm">
+                  <a href="/docs" className="px-8 py-4 rounded-full border-2 border-orange-400/40 text-orange-700 font-semibold text-lg hover:bg-orange-500/10 hover:border-orange-400/60 transition-all duration-300 backdrop-blur-sm">
                     View Documentation
                   </a>
                 </div>
@@ -221,12 +221,12 @@ export default function Home() {
                 { value: '99.9%', label: 'Uptime Guarantee', icon: '⚡' },
                 { value: '24/7', label: 'Global Support', icon: '🌍' }
               ].map((stat, i) => (
-                <div key={i} className="text-center p-6 rounded-2xl bg-gradient-to-br from-blue-500/5 to-cyan-500/5 border border-blue-400/10 backdrop-blur-sm hover:border-cyan-400/30 transition-all duration-300">
+                <div key={i} className="text-center p-6 rounded-2xl bg-gradient-to-br from-orange-500/5 to-amber-500/5 border border-orange-400/20 backdrop-blur-sm hover:border-orange-400/40 transition-all duration-300">
                   <div className="text-3xl mb-2">{stat.icon}</div>
-                  <div className="text-3xl lg:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 to-blue-300 mb-2">
+                  <div className="text-3xl lg:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-amber-500 mb-2">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-blue-200/60 font-medium">
+                  <div className="text-sm text-gray-600 font-medium">
                     {stat.label}
                   </div>
                 </div>
