@@ -76,7 +76,7 @@ export function Lead() {
   return (
     <>
       {/* Main Lead Section */}
-      <section className="relative py-20 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-orange-50">
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-orange-50">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-br from-amber-200/40 to-orange-200/30 rounded-full blur-3xl animate-pulse" />

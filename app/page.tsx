@@ -235,8 +235,6 @@ export default function Home() {
           </div>
         </section>
      
-        <Lead/>
-
         {/* Voice Search Optimized Q&A - Clean Card Design */}
         <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-blue-50 relative overflow-hidden" role="region" aria-labelledby="voice-search-qa">
           {/* CSS Animations */}

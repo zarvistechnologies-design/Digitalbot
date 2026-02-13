@@ -1,5 +1,6 @@
 "use client"
 import AnimatedStats from "@/components/landing/AnimatedStats";
+import { Lead } from "@/components/lead";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
@@ -916,7 +917,7 @@ export default function Hero() {
             </section>
 
             {/* AI Voice Use Cases Section - Style Pinned Scroll */}
-            <section ref={storySectionRef} className="min-h-screen lg:h-1000 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden py-6 lg:py-0">
+            <section ref={storySectionRef} className="min-h-screen lg:h-1000 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
                 <div className="container mx-auto h-1000 px-4 sm:px-6 lg:px-8 flex items-center">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full items-stretch">
 
@@ -1002,6 +1003,9 @@ export default function Hero() {
                     </div>
                 </div>
             </section>
+
+            {/* Demo Form */}
+            <Lead />
 
             {/* Why Choose DigitalBot - Bento Grid Style */}
             <section className="py-8 px-4 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
