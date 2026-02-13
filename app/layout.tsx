@@ -234,6 +234,18 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17791353502"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'AW-17791353502');
+            `,
+          }}
+        />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased relative bg-white`} suppressHydrationWarning>
         

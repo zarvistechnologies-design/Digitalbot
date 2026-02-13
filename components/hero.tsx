@@ -900,7 +900,7 @@ export default function Hero() {
             <AnimatedStats />
 
             {/* Section Header - Fixed above the scrolling content */}
-            <section className="py-8 sm:py-12 lg:py-16 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
+            <section className="py-8 sm:py-08 lg:py-16 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div className="inline-flex items-center space-x-2 bg-blue-500/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-blue-400/30 text-xs sm:text-sm text-blue-600 font-semibold mb-4 uppercase tracking-widest">
                         <MessageSquare className="h-4 w-4" />
@@ -916,8 +916,8 @@ export default function Hero() {
             </section>
 
             {/* AI Voice Use Cases Section - Style Pinned Scroll */}
-            <section ref={storySectionRef} className="min-h-screen lg:h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden py-12 lg:py-0">
-                <div className="container mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
+            <section ref={storySectionRef} className="min-h-screen lg:h-1000 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden py-6 lg:py-0">
+                <div className="container mx-auto h-1000 px-4 sm:px-6 lg:px-8 flex items-center">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full items-stretch">
 
                         {/* LEFT: Floating Illustrations */}
@@ -1004,7 +1004,7 @@ export default function Hero() {
             </section>
 
             {/* Why Choose DigitalBot - Bento Grid Style */}
-            <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
+            <section className="py-8 px-4 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
                 <div className="container mx-auto max-w-6xl">
                     {/* Section Header */}
                     <div className="text-center mb-10">
