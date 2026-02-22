@@ -97,14 +97,25 @@ const contactMethods = [
   },
   {
     icon: MapPin,
-    title: "Visit Us",
-    description: "Our offices",
-    value: "India: Behind Manyata Tech Park,\nHebbal, Bangalore 560077\n\nUSA: 300 Quail Ridge Dr NE,\nADA, MI 49301",
-    action: "India: Behind Manyata Tech Park, Hebbal, Bangalore 560077 | USA: 300 Quail Ridge Dr NE, ADA, MI 49301",
+    title: "India Office",
+    description: "Our headquarters",
+    value: "Behind Manyata Tech Park,\nHebbal, Bangalore 560077",
+    action: "https://maps.google.com/?q=Manyata+Tech+Park+Hebbal+Bangalore",
     gradient: "from-amber-500 to-orange-500",
     bgColor: "from-amber-50 to-amber-100/50",
     borderColor: "border-amber-200",
     iconBg: "bg-amber-500"
+  },
+  {
+    icon: MapPin,
+    title: "USA Office",
+    description: "North America",
+    value: "300 Quail Ridge Dr NE,\nADA, MI 49301",
+    action: "https://maps.google.com/?q=300+Quail+Ridge+Dr+NE+ADA+MI+49301",
+    gradient: "from-red-500 to-rose-500",
+    bgColor: "from-red-50 to-red-100/50",
+    borderColor: "border-red-200",
+    iconBg: "bg-red-500"
   },
 ]
 
@@ -504,12 +515,14 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {contactMethods.map((method, i) => (
                 <a
                   key={i}
                   href={method.action}
-                  className="group bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2"
+                  target={method.action.startsWith('http') ? '_blank' : undefined}
+                  rel={method.action.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className={`group bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2 ${i >= 3 ? 'lg:last:col-start-2' : ''}`}
                 >
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${method.gradient} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
                     <method.icon className="w-7 h-7 text-white" />
