@@ -66,8 +66,8 @@ const contactMethods = [
     icon: Phone,
     title: "Call Us",
     description: "Speak with our team directly",
-    value: "+919880774053",
-    action: "tel:+919880774053",
+    value: "+9178925 18414",
+    action: "tel:+9178925 18414",
     gradient: "from-blue-500 to-cyan-500",
     bgColor: "from-blue-50 to-blue-100/50",
     borderColor: "border-blue-200",
@@ -98,9 +98,9 @@ const contactMethods = [
   {
     icon: MapPin,
     title: "Visit Us",
-    description: "Our headquarters",
-    value: "Behind Manyata Tech Park, Hebbal, Bangalore 560077",
-    action: "India: Behind Manyata Tech Park, Hebbal, Bangalore 560077",
+    description: "Our offices",
+    value: "India: Behind Manyata Tech Park,\nHebbal, Bangalore 560077\n\nUSA: 300 Quail Ridge Dr NE,\nADA, MI 49301",
+    action: "India: Behind Manyata Tech Park, Hebbal, Bangalore 560077 | USA: 300 Quail Ridge Dr NE, ADA, MI 49301",
     gradient: "from-amber-500 to-orange-500",
     bgColor: "from-amber-50 to-amber-100/50",
     borderColor: "border-amber-200",
@@ -255,7 +255,7 @@ export default function ContactPage() {
                     Send Message
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                  <Link href="tel:+919880774053" className="px-6 py-3 bg-white border-2 border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all flex items-center gap-2">
+                  <Link href="tel:+9178925 18414" className="px-6 py-3 bg-white border-2 border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all flex items-center gap-2">
                     <Phone className="w-4 h-4" />
                     Call Now
                   </Link>
@@ -516,7 +516,11 @@ export default function ContactPage() {
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">{method.title}</h3>
                   <p className="text-blue-200 text-sm mb-3">{method.description}</p>
-                  <p className="text-white font-semibold">{method.value}</p>
+                  <div className="text-white font-semibold text-sm space-y-1">
+                    {method.value.split('\n').map((line: string, idx: number) => (
+                      <p key={idx}>{line}</p>
+                    ))}
+                  </div>
                 </a>
               ))}
             </div>

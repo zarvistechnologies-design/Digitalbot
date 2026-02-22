@@ -23,6 +23,7 @@ export function Header() {
         { href: "/about", label: "About" },
         { href: "/services", label: "Solutions", icon: Zap },
         { href: "/how-it-works", label: "How It Works" },
+        { href: "/pricing", label: "Pricing" },
         { href: "/contact", label: "Contact" },
     ]
 
