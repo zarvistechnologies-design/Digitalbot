@@ -12,14 +12,13 @@ import {
   Clock,
   FileText,
   HeartPulse,
-  Mail,
   Phone,
   RefreshCw,
   Search,
   Stethoscope,
   User,
   X,
-  Zap,
+  Zap
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -528,11 +527,29 @@ export default function AppointmentsPage() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const hospitalName = "City General Hospital";
+  const [clinicName, setClinicName] = useState("My Clinic");
+  const [filterMonth, setFilterMonth] = useState<string>("All");
+  const [filterYear, setFilterYear] = useState<string>("All");
 
   useEffect(() => {
     setMounted(true);
+    // Fetch user data to get clinic name
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL.replace('/api', '')}/api/auth/me`, {
+          headers: getAuthHeaders(),
+        });
+        if (response.ok) {
+          const userData = await response.json();
+          if (userData.ClinicName) {
+            setClinicName(userData.ClinicName);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch user data:", err);
+      }
+    };
+    fetchUserData();
   }, []);
 
   const fetchAppointments = useCallback(async () => {
@@ -541,7 +558,7 @@ export default function AppointmentsPage() {
     setLoading(true);
     setError(null);
     try {
-      const params = new URLSearchParams({ limit: "200" });
+      const params = new URLSearchParams({ limit: "10000" });
       if (filterStatus !== "All") params.append("status", filterStatus);
       if (searchTerm) params.append("name", searchTerm);
 
@@ -612,7 +629,17 @@ export default function AppointmentsPage() {
 
   const doctors = Object.keys(doctorGroups).sort();
 
-  // Filter appointments by selected doctor and date
+  // Get available years from appointments
+  const availableYears = useMemo(() => {
+    const years = new Set<number>();
+    appointments.forEach((apt) => {
+      const year = new Date(apt.date).getFullYear();
+      years.add(year);
+    });
+    return Array.from(years).sort((a, b) => b - a);
+  }, [appointments]);
+
+  // Filter appointments by selected doctor, date, month and year
   const filteredAppointments = useMemo(() => {
     let filtered = appointments;
 
@@ -626,8 +653,24 @@ export default function AppointmentsPage() {
       );
     }
 
+    // Filter by month
+    if (filterMonth !== "All") {
+      filtered = filtered.filter((apt) => {
+        const aptMonth = new Date(apt.date).getMonth();
+        return aptMonth === parseInt(filterMonth);
+      });
+    }
+
+    // Filter by year
+    if (filterYear !== "All") {
+      filtered = filtered.filter((apt) => {
+        const aptYear = new Date(apt.date).getFullYear();
+        return aptYear === parseInt(filterYear);
+      });
+    }
+
     return filtered;
-  }, [appointments, selectedDoctor, selectedDate]);
+  }, [appointments, selectedDoctor, selectedDate, filterMonth, filterYear]);
 
   // Get appointments for calendar
   const getAppointmentsForDate = useCallback(
@@ -720,7 +763,7 @@ export default function AppointmentsPage() {
                       <Building2 className="w-12 h-12 text-white" />
                     </div>
                     <div>
-                      <h1 className="text-4xl font-bold text-white tracking-tight mb-2">{hospitalName}</h1>
+                      <h1 className="text-4xl font-bold text-white tracking-tight mb-2">{clinicName}</h1>
                       <p className="text-blue-100 text-lg font-medium mb-4">
                         Advanced Appointment Management System
                       </p>
@@ -1014,8 +1057,8 @@ export default function AppointmentsPage() {
               <div className="bg-white rounded-2xl shadow-xl border border-gray-100">
                 {/* Search & Filters */}
                 <div className="p-6 border-b border-gray-200 bg-gray-50">
-                  <div className="flex gap-3">
-                    <div className="flex-1 relative">
+                  <div className="flex flex-wrap gap-3">
+                    <div className="flex-1 min-w-[200px] relative">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="text"
@@ -1035,6 +1078,37 @@ export default function AppointmentsPage() {
                       <option value="confirmed">Confirmed</option>
                       <option value="completed">Completed</option>
                       <option value="cancelled">Cancelled</option>
+                    </select>
+                    <select
+                      value={filterMonth}
+                      onChange={(e) => setFilterMonth(e.target.value)}
+                      className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold text-gray-900 bg-white"
+                    >
+                      <option value="All">All Months</option>
+                      <option value="0">January</option>
+                      <option value="1">February</option>
+                      <option value="2">March</option>
+                      <option value="3">April</option>
+                      <option value="4">May</option>
+                      <option value="5">June</option>
+                      <option value="6">July</option>
+                      <option value="7">August</option>
+                      <option value="8">September</option>
+                      <option value="9">October</option>
+                      <option value="10">November</option>
+                      <option value="11">December</option>
+                    </select>
+                    <select
+                      value={filterYear}
+                      onChange={(e) => setFilterYear(e.target.value)}
+                      className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold text-gray-900 bg-white"
+                    >
+                      <option value="All">All Years</option>
+                      {availableYears.map((year) => (
+                        <option key={year} value={year.toString()}>
+                          {year}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
