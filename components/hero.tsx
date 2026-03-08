@@ -1,10 +1,11 @@
-"use client"
+﻿"use client"
 import AnimatedStats from "@/components/landing/AnimatedStats";
 import { Lead } from "@/components/lead";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
+import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, Mic, MicOff, Phone, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -96,9 +97,14 @@ const services = [
 
 export default function Hero() {
     const [counts, setCounts] = useState([0, 0, 0])
-    const [showVideo, setShowVideo] = useState(false)
-    const handleCloseVideo = () => setShowVideo(false);
-    
+
+    // Vapi voice agent state
+    const vapiRef = useRef<any>(null)
+    const [isCallActive, setIsCallActive] = useState(false)
+    const [isSpeaking, setIsSpeaking] = useState(false)
+    const [callStatus, setCallStatus] = useState('')
+    const [vapiLoaded, setVapiLoaded] = useState(false)
+
     // Ref for attractive scroll-story section
     const storySectionRef = useRef<HTMLDivElement>(null)
     
@@ -116,73 +122,118 @@ export default function Hero() {
         setMounted(true)
     }, [])
 
-    // GSAP pinned scroll showcase with ScrollTrigger
+    // Initialize Vapi voice agent
+    useEffect(() => {
+        if (typeof window === 'undefined') return
+
+        let vapiInstance: any = null
+
+        const initVapi = async () => {
+            try {
+                const VapiModule = await import('@vapi-ai/web')
+                vapiInstance = new VapiModule.default('00119fad-8530-413f-9699-e47cada57939')
+                vapiRef.current = vapiInstance
+                setVapiLoaded(true)
+
+                vapiInstance.on('call-start', () => {
+                    setIsCallActive(true)
+                    setCallStatus('Listening...')
+                })
+
+                vapiInstance.on('call-end', () => {
+                    setIsCallActive(false)
+                    setIsSpeaking(false)
+                    setCallStatus('')
+                })
+
+                vapiInstance.on('speech-start', () => {
+                    setIsSpeaking(true)
+                    setCallStatus('Assistant speaking...')
+                })
+
+                vapiInstance.on('speech-end', () => {
+                    setIsSpeaking(false)
+                    setCallStatus('Listening...')
+                })
+
+                vapiInstance.on('error', (error: any) => {
+                    console.error('VAPI Error:', error)
+                    setCallStatus('')
+                    setIsCallActive(false)
+                })
+            } catch (error) {
+                console.error('Failed to initialize Vapi:', error)
+            }
+        }
+
+        initVapi()
+
+        return () => {
+            if (vapiRef.current) {
+                try { vapiRef.current.stop() } catch (e) { console.error('Error stopping Vapi:', e) }
+            }
+        }
+    }, [])
+
+    const toggleCall = async () => {
+        if (!vapiRef.current || !vapiLoaded) {
+            setCallStatus('Initializing...')
+            return
+        }
+
+        if (isCallActive) {
+            try {
+                vapiRef.current.stop()
+            } catch (error) {
+                console.error('Error stopping call:', error)
+            }
+        } else {
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true })
+                setCallStatus('Connecting...')
+                await vapiRef.current.start('9ca19724-1f6c-48d1-8c62-a6107d585592')
+            } catch (error) {
+                console.error('Error starting call:', error)
+                if (error instanceof DOMException && error.name === 'NotAllowedError') {
+                    alert('Please allow microphone access to use the voice assistant')
+                }
+                setCallStatus('')
+            }
+        }
+    }
+
+    // GSAP stacking cards scroll animation
     useEffect(() => {
         if (!mounted || !storySectionRef.current) return;
 
         const ctx = gsap.context(() => {
-            const illustrations = gsap.utils.toArray<HTMLElement>('.exo-illustration');
-            const contents = gsap.utils.toArray<HTMLElement>('.exo-content');
+            const cards = gsap.utils.toArray<HTMLElement>('.stack-card');
 
-            // Initial states - all hidden except first
-            illustrations.forEach((el, i) => {
-                gsap.set(el, {
-                    opacity: i === 0 ? 1 : 0,
-                    zIndex: i === 0 ? 10 : 1
+            cards.forEach((card, i) => {
+                gsap.set(card, {
+                    y: 60,
+                    opacity: 0,
+                    scale: 0.95,
                 });
-            });
-            contents.forEach((el, i) => {
-                gsap.set(el, {
-                    opacity: i === 0 ? 1 : 0,
-                    zIndex: i === 0 ? 10 : 1
+
+                ScrollTrigger.create({
+                    trigger: card,
+                    start: 'top 85%',
+                    end: 'top 40%',
+                    scrub: 0.5,
+                    onUpdate: (self) => {
+                        const progress = self.progress;
+                        gsap.to(card, {
+                            y: 60 * (1 - progress),
+                            opacity: progress,
+                            scale: 0.95 + 0.05 * progress,
+                            duration: 0.1,
+                            overwrite: 'auto',
+                        });
+                    },
+                    onEnter: () => setActiveService(i),
+                    onEnterBack: () => setActiveService(i),
                 });
-            });
-
-            // Floating animation for images using GSAP
-            illustrations.forEach((el) => {
-                const img = el.querySelector('img');
-                if (img) {
-                    gsap.to(img, {
-                        y: -12,
-                        duration: 3 + Math.random() * 2,
-                        ease: "sine.inOut",
-                        repeat: -1,
-                        yoyo: true,
-                    });
-                }
-            });
-
-            // ScrollTrigger for pinned scroll showcase
-            ScrollTrigger.create({
-                trigger: storySectionRef.current,
-                start: "top top",
-                end: `+=${services.length * 100}%`,
-                pin: true,
-                scrub: true,
-                onUpdate: (self) => {
-                    const progress = self.progress;
-                    const currentIndex = Math.min(
-                        Math.floor(progress * services.length),
-                        services.length - 1
-                    );
-
-                    setActiveService(currentIndex);
-
-                    illustrations.forEach((el, i) => {
-                        gsap.to(el, {
-                            opacity: i === currentIndex ? 1 : 0,
-                            duration: 0.3,
-                            zIndex: i === currentIndex ? 10 : 1,
-                        });
-                    });
-                    contents.forEach((el, i) => {
-                        gsap.to(el, {
-                            opacity: i === currentIndex ? 1 : 0,
-                            duration: 0.3,
-                            zIndex: i === currentIndex ? 10 : 1,
-                        });
-                    });
-                }
             });
         }, storySectionRef);
 
@@ -314,30 +365,7 @@ export default function Hero() {
 
     return (
         <>
-            {/* Video Modal Overlay */}
-            {showVideo && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/70 backdrop-blur-sm">
-                    <div className="relative w-full max-w-2xl mx-auto rounded-xl overflow-hidden shadow-2xl">
-                        <button
-                            onClick={handleCloseVideo}
-                            className="absolute top-2 right-2 z-10 p-2 bg-blue-100 hover:bg-blue-200 rounded-full text-blue-600 font-bold text-lg shadow"
-                            aria-label="Close video"
-                        >
-                            ×
-                        </button>
-                        <div className="aspect-w-16 aspect-h-9 w-full">
-                            <iframe
-                                src="https://www.youtube.com/embed/EK36dfsif84"
-                                title="Demo Video"
-                                allow="autoplay; encrypted-media"
-                                allowFullScreen
-                                className="w-full h-96"
-                                style={{ background: 'transparent' }}
-                            />
-                        </div>
-                    </div>
-                </div>
-            )}
+
             <style dangerouslySetInnerHTML={{
                 __html: `
             @keyframes fade-in-left {
@@ -655,6 +683,58 @@ export default function Hero() {
             .walking-bot-eyeball { box-shadow: 0 0 15px #fb923c, inset 0 2px 4px rgba(255,255,255,0.5); }
             .walking-bot-chest { box-shadow: 0 0 20px #fb923c, 0 0 40px #fb923c; }
 
+            /* Caller Card Animation */
+            @keyframes caller-float {
+              0%, 100% { transform: translateY(0px); }
+              50% { transform: translateY(-14px); }
+            }
+            @keyframes caller-ring {
+              0%, 100% { transform: scale(1); opacity: 0.8; }
+              50% { transform: scale(1.15); opacity: 0.4; }
+            }
+            @keyframes voice-bar {
+              0%, 100% { height: 8px; }
+              50% { height: 24px; }
+            }
+            @keyframes speech-bubble-pop {
+              0% { transform: scale(0.8) translateY(5px); opacity: 0; }
+              100% { transform: scale(1) translateY(0); opacity: 1; }
+            }
+            @keyframes arrow-draw {
+              0% { stroke-dashoffset: 400; opacity: 0; }
+              10% { opacity: 1; }
+              100% { stroke-dashoffset: 0; opacity: 1; }
+            }
+            @keyframes arrow-head-fade {
+              0%, 70% { opacity: 0; }
+              100% { opacity: 1; }
+            }
+            .animate-caller-float {
+              animation: caller-float 4s ease-in-out infinite;
+            }
+            /* Screenshot carousel animation - 3 images, 4s each = 12s total */
+            @keyframes screenshot-cycle {
+              0%, 2% { opacity: 0; transform: translateY(20px) scale(0.95); }
+              5%, 28% { opacity: 1; transform: translateY(0) scale(1); }
+              33%, 100% { opacity: 0; transform: translateY(-20px) scale(0.95); }
+            }
+            .caller-img-wrapper {
+              transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+            }
+            .caller-img-wrapper:hover {
+              transform: scale(1.05) translateY(-6px);
+              filter: drop-shadow(0 20px 40px rgba(99, 102, 241, 0.2));
+            }
+            .caller-img-wrapper:hover .caller-speech-bubble {
+              opacity: 1;
+              transform: scale(1) translateY(0);
+            }
+            .caller-speech-bubble {
+              opacity: 0;
+              transform: scale(0.85) translateY(8px);
+              transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+            }
+
             .animate-fade-in-up-1 {
                 animation: fade-in-up 1s ease-out forwards;
                 opacity: 0;
@@ -733,6 +813,54 @@ export default function Hero() {
             .animate-wave-2 { animation: wave-pulse-2 2s ease-out infinite; }
             .animate-wave-3 { animation: wave-pulse-3 2s ease-out infinite; }
 
+            /* Wavy Sound Effect Animations */
+            @keyframes sound-wave-bar {
+              0%, 100% { height: 20%; }
+              50% { height: 80%; }
+            }
+            @keyframes sound-wave-float {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+            @keyframes wave-path {
+              0% { d: path('M0,80 C150,120 350,40 500,80 C650,120 850,40 1000,80 C1150,120 1350,40 1500,80 L1500,200 L0,200 Z'); }
+              50% { d: path('M0,80 C150,40 350,120 500,80 C650,40 850,120 1000,80 C1150,40 1350,120 1500,80 L1500,200 L0,200 Z'); }
+              100% { d: path('M0,80 C150,120 350,40 500,80 C650,120 850,40 1000,80 C1150,120 1350,40 1500,80 L1500,200 L0,200 Z'); }
+            }
+            @keyframes wave-drift {
+              0% { transform: translateX(0) scaleY(1); }
+              25% { transform: translateX(-2%) scaleY(1.05); }
+              50% { transform: translateX(-4%) scaleY(1); }
+              75% { transform: translateX(-2%) scaleY(0.95); }
+              100% { transform: translateX(0) scaleY(1); }
+            }
+            @keyframes sound-ring {
+              0% { transform: scale(0.8); opacity: 0.6; }
+              100% { transform: scale(2.5); opacity: 0; }
+            }
+
+            /* Voice Mic Button Animations */
+            @keyframes mic-pulse {
+              0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); }
+              70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
+              100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+            }
+            @keyframes mic-active-pulse {
+              0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+              70% { box-shadow: 0 0 0 25px rgba(239, 68, 68, 0); }
+              100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+            }
+            @keyframes mic-ring-expand {
+              0% { transform: scale(1); opacity: 0.6; }
+              100% { transform: scale(2); opacity: 0; }
+            }
+            .animate-mic-pulse {
+              animation: mic-pulse 2s ease-out infinite;
+            }
+            .animate-mic-active {
+              animation: mic-active-pulse 1s ease-out infinite;
+            }
+
             /* Responsive animation control using CSS media queries */
             @media (max-width: 768px), (prefers-reduced-motion: reduce) {
                 .responsive-animate {
@@ -744,7 +872,7 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/40 to-blue-50" role="region" aria-labelledby="hero-heading">
+            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white" role="region" aria-labelledby="hero-heading">
 
                 {/* Animated Background Elements */}
                 {mounted && (
@@ -757,8 +885,8 @@ export default function Hero() {
                         </div>
                         
                         {/* Animated Grid Pattern */}
-                        <div className="absolute inset-0 opacity-[0.03]" style={{
-                            backgroundImage: 'linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)',
+                        <div className="absolute inset-0 opacity-[0.08]" style={{
+                            backgroundImage: 'linear-gradient(to right, #94a3b8 1px, transparent 1px), linear-gradient(to bottom, #94a3b8 1px, transparent 1px)',
                             backgroundSize: '60px 60px'
                         }}></div>
                         
@@ -781,115 +909,328 @@ export default function Hero() {
                         {/* Animated Lines */}
                         <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse-slow"></div>
                         <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/15 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+
+                        {/* Wavy Sound Effect - Bottom Waves */}
+                        <div className="absolute bottom-0 left-0 right-0 h-48 overflow-hidden pointer-events-none z-10 opacity-30">
+                            <svg className="absolute bottom-0 w-[200%] h-full" viewBox="0 0 1500 200" preserveAspectRatio="none" style={{ animation: 'wave-drift 8s ease-in-out infinite' }}>
+                                <path d="M0,100 C150,140 350,60 500,100 C650,140 850,60 1000,100 C1150,140 1350,60 1500,100 L1500,200 L0,200 Z" fill="url(#waveGrad1)" />
+                                <defs>
+                                    <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="rgb(59,130,246)" stopOpacity="0.15" />
+                                        <stop offset="50%" stopColor="rgb(37,99,235)" stopOpacity="0.25" />
+                                        <stop offset="100%" stopColor="rgb(59,130,246)" stopOpacity="0.15" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <svg className="absolute bottom-0 w-[200%] h-full" viewBox="0 0 1500 200" preserveAspectRatio="none" style={{ animation: 'wave-drift 6s ease-in-out infinite reverse', animationDelay: '1s' }}>
+                                <path d="M0,120 C200,160 400,80 600,120 C800,160 1000,80 1200,120 C1400,160 1500,100 1500,120 L1500,200 L0,200 Z" fill="url(#waveGrad2)" />
+                                <defs>
+                                    <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="rgb(96,165,250)" stopOpacity="0.1" />
+                                        <stop offset="50%" stopColor="rgb(59,130,246)" stopOpacity="0.2" />
+                                        <stop offset="100%" stopColor="rgb(96,165,250)" stopOpacity="0.1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <svg className="absolute bottom-0 w-[200%] h-full" viewBox="0 0 1500 200" preserveAspectRatio="none" style={{ animation: 'wave-drift 10s ease-in-out infinite', animationDelay: '2s' }}>
+                                <path d="M0,140 C100,170 300,110 500,140 C700,170 900,110 1100,140 C1300,170 1500,130 1500,140 L1500,200 L0,200 Z" fill="url(#waveGrad3)" />
+                                <defs>
+                                    <linearGradient id="waveGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="rgb(147,197,253)" stopOpacity="0.08" />
+                                        <stop offset="50%" stopColor="rgb(96,165,250)" stopOpacity="0.18" />
+                                        <stop offset="100%" stopColor="rgb(147,197,253)" stopOpacity="0.08" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+
+                        {/* Sound Wave Equalizer Bars - Left Side */}
+                        <div className="absolute left-6 top-1/2 -translate-y-1/2 flex items-end gap-1 h-32 opacity-20 pointer-events-none">
+                            {[...Array(5)].map((_, i) => (
+                                <div
+                                    key={`left-bar-${i}`}
+                                    className="w-1 bg-gradient-to-t from-blue-400 to-blue-300 rounded-full"
+                                    style={{
+                                        animation: `sound-wave-bar ${0.8 + i * 0.15}s ease-in-out infinite`,
+                                        animationDelay: `${i * 0.12}s`,
+                                        height: '40%'
+                                    }}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Sound Wave Equalizer Bars - Right Side */}
+                        <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-end gap-1 h-32 opacity-20 pointer-events-none">
+                            {[...Array(5)].map((_, i) => (
+                                <div
+                                    key={`right-bar-${i}`}
+                                    className="w-1 bg-gradient-to-t from-blue-400 to-blue-300 rounded-full"
+                                    style={{
+                                        animation: `sound-wave-bar ${0.9 + i * 0.12}s ease-in-out infinite`,
+                                        animationDelay: `${i * 0.15 + 0.3}s`,
+                                        height: '40%'
+                                    }}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Sound Rings - Center Background */}
+                        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                            {[...Array(3)].map((_, i) => (
+                                <div
+                                    key={`ring-${i}`}
+                                    className="absolute inset-0 border border-blue-300/20 rounded-full"
+                                    style={{
+                                        width: `${120 + i * 80}px`,
+                                        height: `${120 + i * 80}px`,
+                                        marginLeft: `-${(120 + i * 80) / 2}px`,
+                                        marginTop: `-${(120 + i * 80) / 2}px`,
+                                        animation: `sound-ring ${2 + i * 0.5}s ease-out infinite`,
+                                        animationDelay: `${i * 0.7}s`
+                                    }}
+                                />
+                            ))}
+                        </div>
                     </>
                 )}
 
                 <div className="container mx-auto relative z-30 max-w-7xl px-4 sm:px-6 lg:px-8">
 
-                    {/* Main Hero - Content Only */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[70vh] sm:min-h-[65vh] py-12 sm:py-16 lg:py-20">
-                        
-                        {/* Left Side - Content */}
-                        <div className="order-2 lg:order-1 text-center lg:text-left space-y-6">
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full animate-fade-in-up-1">
-                                <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
-                                <span className="text-xs sm:text-sm font-semibold text-blue-700">AI-Powered Voice Platform</span>
+                    {/* Customer Calling - Left Side (lg+ only) */}
+                    <div className="hidden lg:block absolute left-0 top-1/3 -translate-y-1/2 z-40 animate-caller-float" style={{ left: '-30px' }}>
+                        <div className="caller-img-wrapper relative cursor-default">
+                            {/* Customer Image */}
+                            <Image
+                                src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1772962028/Gemini_Generated_Image_5ehrm05ehrm05ehr-removebg-preview_1_tltgob.png"
+                                alt="Customer making a phone call"
+                                width={280}
+                                height={350}
+                                className="w-56 xl:w-64 h-auto object-contain drop-shadow-lg"
+                                priority
+                            />
+
+                            {/* Speech Bubble - appears on hover */}
+                            <div className="caller-speech-bubble absolute -top-4 right-0 translate-x-8">
+                                <div className="bg-white rounded-2xl shadow-lg border border-slate-100 px-4 py-3 max-w-[200px] relative">
+                                    <p className="text-xs font-medium text-slate-700 leading-relaxed">
+                                        Hey, can I get an appointment with Dr. Mishra?
+                                    </p>
+                                    {/* Bubble tail */}
+                                    <div className="absolute -bottom-2 left-6 w-4 h-4 bg-white border-b border-r border-slate-100 rotate-45" />
+                                </div>
                             </div>
 
-                            {/* Main Headline */}
-                            <h1 id="hero-heading" className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 leading-tight animate-fade-in-up-2">
-                                <span className="block mb-2">
-                                    <span className="text-gray-900">Your AI voice Assistant</span>
+                            {/* Calling indicator */}
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-emerald-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full shadow-md">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
                                 </span>
-                                <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">Never Sleeps</span>
-                            </h1>
-
-                            {/* Tagline Box */}
-                            <div className="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-2xl p-4 sm:p-6 animate-fade-in-up-3 max-w-2xl mx-auto lg:mx-0">
-                                <p className="text-gray-600 text-xs sm:text-sm italic mb-2">"Your receptionist sleeps, gets sick, takes breaks."</p>
-                                <p className="text-blue-600 font-bold text-sm sm:text-base uppercase tracking-wider">WE NEVER DO.</p>
-                            </div>
-
-                            {/* Description */}
-                            <p className="text-gray-600 text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-in-up-3">
-                                Transform your business with <strong className="text-gray-800">AI voice agents</strong> that handle unlimited calls, provide instant responses, and deliver detailed analytics.
-                            </p>
-
-                            {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in-up-3">
-                                <Link
-                                    href="/contact#contact-form"
-                                    className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105 flex items-center justify-center gap-2 text-sm sm:text-base"
-                                >
-                                    Start Free Trial
-                                    <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
-                                </Link>
-                                <button
-                                    onClick={() => setShowVideo(true)}
-                                    className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 border-2 border-blue-300 font-bold rounded-lg hover:bg-blue-50 hover:border-blue-400 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base"
-                                    aria-label="Watch demo video"
-                                >
-                                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                                    </svg>
-                                    Watch Demo
-                                </button>
-                            </div>
-
-                            {/* Trust Indicators */}
-                            <div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start animate-fade-in-up-3">
-                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg shadow-sm">
-                                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0" />
-                                    <span className="text-xs sm:text-sm text-gray-700 font-medium whitespace-nowrap">No credit card</span>
-                                </div>
-                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg shadow-sm">
-                                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0" />
-                                    <span className="text-xs sm:text-sm text-gray-700 font-medium whitespace-nowrap">5-min setup</span>
-                                </div>
-                                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg shadow-sm">
-                                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0" />
-                                    <span className="text-xs sm:text-sm text-gray-700 font-medium whitespace-nowrap">50+ Languages</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right Side - Video */}
-                        <div className="relative order-1 lg:order-2 flex justify-center lg:justify-end px-4 sm:px-0">
-                            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
-                                <video
-                                    autoPlay
-                                    loop
-                                    muted
-                                    playsInline
-                                    className="w-full h-auto object-contain rounded-2xl shadow-2xl animate-float"
-                                    style={{ filter: 'drop-shadow(0 25px 50px rgba(14, 165, 233, 0.15))' }}
-                                >
-                                    <source src="https://res.cloudinary.com/dew9qfpbl/video/upload/v1769846799/User_Speaks_np03ly.mp4" type="video/mp4" />
-                                    Your browser does not support the video tag.
-                                </video>
+                                <span className="text-[10px] font-semibold tracking-wide uppercase">Calling</span>
                             </div>
                         </div>
                     </div>
 
+                    {/* Curved Arrow from Customer to Mic */}
+                    <div className="hidden lg:block absolute z-35 pointer-events-none" style={{ left: '12%', top: '35%', width: '38%', height: '200px' }}>
+                        <svg width="100%" height="100%" viewBox="0 0 500 200" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                            {/* Gentle curve from left (image) to right (mic) */}
+                            <path
+                                d="M0,100 C120,100 200,30 350,20 Q430,14 480,40"
+                                stroke="url(#arrowGradient)"
+                                strokeWidth="2"
+                                strokeDasharray="600"
+                                fill="none"
+                                strokeLinecap="round"
+                                style={{ animation: 'arrow-draw 2.5s ease-out forwards' }}
+                            />
+                            {/* Arrowhead */}
+                            <polygon
+                                points="473,32 490,42 475,50"
+                                fill="#818cf8"
+                                style={{ animation: 'arrow-head-fade 2.5s ease-out forwards' }}
+                            />
+                            <defs>
+                                <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stopColor="#cbd5e1" />
+                                    <stop offset="100%" stopColor="#818cf8" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    {/* Curved Arrow from Mic to Screenshots (Right) */}
+                    <div className="hidden lg:block absolute z-35 pointer-events-none" style={{ right: '12%', top: '28%', width: '38%', height: '200px' }}>
+                        <svg width="100%" height="100%" viewBox="0 0 500 200" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M20,80 Q100,120 200,150 C300,170 400,150 490,90"
+                                stroke="url(#arrowGradientRight)"
+                                strokeWidth="2"
+                                strokeDasharray="600"
+                                fill="none"
+                                strokeLinecap="round"
+                                style={{ animation: 'arrow-draw 2.5s ease-out 0.5s forwards', strokeDashoffset: 600 }}
+                            />
+                            <polygon
+                                points="483,92 498,106 480,108"
+                                fill="#818cf8"
+                                style={{ animation: 'arrow-head-fade 2.5s ease-out 0.5s forwards' }}
+                            />
+                            <defs>
+                                <linearGradient id="arrowGradientRight" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stopColor="#818cf8" />
+                                    <stop offset="100%" stopColor="#cbd5e1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    {/* Dashboard Screenshots - Right Side (lg+ only) */}
+                    <div className="hidden lg:block absolute right-0 top-1/3 -translate-y-1/2 z-40" style={{ right: '-40px' }}>
+                        <div className="relative" style={{ width: '300px' }}>
+                            {[
+                                { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1772967859/Screenshot_2026-03-08_154804_vclxln.png', alt: 'AI Dashboard Analytics', landscape: true },
+                                { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1772967767/Screenshot_2025-11-29_202610_luufqi.png', alt: 'Call Management Dashboard', landscape: true },
+                                { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1772967676/Screenshot_2025-11-30_131935_cg2dbq.png', alt: 'Voice Agent Performance', landscape: true },
+                            ].map((img, i) => (
+                                <div
+                                    key={i}
+                                    className={`rounded-xl overflow-hidden shadow-2xl border border-slate-200/60 ${i > 0 ? 'absolute top-0 left-0' : 'relative'}`}
+                                    style={{
+                                        animation: `screenshot-cycle 12s ease-in-out infinite`,
+                                        animationDelay: `${i * 4}s`,
+                                        opacity: i === 0 ? undefined : 0,
+                                    }}
+                                >
+                                    <Image
+                                        src={img.src}
+                                        alt={img.alt}
+                                        width={300}
+                                        height={0}
+                                        className="w-[300px] h-auto rounded-xl"
+                                        style={{ objectFit: 'contain' }}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Main Hero - Content Only */}
+                    <div className="flex flex-col items-center min-h-[70vh] sm:min-h-[65vh] py-16 sm:py-20 lg:py-28 justify-center">
+                        
+                        {/* Content */}
+                        <div className="text-center space-y-8 max-w-4xl">
+                            {/* Badge */}
+                            <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 px-4 py-2 rounded-full animate-fade-in-up-1 shadow-sm">
+                                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                                <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">AI Voice Agents — Now Generally Available</span>
+                            </div>
+
+                            {/* Main Headline */}
+                            <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 leading-[1.1] tracking-tight animate-fade-in-up-2">
+                                Your AI Voice Agent<br />
+                                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">That Never Sleeps</span>
+                            </h1>
+
+                            {/* Tagline */}
+                            <p className="text-lg sm:text-xl text-slate-500 font-normal leading-relaxed max-w-2xl mx-auto animate-fade-in-up-3">
+                                Your receptionist sleeps, gets sick, takes breaks. <span className="text-slate-900 font-medium">We never do.</span>
+                            </p>
+
+                            {/* Voice Mic Button */}
+                            <div className="flex flex-col items-center gap-3 animate-fade-in-up-3">
+                                <button
+                                    onClick={toggleCall}
+                                    className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                                        isCallActive
+                                            ? 'bg-gradient-to-br from-red-500 to-red-600 animate-mic-active hover:from-red-600 hover:to-red-700 scale-110'
+                                            : 'bg-gradient-to-br from-blue-500 to-blue-600 animate-mic-pulse hover:from-blue-600 hover:to-blue-700 hover:scale-110'
+                                    } shadow-xl`}
+                                    aria-label={isCallActive ? 'End voice call' : 'Start voice call'}
+                                >
+                                    {/* Animated rings when active */}
+                                    {isCallActive && (
+                                        <>
+                                            <span className="absolute inset-0 rounded-full border-2 border-red-400" style={{ animation: 'mic-ring-expand 1.5s ease-out infinite' }} />
+                                            <span className="absolute inset-0 rounded-full border-2 border-red-400" style={{ animation: 'mic-ring-expand 1.5s ease-out infinite 0.5s' }} />
+                                            <span className="absolute inset-0 rounded-full border-2 border-red-400" style={{ animation: 'mic-ring-expand 1.5s ease-out infinite 1s' }} />
+                                        </>
+                                    )}
+                                    {isCallActive ? (
+                                        <Phone className="h-8 w-8 sm:h-10 sm:w-10 text-white rotate-[135deg]" />
+                                    ) : (
+                                        <Mic className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
+                                    )}
+                                </button>
+                                <p className="text-sm font-medium text-gray-500">
+                                    {isCallActive
+                                        ? <span className="text-red-500 flex items-center gap-1.5"><span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />{callStatus || 'Call active'} — tap to end</span>
+                                        : isSpeaking
+                                            ? <span className="text-blue-500">Assistant is speaking...</span>
+                                            : 'Tap to talk to our AI agent'
+                                    }
+                                </p>
+                            </div>
+
+                            {/* Description */}
+                            <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto animate-fade-in-up-3">
+                                Deploy enterprise-grade <span className="text-slate-800 font-medium">AI voice agents</span> that handle unlimited concurrent calls, respond instantly in 50+ languages, and deliver real-time analytics — all without writing a single line of code.
+                            </p>
+
+                            {/* CTA Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-in-up-3 pt-2">
+                                <Link
+                                    href="/contact#contact-form"
+                                    className="group px-8 py-3.5 bg-slate-900 text-white font-medium rounded-lg hover:bg-slate-800 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 text-sm"
+                                >
+                                    Get Started Free
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                                </Link>
+                                <Link
+                                    href="/services"
+                                    className="px-8 py-3.5 text-slate-600 font-medium rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all duration-200 text-sm"
+                                >
+                                    View Platform
+                                </Link>
+                            </div>
+
+                            {/* Trust Indicators */}
+                            <div className="flex flex-wrap gap-6 justify-center items-center animate-fade-in-up-3 pt-4">
+                                <span className="flex items-center gap-1.5 text-sm text-slate-400">
+                                    <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                                    No credit card required
+                                </span>
+                                <span className="flex items-center gap-1.5 text-sm text-slate-400">
+                                    <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                                    5-minute setup
+                                </span>
+                                <span className="flex items-center gap-1.5 text-sm text-slate-400">
+                                    <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                                    50+ languages
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
                     {/* Feature Cards Below Hero */}
-                    <div className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <div className="mt-16 sm:mt-20 lg:mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
                         {[
-                            { icon: PhoneCall, title: "Smart Call Handling", desc: "AI handles unlimited concurrent calls with human-like conversations", gradient: "from-blue-500 to-cyan-500", bgColor: "bg-blue-50", borderColor: "border-blue-200", hoverBorder: "hover:border-blue-400" },
-                            { icon: BarChart3, title: "Real-Time Analytics", desc: "Track every call with detailed insights and performance metrics", gradient: "from-emerald-500 to-teal-500", bgColor: "bg-emerald-50", borderColor: "border-emerald-200", hoverBorder: "hover:border-emerald-400" },
-                            { icon: Clock, title: "24/7 Availability", desc: "Never miss a call. Your AI assistant works around the clock", gradient: "from-violet-500 to-purple-500", bgColor: "bg-violet-50", borderColor: "border-violet-200", hoverBorder: "hover:border-violet-400" },
-                            { icon: Globe, title: "50+ Languages", desc: "Communicate with customers in their preferred language", gradient: "from-amber-500 to-orange-500", bgColor: "bg-amber-50", borderColor: "border-amber-200", hoverBorder: "hover:border-amber-400" }
+                            { icon: PhoneCall, title: "Smart Call Handling", desc: "Handle unlimited concurrent calls with natural, human-like conversations" },
+                            { icon: BarChart3, title: "Real-Time Analytics", desc: "Track every interaction with actionable insights and live dashboards" },
+                            { icon: Clock, title: "24/7 Availability", desc: "Always-on coverage — never miss a call, day or night" },
+                            { icon: Globe, title: "50+ Languages", desc: "Engage customers globally in their preferred language" }
                         ].map((feature, i) => (
                             <div
                                 key={i}
-                                className={`group ${feature.bgColor} rounded-2xl p-6 shadow-lg border ${feature.borderColor} hover:shadow-xl ${feature.hoverBorder} transition-all duration-300 hover:-translate-y-2`}
+                                className="group bg-white rounded-xl p-6 border border-slate-100 hover:border-slate-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                                 style={{ animationDelay: `${i * 0.1}s` }}
                             >
-                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                                    <feature.icon className="h-7 w-7 text-white" />
+                                <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                                    <feature.icon className="h-5 w-5 text-white" />
                                 </div>
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
-                                <p className="text-gray-600 text-sm leading-relaxed">{feature.desc}</p>
+                                <h3 className="text-base font-semibold text-slate-900 mb-1.5">{feature.title}</h3>
+                                <p className="text-slate-500 text-sm leading-relaxed">{feature.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -901,7 +1242,7 @@ export default function Hero() {
             <AnimatedStats />
 
             {/* Section Header - Fixed above the scrolling content */}
-            <section className="py-8 sm:py-08 lg:py-16 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
+            <section className="py-8 sm:py-08 lg:py-16 bg-white">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div className="inline-flex items-center space-x-2 bg-blue-500/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-blue-400/30 text-xs sm:text-sm text-blue-600 font-semibold mb-4 uppercase tracking-widest">
                         <MessageSquare className="h-4 w-4" />
@@ -916,90 +1257,91 @@ export default function Hero() {
                 </div>
             </section>
 
-            {/* AI Voice Use Cases Section - Style Pinned Scroll */}
-            <section ref={storySectionRef} className="min-h-screen lg:h-1000 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
-                <div className="container mx-auto h-1000 px-4 sm:px-6 lg:px-8 flex items-center">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full items-stretch">
+            {/* AI Voice Use Cases Section - Stacking Cards */}
+            <section ref={storySectionRef} className="bg-white">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+                    <div className="space-y-8">
+                        {services.map((s, i) => (
+                            <div
+                                key={i}
+                                className="stack-card bg-white rounded-2xl border border-slate-200 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+                                style={{ position: 'sticky', top: `${80 + i * 24}px`, zIndex: i + 1 }}
+                            >
+                                <div className="grid grid-cols-1 lg:grid-cols-5 gap-0">
 
-                        {/* LEFT: Floating Illustrations */}
-                        <div className="relative h-[40vh] sm:h-[50vh] lg:h-[85vh] max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] flex items-center justify-center lg:justify-start">
-                            {services.map((s, i) => (
-                                <div key={i} className={`exo-illustration absolute inset-0 flex items-center justify-center lg:justify-start ${i === 0 ? '' : 'pointer-events-none'}`}>
-                                    <img
-                                        src={s.img}
-                                        alt={s.title}
-                                        className="exo-main-img h-[35vh] sm:h-[45vh] lg:h-[75vh] max-h-[350px] sm:max-h-[450px] lg:max-h-[550px] object-contain drop-shadow-2xl"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* RIGHT: Content */}
-                        <div className="relative h-[85vh] max-h-[600px] flex flex-col justify-center">
-                            {services.map((s, i) => (
-                                <div key={i} className={`exo-content flex flex-col justify-center ${i === 0 ? '' : 'absolute inset-0'}`}>
-                                    {/* Stat Badge */}
-                                    <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${s.color} text-white text-sm font-bold mb-4 w-fit`}>
-                                        <CheckCircle className="h-4 w-4" />
-                                        <span>{s.stat} {s.statLabel}</span>
+                                    {/* LEFT: Image */}
+                                    <div className="lg:col-span-2 relative bg-gradient-to-br from-slate-50 to-white flex items-center justify-center p-6 sm:p-8 min-h-[240px] sm:min-h-[300px]">
+                                        <img
+                                            src={s.img}
+                                            alt={s.title}
+                                            className="h-[200px] sm:h-[260px] object-contain drop-shadow-xl"
+                                        />
+                                        {/* Stat badge overlay */}
+                                        <div className={`absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r ${s.color} text-white text-xs font-bold shadow-md`}>
+                                            <CheckCircle className="h-3.5 w-3.5" />
+                                            <span>{s.stat} {s.statLabel}</span>
+                                        </div>
                                     </div>
 
-                                    <h2 className={`text-3xl lg:text-4xl font-bold mb-2 bg-gradient-to-r ${s.color} bg-clip-text text-transparent`}>
-                                        {s.title}
-                                    </h2>
-                                    <p className="text-lg text-gray-500 mb-3 font-medium">{s.subtitle}</p>
-                                    <p className="text-base text-gray-600 mb-5 leading-relaxed max-w-lg">
-                                        {s.desc}
-                                    </p>
+                                    {/* RIGHT: Content */}
+                                    <div className="lg:col-span-3 p-6 sm:p-8 flex flex-col justify-center">
+                                        <h3 className={`text-2xl sm:text-3xl font-bold mb-1 bg-gradient-to-r ${s.color} bg-clip-text text-transparent`}>
+                                            {s.title}
+                                        </h3>
+                                        <p className="text-base text-gray-500 mb-2 font-medium">{s.subtitle}</p>
+                                        <p className="text-sm text-gray-600 mb-5 leading-relaxed max-w-lg">
+                                            {s.desc}
+                                        </p>
 
-                                    {/* Audio Player - only interactive when active */}
-                                    <div className="mb-5 bg-white rounded-xl p-4 shadow-sm border border-gray-100 max-w-md">
-                                        <p className="text-xs text-gray-500 mb-2 font-medium uppercase tracking-wide">🎧 Listen to Sample Call</p>
-                                        {activeService === i ? (
-                                            <audio
-                                                controls
-                                                className="w-full h-10"
-                                                style={{ accentColor: '#f97316' }}
-                                                preload="metadata"
-                                            >
-                                                <source src={s.audio} type="audio/mpeg" />
-                                                Your browser does not support audio.
-                                            </audio>
-                                        ) : (
-                                            <div className="w-full h-10 bg-gray-100 rounded-full flex items-center justify-center text-xs text-gray-400">
-                                                Scroll to activate audio
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Feature Cards Grid */}
-                                    <div className="grid grid-cols-2 gap-3">
-                                        {s.features.map((f, fi) => (
-                                            <div key={fi} className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all">
-                                                <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${s.color} flex items-center justify-center mb-2`}>
-                                                    {f.icon === 'Calendar' && <Calendar className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Clock' && <Clock className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Users' && <Users className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Shield' && <Shield className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'PhoneCall' && <PhoneCall className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'MessageSquare' && <MessageSquare className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Globe' && <Globe className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'TrendingUp' && <TrendingUp className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'BarChart3' && <BarChart3 className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Zap' && <Zap className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Headphones' && <Headphones className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'CheckCircle' && <CheckCircle className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Award' && <Award className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'LayoutDashboard' && <LayoutDashboard className="h-5 w-5 text-white" />}
+                                        {/* Audio Player */}
+                                        <div className="mb-5 bg-slate-50 rounded-xl p-3 border border-slate-100 max-w-md">
+                                            <p className="text-xs text-gray-500 mb-2 font-medium uppercase tracking-wide">🎧 Listen to Sample Call</p>
+                                            {activeService === i ? (
+                                                <audio
+                                                    controls
+                                                    className="w-full h-10"
+                                                    style={{ accentColor: '#f97316' }}
+                                                    preload="metadata"
+                                                >
+                                                    <source src={s.audio} type="audio/mpeg" />
+                                                    Your browser does not support audio.
+                                                </audio>
+                                            ) : (
+                                                <div className="w-full h-10 bg-gray-100 rounded-full flex items-center justify-center text-xs text-gray-400">
+                                                    Scroll to activate audio
                                                 </div>
-                                                <p className="text-xs text-gray-700 font-medium leading-tight">{f.text}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                                            )}
+                                        </div>
 
+                                        {/* Feature Tags */}
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {s.features.map((f, fi) => (
+                                                <div key={fi} className="flex items-center gap-2 bg-slate-50 rounded-lg px-3 py-2 border border-slate-100">
+                                                    <div className={`w-8 h-8 rounded-md bg-gradient-to-r ${s.color} flex items-center justify-center flex-shrink-0`}>
+                                                        {f.icon === 'Calendar' && <Calendar className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'Clock' && <Clock className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'Users' && <Users className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'Shield' && <Shield className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'PhoneCall' && <PhoneCall className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'MessageSquare' && <MessageSquare className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'Globe' && <Globe className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'TrendingUp' && <TrendingUp className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'BarChart3' && <BarChart3 className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'Zap' && <Zap className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'Headphones' && <Headphones className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'CheckCircle' && <CheckCircle className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'Award' && <Award className="h-4 w-4 text-white" />}
+                                                        {f.icon === 'LayoutDashboard' && <LayoutDashboard className="h-4 w-4 text-white" />}
+                                                    </div>
+                                                    <p className="text-xs text-gray-700 font-medium leading-tight">{f.text}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -1008,7 +1350,7 @@ export default function Hero() {
             <Lead />
 
             {/* Why Choose DigitalBot - Bento Grid Style */}
-            <section className="py-8 px-4 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
+            <section className="py-8 px-4 bg-white overflow-hidden">
                 <div className="container mx-auto max-w-6xl">
                     {/* Section Header */}
                     <div className="text-center mb-10">
