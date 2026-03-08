@@ -75,6 +75,7 @@ const SPECIALIZATIONS = [
   "General Physician",
   "Cardiologist",
   "Urologist",
+  "Radiologist",
   "Dermatologist",
   "Orthopedic",
   "Pediatrician",
