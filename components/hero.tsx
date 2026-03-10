@@ -1001,7 +1001,7 @@ export default function Hero() {
                         <div className="caller-img-wrapper relative cursor-default">
                             {/* Customer Image */}
                             <Image
-                                src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1773106306/Gemini_Generated_Image_u3kh3vu3kh3vu3kh_ee7nyy.png"
+                                src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1772962028/Gemini_Generated_Image_5ehrm05ehrm05ehr-removebg-preview_1_tltgob.png"
                                 alt="Customer making a phone call"
                                 width={280}
                                 height={350}
@@ -1089,7 +1089,7 @@ export default function Hero() {
                     <div className="hidden lg:block absolute right-0 top-1/3 -translate-y-1/2 z-40" style={{ right: '-40px' }}>
                         <div className="relative" style={{ width: '300px' }}>
                             {[
-                                { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1772967859/Screenshot_2026-03-08_154804_vclxln.png', alt: 'AI Dashboard Analytics', landscape: true },
+                                { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1773106306/Gemini_Generated_Image_u3kh3vu3kh3vu3kh_ee7nyy.png', alt: 'AI Dashboard Analytics', landscape: true },
                                 { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1772967767/Screenshot_2025-11-29_202610_luufqi.png', alt: 'Call Management Dashboard', landscape: true },
                                 { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1772967676/Screenshot_2025-11-30_131935_cg2dbq.png', alt: 'Voice Agent Performance', landscape: true },
                             ].map((img, i) => (
