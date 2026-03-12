@@ -1,34 +1,34 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import {
-    ArrowRight,
-    Award,
-    BarChart3,
-    Check,
-    CheckCircle2,
-    ChevronDown, ChevronUp,
-    Clock,
-    CreditCard,
-    Download,
-    Gift,
-    Headphones,
-    History,
-    Loader2,
-    Mail,
-    Menu,
-    MessageSquare,
-    Minus,
-    Package,
-    Phone,
-    Plus,
-    RefreshCw,
-    Settings,
-    Shield,
-    Star,
-    TrendingUp,
-    Wallet,
-    X,
-    Zap
+  ArrowRight,
+  Award,
+  BarChart3,
+  Check,
+  CheckCircle2,
+  ChevronDown, ChevronUp,
+  Clock,
+  CreditCard,
+  Download,
+  Gift,
+  Headphones,
+  History,
+  Loader2,
+  Mail,
+  Menu,
+  MessageSquare,
+  Minus,
+  Package,
+  Phone,
+  Plus,
+  RefreshCw,
+  Settings,
+  Shield,
+  Star,
+  TrendingUp,
+  Wallet,
+  X,
+  Zap
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -78,6 +78,21 @@ export default function Billing() {
   const [isCustom, setIsCustom] = useState(false);
   const [activeView, setActiveView] = useState<'credits' | 'calls'>('credits');
   const [loading, setLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successData, setSuccessData] = useState<{
+    creditsAdded: number;
+    newBalance: number;
+    transactionId: string;
+    amount: number;
+    planName: string;
+  } | null>(null);
+
+  // User info from backend
+  const [userInfo, setUserInfo] = useState<{
+    name: string;
+    email: string;
+    assignedPhoneNumber: string;
+  }>({ name: '', email: '', assignedPhoneNumber: '' });
 
   // Data from backend
   const [userCredits, setUserCredits] = useState({
@@ -100,19 +115,19 @@ export default function Billing() {
     }
   });
 
-  // Predefined plans
+  // Predefined plans (1 credit = ₹1, dollar to INR conversion)
   const creditPackages: CreditPackage[] = [
     {
       id: 'starter',
       name: 'Starter',
-      credits: 100,
+      credits: 829,
       price: 9,
       savings: 'Best for beginners'
     },
     {
       id: 'professional',
       name: 'Professional',
-      credits: 500,
+      credits: 4145,
       price: 45,
       popular: true,
       savings: 'Save 10%'
@@ -120,7 +135,7 @@ export default function Billing() {
     {
       id: 'business',
       name: 'Business',
-      credits: 2000,
+      credits: 16580,
       price: 180,
       savings: 'Save 20%'
     }
@@ -150,7 +165,7 @@ export default function Billing() {
     },
     {
       question: "Can I purchase custom credit amounts?",
-      answer: "Yes! You can purchase any amount starting from $9. Our system automatically calculates credits based on $0.09 per credit."
+      answer: "Yes! You can purchase any amount starting from $9. Our system automatically calculates credits based on the current USD to INR conversion rate."
     },
     {
       question: "Do credits expire?",
@@ -164,6 +179,7 @@ export default function Billing() {
 
   useEffect(() => {
     setMounted(true);
+    fetchUserInfo();
     fetchCreditBalance();
     fetchTransactions();
     if (activeView === 'calls') {
@@ -171,6 +187,29 @@ export default function Billing() {
       fetchCallStatistics();
     }
   }, [activeView]);
+
+  // Fetch user info from backend
+  const fetchUserInfo = async () => {
+    try {
+      const token = getAuthToken();
+      if (!token) return;
+      const response = await fetch(`${API_BASE_URL}/auth/me`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data) {
+          setUserInfo({
+            name: data.name || '',
+            email: data.email || '',
+            assignedPhoneNumber: data.assignedPhoneNumber || '',
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+    }
+  };
 
 
   // Get auth token from localStorage
@@ -183,6 +222,14 @@ export default function Billing() {
     // If you store userId separately
     const userId = localStorage.getItem('userId');
     if (userId) return userId;
+    // Try to get from stored user object
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        if (user.id) return user.id;
+      } catch (e) {}
+    }
     // If not, try to decode from token (JWT)
     const token = getAuthToken();
     if (token) {
@@ -319,9 +366,9 @@ export default function Billing() {
     }
   };
 
-  // Calculate credits based on amount ($0.09 per credit)
+  // Calculate credits based on amount (~₹92.11 credits per $1)
   const calculateCredits = (amount: number): number => {
-    return Math.floor(amount / 0.09);
+    return Math.floor(amount * 92.11);
   };
 
   // Initialize Razorpay
@@ -391,10 +438,10 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
         return;
       }
 
-      // Razorpay options
+      // Razorpay options - use user info fetched from backend
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_RenAKHL0qTaSlA",
-        amount: orderResult.data.amount * 100,
+        amount: Math.round(orderResult.data.amount * 100),
         currency: orderResult.data.currency,
         name: "DigitalBot",
         description: `${planName} - ${credits} Credits`,
@@ -411,32 +458,43 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature
+                razorpay_signature: response.razorpay_signature,
+                userId // Include userId for payment verification
               })
             });
 
             const verifyResult = await verifyResponse.json();
 
             if (verifyResult.success) {
-              alert(`✅ Payment Successful! ${verifyResult.data.credits_added} credits added to your account.`);
               setShowPaymentModal(false);
               setSelectedPlan(null);
               setIsCustom(false);
               // Refresh data
               await fetchCreditBalance();
               await fetchTransactions();
+              // Show success modal
+              setSuccessData({
+                creditsAdded: verifyResult.data.credits_added,
+                newBalance: verifyResult.data.new_balance,
+                transactionId: verifyResult.data.transaction_id,
+                amount: amount,
+                planName: planName,
+              });
+              setShowSuccessModal(true);
             } else {
               alert('❌ Payment verification failed. Please contact support.');
             }
           } catch (error) {
             console.error('Verification error:', error);
             alert('❌ Payment verification failed. Please contact support.');
+          } finally {
+            setLoading(false);
           }
         },
         prefill: {
-          name: "Customer Name",
-          email: "customer@example.com",
-          contact: "9999999999",
+          name: userInfo.name || 'Customer',
+          email: userInfo.email,
+          contact: userInfo.assignedPhoneNumber,
         },
         theme: {
           color: "#8b5cf6",
@@ -556,6 +614,528 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               <span>Secured by Razorpay • 256-bit SSL Encrypted</span>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Generate and download invoice as HTML→PDF
+  const generateInvoice = (invoiceData: {
+    transactionId: string;
+    date: string;
+    planName: string;
+    credits: number;
+    amount: number;
+    status: string;
+    paymentMethod?: string;
+    userName?: string;
+    userEmail?: string;
+  }) => {
+    const invoiceNumber = `INV-${invoiceData.transactionId.slice(-8).toUpperCase()}`;
+    const invoiceDate = invoiceData.date || new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Invoice ${invoiceNumber}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; color: #0f172a; background: #e2e8f0; padding: 0; -webkit-font-smoothing: antialiased; }
+
+  .page { max-width: 800px; margin: 0 auto; background: #fff; overflow: hidden; position: relative; min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* === HERO HEADER === */
+  .hero {
+    background: linear-gradient(135deg, #0f0a2e 0%, #1a1145 30%, #2d1b69 60%, #1e1b4b 100%);
+    padding: 28px 36px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60%; right: -20%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40%; left: -10%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
+  .logo-group { display: flex; align-items: center; gap: 10px; }
+  .logo-circle {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 18px rgba(139,92,246,0.4);
+  }
+  .logo-circle svg { width: 20px; height: 20px; fill: white; }
+  .logo-text { color: white; }
+  .logo-title { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+  .logo-title em { font-style: normal; color: #a78bfa; }
+  .logo-sub { font-size: 9px; color: #818cf8; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
+
+  .inv-tag {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px 16px;
+    text-align: right;
+  }
+  .inv-tag-label { font-size: 9px; color: #818cf8; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+  .inv-tag-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #e0e7ff; font-weight: 700; margin-top: 2px; }
+
+  /* Amount showcase */
+  .amount-showcase {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .amount-label { font-size: 9px; color: #818cf8; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 4px; }
+  .amount-value { font-size: 36px; font-weight: 800; color: white; letter-spacing: -2px; line-height: 1; }
+  .amount-value .currency { font-size: 20px; color: #a78bfa; vertical-align: top; margin-right: 2px; }
+  .amount-meta { display: flex; gap: 18px; margin-top: 8px; }
+  .amount-meta-item { display: flex; align-items: center; gap: 5px; }
+  .meta-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .meta-dot.green { background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,0.5); }
+  .meta-dot.purple { background: #a78bfa; box-shadow: 0 0 6px rgba(167,139,250,0.5); }
+  .meta-text { font-size: 10px; color: #94a3b8; }
+  .meta-text strong { color: #e0e7ff; }
+
+  .paid-stamp { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .stamp-circle {
+    width: 52px; height: 52px;
+    border: 2px solid #34d399;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .stamp-circle::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: 1px dashed rgba(52,211,153,0.3);
+    border-radius: 50%;
+  }
+  .stamp-circle svg { width: 24px; height: 24px; fill: #34d399; }
+  .stamp-text { font-size: 9px; color: #34d399; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; }
+
+  /* === BODY === */
+  .body { padding: 0 36px; flex: 1; }
+
+  /* Info tiles */
+  .info-row {
+    display: flex; gap: 0;
+    margin: -14px 0 18px;
+    position: relative; z-index: 2;
+  }
+  .info-tile {
+    flex: 1;
+    background: white;
+    padding: 14px 16px;
+    border: 1px solid #e2e8f0;
+  }
+  .info-tile:first-child { border-radius: 10px 0 0 10px; border-right: none; }
+  .info-tile:nth-child(2) { border-left: none; border-right: none; }
+  .info-tile:last-child { border-radius: 0 10px 10px 0; border-left: none; }
+  .tile-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
+  .tile-icon svg { width: 14px; height: 14px; }
+  .tile-icon.purple { background: #f3e8ff; }
+  .tile-icon.purple svg { fill: #7c3aed; }
+  .tile-icon.blue { background: #dbeafe; }
+  .tile-icon.blue svg { fill: #2563eb; }
+  .tile-icon.emerald { background: #d1fae5; }
+  .tile-icon.emerald svg { fill: #059669; }
+  .tile-label { font-size: 8px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; margin-bottom: 3px; }
+  .tile-value { font-size: 12px; font-weight: 700; color: #1e293b; }
+  .tile-sub { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+  /* Section titles */
+  .section-title {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 2px;
+    color: #94a3b8; font-weight: 800; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: #e2e8f0; }
+
+  /* Item card */
+  .item-card {
+    background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 100%);
+    border: 1px solid #e9d5ff;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .item-icon-wrap {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, #7c3aed, #6366f1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 3px 12px rgba(124,58,237,0.25);
+  }
+  .item-icon-wrap svg { width: 20px; height: 20px; fill: white; }
+  .item-info { flex: 1; }
+  .item-title { font-size: 13px; font-weight: 800; color: #1e293b; margin-bottom: 2px; }
+  .item-subtitle { font-size: 10px; color: #64748b; }
+  .item-right { text-align: right; }
+  .item-credits {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: white; border: 1.5px solid #e9d5ff;
+    padding: 3px 10px; border-radius: 16px;
+    font-weight: 800; font-size: 12px; color: #7c3aed;
+    margin-bottom: 4px;
+  }
+  .item-credits svg { width: 12px; height: 12px; fill: #7c3aed; }
+  .item-price { font-size: 18px; font-weight: 800; color: #1e293b; }
+  .item-rate { font-size: 9px; color: #94a3b8; margin-top: 1px; }
+
+  /* Breakdown */
+  .breakdown {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .brk-row { display: flex; justify-content: space-between; padding: 6px 0; }
+  .brk-row:not(:last-child) { border-bottom: 1px dashed #e2e8f0; }
+  .brk-label { font-size: 11px; color: #64748b; }
+  .brk-value { font-size: 11px; font-weight: 700; color: #1e293b; }
+  .brk-value.muted { color: #cbd5e1; }
+  .brk-total { padding-top: 10px !important; margin-top: 2px; border-top: 2px solid #7c3aed !important; border-bottom: none !important; }
+  .brk-total .brk-label { font-size: 13px; font-weight: 800; color: #0f172a; }
+  .brk-total .brk-value {
+    font-size: 20px; font-weight: 800; letter-spacing: -1px;
+    background: linear-gradient(135deg, #7c3aed, #2563eb);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  /* Transaction bar */
+  .txn-bar {
+    display: flex; align-items: center;
+    background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    gap: 10px;
+  }
+  .txn-check {
+    width: 24px; height: 24px;
+    background: #22c55e; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .txn-check svg { width: 12px; height: 12px; fill: white; }
+  .txn-details { flex: 1; }
+  .txn-label2 { font-size: 8px; color: #16a34a; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+  .txn-id2 { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #334155; font-weight: 500; margin-top: 1px; }
+  .txn-status-pill {
+    background: #22c55e; color: white;
+    padding: 3px 10px; border-radius: 14px;
+    font-size: 8px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  /* === FOOTER === */
+  .footer-wave { height: 24px; background: white; position: relative; }
+  .footer-wave::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 24px;
+    background: #0f0a2e;
+    clip-path: ellipse(60% 100% at 50% 100%);
+  }
+  .footer-main {
+    background: #0f0a2e;
+    padding: 14px 36px 18px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .footer-left {}
+  .footer-brand2 { font-size: 14px; font-weight: 800; color: white; margin-bottom: 2px; }
+  .footer-brand2 em { font-style: normal; color: #a78bfa; }
+  .footer-desc { font-size: 10px; color: #6366f1; line-height: 1.5; }
+  .footer-right2 { text-align: right; }
+  .footer-link { font-size: 10px; color: #818cf8; text-decoration: none; display: block; line-height: 1.8; }
+  .footer-note2 {
+    background: #0a0720;
+    padding: 8px 36px;
+    text-align: center;
+    font-size: 9px; color: #4338ca;
+    border-top: 1px solid rgba(99,102,241,0.1);
+  }
+
+  @page { margin: 8mm; size: A4; }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { margin: 0; box-shadow: none; min-height: auto; }
+    .hero, .amount-showcase, .logo-circle, .item-icon-wrap, .txn-check, .txn-status-pill,
+    .tile-icon, .item-credits, .stamp-circle, .footer-main, .footer-note2, .footer-wave::after,
+    .paid-stamp, .inv-tag, .breakdown, .brk-total .brk-value, thead th {
+      print-color-adjust: exact; -webkit-print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO HEADER -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-top">
+        <div class="logo-group">
+          <div class="logo-circle">
+            <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+          </div>
+          <div class="logo-text">
+            <div class="logo-title">Digital<em>Bot</em>.ai</div>
+            <div class="logo-sub">AI Voice Assistant Platform</div>
+          </div>
+        </div>
+        <div class="inv-tag">
+          <div class="inv-tag-label">Invoice</div>
+          <div class="inv-tag-num">${invoiceNumber}</div>
+        </div>
+      </div>
+
+      <div class="amount-showcase">
+        <div class="amount-left">
+          <div class="amount-label">Amount Paid</div>
+          <div class="amount-value"><span class="currency">$</span>${invoiceData.amount.toFixed(2)}</div>
+          <div class="amount-meta">
+            <div class="amount-meta-item">
+              <span class="meta-dot green"></span>
+              <span class="meta-text"><strong>${invoiceData.credits.toLocaleString()}</strong> credits</span>
+            </div>
+            <div class="amount-meta-item">
+              <span class="meta-dot purple"></span>
+              <span class="meta-text">via <strong>${invoiceData.paymentMethod || 'Razorpay'}</strong></span>
+            </div>
+          </div>
+        </div>
+        <div class="paid-stamp">
+          <div class="stamp-circle">
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <div class="stamp-text">Paid</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFO TILES -->
+  <div class="body">
+    <div class="info-row">
+      <div class="info-tile">
+        <div class="tile-icon purple">
+          <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+        <div class="tile-label">Billed To</div>
+        <div class="tile-value">${invoiceData.userName || userInfo.name || 'Customer'}</div>
+        <div class="tile-sub">${invoiceData.userEmail || userInfo.email || 'N/A'}</div>
+      </div>
+      <div class="info-tile">
+        <div class="tile-icon blue">
+          <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+        </div>
+        <div class="tile-label">Invoice Date</div>
+        <div class="tile-value">${invoiceDate}</div>
+        <div class="tile-sub">${invoiceNumber}</div>
+      </div>
+      <div class="info-tile">
+        <div class="tile-icon emerald">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div class="tile-label">Payment Status</div>
+        <div class="tile-value" style="color:#059669">${invoiceData.status.toUpperCase()}</div>
+        <div class="tile-sub">${invoiceData.paymentMethod || 'Razorpay'}</div>
+      </div>
+    </div>
+
+    <!-- ITEM -->
+    <div class="section-title">Service Details</div>
+    <div class="item-card">
+      <div class="item-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
+      </div>
+      <div class="item-info">
+        <div class="item-title">${invoiceData.planName}</div>
+        <div class="item-subtitle">Voice AI credit recharge via ${invoiceData.paymentMethod || 'Razorpay'}</div>
+      </div>
+      <div class="item-right">
+        <div class="item-credits">
+          <svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
+          ${invoiceData.credits.toLocaleString()}
+        </div>
+        <div class="item-price">$${invoiceData.amount.toFixed(2)}</div>
+        <div class="item-rate">@ $${(invoiceData.amount / invoiceData.credits).toFixed(4)} per credit</div>
+      </div>
+    </div>
+
+    <!-- BREAKDOWN -->
+    <div class="section-title">Payment Summary</div>
+    <div class="breakdown">
+      <div class="brk-row">
+        <span class="brk-label">${invoiceData.planName} (${invoiceData.credits.toLocaleString()} credits)</span>
+        <span class="brk-value">$${invoiceData.amount.toFixed(2)}</span>
+      </div>
+      <div class="brk-row">
+        <span class="brk-label">Platform Fee</span>
+        <span class="brk-value muted">$0.00</span>
+      </div>
+      <div class="brk-row">
+        <span class="brk-label">Tax</span>
+        <span class="brk-value muted">$0.00</span>
+      </div>
+      <div class="brk-row brk-total">
+        <span class="brk-label">Total Charged</span>
+        <span class="brk-value">$${invoiceData.amount.toFixed(2)}</span>
+      </div>
+    </div>
+
+    <!-- TXN BAR -->
+    <div class="txn-bar">
+      <div class="txn-check">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+      <div class="txn-details">
+        <div class="txn-label2">Transaction Reference</div>
+        <div class="txn-id2">${invoiceData.transactionId}</div>
+      </div>
+      <div class="txn-status-pill">Verified</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-wave"></div>
+  <div class="footer-main">
+    <div class="footer-left">
+      <div class="footer-brand2">Digital<em>Bot</em>.ai</div>
+      <div class="footer-desc">AI Voice Assistant Platform<br>Powering intelligent voice experiences</div>
+    </div>
+    <div class="footer-right2">
+      <a class="footer-link" href="mailto:support@digitalbot.ai">support@digitalbot.ai</a>
+      <a class="footer-link" href="https://www.digitalbot.ai">www.digitalbot.ai</a>
+    </div>
+  </div>
+  <div class="footer-note2">
+    This is a system-generated invoice. No signature required.
+  </div>
+</div>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const printWindow = window.open(url, '_blank');
+    if (printWindow) {
+      printWindow.onload = () => {
+        printWindow.print();
+        URL.revokeObjectURL(url);
+      };
+    } else {
+      // Fallback: direct download as HTML
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Invoice-${invoiceNumber}.html`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  };
+
+  // Transaction Success Modal
+  const SuccessModal = () => {
+    if (!showSuccessModal || !successData) return null;
+    return (
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+        <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 text-center transform transition-all animate-slideUp">
+          {/* Success Icon */}
+          <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg">
+            <CheckCircle2 className="w-10 h-10 text-white" />
+          </div>
+
+          <h3 className="text-2xl font-black text-slate-900 mb-2">Transaction Successful!</h3>
+          <p className="text-slate-500 font-medium mb-6">Your credits have been added to your account</p>
+
+          {/* Transaction Details */}
+          <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-5 mb-6 text-left space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-slate-600 font-medium">Plan</span>
+              <span className="text-sm font-bold text-slate-900">{successData.planName}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-slate-600 font-medium">Amount Paid</span>
+              <span className="text-sm font-bold text-slate-900">${successData.amount}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-slate-600 font-medium">Credits Added</span>
+              <span className="text-sm font-bold text-green-600 flex items-center gap-1">
+                <Zap className="w-4 h-4" />
+                +{successData.creditsAdded.toLocaleString()}
+              </span>
+            </div>
+            <div className="border-t border-green-200 pt-3 flex justify-between items-center">
+              <span className="text-sm text-slate-600 font-medium">New Balance</span>
+              <span className="text-lg font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                {successData.newBalance.toLocaleString()} credits
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-slate-600 font-medium">Transaction ID</span>
+              <span className="text-xs font-mono text-slate-500">{successData.transactionId.slice(-10)}</span>
+            </div>
+          </div>
+
+          <div className="flex gap-3 mb-3">
+            <button
+              onClick={() => {
+                generateInvoice({
+                  transactionId: successData.transactionId,
+                  date: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }),
+                  planName: successData.planName,
+                  credits: successData.creditsAdded,
+                  amount: successData.amount,
+                  status: 'completed',
+                });
+              }}
+              className="flex-1 bg-white border-2 border-purple-200 hover:border-purple-400 text-purple-700 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
+            >
+              <Download className="w-5 h-5" />
+              Download Invoice
+            </button>
+            <button
+              onClick={() => {
+                setShowSuccessModal(false);
+                setSuccessData(null);
+              }}
+              className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+            >
+              <CheckCircle2 className="w-5 h-5" />
+              Continue
+            </button>
+          </div>
+
+          <p className="text-xs text-slate-400 mt-2">A receipt has been sent to your email</p>
         </div>
       </div>
     );
@@ -891,7 +1471,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                     </span>
                     <span className="text-sm text-slate-600 font-medium">credits</span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1.5">$0.09 per credit</p>
+                  <p className="text-xs text-slate-500 mt-1.5">1 credit = ₹1</p>
                 </div>
               </div>
 
@@ -980,10 +1560,25 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                               </span>
                             </td>
                             <td className="px-6 py-4">
-                              <button className="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1">
-                                <Download className="w-4 h-4" />
-                                Download
-                              </button>
+                              {txn.status === 'completed' ? (
+                                <button
+                                  onClick={() => generateInvoice({
+                                    transactionId: txn.id,
+                                    date: txn.date,
+                                    planName: `Credit Recharge`,
+                                    credits: txn.credits,
+                                    amount: txn.amount,
+                                    status: txn.status,
+                                    paymentMethod: txn.paymentMethod,
+                                  })}
+                                  className="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1"
+                                >
+                                  <Download className="w-4 h-4" />
+                                  Invoice
+                                </button>
+                              ) : (
+                                <span className="text-slate-400 text-sm">—</span>
+                              )}
                             </td>
                           </tr>
                         ))
@@ -1259,6 +1854,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
       </main>
 
       {showPaymentModal && mounted && <PaymentModal />}
+      <SuccessModal />
     </div>
   );
 }
