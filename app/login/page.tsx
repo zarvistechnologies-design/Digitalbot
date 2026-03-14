@@ -35,7 +35,7 @@ export default function LoginPage(): JSX.Element {
     // Clear any old cached data first
     localStorage.clear();
     sessionStorage.clear();
-    
+
     // Clear all cookies
     document.cookie.split(";").forEach((c) => {
       document.cookie = c
@@ -44,9 +44,9 @@ export default function LoginPage(): JSX.Element {
     });
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api';
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
       console.log('🔐 Attempting login to:', API_URL);
-      
+
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -61,10 +61,10 @@ export default function LoginPage(): JSX.Element {
       if (response.ok && data.token) {
         // Store token in localStorage
         localStorage.setItem('token', data.token);
-        
+
         // Store token in cookie for middleware access (expires in 24 hours)
         document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict`;
-        
+
         // Store user object as a JSON string
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user));

@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
 
 interface CreditPackage {
   id: string;
@@ -249,12 +249,12 @@ export default function Billing() {
       console.log('🔐 Token Present:', !!token);
       console.log('🔐 Token Preview:', token ? token.substring(0, 30) + '...' : 'NO TOKEN');
       console.log('📋 API URL:', `${API_BASE_URL}/billing/credits/balance`);
-      
+
       const userId = getUserId();
       const response = await fetch(`${API_BASE_URL}/billing/credits/balance?userId=${userId}`);
-      
+
       console.log('📊 Response Status:', response.status, response.statusText);
-      
+
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         if (response.status === 403) {
@@ -267,10 +267,10 @@ export default function Billing() {
         }
         return;
       }
-      
+
       const result = await response.json();
       console.log('✅ Credit Balance Response:', result);
-      
+
       if (result.success) {
         setUserCredits(result.data);
       }
@@ -286,20 +286,20 @@ export default function Billing() {
       console.log('\n========== FETCH TRANSACTIONS ==========');
       console.log('🔐 Token Present:', !!token);
       console.log('📋 API URL:', `${API_BASE_URL}/billing/transactions/history?limit=10`);
-      
+
       const userId = getUserId();
       const response = await fetch(`${API_BASE_URL}/billing/transactions/history?userId=${userId}&limit=10`);
-      
+
       console.log('📊 Response Status:', response.status, response.statusText);
-      
+
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         return;
       }
-      
+
       const result = await response.json();
       console.log('✅ Transactions Response:', result);
-      
+
       if (result.success && result.data.transactions) {
         setRecentTransactions(result.data.transactions);
       }
@@ -315,20 +315,20 @@ export default function Billing() {
       console.log('\n========== FETCH CALL HISTORY ==========');
       console.log('🔐 Token Present:', !!token);
       console.log('📋 API URL:', `${API_BASE_URL}/billing/calls/history?limit=10`);
-      
+
       const userId = getUserId();
       const response = await fetch(`${API_BASE_URL}/billing/calls/history?userId=${userId}&limit=10`);
-      
+
       console.log('📊 Response Status:', response.status, response.statusText);
-      
+
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         return;
       }
-      
+
       const result = await response.json();
       console.log('✅ Call History Response:', result);
-      
+
       if (result.success && result.data.calls) {
         setCallHistory(result.data.calls);
       }
@@ -344,20 +344,20 @@ export default function Billing() {
       console.log('\n========== FETCH CALL STATISTICS ==========');
       console.log('🔐 Token Present:', !!token);
       console.log('📋 API URL:', `${API_BASE_URL}/billing/calls/statistics`);
-      
+
       const userId = getUserId();
       const response = await fetch(`${API_BASE_URL}/billing/calls/statistics?userId=${userId}`);
-      
+
       console.log('📊 Response Status:', response.status, response.statusText);
-      
+
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         return;
       }
-      
+
       const result = await response.json();
       console.log('✅ Call Statistics Response:', result);
-      
+
       if (result.success) {
         setCallStats(result.data);
       }
@@ -412,7 +412,7 @@ const userId = getUserId(); // Get the userId
 
 const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order`, {
   method: 'POST',
-  headers: { 
+  headers: {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}` // ✅ Add this line
   },
@@ -426,7 +426,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 });
 
       const orderResult = await orderResponse.json();
-      
+
       if (!orderResult.success) {
         throw new Error(orderResult.message || 'Failed to create order');
       }
@@ -549,7 +549,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             </h3>
             <p className="text-slate-600 font-medium">Secure payment via Razorpay</p>
           </div>
-          
+
           <div className="bg-gradient-to-br from-slate-50 to-purple-50 border-2 border-purple-200 rounded-2xl p-6 mb-6">
             <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-200">
               <span className="text-slate-700 font-bold">Plan:</span>
@@ -577,7 +577,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           </div>
 
           <div className="space-y-3">
-            <button 
+            <button
               onClick={handlePayment}
               disabled={loading}
               className="w-full bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50"
@@ -594,8 +594,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                 </>
               )}
             </button>
-            
-            <button 
+
+            <button
               onClick={() => {
                 setShowPaymentModal(false);
                 setIsCustom(false);
@@ -1169,7 +1169,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="lg:hidden fixed inset-0 bg-black/50 z-40"
           onClick={() => setSidebarOpen(false)}
         >
@@ -1186,7 +1186,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
       <main className="flex-1 lg:ml-60 p-4 sm:p-8 pt-20 lg:pt-8">
         <div className="max-w-7xl mx-auto">
-          
+
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-4">
@@ -1195,7 +1195,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                 <span className="text-sm font-bold text-purple-700">Special Offer: Get 20% more credits on Business Plan!</span>
               </div>
             </div>
-            
+
             {/* View Toggle Buttons */}
             <div className="flex items-center justify-between mb-6">
               <div>
@@ -1203,13 +1203,13 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   {activeView === 'credits' ? 'Credit Management' : 'Call History'}
                 </h1>
                 <p className="text-base text-slate-600 font-medium">
-                  {activeView === 'credits' 
+                  {activeView === 'credits'
                     ? 'Purchase credits, manage payments, and track your usage'
                     : 'View your call history and usage details'
                   }
                 </p>
               </div>
-              
+
               <div className="flex gap-2 bg-white rounded-xl p-2 shadow-lg border-2 border-slate-200">
                 <button
                   onClick={() => setActiveView('credits')}
@@ -1257,7 +1257,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   <Zap className="w-8 h-8 text-white" />
                 </div>
               </div>
-              
+
               {/* Progress Bar */}
               <div className="mb-4">
                 <div className="flex justify-between items-center mb-1.5">
@@ -1265,7 +1265,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   <span className="text-xs font-bold text-purple-600">{userCredits.percentage.toFixed(1)}%</span>
                 </div>
                 <div className="bg-slate-200 rounded-full h-2 overflow-hidden">
-                  <div 
+                  <div
                     className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 transition-all duration-700"
                     style={{ width: `${userCredits.percentage}%` }}
                   >
@@ -1348,11 +1348,11 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               <Package className="w-5 h-5 text-purple-600" />
               Choose Your Plan
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               {creditPackages.map((pkg) => {
                 const isSelected = selectedPlan === pkg.id && !isCustom;
-                
+
                 return (
                   <div
                     key={pkg.id}
@@ -1462,7 +1462,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
-                
+
                 <div className="mt-3 text-center">
                   <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg px-4 py-2 border border-purple-200">
                     <Zap className="w-4 h-4 text-purple-600" />
@@ -1550,8 +1550,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                             </td>
                             <td className="px-6 py-4">
                               <span className={`px-3 py-1 inline-flex text-xs font-bold rounded-full ${
-                                txn.status === 'completed' 
-                                  ? 'bg-green-100 text-green-800' 
+                                txn.status === 'completed'
+                                  ? 'bg-green-100 text-green-800'
                                   : txn.status === 'pending'
                                   ? 'bg-yellow-100 text-yellow-800'
                                   : 'bg-red-100 text-red-800'
@@ -1660,7 +1660,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   support@digitalbot.com
                 </a>
               </div>
-              
+
               <div className="mt-4 pt-4 border-t border-white/30">
                 <div className="grid grid-cols-3 gap-3 text-white">
                   <div className="text-center">
@@ -1714,7 +1714,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl p-6 text-white shadow-xl">
                   <div className="flex items-center justify-between mb-4">
                     <Clock className="w-12 h-12" />
@@ -1724,7 +1724,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-6 text-white shadow-xl">
                   <div className="flex items-center justify-between mb-4">
                     <Zap className="w-12 h-12" />
@@ -1765,8 +1765,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                             <td className="px-6 py-4 text-sm font-medium text-slate-700">{call.duration}</td>
                             <td className="px-6 py-4">
                               <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
-                                call.type === 'Outbound' 
-                                  ? 'bg-blue-100 text-blue-700' 
+                                call.type === 'Outbound'
+                                  ? 'bg-blue-100 text-blue-700'
                                   : 'bg-green-100 text-green-700'
                               }`}>
                                 {call.type}

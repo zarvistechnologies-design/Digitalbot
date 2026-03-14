@@ -5,8 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 // ==========================================
 // CONFIGURATION - FORCE LOCALHOST FOR DEVELOPMENT
 // ==========================================
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api';
-const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'wss://digital-api-tef8.onrender.com/ws';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'wss://digital-api-46ss.onrender.com/ws';
 console.log('🌐 API_BASE_URL:', API_BASE_URL);
 console.log('🔌 WS_URL:', WS_URL);
 
@@ -63,7 +63,7 @@ Respond ONLY with valid JSON in this exact format (no markdown, no backticks):
 {
   "is_lead": boolean,
   "customer_name": "string or empty",
-  "phone_number": "string or empty", 
+  "phone_number": "string or empty",
   "product_interest": "string or empty",
   "customer_need": "string or empty",
   "confidence_score": number between 0 and 1
@@ -84,7 +84,7 @@ const formatTimeAgo = (dateString?: string) => {
   const date = new Date(dateString);
   const now = new Date();
   const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-  
+
   if (diffInHours < 1) return "Just now";
   if (diffInHours < 24) return `${diffInHours}h ago`;
   if (diffInHours < 48) return "Yesterday";
@@ -157,7 +157,7 @@ const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }
             </button>
           </div>
         </div>
-        
+
         <div className="p-4 sm:p-6 space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
@@ -272,13 +272,13 @@ const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }
 };
 
 // Prompt Editor Modal Component
-const PromptEditorModal = ({ 
-  currentPrompt, 
-  onSave, 
-  onCancel, 
-  onReset, 
-  onChange 
-}: { 
+const PromptEditorModal = ({
+  currentPrompt,
+  onSave,
+  onCancel,
+  onReset,
+  onChange
+}: {
   currentPrompt: string;
   onSave: () => void;
   onCancel: () => void;
@@ -301,7 +301,7 @@ const PromptEditorModal = ({
             </button>
           </div>
         </div>
-        
+
         <div className="p-4 sm:p-6">
           <div className="mb-4">
             <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
@@ -317,7 +317,7 @@ const PromptEditorModal = ({
               Use {'{TRANSCRIPTION_PLACEHOLDER}'} where you want the call transcription to be inserted.
             </p>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row justify-between gap-3">
             <button
               onClick={onReset}
@@ -347,20 +347,20 @@ const PromptEditorModal = ({
 };
 
 // Call Card Component
-function CallCard({ 
-  call, 
-  onAnalyze, 
-  onViewDetails, 
-  isProcessing 
-}: { 
-  call: Call; 
-  onAnalyze: () => void; 
+function CallCard({
+  call,
+  onAnalyze,
+  onViewDetails,
+  isProcessing
+}: {
+  call: Call;
+  onAnalyze: () => void;
   onViewDetails: () => void;
   isProcessing: boolean;
 }) {
   const isAnalyzed = call.isLead !== undefined && call.isLead !== null && call.leadAnalysisAt;
   const hasTranscription = call.transcription || call.transcript;
-  
+
   return (
     <div className={`bg-white rounded-2xl shadow-lg border transition-all duration-300 hover:shadow-xl ${
       call.isLead === true ? 'border-l-4 border-l-green-400 bg-gradient-to-r from-green-50/50 to-white' :
@@ -369,7 +369,7 @@ function CallCard({
     }`}>
       <div className="p-4 sm:p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          
+
           <div className="flex-1 min-w-0">
             <div className="space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
@@ -384,7 +384,7 @@ function CallCard({
                   {formatDuration(call.duration)}
                 </span>
               </div>
-              
+
               <div className="flex flex-wrap items-center gap-3">
                 {isAnalyzed ? (
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-xs sm:text-sm">
@@ -425,7 +425,7 @@ function CallCard({
                         </svg>
                         <h3 className="text-base sm:text-lg font-bold text-green-800">Lead Identified</h3>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
                         {call.name && (
                           <div>
@@ -453,7 +453,7 @@ function CallCard({
                         )}
                       </div>
                     </div>
-                    
+
                     {call.confidence && (
                       <div className="text-center bg-white rounded-lg p-3 shadow-sm shrink-0">
                         <div className="text-xl sm:text-2xl font-bold text-green-800">
@@ -567,8 +567,8 @@ export default function LeadsPage() {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('leadAnalysisPrompt');
       // Force update to new simple prompt if old strict/Hindi prompt is detected
-      if (saved && (saved.includes('DEFINITELY NOT LEADS') || 
-                     saved.includes('STRICT sales lead') || 
+      if (saved && (saved.includes('DEFINITELY NOT LEADS') ||
+                     saved.includes('STRICT sales lead') ||
                      saved.includes('आप एक स्मार्ट लीड विश्लेषक'))) {
         console.log('🔄 Upgrading to new simple prompt...');
         localStorage.setItem('leadAnalysisPrompt', DEFAULT_PROMPT);
@@ -585,14 +585,14 @@ export default function LeadsPage() {
   });
   const [editingPrompt, setEditingPrompt] = useState(currentPrompt);
   const [leadScore, setLeadScore] = useState<'all' | 'hot' | 'warm' | 'cold'>('all');
-  
+
   // Save prompt to localStorage whenever it changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('leadAnalysisPrompt', currentPrompt);
     }
   }, [currentPrompt]);
-  
+
   // Calculate lead score category
   const getLeadScoreCategory = useCallback((confidence?: number) => {
     if (!confidence) return 'unscored';
@@ -606,13 +606,13 @@ export default function LeadsPage() {
   // ==========================================
   const processTranscriptionWithAI = useCallback(async (callId: string, transcription: string) => {
     const apiUrl = `${API_BASE_URL}/leads/analyze-lead`;
-    
+
     try {
       console.log(`🔍 Processing call ${callId} with OpenAI...`);
-      
+
       const processedPrompt = currentPrompt.replace('{TRANSCRIPTION_PLACEHOLDER}', transcription);
       const token = getAuthToken();
-      
+
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -631,21 +631,21 @@ export default function LeadsPage() {
         console.error(`Backend error (${response.status}):`, errorText);
         throw new Error(`Backend responded with ${response.status}: ${errorText}`);
       }
-      
+
       const result = await response.json();
       console.log(`✅ AI analysis complete for ${callId}:`, result);
-      
+
       // FIXED: Extract data from result.data (not result directly)
       if (result.success && result.data) {
         return result.data; // This contains is_lead, customer_name, etc.
       } else {
         throw new Error('Invalid response format from backend');
       }
-      
+
     } catch (error) {
       console.error(`❌ AI processing failed for ${callId}:`, error);
-      return { 
-        is_lead: false, 
+      return {
+        is_lead: false,
         customer_name: "",
         phone_number: "",
         product_interest: "",
@@ -678,15 +678,15 @@ export default function LeadsPage() {
     }
 
     setProcessingQueue(prev => [...prev, callId]);
-    
+
     try {
       console.log(`${forceReanalyze ? '🔄 Re-analyzing' : '🆕 Analyzing'} call ${callId}...`);
       const aiResult = await processTranscriptionWithAI(call._id, transcriptionText);
-      
+
       if (aiResult && aiResult.extraction_method !== "failed") {
-        setCalls(prevCalls => 
-          prevCalls.map(c => 
-            c._id === callId 
+        setCalls(prevCalls =>
+          prevCalls.map(c =>
+            c._id === callId
               ? {
                   ...c,
                   isLead: aiResult.is_lead,
@@ -700,7 +700,7 @@ export default function LeadsPage() {
               : c
           )
         );
-        
+
         console.log(`✅ Successfully ${forceReanalyze ? 're-analyzed' : 'analyzed'} call ${callId}:`, {
           isLead: aiResult.is_lead,
           customerName: aiResult.customer_name,
@@ -708,9 +708,9 @@ export default function LeadsPage() {
         });
       } else {
         console.error(`❌ AI analysis failed for call ${callId}`);
-        setCalls(prevCalls => 
-          prevCalls.map(c => 
-            c._id === callId 
+        setCalls(prevCalls =>
+          prevCalls.map(c =>
+            c._id === callId
               ? {
                   ...c,
                   isLead: false,
@@ -723,9 +723,9 @@ export default function LeadsPage() {
       }
     } catch (error) {
       console.error(`❌ Failed to process call ${callId}:`, error);
-      setCalls(prevCalls => 
-        prevCalls.map(c => 
-          c._id === callId 
+      setCalls(prevCalls =>
+        prevCalls.map(c =>
+          c._id === callId
             ? {
                 ...c,
                 isLead: false,
@@ -744,8 +744,8 @@ export default function LeadsPage() {
   // Analyze All Pending Calls
   // ==========================================
   const analyzeAllPendingCalls = useCallback(async () => {
-    const pendingCalls = calls.filter(call => 
-      (call.transcription || call.transcript) && 
+    const pendingCalls = calls.filter(call =>
+      (call.transcription || call.transcript) &&
       (call.isLead === undefined || call.isLead === null || !call.leadAnalysisAt)
     );
 
@@ -757,25 +757,25 @@ export default function LeadsPage() {
     const confirmAnalysis = window.confirm(
       `Analyze ${pendingCalls.length} pending calls with OpenAI? This may take a few minutes and will use API credits.`
     );
-    
+
     if (!confirmAnalysis) return;
 
     console.log(`🚀 Starting bulk analysis of ${pendingCalls.length} calls...`);
-    
+
     const batchSize = 3;
     for (let i = 0; i < pendingCalls.length; i += batchSize) {
       const batch = pendingCalls.slice(i, i + batchSize);
       console.log(`📊 Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(pendingCalls.length/batchSize)}`);
-      
+
       await Promise.all(
         batch.map(call => processIndividualCall(call._id, false))
       );
-      
+
       if (i + batchSize < pendingCalls.length) {
         await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay between batches
       }
     }
-    
+
     console.log('✅ Bulk analysis completed!');
     alert(`Analysis complete! Processed ${pendingCalls.length} calls.`);
   }, [calls, processIndividualCall]);
@@ -787,7 +787,7 @@ export default function LeadsPage() {
     try {
       // Filter only qualified leads
       const leadsToExport = filteredCalls.filter(call => call.isLead === true);
-      
+
       if (leadsToExport.length === 0) {
         alert('No leads to export!');
         return;
@@ -812,7 +812,7 @@ export default function LeadsPage() {
       const rows = leadsToExport.map(call => {
         const leadQuality = getLeadScoreCategory(call.confidence);
         const callDate = call.startTime ? new Date(call.startTime).toLocaleString() : 'N/A';
-        
+
         return [
           call._id || '',
           call.name || 'Unknown',
@@ -835,18 +835,18 @@ export default function LeadsPage() {
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
-      
+
       link.setAttribute('href', url);
       link.setAttribute('download', `leads_export_${new Date().toISOString().split('T')[0]}.csv`);
       link.style.visibility = 'hidden';
-      
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
       console.log(`✅ Exported ${leadsToExport.length} leads to CSV`);
       alert(`✅ Successfully exported ${leadsToExport.length} leads to CSV!`);
-      
+
     } catch (error) {
       console.error('Error exporting leads:', error);
       alert('Failed to export leads. Please try again.');
@@ -859,15 +859,15 @@ export default function LeadsPage() {
   const fetchCalls = useCallback(async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       console.log("📞 Fetching calls from MongoDB...");
-      
+
       const token = getAuthToken();
       console.log("🔐 Token retrieved:", token);
       console.log("🌐 API Base URL:", API_BASE_URL);
       console.log("📡 Full URL:", `${API_BASE_URL}/calls?limit=0`);
-      
+
       const callsResponse = await fetch(`${API_BASE_URL}/calls?limit=0`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -883,17 +883,17 @@ export default function LeadsPage() {
         console.error("❌ Error response:", errorText);
         throw new Error(`Failed to fetch calls: ${callsResponse.status} ${callsResponse.statusText}`);
       }
-      
+
       const callsData = await callsResponse.json();
       const fetchedCalls = callsData.calls || callsData.data?.calls || [];
-      
+
       console.log(`📊 Fetched ${fetchedCalls.length} calls from backend (already filtered by user phone)`);
-      
+
       // Backend already filters by authenticated user's phone number
       // No need for client-side filtering - just use the data directly
       setCalls(fetchedCalls);
       console.log(`✅ Loaded ${fetchedCalls.length} calls for authenticated user`);
-      
+
     } catch (error) {
       console.error("❌ Error in fetchCalls:", error);
       setError(error instanceof Error ? error.message : 'Failed to fetch calls');
@@ -910,7 +910,7 @@ export default function LeadsPage() {
     try {
       console.log("📊 Fetching leads from database...");
       const token = getAuthToken();
-      
+
       const response = await fetch(`${API_BASE_URL}/leads`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -926,10 +926,10 @@ export default function LeadsPage() {
 
       const data = await response.json();
       const leads = data.data?.leads || [];
-      
+
       setDbLeads(leads);
       console.log(`✅ Fetched ${leads.length} leads from database`);
-      
+
     } catch (error) {
       console.error("❌ Error fetching leads:", error);
     } finally {
@@ -947,19 +947,19 @@ export default function LeadsPage() {
   // ==========================================
   useEffect(() => {
     let ws: WebSocket;
-    
+
     const connectWebSocket = () => {
       try {
         ws = new WebSocket(WS_URL);
-        
+
         ws.onopen = () => {
           console.log("🔌 WebSocket connected");
         };
-        
+
         ws.onmessage = async (event) => {
           try {
             const newCallsData = JSON.parse(event.data);
-            
+
             if (Array.isArray(newCallsData)) {
               setCalls(prevCalls => {
                 const updatedCalls = [...prevCalls];
@@ -978,18 +978,18 @@ export default function LeadsPage() {
             console.error("Failed to parse WebSocket message:", error);
           }
         };
-        
+
         ws.onerror = (error) => {
           console.error("WebSocket error:", error);
         };
-        
+
       } catch (error) {
         console.error("Failed to connect WebSocket:", error);
       }
     };
-    
+
     const timer = setTimeout(connectWebSocket, 2000);
-    
+
     return () => {
       clearTimeout(timer);
       if (ws) {
@@ -1011,7 +1011,7 @@ export default function LeadsPage() {
     } else if (filterStatus === 'pending') {
       filtered = filtered.filter(call => call.isLead === undefined || call.isLead === null);
     }
-    
+
     if (leadScore !== 'all') {
       filtered = filtered.filter(call => {
         const category = getLeadScoreCategory(call.confidence);
@@ -1021,7 +1021,7 @@ export default function LeadsPage() {
 
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(call => 
+      filtered = filtered.filter(call =>
         call._id.toLowerCase().includes(term) ||
         (call.from_number && call.from_number.toLowerCase().includes(term)) ||
         (call.to_number && call.to_number.toLowerCase().includes(term)) ||
@@ -1033,7 +1033,7 @@ export default function LeadsPage() {
 
     filtered = filtered.sort((a, b) => {
       let aValue: any, bValue: any;
-      
+
       switch (sortField) {
         case 'startTime':
           aValue = new Date(a.startTime || a.createdAt || 0).getTime();
@@ -1050,7 +1050,7 @@ export default function LeadsPage() {
         default:
           return 0;
       }
-      
+
       return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
     });
 
@@ -1063,15 +1063,15 @@ export default function LeadsPage() {
   const totalCalls = calls.length;
   const leadsCount = calls.filter(call => call.isLead === true).length;
   const analyzedCount = calls.filter(call => call.leadAnalysisAt).length;
-  const pendingAnalysis = calls.filter(call => 
-    (call.transcription || call.transcript) && 
+  const pendingAnalysis = calls.filter(call =>
+    (call.transcription || call.transcript) &&
     (!call.leadAnalysisAt)
   ).length;
-  const noTranscriptionCount = calls.filter(call => 
+  const noTranscriptionCount = calls.filter(call =>
     !call.transcription && !call.transcript
   ).length;
   const conversionRate = analyzedCount > 0 ? ((leadsCount / analyzedCount) * 100).toFixed(1) : "0";
-  
+
   const hotLeads = calls.filter(call => call.isLead && call.confidence && call.confidence > 0.8).length;
   const warmLeads = calls.filter(call => call.isLead && call.confidence && call.confidence > 0.5 && call.confidence <= 0.8).length;
   const coldLeads = calls.filter(call => call.isLead && call.confidence && call.confidence <= 0.5).length;
@@ -1147,7 +1147,7 @@ export default function LeadsPage() {
 
       <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8">
         <div className="max-w-8xl mx-auto space-y-6 sm:space-y-8">
-          
+
           <div className="bg-white rounded-2xl shadow-xl border-2 border-purple-200 p-4 sm:p-6 lg:p-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div>
@@ -1164,7 +1164,7 @@ export default function LeadsPage() {
                   Real-time insights • Smart automation • OpenAI Analysis
                 </p>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                 <BulkAnalysisButton />
                 <button
@@ -1179,7 +1179,7 @@ export default function LeadsPage() {
                 </button>
               </div>
             </div>
-            
+
             {error && (
               <div className="mt-4 sm:mt-6 bg-red-50 border-l-4 border-red-400 rounded-lg p-4">
                 <div className="flex items-start">
@@ -1208,7 +1208,7 @@ export default function LeadsPage() {
                 <p className="text-xs sm:text-sm text-slate-500">{noTranscriptionCount} without audio</p>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-2xl shadow-lg border-2 border-green-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
                 <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
@@ -1221,7 +1221,7 @@ export default function LeadsPage() {
                 <p className="text-xs sm:text-sm text-slate-500">{conversionRate}% of analyzed calls</p>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-2xl shadow-lg border-2 border-purple-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
                 <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg">
@@ -1234,7 +1234,7 @@ export default function LeadsPage() {
                 <p className="text-xs sm:text-sm text-slate-500">{pendingAnalysis} pending analysis</p>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-2xl shadow-lg border-2 border-sky-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
                 <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-sky-500 to-red-600 shadow-lg">
@@ -1248,7 +1248,7 @@ export default function LeadsPage() {
               </div>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             <div className="bg-white border-2 border-red-200 rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center justify-between mb-4">
@@ -1341,21 +1341,21 @@ export default function LeadsPage() {
                           {lead.priority || lead.leadPriority || 'Normal'}
                         </span>
                       </div>
-                      
+
                       {(lead.product_interest || lead.interests) && (
                         <div className="mb-2">
                           <p className="text-xs text-slate-500 font-semibold mb-1">Interest:</p>
                           <p className="text-sm text-slate-700">{lead.product_interest || lead.interests?.[0] || 'N/A'}</p>
                         </div>
                       )}
-                      
+
                       {(lead.customer_need || lead.painPoints) && (
                         <div className="mb-2">
                           <p className="text-xs text-slate-500 font-semibold mb-1">Need:</p>
                           <p className="text-sm text-slate-700">{lead.customer_need || lead.painPoints?.[0] || 'N/A'}</p>
                         </div>
                       )}
-                      
+
                       <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-200">
                         <span className={`px-2 py-1 rounded-full text-xs font-bold ${
                           lead.status === 'New' || lead.leadStatus === 'new'
@@ -1399,7 +1399,7 @@ export default function LeadsPage() {
 
           <div className="bg-white rounded-2xl shadow-xl border-2 border-purple-200 p-4 sm:p-6">
             <div className="flex flex-col gap-4 sm:gap-6">
-              
+
               <div className="w-full">
                 <div className="relative">
                   <input
@@ -1426,7 +1426,7 @@ export default function LeadsPage() {
                     key={filter.value}
                     onClick={() => setFilterStatus(filter.value as FilterStatus)}
                     className={`px-3 sm:px-4 py-2 rounded-lg font-bold transition-all duration-200 text-xs sm:text-sm border-2 ${
-                      filterStatus === filter.value 
+                      filterStatus === filter.value
                         ? filter.active + ' text-white shadow-lg transform scale-105'
                         : filter.color
                     }`}
@@ -1436,7 +1436,7 @@ export default function LeadsPage() {
                   </button>
                 ))}
               </div>
-              
+
               <div className="flex flex-wrap gap-2 sm:gap-3">
                 <span className="text-slate-700 text-sm font-bold self-center">Lead Score:</span>
                 {[
@@ -1449,7 +1449,7 @@ export default function LeadsPage() {
                     key={filter.value}
                     onClick={() => setLeadScore(filter.value as any)}
                     className={`px-3 sm:px-4 py-2 rounded-lg font-bold transition-all duration-200 text-xs sm:text-sm border-2 ${
-                      leadScore === filter.value 
+                      leadScore === filter.value
                         ? filter.active + ' text-white shadow-lg transform scale-105'
                         : filter.color + ' hover:scale-105'
                     }`}
@@ -1512,9 +1512,9 @@ export default function LeadsPage() {
               </div>
             ) : (
               filteredCalls.map((call) => (
-                <CallCard 
-                  key={call._id} 
-                  call={call} 
+                <CallCard
+                  key={call._id}
+                  call={call}
                   onAnalyze={() => processIndividualCall(call._id, call.leadAnalysisAt ? true : false)}
                   onViewDetails={() => setSelectedCall(call)}
                   isProcessing={processingQueue.includes(call._id)}
@@ -1558,4 +1558,4 @@ export default function LeadsPage() {
       </main>
     </div>
   );
-}  
+}

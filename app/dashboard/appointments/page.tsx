@@ -50,7 +50,7 @@ interface Appointment {
 }
 
 // ==================== CONSTANTS ====================
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
 
 const statusStyles: Record<Appointment["status"], string> = {
   scheduled: "bg-blue-100 text-blue-700 border-blue-300",
@@ -96,19 +96,19 @@ function StatusBadge({ status }: { status: Appointment["status"] }) {
 function SourceBadge({ source }: { source: Appointment["source"] }) {
   const isAI = source === "millis_ai_auto";
   const isManual = source === "manual";
-  
+
   const getStyles = () => {
     if (isAI) return "bg-purple-100 text-purple-700";
     if (isManual) return "bg-blue-100 text-blue-700";
     return "bg-gray-100 text-gray-600";
   };
-  
+
   const getLabel = () => {
     if (isAI) return "AI";
     if (isManual) return "Manual";
     return source;
   };
-  
+
   return (
     <span
       className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${getStyles()}`}
@@ -392,7 +392,7 @@ function AppointmentModal({
               </button>
             </div>
 
-            
+
           </div>
 
           {/* Follow-up Call Section */}

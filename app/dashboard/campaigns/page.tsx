@@ -74,7 +74,7 @@ const MenuIcon = () => (
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
     </svg>
 );
-function CampaignCard({ campaign, onView, onEdit, onToggle, onLaunch, isLaunching, userPhone }: { 
+function CampaignCard({ campaign, onView, onEdit, onToggle, onLaunch, isLaunching, userPhone }: {
 campaign: Campaign;
 onView: () => void;
 onEdit: () => void;
@@ -295,7 +295,7 @@ export default function CampaignsPage() {
                     return;
                 }
 
-                const API_BASE_URL = 'https://digital-api-tef8.onrender.com/api';
+                const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
 
                 const response = await fetch(`${API_BASE_URL}/campaigns`, {
                     headers: {
@@ -367,7 +367,7 @@ export default function CampaignsPage() {
                 return;
             }
 
-            const API_BASE_URL = 'https://digital-api-tef8.onrender.com/api';
+            const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
 
             const endpoint = currentStatus === 'active' ? 'pause' : 'resume';
 
@@ -581,7 +581,7 @@ export default function CampaignsPage() {
         setCreating(true);
 
         try {
-            const API_BASE_URL = 'https://digital-api-tef8.onrender.com/api';
+            const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
 
             const newCampaign = {
                 name: campaignName,
@@ -684,7 +684,7 @@ export default function CampaignsPage() {
         setLaunching(true);
 
         try {
-            const API_BASE_URL = 'https://digital-api-tef8.onrender.com/api';
+            const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
 
             const response = await fetch(`${API_BASE_URL}/campaigns/${campaignId}/launch`, {
                 method: 'POST',
