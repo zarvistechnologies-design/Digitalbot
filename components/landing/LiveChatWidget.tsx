@@ -91,7 +91,7 @@ export default function LiveChatWidget() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full shadow-2xl shadow-purple-500/40 flex items-center justify-center hover:scale-110 transition-transform"
+            className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-full shadow-2xl shadow-indigo-500/40 flex items-center justify-center hover:scale-110 transition-transform"
           >
             <MessageCircle className="h-6 w-6 text-white" />
             
@@ -113,7 +113,7 @@ export default function LiveChatWidget() {
             className="fixed bottom-24 right-6 z-40 w-[360px] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 p-4">
+            <div className="bg-gradient-to-r from-indigo-500 to-violet-600 p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -123,7 +123,7 @@ export default function LiveChatWidget() {
                     <p className="text-white font-semibold">DigitalBot Support</p>
                     <div className="flex items-center gap-1">
                       <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                      <span className="text-purple-100 text-xs">Online now</span>
+                      <span className="text-indigo-100 text-xs">Online now</span>
                     </div>
                   </div>
                 </div>
@@ -147,19 +147,19 @@ export default function LiveChatWidget() {
                 >
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                     message.isBot 
-                      ? 'bg-purple-100' 
-                      : 'bg-blue-100'
+                      ? 'bg-indigo-100' 
+                      : 'bg-indigo-100'
                   }`}>
                     {message.isBot ? (
-                      <Bot className="h-4 w-4 text-purple-600" />
+                      <Bot className="h-4 w-4 text-indigo-600" />
                     ) : (
-                      <User className="h-4 w-4 text-blue-600" />
+                      <User className="h-4 w-4 text-indigo-600" />
                     )}
                   </div>
                   <div className={`max-w-[75%] p-3 rounded-2xl ${
                     message.isBot 
                       ? 'bg-white border border-gray-200 rounded-tl-none' 
-                      : 'bg-blue-500 text-white rounded-tr-none'
+                      : 'bg-indigo-500 text-white rounded-tr-none'
                   }`}>
                     <p className="text-sm">{message.text}</p>
                   </div>
@@ -173,8 +173,8 @@ export default function LiveChatWidget() {
                   animate={{ opacity: 1 }}
                   className="flex gap-2"
                 >
-                  <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-                    <Bot className="h-4 w-4 text-purple-600" />
+                  <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                    <Bot className="h-4 w-4 text-indigo-600" />
                   </div>
                   <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-none p-3">
                     <div className="flex gap-1">
@@ -211,12 +211,12 @@ export default function LiveChatWidget() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Type a message..."
-                  className="flex-1 px-4 py-2 bg-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  className="flex-1 px-4 py-2 bg-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
                 />
                 <button
                   onClick={handleSend}
                   disabled={!input.trim()}
-                  className="w-10 h-10 bg-purple-500 hover:bg-purple-600 disabled:bg-gray-300 rounded-xl flex items-center justify-center transition-colors"
+                  className="w-10 h-10 bg-indigo-500 hover:bg-violet-600 disabled:bg-gray-300 rounded-xl flex items-center justify-center transition-colors"
                 >
                   <Send className="h-4 w-4 text-white" />
                 </button>

@@ -14,7 +14,7 @@ const services = [
         subtitle: "24/7 AI-Powered Medical Scheduling",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/doctor_appointment_i73m9a",
         desc: "Never miss a patient again. Our AI voice agent handles appointment booking, rescheduling, and confirmations around the clock—with perfect accuracy and a warm, human touch.",
-        color: "from-blue-500 to-red-500",
+        color: "from-indigo-500 to-violet-500",
         stat: "95%",
         statLabel: "Booking Success Rate",
         audio: "/audio/doctor-appointment-sample.mp3",
@@ -30,7 +30,7 @@ const services = [
         subtitle: "Automated Outbound Sales Machine",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/lead_generation_qas7wm",
         desc: "Scale your sales pipeline effortlessly. Our AI makes thousands of outbound calls daily, qualifying leads and booking meetings while your team focuses on closing.",
-        color: "from-blue-500 to-purple-500",
+        color: "from-indigo-500 to-violet-500",
         stat: "3x",
         statLabel: "More Qualified Leads",
         audio: "/audio/lead-generation-sample.mp3",
@@ -46,7 +46,7 @@ const services = [
         subtitle: "Empathetic Support That Never Sleeps",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/customercareagent_k6wqe8",
         desc: "Delight customers with instant, empathetic support. Our AI resolves issues on the first call, escalates complex cases smartly, and keeps your CSAT scores soaring.",
-        color: "from-teal-500 to-blue-500",
+        color: "from-indigo-500 to-violet-500",
         stat: "90%",
         statLabel: "First Call Resolution",
         audio: "/audio/customer-care-sample.mp3",
@@ -62,7 +62,7 @@ const services = [
         subtitle: "Seamlessly Connect AI Voice to Your Systems",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/voicebot_integaration_pjlorx",
         desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
-        color: "from-cyan-500 to-blue-600",
+        color: "from-violet-500 to-indigo-600",
         stat: "50+",
         statLabel: "Native Integrations",
         audio: "/audio/virtual-receptionist-sample.mp3",
@@ -175,7 +175,7 @@ export default function ServicesShowcase() {
     }, [mounted]);
 
     return (
-        <section ref={storySectionRef} className="h-screen bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
+        <section ref={storySectionRef} className="h-screen bg-gradient-to-br from-indigo-50 via-indigo-100/30 to-indigo-50 overflow-hidden">
             <div className="h-full flex flex-col lg:flex-row items-center">
                 {/* Left: Illustrations */}
                 <div className="w-full lg:w-1/2 h-1/2 lg:h-full relative flex items-center justify-center">
@@ -237,7 +237,7 @@ export default function ServicesShowcase() {
                             <div
                                 key={i}
                                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                    i === activeService ? 'w-6 bg-blue-600' : 'bg-gray-300'
+                                    i === activeService ? 'w-6 bg-indigo-600' : 'bg-gray-300'
                                 }`}
                             />
                         ))}

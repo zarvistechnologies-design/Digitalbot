@@ -68,7 +68,7 @@ export function LeadFormMini() {
     <div className="w-full max-w-md mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4 relative">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+          <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
             <Send className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -91,7 +91,7 @@ export function LeadFormMini() {
           )}
 
           <div className="relative group">
-            <User className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-blue-500 transition-colors z-10" />
+            <User className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors z-10" />
             <input
               type="text"
               name="name"
@@ -99,12 +99,12 @@ export function LeadFormMini() {
               value={formData.name}
               onChange={handleChange}
               placeholder="Full Name"
-              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-indigo-300"
             />
           </div>
 
           <div className="relative group">
-            <Mail className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-blue-500 transition-colors z-10" />
+            <Mail className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors z-10" />
             <input
               type="email"
               name="email"
@@ -112,12 +112,12 @@ export function LeadFormMini() {
               value={formData.email}
               onChange={handleChange}
               placeholder="Work Email"
-              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-indigo-300"
             />
           </div>
 
           <div className="relative group">
-            <Phone className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-blue-500 transition-colors z-10" />
+            <Phone className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors z-10" />
             <input
               type="tel"
               name="phone"
@@ -125,12 +125,12 @@ export function LeadFormMini() {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number"
-              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-indigo-300"
             />
           </div>
 
           <div className="relative group">
-            <Building2 className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-blue-500 transition-colors z-10" />
+            <Building2 className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors z-10" />
             <input
               type="text"
               name="company"
@@ -138,12 +138,12 @@ export function LeadFormMini() {
               value={formData.company}
               onChange={handleChange}
               placeholder="Company Name"
-              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:border-blue-300"
+              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-indigo-300"
             />
           </div>
 
           <div className="relative group">
-            <MessageSquare className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-blue-500 transition-colors z-10" />
+            <MessageSquare className="absolute left-4 top-3.5 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors z-10" />
             <textarea
               name="message"
               required
@@ -151,14 +151,14 @@ export function LeadFormMini() {
               onChange={handleChange}
               placeholder="How can we help?"
               rows={3}
-              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none hover:border-blue-300"
+              className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all resize-none hover:border-indigo-300"
             />
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-500/30 hover:shadow-xl group"
+            className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-500/30 hover:shadow-xl group btn-glow"
           >
             {isSubmitting ? (
               <>
@@ -174,16 +174,16 @@ export function LeadFormMini() {
           </button>
 
           <p className="text-xs text-gray-500 text-center mt-3">
-            By submitting, you agree to our <a href="/privacy" className="text-blue-600 hover:underline transition-colors">Privacy Policy</a>.
+            By submitting, you agree to our <a href="/privacy" className="text-indigo-600 hover:underline transition-colors">Privacy Policy</a>.
           </p>
 
           <div className="flex items-center justify-center gap-4 text-xs text-gray-500 mt-2 pt-4 border-t border-gray-100">
-            <a href="mailto:hello@digitalbot.ai" className="flex items-center gap-1.5 hover:text-blue-600 transition-colors">
+            <a href="mailto:hello@digitalbot.ai" className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors">
               <Mail className="w-3.5 h-3.5" />
               hello@digitalbot.ai
             </a>
             <span className="text-gray-300">|</span>
-            <a href="tel:+917892518414" className="flex items-center gap-1.5 hover:text-blue-600 transition-colors">
+            <a href="tel:+917892518414" className="flex items-center gap-1.5 hover:text-indigo-600 transition-colors">
               <Phone className="w-3.5 h-3.5" />
               +91 78925 18414
             </a>

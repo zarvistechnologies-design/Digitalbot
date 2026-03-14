@@ -112,7 +112,7 @@ const useCases = [
     description: "AI sales agents ask intelligent qualifying questions, score leads based on your criteria, and automatically route hot leads to your sales team while nurturing cold leads.",
     result: "3x more qualified leads",
     icon: Target,
-    color: "from-blue-500 to-indigo-600",
+    color: "from-indigo-500 to-violet-600",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -326,7 +326,7 @@ export default function AISalesAgent() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden">
+      <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden">
         {/* Hidden audio elements */}
         <audio
           ref={audioRef}
@@ -349,13 +349,13 @@ export default function AISalesAgent() {
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
 
           {/* HERO SECTION - Modern Two-Column */}
-          <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-white flex items-center">
+          <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-[#fafbff] via-white to-white flex items-center">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               {/* Floating Orbs */}
-              <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
+              <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
               <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
               
               {/* Animated Grid */}
               <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -364,7 +364,7 @@ export default function AISalesAgent() {
               }} />
               
               {/* Animated Lines */}
-              <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
+              <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
               <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-indigo-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
             </div>
 
@@ -374,26 +374,26 @@ export default function AISalesAgent() {
                 {/* Left Side - Content */}
                 <div className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                   {/* Badge */}
-                  <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 px-4 py-2 rounded-full mb-6">
-                    <Target className="h-4 w-4 text-blue-600" />
-                    <span className="text-sm font-semibold text-blue-700">AI Sales Agent Platform</span>
+                  <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 px-4 py-2 rounded-full mb-6">
+                    <Target className="h-4 w-4 text-indigo-600" />
+                    <span className="text-sm font-semibold text-indigo-700">AI Sales Agent Platform</span>
                   </div>
 
                   {/* Main Headline */}
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
                     <span className="block text-black">Sales That</span>
-                    <span className="block bg-gradient-to-r from-blue-500 via-indigo-600 to-blue-700 bg-clip-text text-transparent">Never Stops</span>
+                    <span className="block bg-gradient-to-r from-indigo-500 via-violet-600 to-violet-700 bg-clip-text text-transparent">Never Stops</span>
                   </h1>
 
                   {/* Tagline Box */}
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50/50 border border-blue-200 rounded-2xl p-5 mb-6">
+                  <div className="bg-gradient-to-r from-indigo-50/60 to-violet-50/40 border border-indigo-200/40 rounded-2xl p-5 mb-6">
                     <p className="text-gray-600 text-sm italic mb-1">&quot;Sales reps sleep, take breaks, get tired, need training.&quot;</p>
-                    <p className="text-blue-600 font-bold text-base uppercase tracking-wider">WE NEVER DO.</p>
+                    <p className="text-indigo-600 font-bold text-base uppercase tracking-wider">WE NEVER DO.</p>
                   </div>
 
                   {/* Description */}
                   <p className="text-gray-600 text-base lg:text-lg mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                    Transform sales with <strong className="text-blue-600">AI sales agents</strong> that qualify leads, handle objections, and close deals 24/7 — trusted by <strong className="text-blue-600">500+ businesses</strong> with <strong>45% higher conversion</strong> rates.
+                    Transform sales with <strong className="text-indigo-600">AI sales agents</strong> that qualify leads, handle objections, and close deals 24/7 — trusted by <strong className="text-indigo-600">500+ businesses</strong> with <strong>45% higher conversion</strong> rates.
                   </p>
 
                   {/* Dual Audio Players */}
@@ -403,7 +403,7 @@ export default function AISalesAgent() {
                       <p className="text-xs font-medium text-gray-500 mb-1.5">🇺🇸 English Demo</p>
                       <button
                         onClick={toggleAudio}
-                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all group"
+                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-indigo-300/40 transition-all group"
                       >
                         <div className="flex-1 flex items-center justify-center h-6">
                           <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -440,7 +440,7 @@ export default function AISalesAgent() {
                             ))}
                           </svg>
                         </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-md">
                           {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                         </div>
                       </button>
@@ -451,7 +451,7 @@ export default function AISalesAgent() {
                       <p className="text-xs font-medium text-gray-500 mb-1.5">🇮🇳 Hindi Demo</p>
                       <button
                         onClick={toggleAudioHindi}
-                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all group"
+                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-indigo-300/40 transition-all group"
                       >
                         <div className="flex-1 flex items-center justify-center h-6">
                           <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -488,7 +488,7 @@ export default function AISalesAgent() {
                             ))}
                           </svg>
                         </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-md">
                           {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                         </div>
                       </button>
@@ -499,14 +499,14 @@ export default function AISalesAgent() {
                   <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                     <Link
                       href="/contact#contact-form"
-                      className="group px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 flex items-center justify-center gap-2"
+                      className="group px-6 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-bold rounded-xl hover:from-indigo-600 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-105 flex items-center justify-center gap-2"
                     >
                       Start Free Trial
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                     <Link
                       href="/contact#contact-form"
-                      className="px-6 py-3 bg-white text-blue-600 border-2 border-blue-200 font-bold rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
+                      className="px-6 py-3 bg-white text-indigo-600 border-2 border-indigo-200/40 font-bold rounded-xl hover:bg-indigo-50/60 hover:border-indigo-300/40 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
                     >
                       <Phone className="w-4 h-4" />
                       Book Demo
@@ -555,9 +555,9 @@ export default function AISalesAgent() {
                     </div>
                     
                     {/* Floating Badge - Bottom Right */}
-                    <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
+                    <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-indigo-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center">
                           <TrendingUp className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -568,9 +568,9 @@ export default function AISalesAgent() {
                     </div>
                     
                     {/* Floating Badge - Top Left */}
-                    <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-blue-100 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
+                    <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-indigo-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center">
                           <Target className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -589,16 +589,16 @@ export default function AISalesAgent() {
           <section 
             id="benefits-section" 
             data-animate
-            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
                   <Sparkles className="w-4 h-4" />
                   Why Choose DigitalBot
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  Enterprise-Grade <span className="text-blue-600">AI Sales</span>
+                  Enterprise-Grade <span className="text-indigo-600">AI Sales</span>
                 </h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                   Powerful automation with measurable outcomes for modern sales teams
@@ -610,7 +610,7 @@ export default function AISalesAgent() {
                 {benefits.map((benefit, index) => (
                   <div
                     key={index}
-                    className={`group bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-2 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    className={`group bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover:shadow-xl hover:border-indigo-200/40 transition-all duration-500 hover:-translate-y-2 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                     style={{ transitionDelay: `${index * 0.1}s` }}
                   >
                     {/* Image */}
@@ -623,7 +623,7 @@ export default function AISalesAgent() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                       <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center">
                           <benefit.icon className="w-5 h-5 text-white" />
                         </div>
                         <div>
@@ -634,7 +634,7 @@ export default function AISalesAgent() {
                     </div>
                     {/* Content */}
                     <div className="p-4">
-                      <h3 className="font-bold text-gray-900 mb-2 text-sm group-hover:text-blue-600 transition-colors">{benefit.title}</h3>
+                      <h3 className="font-bold text-gray-900 mb-2 text-sm group-hover:text-indigo-600 transition-colors">{benefit.title}</h3>
                       <p className="text-xs text-gray-600 leading-relaxed">{benefit.description}</p>
                     </div>
                   </div>
@@ -647,16 +647,16 @@ export default function AISalesAgent() {
           <section 
             id="usecases-section" 
             data-animate
-            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-6xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
                   <Target className="w-4 h-4" />
                   Proven Results
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  AI Sales <span className="text-blue-600">Use Cases</span>
+                  AI Sales <span className="text-indigo-600">Use Cases</span>
                 </h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                   Real-world outcomes from DigitalBot customers worldwide
@@ -673,7 +673,7 @@ export default function AISalesAgent() {
                       onClick={() => setActiveUseCase(index)}
                       className={`flex-1 lg:flex-none flex items-center gap-3 p-4 rounded-xl transition-all duration-300 text-left ${
                         activeUseCase === index
-                          ? 'bg-white shadow-lg border-2 border-blue-500'
+                          ? 'bg-white shadow-lg border-2 border-indigo-500'
                           : 'bg-white/50 border border-gray-200 hover:bg-white hover:shadow-md'
                       }`}
                     >
@@ -681,7 +681,7 @@ export default function AISalesAgent() {
                         <useCase.icon className="w-5 h-5 text-white" />
                       </div>
                       <div className="hidden sm:block">
-                        <h4 className={`font-bold ${activeUseCase === index ? 'text-blue-600' : 'text-gray-700'}`}>
+                        <h4 className={`font-bold ${activeUseCase === index ? 'text-indigo-600' : 'text-gray-700'}`}>
                           {useCase.title}
                         </h4>
                         <p className="text-xs text-gray-500">{useCase.result}</p>
@@ -726,7 +726,7 @@ export default function AISalesAgent() {
                     </p>
                     <Link
                       href="/contact#contact-form"
-                      className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                      className="inline-flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-700 transition-colors"
                     >
                       Get Started <ArrowRight className="w-4 h-4" />
                     </Link>
@@ -740,16 +740,16 @@ export default function AISalesAgent() {
           <section 
             id="capabilities-section" 
             data-animate
-            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('capabilities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
                   <Bot className="w-4 h-4" />
                   Platform Capabilities
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  Sales Leaders <span className="text-blue-600">Trust</span>
+                  Sales Leaders <span className="text-indigo-600">Trust</span>
                 </h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                   Deep technical advantages that close more deals
@@ -873,16 +873,16 @@ export default function AISalesAgent() {
           <section 
             id="demo-section" 
             data-animate
-            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-8 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
                   <Mic className="w-4 h-4" />
                   Live AI Demo
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  Hear AI Sales Agent <span className="text-blue-600">in Action</span>
+                  Hear AI Sales Agent <span className="text-indigo-600">in Action</span>
                 </h2>
                 <p className="text-gray-600">
                   Listen to how our AI handles real sales conversations and closes deals naturally
@@ -899,16 +899,16 @@ export default function AISalesAgent() {
           <section 
             id="faq-section" 
             data-animate
-            className="py-20 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 relative overflow-hidden"
+            className="py-20 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
                   <MessageCircle className="w-4 h-4" />
                   FAQ
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  AI Sales Agent <span className="text-blue-600">FAQ</span>
+                  AI Sales Agent <span className="text-indigo-600">FAQ</span>
                 </h2>
                 <p className="text-gray-600">
                   Everything you need to know about AI Sales Agents
@@ -922,7 +922,7 @@ export default function AISalesAgent() {
                     className="group bg-gray-50 rounded-xl overflow-hidden"
                   >
                     <summary className="flex items-center gap-4 p-5 cursor-pointer list-none hover:bg-gray-100 transition-colors">
-                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                      <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                         {index + 1}
                       </div>
                       <span className="font-semibold text-gray-900 flex-1">{faq.name}</span>
@@ -938,7 +938,7 @@ export default function AISalesAgent() {
           </section>
 
           {/* CTA SECTION */}
-          <section className="py-20 bg-gradient-to-br from-blue-600 via-indigo-700 to-blue-800 relative overflow-hidden">
+          <section className="py-20 bg-gradient-to-br from-indigo-600 via-violet-700 to-indigo-800 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
@@ -949,14 +949,14 @@ export default function AISalesAgent() {
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
                 Ready to 10X Your<br />Sales with AI?
               </h2>
-              <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+              <p className="text-indigo-100 text-lg mb-8 max-w-2xl mx-auto">
                 Join 500+ businesses using AI sales agents to qualify more leads, close more deals, and scale revenue without scaling headcount.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Link
                   href="/contact#contact-form"
-                  className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+                  className="group px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl hover:bg-indigo-50/60 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
                 >
                   Start Free Trial
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -970,7 +970,7 @@ export default function AISalesAgent() {
                 </Link>
               </div>
 
-              <div className="flex flex-wrap gap-6 justify-center text-sm text-blue-100">
+              <div className="flex flex-wrap gap-6 justify-center text-sm text-indigo-100">
                 <div className="flex items-center gap-2">
                   <Check className="w-5 h-5 text-green-400" />
                   <span>No credit card required</span>

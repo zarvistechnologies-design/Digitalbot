@@ -7,57 +7,59 @@ import Link from "next/link"
 export function Footer() {
 
   const services = [
-    { name: "AI Voice Bot", href: "/services/ai-voice-bot", icon: Bot, gradient: "from-blue-500 to-blue-600", description: "24/7 automated voice assistance" },
-    { name: "Voice AI for Business", href: "/services/voice-ai-business", icon: Building2, gradient: "from-blue-500 to-blue-600", description: "Enterprise AI solutions" },
-    { name: "Voice Automation", href: "/services/voice-automation-software", icon: Zap, gradient: "from-blue-500 to-blue-700", description: "Streamline workflows" },
-    { name: "AI Customer Support", href: "/services/ai-customer-support", icon: HeadphonesIcon, gradient: "from-blue-500 to-blue-700", description: "Smart support system" },
-    { name: "Conversational AI", href: "/services/conversational-ai", icon: MessageSquare, gradient: "from-blue-500 to-blue-600", description: "Natural conversations" },
-    { name: "AI Call Center", href: "/services/ai-call-center", icon: Phone, gradient: "from-blue-500 to-blue-600", description: "Automated call handling" },
-    { name: "AI Sales Agent", href: "/services/ai-sales-agent", icon: Users, gradient: "from-blue-500 to-blue-700", description: "Boost sales conversions" },
-    { name: "Virtual Receptionist", href: "/services/ai-virtual-receptionist", icon: Sparkles, gradient: "from-blue-500 to-blue-700", description: "Professional front desk AI" },
+    { name: "AI Voice Bot", href: "/services/ai-voice-bot", icon: Bot, gradient: "from-indigo-500 to-violet-500", description: "24/7 automated voice assistance" },
+    { name: "Voice AI for Business", href: "/services/voice-ai-business", icon: Building2, gradient: "from-indigo-500 to-violet-500", description: "Enterprise AI solutions" },
+    { name: "Voice Automation", href: "/services/voice-automation-software", icon: Zap, gradient: "from-indigo-500 to-violet-600", description: "Streamline workflows" },
+    { name: "AI Customer Support", href: "/services/ai-customer-support", icon: HeadphonesIcon, gradient: "from-indigo-500 to-violet-600", description: "Smart support system" },
+    { name: "Conversational AI", href: "/services/conversational-ai", icon: MessageSquare, gradient: "from-indigo-500 to-violet-500", description: "Natural conversations" },
+    { name: "AI Call Center", href: "/services/ai-call-center", icon: Phone, gradient: "from-indigo-500 to-violet-500", description: "Automated call handling" },
+    { name: "AI Sales Agent", href: "/services/ai-sales-agent", icon: Users, gradient: "from-indigo-500 to-violet-600", description: "Boost sales conversions" },
+    { name: "Virtual Receptionist", href: "/services/ai-virtual-receptionist", icon: Sparkles, gradient: "from-indigo-500 to-violet-600", description: "Professional front desk AI" },
   ]
 
   const features = [
-    { icon: Clock, text: "24/7 Availability", color: "blue" },
-    { icon: Shield, text: "Enterprise Security", color: "blue" },
-    { icon: Award, text: "Award Winning", color: "blue" },
-    { icon: TrendingUp, text: "ROI Guaranteed", color: "blue" },
+    { icon: Clock, text: "24/7 Availability", color: "indigo" },
+    { icon: Shield, text: "Enterprise Security", color: "indigo" },
+    { icon: Award, text: "Award Winning", color: "indigo" },
+    { icon: TrendingUp, text: "ROI Guaranteed", color: "indigo" },
   ]
 
   return (
-    <footer className="relative bg-white border-t-2 border-blue-500/25 overflow-hidden">
-      {/* Pure white background, all blue gradients and orbs removed for consistency */}
+    <footer className="relative bg-gradient-to-b from-white to-[#fafbff] border-t border-indigo-100/30 overflow-hidden">
+      {/* Subtle background glow */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-400/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-400/5 rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Enhanced Premium Feature Banner - Purple/blue */}
         <div className="py-12 mb-8">
-          <div className="relative bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 rounded-3xl p-8 shadow-2xl shadow-blue-500/50 overflow-hidden group border-2 border-blue-500/30">
+          <div className="relative glass-strong bg-gradient-to-r from-indigo-500/90 via-violet-500/90 to-indigo-600/90 rounded-3xl p-8 shadow-2xl shadow-indigo-500/20 overflow-hidden group border border-indigo-400/20">
             {/* Enhanced Animated shimmer effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
             {/* Decorative sparkles */}
-            <div className="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-blue-500/30 to-transparent rounded-full blur-2xl" />
-            <div className="absolute bottom-4 left-4 w-16 h-16 bg-gradient-to-tl from-blue-500/30 to-transparent rounded-full blur-2xl" />
+            <div className="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-white/15 to-transparent rounded-full blur-2xl" />
+            <div className="absolute bottom-4 left-4 w-16 h-16 bg-gradient-to-tl from-white/15 to-transparent rounded-full blur-2xl" />
 
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="text-gray-900">
+              <div className="text-white">
                 <h3 className="text-lg md:text-xl font-bold mb-2 flex items-center gap-3">
                   <Sparkles className="w-5 h-5 animate-pulse" />
                   Start Your AI Journey Today
                 </h3>
-                <p className="text-gray-900/90 text-sm md:text-base font-medium">
+                <p className="text-white/80 text-sm md:text-base font-medium">
                   Join 10,000+ businesses automating customer interactions with AI
                 </p>
               </div>
               <Link
                 href="/contact#contact-form"
-                className="group/btn px-8 py-4 bg-white text-blue-600 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 flex items-center gap-3 whitespace-nowrap border-2 border-blue-500/30 uppercase tracking-widest"
+                className="group/btn px-8 py-4 bg-white text-indigo-600 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:shadow-indigo-500/30 transition-all duration-300 hover:scale-105 flex items-center gap-3 whitespace-nowrap border border-indigo-200/30 uppercase tracking-widest"
               >
-                <span className="text-blue-600">
+                <span className="text-indigo-600">
                   GET STARTED FREE
                 </span>
-                <ArrowRight className="w-5 h-5 text-blue-600 group-hover/btn:translate-x-1 transition-transform" />
+                <ArrowRight className="w-5 h-5 text-indigo-600 group-hover/btn:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
@@ -71,7 +73,7 @@ export function Footer() {
             <div className="group relative inline-block">
               <Link href="/" className="block">
                 {/* Glow effect - blue */}
-                <div className="absolute -inset-6 bg-gradient-to-r from-blue-500/40 via-blue-600/40 to-blue-600/40 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                <div className="absolute -inset-6 bg-gradient-to-r from-indigo-500/40 via-violet-600/40 to-indigo-600/40 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
                 <Image
                   src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
                   alt="DigitalBot.AI - AI Voice Assistant Platform"
@@ -84,8 +86,8 @@ export function Footer() {
               </Link>
             </div>
 
-            <p className="text-gray-900 leading-relaxed text-base pr-4">
-              Leading <span className="font-bold bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">AI VOICE ASSISTANT PLATFORM</span> trusted by enterprises worldwide.
+            <p className="text-slate-600 leading-relaxed text-base pr-4">
+              Leading <span className="font-bold text-gradient">AI VOICE ASSISTANT PLATFORM</span> trusted by enterprises worldwide.
               Transform customer interactions with intelligent automation.
             </p>
 
@@ -93,18 +95,18 @@ export function Footer() {
             <div className="grid grid-cols-2 gap-3">
               {features.map((feature, idx) => {
                 const colors = [
-                  { bg: 'from-white/90 via-white/95 to-white', border: 'border-blue-500/50 hover:border-blue-400', icon: 'from-blue-500 to-blue-600', shadow: 'hover:shadow-blue-500/30' },
-                  { bg: 'from-white/90 via-white/95 to-white', border: 'border-blue-500/50 hover:border-blue-400', icon: 'from-blue-500 to-blue-700', shadow: 'hover:shadow-blue-500/30' },
-                  { bg: 'from-white/90 via-white/95 to-white', border: 'border-blue-500/50 hover:border-blue-400', icon: 'from-blue-500 to-blue-600', shadow: 'hover:shadow-blue-500/30' },
-                  { bg: 'from-white/90 via-white/95 to-white', border: 'border-blue-500/50 hover:border-blue-400', icon: 'from-blue-500 to-blue-700', shadow: 'hover:shadow-blue-500/30' },
+                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-indigo-200/40 hover:border-indigo-300', icon: 'from-indigo-500 to-violet-500', shadow: 'hover:shadow-indigo-500/15' },
+                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-indigo-200/40 hover:border-indigo-300', icon: 'from-violet-500 to-indigo-500', shadow: 'hover:shadow-violet-500/15' },
+                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-indigo-200/40 hover:border-indigo-300', icon: 'from-indigo-500 to-violet-500', shadow: 'hover:shadow-indigo-500/15' },
+                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-indigo-200/40 hover:border-indigo-300', icon: 'from-violet-500 to-indigo-500', shadow: 'hover:shadow-violet-500/15' },
                 ]
                 const colorSet = colors[idx]
                 return (
-                  <div key={idx} className={`flex items-center gap-2 p-3 bg-white/90 backdrop-blur-sm rounded-xl border-2 ${colorSet.border} shadow-md ${colorSet.shadow} transition-all duration-300 group hover:scale-105`}>
+                  <div key={idx} className={`flex items-center gap-2 p-3 glass-card rounded-xl border ${colorSet.border} ${colorSet.shadow} transition-all duration-300 group hover:scale-105`}>
                     <div className={`p-2 bg-gradient-to-br ${colorSet.bg} rounded-lg group-hover:scale-110 transition-transform`}>
-                      <feature.icon className={`w-4 h-4 text-blue-600`} />
+                      <feature.icon className={`w-4 h-4 text-indigo-600`} />
                     </div>
-                    <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">{feature.text}</span>
+                    <span className="text-xs font-semibold text-slate-700 uppercase tracking-wide">{feature.text}</span>
                   </div>
                 )
               })}
@@ -112,17 +114,17 @@ export function Footer() {
 
             {/* Enhanced Social Media - Purple/blue */}
             <div>
-              <h4 className="text-sm font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent mb-4 flex items-center gap-2 uppercase tracking-widest">
-                <Globe className="w-4 h-4 text-blue-600" />
+              <h4 className="text-sm font-bold text-gradient mb-4 flex items-center gap-2 uppercase tracking-widest">
+                <Globe className="w-4 h-4 text-indigo-500" />
                 CONNECT WITH US
               </h4>
               <div className="flex items-center gap-2">
                 {[
-                  { icon: Twitter, link: "https://twitter.com/digitalbot_ai", label: "Twitter", color: "from-blue-500 to-blue-600" },
-                  { icon: Linkedin, link: "https://linkedin.com/company/digitalbot-ai", label: "LinkedIn", color: "from-blue-500 to-blue-700" },
-                  { icon: Instagram, link: "https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz", label: "Instagram", color: "from-blue-500 to-blue-600" },
-                  { icon: Facebook, link: "https://www.facebook.com/profile.php?id=61583885495540", label: "Facebook", color: "from-blue-500 to-blue-700" },
-                  { icon: Mail, link: "mailto:contact@digitalbot.ai", label: "Email", color: "from-blue-500 to-blue-600" }
+                  { icon: Twitter, link: "https://twitter.com/digitalbot_ai", label: "Twitter", color: "from-indigo-500 to-violet-500" },
+                  { icon: Linkedin, link: "https://linkedin.com/company/digitalbot-ai", label: "LinkedIn", color: "from-violet-500 to-indigo-600" },
+                  { icon: Instagram, link: "https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz", label: "Instagram", color: "from-pink-500 to-violet-500" },
+                  { icon: Facebook, link: "https://www.facebook.com/profile.php?id=61583885495540", label: "Facebook", color: "from-indigo-500 to-violet-500" },
+                  { icon: Mail, link: "mailto:contact@digitalbot.ai", label: "Email", color: "from-violet-500 to-indigo-500" }
                 ].map((social, idx) => (
                   <Link
                     key={idx}
@@ -132,13 +134,13 @@ export function Footer() {
                     aria-label={social.label}
                     className="group/social relative"
                   >
-                    <div className={`p-3 bg-gradient-to-br ${social.color} rounded-xl text-white shadow-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-125 hover:rotate-12 border border-blue-500/30`}>
+                    <div className={`p-3 bg-gradient-to-br ${social.color} rounded-xl text-white shadow-lg hover:shadow-2xl hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-125 hover:rotate-12 border border-white/20`}>
                       <social.icon className="w-5 h-5" />
                     </div>
                     {/* Enhanced Tooltip */}
-                    <span className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-blue-600 text-white text-xs rounded-lg opacity-0 group-hover/social:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none shadow-xl border border-blue-600 font-bold uppercase tracking-wide">
+                    <span className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-indigo-600 text-white text-xs rounded-lg opacity-0 group-hover/social:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none shadow-xl border border-indigo-500 font-bold uppercase tracking-wide">
                       {social.label}
-                      <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-blue-600 rotate-45" />
+                      <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-indigo-600 rotate-45" />
                     </span>
                   </Link>
                 ))}
@@ -150,28 +152,28 @@ export function Footer() {
           <div className="lg:col-span-8">
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-600 rounded-xl shadow-lg shadow-blue-500/30 animate-pulse">
+                <div className="p-2 bg-gradient-to-br from-indigo-500 via-violet-500 to-indigo-600 rounded-xl shadow-lg shadow-indigo-500/20 animate-pulse">
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent uppercase tracking-widest">
+                <h3 className="text-2xl font-bold text-gradient uppercase tracking-widest">
                   AI-POWERED SOLUTIONS
                 </h3>
               </div>
-              <p className="text-gray-900 text-sm font-medium">Explore our comprehensive suite of AI voice automation services</p>
+              <p className="text-slate-500 text-sm font-medium">Explore our comprehensive suite of AI voice automation services</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-fr">
               {services.map((service, idx) => {
                 const Icon = service.icon
                 const colorSets = [
-                  { gradient: 'from-blue-500 via-blue-600 to-blue-600', border: 'border-blue-500/50', iconBg: 'from-white/90 to-white/80' },
-                  { gradient: 'from-blue-500 via-blue-600 to-blue-700', border: 'border-blue-500/50', iconBg: 'from-white/80 to-white/70' },
-                  { gradient: 'from-blue-500 via-blue-600 to-blue-600', border: 'border-blue-500/50', iconBg: 'from-white/90 to-white/80' },
-                  { gradient: 'from-blue-500 via-blue-600 to-blue-700', border: 'border-blue-500/50', iconBg: 'from-white/80 to-white/70' },
-                  { gradient: 'from-blue-500 via-blue-600 to-blue-600', border: 'border-blue-500/50', iconBg: 'from-white/90 to-white/80' },
-                  { gradient: 'from-blue-500 via-blue-600 to-blue-700', border: 'border-blue-500/50', iconBg: 'from-white/80 to-white/70' },
-                  { gradient: 'from-blue-500 via-blue-600 to-blue-600', border: 'border-blue-500/50', iconBg: 'from-white/90 to-white/80' },
-                  { gradient: 'from-blue-500 via-blue-600 to-blue-700', border: 'border-blue-500/50', iconBg: 'from-white/80 to-white/70' },
+                  { gradient: 'from-indigo-500 via-violet-500 to-indigo-600', border: 'border-indigo-200/30', iconBg: 'from-indigo-50/80 to-white/60' },
+                  { gradient: 'from-violet-500 via-indigo-500 to-violet-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
+                  { gradient: 'from-indigo-500 via-violet-500 to-indigo-600', border: 'border-indigo-200/30', iconBg: 'from-indigo-50/80 to-white/60' },
+                  { gradient: 'from-violet-500 via-indigo-500 to-violet-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
+                  { gradient: 'from-indigo-500 via-violet-500 to-indigo-600', border: 'border-indigo-200/30', iconBg: 'from-indigo-50/80 to-white/60' },
+                  { gradient: 'from-violet-500 via-indigo-500 to-violet-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
+                  { gradient: 'from-indigo-500 via-violet-500 to-indigo-600', border: 'border-indigo-200/30', iconBg: 'from-indigo-50/80 to-white/60' },
+                  { gradient: 'from-violet-500 via-indigo-500 to-violet-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
                 ]
                 const colorSet = colorSets[idx % colorSets.length]
                 return (
@@ -181,24 +183,24 @@ export function Footer() {
                     className="group/card relative"
                   >
                     <div className={`
-                      relative p-5 rounded-2xl border-2 transition-all duration-500 overflow-hidden h-full
-                      bg-white/90 backdrop-blur-sm ${colorSet.border} hover:border-transparent shadow-md hover:shadow-xl hover:shadow-blue-500/30
+                      relative p-5 rounded-2xl border transition-all duration-500 overflow-hidden h-full
+                      glass-card ${colorSet.border} hover:border-transparent shadow-sm hover:shadow-xl hover:shadow-indigo-500/15
                       hover:bg-gradient-to-br hover:${colorSet.gradient} hover:scale-105 hover:-translate-y-2
                     `}>
                       {/* Icon with enhanced animation */}
                       <div className={`
                         mb-3 p-3 rounded-xl transition-all duration-500
                         bg-gradient-to-br ${colorSet.iconBg}
-                        group-hover/card:bg-blue-500/30 group-hover/card:backdrop-blur-md group-hover/card:scale-110 group-hover/card:rotate-12
+                        group-hover/card:bg-indigo-500/20 group-hover/card:backdrop-blur-md group-hover/card:scale-110 group-hover/card:rotate-12
                       `}>
-                        <Icon className="w-6 h-6 text-blue-600 transition-all duration-500 group-hover/card:text-white group-hover/card:scale-110" />
+                        <Icon className="w-6 h-6 text-indigo-600 transition-all duration-500 group-hover/card:text-white group-hover/card:scale-110" />
                       </div>
 
                       {/* Text */}
-                      <h4 className="font-bold text-sm mb-1 text-gray-900 transition-colors duration-500 group-hover/card:text-white uppercase tracking-wide">
+                      <h4 className="font-bold text-sm mb-1 text-slate-700 transition-colors duration-500 group-hover/card:text-white uppercase tracking-wide">
                         {service.name}
                       </h4>
-                      <p className="text-xs text-gray-900 transition-colors duration-500 group-hover/card:text-white/90">
+                      <p className="text-xs text-slate-500 transition-colors duration-500 group-hover/card:text-white/90">
                         {service.description}
                       </p>
 
@@ -216,7 +218,7 @@ export function Footer() {
             </div>
 
             {/* Quick Links - blue */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 pt-8 border-t-2 border-blue-500/30">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 pt-8 border-t border-indigo-100/30">
               {[
                 { title: "Product", links: [
                   { name: "Features", href: "/services" },
@@ -243,8 +245,8 @@ export function Footer() {
                 ]}
               ].map((column, idx) => (
                 <div key={idx}>
-                  <h4 className="font-bold text-gray-900 mb-4 text-sm flex items-center gap-2 uppercase tracking-widest">
-                    <div className="w-1 h-4 bg-gradient-to-b from-blue-500 via-blue-600 to-blue-600 rounded-full" />
+                  <h4 className="font-bold text-slate-800 mb-4 text-sm flex items-center gap-2 uppercase tracking-widest">
+                    <div className="w-1 h-4 bg-gradient-to-b from-indigo-500 via-violet-500 to-indigo-600 rounded-full" />
                     {column.title}
                   </h4>
                   <ul className="space-y-2.5">
@@ -252,9 +254,9 @@ export function Footer() {
                       <li key={linkIdx}>
                         <Link
                           href={link.href}
-                          className="text-sm text-gray-900 hover:text-blue-600 transition-colors duration-300 flex items-center gap-2 group"
+                          className="text-sm text-slate-500 hover:text-indigo-600 transition-colors duration-300 flex items-center gap-2 group"
                         >
-                          <span className="w-0 h-px bg-gradient-to-r from-blue-500 to-blue-600 group-hover:w-4 transition-all duration-300" />
+                          <span className="w-0 h-px bg-gradient-to-r from-indigo-500 to-violet-500 group-hover:w-4 transition-all duration-300" />
                           {link.name}
                         </Link>
                       </li>
@@ -267,32 +269,32 @@ export function Footer() {
         </div>
 
         {/* Enhanced Bottom Bar - blue */}
-        <div className="border-t-2 border-blue-500/50 pt-8 pb-6">
+        <div className="border-t border-indigo-100/30 pt-8 pb-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Enhanced Copyright with Animation - Purple/blue */}
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 animate-ping absolute" />
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 shadow-lg shadow-blue-500/30" />
+                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-600 animate-ping absolute" />
+                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-600 shadow-lg shadow-indigo-500/20" />
               </div>
-              <p className="text-gray-900 text-sm font-semibold">
-                © 2025 <span className="font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">DIGITALBOT.AI</span> • ALL RIGHTS RESERVED
+              <p className="text-slate-600 text-sm font-semibold">
+                © 2025 <span className="font-bold text-gradient">DIGITALBOT.AI</span> • ALL RIGHTS RESERVED
               </p>
             </div>
 
             {/* Enhanced Badges - blue */}
             <div className="flex items-center gap-4 flex-wrap justify-center">
-              <div className="px-4 py-2 bg-gradient-to-r from-white/90 via-white/95 to-white backdrop-blur-sm border-2 border-blue-500/50 hover:border-blue-400 rounded-full flex items-center gap-2 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-blue-500/30">
-                <Shield className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-bold text-gray-900 uppercase tracking-widest">SOC 2 CERTIFIED</span>
+              <div className="px-4 py-2 glass-card rounded-full flex items-center gap-2 hover:scale-105 transition-all duration-300 border border-indigo-200/30">
+                <Shield className="w-4 h-4 text-indigo-500" />
+                <span className="text-xs font-bold text-slate-700 uppercase tracking-widest">SOC 2 CERTIFIED</span>
               </div>
-              <div className="px-4 py-2 bg-gradient-to-r from-white/90 via-white/95 to-white backdrop-blur-sm border-2 border-blue-500/50 hover:border-blue-400 rounded-full flex items-center gap-2 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-blue-500/30">
-                <Award className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-bold text-gray-900 uppercase tracking-widest">99.9% UPTIME</span>
+              <div className="px-4 py-2 glass-card rounded-full flex items-center gap-2 hover:scale-105 transition-all duration-300 border border-indigo-200/30">
+                <Award className="w-4 h-4 text-indigo-500" />
+                <span className="text-xs font-bold text-slate-700 uppercase tracking-widest">99.9% UPTIME</span>
               </div>
-              <div className="px-4 py-2 bg-gradient-to-r from-white/90 via-white/95 to-white backdrop-blur-sm border-2 border-blue-500/50 hover:border-blue-400 rounded-full flex items-center gap-2 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-blue-500/30">
-                <TrendingUp className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-bold text-gray-900 uppercase tracking-widest">TRUSTED BY 10K+</span>
+              <div className="px-4 py-2 glass-card rounded-full flex items-center gap-2 hover:scale-105 transition-all duration-300 border border-indigo-200/30">
+                <TrendingUp className="w-4 h-4 text-indigo-500" />
+                <span className="text-xs font-bold text-slate-700 uppercase tracking-widest">TRUSTED BY 10K+</span>
               </div>
             </div>
           </div>
@@ -301,7 +303,7 @@ export function Footer() {
           <div className="mt-6 text-center">
             <div className="text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 flex-wrap">
               <span className="text-gray-900">🤖</span>
-              <p className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">
+              <p className="text-gradient">
                 POWERED BY ADVANCED AI • BUILT FOR ENTERPRISE • TRUSTED WORLDWIDE • NEVER SLEEPS, NEVER QUITS
               </p>
               <span className="text-gray-900">✨</span>

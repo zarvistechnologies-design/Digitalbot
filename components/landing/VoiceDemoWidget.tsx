@@ -306,14 +306,14 @@ export default function VoiceDemoWidget() {
       {/* Floating Button */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-2xl shadow-blue-500/40 flex items-center justify-center hover:scale-110 transition-transform group"
+        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-full shadow-2xl shadow-indigo-500/40 flex items-center justify-center hover:scale-110 transition-transform group"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         animate={{ 
           boxShadow: [
-            "0 0 20px rgba(59, 130, 246, 0.4)",
-            "0 0 40px rgba(59, 130, 246, 0.6)",
-            "0 0 20px rgba(59, 130, 246, 0.4)"
+            "0 0 20px rgba(99, 102, 241, 0.4)",
+            "0 0 40px rgba(99, 102, 241, 0.6)",
+            "0 0 20px rgba(99, 102, 241, 0.4)"
           ]
         }}
         transition={{ duration: 2, repeat: Infinity }}
@@ -321,8 +321,8 @@ export default function VoiceDemoWidget() {
         <Mic className="h-7 w-7 text-white" />
         
         {/* Pulse rings */}
-        <span className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-20"></span>
-        <span className="absolute -inset-1 rounded-full border-2 border-blue-400/50 animate-pulse"></span>
+        <span className="absolute inset-0 rounded-full bg-indigo-500 animate-ping opacity-20"></span>
+        <span className="absolute -inset-1 rounded-full border-2 border-indigo-400/50 animate-pulse"></span>
         
         {/* Label */}
         <span className="absolute -top-12 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
@@ -344,7 +344,7 @@ export default function VoiceDemoWidget() {
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="bg-gradient-to-br from-slate-900 via-blue-900/90 to-slate-900 rounded-3xl p-8 max-w-md w-full shadow-2xl border border-blue-500/30"
+              className="bg-gradient-to-br from-slate-900 via-indigo-900/90 to-slate-900 rounded-3xl p-8 max-w-md w-full shadow-2xl border border-indigo-500/30"
               onClick={e => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -357,9 +357,9 @@ export default function VoiceDemoWidget() {
 
               {/* Header */}
               <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-2 bg-blue-500/20 px-4 py-2 rounded-full mb-4">
-                  <Sparkles className="h-4 w-4 text-blue-400" />
-                  <span className="text-blue-300 text-sm font-medium">Live AI Demo</span>
+                <div className="inline-flex items-center gap-2 bg-indigo-500/20 px-4 py-2 rounded-full mb-4">
+                  <Sparkles className="h-4 w-4 text-indigo-400" />
+                  <span className="text-indigo-300 text-sm font-medium">Live AI Demo</span>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Talk to DigitalBot</h3>
                 <p className="text-gray-400 text-sm">Experience our AI voice assistant in real-time</p>
@@ -369,7 +369,7 @@ export default function VoiceDemoWidget() {
               <div className="relative h-32 flex items-center justify-center mb-8">
                 {/* Outer glow ring */}
                 <div className={`absolute inset-0 rounded-full transition-all duration-300 ${
-                  isCallActive ? 'bg-blue-500/10' : 'bg-gray-800/50'
+                  isCallActive ? 'bg-indigo-500/10' : 'bg-gray-800/50'
                 }`}></div>
                 
                 {/* Sound bars */}
@@ -377,7 +377,7 @@ export default function VoiceDemoWidget() {
                   {soundBars.map((height, i) => (
                     <motion.div
                       key={i}
-                      className={`w-2 rounded-full ${isCallActive ? 'bg-gradient-to-t from-blue-500 to-cyan-400' : 'bg-gray-600'}`}
+                      className={`w-2 rounded-full ${isCallActive ? 'bg-gradient-to-t from-indigo-500 to-violet-400' : 'bg-gray-600'}`}
                       animate={{
                         height: isSpeaking 
                           ? [16, 32 + height * 32, 16] 
@@ -397,7 +397,7 @@ export default function VoiceDemoWidget() {
                 {/* Status indicator */}
                 {isConnecting && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+                    <div className="w-16 h-16 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin"></div>
                   </div>
                 )}
               </div>
@@ -405,7 +405,7 @@ export default function VoiceDemoWidget() {
               {/* Transcript */}
               <div className="bg-black/30 rounded-2xl p-4 mb-6 min-h-[80px]">
                 <div className="flex items-start gap-2">
-                  <Volume2 className="h-4 w-4 text-blue-400 mt-1 flex-shrink-0" />
+                  <Volume2 className="h-4 w-4 text-indigo-400 mt-1 flex-shrink-0" />
                   <p className="text-gray-300 text-sm leading-relaxed">{transcript}</p>
                 </div>
               </div>
@@ -413,7 +413,7 @@ export default function VoiceDemoWidget() {
               {/* Call Duration */}
               {isCallActive && (
                 <div className="text-center mb-4">
-                  <span className="text-blue-400 font-mono text-lg">{formatTime(callDuration)}</span>
+                  <span className="text-indigo-400 font-mono text-lg">{formatTime(callDuration)}</span>
                 </div>
               )}
 
@@ -424,7 +424,7 @@ export default function VoiceDemoWidget() {
                 className={`w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
                   isCallActive 
                     ? 'bg-red-500 hover:bg-red-600 text-white' 
-                    : 'bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white'
+                    : 'bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white'
                 } ${isConnecting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 whileHover={{ scale: isConnecting ? 1 : 1.02 }}
                 whileTap={{ scale: isConnecting ? 1 : 0.98 }}

@@ -1,9 +1,5 @@
 import { Header } from "@/components/header"
-import { PageBackground } from "@/components/page-background"
 import { Footer } from "@/components/footer"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Calendar, Clock, ArrowRight, User, BookOpen, TrendingUp } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -89,58 +85,41 @@ export default function Blog() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-b bg-white py-20 md:py-32">
-          {/* Animated Grid Background */}
-          <div className="absolute inset-0 opacity-20">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `
-                  linear-gradient(to right, rgb(249, 115, 22) 1px, transparent 1px),
-                  linear-gradient(to bottom, rgb(168, 85, 247) 1px, transparent 1px)
-                `,
-                backgroundSize: '60px 60px'
-              }}
-            />
-          </div>
-
-          {/* Floating Gradient Orbs */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-radial from-orange-200/30 to-transparent rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-radial from-orange-200/25 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-orange-200/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
+        <section className="relative overflow-hidden bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] py-20 md:py-32">
+          {/* Subtle Slate Blur Orbs */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-200/40 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-100/30 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-100/40 rounded-full blur-3xl" />
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 text-white rounded-full px-5 py-2 mb-8 border-2 border-orange-300 shadow-lg">
-                <BookOpen className="w-4 h-4" />
-                <span className="text-sm font-semibold">Insights & Resources</span>
+              <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-5 py-2 mb-8">
+                <BookOpen className="w-4 h-4 text-slate-500" />
+                <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">Insights & Resources</span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-orange-500 via-orange-700 to-orange-700 text-transparent bg-clip-text">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 tracking-tight mb-6 leading-tight">
+                <span className="bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 bg-clip-text text-transparent">
                   AI Voice Agent
                 </span>
                 <br />
-                <span className="relative inline-block mt-2">
-                  <span className="relative z-10 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 text-transparent bg-clip-text">
-                    Blog & Resources
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-200/30 via-orange-300/30 to-orange-400/30 blur-2xl -z-10 scale-110" />
+                <span className="mt-2 inline-block">
+                  Blog & Resources
                 </span>
               </h1>
 
-              <p className="text-xl md:text-2xl text-gray-700 mb-10 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl md:text-2xl text-slate-500 leading-relaxed mb-10 max-w-3xl mx-auto">
                 Explore insights and updates on AI voice assistants, automation, and business transformation. Stay ahead with our latest articles.
               </p>
 
-              <div className="flex flex-wrap gap-6 justify-center items-center">
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-orange-500">
-                  <TrendingUp className="w-5 h-5 text-orange-600" />
-                  <span className="text-sm font-medium text-gray-700">Latest AI Trends</span>
+              <div className="flex flex-wrap gap-4 justify-center items-center">
+                <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full">
+                  <TrendingUp className="w-4 h-4 text-slate-400" />
+                  <span className="text-sm font-medium text-slate-600">Latest AI Trends</span>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-orange-500">
-                  <BookOpen className="w-5 h-5 text-orange-600" />
-                  <span className="text-sm font-medium text-gray-700">Expert Guides</span>
+                <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full">
+                  <BookOpen className="w-4 h-4 text-slate-400" />
+                  <span className="text-sm font-medium text-slate-600">Expert Guides</span>
                 </div>
               </div>
             </div>
@@ -149,19 +128,19 @@ export default function Blog() {
 
         {/* Featured Post */}
         {featuredPost && (
-          <section className="py-20 bg-white">
+          <section className="py-20 bg-gradient-to-b from-white to-[#fafbff]">
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 text-white rounded-full px-5 py-2 mb-4 border-2 border-orange-300 shadow-lg">
-                  <TrendingUp className="w-4 h-4" />
-                  <span className="text-sm font-semibold">Featured Post</span>
+                <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-5 py-2 mb-4">
+                  <TrendingUp className="w-4 h-4 text-slate-500" />
+                  <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">Featured Post</span>
                 </div>
-                <h2 className="text-4xl font-bold bg-gradient-to-r from-orange-500 via-orange-700 to-orange-700 text-transparent bg-clip-text">
+                <h2 className="text-4xl font-semibold text-slate-900 tracking-tight">
                   Latest Insights
                 </h2>
               </div>
               <div className="max-w-4xl mx-auto group">
-                <div className="bg-gradient-to-br from-white to-gray-50 border-2 border-orange-500 hover:border-orange-500 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+                <div className="bg-white/80 backdrop-blur-sm border border-white/40 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-500">
                   {/* Featured Image */}
                   <div className="relative h-80 w-full overflow-hidden">
                     <Image
@@ -171,39 +150,40 @@ export default function Blog() {
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t bg-white to-transparent" />
-                    <Badge className="absolute top-4 left-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white border-none shadow-lg">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                    <span className="absolute top-4 left-4 px-3 py-1 bg-slate-900 text-white text-xs font-medium rounded-full">
                       {featuredPost.category}
-                    </Badge>
+                    </span>
                   </div>
                   
                   {/* Content */}
                   <div className="p-8">
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400 mb-4">
                       <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-orange-600" />
+                        <User className="h-4 w-4" />
                         <span>{featuredPost.author}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-orange-600" />
+                        <Calendar className="h-4 w-4" />
                         <span>{new Date(featuredPost.date).toLocaleDateString()}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-orange-600" />
+                        <Clock className="h-4 w-4" />
                         <span>{featuredPost.readTime}</span>
                       </div>
                     </div>
-                    <h3 className="text-3xl font-bold mb-4 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-orange-700 group-hover:bg-clip-text transition-all duration-300">
+                    <h3 className="text-3xl font-semibold text-slate-900 tracking-tight mb-4 group-hover:text-indigo-600 transition-colors duration-300">
                       {featuredPost.title}
                     </h3>
-                    <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                    <p className="text-lg text-slate-500 leading-relaxed mb-6">
                       {featuredPost.excerpt}
                     </p>
-                    <Link href={`/blog/${featuredPost.slug}`}>
-                      <Button className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 text-white shadow-lg hover:shadow-xl transition-all duration-300">
-                        Read Full Article
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
+                    <Link
+                      href={`/blog/${featuredPost.slug}`}
+                      className="inline-flex items-center gap-2 bg-slate-900 text-white font-medium rounded-lg px-6 py-3 hover:bg-slate-800 transition-colors duration-300"
+                    >
+                      Read Full Article
+                      <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>
                 </div>
@@ -213,13 +193,13 @@ export default function Blog() {
         )}
 
         {/* Blog Posts Grid */}
-        <section className="py-20 bg-gradient-to-b from-white to-orange-100">
+        <section className="py-20 bg-slate-50/50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-orange-500 via-orange-700 to-orange-700 text-transparent bg-clip-text">
+              <h2 className="text-4xl font-semibold text-slate-900 tracking-tight mb-4">
                 Recent Articles
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <p className="text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto">
                 Stay updated with the latest in AI voice technology and best practices
               </p>
             </div>
@@ -227,7 +207,7 @@ export default function Blog() {
               {regularPosts.map((post, index) => (
                 <div
                   key={index}
-                  className="group bg-white border-2 border-orange-500 hover:border-orange-500 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                  className="group bg-white/80 backdrop-blur-sm border border-white/40 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-500 hover:-translate-y-1"
                 >
                   {/* Post Image */}
                   <div className="relative h-48 w-full overflow-hidden">
@@ -235,42 +215,42 @@ export default function Blog() {
                       src={post.image}
                       alt={post.title}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   
                   {/* Post Content */}
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <Badge className="bg-gradient-to-r from-orange-400 to-orange-500 text-white border-none">
+                      <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">
                         {post.category}
-                      </Badge>
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
-                        <Clock className="h-4 w-4 text-orange-600" />
+                      </span>
+                      <div className="flex items-center gap-1 text-sm text-slate-400">
+                        <Clock className="h-4 w-4" />
                         <span>{post.readTime}</span>
                       </div>
                     </div>
-                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-orange-700 group-hover:bg-clip-text transition-all duration-300 line-clamp-2">
+                    <h3 className="text-xl font-semibold text-slate-900 tracking-tight mb-3 group-hover:text-indigo-600 transition-colors duration-300 line-clamp-2">
                       {post.title}
                     </h3>
-                    <p className="text-gray-600 mb-6 leading-relaxed line-clamp-3">
+                    <p className="text-slate-500 leading-relaxed mb-6 line-clamp-3">
                       {post.excerpt}
                     </p>
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <User className="h-4 w-4 text-orange-600" />
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                      <div className="flex items-center gap-2 text-sm text-slate-400">
+                        <User className="h-4 w-4" />
                         <span>{post.author}</span>
                       </div>
-                      <Link href={`/blog/${post.slug}`}>
-                        <Button variant="ghost" size="sm" className="text-orange-600 hover:text-orange-700 hover:bg-orange-50">
-                          Read More
-                          <ArrowRight className="ml-1 h-3 w-3" />
-                        </Button>
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="inline-flex items-center gap-1 text-sm text-slate-600 border border-slate-200 rounded-lg px-3 py-1.5 hover:bg-slate-50 transition-colors duration-300"
+                      >
+                        Read More
+                        <ArrowRight className="h-3 w-3" />
                       </Link>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-500 mt-2">
+                    <div className="flex items-center gap-2 text-xs text-slate-400 mt-3">
                       <Calendar className="h-3 w-3" />
                       <span>{new Date(post.date).toLocaleDateString()}</span>
                     </div>
@@ -282,25 +262,25 @@ export default function Blog() {
         </section>
 
         {/* Newsletter Signup */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-gradient-to-b from-[#fafbff] to-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto bg-gradient-to-br from-orange-50 via-orange-50 to-orange-100 rounded-2xl p-12 text-center border-2 border-orange-500 shadow-xl">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-orange-500 via-orange-700 to-orange-700 text-transparent bg-clip-text">
+              <div className="max-w-3xl mx-auto glass-card bg-indigo-50/30 rounded-2xl p-12 text-center border border-indigo-200/40">
+              <h2 className="text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight mb-4">
                 Stay Updated
               </h2>
-              <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+              <p className="text-xl text-slate-500 leading-relaxed mb-8 max-w-2xl mx-auto">
                 Subscribe to our newsletter for the latest insights on AI voice agents and conversational AI.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full px-6 py-3 rounded-full border-2 border-orange-500 bg-white text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-6 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 />
-                <Button className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 text-white px-8 py-3 rounded-full whitespace-nowrap shadow-lg hover:shadow-xl transition-all duration-300">
+                <button className="inline-flex items-center gap-2 bg-slate-900 text-white font-medium rounded-lg px-8 py-3 whitespace-nowrap hover:bg-slate-800 transition-colors duration-300">
                   Subscribe
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
               </div>
             </div>
           </div>

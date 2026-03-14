@@ -59,8 +59,8 @@ export default function ExitIntentPopup() {
             onClick={e => e.stopPropagation()}
           >
             {/* Background decoration */}
-            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50"></div>
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full translate-y-1/2 -translate-x-1/2 opacity-50"></div>
+            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-indigo-100 to-violet-100 rounded-full translate-y-1/2 -translate-x-1/2 opacity-50"></div>
 
             {/* Close Button */}
             <button
@@ -73,7 +73,7 @@ export default function ExitIntentPopup() {
             {/* Content */}
             <div className="relative z-10 text-center">
               {/* Gift Icon */}
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/30">
+              <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-indigo-500/30">
                 <Gift className="h-10 w-10 text-white" />
               </div>
 
@@ -84,13 +84,13 @@ export default function ExitIntentPopup() {
 
               {/* Subheadline */}
               <p className="text-gray-600 mb-6">
-                Get <span className="font-bold text-blue-600">500 credits FREE</span> to test our AI voice platform. No credit card required!
+                Get <span className="font-bold text-indigo-600">500 credits FREE</span> to test our AI voice platform. No credit card required!
               </p>
 
               {/* Urgency Banner */}
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-center justify-center gap-3">
-                <Clock className="h-5 w-5 text-amber-600" />
-                <span className="text-amber-800 font-medium">
+              <div className="bg-indigo-50/60 border border-indigo-200/40 rounded-xl p-4 mb-6 flex items-center justify-center gap-3">
+                <Clock className="h-5 w-5 text-indigo-600" />
+                <span className="text-indigo-800 font-medium">
                   Limited offer - Expires in 24 hours
                 </span>
               </div>
@@ -106,7 +106,7 @@ export default function ExitIntentPopup() {
               <div className="space-y-3">
                 <Link 
                   href="/contact#contact-form"
-                  className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:scale-[1.02]"
+                  className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl hover:from-indigo-700 hover:to-violet-700 transition-all shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:scale-[1.02] btn-glow"
                 >
                   Claim My 500 Free Credits
                   <ArrowRight className="h-5 w-5" />

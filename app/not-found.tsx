@@ -21,7 +21,7 @@ export default function NotFound() {
             100% { background-position: 200% center; }
           }
           .shimmer-text {
-            background: linear-gradient(90deg, #ff9800 0%, #fbbf24 50%, #fff7ed 100%);
+            background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 50%, #c4b5fd 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -32,17 +32,17 @@ export default function NotFound() {
       }} />
 
       <Header />
-      <main className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center px-4 py-20">
+      <main className="min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden flex items-center justify-center px-4 py-20">
         {/* Glassmorphism/gradient background */}
         <div className="fixed inset-0 z-0 pointer-events-none">
-          <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-blue-400/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-blue-200/30 rounded-full blur-3xl" />
+          <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-indigo-400/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-violet-200/30 rounded-full blur-3xl" />
         </div>
 
         {/* Animated gradient lines */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
-          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse" />
-          <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent animate-pulse" />
+          <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent animate-pulse" style={{ animationDelay: '1s' }} />
         </div>
 
         {/* Glass card */}
@@ -51,9 +51,9 @@ export default function NotFound() {
           {/* Alert Icon */}
           <div className="mb-6 flex justify-center">
             <div className="relative">
-              <AlertTriangle className="w-16 h-16 text-blue-400 animate-pulse" />
+              <AlertTriangle className="w-16 h-16 text-indigo-400 animate-pulse" />
               <div className="absolute inset-0 animate-ping">
-                <AlertTriangle className="w-16 h-16 text-blue-400 opacity-20" />
+                <AlertTriangle className="w-16 h-16 text-indigo-400 opacity-20" />
               </div>
             </div>
           </div>
@@ -61,33 +61,33 @@ export default function NotFound() {
           {/* 404 Number with Gradient Effect */}
           <div className="mb-8 relative">
             <h1 className="text-[8rem] md:text-[12rem] font-black leading-none mb-4 relative inline-block">
-              <span className="absolute inset-0 text-blue-300 opacity-60 blur-sm">404</span>
-              <span className="absolute inset-0 text-blue-200 opacity-60 blur-sm translate-x-1 translate-y-1">404</span>
+              <span className="absolute inset-0 text-indigo-300 opacity-60 blur-sm">404</span>
+              <span className="absolute inset-0 text-indigo-200 opacity-60 blur-sm translate-x-1 translate-y-1">404</span>
               <span className="relative shimmer-text animate-pulse">404</span>
             </h1>
             {/* Gradient Lines */}
-            <div className="absolute top-1/4 left-0 right-0 h-1 bg-gradient-to-r from-blue-400/40 via-blue-300/40 to-transparent animate-pulse" />
-            <div className="absolute bottom-1/4 left-0 right-0 h-1 bg-gradient-to-r from-blue-200/40 via-blue-400/40 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }} />
+            <div className="absolute top-1/4 left-0 right-0 h-1 bg-gradient-to-r from-indigo-400/40 via-violet-300/40 to-transparent animate-pulse" />
+            <div className="absolute bottom-1/4 left-0 right-0 h-1 bg-gradient-to-r from-violet-200/40 via-indigo-400/40 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }} />
           </div>
 
           {/* Title */}
           <div className="mb-6">
             <h2 className="text-3xl md:text-4xl font-black mb-2 uppercase tracking-wider">
               <span className="shimmer-text" style={{
-                textShadow: '0 0 20px rgba(65, 87, 255, 0.5)'
+                textShadow: '0 0 20px rgba(99, 102, 241, 0.5)'
               }}>
                 PAGE NOT FOUND
               </span>
             </h2>
-            <div className="h-1 w-32 mx-auto bg-gradient-to-r from-transparent via-blue-400 via-60% to-blue-200" />
+            <div className="h-1 w-32 mx-auto bg-gradient-to-r from-transparent via-indigo-400 via-60% to-violet-200" />
           </div>
 
           {/* Description Box */}
-          <div className="mb-8 backdrop-blur-md bg-white/60 border border-blue-200/60 shadow-xl overflow-hidden p-6" style={{
+          <div className="mb-8 backdrop-blur-md bg-white/60 border border-indigo-200/60 shadow-xl overflow-hidden p-6" style={{
             clipPath: 'polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px))'
           }}>
-            <p className="text-base md:text-lg text-blue-700 mb-2 font-mono">
-              <span className="text-blue-500 font-bold">[ERROR 404]</span> Neural pathway not found
+            <p className="text-base md:text-lg text-indigo-700 mb-2 font-mono">
+              <span className="text-indigo-500 font-bold">[ERROR 404]</span> Neural pathway not found
             </p>
             <p className="text-gray-700 text-sm">
               The requested data stream has been corrupted or relocated.
@@ -100,7 +100,7 @@ export default function NotFound() {
             <Button
               asChild
               size="lg"
-              className="group relative bg-blue-500 hover:bg-blue-400 text-white font-black rounded-xl shadow-lg hover:shadow-blue-400/40 transition-all duration-300 w-full sm:w-auto overflow-hidden hover:scale-105"
+              className="group relative bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-black rounded-xl shadow-lg hover:shadow-indigo-400/40 transition-all duration-300 w-full sm:w-auto overflow-hidden hover:scale-105 btn-glow"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
               }}
@@ -115,7 +115,7 @@ export default function NotFound() {
               asChild
               variant="outline"
               size="lg"
-              className="group bg-white/60 border-2 border-blue-400 hover:border-blue-500 hover:bg-blue-100/30 text-blue-500 hover:text-blue-600 font-black rounded-xl shadow-lg hover:shadow-blue-400/30 transition-all duration-300 w-full sm:w-auto"
+              className="group bg-white/60 border-2 border-indigo-400 hover:border-violet-500 hover:bg-indigo-100/30 text-indigo-500 hover:text-violet-600 font-black rounded-xl shadow-lg hover:shadow-indigo-400/30 transition-all duration-300 w-full sm:w-auto"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
               }}
@@ -128,78 +128,78 @@ export default function NotFound() {
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-blue-500 uppercase tracking-widest mb-8">
-            <div className="flex items-center gap-1.5 border border-blue-400/30 px-3 py-1.5 rounded" style={{
-              boxShadow: '0 0 10px rgba(255, 152, 0, 0.2)'
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-indigo-500 uppercase tracking-widest mb-8">
+            <div className="flex items-center gap-1.5 border border-indigo-400/30 px-3 py-1.5 rounded" style={{
+              boxShadow: '0 0 10px rgba(99, 102, 241, 0.2)'
             }}>
-              <Shield className="h-4 w-4 text-blue-400" />
+              <Shield className="h-4 w-4 text-indigo-400" />
               <span className="font-bold">Enterprise Secure</span>
             </div>
-            <div className="flex items-center gap-1.5 border border-blue-400/30 px-3 py-1.5 rounded" style={{
-              boxShadow: '0 0 10px rgba(255, 152, 0, 0.2)'
+            <div className="flex items-center gap-1.5 border border-indigo-400/30 px-3 py-1.5 rounded" style={{
+              boxShadow: '0 0 10px rgba(99, 102, 241, 0.2)'
             }}>
-              <CheckCircle className="h-4 w-4 text-blue-400" />
+              <CheckCircle className="h-4 w-4 text-indigo-400" />
               <span className="font-bold">99.9% Uptime</span>
             </div>
-            <div className="flex items-center gap-1.5 border border-blue-400/30 px-3 py-1.5 rounded" style={{
-              boxShadow: '0 0 10px rgba(255, 152, 0, 0.2)'
+            <div className="flex items-center gap-1.5 border border-indigo-400/30 px-3 py-1.5 rounded" style={{
+              boxShadow: '0 0 10px rgba(99, 102, 241, 0.2)'
             }}>
-              <Users className="h-4 w-4 text-blue-400" />
+              <Users className="h-4 w-4 text-indigo-400" />
               <span className="font-bold">50k+ Users</span>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="border-t border-b border-blue-400/20 py-6 backdrop-blur-sm bg-white/40">
-            <p className="text-xs text-blue-500 mb-4 font-mono tracking-wider uppercase">
+          <div className="border-t border-b border-indigo-400/20 py-6 backdrop-blur-sm bg-white/40">
+            <p className="text-xs text-indigo-500 mb-4 font-mono tracking-wider uppercase">
               {'>'} QUICK ACCESS NODES:
             </p>
             <div className="flex flex-wrap gap-3 justify-center font-mono text-sm">
               <Link
                 href="/services"
-                className="px-3 py-1 border border-blue-400/50 text-blue-500 hover:bg-blue-400/10 hover:border-blue-500 hover:shadow-[0_0_10px_rgba(255,152,0,0.2)] transition-all duration-300 group"
+                className="px-3 py-1 border border-indigo-400/50 text-indigo-500 hover:bg-indigo-400/10 hover:border-indigo-500 hover:shadow-[0_0_10px_rgba(99,102,241,0.2)] transition-all duration-300 group"
               >
-                <span className="group-hover:text-blue-700">SERVICES</span>
+                <span className="group-hover:text-indigo-700">SERVICES</span>
               </Link>
               <Link
                 href="/pricing"
-                className="px-3 py-1 border border-blue-400/50 text-blue-500 hover:bg-blue-400/10 hover:border-blue-500 hover:shadow-[0_0_10px_rgba(255,152,0,0.2)] transition-all duration-300 group"
+                className="px-3 py-1 border border-indigo-400/50 text-indigo-500 hover:bg-indigo-400/10 hover:border-indigo-500 hover:shadow-[0_0_10px_rgba(99,102,241,0.2)] transition-all duration-300 group"
               >
-                <span className="group-hover:text-blue-700">PRICING</span>
+                <span className="group-hover:text-indigo-700">PRICING</span>
               </Link>
               <Link
                 href="/blog"
-                className="px-3 py-1 border border-blue-400/50 text-blue-500 hover:bg-blue-400/10 hover:border-blue-500 hover:shadow-[0_0_10px_rgba(255,152,0,0.2)] transition-all duration-300 group"
+                className="px-3 py-1 border border-indigo-400/50 text-indigo-500 hover:bg-indigo-400/10 hover:border-indigo-500 hover:shadow-[0_0_10px_rgba(99,102,241,0.2)] transition-all duration-300 group"
               >
-                <span className="group-hover:text-blue-700">BLOG</span>
+                <span className="group-hover:text-indigo-700">BLOG</span>
               </Link>
               <Link
                 href="/docs"
-                className="px-3 py-1 border border-blue-400/50 text-blue-500 hover:bg-blue-400/10 hover:border-blue-500 hover:shadow-[0_0_10px_rgba(255,152,0,0.2)] transition-all duration-300 group"
+                className="px-3 py-1 border border-indigo-400/50 text-indigo-500 hover:bg-indigo-400/10 hover:border-indigo-500 hover:shadow-[0_0_10px_rgba(99,102,241,0.2)] transition-all duration-300 group"
               >
-                <span className="group-hover:text-blue-700">DOCS</span>
+                <span className="group-hover:text-indigo-700">DOCS</span>
               </Link>
               <Link
                 href="/about"
-                className="px-3 py-1 border border-blue-400/50 text-blue-500 hover:bg-blue-400/10 hover:border-blue-500 hover:shadow-[0_0_10px_rgba(255,152,0,0.2)] transition-all duration-300 group"
+                className="px-3 py-1 border border-indigo-400/50 text-indigo-500 hover:bg-indigo-400/10 hover:border-indigo-500 hover:shadow-[0_0_10px_rgba(99,102,241,0.2)] transition-all duration-300 group"
               >
-                <span className="group-hover:text-blue-700">ABOUT</span>
+                <span className="group-hover:text-indigo-700">ABOUT</span>
               </Link>
             </div>
           </div>
 
           {/* Status Indicator */}
-          <div className="mt-8 flex justify-center items-center gap-2 font-mono text-xs text-blue-400">
-            <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_10px_rgba(255,152,0,0.8)]" />
+          <div className="mt-8 flex justify-center items-center gap-2 font-mono text-xs text-indigo-400">
+            <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
             <span>SYSTEM.STATUS: ONLINE</span>
           </div>
         </div>
 
         {/* Animated Corner Brackets */}
-        <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-blue-400 animate-pulse" />
-        <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-blue-400 animate-pulse" />
-        <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-blue-400 animate-pulse" />
-        <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-blue-400 animate-pulse" />
+        <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-indigo-400 animate-pulse" />
+        <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-indigo-400 animate-pulse" />
+        <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-indigo-400 animate-pulse" />
+        <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-indigo-400 animate-pulse" />
       </main>
       <Footer />
     </>

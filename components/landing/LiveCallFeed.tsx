@@ -61,7 +61,7 @@ export default function LiveCallFeed() {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 relative overflow-hidden">
       {/* Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -83,20 +83,20 @@ export default function LiveCallFeed() {
             </span>
             
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Calls Happening <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Right Now</span>
+              Calls Happening <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-300">Right Now</span>
             </h2>
             
-            <p className="text-blue-100 text-lg mb-8">
+            <p className="text-indigo-100 text-lg mb-8">
               Watch real-time AI conversations powering businesses across 50+ countries. Every second, DigitalBot handles hundreds of calls simultaneously.
             </p>
 
             {/* Live Counter */}
             <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 mb-8">
-              <p className="text-blue-200 text-sm font-medium mb-2">Total Calls Handled</p>
+              <p className="text-indigo-200 text-sm font-medium mb-2">Total Calls Handled</p>
               <div className="text-4xl md:text-5xl font-black text-white tabular-nums">
                 {totalCalls.toLocaleString()}
               </div>
-              <p className="text-blue-200 text-sm mt-2">And counting...</p>
+              <p className="text-indigo-200 text-sm mt-2">And counting...</p>
             </div>
 
             {/* Features */}
@@ -144,19 +144,19 @@ export default function LiveCallFeed() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3 }}
-                      className="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:border-blue-500/30 transition-colors"
+                      className="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:border-indigo-500/30 transition-colors"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                             call.status === 'active' 
                               ? 'bg-green-500/20' 
-                              : 'bg-blue-500/20'
+                              : 'bg-indigo-500/20'
                           }`}>
                             {call.status === 'active' ? (
                               <Phone className="h-5 w-5 text-green-400 animate-pulse" />
                             ) : (
-                              <CheckCircle className="h-5 w-5 text-blue-400" />
+                              <CheckCircle className="h-5 w-5 text-indigo-400" />
                             )}
                           </div>
                           <div>
@@ -180,15 +180,15 @@ export default function LiveCallFeed() {
               {/* Footer */}
               <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
                 <span className="text-gray-400 text-sm">Showing latest 5 calls</span>
-                <button className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center gap-1 transition-colors">
+                <button className="text-indigo-400 hover:text-indigo-300 text-sm font-medium flex items-center gap-1 transition-colors">
                   View All <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
             {/* Decorative Elements */}
-            <div className="absolute -top-4 -right-4 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-cyan-500/20 rounded-full blur-3xl"></div>
+            <div className="absolute -top-4 -right-4 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl"></div>
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-violet-500/20 rounded-full blur-3xl"></div>
           </motion.div>
         </div>
       </div>

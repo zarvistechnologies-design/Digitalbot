@@ -69,7 +69,7 @@ const benefits = [
     description: "Eliminate the need for multiple receptionists while providing superior 24/7 coverage at a fraction of the cost.",
     result: "70% cost reduction",
     icon: Target,
-    color: "from-blue-500 to-blue-600",
+    color: "from-indigo-500 to-violet-600",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop"
   },
   {
@@ -77,7 +77,7 @@ const benefits = [
     description: "Capture every opportunity with instant call answering and intelligent lead qualification that never sleeps.",
     result: "40% more leads",
     icon: Sparkles,
-    color: "from-purple-500 to-blue-600",
+    color: "from-indigo-500 to-violet-600",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop"
   },
   {
@@ -85,7 +85,7 @@ const benefits = [
     description: "Zero hold times, instant responses, and personalized interactions create exceptional caller experiences.",
     result: "98% satisfaction",
     icon: HeartHandshake,
-    color: "from-pink-500 to-orange-600",
+    color: "from-indigo-500 to-violet-600",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1000&auto=format&fit=crop"
   },
   {
@@ -202,18 +202,18 @@ export default function AIVirtualReceptionist() {
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] overflow-hidden">
       <Header />
 
       <main className="flex-1">
         {/* Hero Section - Full Screen */}
-        <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-white flex items-center">
+        <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-[#fafbff] via-white to-white flex items-center">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
             {/* Floating Orbs */}
-            <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+            <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
             
             {/* Animated Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -222,8 +222,8 @@ export default function AIVirtualReceptionist() {
             }} />
             
             {/* Animated Lines */}
-            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
-            <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
+            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
+            <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
           </div>
 
           <div className="container mx-auto relative z-30 max-w-7xl h-full flex items-center">
@@ -232,52 +232,52 @@ export default function AIVirtualReceptionist() {
               {/* Left Side - Content */}
               <div className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 {/* Badge */}
-                <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 px-3 py-1.5 rounded-full mb-6">
-                  <Sparkles className="h-4 w-4 text-blue-600" />
-                  <span className="text-sm font-semibold text-blue-700">AI-Powered Reception</span>
+                <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 px-3 py-1.5 rounded-full mb-6">
+                  <Sparkles className="h-4 w-4 text-indigo-600" />
+                  <span className="text-sm font-semibold text-indigo-700">AI-Powered Reception</span>
                 </div>
 
                 {/* Main Headline */}
                 <h1 className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
                   <span className="block text-black">Your AI Receptionist</span>
-                  <span className="block bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">That Never Sleeps</span>
+                  <span className="block bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">That Never Sleeps</span>
                 </h1>
 
                 {/* Tagline Box */}
-                <div className="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-2xl p-5 mb-6">
+                <div className="bg-gradient-to-r from-indigo-50/60 to-indigo-50/40 border border-indigo-200/40 rounded-2xl p-5 mb-6">
                   <p className="text-gray-600 text-sm italic mb-1">"Missed calls mean missed opportunities and frustrated customers."</p>
-                  <p className="text-blue-600 font-bold text-base uppercase tracking-wider">Let AI Answer Every Call 24/7.</p>
+                  <p className="text-indigo-600 font-bold text-base uppercase tracking-wider">Let AI Answer Every Call 24/7.</p>
                 </div>
 
                 {/* Description */}
                 <p className="text-gray-600 text-base lg:text-lg mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  Your AI-powered virtual receptionist answers every call, books appointments, routes inquiries, and handles customer service — <strong className="text-blue-600">24/7, in 30+ languages, without human effort</strong>.
+                  Your AI-powered virtual receptionist answers every call, books appointments, routes inquiries, and handles customer service — <strong className="text-indigo-600">24/7, in 30+ languages, without human effort</strong>.
                 </p>
 
                 {/* Key Benefits */}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0" />
                     <span className="text-sm font-medium text-gray-700">24/7 Availability</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0" />
                     <span className="text-sm font-medium text-gray-700">70% Cost Savings</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0" />
                     <span className="text-sm font-medium text-gray-700">Multi-Language</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0" />
                     <span className="text-sm font-medium text-gray-700">HIPAA Compliant</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0" />
                     <span className="text-sm font-medium text-gray-700">Zero Wait Time</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0" />
                     <span className="text-sm font-medium text-gray-700">Instant Booking</span>
                   </div>
                 </div>
@@ -286,14 +286,14 @@ export default function AIVirtualReceptionist() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
                     href="/contact#contact-form"
-                    className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
+                    className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-indigo-500 to-violet-600 rounded-xl shadow-lg hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:scale-105"
                   >
                     Hire AI Receptionist
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                   <Link
                     href="/contact#contact-form"
-                    className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-blue-600 bg-white border-2 border-blue-500 rounded-xl hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-md"
+                    className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-indigo-600 bg-white border-2 border-indigo-500 rounded-xl hover:bg-indigo-50/60 transition-all duration-300 hover:scale-105 shadow-md"
                   >
                     <Phone className="w-5 h-5 mr-2" />
                     See Live Demo
@@ -303,7 +303,7 @@ export default function AIVirtualReceptionist() {
 
               {/* Right Side - Visual/Image */}
               <div className={`relative transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-                <div className="relative h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl shadow-blue-500/20 border border-blue-200">
+                <div className="relative h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl shadow-indigo-500/20 border border-indigo-200/40">
                   <Image
                     src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&contrast=120&brightness=110"
                     alt="AI Virtual Receptionist - 24/7 Call Answering and Appointment Booking System"
@@ -312,27 +312,27 @@ export default function AIVirtualReceptionist() {
                     priority
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-blue-900/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/60 via-indigo-900/20 to-transparent"></div>
                   
                   {/* Floating Stats Cards */}
                   <div className="absolute bottom-6 left-6 right-6 space-y-3">
-                    <div className="bg-white/95 backdrop-blur-md rounded-xl p-4 border border-blue-200 shadow-lg">
+                    <div className="bg-white/95 backdrop-blur-md rounded-xl p-4 border border-indigo-200/40 shadow-lg">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
+                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg">
                           <Phone className="w-5 h-5 text-white" />
                         </div>
                         <div>
                           <div className="text-sm font-bold text-gray-900">Live Reception AI</div>
-                          <div className="text-xs text-blue-600">Handling calls right now</div>
+                          <div className="text-xs text-indigo-600">Handling calls right now</div>
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-3 text-center pt-3 border-t border-gray-200">
                         <div>
-                          <div className="text-2xl font-bold text-blue-600">24/7</div>
+                          <div className="text-2xl font-bold text-indigo-600">24/7</div>
                           <div className="text-xs text-gray-600">Available</div>
                         </div>
                         <div>
-                          <div className="text-2xl font-bold text-blue-600">70%</div>
+                          <div className="text-2xl font-bold text-indigo-600">70%</div>
                           <div className="text-xs text-gray-600">Cost Savings</div>
                         </div>
                       </div>
@@ -349,7 +349,7 @@ export default function AIVirtualReceptionist() {
         <section id="demo-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full mb-4">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-600 text-white px-4 py-2 rounded-full mb-4">
                 <Mic className="w-4 h-4" />
                 <span className="text-sm font-semibold">AI Voice Demo</span>
               </div>
@@ -369,7 +369,7 @@ export default function AIVirtualReceptionist() {
         <section id="features-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full mb-4">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-600 text-white px-4 py-2 rounded-full mb-4">
                 <Sparkles className="w-4 h-4" />
                 <span className="text-sm font-semibold">Core Capabilities</span>
               </div>
@@ -402,19 +402,19 @@ export default function AIVirtualReceptionist() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                     <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-full p-2.5 shadow-lg">
-                      <FeatureIcon className="w-5 h-5 text-blue-600" />
+                      <FeatureIcon className="w-5 h-5 text-indigo-600" />
                     </div>
                     <div className="absolute bottom-4 left-4 right-4">
                       <div className="flex items-end justify-between">
                         <div className="bg-white/95 backdrop-blur-sm rounded-lg px-3 py-1.5">
-                          <div className="text-2xl font-bold text-blue-600">{feature.stat}</div>
+                          <div className="text-2xl font-bold text-indigo-600">{feature.stat}</div>
                           <div className="text-xs text-gray-600 font-medium">{feature.statLabel}</div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-lg font-bold mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-lg font-bold mb-2 text-gray-900 group-hover:text-indigo-600 transition-colors">
                       {feature.title}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
@@ -429,10 +429,10 @@ export default function AIVirtualReceptionist() {
         </section>
 
         {/* Benefits Section - Interactive Tabs */}
-        <section id="benefits-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
+        <section id="benefits-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff]">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-blue-600 text-white px-4 py-2 rounded-full mb-4">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-600 text-white px-4 py-2 rounded-full mb-4">
                 <Target className="w-4 h-4" />
                 <span className="text-sm font-semibold">Measurable Impact</span>
               </div>
@@ -452,7 +452,7 @@ export default function AIVirtualReceptionist() {
                     onClick={() => handleTabClick(index)}
                     className={`w-full text-left p-6 rounded-2xl border-2 transition-all duration-300 ${
                       activeUseCase === index
-                        ? 'bg-gradient-to-br from-blue-50 to-blue-50 border-blue-300 shadow-lg'
+                        ? 'bg-gradient-to-br from-indigo-50/60 to-indigo-50/40 border-indigo-300/40 shadow-lg'
                         : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-md'
                     }`}
                   >
@@ -467,14 +467,14 @@ export default function AIVirtualReceptionist() {
                         <p className="text-sm text-gray-600 leading-relaxed mb-3">
                           {benefit.description}
                         </p>
-                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold">
+                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold">
                           <Check className="w-3 h-3" />
                           {benefit.result}
                         </div>
                       </div>
                     </div>
                     {activeUseCase === index && (
-                      <div className="mt-4 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full animate-pulse" />
+                      <div className="mt-4 h-1 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-full animate-pulse" />
                     )}
                   </button>
                 ))}
@@ -514,7 +514,7 @@ export default function AIVirtualReceptionist() {
         </section>
 
         {/* Capabilities Bento Grid */}
-        <section id="capabilities-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
+        <section id="capabilities-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff]">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-teal-600 text-white px-4 py-2 rounded-full mb-4">
@@ -552,7 +552,7 @@ export default function AIVirtualReceptionist() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                     <div className="absolute inset-0 p-8 flex flex-col justify-end">
                       <div className="bg-white/95 backdrop-blur-sm rounded-full w-12 h-12 flex items-center justify-center mb-4 shadow-lg">
-                        <BlockIcon className="w-6 h-6 text-blue-600" />
+                        <BlockIcon className="w-6 h-6 text-indigo-600" />
                       </div>
                       <h3 className="text-2xl font-bold text-white mb-3">
                         {block.heading}
@@ -570,10 +570,10 @@ export default function AIVirtualReceptionist() {
         </section>
 
         {/* Use Cases Section */}
-        <section id="use-cases-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
+        <section id="use-cases-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff]">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white px-4 py-2 rounded-full mb-4">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-600 text-white px-4 py-2 rounded-full mb-4">
                 <Users className="w-4 h-4" />
                 <span className="text-sm font-semibold">Industry Solutions</span>
               </div>
@@ -590,9 +590,9 @@ export default function AIVirtualReceptionist() {
                 <div
                   key={index}
                   className={`group relative bg-gradient-to-br ${
-                    index === 0 ? 'from-blue-50 to-cyan-50' :
+                    index === 0 ? 'from-indigo-50/60 to-violet-50/60' :
                     index === 1 ? 'from-purple-50 to-pink-50' :
-                    index === 2 ? 'from-orange-50 to-yellow-50' :
+                    index === 2 ? 'from-indigo-50/40 to-violet-50/40' :
                     'from-green-50 to-teal-50'
                   } rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100`}
                 >
@@ -611,9 +611,9 @@ export default function AIVirtualReceptionist() {
                       {/* Floating number badge */}
                       <div className="absolute top-6 right-6 w-16 h-16 rounded-2xl bg-white/95 backdrop-blur-sm shadow-2xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-500">
                         <span className={`text-3xl font-bold bg-gradient-to-br ${
-                          index === 0 ? 'from-blue-600 to-cyan-600' :
+                          index === 0 ? 'from-indigo-600 to-violet-600' :
                           index === 1 ? 'from-purple-600 to-pink-600' :
-                          index === 2 ? 'from-orange-600 to-yellow-600' :
+                          index === 2 ? 'from-indigo-600 to-violet-600' :
                           'from-green-600 to-teal-600'
                         } bg-clip-text text-transparent`}>
                           {index + 1}
@@ -625,9 +625,9 @@ export default function AIVirtualReceptionist() {
                     <div className={`p-8 md:p-12 ${index % 2 === 1 ? 'md:order-1' : ''}`}>
                       <div className="space-y-4">
                         <h3 className={`text-2xl md:text-3xl font-bold bg-gradient-to-r ${
-                          index === 0 ? 'from-blue-600 to-cyan-600' :
+                          index === 0 ? 'from-indigo-600 to-violet-600' :
                           index === 1 ? 'from-purple-600 to-pink-600' :
-                          index === 2 ? 'from-orange-600 to-yellow-600' :
+                          index === 2 ? 'from-indigo-600 to-violet-600' :
                           'from-green-600 to-teal-600'
                         } bg-clip-text text-transparent mb-4`}>
                           {useCase.title}
@@ -639,9 +639,9 @@ export default function AIVirtualReceptionist() {
 
                         <div className="pt-4 flex items-center gap-4">
                           <div className={`inline-flex items-center gap-2 bg-gradient-to-r ${
-                            index === 0 ? 'from-blue-500 to-cyan-600' :
+                            index === 0 ? 'from-indigo-500 to-violet-600' :
                             index === 1 ? 'from-purple-500 to-pink-600' :
-                            index === 2 ? 'from-orange-500 to-yellow-600' :
+                            index === 2 ? 'from-indigo-500 to-violet-600' :
                             'from-green-500 to-teal-600'
                           } text-white px-5 py-3 rounded-full text-sm font-bold shadow-lg hover:shadow-xl transition-shadow`}>
                             <Check className="w-5 h-5" />
@@ -661,10 +661,10 @@ export default function AIVirtualReceptionist() {
 
 
         {/* FAQ Section */}
-        <section id="faq-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
+        <section id="faq-section" data-animate className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff]">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full mb-4">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-600 text-white px-4 py-2 rounded-full mb-4">
                 <Phone className="w-4 h-4" />
                 <span className="text-sm font-semibold">Common Questions</span>
               </div>
@@ -705,13 +705,13 @@ export default function AIVirtualReceptionist() {
               ].map((faq, index) => (
                 <details
                   key={index}
-                  className="group bg-white rounded-2xl border border-gray-200 hover:border-blue-300 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-lg"
+                  className="group bg-white rounded-2xl border border-gray-200 hover:border-indigo-300/40 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-lg"
                 >
                   <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
-                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors pr-4">
+                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors pr-4">
                       {faq.q}
                     </h3>
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-lg">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white font-bold shadow-lg">
                       {index + 1}
                     </div>
                   </summary>
@@ -725,10 +725,10 @@ export default function AIVirtualReceptionist() {
         </section>
 
         {/* Call to Action */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-600 via-blue-600 to-blue-700 relative overflow-hidden">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-indigo-600 via-violet-600 to-indigo-700 relative overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-20 left-20 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-300/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 right-20 w-96 h-96 bg-indigo-300/10 rounded-full blur-3xl" />
           </div>
 
           <div className="container mx-auto max-w-4xl text-center relative z-10">
@@ -741,13 +741,13 @@ export default function AIVirtualReceptionist() {
               Ready to Hire Your AI Receptionist?
             </h2>
 
-            <p className="text-blue-50 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-indigo-50 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
               Join hundreds of businesses providing 24/7 phone coverage, perfect call handling, and exceptional customer experiences—all while reducing costs by 70%.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link href="/contact#contact-form">
-                <Button size="lg" className="group bg-white text-blue-600 hover:bg-gray-50 px-8 py-6 text-lg font-bold shadow-2xl hover:shadow-white/30 transition-all duration-300 hover:scale-105">
+                <Button size="lg" className="group bg-white text-indigo-600 hover:bg-gray-50 px-8 py-6 text-lg font-bold shadow-2xl hover:shadow-white/30 transition-all duration-300 hover:scale-105">
                   Get Started Free
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>

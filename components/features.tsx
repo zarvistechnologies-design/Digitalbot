@@ -20,14 +20,14 @@ const features: Feature[] = [
         icon: Bot,
         title: "Intelligent AI Chatbots",
         description: "Deploy smart conversational AI that understands context, learns from interactions, and provides human-like responses with advanced natural language understanding.",
-        gradient: "from-sky-500 to-sky-501",
+        gradient: "from-indigo-500 to-violet-500",
         stats: [{ label: "Accuracy", value: "99.2%" }, { label: "Languages", value: "50+" }]
     },
     {
         icon: MessageSquare,
         title: "Multi-Channel Support",
         description: "Seamlessly integrate across websites, mobile apps, social media, and messaging platforms for a truly unified customer experience.",
-        gradient: "from-blue-500 to-cyan-500",
+        gradient: "from-indigo-500 to-violet-500",
         stats: [{ label: "Channels", value: "15+" }, { label: "Integrations", value: "500+" }]
     },
     {
@@ -48,7 +48,7 @@ const features: Feature[] = [
         icon: Clock,
         title: "24/7 Availability",
         description: "Provide instant customer support around the clock, reducing response times and dramatically improving customer satisfaction.",
-        gradient: "from-rose-500 to-sky-500",
+        gradient: "from-rose-500 to-indigo-500",
         stats: [{ label: "Uptime", value: "99.9%" }, { label: "Response", value: "<1s" }]
     },
     {
@@ -108,29 +108,29 @@ export function Features() {
     return (
         <section 
             ref={sectionRef}
-            className="relative py-16 md:py-24 bg-gradient-to-b from-white via-sky-50/30 to-white overflow-hidden"
+            className="relative py-16 md:py-24 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] overflow-hidden"
             role="region"
             aria-labelledby="features-heading"
         >
             {/* Background Elements */}
             {mounted && (
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-sky-400/15 to-sky-300/10 rounded-full blur-3xl" />
-                    <div className="absolute bottom-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-300/10 rounded-full blur-3xl" />
+                    <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-indigo-400/15 to-violet-300/10 rounded-full blur-3xl" />
+                    <div className="absolute bottom-20 left-20 w-72 h-72 bg-gradient-to-br from-violet-400/10 to-indigo-300/10 rounded-full blur-3xl" />
                 </div>
             )}
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
                 {/* Section Header */}
                 <div ref={headerRef} className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-sky-100 border border-sky-200/50 rounded-full mb-4">
-                        <Sparkles className="w-4 h-4 text-sky-600" />
-                        <span className="text-sm font-semibold text-sky-700">Platform Features</span>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 glass-card bg-indigo-50/60 border-indigo-200/40 rounded-full mb-4">
+                        <Sparkles className="w-4 h-4 text-indigo-600" />
+                        <span className="text-sm font-semibold text-indigo-700">Platform Features</span>
                     </div>
                     
                     <h2 id="features-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
                         Powerful Features for
-                        <span className="bg-gradient-to-r from-sky-500 to-sky-500 bg-clip-text text-transparent"> Modern Business</span>
+                        <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent"> Modern Business</span>
                     </h2>
                     
                     <p className="text-gray-600 text-base max-w-2xl mx-auto">
@@ -153,7 +153,7 @@ export function Features() {
                                     onClick={() => setActiveFeature(index)}
                                     className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all duration-300 text-left group ${
                                         isActive 
-                                            ? 'bg-white shadow-lg shadow-sky-500/10 border-l-4 border-sky-500' 
+                                            ? 'glass-card bg-white/80 shadow-lg shadow-indigo-500/10 border-l-4 border-indigo-500' 
                                             : 'hover:bg-white/60 border-l-4 border-transparent'
                                     }`}
                                 >
@@ -172,7 +172,7 @@ export function Features() {
                                     </div>
                                     
                                     <ChevronRight className={`w-5 h-5 transition-all duration-300 ${
-                                        isActive ? 'text-sky-500 translate-x-1' : 'text-gray-300'
+                                        isActive ? 'text-indigo-500 translate-x-1' : 'text-gray-300'
                                     }`} />
                                 </button>
                             )
@@ -222,7 +222,7 @@ export function Features() {
                                     onClick={() => setActiveFeature(index)}
                                     className={`h-1.5 rounded-full transition-all duration-300 ${
                                         activeFeature === index 
-                                            ? 'w-8 bg-sky-500' 
+                                            ? 'w-8 bg-indigo-500' 
                                             : 'w-1.5 bg-gray-300 hover:bg-gray-400'
                                     }`}
                                 />

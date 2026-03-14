@@ -76,10 +76,10 @@ export function Lead() {
   return (
     <>
       {/* Main Lead Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-orange-50">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-br from-amber-200/40 to-orange-200/30 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-br from-indigo-200/40 to-violet-200/30 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-20 -right-20 w-80 h-80 bg-gradient-to-br from-violet-200/40 to-purple-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-emerald-100/20 to-transparent rounded-full blur-3xl" />
           <div className="absolute top-40 right-1/3 w-64 h-64 bg-gradient-to-br from-rose-200/30 to-pink-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
@@ -87,12 +87,12 @@ export function Lead() {
 
         {/* Floating Shapes */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-32 left-[15%] w-4 h-4 bg-amber-400 rounded-full opacity-70 animate-bounce" style={{ animationDuration: '3s' }} />
+          <div className="absolute top-32 left-[15%] w-4 h-4 bg-indigo-400 rounded-full opacity-70 animate-bounce" style={{ animationDuration: '3s' }} />
           <div className="absolute top-48 right-[20%] w-3 h-3 bg-violet-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
           <div className="absolute bottom-32 left-[25%] w-5 h-5 bg-emerald-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
           <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-rose-400 rounded-full opacity-70 animate-ping" style={{ animationDuration: '2s' }} />
-          <div className="absolute bottom-48 right-[30%] w-3 h-3 bg-cyan-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1.5s' }} />
-          <div className="absolute top-24 left-[40%] w-2 h-2 bg-orange-400 rounded-full opacity-50 animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.8s' }} />
+          <div className="absolute bottom-48 right-[30%] w-3 h-3 bg-indigo-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1.5s' }} />
+          <div className="absolute top-24 left-[40%] w-2 h-2 bg-violet-400 rounded-full opacity-50 animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.8s' }} />
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -101,17 +101,17 @@ export function Lead() {
               {/* Centered Form */}
               <div className="relative">
                 {/* Glow Effect */}
-                <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/20 via-amber-500/20 to-orange-400/20 rounded-3xl blur-2xl opacity-60" />
+                <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500/20 via-violet-500/20 to-indigo-400/20 rounded-3xl blur-2xl opacity-60" />
                 
-                <div className="relative bg-white rounded-3xl p-8 shadow-2xl shadow-orange-500/10 border border-gray-100">
+                <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl shadow-indigo-500/10 border border-white/40">
                   {/* Decorative Corner */}
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500/10 via-amber-500/10 to-transparent rounded-bl-[100px]" />
-                  <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-orange-400/10 via-orange-500/10 to-transparent rounded-tr-[80px]" />
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-500/10 via-violet-500/10 to-transparent rounded-bl-[100px]" />
+                  <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-indigo-400/10 via-violet-500/10 to-transparent rounded-tr-[80px]" />
 
                   <div className="relative z-10">
                     {/* Form Header */}
                     <div className="text-center mb-8">
-                      <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-600 rounded-2xl mb-4 shadow-lg shadow-orange-500/30">
+                      <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl mb-4 shadow-lg shadow-indigo-500/30">
                         <Send className="w-7 h-7 text-white" />
                       </div>
                       <h3 className="text-2xl font-bold text-gray-900 mb-2">Request a Demo</h3>
@@ -144,7 +144,7 @@ export function Lead() {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label htmlFor="name" className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1">
-                            <User className="w-3 h-3 text-orange-500" /> Full Name
+                            <User className="w-3 h-3 text-indigo-500" /> Full Name
                           </label>
                           <input
                             id="name"
@@ -153,13 +153,13 @@ export function Lead() {
                             required
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-xl outline-none transition-all"
+                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl outline-none transition-all"
                             placeholder="John Doe"
                           />
                         </div>
                         <div>
                           <label htmlFor="email" className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1">
-                            <Mail className="w-3 h-3 text-orange-500" /> Work Email
+                            <Mail className="w-3 h-3 text-indigo-500" /> Work Email
                           </label>
                           <input
                             id="email"
@@ -168,7 +168,7 @@ export function Lead() {
                             required
                             value={formData.email}
                             onChange={handleChange}
-                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-xl outline-none transition-all"
+                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl outline-none transition-all"
                             placeholder="john@company.com"
                           />
                         </div>
@@ -178,7 +178,7 @@ export function Lead() {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label htmlFor="phone" className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1">
-                            <Phone className="w-3 h-3 text-orange-500" /> Phone Number
+                            <Phone className="w-3 h-3 text-indigo-500" /> Phone Number
                           </label>
                           <input
                             id="phone"
@@ -187,13 +187,13 @@ export function Lead() {
                             required
                             value={formData.phone}
                             onChange={handleChange}
-                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-xl outline-none transition-all"
+                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl outline-none transition-all"
                             placeholder="+1 (555) 000-0000"
                           />
                         </div>
                         <div>
                           <label htmlFor="company" className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1">
-                            <Building2 className="w-3 h-3 text-orange-500" /> Company
+                            <Building2 className="w-3 h-3 text-indigo-500" /> Company
                           </label>
                           <input
                             id="company"
@@ -202,7 +202,7 @@ export function Lead() {
                             required
                             value={formData.company}
                             onChange={handleChange}
-                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-xl outline-none transition-all"
+                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl outline-none transition-all"
                             placeholder="Your Company Inc."
                           />
                         </div>
@@ -211,7 +211,7 @@ export function Lead() {
                       {/* Message Field */}
                       <div>
                         <label htmlFor="message" className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1">
-                            <MessageSquare className="w-3 h-3 text-orange-500" /> How can we help?
+                            <MessageSquare className="w-3 h-3 text-indigo-500" /> How can we help?
                         </label>
                         <textarea
                           id="message"
@@ -220,7 +220,7 @@ export function Lead() {
                           value={formData.message}
                           onChange={handleChange}
                           rows={3}
-                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-xl resize-none outline-none transition-all"
+                          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl resize-none outline-none transition-all"
                           placeholder="Tell us about your business needs..."
                         />
                       </div>
@@ -229,7 +229,7 @@ export function Lead() {
                       <button
                         onClick={handleSubmit}
                         disabled={isSubmitting}
-                        className="w-full h-14 bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative overflow-hidden group"
+                        className="w-full h-14 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 relative overflow-hidden group btn-glow"
                       >
                         <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                         {isSubmitting ? (
@@ -248,12 +248,12 @@ export function Lead() {
                       {/* Trust Badges */}
                       <div className="flex items-center justify-center gap-4 pt-4">
                         <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Shield className="w-4 h-4 text-orange-500" />
+                          <Shield className="w-4 h-4 text-indigo-500" />
                           <span>SSL Secured</span>
                         </div>
                         <div className="w-px h-4 bg-gray-200" />
                         <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Star className="w-4 h-4 text-orange-500" />
+                          <Star className="w-4 h-4 text-indigo-500" />
                           <span>4.9/5 Rating</span>
                         </div>
                       </div>
@@ -267,22 +267,22 @@ export function Lead() {
       </section>
 
       {/* Unique Section Below - White Background with Success Stories */}
-      <section className="py-20 bg-white relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden">
         {/* Subtle Background Pattern */}
         <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #f97316 1px, transparent 0)`,
+          backgroundImage: `radial-gradient(circle at 1px 1px, #6366f1 1px, transparent 0)`,
           backgroundSize: '40px 40px'
         }} />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full mb-4">
-              <BarChart3 className="w-4 h-4 text-orange-600" />
-              <span className="text-sm font-semibold text-orange-700">Real Results</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 border border-indigo-200/40 rounded-full mb-4">
+              <BarChart3 className="w-4 h-4 text-indigo-600" />
+              <span className="text-sm font-semibold text-indigo-700">Real Results</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Businesses <span className="text-orange-600">Thriving</span> with AI
+              Businesses <span className="text-indigo-600">Thriving</span> with AI
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               See how companies are transforming their customer experience with our AI voice assistants
@@ -297,8 +297,8 @@ export function Lead() {
               { icon: Star, value: "4.9", label: "Avg Rating" },
               { icon: Globe, value: "50+", label: "Languages" }
             ].map((stat, idx) => (
-              <div key={idx} className="bg-orange-50 rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-orange-100">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg">
+              <div key={idx} className="bg-indigo-50/60 rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-indigo-200/40">
+                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg">
                   <stat.icon className="w-7 h-7 text-white" />
                 </div>
                 <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
@@ -335,19 +335,19 @@ export function Lead() {
               <div key={idx} className="bg-white rounded-2xl p-6 shadow-lg shadow-gray-100 border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
                 {/* Quote */}
                 <div className="mb-6">
-                  <div className="text-4xl text-orange-200 font-serif mb-2">"</div>
+                  <div className="text-4xl text-indigo-200 font-serif mb-2">"</div>
                   <p className="text-gray-700 leading-relaxed">{story.quote}</p>
                 </div>
                 
                 {/* Stat Badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-bold mb-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-bold mb-6">
                   <span className="text-lg">{story.stat}</span>
                   <span className="text-white/80">{story.statLabel}</span>
                 </div>
 
                 {/* Company Info */}
                 <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                  <div className="w-12 h-12 rounded-xl bg-orange-600 flex items-center justify-center text-white font-bold text-lg">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 flex items-center justify-center text-white font-bold text-lg">
                     {story.name.charAt(0)}
                   </div>
                   <div>
@@ -363,8 +363,8 @@ export function Lead() {
           <div className="mt-16 bg-gray-900 rounded-3xl p-8 md:p-12 relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute top-0 left-1/4 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl" />
+              <div className="absolute top-0 left-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl" />
             </div>
 
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
@@ -375,7 +375,7 @@ export function Lead() {
                 <p className="text-gray-400">Start your free trial today. No credit card required.</p>
               </div>
               <div className="flex items-center gap-4">
-                <a href="/contact#contact-form" className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all hover:scale-105 flex items-center gap-2">
+                <a href="/contact#contact-form" className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-indigo-500/25 transition-all hover:scale-105 flex items-center gap-2 btn-glow">
                   Get Started Free
                   <ArrowRight className="w-5 h-5" />
                 </a>

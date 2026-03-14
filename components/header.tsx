@@ -47,10 +47,10 @@ export function Header() {
     return (
         <header
             className={cn(
-                "fixed top-0 w-full z-50 transition-all duration-300",
+                "fixed top-0 w-full z-50 transition-all duration-500",
                 isScrolled
-                    ? "bg-white shadow-sm"
-                    : "bg-white"
+                    ? "glass-nav-scrolled"
+                    : "glass-nav"
             )}
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,9 +64,9 @@ export function Header() {
                         className="relative group"
                     >
                         <Link href="/" className="flex items-center gap-12 relative ml-0 pl-0 mr-2" onClick={() => setIsMenuOpen(false)}>
-                            {/* sky glow orbs */}
-                            <span className="absolute -top-6 -left-6 w-20 h-21 rounded-full bg-gradient-to-br from-blue-500/25 via-blue-300/15 to-transparent blur-3xl" />
-                            <span className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-tl from-blue-500/20 to-blue-300/10 blur-2xl" />
+                            {/* glow orbs */}
+                            <span className="absolute -top-6 -left-6 w-20 h-21 rounded-full bg-gradient-to-br from-indigo-500/20 via-violet-400/10 to-transparent blur-3xl" />
+                            <span className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-tl from-violet-500/15 to-indigo-300/10 blur-2xl" />
 
                             <div className="relative">
                                 <Image
@@ -80,7 +80,7 @@ export function Header() {
                                 />
                             </div>
                             {/* Enhanced AI Badge */}
-                            <div className="absolute -bottom-2 -right-8 px-3 py-1 bg-gradient-to-r from-blue-500 via-blue-300 to-blue-500 text-white text-[9px] font-bold shadow-lg shadow-blue-500/60 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-blue-500/30 backdrop-blur-sm"
+                            <div className="absolute -bottom-2 -right-8 px-3 py-1 bg-gradient-to-r from-indigo-500 via-violet-400 to-indigo-500 text-white text-[9px] font-bold shadow-lg shadow-indigo-500/40 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-indigo-400/30 backdrop-blur-sm"
                                 style={{
                                     clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px))'
                                 }}>
@@ -99,14 +99,14 @@ export function Header() {
                                 className={cn(
                                     "relative px-4 py-2 text-sm font-medium transition-all duration-200 group",
                                     pathname === item.href
-                                        ? "text-blue-500"
-                                        : "text-gray-700 hover:text-blue-500"
+                                        ? "text-indigo-600"
+                                        : "text-slate-600 hover:text-indigo-600"
                                 )}
                             >
                                 {item.label}
                                 {/* Animated underline */}
                                 <span className={cn(
-                                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-blue-500 transition-all duration-300",
+                                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-300",
                                     pathname === item.href ? "w-4/5" : "w-0 group-hover:w-4/5"
                                 )} />
                             </Link>
@@ -120,13 +120,13 @@ export function Header() {
                             onMouseEnter={() => setServicesOpen(true)}
                             onMouseLeave={() => setServicesOpen(false)}
                         >
-                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-500 transition-colors group">
+                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors group">
                                 Services
                                 <ChevronDown className={cn(
                                     "w-4 h-4 transition-transform duration-200",
                                     servicesOpen && "rotate-180"
                                 )} />
-                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-blue-500 transition-all duration-300 w-0 group-hover:w-4/5" />
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-300 w-0 group-hover:w-4/5" />
                             </button>
 
                             <AnimatePresence>
@@ -138,28 +138,28 @@ export function Header() {
                                         transition={{ duration: 0.15 }}
                                         className="absolute right-0 top-full pt-2 w-[850px]"
                                     >
-                                        <div className="bg-white rounded-2xl shadow-2xl shadow-gray-300/50 border border-gray-200 overflow-hidden">
+                                        <div className="glass-strong rounded-2xl shadow-2xl shadow-indigo-500/8 border border-white/40 overflow-hidden">
                                             <div className="flex">
                                                 {/* Left Section - Hero */}
-                                                <div className="w-[260px] p-6 border-r border-gray-100/60">
-                                                    <h3 className="text-xl font-bold text-gray-900 leading-tight">
+                                                <div className="w-[260px] p-6 border-r border-slate-100/40">
+                                                    <h3 className="text-xl font-bold text-slate-900 leading-tight">
                                                         Solutions That Drive<br />
-                                                        <span className="text-blue-500">Business Growth</span>
+                                                        <span className="text-gradient">Business Growth</span>
                                                     </h3>
-                                                    <p className="mt-3 text-sm text-gray-600 leading-relaxed">
+                                                    <p className="mt-3 text-sm text-slate-500 leading-relaxed">
                                                         Discover how DigitalBot helps enterprises deliver AI-powered voice automation, intelligent support, and measurable results.
                                                     </p>
                                                     <Link
                                                         href="/contact#contact-form"
-                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white text-sm font-semibold rounded-full transition-all duration-200"
+                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-indigo-400 text-indigo-600 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-violet-500 hover:text-white hover:border-transparent text-sm font-semibold rounded-full transition-all duration-300"
                                                     >
                                                         Request a Demo
                                                     </Link>
                                                 </div>
 
                                                 {/* Middle Section - Voice Solutions */}
-                                                <div className="flex-1 p-6 border-r border-gray-100 bg-gray-50/30">
-                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                                                <div className="flex-1 p-6 border-r border-slate-100/30 bg-white/20">
+                                                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
                                                         VOICE SOLUTIONS
                                                     </div>
                                                     <div className="space-y-0.5">
@@ -169,12 +169,12 @@ export function Header() {
                                                                 <Link
                                                                     key={service.href}
                                                                     href={service.href}
-                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
+                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-slate-600 hover:bg-white/60 hover:shadow-sm transition-all group"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-blue-100 group-hover:bg-blue-500 flex items-center justify-center transition-colors">
-                                                                        <Icon className="w-4 h-4 text-blue-500 group-hover:text-white transition-colors" />
+                                                                    <div className="w-8 h-8 rounded-lg bg-indigo-50 group-hover:bg-gradient-to-br group-hover:from-indigo-500 group-hover:to-violet-500 flex items-center justify-center transition-all duration-300">
+                                                                        <Icon className="w-4 h-4 text-indigo-500 group-hover:text-white transition-colors" />
                                                                     </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-blue-500 transition-colors">
+                                                                    <span className="text-[15px] font-medium group-hover:text-indigo-600 transition-colors">
                                                                         {service.label}
                                                                     </span>
                                                                 </Link>
@@ -184,8 +184,8 @@ export function Header() {
                                                 </div>
 
                                                 {/* Middle Section - AI Services */}
-                                                <div className="flex-1 p-6 border-r border-gray-100 bg-gray-50/30">
-                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                                                <div className="flex-1 p-6 border-r border-slate-100/30 bg-white/20">
+                                                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
                                                         AI SERVICES
                                                     </div>
                                                     <div className="space-y-0.5">
@@ -195,12 +195,12 @@ export function Header() {
                                                                 <Link
                                                                     key={service.href}
                                                                     href={service.href}
-                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all group"
+                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-slate-600 hover:bg-white/60 hover:shadow-sm transition-all group"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-blue-100 group-hover:bg-blue-500 flex items-center justify-center transition-colors">
-                                                                        <Icon className="w-4 h-4 text-blue-500 group-hover:text-white transition-colors" />
+                                                                    <div className="w-8 h-8 rounded-lg bg-indigo-50 group-hover:bg-gradient-to-br group-hover:from-indigo-500 group-hover:to-violet-500 flex items-center justify-center transition-all duration-300">
+                                                                        <Icon className="w-4 h-4 text-indigo-500 group-hover:text-white transition-colors" />
                                                                     </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-blue-500 transition-colors">
+                                                                    <span className="text-[15px] font-medium group-hover:text-indigo-600 transition-colors">
                                                                         {service.label}
                                                                     </span>
                                                                 </Link>
@@ -209,20 +209,20 @@ export function Header() {
                                                     </div>
 
                                                     {/* Premium Services */}
-                                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-5 mb-3">
+                                                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-5 mb-3">
                                                         PREMIUM
                                                     </div>
                                                     <div className="flex gap-2">
                                                         <Link
                                                             href="/services/leads"
-                                                            className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
+                                                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white text-sm font-medium rounded-lg transition-all duration-300 shadow-md shadow-indigo-500/20"
                                                         >
                                                             <BarChart3 className="w-4 h-4" />
                                                             Lead Analysis
                                                         </Link>
                                                         <Link
                                                             href="/services/appointments"
-                                                            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+                                                            className="flex items-center gap-2 px-4 py-2 bg-slate-50 hover:bg-indigo-50 text-slate-600 hover:text-indigo-600 text-sm font-medium rounded-lg transition-all duration-300"
                                                         >
                                                             <Phone className="w-4 h-4" />
                                                             Appointments
@@ -232,11 +232,11 @@ export function Header() {
 
                                                 {/* Right Section - Featured Card */}
                                                 <div className="w-[220px] p-4">
-                                                    <div className="h-full bg-gradient-to-br from-green-100 to-green-50 rounded-xl p-4 flex flex-col">
-                                                        <span className="text-[10px] font-bold text-green-600 uppercase tracking-wider">
+                                                    <div className="h-full bg-gradient-to-br from-indigo-50 to-violet-50/50 rounded-xl p-4 flex flex-col border border-indigo-100/50">
+                                                        <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">
                                                             FEATURED
                                                         </span>
-                                                        <h4 className="mt-2 text-lg font-bold text-gray-900 leading-snug">
+                                                        <h4 className="mt-2 text-lg font-bold text-slate-900 leading-snug">
                                                             Delivering 360°<br />
                                                             Customer<br />
                                                             Experience
@@ -252,7 +252,7 @@ export function Header() {
                                                             </div>
                                                             <Link
                                                                 href="/services"
-                                                                className="inline-flex items-center justify-center w-full py-2 bg-white hover:bg-blue-500 hover:text-white text-blue-500 text-sm font-semibold rounded-full border border-blue-200 transition-all duration-200"
+                                                                className="inline-flex items-center justify-center w-full py-2 bg-white/80 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-violet-500 hover:text-white text-indigo-600 text-sm font-semibold rounded-full border border-indigo-200/50 hover:border-transparent transition-all duration-300"
                                                             >
                                                                 Learn More
                                                             </Link>
@@ -273,7 +273,7 @@ export function Header() {
                             href="https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-200 group"
+                            className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-violet-500 hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-200 group"
                         >
                             <Instagram className="w-4 h-4 text-white" />
                         </a>
@@ -281,13 +281,13 @@ export function Header() {
                             href="https://www.facebook.com/profile.php?id=61583885495540"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 group"
+                            className="flex items-center justify-center w-9 h-9 rounded-full bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-500/50 transition-all duration-200 group"
                         >
                             <Facebook className="w-4 h-4 text-white" />
                         </a>
                         <Link
                             href="/login"
-                            className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
+                            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white text-sm font-medium rounded-lg transition-all duration-300 shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30 btn-glow"
                         >
                             <Sparkles className="w-4 h-4" />
                             Login
@@ -297,7 +297,7 @@ export function Header() {
                     {/* Mobile Menu Button */}
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="lg:hidden p-2 text-gray-700 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="lg:hidden p-2 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 rounded-lg transition-colors"
                     >
                         {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
@@ -311,7 +311,7 @@ export function Header() {
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="lg:hidden overflow-hidden border-t border-gray-100"
+                            className="lg:hidden overflow-hidden border-t border-slate-100/50 glass-strong rounded-b-2xl"
                         >
                             <nav className="py-4 space-y-1">
                                 {navItems.map((item) => (
@@ -321,8 +321,8 @@ export function Header() {
                                         className={cn(
                                             "block px-4 py-3 text-sm font-medium rounded-lg transition-colors",
                                             pathname === item.href
-                                                ? "bg-blue-50 text-blue-500"
-                                                : "text-gray-700 hover:bg-gray-50 hover:text-blue-500"
+                                                ? "bg-indigo-50/60 text-indigo-600"
+                                                : "text-slate-600 hover:bg-indigo-50/40 hover:text-indigo-600"
                                         )}
                                         onClick={() => setIsMenuOpen(false)}
                                     >
@@ -331,13 +331,13 @@ export function Header() {
                                 ))}
 
                                 {/* Mobile Services */}
-                                <div className="pt-3 mt-3 border-t border-gray-100">
-                                    <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Services</div>
+                                <div className="pt-3 mt-3 border-t border-slate-100/40">
+                                    <div className="px-4 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Services</div>
                                     {services.slice(0, 6).map((service) => (
                                         <Link
                                             key={service.href}
                                             href={service.href}
-                                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-500 rounded-lg transition-colors"
+                                            className="block px-4 py-2.5 text-sm text-slate-600 hover:bg-indigo-50/40 hover:text-indigo-600 rounded-lg transition-colors"
                                             onClick={() => setIsMenuOpen(false)}
                                         >
                                             {service.label}
@@ -351,7 +351,7 @@ export function Header() {
                                         href="https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-200"
+                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-violet-500 hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-200"
                                     >
                                         <Instagram className="w-5 h-5 text-white" />
                                     </a>
@@ -359,7 +359,7 @@ export function Header() {
                                         href="https://www.facebook.com/profile.php?id=61583885495540"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200"
+                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-500/50 transition-all duration-200"
                                     >
                                         <Facebook className="w-5 h-5 text-white" />
                                     </a>
@@ -369,7 +369,7 @@ export function Header() {
                                 <div className="pt-3 px-4">
                                     <Link
                                         href="/login"
-                                        className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
+                                        className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white text-sm font-medium rounded-xl transition-all duration-300 shadow-md shadow-indigo-500/20"
                                         onClick={() => setIsMenuOpen(false)}
                                     >
                                         <Sparkles className="w-4 h-4" />

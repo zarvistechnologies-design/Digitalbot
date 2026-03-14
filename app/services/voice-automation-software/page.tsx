@@ -221,34 +221,34 @@ export default function VoiceAutomationSoftwarePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50/50 to-blue-50">
+      <div className="min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]">
         <Header />
         <main className="min-h-screen">
           {/* Hero Section - Premium Light Theme */}
           <section className="relative min-h-screen flex items-center overflow-hidden">
             {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/50 to-blue-100/30" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.15),transparent_50%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(147,197,253,0.15),transparent_50%)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(99,102,241,0.15),transparent_50%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(165,148,249,0.15),transparent_50%)]" />
             
             {/* Decorative Blur Orbs */}
-            <div className="absolute top-20 right-10 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl" />
+            <div className="absolute top-20 right-10 w-72 h-72 bg-indigo-200/30 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 left-10 w-96 h-96 bg-indigo-100/40 rounded-full blur-3xl" />
 
             {/* Floating Icons */}
             <div className="absolute top-32 left-[15%] hidden lg:block">
-              <div className="w-12 h-12 bg-white rounded-2xl shadow-lg shadow-blue-100/50 flex items-center justify-center border border-blue-100 animate-bounce">
-                <Mic className="w-6 h-6 text-blue-600" />
+              <div className="w-12 h-12 bg-white rounded-2xl shadow-lg shadow-indigo-100/50 flex items-center justify-center border border-indigo-100/40 animate-bounce">
+                <Mic className="w-6 h-6 text-indigo-600" />
               </div>
             </div>
             <div className="absolute top-48 right-[12%] hidden lg:block">
-              <div className="w-10 h-10 bg-white rounded-xl shadow-lg shadow-blue-100/50 flex items-center justify-center border border-blue-100 animate-pulse">
-                <Bot className="w-5 h-5 text-blue-500" />
+              <div className="w-10 h-10 bg-white rounded-xl shadow-lg shadow-indigo-100/50 flex items-center justify-center border border-indigo-100/40 animate-pulse">
+                <Bot className="w-5 h-5 text-indigo-500" />
               </div>
             </div>
             <div className="absolute bottom-32 left-[10%] hidden lg:block">
-              <div className="w-14 h-14 bg-white rounded-2xl shadow-lg shadow-blue-100/50 flex items-center justify-center border border-blue-100">
-                <Settings className="w-7 h-7 text-blue-600 animate-spin" style={{ animationDuration: '8s' }} />
+              <div className="w-14 h-14 bg-white rounded-2xl shadow-lg shadow-indigo-100/50 flex items-center justify-center border border-indigo-100/40">
+                <Settings className="w-7 h-7 text-indigo-600 animate-spin" style={{ animationDuration: '8s' }} />
               </div>
             </div>
 
@@ -257,21 +257,21 @@ export default function VoiceAutomationSoftwarePage() {
                 {/* Left Content */}
                 <div className="text-center lg:text-left">
                   {/* Badge */}
-                  <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-blue-200 text-blue-700 px-4 py-2 rounded-full mb-6 shadow-sm">
+                  <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-indigo-200/40 text-indigo-700 px-4 py-2 rounded-full mb-6 shadow-sm">
                     <Cpu className="w-4 h-4" />
                     <span className="text-sm font-semibold">Enterprise Voice Automation Software</span>
                   </div>
 
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
                     <span className="text-gray-900">Automate Every </span>
-                    <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-transparent bg-clip-text">
+                    <span className="bg-gradient-to-r from-indigo-600 via-violet-500 to-violet-700 text-transparent bg-clip-text">
                       Voice Interaction
                     </span>
                     <span className="text-gray-900"> with AI</span>
                   </h1>
 
                   <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                    Transform your business with intelligent <strong className="text-blue-600">voice automation software</strong> that handles calls,
+                    Transform your business with intelligent <strong className="text-indigo-600">voice automation software</strong> that handles calls,
                     schedules appointments, qualifies leads, and provides instant support 24/7 without human intervention.
                   </p>
 
@@ -279,14 +279,14 @@ export default function VoiceAutomationSoftwarePage() {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                     <Link 
                       href="/contact#contact-form"
-                      className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg shadow-blue-200/50 hover:shadow-xl hover:shadow-blue-300/50 hover:-translate-y-0.5"
+                      className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-indigo-200/50 hover:shadow-xl hover:shadow-indigo-300/50 hover:-translate-y-0.5"
                     >
                       Start Free Trial
                       <ArrowRight className="w-5 h-5" />
                     </Link>
                     <Link 
                       href="/contact#contact-form"
-                      className="inline-flex items-center justify-center gap-2 bg-white border-2 border-blue-200 text-blue-700 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 hover:border-blue-300 transition-all duration-300"
+                      className="inline-flex items-center justify-center gap-2 bg-white border-2 border-indigo-200/40 text-indigo-700 px-8 py-4 rounded-xl font-semibold hover:bg-indigo-50/60 hover:border-indigo-300 transition-all duration-300"
                     >
                       <Phone className="w-5 h-5" />
                       Request Demo
@@ -295,15 +295,15 @@ export default function VoiceAutomationSoftwarePage() {
 
                   {/* Trust Badges */}
                   <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                    <div className="flex items-center gap-2 text-sm text-gray-600 bg-white/60 px-3 py-2 rounded-lg border border-blue-100">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 bg-white/60 px-3 py-2 rounded-lg border border-indigo-100/40">
                       <CheckCircle className="w-4 h-4 text-green-500" />
                       <span>99.9% Uptime SLA</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 bg-white/60 px-3 py-2 rounded-lg border border-blue-100">
-                      <Shield className="w-4 h-4 text-blue-500" />
+                    <div className="flex items-center gap-2 text-sm text-gray-600 bg-white/60 px-3 py-2 rounded-lg border border-indigo-100/40">
+                      <Shield className="w-4 h-4 text-indigo-500" />
                       <span>SOC 2 Certified</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 bg-white/60 px-3 py-2 rounded-lg border border-blue-100">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 bg-white/60 px-3 py-2 rounded-lg border border-indigo-100/40">
                       <Zap className="w-4 h-4 text-yellow-500" />
                       <span>&lt;750ms Response</span>
                     </div>
@@ -312,7 +312,7 @@ export default function VoiceAutomationSoftwarePage() {
 
                 {/* Right Image */}
                 <div className="relative hidden lg:block">
-                  <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-blue-200/40 border border-blue-100">
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-indigo-200/40 border border-indigo-100/40">
                     <Image
                       src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&h=500&fit=crop"
                       alt="Voice Automation Software Dashboard"
@@ -321,13 +321,13 @@ export default function VoiceAutomationSoftwarePage() {
                       className="w-full h-auto object-cover"
                       priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/20 to-transparent" />
                   </div>
                   
                   {/* Floating Stats Card */}
-                  <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl shadow-blue-100/40 border border-blue-100">
+                  <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl shadow-indigo-100/40 border border-indigo-100/40">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center">
                         <BarChart3 className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -338,7 +338,7 @@ export default function VoiceAutomationSoftwarePage() {
                   </div>
 
                   {/* Floating Badge */}
-                  <div className="absolute -top-4 -right-4 bg-white rounded-2xl px-4 py-3 shadow-xl shadow-blue-100/40 border border-blue-100">
+                  <div className="absolute -top-4 -right-4 bg-white rounded-2xl px-4 py-3 shadow-xl shadow-indigo-100/40 border border-indigo-100/40">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
                       <span className="text-sm font-semibold text-gray-700">AI Active 24/7</span>
@@ -350,54 +350,54 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Stats Section */}
-          <section className="py-12 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+          <section className="py-12 bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-800 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.1),transparent_70%)]" />
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-2">95%+</p>
-                  <p className="text-blue-100 text-sm sm:text-base">Recognition Accuracy</p>
+                  <p className="text-indigo-100 text-sm sm:text-base">Recognition Accuracy</p>
                 </div>
                 <div className="text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-2">750ms</p>
-                  <p className="text-blue-100 text-sm sm:text-base">Response Time</p>
+                  <p className="text-indigo-100 text-sm sm:text-base">Response Time</p>
                 </div>
                 <div className="text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-2">30+</p>
-                  <p className="text-blue-100 text-sm sm:text-base">Languages Supported</p>
+                  <p className="text-indigo-100 text-sm sm:text-base">Languages Supported</p>
                 </div>
                 <div className="text-center">
                   <p className="text-3xl sm:text-4xl font-bold text-white mb-2">10K+</p>
-                  <p className="text-blue-100 text-sm sm:text-base">Concurrent Calls</p>
+                  <p className="text-indigo-100 text-sm sm:text-base">Concurrent Calls</p>
                 </div>
               </div>
             </div>
           </section>
 
           {/* Intelligent Conversation Flow Section */}
-          <section className="py-20 bg-gradient-to-br from-white via-blue-50/30 to-white relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-blue-50/40 rounded-full blur-3xl" />
+          <section className="py-20 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-80 h-80 bg-indigo-100/30 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-64 h-64 bg-indigo-50/40 rounded-full blur-3xl" />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 {/* Left Image */}
                 <div className="relative order-2 lg:order-1">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-blue-200/50 via-blue-100/50 to-blue-200/50 rounded-3xl blur-2xl" />
-                  <div className="relative h-[350px] sm:h-[400px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-blue-200/40">
+                  <div className="absolute -inset-4 bg-gradient-to-r from-indigo-200/50 via-violet-100/50 to-indigo-200/50 rounded-3xl blur-2xl" />
+                  <div className="relative h-[350px] sm:h-[400px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-indigo-200/40">
                     <Image
                       src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=500&fit=crop"
                       alt="Voice Automation Interface - AI Conversation Management"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent" />
                   </div>
                 </div>
 
                 {/* Right Content */}
                 <div className="order-1 lg:order-2">
-                  <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-2 rounded-full mb-6">
+                  <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 text-indigo-700 px-4 py-2 rounded-full mb-6">
                     <Brain className="w-4 h-4" />
                     <span className="text-sm font-semibold">Smart Conversations</span>
                   </div>
@@ -415,8 +415,8 @@ export default function VoiceAutomationSoftwarePage() {
                       "Continuous learning from every interaction"
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-3 group">
-                        <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-500 transition-colors">
-                          <CheckCircle className="w-4 h-4 text-blue-600 group-hover:text-white transition-colors" />
+                        <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-indigo-500 transition-colors">
+                          <CheckCircle className="w-4 h-4 text-indigo-600 group-hover:text-white transition-colors" />
                         </div>
                         <span className="text-gray-700">{item}</span>
                       </li>
@@ -428,15 +428,15 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Real-Time Performance Analytics Section */}
-          <section className="py-20 bg-gradient-to-br from-blue-50/50 via-white to-blue-50/30 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-50/50 rounded-full blur-3xl" />
+          <section className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-100/40 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-50/50 rounded-full blur-3xl" />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 {/* Left Content */}
                 <div>
-                  <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-2 rounded-full mb-6">
+                  <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 text-indigo-700 px-4 py-2 rounded-full mb-6">
                     <BarChart3 className="w-4 h-4" />
                     <span className="text-sm font-semibold">Analytics Dashboard</span>
                   </div>
@@ -454,8 +454,8 @@ export default function VoiceAutomationSoftwarePage() {
                       "Custom reports and export capabilities"
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-3 group">
-                        <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-500 transition-colors">
-                          <CheckCircle className="w-4 h-4 text-blue-600 group-hover:text-white transition-colors" />
+                        <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-indigo-500 transition-colors">
+                          <CheckCircle className="w-4 h-4 text-indigo-600 group-hover:text-white transition-colors" />
                         </div>
                         <span className="text-gray-700">{item}</span>
                       </li>
@@ -465,15 +465,15 @@ export default function VoiceAutomationSoftwarePage() {
 
                 {/* Right Image */}
                 <div className="relative">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-blue-200/50 via-blue-100/50 to-blue-200/50 rounded-3xl blur-2xl" />
-                  <div className="relative h-[350px] sm:h-[400px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-blue-200/40">
+                  <div className="absolute -inset-4 bg-gradient-to-r from-indigo-200/50 via-violet-100/50 to-indigo-200/50 rounded-3xl blur-2xl" />
+                  <div className="relative h-[350px] sm:h-[400px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-indigo-200/40">
                     <Image
                       src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=500&fit=crop"
                       alt="Real-Time Analytics Dashboard - Voice Automation Performance Metrics"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent" />
                   </div>
                 </div>
               </div>
@@ -481,13 +481,13 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Features Section */}
-          <section className="py-20 bg-gradient-to-br from-white via-blue-50/30 to-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-50/50 rounded-full blur-3xl" />
+          <section className="py-20 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-100/30 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-indigo-50/50 rounded-full blur-3xl" />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-2 rounded-full mb-4">
+                <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 text-indigo-700 px-4 py-2 rounded-full mb-4">
                   <Zap className="w-4 h-4" />
                   <span className="text-sm font-semibold">Powerful Features</span>
                 </div>
@@ -503,16 +503,16 @@ export default function VoiceAutomationSoftwarePage() {
                 {features.map((feature, index) => (
                   <div
                     key={index}
-                    className="group relative bg-white rounded-2xl p-6 border border-blue-100 shadow-lg shadow-blue-50/50 hover:shadow-xl hover:shadow-blue-100/50 hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+                    className="group relative bg-white rounded-2xl p-6 border border-indigo-100/40 shadow-lg shadow-indigo-50/50 hover:shadow-xl hover:shadow-indigo-100/50 hover:-translate-y-1 transition-all duration-300 overflow-hidden"
                   >
                     {/* Hover Glow Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 via-blue-100/0 to-blue-50/0 group-hover:from-blue-50/50 group-hover:via-blue-100/30 group-hover:to-blue-50/50 transition-all duration-500 rounded-2xl" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/0 via-indigo-100/0 to-indigo-50/0 group-hover:from-indigo-50/50 group-hover:via-indigo-100/30 group-hover:to-indigo-50/50 transition-all duration-500 rounded-2xl" />
                     
                     <div className="relative z-10">
-                      <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-blue-200/50">
+                      <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-indigo-200/50">
                         <feature.icon className="w-7 h-7 text-white" />
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-indigo-700 transition-colors">
                         {feature.title}
                       </h3>
                       <p className="text-gray-600 leading-relaxed">
@@ -526,13 +526,13 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Use Cases Section */}
-          <section className="py-20 bg-gradient-to-br from-blue-50/50 via-white to-blue-50/30 relative overflow-hidden">
-            <div className="absolute top-20 left-10 w-64 h-64 bg-blue-100/40 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-50/60 rounded-full blur-3xl" />
+          <section className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden">
+            <div className="absolute top-20 left-10 w-64 h-64 bg-indigo-100/40 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 right-10 w-80 h-80 bg-indigo-50/60 rounded-full blur-3xl" />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-2 rounded-full mb-4">
+                <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 text-indigo-700 px-4 py-2 rounded-full mb-4">
                   <Building2 className="w-4 h-4" />
                   <span className="text-sm font-semibold">Industry Solutions</span>
                 </div>
@@ -548,12 +548,12 @@ export default function VoiceAutomationSoftwarePage() {
                 {useCases.map((useCase, index) => (
                   <div
                     key={index}
-                    className="group bg-white rounded-2xl p-6 border border-blue-100 shadow-lg shadow-blue-50/50 hover:shadow-xl hover:shadow-blue-100/50 hover:-translate-y-1 transition-all duration-300 text-center"
+                    className="group bg-white rounded-2xl p-6 border border-indigo-100/40 shadow-lg shadow-indigo-50/50 hover:shadow-xl hover:shadow-indigo-100/50 hover:-translate-y-1 transition-all duration-300 text-center"
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:from-blue-500 group-hover:to-blue-600 transition-all duration-300">
-                      <useCase.icon className="w-8 h-8 text-blue-600 group-hover:text-white transition-colors" />
+                    <div className="w-16 h-16 bg-gradient-to-br from-indigo-100 to-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:from-indigo-500 group-hover:to-violet-500 transition-all duration-300">
+                      <useCase.icon className="w-8 h-8 text-indigo-600 group-hover:text-white transition-colors" />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-indigo-700 transition-colors">
                       {useCase.title}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
@@ -566,12 +566,12 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Demo Section */}
-          <section className="py-20 bg-gradient-to-br from-white via-blue-50/50 to-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_70%)]" />
+          <section className="py-20 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.08),transparent_70%)]" />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-2 rounded-full mb-4">
+                <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 text-indigo-700 px-4 py-2 rounded-full mb-4">
                   <Mic className="w-4 h-4 animate-pulse" />
                   <span className="text-sm font-semibold">Live Demo</span>
                 </div>
@@ -584,7 +584,7 @@ export default function VoiceAutomationSoftwarePage() {
               </div>
 
               <div className="max-w-3xl mx-auto">
-                <div className="bg-white rounded-3xl border border-blue-100 shadow-xl shadow-blue-100/30 p-6 sm:p-8">
+                <div className="bg-white rounded-3xl border border-indigo-100/40 shadow-xl shadow-indigo-100/30 p-6 sm:p-8">
                   {/* Conversation Messages */}
                   <div className="space-y-4 mb-8 max-h-80 overflow-y-auto">
                     {sampleConversation.map((msg, idx) => (
@@ -598,11 +598,11 @@ export default function VoiceAutomationSoftwarePage() {
                           className={`max-w-[80%] p-4 rounded-2xl ${
                             msg.speaker === "Customer"
                               ? "bg-gray-100 text-gray-900 rounded-bl-md"
-                              : "bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-br-md"
+                              : "bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-br-md"
                           }`}
                         >
                           <p className={`text-xs font-semibold mb-1 ${
-                            msg.speaker === "Customer" ? "text-gray-500" : "text-blue-100"
+                            msg.speaker === "Customer" ? "text-gray-500" : "text-indigo-100"
                           }`}>
                             {msg.speaker}
                           </p>
@@ -616,7 +616,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <div className="flex justify-center">
                     <button
                       onClick={playConversation}
-                      className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg shadow-blue-200/50"
+                      className="inline-flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-indigo-200/50"
                     >
                       {isPlaying ? (
                         <>
@@ -638,7 +638,7 @@ export default function VoiceAutomationSoftwarePage() {
                       {Array.from({ length: 30 }).map((_, i) => (
                         <div
                           key={i}
-                          className="w-1 bg-gradient-to-t from-blue-600 to-blue-400 rounded-full animate-pulse"
+                          className="w-1 bg-gradient-to-t from-indigo-600 to-violet-400 rounded-full animate-pulse"
                           style={{
                             height: `${Math.random() * 24 + 8}px`,
                             animationDelay: `${i * 0.05}s`,
@@ -654,13 +654,13 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* FAQ Section */}
-          <section className="py-20 bg-gradient-to-br from-blue-50/50 via-white to-blue-50/30 relative overflow-hidden">
-            <div className="absolute top-0 left-1/4 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl" />
+          <section className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden">
+            <div className="absolute top-0 left-1/4 w-72 h-72 bg-indigo-100/30 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-50/50 rounded-full blur-3xl" />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-2 rounded-full mb-4">
+                <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 text-indigo-700 px-4 py-2 rounded-full mb-4">
                   <Headphones className="w-4 h-4" />
                   <span className="text-sm font-semibold">Common Questions</span>
                 </div>
@@ -676,16 +676,16 @@ export default function VoiceAutomationSoftwarePage() {
                 {faqs.map((faq, index) => (
                   <div
                     key={index}
-                    className="group bg-white rounded-2xl p-6 border border-blue-100 shadow-lg shadow-blue-50/50 hover:shadow-xl hover:shadow-blue-100/50 hover:-translate-y-1 transition-all duration-300"
+                    className="group bg-white rounded-2xl p-6 border border-indigo-100/40 shadow-lg shadow-indigo-50/50 hover:shadow-xl hover:shadow-indigo-100/50 hover:-translate-y-1 transition-all duration-300"
                   >
                     <div className="flex gap-4">
                       <div className="flex-shrink-0">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-200/50">
+                        <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-indigo-200/50">
                           {index + 1}
                         </div>
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
+                        <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-indigo-700 transition-colors">
                           {faq.q}
                         </h3>
                         <p className="text-gray-600 leading-relaxed text-sm">
@@ -700,14 +700,14 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* CTA Section */}
-          <section className="py-20 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+          <section className="py-20 bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-800 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.15),transparent_60%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(59,130,246,0.3),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(99,102,241,0.3),transparent_60%)]" />
             
             {/* Floating Elements */}
             <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl" />
             <div className="absolute bottom-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-xl" />
-            <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-blue-400/20 rounded-full blur-lg" />
+            <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-indigo-400/20 rounded-full blur-lg" />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="text-center max-w-3xl mx-auto">
@@ -720,14 +720,14 @@ export default function VoiceAutomationSoftwarePage() {
                   Ready to Automate Your Voice Communications?
                 </h2>
                 
-                <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+                <p className="text-lg text-indigo-100 mb-8 max-w-2xl mx-auto">
                   Join thousands of businesses using our voice automation software to deliver exceptional customer experiences while reducing costs by up to 80%.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                   <Link 
                     href="/contact#contact-form"
-                    className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 shadow-lg shadow-blue-900/20"
+                    className="inline-flex items-center justify-center gap-2 bg-white text-indigo-700 px-8 py-4 rounded-xl font-semibold hover:bg-indigo-50/60 transition-all duration-300 shadow-lg shadow-indigo-900/20"
                   >
                     Get Started Free
                     <ArrowRight className="w-5 h-5" />
@@ -742,19 +742,19 @@ export default function VoiceAutomationSoftwarePage() {
                 </div>
 
                 <div className="flex flex-wrap gap-4 justify-center">
-                  <div className="flex items-center gap-2 text-blue-100 text-sm">
+                  <div className="flex items-center gap-2 text-indigo-100 text-sm">
                     <CheckCircle className="w-4 h-4 text-green-400" />
                     <span>No Credit Card Required</span>
                   </div>
-                  <div className="flex items-center gap-2 text-blue-100 text-sm">
+                  <div className="flex items-center gap-2 text-indigo-100 text-sm">
                     <CheckCircle className="w-4 h-4 text-green-400" />
                     <span>14-Day Free Trial</span>
                   </div>
-                  <div className="flex items-center gap-2 text-blue-100 text-sm">
+                  <div className="flex items-center gap-2 text-indigo-100 text-sm">
                     <CheckCircle className="w-4 h-4 text-green-400" />
                     <span>Cancel Anytime</span>
                   </div>
-                  <div className="flex items-center gap-2 text-blue-100 text-sm">
+                  <div className="flex items-center gap-2 text-indigo-100 text-sm">
                     <CheckCircle className="w-4 h-4 text-green-400" />
                     <span>24/7 Support</span>
                   </div>

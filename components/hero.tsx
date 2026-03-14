@@ -17,7 +17,7 @@ const services = [
         subtitle: "24/7 AI-Powered Medical Scheduling",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/doctor_appointment_i73m9a",
         desc: "Never miss a patient again. Our AI voice agent handles appointment booking, rescheduling, and confirmations around the clock—with perfect accuracy and a warm, human touch.",
-        color: "from-blue-500 to-red-500",
+        color: "from-indigo-500 to-violet-500",
         stat: "95%",
         statLabel: "Booking Success Rate",
         audio: "/audio/doctor-appointment-sample.mp3",          
@@ -34,7 +34,7 @@ const services = [
         subtitle: "Automated Outbound Sales Machine",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/lead_generation_qas7wm",
         desc: "Scale your sales pipeline effortlessly. Our AI makes thousands of outbound calls daily, qualifying leads and booking meetings while your team focuses on closing.",
-        color: "from-blue-500 to-purple-500",
+        color: "from-indigo-500 to-violet-500",
         stat: "3x",
         statLabel: "More Qualified Leads",
         audio: "/audio/lead-generation-sample.mp3",
@@ -50,7 +50,7 @@ const services = [
         subtitle: "Empathetic Support That Never Sleeps",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/customercareagent_k6wqe8",
         desc: "Delight customers with instant, empathetic support. Our AI resolves issues on the first call, escalates complex cases smartly, and keeps your CSAT scores soaring.",
-        color: "from-teal-500 to-blue-500",
+        color: "from-indigo-500 to-violet-500",
         stat: "90%",
         statLabel: "First Call Resolution",
         audio: "/audio/customer-care-sample.mp3",
@@ -66,7 +66,7 @@ const services = [
         subtitle: "Seamlessly Connect AI Voice to Your Systems",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/voicebot_integaration_pjlorx",
         desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
-        color: "from-cyan-500 to-blue-600",
+        color: "from-violet-500 to-indigo-600",
         stat: "50+",
         statLabel: "Native Integrations",
         audio: "/audio/virtual-receptionist-sample.mp3",
@@ -872,16 +872,16 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white" role="region" aria-labelledby="hero-heading">
+            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]" role="region" aria-labelledby="hero-heading">
 
                 {/* Animated Background Elements */}
                 {mounted && (
                     <>
                         {/* Floating Orbs */}
                         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                            <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-float"></div>
-                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-300/10 rounded-full blur-3xl animate-pulse-slow"></div>
+                            <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-400/15 rounded-full blur-3xl animate-float"></div>
+                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-300/8 rounded-full blur-3xl animate-pulse-slow"></div>
                         </div>
                         
                         {/* Animated Grid Pattern */}
@@ -895,7 +895,7 @@ export default function Hero() {
                             {[...Array(20)].map((_, i) => (
                                 <div
                                     key={i}
-                                    className="absolute w-2 h-2 bg-blue-400/30 rounded-full animate-float"
+                                    className="absolute w-2 h-2 bg-indigo-400/20 rounded-full animate-float"
                                     style={{
                                         left: `${Math.random() * 100}%`,
                                         top: `${Math.random() * 100}%`,
@@ -907,8 +907,8 @@ export default function Hero() {
                         </div>
 
                         {/* Animated Lines */}
-                        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent animate-pulse-slow"></div>
-                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-blue-500/15 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+                        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-indigo-400/15 to-transparent animate-pulse-slow"></div>
+                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/10 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
 
                         {/* Wavy Sound Effect - Bottom Waves */}
                         <div className="absolute bottom-0 left-0 right-0 h-48 overflow-hidden pointer-events-none z-10 opacity-30">
@@ -949,7 +949,7 @@ export default function Hero() {
                             {[...Array(5)].map((_, i) => (
                                 <div
                                     key={`left-bar-${i}`}
-                                    className="w-1 bg-gradient-to-t from-blue-400 to-blue-300 rounded-full"
+                                    className="w-1 bg-gradient-to-t from-indigo-400 to-violet-300 rounded-full"
                                     style={{
                                         animation: `sound-wave-bar ${0.8 + i * 0.15}s ease-in-out infinite`,
                                         animationDelay: `${i * 0.12}s`,
@@ -964,7 +964,7 @@ export default function Hero() {
                             {[...Array(5)].map((_, i) => (
                                 <div
                                     key={`right-bar-${i}`}
-                                    className="w-1 bg-gradient-to-t from-blue-400 to-blue-300 rounded-full"
+                                    className="w-1 bg-gradient-to-t from-indigo-400 to-violet-300 rounded-full"
                                     style={{
                                         animation: `sound-wave-bar ${0.9 + i * 0.12}s ease-in-out infinite`,
                                         animationDelay: `${i * 0.15 + 0.3}s`,
@@ -979,7 +979,7 @@ export default function Hero() {
                             {[...Array(3)].map((_, i) => (
                                 <div
                                     key={`ring-${i}`}
-                                    className="absolute inset-0 border border-blue-300/20 rounded-full"
+                                    className="absolute inset-0 border border-indigo-300/15 rounded-full"
                                     style={{
                                         width: `${120 + i * 80}px`,
                                         height: `${120 + i * 80}px`,
@@ -1121,7 +1121,7 @@ export default function Hero() {
                         {/* Content */}
                         <div className="text-center space-y-8 max-w-4xl">
                             {/* Badge */}
-                            <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 px-4 py-2 rounded-full animate-fade-in-up-1 shadow-sm">
+                            <div className="inline-flex items-center gap-2 glass-card bg-white/70 border border-indigo-100/40 px-4 py-2 rounded-full animate-fade-in-up-1 shadow-sm">
                                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
                                 <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">AI Voice Agents — Now Generally Available</span>
                             </div>
@@ -1129,7 +1129,7 @@ export default function Hero() {
                             {/* Main Headline */}
                             <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 leading-[1.1] tracking-tight animate-fade-in-up-2">
                                 Your AI Voice Agent<br />
-                                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">That Never Sleeps</span>
+                                <span className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">That Never Sleeps</span>
                             </h1>
 
                             {/* Tagline */}
@@ -1144,8 +1144,8 @@ export default function Hero() {
                                     className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
                                         isCallActive
                                             ? 'bg-gradient-to-br from-red-500 to-red-600 animate-mic-active hover:from-red-600 hover:to-red-700 scale-110'
-                                            : 'bg-gradient-to-br from-blue-500 to-blue-600 animate-mic-pulse hover:from-blue-600 hover:to-blue-700 hover:scale-110'
-                                    } shadow-xl`}
+                                            : 'bg-gradient-to-br from-indigo-500 to-violet-500 animate-mic-pulse hover:from-indigo-600 hover:to-violet-600 hover:scale-110'
+                                    } shadow-xl shadow-indigo-500/20`}
                                     aria-label={isCallActive ? 'End voice call' : 'Start voice call'}
                                 >
                                     {/* Animated rings when active */}
@@ -1166,7 +1166,7 @@ export default function Hero() {
                                     {isCallActive
                                         ? <span className="text-red-500 flex items-center gap-1.5"><span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />{callStatus || 'Call active'} — tap to end</span>
                                         : isSpeaking
-                                            ? <span className="text-blue-500">Assistant is speaking...</span>
+                                            ? <span className="text-indigo-500">Assistant is speaking...</span>
                                             : 'Tap to talk to our AI agent'
                                     }
                                 </p>
@@ -1181,14 +1181,14 @@ export default function Hero() {
                             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-in-up-3 pt-2">
                                 <Link
                                     href="/contact#contact-form"
-                                    className="group px-8 py-3.5 bg-slate-900 text-white font-medium rounded-lg hover:bg-slate-800 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 text-sm"
+                                    className="group px-8 py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium rounded-xl hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/30 flex items-center justify-center gap-2 text-sm btn-glow"
                                 >
                                     Get Started Free
                                     <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
                                 <Link
                                     href="/services"
-                                    className="px-8 py-3.5 text-slate-600 font-medium rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all duration-200 text-sm"
+                                    className="px-8 py-3.5 text-slate-600 font-medium rounded-xl border border-slate-200/60 glass-subtle hover:border-indigo-200 hover:text-indigo-600 transition-all duration-300 text-sm"
                                 >
                                     View Platform
                                 </Link>
@@ -1223,10 +1223,10 @@ export default function Hero() {
                         ].map((feature, i) => (
                             <div
                                 key={i}
-                                className="group bg-white rounded-xl p-6 border border-slate-100 hover:border-slate-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                                className="group glass-card rounded-xl p-6 hover:border-indigo-200/40 hover:shadow-lg transition-all duration-400"
                                 style={{ animationDelay: `${i * 0.1}s` }}
                             >
-                                <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300 shadow-md shadow-indigo-500/15">
                                     <feature.icon className="h-5 w-5 text-white" />
                                 </div>
                                 <h3 className="text-base font-semibold text-slate-900 mb-1.5">{feature.title}</h3>
@@ -1242,29 +1242,29 @@ export default function Hero() {
             <AnimatedStats />
 
             {/* Section Header - Fixed above the scrolling content */}
-            <section className="py-8 sm:py-08 lg:py-16 bg-white">
+            <section className="py-8 sm:py-08 lg:py-16 bg-gradient-to-b from-white to-[#fafbff]">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <div className="inline-flex items-center space-x-2 bg-blue-500/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-blue-400/30 text-xs sm:text-sm text-blue-600 font-semibold mb-4 uppercase tracking-widest">
+                    <div className="inline-flex items-center space-x-2 glass-card bg-indigo-50/60 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-indigo-200/40 text-xs sm:text-sm text-indigo-600 font-semibold mb-4 uppercase tracking-widest">
                         <MessageSquare className="h-4 w-4" />
                         <span>🎯 Our AI Voice Services</span>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 sm:mb-4">
                         Choose Your AI Voice Solution
                     </h2>
-                    <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
+                    <p className="text-base sm:text-lg lg:text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed px-4">
                         Select from our comprehensive suite of AI voice services. Each solution is ready to deploy on our platform and can be customized for your business needs.
                     </p>
                 </div>
             </section>
 
             {/* AI Voice Use Cases Section - Stacking Cards */}
-            <section ref={storySectionRef} className="bg-white">
+            <section ref={storySectionRef} className="bg-gradient-to-b from-[#fafbff] to-white">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
                     <div className="space-y-8">
                         {services.map((s, i) => (
                             <div
                                 key={i}
-                                className="stack-card bg-white rounded-2xl border border-slate-200 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+                                className="stack-card glass-strong rounded-2xl border border-white/40 shadow-lg hover:shadow-xl transition-all duration-400 overflow-hidden"
                                 style={{ position: 'sticky', top: `${80 + i * 24}px`, zIndex: i + 1 }}
                             >
                                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-0">
@@ -1350,15 +1350,15 @@ export default function Hero() {
             <Lead />
 
             {/* Why Choose DigitalBot - Bento Grid Style */}
-            <section className="py-8 px-4 bg-white overflow-hidden">
+            <section className="py-8 px-4 bg-gradient-to-b from-white via-[#fafbff] to-white overflow-hidden">
                 <div className="container mx-auto max-w-6xl">
                     {/* Section Header */}
                     <div className="text-center mb-10">
-                        <p className="text-blue-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                        <p className="text-indigo-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
+                        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">
                             The DigitalBot Advantage
                         </h2>
-                        <p className="text-gray-500 max-w-xl mx-auto">
+                        <p className="text-slate-500 max-w-xl mx-auto">
                             Enterprise-grade AI voice solutions that scale with your business
                         </p>
                     </div>
@@ -1367,58 +1367,58 @@ export default function Hero() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                         {/* Feature 1 - Instant Setup */}
-                        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px]">
+                        <div className="bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-indigo-500/15 transition-all duration-400 min-h-[280px]">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                             <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
                             <div>
-                                <div className="inline-flex items-center gap-1.5 bg-white/20 text-white px-2.5 py-1 rounded-full text-xs font-medium mb-3">
+                                <div className="inline-flex items-center gap-1.5 bg-white/20 text-white px-2.5 py-1 rounded-full text-xs font-medium mb-3 backdrop-blur-sm">
                                     <Zap className="h-3 w-3" /> Quick Start
                                 </div>
                                 <h3 className="text-xl font-bold text-white mb-2">Instant Setup</h3>
-                                <p className="text-sm text-orange-100 mb-3">
+                                <p className="text-sm text-indigo-100 mb-3">
                                     Deploy your AI voice assistant in under 5 minutes with zero-code integration. Connect to your existing systems seamlessly.
                                 </p>
-                                <ul className="text-xs text-orange-100 space-y-1">
+                                <ul className="text-xs text-indigo-100 space-y-1">
                                     <li className="flex items-center gap-1.5">
-                                        <CheckCircle className="h-3 w-3 text-orange-200" /> No technical expertise needed
+                                        <CheckCircle className="h-3 w-3 text-indigo-200" /> No technical expertise needed
                                     </li>
                                 
                                     <li className="flex items-center gap-1.5">
-                                        <CheckCircle className="h-3 w-3 text-orange-200" /> Instant API integration
+                                        <CheckCircle className="h-3 w-3 text-indigo-200" /> Instant API integration
                                     </li>
                                 </ul>
                             </div>
                             <div className="flex gap-8 mt-4">
                                 <div>
                                     <div className="text-3xl font-bold text-white">5 min</div>
-                                    <div className="text-orange-200 text-xs">Setup Time</div>
+                                    <div className="text-indigo-200 text-xs">Setup Time</div>
                                 </div>
                                 <div>
                                     <div className="text-3xl font-bold text-white">0</div>
-                                    <div className="text-orange-200 text-xs">Code Required</div>
+                                    <div className="text-indigo-200 text-xs">Code Required</div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Feature 2 - Enterprise Security */}
-                        <div className="bg-white rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px] border border-orange-200/60">
-                            <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div className="glass-card rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl min-h-[280px] border border-indigo-100/30">
+                            <div className="absolute top-0 right-0 w-20 h-20 bg-indigo-500/8 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <Shield className="h-5 w-5 text-orange-500" />
-                                    <h3 className="text-lg font-bold text-gray-900">Enterprise Security</h3>
+                                    <Shield className="h-5 w-5 text-indigo-500" />
+                                    <h3 className="text-lg font-bold text-slate-900">Enterprise Security</h3>
                                 </div>
-                                <p className="text-sm text-gray-600 mb-4">AES-256 encryption, SOC 2 certified, GDPR & HIPAA compliant for maximum data protection.</p>
+                                <p className="text-sm text-slate-500 mb-4">AES-256 encryption, SOC 2 certified, GDPR & HIPAA compliant for maximum data protection.</p>
                             </div>
                             <div className="flex flex-wrap gap-2 mt-auto">
-                                <span className="px-3 py-1.5 bg-orange-50 text-orange-700 text-xs font-medium rounded border border-orange-200/60">SOC 2</span>
-                                <span className="px-3 py-1.5 bg-orange-50 text-orange-700 text-xs font-medium rounded border border-orange-200/60">GDPR</span>
-                                <span className="px-3 py-1.5 bg-orange-50 text-orange-700 text-xs font-medium rounded border border-orange-200/60">HIPAA</span>
+                                <span className="px-3 py-1.5 bg-indigo-50/60 text-indigo-600 text-xs font-medium rounded border border-indigo-200/40">SOC 2</span>
+                                <span className="px-3 py-1.5 bg-indigo-50/60 text-indigo-600 text-xs font-medium rounded border border-indigo-200/40">GDPR</span>
+                                <span className="px-3 py-1.5 bg-indigo-50/60 text-indigo-600 text-xs font-medium rounded border border-indigo-200/40">HIPAA</span>
                             </div>
                         </div>
 
                         {/* Feature 3 - 24/7 Operations */}
-                        <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px]">
+                        <div className="bg-gradient-to-br from-violet-500 to-indigo-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-violet-500/15 transition-all duration-400 min-h-[280px]">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <Clock className="h-5 w-5 text-white" />
@@ -1435,69 +1435,69 @@ export default function Hero() {
                         </div>
 
                         {/* Feature 4 - Auto-Scaling */}
-                        <div className="bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow min-h-[280px]">
+                        <div className="bg-gradient-to-br from-indigo-500 to-violet-500 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-indigo-500/15 transition-all duration-400 min-h-[280px]">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <TrendingUp className="h-5 w-5 text-white" />
                                     <h3 className="text-lg font-bold text-white">Auto-Scaling</h3>
                                 </div>
-                                <p className="text-sm text-amber-100 mb-4">
+                                <p className="text-sm text-indigo-100 mb-4">
                                     Handle spikes effortlessly with intelligent auto-scaling. From 10 to 100,000+ simultaneous conversations without performance degradation.
                                 </p>
                             </div>
                             <div className="mt-auto">
                                 <div className="text-4xl font-bold text-white">100K+</div>
-                                <div className="text-amber-100 text-sm">Concurrent Conversations</div>
+                                <div className="text-indigo-100 text-sm">Concurrent Conversations</div>
                             </div>
                         </div>
 
                         {/* Feature 5 - Omnichannel */}
-                        <div className="bg-gradient-to-br from-orange-50 to-amber-100 rounded-2xl p-6 flex flex-col justify-between border border-orange-200/50 group hover:shadow-lg transition-shadow min-h-[280px]">
+                        <div className="glass-card rounded-2xl p-6 flex flex-col justify-between border border-indigo-100/30 group hover:shadow-lg transition-all duration-400 min-h-[280px]">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <MessageSquare className="h-5 w-5 text-orange-500" />
-                                    <h3 className="text-lg font-bold text-gray-800">Omnichannel Support</h3>
+                                    <MessageSquare className="h-5 w-5 text-indigo-500" />
+                                    <h3 className="text-lg font-bold text-slate-800">Omnichannel Support</h3>
                                 </div>
-                                <p className="text-sm text-gray-600 mb-4">
+                                <p className="text-sm text-slate-500 mb-4">
                                     Seamless integration across phone, web, mobile, SMS, WhatsApp, and social media platforms.
                                 </p>
                             </div>
                             <div className="mt-auto">
-                                <div className="text-4xl font-bold text-orange-500">6+</div>
-                                <div className="text-gray-600 text-sm">Integrated Channels</div>
+                                <div className="text-4xl font-bold text-indigo-500">6+</div>
+                                <div className="text-slate-500 text-sm">Integrated Channels</div>
                             </div>
                         </div>
 
                         {/* Feature 6 - Proven Results */}
-                        <div className="bg-gradient-to-br from-teal-50 to-emerald-100 rounded-2xl p-6 flex flex-col justify-between border border-teal-200/50 group hover:shadow-lg transition-shadow min-h-[280px]">
+                        <div className="glass-card rounded-2xl p-6 flex flex-col justify-between border border-emerald-100/30 group hover:shadow-lg transition-all duration-400 min-h-[280px]">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <CheckCircle className="h-5 w-5 text-teal-500" />
-                                    <h3 className="text-lg font-bold text-gray-800">Proven Results</h3>
+                                    <CheckCircle className="h-5 w-5 text-emerald-500" />
+                                    <h3 className="text-lg font-bold text-slate-800">Proven Results</h3>
                                 </div>
-                                <p className="text-sm text-gray-600 mb-4">
+                                <p className="text-sm text-slate-500 mb-4">
                                     Industry-leading ROI with measurable impact. Most clients see positive returns within the first quarter of deployment.
                                 </p>
                             </div>
                             <div className="mt-auto">
-                                <div className="text-4xl font-bold text-teal-500">90 Days</div>
-                                <div className="text-gray-600 text-sm">Average ROI Payback</div>
+                                <div className="text-4xl font-bold text-emerald-500">90 Days</div>
+                                <div className="text-slate-500 text-sm">Average ROI Payback</div>
                             </div>
                         </div>
 
                     </div>
 
                     {/* CTA Section */}
-                    <div className="mt-8 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between border border-gray-200/50 gap-4">
+                    <div className="mt-8 glass-strong rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between border border-indigo-100/30 gap-4">
                         <div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-1">Ready to transform your business?</h3>
-                            <p className="text-sm text-gray-500">14-day free trial • No credit card • Cancel anytime</p>
+                            <h3 className="text-xl font-bold text-slate-900 mb-1">Ready to transform your business?</h3>
+                            <p className="text-sm text-slate-500">14-day free trial • No credit card • Cancel anytime</p>
                         </div>
                         <div className="flex gap-3">
-                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 bg-orange-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20">
+                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-medium py-3 px-6 rounded-xl hover:from-indigo-600 hover:to-violet-600 transition-all duration-300 shadow-lg shadow-indigo-500/20 btn-glow">
                                 Start Free <ArrowRight className="h-4 w-4" />
                             </Link>
-                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 hover:bg-white transition-colors">
+                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 text-slate-600 font-medium py-3 px-6 rounded-xl border border-slate-200/60 glass-subtle hover:border-indigo-200 hover:text-indigo-600 transition-all duration-300">
                                 Book Demo
                             </Link>
                         </div>

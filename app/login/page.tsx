@@ -92,14 +92,14 @@ export default function LoginPage(): JSX.Element {
 
   // 5. Component return type (JSX.Element)
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] p-4 relative overflow-hidden">
       <PageBackground />
-      <div className="bg-black p-8 rounded-2xl shadow-2xl w-full max-w-md relative z-10">
+      <div className="glass-strong p-8 rounded-3xl shadow-2xl shadow-indigo-500/8 w-full max-w-md relative z-10 border border-white/40">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-200 mb-2">
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">
             Welcome Back
           </h1>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             Sign in to access your call dashboard
           </p>
         </div>
@@ -113,7 +113,7 @@ export default function LoginPage(): JSX.Element {
         {/* 6. Form event handler uses the typed handleLogin */}
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-slate-600 mb-2">
               Email Address
             </label>
             <input
@@ -122,13 +122,13 @@ export default function LoginPage(): JSX.Element {
               value={email}
               // 7. Used the typed change handler
               onChange={handleEmailChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+              className="w-full px-4 py-3 border border-slate-200/60 rounded-xl bg-white/60 backdrop-blur-sm focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-400 transition-all duration-300"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-slate-600 mb-2">
               Password
             </label>
             <input
@@ -137,20 +137,20 @@ export default function LoginPage(): JSX.Element {
               value={password}
               // 8. Used the typed change handler
               onChange={handlePasswordChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+              className="w-full px-4 py-3 border border-slate-200/60 rounded-xl bg-white/60 backdrop-blur-sm focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-400 transition-all duration-300"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-600 text-white py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-white py-3 rounded-xl font-semibold hover:from-indigo-600 hover:to-violet-600 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg shadow-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/30 btn-glow"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-400 mt-6">
+        <p className="text-center text-sm text-slate-400 mt-6">
           Don't have an account? Contact your administrator
         </p>
       </div>

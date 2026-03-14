@@ -87,35 +87,35 @@ export function SignupForm({ initialService }: SignupFormProps) {
   const getServiceInfo = () => {
     switch (selectedService) {
       case 'lead-analysis':
-        return { title: 'Lead Analysis Service', gradient: 'from-blue-400 to-blue-700' }
+        return { title: 'Lead Analysis Service', gradient: 'from-indigo-500 to-violet-500' }
       case 'appointment':
-        return { title: 'Appointment Service', gradient: 'from-blue-500 to-blue-600' }
+        return { title: 'Appointment Service', gradient: 'from-violet-500 to-indigo-600' }
       case 'customer-support':
-        return { title: 'Customer Support AI', gradient: 'from-cyan-500 to-blue-600' }
+        return { title: 'Customer Support AI', gradient: 'from-indigo-500 to-violet-500' }
       default:
-        return { title: 'DigitalBot Service', gradient: 'from-blue-500 to-blue-700' }
+        return { title: 'DigitalBot Service', gradient: 'from-indigo-500 to-violet-600' }
     }
   }
 
   const { title, gradient } = getServiceInfo()
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-white relative overflow-hidden px-4">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden px-4">
       <PageBackground />
 
       {/* Animated glow */}
-      <div className="absolute w-[700px] h-[700px] bg-blue-500/20 blur-[180px] rounded-full -top-40 -left-20 animate-pulse" />
+      <div className="absolute w-[700px] h-[700px] bg-indigo-500/10 blur-[180px] rounded-full -top-40 -left-20 animate-pulse" />
 
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="relative z-10 bg-white/90 backdrop-blur-2xl p-10 rounded-3xl shadow-2xl shadow-blue-500/40 w-full max-w-md border border-blue-400/70 hover:shadow-blue-500/60 hover:scale-[1.02] transition-transform duration-300"
+        className="relative z-10 glass-strong p-10 rounded-3xl shadow-2xl shadow-indigo-500/10 w-full max-w-md border border-white/40 hover:shadow-indigo-500/15 hover:scale-[1.02] transition-all duration-300"
       >
         {/* Header */}
         <div className="flex items-center gap-2 mb-6">
-          <Sparkles className="w-5 h-5 text-blue-600" />
+          <Sparkles className="w-5 h-5 text-indigo-500" />
           <h2 className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${gradient}`}>
             Sign Up for {title}
           </h2>
@@ -123,8 +123,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
 
         {/* Name */}
         <div className="mb-4">
-          <div className="flex items-center gap-2 border rounded px-3 py-2 bg-white/70 backdrop-blur">
-            <User className="w-5 h-5 text-gray-500" />
+          <div className="flex items-center gap-2 border border-slate-200/60 rounded-xl px-3 py-2 bg-white/60 backdrop-blur-sm">
+            <User className="w-5 h-5 text-slate-400" />
             <input
               type="text"
               name="name"
@@ -139,8 +139,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
 
         {/* Email */}
         <div className="mb-4">
-          <div className="flex items-center gap-2 border rounded px-3 py-2 bg-white/70 backdrop-blur">
-            <Mail className="w-5 h-5 text-gray-500" />
+          <div className="flex items-center gap-2 border border-slate-200/60 rounded-xl px-3 py-2 bg-white/60 backdrop-blur-sm">
+            <Mail className="w-5 h-5 text-slate-400" />
             <input
               type="email"
               name="email"
@@ -155,8 +155,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
 
         {/* Password */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 border rounded px-3 py-2 bg-white/70 backdrop-blur">
-            <Lock className="w-5 h-5 text-gray-500" />
+          <div className="flex items-center gap-2 border border-slate-200/60 rounded-xl px-3 py-2 bg-white/60 backdrop-blur-sm">
+            <Lock className="w-5 h-5 text-slate-400" />
             <input
               type="password"
               name="password"
@@ -177,7 +177,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
           type="submit"
           whileTap={{ scale: 0.97 }}
           disabled={loading}
-          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white w-full py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/30 transition disabled:opacity-60"
+          className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white w-full py-3 rounded-xl font-semibold hover:from-indigo-600 hover:to-violet-600 hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 disabled:opacity-60 btn-glow"
         >
           {loading ? 'Registering...' : 'Create Account'}
         </motion.button>

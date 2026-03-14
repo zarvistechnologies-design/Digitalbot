@@ -162,27 +162,27 @@ export default function VoiceAIBusiness() {
       <main className="min-h-screen">
 
       {/* Hero Section - Premium Light Theme */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-white via-blue-50/50 to-blue-50" role="banner" aria-labelledby="hero-heading">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]" role="banner" aria-labelledby="hero-heading">
         {/* Decorative Background Elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(249,115,22,0.15),rgba(255,255,255,0))]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(249,115,22,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(139,92,246,0.15),rgba(255,255,255,0))]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(139,92,246,0.1),transparent_50%)]"></div>
         
         {/* Animated Gradient Orbs */}
-        <div className="absolute top-20 left-[10%] w-72 h-72 bg-blue-200/40 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-32 right-[5%] w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-20 left-[10%] w-72 h-72 bg-indigo-200/40 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-32 right-[5%] w-96 h-96 bg-indigo-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
 
         {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `linear-gradient(#f97316 1px, transparent 1px), linear-gradient(90deg, #f97316 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(#8b5cf6 1px, transparent 1px), linear-gradient(90deg, #8b5cf6 1px, transparent 1px)`,
           backgroundSize: '50px 50px'
         }}></div>
 
         {/* Floating Dots */}
-        <div className="absolute top-1/4 left-[20%] w-2 h-2 bg-blue-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s' }}></div>
-        <div className="absolute top-1/3 right-[25%] w-3 h-3 bg-blue-400 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4s', animationDelay: '0.5s' }}></div>
-        <div className="absolute bottom-1/3 left-[30%] w-2 h-2 bg-cyan-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '1s' }}></div>
-        <div className="absolute top-2/3 right-[15%] w-2.5 h-2.5 bg-blue-300 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
+        <div className="absolute top-1/4 left-[20%] w-2 h-2 bg-indigo-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s' }}></div>
+        <div className="absolute top-1/3 right-[25%] w-3 h-3 bg-indigo-400 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4s', animationDelay: '0.5s' }}></div>
+        <div className="absolute bottom-1/3 left-[30%] w-2 h-2 bg-violet-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '1s' }}></div>
+        <div className="absolute top-2/3 right-[15%] w-2.5 h-2.5 bg-violet-300 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
 
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -190,12 +190,12 @@ export default function VoiceAIBusiness() {
             {/* Left Content */}
             <div className="text-center lg:text-left space-y-8">
               {/* Animated Badge */}
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 border border-blue-200 shadow-lg shadow-blue-100/50 backdrop-blur-sm">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 border border-indigo-200/40 shadow-lg shadow-indigo-100/50 backdrop-blur-sm">
                 <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-500"></span>
                 </span>
-                <span className="text-blue-600 text-sm font-semibold tracking-wide">Enterprise Voice AI Platform</span>
+                <span className="text-indigo-600 text-sm font-semibold tracking-wide">Enterprise Voice AI Platform</span>
               </div>
 
               {/* Main Heading */}
@@ -204,7 +204,7 @@ export default function VoiceAIBusiness() {
                   Voice AI for Business
                 </span>
                 <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold leading-tight">
-                  <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-600 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">
                     Transform Experience
                   </span>
                 </span>
@@ -212,10 +212,10 @@ export default function VoiceAIBusiness() {
 
               {/* Description Card */}
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-blue-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                <div className="relative p-6 bg-white/90 backdrop-blur-sm rounded-2xl border border-blue-100 shadow-xl shadow-blue-100/30">
+                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-violet-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="relative p-6 bg-white/90 backdrop-blur-sm rounded-2xl border border-indigo-100/40 shadow-xl shadow-indigo-100/30">
                   <p className="text-gray-600 text-sm lg:text-base leading-relaxed">
-                    Enterprise-grade <strong className="text-gray-800">voice AI for business</strong> that automates customer service, accelerates sales, and boosts productivity by <span className="text-blue-600 font-medium">400%</span>. Deploy in <span className="text-blue-600 font-medium">48 hours</span> with zero infrastructure.
+                    Enterprise-grade <strong className="text-gray-800">voice AI for business</strong> that automates customer service, accelerates sales, and boosts productivity by <span className="text-indigo-600 font-medium">400%</span>. Deploy in <span className="text-indigo-600 font-medium">48 hours</span> with zero infrastructure.
                   </p>
                 </div>
               </div>
@@ -224,7 +224,7 @@ export default function VoiceAIBusiness() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
                   href="/contact#contact-form"
-                  className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold text-base shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
+                  className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-bold text-base shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:scale-105"
                 >
                   <Target className="relative mr-2 w-5 h-5" />
                   <span className="relative">Start Free Trial</span>
@@ -232,7 +232,7 @@ export default function VoiceAIBusiness() {
                 </Link>
                 <Link
                   href="/contact#contact-form"
-                  className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-white border-2 border-blue-200 text-blue-600 font-bold text-base hover:border-blue-300 hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg"
+                  className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-white border-2 border-indigo-200/40 text-indigo-600 font-bold text-base hover:border-indigo-300 hover:bg-indigo-50/60 transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg"
                 >
                   <Mic className="relative mr-2 w-5 h-5" />
                   <span className="relative">Schedule Demo</span>
@@ -246,7 +246,7 @@ export default function VoiceAIBusiness() {
                   { value: "4.9/5", label: "Rating", icon: "⭐" },
                   { value: "Free", label: "No CC Required", icon: "✓" }
                 ].map((stat, idx) => (
-                  <div key={idx} className="flex items-center gap-3 px-4 py-2 bg-white/70 rounded-xl border border-blue-100 shadow-sm">
+                  <div key={idx} className="flex items-center gap-3 px-4 py-2 bg-white/70 rounded-xl border border-indigo-100/40 shadow-sm">
                     <span className="text-xl">{stat.icon}</span>
                     <div>
                       <div className="text-lg font-bold text-gray-900">{stat.value}</div>
@@ -260,11 +260,11 @@ export default function VoiceAIBusiness() {
             {/* Right Visual */}
             <div className="relative">
               {/* Glow Effect */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-200/50 via-blue-200/50 to-cyan-200/50 rounded-3xl blur-2xl"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-indigo-200/50 via-violet-200/50 to-indigo-200/50 rounded-3xl blur-2xl"></div>
               
               {/* Main Image Container */}
               <div className="relative">
-                <div className="relative h-80 sm:h-96 lg:h-[450px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-blue-200/50">
+                <div className="relative h-80 sm:h-96 lg:h-[450px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-indigo-200/50">
                   <Image
                     src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
                     alt="Voice AI for Business Technology - Enterprise Communication Dashboard"
@@ -272,18 +272,18 @@ export default function VoiceAIBusiness() {
                     className="object-cover"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/70 via-blue-800/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/70 via-indigo-800/20 to-transparent"></div>
                   
                   {/* Bottom Info Card */}
                   <div className="absolute bottom-6 left-6 right-6">
-                    <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-blue-100">
+                    <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-indigo-100/40">
                       <div className="flex items-center gap-4 mb-3">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-400/30">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-400/30">
                           <Building2 className="w-6 h-6 text-white" />
                         </div>
                         <div>
                           <div className="text-lg font-bold text-gray-900">Enterprise Voice AI</div>
-                          <div className="text-sm text-blue-600 font-medium">Business Automation Platform</div>
+                          <div className="text-sm text-indigo-600 font-medium">Business Automation Platform</div>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
@@ -293,7 +293,7 @@ export default function VoiceAIBusiness() {
                         </span>
                         <div className="flex items-center gap-1">
                           {[...Array(5)].map((_, i) => (
-                            <span key={i} className="text-amber-400 text-sm">★</span>
+                            <span key={i} className="text-indigo-400 text-sm">★</span>
                           ))}
                           <span className="text-sm text-gray-600 ml-1 font-medium">4.9</span>
                         </div>
@@ -318,13 +318,13 @@ export default function VoiceAIBusiness() {
                 </div>
 
                 <div className="absolute top-1/4 -left-4 lg:-left-8 animate-bounce" style={{ animationDuration: '4s', animationDelay: '0.5s' }}>
-                  <div className="px-5 py-3 bg-white rounded-2xl border border-blue-100 shadow-xl shadow-blue-100/50">
+                  <div className="px-5 py-3 bg-white rounded-2xl border border-indigo-100/40 shadow-xl shadow-indigo-100/50">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-600 flex items-center justify-center shadow-md">
                         <Clock className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <div className="text-xl font-black text-blue-600">48hrs</div>
+                        <div className="text-xl font-black text-indigo-600">48hrs</div>
                         <div className="text-xs text-gray-500">Deployment</div>
                       </div>
                     </div>
@@ -354,35 +354,35 @@ export default function VoiceAIBusiness() {
       {/* Introduction Section - Premium Redesign */}
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="intro-heading">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/80 to-blue-50"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(249,115,22,0.15),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,115,22,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.15),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.1),transparent_50%)]"></div>
         
         {/* Decorative Elements */}
-        <div className="absolute top-20 left-10 w-64 h-64 bg-blue-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-64 h-64 bg-indigo-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-violet-200/20 rounded-full blur-3xl"></div>
         
         {/* Floating Icons */}
-        <div className="absolute top-1/4 right-[15%] w-12 h-12 bg-white rounded-2xl shadow-lg shadow-blue-200/50 flex items-center justify-center border border-blue-100 animate-bounce" style={{ animationDuration: '4s' }}>
-          <BrainCircuit className="w-6 h-6 text-blue-500" />
+        <div className="absolute top-1/4 right-[15%] w-12 h-12 bg-white rounded-2xl shadow-lg shadow-indigo-200/50 flex items-center justify-center border border-indigo-100/40 animate-bounce" style={{ animationDuration: '4s' }}>
+          <BrainCircuit className="w-6 h-6 text-indigo-500" />
         </div>
-        <div className="absolute bottom-1/3 left-[10%] w-10 h-10 bg-white rounded-xl shadow-lg shadow-blue-200/50 flex items-center justify-center border border-blue-100 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
-          <Mic className="w-5 h-5 text-blue-500" />
+        <div className="absolute bottom-1/3 left-[10%] w-10 h-10 bg-white rounded-xl shadow-lg shadow-indigo-200/50 flex items-center justify-center border border-indigo-100/40 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
+          <Mic className="w-5 h-5 text-indigo-500" />
         </div>
 
         <div className="container mx-auto max-w-7xl relative z-10">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200 shadow-lg shadow-blue-100/50 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-indigo-200/40 shadow-lg shadow-indigo-100/50 mb-6">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
               </span>
-              <span className="text-blue-600 text-sm font-semibold">Complete Guide</span>
+              <span className="text-indigo-600 text-sm font-semibold">Complete Guide</span>
             </div>
             <h2 id="intro-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
               <span className="text-gray-900">What is </span>
-              <span className="bg-gradient-to-r from-blue-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">Voice AI for Business?</span>
+              <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Voice AI for Business?</span>
             </h2>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
               The future of enterprise communication is here
@@ -407,8 +407,8 @@ export default function VoiceAIBusiness() {
                     desc: "Handles thousands of simultaneous conversations"
                   }
                 ].map((item, i) => (
-                  <div key={i} className="group p-5 bg-white rounded-2xl border border-blue-100 shadow-lg shadow-blue-100/30 hover:shadow-xl hover:shadow-blue-200/40 hover:border-blue-200 transition-all duration-300 hover:-translate-y-1">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-blue-300/30 group-hover:scale-110 transition-transform">
+                  <div key={i} className="group p-5 bg-white rounded-2xl border border-indigo-100/40 shadow-lg shadow-indigo-100/30 hover:shadow-xl hover:shadow-indigo-200/40 hover:border-indigo-200/40 transition-all duration-300 hover:-translate-y-1">
+                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-400 to-violet-500 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-indigo-300/30 group-hover:scale-110 transition-transform">
                       <item.icon className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
@@ -419,29 +419,29 @@ export default function VoiceAIBusiness() {
 
               {/* Main Content Card */}
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-blue-500 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                <div className="relative p-6 sm:p-8 bg-white rounded-2xl border border-blue-100 shadow-xl">
+                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-violet-500 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="relative p-6 sm:p-8 bg-white rounded-2xl border border-indigo-100/40 shadow-xl">
                   <div className="space-y-4 text-gray-600 leading-relaxed">
                     <p>
-                      <strong className="text-gray-900">Voice AI for business</strong> represents the cutting edge of enterprise automation, combining advanced <span className="text-blue-600 font-medium">natural language processing</span>, machine learning, and conversational AI to revolutionize customer interactions.
+                      <strong className="text-gray-900">Voice AI for business</strong> represents the cutting edge of enterprise automation, combining advanced <span className="text-indigo-600 font-medium">natural language processing</span>, machine learning, and conversational AI to revolutionize customer interactions.
                     </p>
                     <p>
-                      Unlike traditional IVR systems, modern voice AI understands context and nuance. It solves today's challenges: <span className="text-blue-600 font-medium">24/7 availability</span>, talent shortages, and pressure to reduce costs while improving quality.
+                      Unlike traditional IVR systems, modern voice AI understands context and nuance. It solves today's challenges: <span className="text-indigo-600 font-medium">24/7 availability</span>, talent shortages, and pressure to reduce costs while improving quality.
                     </p>
                     <p>
-                      Recent breakthroughs in LLMs and real-time processing enable AI to conduct sophisticated conversations, handle complex logic, and deliver <span className="text-blue-600 font-medium">personalized experiences</span> at scale.
+                      Recent breakthroughs in LLMs and real-time processing enable AI to conduct sophisticated conversations, handle complex logic, and deliver <span className="text-indigo-600 font-medium">personalized experiences</span> at scale.
                     </p>
                   </div>
 
                   {/* Stats Row */}
-                  <div className="flex flex-wrap gap-4 mt-6 pt-6 border-t border-blue-100">
+                  <div className="flex flex-wrap gap-4 mt-6 pt-6 border-t border-indigo-100/40">
                     {[
                       { value: "98%", label: "Accuracy" },
                       { value: "<750ms", label: "Response" },
                       { value: "50+", label: "Languages" }
                     ].map((stat, i) => (
-                      <div key={i} className="flex items-center gap-3 px-4 py-2 bg-blue-50 rounded-xl">
-                        <span className="text-xl font-bold text-blue-600">{stat.value}</span>
+                      <div key={i} className="flex items-center gap-3 px-4 py-2 bg-indigo-50/60 rounded-xl">
+                        <span className="text-xl font-bold text-indigo-600">{stat.value}</span>
                         <span className="text-sm text-gray-500">{stat.label}</span>
                       </div>
                     ))}
@@ -453,28 +453,28 @@ export default function VoiceAIBusiness() {
             {/* Right Visual - 5 cols */}
             <div className="lg:col-span-5 relative">
               {/* Glow */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-200/50 via-blue-200/50 to-cyan-200/50 rounded-3xl blur-2xl"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-indigo-200/50 via-violet-200/50 to-indigo-200/50 rounded-3xl blur-2xl"></div>
               
               {/* Main Image */}
-              <div className="relative h-[400px] sm:h-[450px] lg:h-[500px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-blue-200/50">
+              <div className="relative h-[400px] sm:h-[450px] lg:h-[500px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-indigo-200/50">
                 <Image
                   src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop"
                   alt="Voice AI Technology Dashboard - Business Analytics and Customer Service Automation"
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-800/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-800/20 to-transparent"></div>
                 
                 {/* Bottom Card */}
                 <div className="absolute bottom-6 left-6 right-6">
-                  <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-blue-100">
+                  <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-indigo-100/40">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-400/30">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-400 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-400/30">
                         <BrainCircuit className="w-7 h-7 text-white" />
                       </div>
                       <div>
                         <div className="text-lg font-bold text-gray-900">AI Intelligence</div>
-                        <div className="text-sm text-blue-600">Natural Language Processing</div>
+                        <div className="text-sm text-indigo-600">Natural Language Processing</div>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -484,7 +484,7 @@ export default function VoiceAIBusiness() {
                       </span>
                       <div className="flex items-center gap-1">
                         {[...Array(5)].map((_, i) => (
-                          <span key={i} className="text-amber-400 text-sm">★</span>
+                          <span key={i} className="text-indigo-400 text-sm">★</span>
                         ))}
                       </div>
                     </div>
@@ -494,7 +494,7 @@ export default function VoiceAIBusiness() {
 
               {/* Floating Stat Cards */}
               <div className="absolute -top-4 -right-4 lg:-right-8 animate-bounce" style={{ animationDuration: '3s' }}>
-                <div className="px-4 py-3 bg-white rounded-2xl border border-blue-100 shadow-xl">
+                <div className="px-4 py-3 bg-white rounded-2xl border border-indigo-100/40 shadow-xl">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
                       <TrendingUp className="w-5 h-5 text-white" />
@@ -508,13 +508,13 @@ export default function VoiceAIBusiness() {
               </div>
 
               <div className="absolute top-1/3 -left-4 lg:-left-8 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-                <div className="px-4 py-3 bg-white rounded-2xl border border-blue-100 shadow-xl">
+                <div className="px-4 py-3 bg-white rounded-2xl border border-indigo-100/40 shadow-xl">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-600 flex items-center justify-center">
                       <Clock className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <div className="text-lg font-black text-blue-600">24/7</div>
+                      <div className="text-lg font-black text-indigo-600">24/7</div>
                       <div className="text-xs text-gray-500">Available</div>
                     </div>
                   </div>
@@ -529,34 +529,34 @@ export default function VoiceAIBusiness() {
       {/* Benefits Grid - Premium Redesign */}
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="benefits-heading">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-sky-50/50 to-white"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.08),transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fafbff] via-white to-white"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.08),transparent_70%)]"></div>
         
         {/* Decorative Elements */}
-        <div className="absolute top-1/4 left-0 w-72 h-72 bg-sky-100/40 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/4 left-0 w-72 h-72 bg-indigo-100/40 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-indigo-100/30 rounded-full blur-3xl"></div>
         
         {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `radial-gradient(circle, #f97316 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle, #8b5cf6 1px, transparent 1px)`,
           backgroundSize: '30px 30px'
         }}></div>
 
         <div className="container mx-auto max-w-7xl relative z-10">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-sky-200 shadow-lg shadow-sky-100/50 mb-6">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-sky-400 to-blue-500 flex items-center justify-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-indigo-200/40 shadow-lg shadow-indigo-100/50 mb-6">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center">
                 <TrendingUp className="w-3 h-3 text-white" />
               </div>
-              <span className="text-sky-600 text-sm font-semibold">Enterprise Benefits</span>
+              <span className="text-indigo-600 text-sm font-semibold">Enterprise Benefits</span>
             </div>
             <h2 id="benefits-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
               <span className="text-gray-900">Why Leading Enterprises </span>
-              <span className="bg-gradient-to-r from-sky-500 via-blue-500 to-sky-600 bg-clip-text text-transparent">Choose Voice AI</span>
+              <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Choose Voice AI</span>
             </h2>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
-              Discover how <span className="text-sky-600 font-medium">voice AI for business</span> transforms operations and delivers measurable ROI
+              Discover how <span className="text-indigo-600 font-medium">voice AI for business</span> transforms operations and delivers measurable ROI
             </p>
           </div>
 
@@ -568,11 +568,11 @@ export default function VoiceAIBusiness() {
                 className="group relative"
               >
                 {/* Glow effect on hover */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-violet-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                 
-                <div className="relative h-full bg-white rounded-2xl p-6 border border-sky-100 shadow-lg shadow-sky-100/20 hover:shadow-xl hover:shadow-sky-200/30 hover:border-sky-200 transition-all duration-300 hover:-translate-y-1">
+                <div className="relative h-full bg-white rounded-2xl p-6 border border-indigo-100/40 shadow-lg shadow-indigo-100/20 hover:shadow-xl hover:shadow-indigo-200/30 hover:border-indigo-200/40 transition-all duration-300 hover:-translate-y-1">
                   {/* Icon */}
-                  <div className="w-14 h-14 bg-gradient-to-br from-sky-400 to-blue-500 rounded-2xl flex items-center justify-center mb-5 shadow-lg shadow-sky-300/30 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-14 h-14 bg-gradient-to-br from-indigo-400 to-violet-500 rounded-2xl flex items-center justify-center mb-5 shadow-lg shadow-indigo-300/30 group-hover:scale-110 transition-transform duration-300">
                     <benefit.icon className="w-7 h-7 text-white" />
                   </div>
                   
@@ -583,7 +583,7 @@ export default function VoiceAIBusiness() {
                   </p>
                   
                   {/* Bottom accent */}
-                  <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-indigo-400 to-violet-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               </div>
             ))}
@@ -593,7 +593,7 @@ export default function VoiceAIBusiness() {
           <div className="text-center mt-12">
             <Link
               href="/contact#contact-form"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-bold rounded-xl shadow-lg shadow-sky-500/25 hover:shadow-xl hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:scale-105"
             >
               Explore All Benefits
               <ArrowRight className="w-5 h-5" />
@@ -605,25 +605,25 @@ export default function VoiceAIBusiness() {
       {/* Use Cases Section - Premium Redesign */}
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="use-cases-heading">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-white to-blue-50"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(249,115,22,0.1),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(249,115,22,0.08),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(139,92,246,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(139,92,246,0.08),transparent_50%)]"></div>
         
         {/* Decorative */}
-        <div className="absolute top-20 right-20 w-64 h-64 bg-sky-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-blue-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-20 w-64 h-64 bg-indigo-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-violet-200/20 rounded-full blur-3xl"></div>
 
         <div className="container mx-auto max-w-7xl relative z-10">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-sky-200 shadow-lg shadow-sky-100/50 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-indigo-200/40 shadow-lg shadow-indigo-100/50 mb-6">
               <div className="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
                 <CheckCircle className="w-3 h-3 text-white" />
               </div>
-              <span className="text-sky-600 text-sm font-semibold">Real-World Results</span>
+              <span className="text-indigo-600 text-sm font-semibold">Real-World Results</span>
             </div>
             <h2 id="use-cases-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
-              <span className="bg-gradient-to-r from-sky-500 via-blue-500 to-sky-600 bg-clip-text text-transparent">Voice AI in Action</span>
+              <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Voice AI in Action</span>
             </h2>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
               See how businesses across industries achieve breakthrough performance improvements
@@ -637,12 +637,12 @@ export default function VoiceAIBusiness() {
                 key={i}
                 className="group relative"
               >
-                <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-violet-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                 
-                <div className="relative h-full bg-white rounded-2xl p-6 lg:p-8 border border-sky-100 shadow-lg shadow-sky-100/20 hover:shadow-xl hover:shadow-sky-200/30 hover:border-sky-200 transition-all duration-300 hover:-translate-y-1">
+                <div className="relative h-full bg-white rounded-2xl p-6 lg:p-8 border border-indigo-100/40 shadow-lg shadow-indigo-100/20 hover:shadow-xl hover:shadow-indigo-200/30 hover:border-indigo-200/40 transition-all duration-300 hover:-translate-y-1">
                   {/* Header */}
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-sky-400 to-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-400 to-violet-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
                       <Building2 className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -668,25 +668,25 @@ export default function VoiceAIBusiness() {
       {/* Features Section - Premium Redesign */}
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="features-advanced-heading">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-blue-50/30 to-white"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.06),transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fafbff] via-white to-white"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.06),transparent_70%)]"></div>
         
         {/* Decorative */}
-        <div className="absolute top-1/3 left-10 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/3 right-10 w-80 h-80 bg-sky-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/3 left-10 w-72 h-72 bg-indigo-100/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/3 right-10 w-80 h-80 bg-violet-100/20 rounded-full blur-3xl"></div>
 
         <div className="container mx-auto max-w-7xl relative z-10">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200 shadow-lg shadow-blue-100/50 mb-6">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-indigo-200/40 shadow-lg shadow-indigo-100/50 mb-6">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-400 to-violet-600 flex items-center justify-center">
                 <BrainCircuit className="w-3 h-3 text-white" />
               </div>
-              <span className="text-blue-600 text-sm font-semibold">Advanced Technology</span>
+              <span className="text-indigo-600 text-sm font-semibold">Advanced Technology</span>
             </div>
             <h2 id="features-advanced-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
               <span className="text-gray-900">How </span>
-              <span className="bg-gradient-to-r from-blue-500 via-sky-500 to-blue-600 bg-clip-text text-transparent">Voice AI Works</span>
+              <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Voice AI Works</span>
             </h2>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
               Enterprise-grade technology stack powering the most sophisticated voice AI solutions
@@ -741,12 +741,12 @@ export default function VoiceAIBusiness() {
                 key={i}
                 className="group relative"
               >
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-sky-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-violet-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                 
-                <div className="relative h-full bg-white rounded-2xl p-6 lg:p-8 border border-blue-100 shadow-lg shadow-blue-100/20 hover:shadow-xl hover:shadow-blue-200/30 hover:border-blue-200 transition-all duration-300 hover:-translate-y-1">
+                <div className="relative h-full bg-white rounded-2xl p-6 lg:p-8 border border-indigo-100/40 shadow-lg shadow-indigo-100/20 hover:shadow-xl hover:shadow-indigo-200/30 hover:border-indigo-200/40 transition-all duration-300 hover:-translate-y-1">
                   {/* Header */}
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
+                    <div className="w-14 h-14 bg-gradient-to-br from-indigo-400 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
                       <feature.icon className="w-7 h-7 text-white" />
                     </div>
                     <div>
@@ -763,8 +763,8 @@ export default function VoiceAIBusiness() {
                   <ul className="space-y-2">
                     {feature.features.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm">
-                        <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <CheckCircle className="w-3 h-3 text-blue-500" />
+                        <div className="w-5 h-5 rounded-full bg-indigo-50/60 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <CheckCircle className="w-3 h-3 text-indigo-500" />
                         </div>
                         <span className="text-gray-700">{item}</span>
                       </li>
@@ -780,28 +780,28 @@ export default function VoiceAIBusiness() {
       {/* Sample Conversation Section - Premium Redesign */}
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="demo-heading">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-white to-blue-50"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,115,22,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.1),transparent_50%)]"></div>
         
         {/* Decorative */}
-        <div className="absolute top-1/4 right-10 w-64 h-64 bg-sky-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 left-10 w-72 h-72 bg-blue-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/4 right-10 w-64 h-64 bg-indigo-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-10 w-72 h-72 bg-violet-200/20 rounded-full blur-3xl"></div>
 
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left Content */}
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-sky-200 shadow-lg shadow-sky-100/50 mb-6">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-sky-400 to-blue-500 flex items-center justify-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-indigo-200/40 shadow-lg shadow-indigo-100/50 mb-6">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center">
                   <Mic className="w-3 h-3 text-white" />
                 </div>
-                <span className="text-sky-600 text-sm font-semibold">Voice AI Demo</span>
+                <span className="text-indigo-600 text-sm font-semibold">Voice AI Demo</span>
               </div>
               
               <h2 id="demo-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
                 <span className="text-gray-900">Experience </span>
-                <span className="bg-gradient-to-r from-sky-500 via-blue-500 to-sky-600 bg-clip-text text-transparent">Voice AI in Action</span>
+                <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Voice AI in Action</span>
               </h2>
               <p className="text-gray-500 text-base sm:text-lg leading-relaxed mb-8">
                 Listen to how our voice AI for business handles real customer interactions with natural, intelligent responses that drive satisfaction and conversion.
@@ -809,8 +809,8 @@ export default function VoiceAIBusiness() {
 
               {/* Voice Player Card */}
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                <div className="relative bg-white rounded-2xl p-6 border border-sky-100 shadow-xl">
+                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-violet-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="relative bg-white rounded-2xl p-6 border border-indigo-100/40 shadow-xl">
                   <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
                 </div>
               </div>
@@ -819,27 +819,27 @@ export default function VoiceAIBusiness() {
             {/* Right Visual */}
             <div className="relative">
               {/* Glow */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-sky-200/50 via-blue-200/50 to-cyan-200/50 rounded-3xl blur-2xl"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-indigo-200/50 via-violet-200/50 to-indigo-200/50 rounded-3xl blur-2xl"></div>
               
-              <div className="relative h-[350px] sm:h-[400px] lg:h-[450px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-sky-200/50">
+              <div className="relative h-[350px] sm:h-[400px] lg:h-[450px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-indigo-200/50">
                 <Image
                   src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2070&auto=format&fit=crop"
                   alt="Voice AI Customer Service Dashboard - Real-time Analytics and Performance Metrics"
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-sky-900/80 via-sky-800/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-800/20 to-transparent"></div>
                 
                 {/* Bottom Card */}
                 <div className="absolute bottom-6 left-6 right-6">
-                  <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-sky-100">
+                  <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-indigo-100/40">
                     <div className="flex items-center gap-4 mb-3">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-lg shadow-sky-400/30">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-400/30">
                         <HeadphonesIcon className="w-6 h-6 text-white" />
                       </div>
                       <div>
                         <div className="text-lg font-bold text-gray-900">Live Demo</div>
-                        <div className="text-sm text-sky-600">Voice AI Conversation</div>
+                        <div className="text-sm text-indigo-600">Voice AI Conversation</div>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -847,7 +847,7 @@ export default function VoiceAIBusiness() {
                         <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                         Natural Speech
                       </span>
-                      <span className="text-sm font-medium text-sky-600">Real-time</span>
+                      <span className="text-sm font-medium text-indigo-600">Real-time</span>
                     </div>
                   </div>
                 </div>
@@ -861,32 +861,32 @@ export default function VoiceAIBusiness() {
       {/* FAQ Section - Premium Redesign */}
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="faq-heading">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-blue-50/30 to-white"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.06),transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fafbff] via-white to-white"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.06),transparent_70%)]"></div>
         
         {/* Decorative */}
-        <div className="absolute top-20 left-1/4 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-sky-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-1/4 w-64 h-64 bg-indigo-100/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-violet-100/20 rounded-full blur-3xl"></div>
 
         <div className="container mx-auto max-w-4xl relative z-10">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200 shadow-lg shadow-blue-100/50 mb-6">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-indigo-200/40 shadow-lg shadow-indigo-100/50 mb-6">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-400 to-violet-600 flex items-center justify-center">
                 <MessageCircle className="w-3 h-3 text-white" />
               </div>
-              <span className="text-blue-600 text-sm font-semibold">Got Questions?</span>
+              <span className="text-indigo-600 text-sm font-semibold">Got Questions?</span>
             </div>
             <h2 id="faq-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
-              <span className="bg-gradient-to-r from-blue-500 via-sky-500 to-blue-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">
                 Frequently Asked
               </span>
-              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-400 to-violet-600 bg-clip-text text-transparent">
                 Questions
               </span>
             </h2>
             <p className="text-sm sm:text-base text-gray-900 max-w-2xl mx-auto leading-relaxed">
-              Everything you need to know about <span className="text-blue-600 font-semibold">Voice AI for Business</span>
+              Everything you need to know about <span className="text-indigo-600 font-semibold">Voice AI for Business</span>
             </p>
           </div>
 
@@ -920,17 +920,17 @@ export default function VoiceAIBusiness() {
             ].map((faq, index) => (
               <div
                 key={index}
-                className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-blue-100 shadow-lg shadow-blue-100/30 hover:shadow-xl hover:shadow-blue-200/40 hover:border-blue-300 transition-all duration-300 hover:-translate-y-1"
+                className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-indigo-100/40 shadow-lg shadow-indigo-100/30 hover:shadow-xl hover:shadow-indigo-200/40 hover:border-indigo-300 transition-all duration-300 hover:-translate-y-1"
               >
                 {/* Glow effect on hover */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-400/0 via-sky-400/0 to-blue-500/0 group-hover:from-blue-400/5 group-hover:via-sky-400/5 group-hover:to-blue-500/5 transition-all duration-300" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-400/0 via-violet-400/0 to-violet-500/0 group-hover:from-indigo-400/5 group-hover:via-violet-400/5 group-hover:to-violet-500/5 transition-all duration-300" />
                 
                 <div className="relative z-10">
                   <div className="flex items-start gap-4 mb-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-400/30 font-bold text-xs text-white group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-400/30 font-bold text-xs text-white group-hover:scale-110 transition-transform duration-300">
                       {String(index + 1).padStart(2, '0')}
                     </div>
-                    <h3 className="text-sm font-bold text-gray-800 leading-tight flex-1 group-hover:text-blue-700 transition-colors">
+                    <h3 className="text-sm font-bold text-gray-800 leading-tight flex-1 group-hover:text-indigo-700 transition-colors">
                       {faq.question}
                     </h3>
                   </div>
@@ -947,13 +947,13 @@ export default function VoiceAIBusiness() {
       {/* CTA Section - Premium Redesign */}
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="cta-heading">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-blue-600 to-blue-800"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-800"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(249,115,22,0.3),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.3),transparent_50%)]"></div>
         
         {/* Decorative Elements */}
-        <div className="absolute top-10 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-300/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-10 left-10 w-72 h-72 bg-indigo-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-300/10 rounded-full blur-3xl"></div>
         
         {/* Floating Icons */}
         <div className="absolute top-1/4 left-[10%] w-12 h-12 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/20 animate-bounce" style={{ animationDuration: '4s' }}>
@@ -967,7 +967,7 @@ export default function VoiceAIBusiness() {
           <div className="text-center">
             {/* CTA Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 shadow-lg mb-8">
-              <div className="w-6 h-6 rounded-full bg-blue-400/30 flex items-center justify-center">
+              <div className="w-6 h-6 rounded-full bg-indigo-400/30 flex items-center justify-center">
                 <Zap className="w-3 h-3 text-white" />
               </div>
               <span className="text-white text-sm font-semibold">Limited Time Offer</span>
@@ -978,13 +978,13 @@ export default function VoiceAIBusiness() {
               <span className="block text-white mb-2">
                 Ready to Transform Your Business
               </span>
-              <span className="bg-gradient-to-r from-blue-200 via-white to-blue-200 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-200 via-white to-indigo-200 bg-clip-text text-transparent">
                 With Voice AI Today?
               </span>
             </h2>
 
             {/* CTA Description */}
-            <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
+            <p className="text-lg sm:text-xl text-indigo-100 max-w-2xl mx-auto mb-10 leading-relaxed">
               Join <span className="font-bold text-white">10,000+ businesses</span> using voice AI to automate customer service, accelerate sales, and boost productivity by <span className="font-bold text-white">400%</span>.
             </p>
 
@@ -992,14 +992,14 @@ export default function VoiceAIBusiness() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link
                 href="/contact#contact-form"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-blue-700 bg-white rounded-xl shadow-xl shadow-blue-900/30 hover:shadow-2xl hover:shadow-blue-900/40 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-indigo-700 bg-white rounded-xl shadow-xl shadow-indigo-900/30 hover:shadow-2xl hover:shadow-indigo-900/40 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
               >
                 Start Free Trial Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/contact#contact-form"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-white bg-blue-500/20 backdrop-blur-sm border-2 border-blue-300/40 rounded-xl hover:bg-blue-400/30 hover:border-blue-200/60 transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-white bg-indigo-500/20 backdrop-blur-sm border-2 border-indigo-300/40 rounded-xl hover:bg-indigo-400/30 hover:border-indigo-200/40/60 transition-all duration-300 hover:scale-105"
               >
                 <Phone className="w-5 h-5" />
                 Talk to Voice AI Specialist
@@ -1014,9 +1014,9 @@ export default function VoiceAIBusiness() {
                 { text: "24/7 Expert Support", icon: Phone },
                 { text: "Cancel Anytime", icon: Shield }
               ].map((signal, idx) => (
-                <div key={idx} className="flex items-center gap-2 justify-center bg-blue-500/10 backdrop-blur-sm rounded-xl py-3 px-4 border border-blue-300/20">
-                  <signal.icon className="w-4 h-4 text-blue-200" />
-                  <span className="text-sm font-medium text-blue-100">{signal.text}</span>
+                <div key={idx} className="flex items-center gap-2 justify-center bg-indigo-500/10 backdrop-blur-sm rounded-xl py-3 px-4 border border-indigo-300/20">
+                  <signal.icon className="w-4 h-4 text-indigo-200" />
+                  <span className="text-sm font-medium text-indigo-100">{signal.text}</span>
                 </div>
               ))}
             </div>
