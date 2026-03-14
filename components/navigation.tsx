@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Bot, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Menu, X, Bot } from "lucide-react";
-import { cn } from "@/lib/utils";
-import axios from "axios";
+import { useEffect, useState } from "react";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,19 +19,7 @@ export function Navigation() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  const login = () => {
-    axios
-      .get("http://localhost:3000/login" , {params: { username: 'ansh', password: '1233456' }})
-      .then(function (response) {
-        // handle success
-        console.log(response);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      
-  };
+
 
   const navItems = [
     { href: "/", label: "Home" },

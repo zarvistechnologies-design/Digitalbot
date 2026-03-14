@@ -86,6 +86,7 @@ const SPECIALIZATIONS = [
   "Psychiatrist",
   "Dentist",
   "Physiotherapist",
+  "Neuro Physiotherapist",
   "Other",
 ];
 

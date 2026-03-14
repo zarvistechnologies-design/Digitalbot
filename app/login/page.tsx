@@ -68,6 +68,10 @@ export default function LoginPage(): JSX.Element {
         // Store user object as a JSON string
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user));
+          // Store userId separately for billing and other features
+          if (data.user.id) {
+            localStorage.setItem('userId', data.user.id);
+          }
         }
         router.push('/dashboard');
       } else {
