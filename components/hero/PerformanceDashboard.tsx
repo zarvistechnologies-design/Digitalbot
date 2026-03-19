@@ -4,11 +4,11 @@ import Link from "next/link";
 
 export default function PerformanceDashboard() {
     return (
-        <section className="py-16 px-4 bg-gradient-to-br from-indigo-50 via-white to-indigo-50 relative overflow-hidden">
+        <section className="py-16 px-4 bg-gradient-to-br from-orange-50 via-white to-orange-50 relative overflow-hidden">
             {/* Subtle Background Elements */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-200/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+                <div className="absolute top-0 right-0 w-96 h-96 bg-orange-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-200/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
             </div>
 
             <style dangerouslySetInnerHTML={{ __html: `
@@ -40,13 +40,13 @@ export default function PerformanceDashboard() {
             <div className="container mx-auto max-w-6xl relative z-10">
                 {/* Section Header */}
                 <div className="text-center mb-12">
-                    <div className="inline-flex items-center gap-2 bg-indigo-100 border border-indigo-200 px-4 py-2 rounded-full text-indigo-600 text-sm font-semibold mb-4">
+                    <div className="inline-flex items-center gap-2 bg-orange-100 border border-orange-200 px-4 py-2 rounded-full text-orange-600 text-sm font-semibold mb-4">
                         <BarChart3 className="h-4 w-4" />
                         LIVE PERFORMANCE
                     </div>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
                         See the{' '}
-                        <span className="bg-gradient-to-r from-indigo-600 to-violet-500 bg-clip-text text-transparent">Impact</span>
+                        <span className="bg-gradient-to-r from-orange-600 to-violet-500 bg-clip-text text-transparent">Impact</span>
                         {' '}in Real-Time
                     </h2>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -58,10 +58,10 @@ export default function PerformanceDashboard() {
                 <div className="grid md:grid-cols-3 gap-6">
                     
                     {/* Response Time Card */}
-                    <div className="metric-card bg-white rounded-2xl p-5 shadow-lg shadow-indigo-100/30 border border-gray-100 group hover:shadow-xl hover:border-indigo-200 transition-all duration-300">
+                    <div className="metric-card bg-white rounded-2xl p-5 shadow-lg shadow-orange-100/30 border border-gray-100 group hover:shadow-xl hover:border-orange-200 transition-all duration-300">
                             <div className="flex items-center justify-between mb-3">
-                                <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-indigo-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <Zap className="w-6 h-6 text-indigo-600" />
+                                <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <Zap className="w-6 h-6 text-orange-600" />
                                 </div>
                                 <div className="flex items-center gap-1 text-green-600 text-sm font-medium">
                                     <TrendingUp className="w-4 h-4" />
@@ -74,13 +74,13 @@ export default function PerformanceDashboard() {
                             <div className="text-sm text-gray-500">Average Response Time</div>
                             <div className="mt-3 h-8 flex items-end gap-1">
                                 {[40, 35, 45, 30, 25, 28, 22].map((h, i) => (
-                                    <div key={i} className="flex-1 bg-indigo-100 rounded-t" style={{ height: `${h}px` }}></div>
+                                    <div key={i} className="flex-1 bg-orange-100 rounded-t" style={{ height: `${h}px` }}></div>
                                 ))}
                             </div>
                         </div>
 
                         {/* Customer Satisfaction Card */}
-                        <div className="metric-card bg-white rounded-2xl p-5 shadow-lg shadow-indigo-100/30 border border-gray-100 group hover:shadow-xl hover:border-indigo-200 transition-all duration-300">
+                        <div className="metric-card bg-white rounded-2xl p-5 shadow-lg shadow-orange-100/30 border border-gray-100 group hover:shadow-xl hover:border-orange-200 transition-all duration-300">
                             <div className="flex items-center justify-between mb-3">
                                 <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-green-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                                     <Award className="w-6 h-6 text-green-600" />
@@ -104,7 +104,7 @@ export default function PerformanceDashboard() {
                         </div>
 
                         {/* Cost Savings Card */}
-                        <div className="metric-card bg-gradient-to-br from-indigo-600 to-violet-500 rounded-2xl p-5 shadow-lg shadow-indigo-300/30 group hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                        <div className="metric-card bg-gradient-to-br from-orange-600 to-violet-500 rounded-2xl p-5 shadow-lg shadow-orange-300/30 group hover:shadow-xl transition-all duration-300 relative overflow-hidden">
                             <div className="absolute inset-0 overflow-hidden">
                                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent" style={{ animation: 'shimmer 3s infinite' }}></div>
                             </div>
@@ -119,8 +119,8 @@ export default function PerformanceDashboard() {
                                     </div>
                                 </div>
                                 <div className="text-4xl font-bold text-white mb-1">85%</div>
-                                <div className="text-sm text-indigo-100">Cost Reduction</div>
-                                <div className="mt-3 text-xs text-indigo-200">
+                                <div className="text-sm text-orange-100">Cost Reduction</div>
+                                <div className="mt-3 text-xs text-orange-200">
                                     Save ₹2.5L+ monthly on staffing
                                 </div>
                             </div>
@@ -135,10 +135,10 @@ export default function PerformanceDashboard() {
                         { icon: Users, label: 'Happy Customers', value: '2,847', trend: '+45%' },
                         { icon: Globe, label: 'Languages', value: '50+', trend: 'Global' },
                     ].map((stat, i) => (
-                        <div key={i} className="bg-white rounded-xl p-4 shadow-md shadow-indigo-50 border border-gray-100 hover:shadow-lg hover:border-indigo-200 transition-all duration-300 group">
+                        <div key={i} className="bg-white rounded-xl p-4 shadow-md shadow-orange-50 border border-gray-100 hover:shadow-lg hover:border-orange-200 transition-all duration-300 group">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-indigo-50 rounded-lg flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
-                                    <stat.icon className="w-5 h-5 text-indigo-600" />
+                                <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center group-hover:bg-orange-100 transition-colors">
+                                    <stat.icon className="w-5 h-5 text-orange-600" />
                                 </div>
                                 <div>
                                     <div className="flex items-center gap-2">
@@ -156,7 +156,7 @@ export default function PerformanceDashboard() {
                 <div className="mt-12 text-center">
                     <Link 
                         href="/contact#contact-form" 
-                        className="inline-flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold py-4 px-10 rounded-xl hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-105"
+                        className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-bold py-4 px-10 rounded-xl hover:from-orange-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105"
                     >
                         <span>Start Free Trial</span>
                         <ArrowRight className="h-5 w-5" />

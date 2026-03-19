@@ -208,7 +208,7 @@ export default function AppointmentsPage() {
       {/* Skip to content link for accessibility */}
       <a 
         href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-indigo-500 focus:text-white focus:rounded-lg focus:outline-none"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-orange-500 focus:text-white focus:rounded-lg focus:outline-none"
       >
         Skip to main content
       </a>
@@ -236,9 +236,9 @@ export default function AppointmentsPage() {
           {/* Animated Background Elements - Leads Style */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
             {/* Floating Orbs */}
-            <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
+            <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
             <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
             
             {/* Animated Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -247,7 +247,7 @@ export default function AppointmentsPage() {
             }} />
             
             {/* Animated Lines */}
-            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
+            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
             <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
           </div>
 
@@ -257,26 +257,26 @@ export default function AppointmentsPage() {
               {/* Left Side - Content */}
               <div className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 {/* Badge */}
-                <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 px-3 py-1.5 rounded-full mb-6">
-                  <Sparkles className="h-4 w-4 text-indigo-600" />
-                  <span className="text-sm font-semibold text-indigo-700">AI-Powered Scheduling</span>
+                <div className="inline-flex items-center gap-2 glass-card bg-orange-50/60 border border-orange-200/40 px-3 py-1.5 rounded-full mb-6">
+                  <Sparkles className="h-4 w-4 text-orange-600" />
+                  <span className="text-sm font-semibold text-orange-700">AI-Powered Scheduling</span>
                 </div>
 
                 {/* Main Headline */}
                 <h1 id="hero-title" className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
                   <span className="block text-black">Never Miss Another</span>
-                  <span className="block bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Appointment Again</span>
+                  <span className="block bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Appointment Again</span>
                 </h1>
 
                 {/* Tagline Box */}
-                <div className="bg-gradient-to-r from-indigo-50/60 to-indigo-50/40 border border-indigo-200/40 rounded-2xl p-5 mb-6">
+                <div className="bg-gradient-to-r from-orange-50/60 to-orange-50/40 border border-orange-200/40 rounded-2xl p-5 mb-6">
                   <p className="text-gray-600 text-sm italic mb-1">"Missed calls mean missed revenue and frustrated patients."</p>
-                  <p className="text-indigo-600 font-bold text-base uppercase tracking-wider">LET AI HANDLE IT 24/7.</p>
+                  <p className="text-orange-600 font-bold text-base uppercase tracking-wider">LET AI HANDLE IT 24/7.</p>
                 </div>
 
                 {/* Description */}
                 <p className="text-gray-600 text-base lg:text-lg mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  Your AI-powered virtual receptionist answers calls and WhatsApp instantly, schedules appointments automatically, and keeps doctors in sync — <strong className="text-indigo-600">24/7, without human effort</strong>.
+                  Your AI-powered virtual receptionist answers calls and WhatsApp instantly, schedules appointments automatically, and keeps doctors in sync — <strong className="text-orange-600">24/7, without human effort</strong>.
                 </p>
 
                 {/* Dual Audio Players - Compact Style Like Leads */}
@@ -286,7 +286,7 @@ export default function AppointmentsPage() {
                     <p className="text-xs font-medium text-gray-500 mb-1.5">🇺🇸 English Demo</p>
                     <button
                       onClick={toggleAudio}
-                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-indigo-300/40 transition-all group"
+                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-300/40 transition-all group"
                       aria-label={isPlaying ? "Pause English audio demo" : "Play English audio demo"}
                     >
                       <div className="flex-1 flex items-center justify-center h-6">
@@ -324,7 +324,7 @@ export default function AppointmentsPage() {
                           ))}
                         </svg>
                       </div>
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-md">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-md">
                         {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                       </div>
                     </button>
@@ -335,7 +335,7 @@ export default function AppointmentsPage() {
                     <p className="text-xs font-medium text-gray-500 mb-1.5">🇮🇳 Hindi Demo</p>
                     <button
                       onClick={toggleAudioHindi}
-                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-indigo-300/40 transition-all group"
+                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-300/40 transition-all group"
                       aria-label={isPlayingHindi ? "Pause Hindi audio demo" : "Play Hindi audio demo"}
                     >
                       <div className="flex-1 flex items-center justify-center h-6">
@@ -373,7 +373,7 @@ export default function AppointmentsPage() {
                           ))}
                         </svg>
                       </div>
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-md">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-md">
                         {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                       </div>
                     </button>
@@ -384,14 +384,14 @@ export default function AppointmentsPage() {
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                   <Link
                     href="/signup?service=appointment"
-                    className="group px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-bold rounded-lg hover:from-indigo-600 hover:to-violet-700 transition-all duration-300 shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 flex items-center justify-center gap-2 text-sm"
+                    className="group px-5 py-2.5 bg-gradient-to-r from-orange-500 to-violet-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-violet-700 transition-all duration-300 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2 text-sm"
                   >
                     Start Free Trial
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <Link
                     href="#demo"
-                    className="px-5 py-2.5 bg-white text-indigo-600 border border-indigo-300/40 font-bold rounded-lg hover:bg-indigo-50/60 hover:border-indigo-400 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2 text-sm"
+                    className="px-5 py-2.5 bg-white text-orange-600 border border-orange-300/40 font-bold rounded-lg hover:bg-orange-50/60 hover:border-orange-400 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2 text-sm"
                   >
                     <Play className="w-4 h-4" fill="currentColor" />
                     Watch Demo
@@ -439,9 +439,9 @@ export default function AppointmentsPage() {
                   />
                   
                   {/* Floating Badge - Bottom Right */}
-                  <div className="absolute bottom-4 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-indigo-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
+                  <div className="absolute bottom-4 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-600 rounded-xl flex items-center justify-center">
                         <Clock className="h-6 w-6 text-white" />
                       </div>
                       <div>
@@ -452,7 +452,7 @@ export default function AppointmentsPage() {
                   </div>
                   
                   {/* Floating Stats Badge - Top Left */}
-                  <div className="absolute top-4 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-indigo-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
+                  <div className="absolute top-4 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                         <TrendingUp className="h-6 w-6 text-white" />
@@ -478,13 +478,13 @@ export default function AppointmentsPage() {
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 text-orange-600 rounded-full font-semibold text-sm mb-4">
                 <Bot className="w-4 h-4" aria-hidden="true" />
                 AI That Never Sleeps
               </div>
               <h2 id="ai-section-title" className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
                 Your Virtual Receptionist, <br className="hidden sm:block" />
-                <span className="text-indigo-600">Working Around the Clock</span>
+                <span className="text-orange-600">Working Around the Clock</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
                 Imagine having the world&apos;s most professional receptionist — one who never takes breaks, never gets sick, and handles every conversation with perfect precision.
@@ -494,26 +494,26 @@ export default function AppointmentsPage() {
             {/* Value Cards */}
             <div className="grid md:grid-cols-3 gap-6" role="list" aria-label="Key features">
               <div 
-                className={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:border-indigo-200/40 transition-all group focus-within:ring-2 focus-within:ring-indigo-500 ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} 
+                className={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:border-orange-200/40 transition-all group focus-within:ring-2 focus-within:ring-orange-500 ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} 
                 style={{ transitionDelay: '0.1s' }}
                 role="listitem"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" aria-hidden="true">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" aria-hidden="true">
                   <Zap className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Lightning Response</h3>
-                <p className="text-gray-600">Answers calls in under <strong className="text-indigo-600">750ms</strong> with natural, human-like conversations.</p>
+                <p className="text-gray-600">Answers calls in under <strong className="text-orange-600">750ms</strong> with natural, human-like conversations.</p>
               </div>
 
               <div 
-                className={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:border-indigo-200/40 transition-all group ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                className={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:border-orange-200/40 transition-all group ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 style={{ transitionDelay: '0.2s' }}
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
                   <Calendar className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Smart Scheduling</h3>
-                <p className="text-gray-600">Prevents conflicts with <strong className="text-indigo-600">real-time slot optimization</strong> and calendar sync.</p>
+                <p className="text-gray-600">Prevents conflicts with <strong className="text-orange-600">real-time slot optimization</strong> and calendar sync.</p>
               </div>
 
               <div 
@@ -540,13 +540,13 @@ export default function AppointmentsPage() {
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               {/* Content */}
               <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 text-orange-600 rounded-full font-semibold text-sm mb-4">
                   <Users className="w-4 h-4" />
                   Dashboard Management
                 </div>
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
                   One Dashboard. <br className="hidden sm:block" />
-                  <span className="text-indigo-600">Any Scale.</span>
+                  <span className="text-orange-600">Any Scale.</span>
                 </h2>
                 <p className="text-gray-600 text-lg mb-8">
                   Manage one doctor or hundreds — from a single, powerful dashboard.
@@ -560,7 +560,7 @@ export default function AppointmentsPage() {
                     "Real-time schedule updates",
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-indigo-500 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0" />
                       <span className="text-gray-700">{item}</span>
                     </div>
                   ))}
@@ -626,7 +626,7 @@ export default function AppointmentsPage() {
                 </div>
                 
                 {/* Floating Badge */}
-                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-indigo-300/40" aria-hidden="true">
+                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-orange-500 to-violet-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-orange-300/40" aria-hidden="true">
                   <div className="text-sm font-semibold flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                     Live Preview
@@ -646,23 +646,23 @@ export default function AppointmentsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-booking') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                How Appointments Are <span className="text-indigo-600">Booked</span>
+                How Appointments Are <span className="text-orange-600">Booked</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                <strong className="text-indigo-600">No apps. No waiting.</strong> Just talk or chat.
+                <strong className="text-orange-600">No apps. No waiting.</strong> Just talk or chat.
               </p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
               {/* AI Call Booking */}
-              <div className={`bg-gradient-to-br from-indigo-50/60 to-white rounded-3xl p-8 border border-indigo-100/40 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 group ${visibleSections.has('section-booking') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '0.2s' }}>
+              <div className={`bg-gradient-to-br from-orange-50/60 to-white rounded-3xl p-8 border border-orange-100/40 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 group ${visibleSections.has('section-booking') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '0.2s' }}>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30">
                     <Phone className="w-8 h-8 text-white" />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-900">AI Call Booking</h3>
-                    <p className="text-indigo-600 font-medium">Voice-powered scheduling</p>
+                    <p className="text-orange-600 font-medium">Voice-powered scheduling</p>
                   </div>
                 </div>
 
@@ -674,11 +674,11 @@ export default function AppointmentsPage() {
                     { step: "4", text: "Appointment booked instantly", icon: CheckCircle },
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-4 group/item">
-                      <div className="w-10 h-10 bg-indigo-50/60 text-indigo-600 rounded-xl flex items-center justify-center font-bold text-lg group-hover/item:bg-indigo-500 group-hover/item:text-white transition-all">
+                      <div className="w-10 h-10 bg-orange-50/60 text-orange-600 rounded-xl flex items-center justify-center font-bold text-lg group-hover/item:bg-orange-500 group-hover/item:text-white transition-all">
                         {item.step}
                       </div>
                       <div className="flex-1 flex items-center gap-3">
-                        <item.icon className="w-5 h-5 text-indigo-500" />
+                        <item.icon className="w-5 h-5 text-orange-500" />
                         <span className="text-gray-700 font-medium">{item.text}</span>
                       </div>
                     </div>
@@ -730,12 +730,12 @@ export default function AppointmentsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-scheduling') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 text-orange-600 rounded-full font-semibold text-sm mb-4">
                   <Calendar className="w-4 h-4" />
                   Doctor-Controlled Slots
                 </div>
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
-                  Slot-Wise <span className="text-indigo-600">Smart Scheduling</span>
+                  Slot-Wise <span className="text-orange-600">Smart Scheduling</span>
                 </h2>
                 <p className="text-gray-600 text-lg mb-6">
                   Doctors define their availability, and the system handles everything else automatically.
@@ -743,8 +743,8 @@ export default function AppointmentsPage() {
 
                 <div className="space-y-4 mb-8">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-indigo-50/60 rounded-xl flex items-center justify-center">
-                      <Calendar className="w-6 h-6 text-indigo-600" />
+                    <div className="w-12 h-12 bg-orange-50/60 rounded-xl flex items-center justify-center">
+                      <Calendar className="w-6 h-6 text-orange-600" />
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-900">Working Days</h4>
@@ -752,8 +752,8 @@ export default function AppointmentsPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-indigo-50/60 rounded-xl flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-indigo-600" />
+                    <div className="w-12 h-12 bg-orange-50/60 rounded-xl flex items-center justify-center">
+                      <Clock className="w-6 h-6 text-orange-600" />
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-900">Slot Duration</h4>
@@ -771,8 +771,8 @@ export default function AppointmentsPage() {
                   </div>
                 </div>
 
-                <p className="text-gray-600 bg-indigo-50/60 rounded-xl p-4 border border-indigo-100/40">
-                  <strong className="text-indigo-600">Fully automated:</strong> No double bookings, real-time availability updates, automatic slot creation.
+                <p className="text-gray-600 bg-orange-50/60 rounded-xl p-4 border border-orange-100/40">
+                  <strong className="text-orange-600">Fully automated:</strong> No double bookings, real-time availability updates, automatic slot creation.
                 </p>
               </div>
 
@@ -795,8 +795,8 @@ export default function AppointmentsPage() {
                     <div 
                       key={i} 
                       className={`py-2 rounded-lg text-sm font-medium cursor-pointer transition-all ${
-                        i === 19 ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/30' :
-                        [4, 11, 18, 25].includes(i) ? 'bg-indigo-50/60 text-indigo-600' :
+                        i === 19 ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' :
+                        [4, 11, 18, 25].includes(i) ? 'bg-orange-50/60 text-orange-600' :
                         [5, 6, 12, 13, 19, 20, 26, 27].includes(i) ? 'text-gray-300' :
                         'text-gray-700 hover:bg-gray-100'
                       }`}
@@ -814,7 +814,7 @@ export default function AppointmentsPage() {
                       <div 
                         key={idx}
                         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
-                          idx === 2 ? 'bg-indigo-500 text-white' :
+                          idx === 2 ? 'bg-orange-500 text-white' :
                           [1, 5].includes(idx) ? 'bg-gray-100 text-gray-400 line-through' :
                           'bg-green-100 text-green-600 hover:bg-green-500 hover:text-white'
                         }`}
@@ -852,17 +852,17 @@ export default function AppointmentsPage() {
             {/* Flow Cards */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { icon: CalendarCheck, title: "Appointment Booked", desc: "Confirmation generated", color: "indigo" },
+                { icon: CalendarCheck, title: "Appointment Booked", desc: "Confirmation generated", color: "orange" },
                 { icon: MessageCircle, title: "Patient Notified", desc: "WhatsApp sent instantly", color: "green" },
-                { icon: Stethoscope, title: "Doctor Notified", desc: "Schedule updated", color: "indigo" },
-                { icon: Bell, title: "Reminder Sent", desc: "Before appointment", color: "indigo" },
+                { icon: Stethoscope, title: "Doctor Notified", desc: "Schedule updated", color: "orange" },
+                { icon: Bell, title: "Reminder Sent", desc: "Before appointment", color: "orange" },
               ].map((item, idx) => (
                 <div key={idx} className="relative">
                   <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-md hover:shadow-xl transition-all text-center">
                     <div className={`w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4 shadow-lg ${
-                      item.color === 'indigo' ? 'bg-indigo-500 shadow-indigo-500/30' :
+                      item.color === 'orange' ? 'bg-orange-500 shadow-orange-500/30' :
                       item.color === 'green' ? 'bg-green-500 shadow-green-500/30' :
-                      'bg-indigo-500 shadow-indigo-500/30'
+                      'bg-orange-500 shadow-orange-500/30'
                     }`}>
                       <item.icon className="w-7 h-7 text-white" />
                     </div>
@@ -918,7 +918,7 @@ export default function AppointmentsPage() {
                   {/* Google Calendar Header */}
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-600 rounded-xl flex items-center justify-center">
                         <Calendar className="w-5 h-5 text-white" />
                       </div>
                       <span className="font-bold text-gray-900">Google Calendar</span>
@@ -932,13 +932,13 @@ export default function AppointmentsPage() {
                   {/* Calendar Events */}
                   <div className="space-y-3">
                     {[
-                      { time: "09:00 - 09:30", patient: "John Smith", type: "Consultation", color: "indigo" },
-                      { time: "10:00 - 10:30", patient: "Emily Davis", type: "Follow-up", color: "indigo" },
+                      { time: "09:00 - 09:30", patient: "John Smith", type: "Consultation", color: "orange" },
+                      { time: "10:00 - 10:30", patient: "Emily Davis", type: "Follow-up", color: "orange" },
                       { time: "11:00 - 11:30", patient: "Michael Brown", type: "Check-up", color: "green" },
                     ].map((event, idx) => (
                       <div key={idx} className={`p-4 rounded-xl border-l-4 ${
-                        event.color === 'indigo' ? 'bg-indigo-50/60 border-indigo-500' :
-                        event.color === 'indigo' ? 'bg-indigo-50/60 border-indigo-500' :
+                        event.color === 'orange' ? 'bg-orange-50/60 border-orange-500' :
+                        event.color === 'orange' ? 'bg-orange-50/60 border-orange-500' :
                         'bg-green-50 border-green-500'
                       }`}>
                         <div className="flex items-center justify-between">
@@ -962,13 +962,13 @@ export default function AppointmentsPage() {
 
               {/* Content */}
               <div className="order-1 lg:order-2">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 text-orange-600 rounded-full font-semibold text-sm mb-4">
                   <Calendar className="w-4 h-4" />
                   Calendar Integration
                 </div>
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Google Calendar Sync <br className="hidden sm:block" />
-                  <span className="text-indigo-600">for Doctors</span>
+                  <span className="text-orange-600">for Doctors</span>
                 </h2>
                 <p className="text-gray-600 text-lg mb-8">
                   Appointments sync automatically with Google Calendar. No manual entry, no double bookings.
@@ -976,15 +976,15 @@ export default function AppointmentsPage() {
 
                 <div className="space-y-4">
                   {[
-                    { icon: Zap, text: "One-click integration", color: "indigo" },
-                    { icon: Activity, text: "Real-time updates", color: "indigo" },
+                    { icon: Zap, text: "One-click integration", color: "orange" },
+                    { icon: Activity, text: "Real-time updates", color: "orange" },
                     { icon: CheckCircle, text: "No manual entry", color: "green" },
-                    { icon: Shield, text: "No double bookings", color: "indigo" },
+                    { icon: Shield, text: "No double bookings", color: "orange" },
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                        item.color === 'indigo' ? 'bg-indigo-50/60 text-indigo-600' :
-                        item.color === 'indigo' ? 'bg-indigo-50/60 text-indigo-600' :
+                        item.color === 'orange' ? 'bg-orange-50/60 text-orange-600' :
+                        item.color === 'orange' ? 'bg-orange-50/60 text-orange-600' :
                         'bg-green-100 text-green-600'
                       }`}>
                         <item.icon className="w-5 h-5" />
@@ -1007,17 +1007,17 @@ export default function AppointmentsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-results') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-8">
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                Proven Results That <span className="text-indigo-600">Speak for Themselves</span>
+                Proven Results That <span className="text-orange-600">Speak for Themselves</span>
               </h2>
               <p className="text-gray-600">Join 1,000+ businesses already transformed by AI scheduling</p>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {[
-                { value: "45%", label: "More Bookings", color: "indigo", icon: TrendingUp },
-                { value: "24/7", label: "Always Available", color: "indigo", icon: Clock },
+                { value: "45%", label: "More Bookings", color: "orange", icon: TrendingUp },
+                { value: "24/7", label: "Always Available", color: "orange", icon: Clock },
                 { value: "3×", label: "Higher Lead Capture", color: "green", icon: Users },
-                { value: "60%", label: "Cost Savings", color: "indigo", icon: BarChart3 },
+                { value: "60%", label: "Cost Savings", color: "orange", icon: BarChart3 },
               ].map((stat, idx) => (
                 <div 
                   key={idx} 
@@ -1025,15 +1025,15 @@ export default function AppointmentsPage() {
                   style={{ transitionDelay: `${0.1 + idx * 0.1}s` }}
                 >
                   <div className={`w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${
-                    stat.color === 'indigo' ? 'bg-indigo-50/60 text-indigo-600' :
-                    stat.color === 'indigo' ? 'bg-indigo-50/60 text-indigo-600' :
+                    stat.color === 'orange' ? 'bg-orange-50/60 text-orange-600' :
+                    stat.color === 'orange' ? 'bg-orange-50/60 text-orange-600' :
                     'bg-green-100 text-green-600'
                   }`}>
                     <stat.icon className="w-7 h-7" />
                   </div>
                   <div className={`text-2xl sm:text-3xl font-bold mb-2 ${
-                    stat.color === 'indigo' ? 'text-indigo-600' :
-                    stat.color === 'indigo' ? 'text-indigo-600' :
+                    stat.color === 'orange' ? 'text-orange-600' :
+                    stat.color === 'orange' ? 'text-orange-600' :
                     'text-green-600'
                   }`}>{stat.value}</div>
                   <div className="text-gray-600 font-medium">{stat.label}</div>
@@ -1046,7 +1046,7 @@ export default function AppointmentsPage() {
               <div className="bg-white rounded-2xl px-6 py-4 shadow-md border border-gray-100 flex items-center gap-4">
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-indigo-500 text-indigo-500" />
+                    <Star key={i} className="w-5 h-5 fill-orange-500 text-orange-500" />
                   ))}
                 </div>
                 <span className="text-gray-900 font-semibold">4.9 / 5 Rating</span>
@@ -1058,7 +1058,7 @@ export default function AppointmentsPage() {
             <div className="text-center">
               <Link
                 href="/contact#contact-form"
-                className="inline-flex items-center justify-center gap-2 bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold border-2 border-indigo-200/40 hover:border-indigo-500 hover:shadow-lg transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-white text-orange-600 px-6 py-3 rounded-xl font-semibold border-2 border-orange-200/40 hover:border-orange-500 hover:shadow-lg transition-all"
               >
                 <Phone className="w-4 h-4" />
                 Schedule a Demo Call
@@ -1076,9 +1076,9 @@ export default function AppointmentsPage() {
         >
           {/* Decorative Background Elements */}
           <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-200/30 rounded-full blur-3xl" style={{ animation: 'float 8s ease-in-out infinite' }} />
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl" style={{ animation: 'float 8s ease-in-out infinite' }} />
             <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-green-200/20 rounded-full blur-3xl" style={{ animation: 'float 8s ease-in-out infinite', animationDelay: '3s' }} />
-            <div className="absolute top-1/2 left-0 w-64 h-64 bg-indigo-100/40 rounded-full blur-2xl" />
+            <div className="absolute top-1/2 left-0 w-64 h-64 bg-orange-100/40 rounded-full blur-2xl" />
             <div className="absolute inset-0 opacity-[0.02]" style={{
               backgroundImage: 'radial-gradient(circle at 1px 1px, #f97316 1px, transparent 0)',
               backgroundSize: '32px 32px'
@@ -1089,14 +1089,14 @@ export default function AppointmentsPage() {
             
             {/* Header with animated badge */}
             <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-600 text-white rounded-full font-semibold text-sm mb-6 shadow-lg shadow-indigo-500/25">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-violet-600 text-white rounded-full font-semibold text-sm mb-6 shadow-lg shadow-orange-500/25">
                 <Sparkles className="w-4 h-4" aria-hidden="true" />
                 The Comparison You Need to See
                 <Sparkles className="w-4 h-4" aria-hidden="true" />
               </div>
               <h2 id="comparison-title" className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                 Voice AI Booking <span className="relative inline-block">
-                  <span className="text-indigo-600">Crushes</span>
+                  <span className="text-orange-600">Crushes</span>
                   <svg className="absolute -bottom-1 left-0 w-full" height="8" viewBox="0 0 100 8" preserveAspectRatio="none">
                     <path d="M0 7 Q50 0 100 7" stroke="#f97316" strokeWidth="3" fill="none" strokeLinecap="round"/>
                   </svg>
@@ -1112,8 +1112,8 @@ export default function AppointmentsPage() {
               
               {/* Voice AI Card - Winner */}
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-violet-400 rounded-3xl blur-sm opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <div className="relative bg-white rounded-3xl p-8 border border-indigo-100/40 shadow-xl h-full">
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-400 rounded-3xl blur-sm opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="relative bg-white rounded-3xl p-8 border border-orange-100/40 shadow-xl h-full">
                   {/* Winner Badge */}
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                     <div className="px-4 py-1.5 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-sm font-bold rounded-full shadow-lg shadow-green-500/30 flex items-center gap-1">
@@ -1123,12 +1123,12 @@ export default function AppointmentsPage() {
                   </div>
                   
                   <div className="flex items-center gap-4 mb-8 mt-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform">
+                    <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30 group-hover:scale-110 transition-transform">
                       <Bot className="w-8 h-8 text-white" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900">Voice AI Booking</h3>
-                      <p className="text-indigo-600 font-medium">Preferred by 78% of customers</p>
+                      <p className="text-orange-600 font-medium">Preferred by 78% of customers</p>
                     </div>
                   </div>
                   
@@ -1141,10 +1141,10 @@ export default function AppointmentsPage() {
                       { label: 'Languages Supported', value: '50+', icon: Languages, highlight: true },
                       { label: 'No-Show Rate', value: 'Only 4%', icon: Users, highlight: true },
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between p-4 bg-gradient-to-r from-indigo-50/60 to-violet-50/40 rounded-xl border border-indigo-100/40 hover:shadow-md hover:-translate-x-1 transition-all duration-300">
+                      <div key={idx} className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-50/60 to-violet-50/40 rounded-xl border border-orange-100/40 hover:shadow-md hover:-translate-x-1 transition-all duration-300">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-indigo-50/60 rounded-lg flex items-center justify-center">
-                            <item.icon className="w-5 h-5 text-indigo-600" />
+                          <div className="w-10 h-10 bg-orange-50/60 rounded-lg flex items-center justify-center">
+                            <item.icon className="w-5 h-5 text-orange-600" />
                           </div>
                           <span className="text-gray-700 font-medium">{item.label}</span>
                         </div>
@@ -1202,8 +1202,8 @@ export default function AppointmentsPage() {
               {/* Pie Chart */}
               <div className="bg-white rounded-3xl p-6 shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-500">
                 <h3 className="text-lg font-bold text-gray-900 mb-2 flex items-center gap-2">
-                  <div className="w-8 h-8 bg-indigo-50/60 rounded-lg flex items-center justify-center">
-                    <TrendingUp className="w-4 h-4 text-indigo-600" />
+                  <div className="w-8 h-8 bg-orange-50/60 rounded-lg flex items-center justify-center">
+                    <TrendingUp className="w-4 h-4 text-orange-600" />
                   </div>
                   Customer Preference 2025
                 </h3>
@@ -1242,7 +1242,7 @@ export default function AppointmentsPage() {
                 )}
                 <div className="flex justify-center gap-6 mt-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500" />
+                    <div className="w-4 h-4 rounded-full bg-gradient-to-r from-orange-500 to-violet-500" />
                     <span className="text-gray-600 text-sm font-medium">Voice AI (78%)</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -1281,9 +1281,9 @@ export default function AppointmentsPage() {
             {/* Impact Stats - Animated Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
               {[
-                { label: 'Faster Response', value: '90×', sublabel: 'vs traditional', icon: Zap, color: 'indigo', bg: 'from-indigo-500 to-violet-600' },
+                { label: 'Faster Response', value: '90×', sublabel: 'vs traditional', icon: Zap, color: 'orange', bg: 'from-orange-500 to-violet-600' },
                 { label: 'More Bookings', value: '3.4×', sublabel: 'increase', icon: TrendingUp, color: 'green', bg: 'from-green-500 to-emerald-500' },
-                { label: 'Lower No-Shows', value: '77%', sublabel: 'reduction', icon: Users, color: 'indigo', bg: 'from-indigo-500 to-violet-500' },
+                { label: 'Lower No-Shows', value: '77%', sublabel: 'reduction', icon: Users, color: 'orange', bg: 'from-orange-500 to-violet-500' },
                 { label: 'Cost Savings', value: '60%', sublabel: 'saved monthly', icon: BarChart3, color: 'green', bg: 'from-green-500 to-teal-500' },
               ].map((stat, idx) => (
                 <div 
@@ -1304,18 +1304,18 @@ export default function AppointmentsPage() {
             </div>
 
             {/* CTA Section */}
-            <div className="text-center bg-gradient-to-r from-indigo-600 to-violet-700 rounded-3xl p-8 sm:p-12 shadow-2xl shadow-indigo-500/20 relative overflow-hidden">
+            <div className="text-center bg-gradient-to-r from-orange-600 to-violet-700 rounded-3xl p-8 sm:p-12 shadow-2xl shadow-orange-500/20 relative overflow-hidden">
               <div className="absolute inset-0 opacity-10" style={{
                 backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
                 backgroundSize: '24px 24px'
               }} />
               <div className="relative z-10">
                 <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Transform Your Booking?</h3>
-                <p className="text-indigo-100 mb-8 max-w-xl mx-auto">Join 1,000+ businesses already using Voice AI to capture more appointments</p>
+                <p className="text-orange-100 mb-8 max-w-xl mx-auto">Join 1,000+ businesses already using Voice AI to capture more appointments</p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     href="/contact?demo=voice-booking"
-                    className="inline-flex items-center justify-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-xl hover:-translate-y-1 transition-all"
+                    className="inline-flex items-center justify-center gap-2 bg-white text-orange-600 px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-xl hover:-translate-y-1 transition-all"
                   >
                     <Bot className="w-5 h-5" />
                     Get Voice AI Demo
@@ -1336,7 +1336,7 @@ export default function AppointmentsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-solution') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                Complete AI <span className="text-indigo-600">Scheduling Solution</span>
+                Complete AI <span className="text-orange-600">Scheduling Solution</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 Everything you need to automate appointments and deliver a premium customer experience
@@ -1345,12 +1345,12 @@ export default function AppointmentsPage() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { icon: Phone, title: "24/7 Call & WhatsApp Booking", desc: "AI handles bookings anytime, anywhere", color: "indigo" },
-                { icon: Calendar, title: "Smart Calendar Sync", desc: "Google Calendar integration", color: "indigo" },
+                { icon: Phone, title: "24/7 Call & WhatsApp Booking", desc: "AI handles bookings anytime, anywhere", color: "orange" },
+                { icon: Calendar, title: "Smart Calendar Sync", desc: "Google Calendar integration", color: "orange" },
                 { icon: Bell, title: "Intelligent Reminders", desc: "40% fewer no-shows", color: "green" },
-                { icon: Bot, title: "Human-Like Voice AI", desc: "Response in under 750ms", color: "indigo" },
-                { icon: Languages, title: "50+ Languages", desc: "Global accessibility", color: "indigo" },
-                { icon: Building2, title: "Multi-Clinic Support", desc: "One dashboard for all locations", color: "indigo" },
+                { icon: Bot, title: "Human-Like Voice AI", desc: "Response in under 750ms", color: "orange" },
+                { icon: Languages, title: "50+ Languages", desc: "Global accessibility", color: "orange" },
+                { icon: Building2, title: "Multi-Clinic Support", desc: "One dashboard for all locations", color: "orange" },
               ].map((feature, idx) => (
                 <div 
                   key={idx} 
@@ -1358,8 +1358,8 @@ export default function AppointmentsPage() {
                   style={{ transitionDelay: `${0.1 + idx * 0.08}s` }}
                 >
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform hover:scale-110 hover:rotate-3 ${
-                    feature.color === 'indigo' ? 'bg-indigo-50/60 text-indigo-600' :
-                    feature.color === 'indigo' ? 'bg-indigo-50/60 text-indigo-600' :
+                    feature.color === 'orange' ? 'bg-orange-50/60 text-orange-600' :
+                    feature.color === 'orange' ? 'bg-orange-50/60 text-orange-600' :
                     'bg-green-100 text-green-600'
                   }`}>
                     <feature.icon className="w-6 h-6" />
@@ -1374,7 +1374,7 @@ export default function AppointmentsPage() {
             <div className="mt-10 text-center">
               <Link
                 href="/signup?service=appointment"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-indigo-300/40 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-violet-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-orange-300/40 transition-all"
               >
                 Get Started Free
                 <ArrowRight className="w-4 h-4" />
@@ -1391,12 +1391,12 @@ export default function AppointmentsPage() {
           className="px-4 py-12 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff]"
         >
           <div className={`max-w-4xl mx-auto text-center transition-all duration-700 ${visibleSections.has('section-demo') ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 text-orange-600 rounded-full font-semibold text-sm mb-4">
               <Play className="w-4 h-4" />
               Interactive Demo
             </div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-              Experience the <span className="text-indigo-600">Future of Booking</span>
+              Experience the <span className="text-orange-600">Future of Booking</span>
             </h2>
             <p className="text-gray-600 text-lg mb-8">
               See how our AI handles real conversations with human-like precision
@@ -1409,7 +1409,7 @@ export default function AppointmentsPage() {
                 {DEMO_WAVEFORM_HEIGHTS.map((bar, i) => (
                   <div 
                     key={i} 
-                    className="w-1.5 bg-gradient-to-t from-indigo-500 to-violet-500 rounded-full"
+                    className="w-1.5 bg-gradient-to-t from-orange-500 to-violet-500 rounded-full"
                     style={{
                       height: `${bar.height}%`,
                       animation: `pulse ${bar.duration}s ease-in-out infinite`,
@@ -1422,22 +1422,22 @@ export default function AppointmentsPage() {
               {/* Transcript Preview */}
               <div className="text-left bg-gray-50 rounded-2xl p-4 mb-6 max-w-md mx-auto" role="log" aria-label="Conversation transcript">
                 <div className="flex items-start gap-3 mb-3">
-                  <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white text-xs font-bold" aria-label="AI Assistant">AI</div>
-                  <div className="bg-indigo-50/60 rounded-2xl rounded-tl-sm p-3 text-sm text-gray-700">
+                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold" aria-label="AI Assistant">AI</div>
+                  <div className="bg-orange-50/60 rounded-2xl rounded-tl-sm p-3 text-sm text-gray-700">
                     Hello! I would be happy to help you book an appointment. What date works best for you?
                   </div>
                 </div>
                 <div className="flex items-start gap-3 justify-end">
-                  <div className="bg-indigo-50/60 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-700">
+                  <div className="bg-orange-50/60 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-700">
                     Tomorrow at 10 AM, please
                   </div>
-                  <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white text-xs font-bold" aria-label="User">U</div>
+                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold" aria-label="User">U</div>
                 </div>
               </div>
 
               <Link
                 href="/signup?demo=appointments"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg hover:shadow-indigo-300/40 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-violet-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg hover:shadow-orange-300/40 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                 aria-label="Watch the full appointment booking demo"
               >
                 <Play className="w-5 h-5" aria-hidden="true" />
@@ -1456,7 +1456,7 @@ export default function AppointmentsPage() {
         >
           <div className={`max-w-5xl mx-auto transition-all duration-700 ${visibleSections.has('section-testimonial') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 id="testimonial-title" className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-8">
-              Trusted by <span className="text-indigo-600">Healthcare Leaders</span>
+              Trusted by <span className="text-orange-600">Healthcare Leaders</span>
             </h2>
             
             <div className="grid md:grid-cols-3 gap-6">
@@ -1487,14 +1487,14 @@ export default function AppointmentsPage() {
                 >
                   <div className="flex gap-0.5 mb-3" role="img" aria-label="5 out of 5 stars">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-indigo-500 text-indigo-500" />
+                      <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
                     ))}
                   </div>
                   <blockquote className="text-gray-700 text-sm mb-4 leading-relaxed">
                     &quot;{testimonial.quote}&quot;
                   </blockquote>
                   <figcaption className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                    <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-violet-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-sm">
                       {testimonial.initials}
                     </div>
                     <div>
@@ -1518,17 +1518,17 @@ export default function AppointmentsPage() {
           <div className={`max-w-5xl mx-auto transition-all duration-700 ${visibleSections.has('section-security') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 id="security-title" className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-                Enterprise-Grade <span className="text-indigo-600">Security</span>
+                Enterprise-Grade <span className="text-orange-600">Security</span>
               </h2>
               <p className="text-gray-600">Healthcare-ready architecture you can trust</p>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: Shield, title: "Secure Data", desc: "Protected handling", color: "indigo" },
-                { icon: Lock, title: "Encrypted", desc: "End-to-end security", color: "indigo" },
-                { icon: Server, title: "Reliable AI", desc: "99.9% uptime", color: "indigo" },
-                { icon: Building2, title: "Healthcare Ready", desc: "HIPAA compliant", color: "indigo" },
+                { icon: Shield, title: "Secure Data", desc: "Protected handling", color: "orange" },
+                { icon: Lock, title: "Encrypted", desc: "End-to-end security", color: "orange" },
+                { icon: Server, title: "Reliable AI", desc: "99.9% uptime", color: "orange" },
+                { icon: Building2, title: "Healthcare Ready", desc: "HIPAA compliant", color: "orange" },
               ].map((item, idx) => (
                 <div 
                   key={idx} 
@@ -1536,7 +1536,7 @@ export default function AppointmentsPage() {
                   style={{ transitionDelay: `${0.1 + idx * 0.1}s` }}
                 >
                   <div className={`w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4 transition-transform hover:scale-110 ${
-                    item.color === 'indigo' ? 'bg-indigo-50/60 text-indigo-600' : 'bg-indigo-50/60 text-indigo-600'
+                    item.color === 'orange' ? 'bg-orange-50/60 text-orange-600' : 'bg-orange-50/60 text-orange-600'
                   }`}>
                     <item.icon className="w-7 h-7" />
                   </div>
@@ -1557,12 +1557,12 @@ export default function AppointmentsPage() {
         >
           <div className={`max-w-7xl mx-auto transition-all duration-700 ${visibleSections.has('section-industries') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 text-orange-600 rounded-full font-semibold text-sm mb-4">
                 <Building2 className="w-4 h-4" />
                 Industries We Serve
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Built for <span className="text-indigo-600">Every Industry</span>
+                Built for <span className="text-orange-600">Every Industry</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 From healthcare to wellness, our AI adapts to your specific business needs
@@ -1575,13 +1575,13 @@ export default function AppointmentsPage() {
                   title: "Healthcare & Clinics",
                   desc: "Multi-doctor scheduling, patient records integration, HIPAA compliant",
                   image: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&h=300&fit=crop",
-                  color: "indigo"
+                  color: "orange"
                 },
                 {
                   title: "Dental Practices",
                   desc: "Treatment scheduling, follow-up reminders, dental history tracking",
                   image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&h=300&fit=crop",
-                  color: "indigo"
+                  color: "orange"
                 },
                 {
                   title: "Wellness & Spa",
@@ -1593,13 +1593,13 @@ export default function AppointmentsPage() {
                   title: "Fitness Studios",
                   desc: "Class bookings, trainer scheduling, membership integration",
                   image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop",
-                  color: "indigo"
+                  color: "orange"
                 },
                 {
                   title: "Veterinary Clinics",
                   desc: "Pet appointments, vaccination reminders, multi-vet support",
                   image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&h=300&fit=crop",
-                  color: "indigo"
+                  color: "orange"
                 },
                 {
                   title: "Professional Services",
@@ -1623,8 +1623,8 @@ export default function AppointmentsPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold text-white ${
-                      industry.color === 'indigo' ? 'bg-indigo-500' :
-                      industry.color === 'indigo' ? 'bg-indigo-500' : 'bg-green-500'
+                      industry.color === 'orange' ? 'bg-orange-500' :
+                      industry.color === 'orange' ? 'bg-orange-500' : 'bg-green-500'
                     }`}>
                       Popular
                     </div>

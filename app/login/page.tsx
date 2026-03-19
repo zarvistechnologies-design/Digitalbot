@@ -98,7 +98,7 @@ export default function LoginPage(): JSX.Element {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] p-4 relative overflow-hidden">
       <PageBackground />
-      <div className="glass-strong p-8 rounded-3xl shadow-2xl shadow-indigo-500/8 w-full max-w-md relative z-10 border border-white/40">
+      <div className="glass-strong p-8 rounded-3xl shadow-2xl shadow-orange-500/8 w-full max-w-md relative z-10 border border-white/40">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">
             Welcome Back
@@ -126,7 +126,7 @@ export default function LoginPage(): JSX.Element {
               value={email}
               // 7. Used the typed change handler
               onChange={handleEmailChange}
-              className="w-full px-4 py-3 border border-slate-200/60 rounded-xl bg-white/60 backdrop-blur-sm focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-400 transition-all duration-300"
+              className="w-full px-4 py-3 border border-slate-200/60 rounded-xl bg-white/60 backdrop-blur-sm focus:ring-2 focus:ring-orange-500/40 focus:border-orange-400 transition-all duration-300"
               required
             />
           </div>
@@ -141,14 +141,14 @@ export default function LoginPage(): JSX.Element {
               value={password}
               // 8. Used the typed change handler
               onChange={handlePasswordChange}
-              className="w-full px-4 py-3 border border-slate-200/60 rounded-xl bg-white/60 backdrop-blur-sm focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-400 transition-all duration-300"
+              className="w-full px-4 py-3 border border-slate-200/60 rounded-xl bg-white/60 backdrop-blur-sm focus:ring-2 focus:ring-orange-500/40 focus:border-orange-400 transition-all duration-300"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-indigo-500 to-violet-500 text-white py-3 rounded-xl font-semibold hover:from-indigo-600 hover:to-violet-600 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg shadow-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/30 btn-glow"
+            className="w-full bg-gradient-to-r from-orange-500 to-violet-500 text-white py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-violet-600 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 btn-glow"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>

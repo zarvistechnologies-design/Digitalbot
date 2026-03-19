@@ -250,7 +250,7 @@ const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }
                         const isAssistant = role === 'assistant' || role === 'Agent';
                         return (
                           <div key={idx} className={`flex ${isUser ? 'justify-start' : 'justify-end'}`}>
-                            <div className={`rounded-xl px-4 py-2 max-w-[80%] text-sm whitespace-pre-wrap shadow-md ${isUser ? 'bg-blue-100 text-blue-900' : isAssistant ? 'bg-green-100 text-green-900' : 'bg-gray-200 text-gray-800'}`}>
+                            <div className={`rounded-xl px-4 py-2 max-w-[80%] text-sm whitespace-pre-wrap shadow-md ${isUser ? 'bg-orange-100 text-orange-900' : isAssistant ? 'bg-green-100 text-green-900' : 'bg-gray-200 text-gray-800'}`}>
                               <span className="block font-semibold mb-1 text-xs opacity-70">
                                 {isUser ? 'User' : isAssistant ? 'Assistant' : (role || 'Speaker')}
                               </span>
@@ -334,7 +334,7 @@ const PromptEditorModal = ({
               </button>
               <button
                 onClick={onSave}
-                className="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-colors text-sm sm:text-base"
+                className="px-6 py-2 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg hover:from-purple-700 hover:to-orange-700 transition-colors text-sm sm:text-base"
               >
                 Save Changes
               </button>
@@ -380,7 +380,7 @@ function CallCard({
                   {(call.from_number || '')} → {(call.to_number|| '')}
                 </span>
                 <span className="text-xs text-gray-500">{formatTimeAgo(call.startTime || call.createdAt)}</span>
-                <span className="text-xs sm:text-sm font-medium text-blue-700 bg-blue-50 px-2 py-1 rounded inline-block">
+                <span className="text-xs sm:text-sm font-medium text-orange-700 bg-orange-50 px-2 py-1 rounded inline-block">
                   {formatDuration(call.duration)}
                 </span>
               </div>
@@ -495,7 +495,7 @@ function CallCard({
               <button
                 onClick={onAnalyze}
                 disabled={isProcessing}
-                className="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-sky-500 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl font-medium text-sm"
+                className="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-sky-500 to-orange-700 text-white rounded-xl hover:from-orange-700 hover:to-orange-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl font-medium text-sm"
               >
                 {isProcessing ? (
                   <>
@@ -1092,7 +1092,7 @@ export default function LeadsPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100">
+      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-purple-100">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border-2 border-purple-200"
@@ -1113,10 +1113,10 @@ export default function LeadsPage() {
 
         <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
               <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-white"></div>
             </div>
-            <p className="text-2xl font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">Loading Analytics...</p>
+            <p className="text-2xl font-black bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent mb-2">Loading Analytics...</p>
             <p className="text-sm text-slate-600">Fetching complete database from MongoDB</p>
           </div>
         </main>
@@ -1125,7 +1125,7 @@ export default function LeadsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100">
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-purple-100">
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
         className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border-2 border-purple-200 hover:border-purple-400 transition-all"
@@ -1151,13 +1151,13 @@ export default function LeadsPage() {
           <div className="bg-white rounded-2xl shadow-xl border-2 border-purple-200 p-4 sm:p-6 lg:p-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div>
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-100 to-blue-100 border-2 border-purple-300 rounded-xl px-4 py-2 mb-3">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-100 to-orange-100 border-2 border-purple-300 rounded-xl px-4 py-2 mb-3">
                   <svg className="h-5 w-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   <span className="text-sm font-bold text-purple-700">AI-Powered Analytics</span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black bg-gradient-to-r from-slate-900 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black bg-gradient-to-r from-slate-900 via-purple-600 to-orange-600 bg-clip-text text-transparent mb-2">
                   Lead Analytics Dashboard
                 </h1>
                 <p className="text-slate-600 mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg">
@@ -1196,15 +1196,15 @@ export default function LeadsPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <div className="bg-white rounded-2xl shadow-lg border-2 border-blue-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 shadow-lg">
+                <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-orange-500 to-cyan-600 shadow-lg">
                   <PhoneIcon />
                 </div>
               </div>
               <div>
                 <p className="text-slate-600 font-semibold mb-1 text-xs sm:text-sm">Total Calls</p>
-                <p className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">{totalCalls.toLocaleString()}</p>
+                <p className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-orange-600 to-cyan-600 bg-clip-text text-transparent mb-2">{totalCalls.toLocaleString()}</p>
                 <p className="text-xs sm:text-sm text-slate-500">{noTranscriptionCount} without audio</p>
               </div>
             </div>
@@ -1276,14 +1276,14 @@ export default function LeadsPage() {
               <p className="text-sm text-slate-600 font-medium">50-80% confidence score</p>
             </div>
 
-            <div className="bg-white border-2 border-blue-200 rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+            <div className="bg-white border-2 border-orange-200 rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl backdrop-blur-sm shadow-md">
+                <div className="p-3 bg-gradient-to-br from-orange-500 to-cyan-600 rounded-xl backdrop-blur-sm shadow-md">
                   <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
                 </div>
-                <span className="text-5xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{coldLeads}</span>
+                <span className="text-5xl font-black bg-gradient-to-r from-orange-600 to-cyan-600 bg-clip-text text-transparent">{coldLeads}</span>
               </div>
               <h3 className="text-xl font-black text-slate-800 mb-1">❄️ Cold Leads</h3>
               <p className="text-sm text-slate-600 font-medium">Below 50% confidence</p>
@@ -1359,7 +1359,7 @@ export default function LeadsPage() {
                       <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-200">
                         <span className={`px-2 py-1 rounded-full text-xs font-bold ${
                           lead.status === 'New' || lead.leadStatus === 'new'
-                            ? 'bg-blue-100 text-blue-700'
+                            ? 'bg-orange-100 text-orange-700'
                             : 'bg-slate-100 text-slate-700'
                         }`}>
                           {lead.status || lead.leadStatus || 'New'}
@@ -1407,7 +1407,7 @@ export default function LeadsPage() {
                     placeholder="🔍 Search calls, customers, products..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 pl-10 sm:pl-12 bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-200 rounded-xl focus:bg-white focus:border-purple-400 focus:ring-4 focus:ring-purple-100 transition-all duration-200 text-sm sm:text-base lg:text-lg text-slate-800 placeholder-slate-500 font-medium"
+                    className="w-full px-4 sm:px-6 py-3 sm:py-4 pl-10 sm:pl-12 bg-gradient-to-r from-purple-50 to-orange-50 border-2 border-purple-200 rounded-xl focus:bg-white focus:border-purple-400 focus:ring-4 focus:ring-purple-100 transition-all duration-200 text-sm sm:text-base lg:text-lg text-slate-800 placeholder-slate-500 font-medium"
                   />
                   <svg className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 sm:h-6 sm:w-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -1417,7 +1417,7 @@ export default function LeadsPage() {
 
               <div className="flex flex-wrap gap-2 sm:gap-3">
                 {[
-                  { value: 'all', label: 'All', fullLabel: 'All Calls', color: 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200', active: 'bg-gradient-to-r from-purple-500 to-blue-600' },
+                  { value: 'all', label: 'All', fullLabel: 'All Calls', color: 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200', active: 'bg-gradient-to-r from-purple-500 to-orange-600' },
                   { value: 'leads', label: 'Leads', fullLabel: 'Leads Only', color: 'bg-green-50 text-green-700 border-green-300 hover:bg-green-100', active: 'bg-gradient-to-r from-green-500 to-emerald-600' },
                   { value: 'pending', label: 'Pending', fullLabel: 'Pending Analysis', color: 'bg-sky-50 text-sky-700 border-sky-300 hover:bg-sky-100', active: 'bg-gradient-to-r from-sky-500 to-sky-600' },
                   { value: 'no-leads', label: 'No Leads', fullLabel: 'No Leads', color: 'bg-red-50 text-red-700 border-red-300 hover:bg-red-100', active: 'bg-gradient-to-r from-red-500 to-rose-600' }
@@ -1443,7 +1443,7 @@ export default function LeadsPage() {
                   { value: 'all', label: 'All Scores', icon: '⭐', color: 'bg-purple-50 text-purple-700 border-purple-300', active: 'bg-gradient-to-r from-purple-500 to-pink-600' },
                   { value: 'hot', label: 'Hot (80%+)', icon: '🔥', color: 'bg-red-50 text-red-700 border-red-300', active: 'bg-gradient-to-r from-red-500 to-sky-600' },
                   { value: 'warm', label: 'Warm (50-80%)', icon: '☀️', color: 'bg-yellow-50 text-yellow-700 border-yellow-300', active: 'bg-gradient-to-r from-yellow-500 to-sky-500' },
-                  { value: 'cold', label: 'Cold (<50%)', icon: '❄️', color: 'bg-blue-50 text-blue-700 border-blue-300', active: 'bg-gradient-to-r from-blue-500 to-cyan-600' }
+                  { value: 'cold', label: 'Cold (<50%)', icon: '❄️', color: 'bg-orange-50 text-orange-700 border-orange-300', active: 'bg-gradient-to-r from-orange-500 to-cyan-600' }
                 ].map(filter => (
                   <button
                     key={filter.value}
@@ -1463,7 +1463,7 @@ export default function LeadsPage() {
                 <button
                   onClick={fetchCalls}
                   disabled={loading}
-                  className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white rounded-xl shadow-lg disabled:opacity-50 transition-all duration-200 flex items-center justify-center gap-2 text-sm sm:text-base font-bold hover:scale-105 transform disabled:hover:scale-100"
+                  className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-purple-500 to-orange-600 hover:from-purple-600 hover:to-orange-700 text-white rounded-xl shadow-lg disabled:opacity-50 transition-all duration-200 flex items-center justify-center gap-2 text-sm sm:text-base font-bold hover:scale-105 transform disabled:hover:scale-100"
                 >
                   <svg className={`h-4 w-4 sm:h-5 sm:w-5 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -1486,12 +1486,12 @@ export default function LeadsPage() {
           </div>
 
           {processingQueue.length > 0 && (
-            <div className="bg-blue-50 border-l-4 border-sky-400 rounded-lg p-4">
+            <div className="bg-orange-50 border-l-4 border-sky-400 rounded-lg p-4">
               <div className="flex items-start">
                 <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-sky-600 mr-3 shrink-0 mt-0.5"></div>
                 <div>
-                  <h3 className="text-blue-800 font-semibold text-sm sm:text-base">Processing Calls with OpenAI</h3>
-                  <p className="text-blue-700 text-xs sm:text-sm">
+                  <h3 className="text-orange-800 font-semibold text-sm sm:text-base">Processing Calls with OpenAI</h3>
+                  <p className="text-orange-700 text-xs sm:text-sm">
                     Analyzing {processingQueue.length} call{processingQueue.length > 1 ? 's' : ''} with AI...
                   </p>
                 </div>

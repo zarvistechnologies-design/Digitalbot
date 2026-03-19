@@ -81,12 +81,12 @@ const ProductShowcase = () => {
                     {/* Card 1 - AI Voice Agent */}
                     <div 
                         ref={(el) => setCardRef(el, 0)}
-                        className="col-span-12 sm:col-span-6 lg:col-span-3 bg-gradient-to-br from-indigo-50 to-indigo-100/60 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
+                        className="col-span-12 sm:col-span-6 lg:col-span-3 bg-gradient-to-br from-orange-50 to-orange-100/60 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
                     >
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             AI-Powered<br/>Voice Agent
                         </h3>
-                        <Link href="/services/ai-voice-bot" className="inline-flex items-center gap-1 text-indigo-500 font-medium text-sm hover:gap-2 transition-all mb-4">
+                        <Link href="/services/ai-voice-bot" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all mb-4">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                         <div className="mt-auto relative flex-1">
@@ -96,8 +96,8 @@ const ProductShowcase = () => {
                                 className="w-full h-full object-cover rounded-xl"
                             />
                             <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-sm flex items-center gap-2">
-                                <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center">
-                                    <PhoneCall className="h-3 w-3 text-indigo-500" />
+                                <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center">
+                                    <PhoneCall className="h-3 w-3 text-orange-500" />
                                 </div>
                                 <span className="text-xs font-medium text-gray-700">24/7 Active</span>
                             </div>
@@ -112,7 +112,7 @@ const ProductShowcase = () => {
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             DigitalBot Call<br/>Center
                         </h3>
-                        <Link href="/services/ai-call-center" className="inline-flex items-center gap-1 text-indigo-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/ai-call-center" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                         {/* Mini UI mockup */}
@@ -164,7 +164,7 @@ const ProductShowcase = () => {
                             <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 text-[11px] font-semibold text-gray-400 tracking-wide">Automate</span>
                             <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 text-[11px] font-semibold text-gray-400 tracking-wide">Optimize</span>
                             <span className="absolute top-1/2 -right-4 -translate-y-1/2 text-[11px] font-semibold text-violet-500 tracking-wide rotate-90">Personalize</span>
-                            <span className="absolute top-1/2 -left-4 -translate-y-1/2 text-[11px] font-semibold text-indigo-500 tracking-wide -rotate-90">Observe</span>
+                            <span className="absolute top-1/2 -left-4 -translate-y-1/2 text-[11px] font-semibold text-orange-500 tracking-wide -rotate-90">Observe</span>
                         </div>
                         <div className="ml-8 text-left">
                             <p className="text-sm text-gray-500 mb-1">Powered by</p>
@@ -195,12 +195,12 @@ const ProductShowcase = () => {
                     {/* Card 5 - Platform (with person image) */}
                     <div 
                         ref={(el) => setCardRef(el, 4)}
-                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
+                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-orange-50 to-violet-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
                     >
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             DigitalBot<br/>Platform
                         </h3>
-                        <Link href="/services" className="inline-flex items-center gap-1 text-indigo-600 font-medium text-sm hover:gap-2 transition-all mb-4">
+                        <Link href="/services" className="inline-flex items-center gap-1 text-orange-600 font-medium text-sm hover:gap-2 transition-all mb-4">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                         <div className="mt-auto relative flex-1">
@@ -211,9 +211,9 @@ const ProductShowcase = () => {
                             />
                             <div className="absolute bottom-3 left-3 flex items-center gap-2">
                                 <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center">
-                                    <MessageSquare className="h-4 w-4 text-indigo-500" />
+                                    <MessageSquare className="h-4 w-4 text-orange-500" />
                                 </div>
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-violet-500 shadow-sm flex items-center justify-center">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-violet-500 shadow-sm flex items-center justify-center">
                                     <Bot className="h-4 w-4 text-white" />
                                 </div>
                             </div>
@@ -228,7 +228,7 @@ const ProductShowcase = () => {
                         <h3 className="text-xl font-bold text-gray-900 mb-2">
                             AI-Powered Conversational<br/>Quality Analysis
                         </h3>
-                        <Link href="/services/conversational-ai" className="inline-flex items-center gap-1 text-indigo-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/conversational-ai" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>
@@ -243,7 +243,7 @@ const ProductShowcase = () => {
                         <h3 className="text-xl font-bold text-gray-900 mb-2">
                             AI Customer<br/>Support
                         </h3>
-                        <Link href="/services/ai-customer-support" className="inline-flex items-center gap-1 text-indigo-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/ai-customer-support" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>

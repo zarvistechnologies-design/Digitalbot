@@ -87,9 +87,9 @@ export default function Blog() {
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] py-20 md:py-32">
           {/* Subtle Slate Blur Orbs */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-200/40 rounded-full blur-3xl" />
+          <div className="absolute top-20 left-10 w-72 h-72 bg-orange-200/40 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-100/30 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-100/40 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-100/40 rounded-full blur-3xl" />
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
@@ -99,7 +99,7 @@ export default function Blog() {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 tracking-tight mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-violet-600 bg-clip-text text-transparent">
                   AI Voice Agent
                 </span>
                 <br />
@@ -172,7 +172,7 @@ export default function Blog() {
                         <span>{featuredPost.readTime}</span>
                       </div>
                     </div>
-                    <h3 className="text-3xl font-semibold text-slate-900 tracking-tight mb-4 group-hover:text-indigo-600 transition-colors duration-300">
+                    <h3 className="text-3xl font-semibold text-slate-900 tracking-tight mb-4 group-hover:text-orange-600 transition-colors duration-300">
                       {featuredPost.title}
                     </h3>
                     <p className="text-lg text-slate-500 leading-relaxed mb-6">
@@ -231,7 +231,7 @@ export default function Blog() {
                         <span>{post.readTime}</span>
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold text-slate-900 tracking-tight mb-3 group-hover:text-indigo-600 transition-colors duration-300 line-clamp-2">
+                    <h3 className="text-xl font-semibold text-slate-900 tracking-tight mb-3 group-hover:text-orange-600 transition-colors duration-300 line-clamp-2">
                       {post.title}
                     </h3>
                     <p className="text-slate-500 leading-relaxed mb-6 line-clamp-3">
@@ -264,7 +264,7 @@ export default function Blog() {
         {/* Newsletter Signup */}
         <section className="py-20 bg-gradient-to-b from-[#fafbff] to-white">
           <div className="container mx-auto px-4">
-              <div className="max-w-3xl mx-auto glass-card bg-indigo-50/30 rounded-2xl p-12 text-center border border-indigo-200/40">
+              <div className="max-w-3xl mx-auto glass-card bg-orange-50/30 rounded-2xl p-12 text-center border border-orange-200/40">
               <h2 className="text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight mb-4">
                 Stay Updated
               </h2>
@@ -275,7 +275,7 @@ export default function Blog() {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full px-6 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-6 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
                 <button className="inline-flex items-center gap-2 bg-slate-900 text-white font-medium rounded-lg px-8 py-3 whitespace-nowrap hover:bg-slate-800 transition-colors duration-300">
                   Subscribe

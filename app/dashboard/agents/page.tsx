@@ -92,7 +92,7 @@ export default function AgentsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-orange-50">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Main Content */}
@@ -102,7 +102,7 @@ export default function AgentsPage() {
           <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-purple-100 transition-colors">
             <MenuIcon />
           </button>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent">
             AI Agents
           </h1>
           <div className="w-10" />
@@ -118,7 +118,7 @@ export default function AgentsPage() {
               </div>
               <button
                 onClick={() => setShowAddModal(true)}
-                className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-opacity shadow-lg"
+                className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity shadow-lg"
               >
                 <PlusIcon />
                 Add Agent
@@ -127,7 +127,7 @@ export default function AgentsPage() {
           </div>
 
           {/* Info Card */}
-          <div className="bg-gradient-to-r from-purple-100 to-indigo-100 rounded-2xl p-6 mb-8 border border-purple-200">
+          <div className="bg-gradient-to-r from-purple-100 to-orange-100 rounded-2xl p-6 mb-8 border border-purple-200">
             <h3 className="font-semibold text-purple-900 mb-2">🤖 What are AI Agents?</h3>
             <p className="text-purple-800 text-sm">
               AI Agents are voice bots that handle your automated phone calls. Each agent can be configured with
@@ -145,7 +145,7 @@ export default function AgentsPage() {
               </p>
               <button
                 onClick={() => setShowAddModal(true)}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-opacity"
+                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity"
               >
                 Add Your First Agent
               </button>
@@ -160,7 +160,7 @@ export default function AgentsPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-orange-500 flex items-center justify-center">
                           <span className="text-white text-lg">🤖</span>
                         </div>
                         <h3 className="font-semibold text-gray-900">{agent.name}</h3>
@@ -256,7 +256,7 @@ export default function AgentsPage() {
               </button>
               <button
                 onClick={addAgent}
-                className="px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-opacity"
+                className="px-5 py-2 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity"
               >
                 Add Agent
               </button>

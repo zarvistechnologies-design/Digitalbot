@@ -58,7 +58,7 @@ export default function Docs() {
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Link
               href="#"
-              className="group px-6 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium rounded-lg hover:from-indigo-500 hover:to-violet-500 transition-all shadow-sm btn-glow flex items-center gap-2"
+              className="group px-6 py-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-medium rounded-lg hover:from-orange-500 hover:to-violet-500 transition-all shadow-sm btn-glow flex items-center gap-2"
             >
               Get Started
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -94,7 +94,7 @@ export default function Docs() {
                   {section.items.map((item, itemIndex) => (
                     <li
                       key={itemIndex}
-                      className="flex items-center text-sm text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer"
+                      className="flex items-center text-sm text-slate-500 hover:text-orange-600 transition-colors cursor-pointer"
                     >
                       <ArrowRight className="h-3 w-3 mr-2 shrink-0 text-slate-400" />
                       {item}
@@ -128,7 +128,7 @@ export default function Docs() {
                 key={index}
                 className="bg-white/80 backdrop-blur-sm border border-white/40 rounded-xl p-6 hover:shadow-md transition-all group cursor-pointer"
               >
-                <h3 className="font-semibold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                <h3 className="font-semibold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">
                   {link.title}
                 </h3>
                 <p className="text-sm text-slate-500">{link.description}</p>
@@ -141,7 +141,7 @@ export default function Docs() {
       {/* Support Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-[#f0f0ff]">
         <div className="container mx-auto">
-          <div className="glass-card bg-indigo-50/30 border border-indigo-200/40 rounded-2xl p-12 text-center">
+          <div className="glass-card bg-orange-50/30 border border-orange-200/40 rounded-2xl p-12 text-center">
             <h2 className="text-3xl font-semibold text-slate-900 tracking-tight mb-4">Need Help?</h2>
             <p className="text-lg text-slate-500 mb-8 max-w-2xl mx-auto">
               Can&apos;t find what you&apos;re looking for? Our support team is here to help.
@@ -149,7 +149,7 @@ export default function Docs() {
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
               <Link
                 href="#"
-                className="group px-6 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium rounded-lg hover:from-indigo-500 hover:to-violet-500 transition-all shadow-sm btn-glow flex items-center gap-2"
+                className="group px-6 py-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-medium rounded-lg hover:from-orange-500 hover:to-violet-500 transition-all shadow-sm btn-glow flex items-center gap-2"
               >
                 Contact Support
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

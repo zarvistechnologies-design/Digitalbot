@@ -106,7 +106,7 @@ export default function ComparisonTable() {
     : Object.keys(featureLabels).slice(0, 7)
 
   return (
-    <section className="py-20 bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
       {/* Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -126,9 +126,9 @@ export default function ComparisonTable() {
             Why Choose Us
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            See How We <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-300">Stack Up</span>
+            See How We <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-violet-300">Stack Up</span>
           </h2>
-          <p className="text-indigo-100 max-w-2xl mx-auto">
+          <p className="text-orange-100 max-w-2xl mx-auto">
             Compare DigitalBot with other AI voice platforms and see why businesses choose us
           </p>
         </motion.div>
@@ -146,13 +146,13 @@ export default function ComparisonTable() {
             {competitors.map((comp) => (
               <div 
                 key={comp.name}
-                className={`p-4 text-center ${comp.isUs ? 'bg-indigo-50' : ''}`}
+                className={`p-4 text-center ${comp.isUs ? 'bg-orange-50' : ''}`}
               >
-                <div className={`inline-flex items-center gap-2 font-bold ${comp.isUs ? 'text-indigo-600' : 'text-gray-700'}`}>
+                <div className={`inline-flex items-center gap-2 font-bold ${comp.isUs ? 'text-orange-600' : 'text-gray-700'}`}>
                   <span className="text-xl">{comp.logo}</span>
                   {comp.name}
                   {comp.isUs && (
-                    <span className="bg-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">
+                    <span className="bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full uppercase font-bold">
                       Best
                     </span>
                   )}
@@ -175,7 +175,7 @@ export default function ComparisonTable() {
                 return (
                   <div 
                     key={`${comp.name}-${featureKey}`}
-                    className={`p-4 text-center ${comp.isUs ? 'bg-indigo-50/50' : ''}`}
+                    className={`p-4 text-center ${comp.isUs ? 'bg-orange-50/50' : ''}`}
                   >
                     {typeof value === 'boolean' ? (
                       value ? (
@@ -184,7 +184,7 @@ export default function ComparisonTable() {
                         <X className="h-5 w-5 text-gray-300 mx-auto" />
                       )
                     ) : (
-                      <span className={`${comp.isUs ? 'text-indigo-600 font-semibold' : 'text-gray-600'}`}>
+                      <span className={`${comp.isUs ? 'text-orange-600 font-semibold' : 'text-gray-600'}`}>
                         {value}
                       </span>
                     )}
@@ -200,7 +200,7 @@ export default function ComparisonTable() {
           <div className="text-center mt-6">
             <button
               onClick={() => setShowAll(true)}
-              className="text-white hover:text-indigo-200 font-medium text-sm flex items-center gap-1 mx-auto"
+              className="text-white hover:text-orange-200 font-medium text-sm flex items-center gap-1 mx-auto"
             >
               Show all features <ArrowRight className="h-4 w-4" />
             </button>
@@ -216,7 +216,7 @@ export default function ComparisonTable() {
         >
           <Link 
             href="/contact#contact-form"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-all shadow-lg hover:shadow-xl hover:scale-105"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-orange-600 font-bold rounded-xl hover:bg-orange-50 transition-all shadow-lg hover:shadow-xl hover:scale-105"
           >
             Start Free Trial - 500 Minutes Free
             <ArrowRight className="h-5 w-5" />

@@ -4,29 +4,29 @@
             <div className="lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex items-center justify-center p-8 lg:p-16">
               <div className="relative max-w-lg w-full">
                 {/* Animated Background Shapes */}
-                <div className="absolute -top-10 -left-10 w-40 h-40 bg-indigo-400/15 rounded-full blur-3xl animate-blob" />
+                <div className="absolute -top-10 -left-10 w-40 h-40 bg-orange-400/15 rounded-full blur-3xl animate-blob" />
                 <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-violet-500/15 rounded-full blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
-                <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-indigo-600/15 rounded-full blur-3xl animate-blob" style={{ animationDelay: '4s' }} />
+                <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-orange-600/15 rounded-full blur-3xl animate-blob" style={{ animationDelay: '4s' }} />
 
                 {/* Main Content */}
                 <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card bg-indigo-50/60 border-indigo-200/40 mb-6">
-                    <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card bg-orange-50/60 border-orange-200/40 mb-6">
+                    <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
-                    <span className="text-sm font-bold text-indigo-500">AI VOICE AGENTS</span>
+                    <span className="text-sm font-bold text-orange-500">AI VOICE AGENTS</span>
                   </div>
 
                   <h2 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
                     AI Voice Agent Solutions
                     <br />
-                    <span className="bg-gradient-to-r from-indigo-400 via-indigo-500 to-violet-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                    <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-violet-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
                       for Every Industry
                     </span>
                   </h2>
 
                   <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                    From healthcare to e-commerce, our AI voice assistants deliver <span className="text-indigo-500 font-bold">measurable ROI</span> across all sectors.
+                    From healthcare to e-commerce, our AI voice assistants deliver <span className="text-orange-500 font-bold">measurable ROI</span> across all sectors.
                   </p>
 
                   {/* Animated Image Container */}
@@ -46,7 +46,7 @@
                         <div className="text-2xl font-black">24/7</div>
                         <div className="text-sm text-white/80">Always Available</div>
                       </div>
-                      <div className="w-12 h-12 rounded-full bg-indigo-500 flex items-center justify-center animate-bounce">
+                      <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center animate-bounce">
                         <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
@@ -63,9 +63,9 @@
 
                 {/* Healthcare & Medical */}
                 <div className="group opacity-0 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
-                  <div className="relative p-4 glass-card bg-white/70 backdrop-blur-sm rounded-2xl border-indigo-200/30 hover:border-indigo-400/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-400/10 shadow-md">
+                  <div className="relative p-4 glass-card bg-white/70 backdrop-blur-sm rounded-2xl border-orange-200/30 hover:border-orange-400/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-400/10 shadow-md">
                     {/* Icon Badge */}
-                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg">
+                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-violet-600 flex items-center justify-center shadow-lg">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                       </svg>
@@ -85,10 +85,10 @@
                     {/* Content */}
                     <div>
                       <div className="mb-4">
-                        <span className="inline-block px-2 py-0.5 bg-indigo-50/60 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                        <span className="inline-block px-2 py-0.5 bg-orange-50/60 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
                           Healthcare Industry
                         </span>
-                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-indigo-500 transition-colors">
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-orange-500 transition-colors">
                           Healthcare & Medical
                         </h3>
                         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-sm">
@@ -98,51 +98,51 @@
 
                       {/* Feature List */}
                       <div className="space-y-2">
-                        <div className="flex items-start gap-2 p-2 rounded-lg bg-indigo-50/60 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-2 p-2 rounded-lg bg-orange-50/60 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Automated Appointment Scheduling</div>
-                            <div className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">24/7 booking and reminders</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">24/7 booking and reminders</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-indigo-50/60 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50/60 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Patient Pre-Screening</div>
-                            <div className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">Triage and symptom assessment</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Triage and symptom assessment</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-indigo-50/60 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50/60 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Prescription Refills</div>
-                            <div className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">Automated medication management</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Automated medication management</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-indigo-50/60 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50/60 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">HIPAA-Compliant</div>
-                            <div className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">Secure patient communication</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Secure patient communication</div>
                           </div>
                         </div>
                       </div>
@@ -152,8 +152,8 @@
 
                 {/* Real Estate */}
                 <div className="group opacity-0 animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
-                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl glass-card border-indigo-200/30 hover:border-indigo-400/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-400/10 shadow-md">
-                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg">
+                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl glass-card border-orange-200/30 hover:border-orange-400/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-400/10 shadow-md">
+                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                       </svg>
@@ -171,10 +171,10 @@
 
                     <div>
                       <div className="mb-4">
-                        <span className="inline-block px-2 py-0.5 bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                        <span className="inline-block px-2 py-0.5 bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
                           Real Estate Industry
                         </span>
-                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-indigo-500 transition-colors">
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-orange-500 transition-colors">
                           Real Estate Solutions
                         </h3>
                         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-sm">
@@ -183,51 +183,51 @@
                       </div>
 
                       <div className="space-y-2">
-                        <div className="flex items-start gap-2 p-2 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-2 p-2 rounded-lg bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">24/7 Property Inquiries</div>
-                            <div className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">Never miss a lead</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Never miss a lead</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Automated Showing Scheduling</div>
-                            <div className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">Instant appointments</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Instant appointments</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Lead Qualification</div>
-                            <div className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">Automatic buyer scoring</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Automatic buyer scoring</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Follow-up Automation</div>
-                            <div className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">Nurture leads effectively</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Nurture leads effectively</div>
                           </div>
                         </div>
                       </div>

@@ -87,13 +87,13 @@ export function SignupForm({ initialService }: SignupFormProps) {
   const getServiceInfo = () => {
     switch (selectedService) {
       case 'lead-analysis':
-        return { title: 'Lead Analysis Service', gradient: 'from-indigo-500 to-violet-500' }
+        return { title: 'Lead Analysis Service', gradient: 'from-orange-500 to-violet-500' }
       case 'appointment':
-        return { title: 'Appointment Service', gradient: 'from-violet-500 to-indigo-600' }
+        return { title: 'Appointment Service', gradient: 'from-violet-500 to-orange-600' }
       case 'customer-support':
-        return { title: 'Customer Support AI', gradient: 'from-indigo-500 to-violet-500' }
+        return { title: 'Customer Support AI', gradient: 'from-orange-500 to-violet-500' }
       default:
-        return { title: 'DigitalBot Service', gradient: 'from-indigo-500 to-violet-600' }
+        return { title: 'DigitalBot Service', gradient: 'from-orange-500 to-violet-600' }
     }
   }
 
@@ -104,18 +104,18 @@ export function SignupForm({ initialService }: SignupFormProps) {
       <PageBackground />
 
       {/* Animated glow */}
-      <div className="absolute w-[700px] h-[700px] bg-indigo-500/10 blur-[180px] rounded-full -top-40 -left-20 animate-pulse" />
+      <div className="absolute w-[700px] h-[700px] bg-orange-500/10 blur-[180px] rounded-full -top-40 -left-20 animate-pulse" />
 
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="relative z-10 glass-strong p-10 rounded-3xl shadow-2xl shadow-indigo-500/10 w-full max-w-md border border-white/40 hover:shadow-indigo-500/15 hover:scale-[1.02] transition-all duration-300"
+        className="relative z-10 glass-strong p-10 rounded-3xl shadow-2xl shadow-orange-500/10 w-full max-w-md border border-white/40 hover:shadow-orange-500/15 hover:scale-[1.02] transition-all duration-300"
       >
         {/* Header */}
         <div className="flex items-center gap-2 mb-6">
-          <Sparkles className="w-5 h-5 text-indigo-500" />
+          <Sparkles className="w-5 h-5 text-orange-500" />
           <h2 className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${gradient}`}>
             Sign Up for {title}
           </h2>
@@ -177,7 +177,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
           type="submit"
           whileTap={{ scale: 0.97 }}
           disabled={loading}
-          className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white w-full py-3 rounded-xl font-semibold hover:from-indigo-600 hover:to-violet-600 hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 disabled:opacity-60 btn-glow"
+          className="bg-gradient-to-r from-orange-500 to-violet-500 text-white w-full py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-violet-600 hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300 disabled:opacity-60 btn-glow"
         >
           {loading ? 'Registering...' : 'Create Account'}
         </motion.button>

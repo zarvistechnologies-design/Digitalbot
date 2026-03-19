@@ -114,7 +114,7 @@ const useCases = [
     description: "Resolve up to 80% of repetitive questions across live chat, social media, and email with AI responses that access your knowledge base instantly.",
     result: "Cut ticket backlog by 65%",
     icon: MessageCircle,
-    color: "from-indigo-500 to-violet-500",
+    color: "from-orange-500 to-violet-500",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -122,7 +122,7 @@ const useCases = [
     description: "Automatically detect churn signals and reach out with personalized retention offers before customers submit cancellations.",
     result: "Reduce churn by 35%",
     icon: HeartHandshake,
-    color: "from-indigo-500 to-violet-500",
+    color: "from-orange-500 to-violet-500",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -130,7 +130,7 @@ const useCases = [
     description: "Guide users through complex troubleshooting sequences with step-by-step instructions, multimedia explanations, and escalation to specialists when needed.",
     result: "92% first contact resolution",
     icon: ClipboardCheck,
-    color: "from-indigo-500 to-violet-600",
+    color: "from-orange-500 to-violet-600",
     image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -138,7 +138,7 @@ const useCases = [
     description: "Handle refunds, order tracking, account updates, and subscription changes automatically while syncing changes to CRM, billing, and ERP systems.",
     result: "Save 3,000 agent hours/quarter",
     icon: BarChart3,
-    color: "from-indigo-500 to-violet-600",
+    color: "from-orange-500 to-violet-600",
     image: "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&q=80"
   }
 ];
@@ -355,9 +355,9 @@ export default function AICustomerSupport() {
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               {/* Floating Orbs */}
-              <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
-              <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+              <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
               
               {/* Animated Grid */}
               <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -366,7 +366,7 @@ export default function AICustomerSupport() {
               }} />
               
               {/* Animated Lines */}
-              <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
+              <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
               <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
             </div>
 
@@ -376,26 +376,26 @@ export default function AICustomerSupport() {
                 {/* Left Side - Content */}
                 <div className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                   {/* Badge */}
-                  <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 px-4 py-2 rounded-full mb-6">
-                    <HeartHandshake className="h-4 w-4 text-indigo-600" />
-                    <span className="text-sm font-semibold text-indigo-700">AI Customer Support Platform</span>
+                  <div className="inline-flex items-center gap-2 glass-card bg-orange-50/60 border border-orange-200/40 px-4 py-2 rounded-full mb-6">
+                    <HeartHandshake className="h-4 w-4 text-orange-600" />
+                    <span className="text-sm font-semibold text-orange-700">AI Customer Support Platform</span>
                   </div>
 
                   {/* Main Headline */}
                   <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-4 leading-tight animate-fade-in-up-2">
                     <span className="block text-black">AI Customer Support That</span>
-                    <span className="block bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-700 bg-clip-text text-transparent">Never Sleeps Always Helps</span>
+                    <span className="block bg-gradient-to-r from-orange-500 via-violet-500 to-violet-700 bg-clip-text text-transparent">Never Sleeps Always Helps</span>
                   </h1>
 
                   {/* Tagline Box */}
-                  <div className="bg-gradient-to-r from-indigo-50/60 to-indigo-50/30 border border-indigo-200/40 rounded-2xl p-5 mb-6">
+                  <div className="bg-gradient-to-r from-orange-50/60 to-orange-50/30 border border-orange-200/40 rounded-2xl p-5 mb-6">
                     <p className="text-gray-600 text-sm italic mb-1">&quot;Every unanswered ticket is a customer considering your competitor.&quot;</p>
-                    <p className="text-indigo-600 font-bold text-base uppercase tracking-wider">LET AI DELIGHT EVERY CUSTOMER 24/7.</p>
+                    <p className="text-orange-600 font-bold text-base uppercase tracking-wider">LET AI DELIGHT EVERY CUSTOMER 24/7.</p>
                   </div>
 
                   {/* Description */}
                   <p className="text-gray-600 text-base lg:text-lg mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                    Deploy <strong className="text-indigo-600">AI customer support</strong> that resolves issues instantly across all channels — trusted by <strong className="text-indigo-600">500+ businesses</strong> handling <strong>2M+ conversations</strong> monthly.
+                    Deploy <strong className="text-orange-600">AI customer support</strong> that resolves issues instantly across all channels — trusted by <strong className="text-orange-600">500+ businesses</strong> handling <strong>2M+ conversations</strong> monthly.
                   </p>
 
                   {/* Dual Audio Players */}
@@ -405,7 +405,7 @@ export default function AICustomerSupport() {
                       <p className="text-xs font-medium text-gray-500 mb-1.5">🇺🇸 English Demo</p>
                       <button
                         onClick={toggleAudio}
-                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-indigo-300 transition-all group"
+                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-300 transition-all group"
                       >
                         <div className="flex-1 flex items-center justify-center h-6">
                           <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -442,7 +442,7 @@ export default function AICustomerSupport() {
                             ))}
                           </svg>
                         </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-md">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-500 text-white shadow-md">
                           {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                         </div>
                       </button>
@@ -453,7 +453,7 @@ export default function AICustomerSupport() {
                       <p className="text-xs font-medium text-gray-500 mb-1.5">🇮🇳 Hindi Demo</p>
                       <button
                         onClick={toggleAudioHindi}
-                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-indigo-300 transition-all group"
+                        className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-300 transition-all group"
                       >
                         <div className="flex-1 flex items-center justify-center h-6">
                           <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -490,7 +490,7 @@ export default function AICustomerSupport() {
                             ))}
                           </svg>
                         </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-md">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-500 text-white shadow-md">
                           {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                         </div>
                       </button>
@@ -501,14 +501,14 @@ export default function AICustomerSupport() {
                   <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                     <Link
                       href="/contact?service=customer-support"
-                      className="group px-6 py-3 bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-bold rounded-xl hover:from-indigo-600 hover:to-violet-600 transition-all duration-300 shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-105 flex items-center justify-center gap-2"
+                      className="group px-6 py-3 bg-gradient-to-r from-orange-500 to-violet-500 text-white font-bold rounded-xl hover:from-orange-600 hover:to-violet-600 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2"
                     >
                       Start Free Trial
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                     <Link
                       href="/contact#contact-form"
-                      className="px-6 py-3 bg-white text-indigo-600 border-2 border-indigo-200/40 font-bold rounded-xl hover:bg-indigo-50/60 hover:border-indigo-300 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
+                      className="px-6 py-3 bg-white text-orange-600 border-2 border-orange-200/40 font-bold rounded-xl hover:bg-orange-50/60 hover:border-orange-300 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
                     >
                       <Phone className="w-4 h-4" />
                       Book Demo
@@ -518,15 +518,15 @@ export default function AICustomerSupport() {
                   {/* Trust Indicators */}
                   <div className="flex flex-wrap gap-4 justify-center lg:justify-start text-sm text-gray-500">
                     <div className="flex items-center gap-1.5">
-                      <CheckCircle className="h-4 w-4 text-indigo-500" />
+                      <CheckCircle className="h-4 w-4 text-orange-500" />
                       <span className="text-xs">No credit card</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <CheckCircle className="h-4 w-4 text-indigo-500" />
+                      <CheckCircle className="h-4 w-4 text-orange-500" />
                       <span className="text-xs">Live in 10 days</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <CheckCircle className="h-4 w-4 text-indigo-500" />
+                      <CheckCircle className="h-4 w-4 text-orange-500" />
                       <span className="text-xs">50% cost savings</span>
                     </div>
                   </div>
@@ -556,9 +556,9 @@ export default function AICustomerSupport() {
                     </div>
                     
                     {/* Floating Badge - Bottom Right */}
-                    <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-indigo-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
+                    <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-500 rounded-xl flex items-center justify-center">
                           <MessageCircle className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -569,9 +569,9 @@ export default function AICustomerSupport() {
                     </div>
                     
                     {/* Floating Badge - Top Left */}
-                    <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-indigo-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
+                    <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-500 rounded-xl flex items-center justify-center">
                           <TrendingUp className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -594,12 +594,12 @@ export default function AICustomerSupport() {
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full font-semibold text-sm mb-4">
                   <Sparkles className="w-4 h-4" />
                   Why Choose DigitalBot
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  Enterprise-Grade <span className="text-indigo-600">AI Support</span>
+                  Enterprise-Grade <span className="text-orange-600">AI Support</span>
                 </h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                   Powerful automation with measurable outcomes for modern support teams
@@ -611,7 +611,7 @@ export default function AICustomerSupport() {
                 {benefits.map((benefit, index) => (
                   <div
                     key={index}
-                    className={`group bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover:shadow-xl hover:border-indigo-200/40 transition-all duration-500 hover:-translate-y-2 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    className={`group bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover:shadow-xl hover:border-orange-200/40 transition-all duration-500 hover:-translate-y-2 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                     style={{ transitionDelay: `${index * 0.1}s` }}
                   >
                     {/* Image */}
@@ -624,7 +624,7 @@ export default function AICustomerSupport() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                       <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                        <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-500 rounded-lg flex items-center justify-center">
                           <benefit.icon className="w-5 h-5 text-white" />
                         </div>
                         <div>
@@ -635,7 +635,7 @@ export default function AICustomerSupport() {
                     </div>
                     {/* Content */}
                     <div className="p-4">
-                      <h3 className="font-bold text-gray-900 mb-2 text-sm group-hover:text-indigo-600 transition-colors">{benefit.title}</h3>
+                      <h3 className="font-bold text-gray-900 mb-2 text-sm group-hover:text-orange-600 transition-colors">{benefit.title}</h3>
                       <p className="text-xs text-gray-600 leading-relaxed">{benefit.description}</p>
                     </div>
                   </div>
@@ -652,12 +652,12 @@ export default function AICustomerSupport() {
           >
             <div className="container mx-auto px-4 max-w-6xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full font-semibold text-sm mb-4">
                   <Target className="w-4 h-4" />
                   Proven Results
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  AI Support <span className="text-indigo-600">Use Cases</span>
+                  AI Support <span className="text-orange-600">Use Cases</span>
                 </h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                   Real-world outcomes from DigitalBot customers worldwide
@@ -674,7 +674,7 @@ export default function AICustomerSupport() {
                       onClick={() => setActiveUseCase(index)}
                       className={`flex-1 lg:flex-none flex items-center gap-3 p-4 rounded-xl transition-all duration-300 text-left ${
                         activeUseCase === index
-                          ? 'bg-white shadow-lg border-2 border-indigo-500'
+                          ? 'bg-white shadow-lg border-2 border-orange-500'
                           : 'bg-white/50 border border-gray-200 hover:bg-white hover:shadow-md'
                       }`}
                     >
@@ -682,7 +682,7 @@ export default function AICustomerSupport() {
                         <useCase.icon className="w-5 h-5 text-white" />
                       </div>
                       <div className="hidden sm:block">
-                        <h4 className={`font-bold ${activeUseCase === index ? 'text-indigo-600' : 'text-gray-700'}`}>
+                        <h4 className={`font-bold ${activeUseCase === index ? 'text-orange-600' : 'text-gray-700'}`}>
                           {useCase.title}
                         </h4>
                         <p className="text-xs text-gray-500">{useCase.result}</p>
@@ -713,8 +713,8 @@ export default function AICustomerSupport() {
                         <div>
                           <h3 className="text-xl font-bold text-white">{useCases[activeUseCase].title}</h3>
                           <div className="flex items-center gap-2 mt-1">
-                            <CheckCircle className="w-4 h-4 text-indigo-400" />
-                            <span className="text-indigo-400 font-semibold text-sm">{useCases[activeUseCase].result}</span>
+                            <CheckCircle className="w-4 h-4 text-orange-400" />
+                            <span className="text-orange-400 font-semibold text-sm">{useCases[activeUseCase].result}</span>
                           </div>
                         </div>
                       </div>
@@ -727,7 +727,7 @@ export default function AICustomerSupport() {
                     </p>
                     <Link
                       href="/contact?service=customer-support"
-                      className="inline-flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-700 transition-colors"
+                      className="inline-flex items-center gap-2 text-orange-600 font-semibold hover:text-orange-700 transition-colors"
                     >
                       Get Started <ArrowRight className="w-4 h-4" />
                     </Link>
@@ -745,12 +745,12 @@ export default function AICustomerSupport() {
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('capabilities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full font-semibold text-sm mb-4">
                   <Bot className="w-4 h-4" />
                   Platform Capabilities
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  Support Leaders <span className="text-indigo-600">Trust</span>
+                  Support Leaders <span className="text-orange-600">Trust</span>
                 </h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                   Deep technical advantages that keep customers informed and delighted
@@ -878,12 +878,12 @@ export default function AICustomerSupport() {
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-8 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full font-semibold text-sm mb-4">
                   <Mic className="w-4 h-4" />
                   Live AI Demo
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  Experience AI Support <span className="text-indigo-600">in Action</span>
+                  Experience AI Support <span className="text-orange-600">in Action</span>
                 </h2>
                 <p className="text-gray-600">
                   Hear how AI resolves support tickets with calm, accurate, and friendly responses
@@ -904,12 +904,12 @@ export default function AICustomerSupport() {
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full font-semibold text-sm mb-4">
                   <MessageCircle className="w-4 h-4" />
                   FAQ
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                  Common <span className="text-indigo-600">Questions</span>
+                  Common <span className="text-orange-600">Questions</span>
                 </h2>
                 <p className="text-gray-600">
                   Quick answers for leaders evaluating AI customer support solutions
@@ -923,7 +923,7 @@ export default function AICustomerSupport() {
                     className="group bg-gray-50 rounded-xl overflow-hidden"
                   >
                     <summary className="flex items-center gap-4 p-5 cursor-pointer list-none hover:bg-gray-100 transition-colors">
-                      <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                      <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-violet-500 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                         {index + 1}
                       </div>
                       <span className="font-semibold text-gray-900 flex-1">{faq.name}</span>
@@ -939,7 +939,7 @@ export default function AICustomerSupport() {
           </section>
 
           {/* CTA SECTION */}
-          <section className="py-20 bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 relative overflow-hidden">
+          <section className="py-20 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
@@ -950,14 +950,14 @@ export default function AICustomerSupport() {
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
                 Ready to Transform Your<br />Customer Support?
               </h2>
-              <p className="text-indigo-100 text-lg mb-8 max-w-2xl mx-auto">
+              <p className="text-orange-100 text-lg mb-8 max-w-2xl mx-auto">
                 Join 500+ businesses using AI customer support to deliver world-class experiences and reduce costs by 50%.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Link
                   href="/contact?service=customer-support"
-                  className="group px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl hover:bg-indigo-50/60 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+                  className="group px-8 py-4 bg-white text-orange-600 font-bold rounded-xl hover:bg-orange-50/60 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
                 >
                   Start Free Trial
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -971,17 +971,17 @@ export default function AICustomerSupport() {
                 </Link>
               </div>
 
-              <div className="flex flex-wrap gap-6 justify-center text-sm text-indigo-100">
+              <div className="flex flex-wrap gap-6 justify-center text-sm text-orange-100">
                 <div className="flex items-center gap-2">
-                  <Check className="w-5 h-5 text-indigo-400" />
+                  <Check className="w-5 h-5 text-orange-400" />
                   <span>No credit card required</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Check className="w-5 h-5 text-indigo-400" />
+                  <Check className="w-5 h-5 text-orange-400" />
                   <span>Live in 10 days</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Check className="w-5 h-5 text-indigo-400" />
+                  <Check className="w-5 h-5 text-orange-400" />
                   <span>Cancel anytime</span>
                 </div>
               </div>

@@ -28,7 +28,7 @@ const testimonials = [
     stats: { metric: "4x", label: "More qualified leads" },
     video: true,
     industry: "Technology",
-    color: "from-indigo-500 to-violet-500"
+    color: "from-orange-500 to-violet-500"
   },
   {
     id: 3,
@@ -54,7 +54,7 @@ const testimonials = [
     stats: { metric: "1000+", label: "Daily calls handled" },
     video: true,
     industry: "Hospitality",
-    color: "from-indigo-500 to-violet-500"
+    color: "from-orange-500 to-violet-500"
   },
   {
     id: 5,
@@ -67,14 +67,14 @@ const testimonials = [
     stats: { metric: "4hrs", label: "Saved per agent daily" },
     video: false,
     industry: "Real Estate",
-    color: "from-indigo-500 to-violet-500"
+    color: "from-orange-500 to-violet-500"
   }
 ]
 
 const stats = [
-  { icon: Users, value: "500+", label: "Happy Clients", color: "text-indigo-600", bgColor: "bg-indigo-50", iconBg: "bg-indigo-500" },
+  { icon: Users, value: "500+", label: "Happy Clients", color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
   { icon: TrendingUp, value: "10M+", label: "Calls Handled", color: "text-emerald-600", bgColor: "bg-emerald-50", iconBg: "bg-emerald-500" },
-  { icon: Award, value: "4.9/5", label: "Avg Rating", color: "text-indigo-600", bgColor: "bg-indigo-50", iconBg: "bg-indigo-500" },
+  { icon: Award, value: "4.9/5", label: "Avg Rating", color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
   { icon: Zap, value: "99.9%", label: "Uptime", color: "text-violet-600", bgColor: "bg-violet-50", iconBg: "bg-violet-500" }
 ]
 
@@ -111,9 +111,9 @@ export default function TestimonialCarousel() {
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Gradient Orbs */}
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-indigo-100 to-violet-100 rounded-full blur-3xl opacity-60 -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-orange-100 to-violet-100 rounded-full blur-3xl opacity-60 -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-100 to-pink-100 rounded-full blur-3xl opacity-60 translate-x-1/2 translate-y-1/2" />
-        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-br from-indigo-50 to-violet-50 rounded-full blur-3xl opacity-40 -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-br from-orange-50 to-violet-50 rounded-full blur-3xl opacity-40 -translate-x-1/2 -translate-y-1/2" />
         
         {/* Dot Pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -130,12 +130,12 @@ export default function TestimonialCarousel() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 border border-indigo-200/40 rounded-full mb-6">
-            <Sparkles className="w-4 h-4 text-indigo-600" />
-            <span className="text-sm font-semibold text-indigo-700">Trusted Worldwide</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 border border-orange-200/40 rounded-full mb-6">
+            <Sparkles className="w-4 h-4 text-orange-600" />
+            <span className="text-sm font-semibold text-orange-700">Trusted Worldwide</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Loved by <span className="text-indigo-600">Industry Leaders</span>
+            Loved by <span className="text-orange-600">Industry Leaders</span>
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
             Join 500+ companies transforming customer experience with AI-powered voice solutions
@@ -220,7 +220,7 @@ export default function TestimonialCarousel() {
                         {/* Rating */}
                         <div className="flex gap-1 mb-3">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="h-4 w-4 text-indigo-400 fill-indigo-400" />
+                            <Star key={i} className="h-4 w-4 text-orange-400 fill-orange-400" />
                           ))}
                         </div>
 
@@ -296,7 +296,7 @@ export default function TestimonialCarousel() {
                         alt={currentTestimonial.name}
                         className={`w-14 h-14 rounded-xl object-cover ring-2 ring-offset-2 ring-gradient-to-r ${currentTestimonial.color}`}
                         style={{ 
-                          boxShadow: `0 4px 14px -2px ${currentTestimonial.color.includes('indigo') ? 'rgba(99,102,241,0.3)' : currentTestimonial.color.includes('emerald') ? 'rgba(16,185,129,0.3)' : currentTestimonial.color.includes('purple') ? 'rgba(168,85,247,0.3)' : currentTestimonial.color.includes('violet') ? 'rgba(139,92,246,0.3)' : 'rgba(99,102,241,0.3)'}` 
+                          boxShadow: `0 4px 14px -2px ${currentTestimonial.color.includes('orange') ? 'rgba(99,102,241,0.3)' : currentTestimonial.color.includes('emerald') ? 'rgba(16,185,129,0.3)' : currentTestimonial.color.includes('purple') ? 'rgba(168,85,247,0.3)' : currentTestimonial.color.includes('violet') ? 'rgba(139,92,246,0.3)' : 'rgba(99,102,241,0.3)'}` 
                         }}
                       />
                       <div>
@@ -315,7 +315,7 @@ export default function TestimonialCarousel() {
                       </button>
                       <button
                         onClick={handleNext}
-                        className="w-10 h-10 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 flex items-center justify-center transition-all hover:shadow-lg"
+                        className="w-10 h-10 rounded-xl bg-gradient-to-r from-orange-600 to-violet-600 hover:from-orange-700 hover:to-violet-700 flex items-center justify-center transition-all hover:shadow-lg"
                       >
                         <ChevronRight className="h-5 w-5 text-white" />
                       </button>
@@ -324,7 +324,7 @@ export default function TestimonialCarousel() {
                 </div>
 
                 {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 px-4 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-bold rounded-xl shadow-lg">
+                <div className="absolute -top-4 -right-4 px-4 py-2 bg-gradient-to-r from-orange-600 to-violet-600 text-white text-sm font-bold rounded-xl shadow-lg">
                   ⭐ {currentTestimonial.stats.metric}
                 </div>
               </motion.div>
@@ -341,11 +341,11 @@ export default function TestimonialCarousel() {
         >
           <p className="text-gray-500 mb-4">Ready to transform your business?</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="/contact#contact-form" className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30 transition-all hover:scale-105 flex items-center gap-2 btn-glow">
+            <a href="/contact#contact-form" className="px-8 py-4 bg-gradient-to-r from-orange-600 to-violet-600 hover:from-orange-700 hover:to-violet-700 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all hover:scale-105 flex items-center gap-2 btn-glow">
               Start Free Trial
               <Zap className="w-5 h-5" />
             </a>
-            <a href="/contact#contact-form" className="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-xl border border-indigo-200/40 hover:border-indigo-300/40 hover:shadow-lg transition-all">
+            <a href="/contact#contact-form" className="px-8 py-4 bg-white text-orange-600 font-semibold rounded-xl border border-orange-200/40 hover:border-orange-300/40 hover:shadow-lg transition-all">
               Talk to Sales
             </a>
           </div>

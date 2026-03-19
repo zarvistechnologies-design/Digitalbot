@@ -208,7 +208,7 @@ export default function AnalyticsOverview() {
     }
   };
 
-  const MetricCard = ({ title, value, icon: Icon, trend, trendValue, color = "blue", subtitle }: any) => (
+  const MetricCard = ({ title, value, icon: Icon, trend, trendValue, color = "orange", subtitle }: any) => (
     <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-300 group">
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
@@ -234,14 +234,14 @@ export default function AnalyticsOverview() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
         <div className="hidden lg:block">
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         </div>
         <main className="flex-1 lg:ml-60 p-4 sm:p-8">
           <div className="flex justify-center items-center h-96">
             <div className="text-center">
-              <Loader2 className="w-12 h-12 text-blue-500 animate-spin mx-auto mb-4" />
+              <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
               <p className="text-base sm:text-lg text-slate-600 font-medium">Loading analytics...</p>
             </div>
           </div>
@@ -251,7 +251,7 @@ export default function AnalyticsOverview() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
       {/* Mobile Menu Button - Fixed */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -284,7 +284,7 @@ export default function AnalyticsOverview() {
           <header className="mb-6 sm:mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-purple-600 bg-clip-text text-transparent mb-2">
                   Analytics Dashboard
                 </h1>
                 <p className="text-slate-600 text-sm sm:text-base md:text-lg">Real-time insights into your AI call center performance</p>
@@ -293,7 +293,7 @@ export default function AnalyticsOverview() {
                 <select
                   value={dateFilter}
                   onChange={(e) => setDateFilter(e.target.value)}
-                  className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-3 bg-white rounded-xl border border-slate-300 shadow-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-slate-700 font-medium text-sm sm:text-base"
+                  className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-3 bg-white rounded-xl border border-slate-300 shadow-md focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all text-slate-700 font-medium text-sm sm:text-base"
                 >
                   <option value="1">Last 24 hours</option>
                   <option value="7">Last 7 days</option>
@@ -308,7 +308,7 @@ export default function AnalyticsOverview() {
           <section className="mb-6 sm:mb-8">
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-xl flex items-center justify-center shadow-md shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-400 to-orange-500 rounded-xl flex items-center justify-center shadow-md shrink-0">
                   <PhoneCall className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
                 <div className="min-w-0">
@@ -324,20 +324,20 @@ export default function AnalyticsOverview() {
                     placeholder="+91XXXXXXXXXX"
                     value={toNumber}
                     onChange={(e) => setToNumber(e.target.value)}
-                    className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 text-base"
+                    className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-200 text-base"
                   />
                 </div>
                 <button
                   onClick={handleOutboundCall}
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 min-h-12"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-orange-500 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 min-h-12"
                 >
                   <PhoneCall className="w-5 h-5" />
                   <span>Call Now</span>
                 </button>
               </div>
               {callStatus && (
-                <div className="mt-4 p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                  <p className="text-blue-800 font-medium text-xs sm:text-sm flex items-center gap-2">
+                <div className="mt-4 p-3 sm:p-4 bg-orange-50 border border-orange-200 rounded-xl">
+                  <p className="text-orange-800 font-medium text-xs sm:text-sm flex items-center gap-2">
                     <Clock className="w-4 h-4 shrink-0" />
                     <span className="truncate">{callStatus}</span>
                   </p>
@@ -351,7 +351,7 @@ export default function AnalyticsOverview() {
               {/* Key Metrics */}
               <section className="mb-6 sm:mb-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-5 flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 shrink-0" />
+                  <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
                   <span>Key Performance Metrics</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -361,7 +361,7 @@ export default function AnalyticsOverview() {
                     icon={PhoneCall}
                     trend={analytics.weeklyGrowth > 0 ? "up" : analytics.weeklyGrowth < 0 ? "down" : "neutral"}
                     trendValue={`${Math.abs(analytics.weeklyGrowth).toFixed(1)}%`}
-                    color="blue"
+                    color="orange"
                   />
                   <MetricCard
                     title="Success Rate"
@@ -400,7 +400,7 @@ export default function AnalyticsOverview() {
                     value={analytics.inboundCalls}
                     icon={PhoneIncoming}
                     subtitle={`${analytics.totalCalls > 0 ? ((analytics.inboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total`}
-                    color="blue"
+                    color="orange"
                   />
                   <MetricCard
                     title="Outbound Calls"
@@ -431,10 +431,10 @@ export default function AnalyticsOverview() {
                   <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 shrink-0" />
+                        <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
                         <h3 className="text-lg sm:text-xl font-bold text-slate-800">Call Volume Trend</h3>
                       </div>
-                    <span className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-semibold self-start sm:self-auto">Area Chart</span>
+                    <span className="text-xs px-3 py-1 bg-orange-100 text-orange-700 rounded-full font-semibold self-start sm:self-auto">Area Chart</span>
                   </div>
                   {mounted && (
                     <ResponsiveContainer width="100%" height={280}>
@@ -504,10 +504,10 @@ export default function AnalyticsOverview() {
                   <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-500 shrink-0" />
+                        <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
                         <h3 className="text-lg sm:text-xl font-bold text-slate-800">Duration Analysis</h3>
                       </div>
-                      <span className="text-xs px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-semibold self-start sm:self-auto">Bar Chart</span>
+                      <span className="text-xs px-3 py-1 bg-orange-100 text-orange-700 rounded-full font-semibold self-start sm:self-auto">Bar Chart</span>
                     </div>
                     <ResponsiveContainer width="100%" height={280}>
                       <BarChart data={analytics.durationAnalysis} layout="vertical">
@@ -563,10 +563,10 @@ export default function AnalyticsOverview() {
                   <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2">
-                        <PieChart className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 shrink-0" />
+                        <PieChart className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
                         <h3 className="text-base sm:text-xl font-bold text-slate-800">Call Status Distribution</h3>
                       </div>
-                      <span className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-semibold self-start sm:self-auto">Donut Chart</span>
+                      <span className="text-xs px-3 py-1 bg-orange-100 text-orange-700 rounded-full font-semibold self-start sm:self-auto">Donut Chart</span>
                     </div>
                     {mounted && (
                       <ResponsiveContainer width="100%" height={280}>
@@ -606,13 +606,13 @@ export default function AnalyticsOverview() {
                       <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full font-semibold self-start sm:self-auto">Progress Bars</span>
                     </div>
                     <div className="space-y-4 sm:space-y-6 mb-4 sm:mb-6">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 sm:p-5 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl border border-blue-200 shadow-sm">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 sm:p-5 bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl border border-orange-200 shadow-sm">
                         <div className="flex items-center gap-3">
-                          <PhoneIncoming className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 shrink-0" />
+                          <PhoneIncoming className="w-6 h-6 sm:w-7 sm:h-7 text-orange-600 shrink-0" />
                           <span className="font-bold text-slate-800 text-base sm:text-lg">Inbound</span>
                         </div>
                         <div className="text-left sm:text-right">
-                          <div className="text-2xl sm:text-3xl font-black text-blue-600">{analytics.inboundCalls}</div>
+                          <div className="text-2xl sm:text-3xl font-black text-orange-600">{analytics.inboundCalls}</div>
                           <div className="text-xs sm:text-sm font-semibold text-slate-600">
                             {analytics.totalCalls > 0 ? ((analytics.inboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total
                           </div>
@@ -634,15 +634,15 @@ export default function AnalyticsOverview() {
                     <div className="space-y-4">
                       <div className="relative pt-1">
                         <div className="flex mb-2 items-center justify-between">
-                          <div className="text-xs font-semibold text-blue-600">Inbound</div>
-                          <div className="text-xs font-semibold text-blue-600">
+                          <div className="text-xs font-semibold text-orange-600">Inbound</div>
+                          <div className="text-xs font-semibold text-orange-600">
                             {analytics.totalCalls > 0 ? ((analytics.inboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}%
                           </div>
                         </div>
-                        <div className="overflow-hidden h-2 sm:h-3 text-xs flex rounded-full bg-blue-100">
+                        <div className="overflow-hidden h-2 sm:h-3 text-xs flex rounded-full bg-orange-100">
                           <div
                             style={{ width: `${analytics.totalCalls > 0 ? (analytics.inboundCalls / analytics.totalCalls) * 100 : 0}%` }}
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-blue-400 to-blue-600 rounded-full transition-all duration-500"
+                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-orange-400 to-orange-600 rounded-full transition-all duration-500"
                           ></div>
                         </div>
                       </div>
@@ -766,16 +766,16 @@ export default function AnalyticsOverview() {
                 <section className="mb-6 sm:mb-8">
                   <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
                     <div className="flex items-center gap-2 mb-4 sm:mb-6">
-                      <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-500 shrink-0" />
+                      <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
                       <h3 className="text-xl sm:text-2xl font-bold text-slate-800">Peak Call Hours</h3>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
                       {analytics.peakHours.map((peak, index) => (
                         <div
                           key={peak.hour}
-                          className="text-center p-4 sm:p-5 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl border border-indigo-200 shadow-sm hover:shadow-md transition-all duration-300"
+                          className="text-center p-4 sm:p-5 bg-gradient-to-br from-orange-50 to-purple-50 rounded-xl border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300"
                         >
-                          <div className="text-2xl sm:text-3xl font-black text-indigo-600 mb-2">{peak.hour}:00</div>
+                          <div className="text-2xl sm:text-3xl font-black text-orange-600 mb-2">{peak.hour}:00</div>
                           <div className="text-slate-700 text-base sm:text-lg font-bold">{peak.count} calls</div>
                           <div className="text-xs text-slate-500 mt-2 font-semibold">Rank #{index + 1}</div>
                         </div>
@@ -795,7 +795,7 @@ export default function AnalyticsOverview() {
                     </div>
                     <a
                       href="/calls"
-                      className="text-blue-600 hover:text-blue-800 font-semibold text-sm transition-colors flex items-center gap-1 self-start sm:self-auto"
+                      className="text-orange-600 hover:text-orange-800 font-semibold text-sm transition-colors flex items-center gap-1 self-start sm:self-auto"
                     >
                       View All
                       <ArrowUp className="w-4 h-4 rotate-45" />
@@ -811,7 +811,7 @@ export default function AnalyticsOverview() {
                           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 min-w-0">
                             <div className="flex items-center gap-2 min-w-0">
                               {call.direction === 'inbound' ? (
-                                <PhoneIncoming className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 shrink-0" />
+                                <PhoneIncoming className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 shrink-0" />
                               ) : (
                                 <PhoneOutgoing className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 shrink-0" />
                               )}

@@ -51,11 +51,11 @@ export default function PlatformCapabilitiesTimeline() {
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
         <div className="text-center mb-1">
-          <span className="inline-block px-3 py-1 text-xs font-medium text-indigo-500 bg-indigo-50/60 rounded-full mb-4 border border-indigo-200/40">
+          <span className="inline-block px-3 py-1 text-xs font-medium text-orange-500 bg-orange-50/60 rounded-full mb-4 border border-orange-200/40">
             Platform Capabilities
           </span>
           <h2 id="platform-capabilities" className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
-            Everything You Need to <span className="text-indigo-500">Automate</span>
+            Everything You Need to <span className="text-orange-500">Automate</span>
           </h2>
           <p className="text-gray-500 text-sm max-w-xl mx-auto">
             One platform. Four powerful capabilities. Endless possibilities.
@@ -64,28 +64,28 @@ export default function PlatformCapabilitiesTimeline() {
         {/* Timeline Style Features */}
         <div className="relative">
           {/* Vertical Line */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-200 via-indigo-400 to-indigo-200"></div>
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-200 via-orange-400 to-orange-200"></div>
           {/* Feature Items */}
           <div className="space-y-2 md:space-y-0">
             {/* Feature 1 */}
             <div ref={featureRefs[0]} className={`md:flex items-center gap-4 mb-2 animate-fadeInUp animate-delay-1${visible[0] ? ' is-visible' : ''}`}>
               <div className="md:w-1/2 md:text-right md:pr-12 mb-4 md:mb-0">
-                <div className="inline-flex items-center gap-2 text-indigo-500 text-xs font-medium mb-2">
-                  <span className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500 text-xs font-bold">1</span>
+                <div className="inline-flex items-center gap-2 text-orange-500 text-xs font-medium mb-2">
+                  <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 text-xs font-bold">1</span>
                   Appointment Scheduling
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">Smart Booking System</h3>
                 <p className="text-gray-500 text-sm">AI schedules appointments 24/7. WhatsApp alerts for new bookings, reschedules & cancellations.</p>
                 <div className="flex md:justify-end gap-2 mt-3">
                   <span className="px-2 py-0.5 bg-green-50 text-green-600 text-xs rounded">WhatsApp</span>
-                  <span className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs rounded">24/7</span>
+                  <span className="px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">24/7</span>
                 </div>
               </div>
-              <div className="hidden md:flex w-4 h-4 rounded-full bg-indigo-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
+              <div className="hidden md:flex w-4 h-4 rounded-full bg-orange-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
               <div className="md:w-1/2 md:pl-12">
                 <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                  <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
-                    <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
@@ -100,8 +100,8 @@ export default function PlatformCapabilitiesTimeline() {
             <div ref={featureRefs[1]} className={`md:flex items-center gap-4 mb-2 animate-fadeInUp animate-delay-2${visible[1] ? ' is-visible' : ''}`}>
               <div className="md:w-1/2 md:text-right md:pr-12 order-1 md:order-none">
                 <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 md:ml-auto md:w-fit">
-                  <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
-                    <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                   </div>
@@ -111,39 +111,39 @@ export default function PlatformCapabilitiesTimeline() {
                   </div>
                 </div>
               </div>
-              <div className="hidden md:flex w-4 h-4 rounded-full bg-indigo-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
+              <div className="hidden md:flex w-4 h-4 rounded-full bg-orange-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
               <div className="md:w-1/2 md:pl-12 mb-4 md:mb-0">
-                <div className="inline-flex items-center gap-2 text-indigo-500 text-xs font-medium mb-2">
-                  <span className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500 text-xs font-bold">2</span>
+                <div className="inline-flex items-center gap-2 text-orange-500 text-xs font-medium mb-2">
+                  <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 text-xs font-bold">2</span>
                   Lead Generation
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">AI-Powered Outreach</h3>
                 <p className="text-gray-500 text-sm">Bulk CSV upload, outbound calling, smart lead scoring. Get notified instantly for hot leads.</p>
                 <div className="flex gap-2 mt-3">
                   <span className="px-2 py-0.5 bg-purple-50 text-purple-600 text-xs rounded">CSV Upload</span>
-                  <span className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs rounded">Hot Alerts</span>
+                  <span className="px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">Hot Alerts</span>
                 </div>
               </div>
             </div>
             {/* Feature 3 */}
             <div ref={featureRefs[2]} className={`md:flex items-center gap-8 mb-12 animate-fadeInUp animate-delay-3${visible[2] ? ' is-visible' : ''}`}>
               <div className="md:w-1/2 md:text-right md:pr-12 mb-4 md:mb-0">
-                <div className="inline-flex items-center gap-2 text-indigo-500 text-xs font-medium mb-2">
-                  <span className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500 text-xs font-bold">3</span>
+                <div className="inline-flex items-center gap-2 text-orange-500 text-xs font-medium mb-2">
+                  <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 text-xs font-bold">3</span>
                   Customer Support
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">24/7 AI Support</h3>
                 <p className="text-gray-500 text-sm">Never miss a call. AI handles FAQs, complaints, order status & smart escalations.</p>
                 <div className="flex md:justify-end gap-2 mt-3">
-                  <span className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs rounded">&lt;3s Response</span>
-                  <span className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs rounded">95% Resolution</span>
+                  <span className="px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">&lt;3s Response</span>
+                  <span className="px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">95% Resolution</span>
                 </div>
               </div>
-              <div className="hidden md:flex w-4 h-4 rounded-full bg-indigo-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
+              <div className="hidden md:flex w-4 h-4 rounded-full bg-orange-500 border-4 border-white shadow-lg z-10 mx-auto"></div>
               <div className="md:w-1/2 md:pl-12">
                 <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                  <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
-                    <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
@@ -189,7 +189,7 @@ export default function PlatformCapabilitiesTimeline() {
         {/* Bottom CTA */}
         <div className="text-center mt-8 pt-6 border-t border-gray-100">
           <div className="inline-flex flex-col sm:flex-row items-center gap-3">
-            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-medium rounded-lg hover:from-indigo-700 hover:to-violet-700 transition-all btn-glow">
+            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white text-sm font-medium rounded-lg hover:from-orange-700 hover:to-violet-700 transition-all btn-glow">
               Start Free Trial
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

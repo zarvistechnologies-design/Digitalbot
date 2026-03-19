@@ -147,18 +147,18 @@ function DoctorCard({
       onClick={onSelect}
       className={`relative cursor-pointer rounded-2xl border-2 p-5 transition-all duration-300 transform hover:scale-[1.02] ${
         isSelected
-          ? "border-blue-500 bg-gradient-to-br from-blue-50 to-purple-50 shadow-lg shadow-blue-100"
-          : "border-gray-200 bg-white hover:border-blue-300 hover:shadow-md"
+          ? "border-orange-500 bg-gradient-to-br from-orange-50 to-purple-50 shadow-lg shadow-orange-100"
+          : "border-gray-200 bg-white hover:border-orange-300 hover:shadow-md"
       }`}
     >
       {isSelected && (
-        <div className="absolute -top-2 -right-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full p-1.5">
+        <div className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-600 to-purple-600 rounded-full p-1.5">
           <CheckCircle2 className="h-4 w-4 text-white" />
         </div>
       )}
       
       <div className="flex items-start gap-4">
-        <div className={`rounded-xl p-3 ${isSelected ? "bg-gradient-to-br from-blue-500 to-purple-500" : "bg-gray-100"}`}>
+        <div className={`rounded-xl p-3 ${isSelected ? "bg-gradient-to-br from-orange-500 to-purple-500" : "bg-gray-100"}`}>
           <Stethoscope className={`h-6 w-6 ${isSelected ? "text-white" : "text-gray-600"}`} />
         </div>
         
@@ -228,8 +228,8 @@ function TimeSlotGrid({
               onClick={() => onSelectTime(slot.time)}
               className={`px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                 selectedTime === slot.time
-                  ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-200 scale-105"
-                  : "bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-700 border border-gray-200 hover:border-blue-300"
+                  ? "bg-gradient-to-r from-orange-600 to-purple-600 text-white shadow-lg shadow-orange-200 scale-105"
+                  : "bg-gray-50 text-gray-700 hover:bg-orange-50 hover:text-orange-700 border border-gray-200 hover:border-orange-300"
               }`}
             >
               {slot.time}
@@ -537,7 +537,7 @@ export default function BookAppointmentPage() {
 
   // ==================== RENDER ====================
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Mobile header */}
@@ -548,7 +548,7 @@ export default function BookAppointmentPage() {
         >
           <Menu className="h-6 w-6 text-gray-600" />
         </button>
-        <h1 className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="text-lg font-semibold bg-gradient-to-r from-orange-600 to-purple-600 bg-clip-text text-transparent">
           Book Appointment
         </h1>
         <div className="w-10" />
@@ -561,7 +561,7 @@ export default function BookAppointmentPage() {
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                   Book New Appointment
                 </h1>
                 <p className="text-gray-600 mt-1">
@@ -591,7 +591,7 @@ export default function BookAppointmentPage() {
                   <div
                     className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold transition-all ${
                       step >= s.num
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                        ? "bg-gradient-to-r from-orange-600 to-purple-600 text-white shadow-lg"
                         : "bg-gray-200 text-gray-500"
                     }`}
                   >
@@ -607,7 +607,7 @@ export default function BookAppointmentPage() {
                   {idx < 2 && (
                     <div
                       className={`w-8 sm:w-16 h-0.5 mx-2 ${
-                        step > s.num ? "bg-gradient-to-r from-blue-600 to-purple-600" : "bg-gray-200"
+                        step > s.num ? "bg-gradient-to-r from-orange-600 to-purple-600" : "bg-gray-200"
                       }`}
                     />
                   )}
@@ -683,7 +683,7 @@ export default function BookAppointmentPage() {
               {/* Step 2: Date & Time */}
               {step >= 2 && selectedDoctor && (
                 <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-                  <div className="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-4">
+                  <div className="bg-gradient-to-r from-orange-600 to-cyan-600 px-6 py-4">
                     <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                       <Calendar className="h-5 w-5" />
                       Step 2: Choose Date & Time for Dr. {selectedDoctor.name}
@@ -700,7 +700,7 @@ export default function BookAppointmentPage() {
                         {selectedDoctor.workingDays?.map((d) => (
                           <span
                             key={d}
-                            className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full"
+                            className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full"
                           >
                             {DAYS_OF_WEEK[d]}
                           </span>
@@ -711,7 +711,7 @@ export default function BookAppointmentPage() {
                         value={formData.date}
                         onChange={(e) => handleDateChange(e.target.value)}
                         min={getMinDate()}
-                        className="w-full max-w-xs px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-lg"
+                        className="w-full max-w-xs px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all text-lg"
                       />
                     </div>
 
@@ -825,7 +825,7 @@ export default function BookAppointmentPage() {
                     </div>
 
                     {/* Booking Summary */}
-                    <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-4 border border-gray-200">
+                    <div className="bg-gradient-to-br from-gray-50 to-orange-50 rounded-xl p-4 border border-gray-200">
                       <h4 className="font-medium text-gray-800 mb-3">Booking Summary</h4>
                       <div className="grid grid-cols-2 gap-2 text-sm">
                         <span className="text-gray-500">Doctor:</span>
@@ -914,7 +914,7 @@ export default function BookAppointmentPage() {
                       {selectedDoctor.allowMultipleBookings && (
                         <div className="flex items-center justify-between text-sm">
                           <span className="text-gray-500">Max Patients/Slot</span>
-                          <span className="font-semibold text-blue-600">{selectedDoctor.maxPatientsPerSlot}</span>
+                          <span className="font-semibold text-orange-600">{selectedDoctor.maxPatientsPerSlot}</span>
                         </div>
                       )}
                     </>

@@ -68,10 +68,10 @@ const contactMethods = [
     description: "Speak with our team directly",
     value: "+9178925 18414",
     action: "tel:+9178925 18414",
-    gradient: "from-indigo-500 to-violet-500",
-    bgColor: "from-indigo-50/50 to-indigo-100/30",
-    borderColor: "border-indigo-200/30",
-    iconBg: "bg-indigo-500"
+    gradient: "from-orange-500 to-violet-500",
+    bgColor: "from-orange-50/50 to-orange-100/30",
+    borderColor: "border-orange-200/30",
+    iconBg: "bg-orange-500"
   },
   {
     icon: Mail,
@@ -81,7 +81,7 @@ const contactMethods = [
     action: "mailto:hello@digitalbot.ai",
     gradient: "from-violet-500 to-purple-500",
     bgColor: "from-violet-50/50 to-violet-100/30",
-    borderColor: "border-indigo-200/30",
+    borderColor: "border-orange-200/30",
     iconBg: "bg-violet-500"
   },
   {
@@ -90,10 +90,10 @@ const contactMethods = [
     description: "Chat with our AI assistant",
     value: "Available 24/7",
     action: "#chat",
-    gradient: "from-indigo-600 to-violet-600",
-    bgColor: "from-indigo-50/50 to-indigo-100/30",
-    borderColor: "border-indigo-200/30",
-    iconBg: "bg-indigo-600"
+    gradient: "from-orange-600 to-violet-600",
+    bgColor: "from-orange-50/50 to-orange-100/30",
+    borderColor: "border-orange-200/30",
+    iconBg: "bg-orange-600"
   },
   {
     icon: MapPin,
@@ -103,7 +103,7 @@ const contactMethods = [
     action: "https://maps.google.com/?q=Manyata+Tech+Park+Hebbal+Bangalore",
     gradient: "from-violet-600 to-purple-600",
     bgColor: "from-violet-50/50 to-violet-100/30",
-    borderColor: "border-indigo-200/30",
+    borderColor: "border-orange-200/30",
     iconBg: "bg-violet-600"
   },
   {
@@ -112,10 +112,10 @@ const contactMethods = [
     description: "North America",
     value: "300 Quail Ridge Dr NE,\nADA, MI 49301",
     action: "https://maps.google.com/?q=300+Quail+Ridge+Dr+NE+ADA+MI+49301",
-    gradient: "from-indigo-500 to-indigo-600",
-    bgColor: "from-indigo-50/50 to-indigo-100/30",
-    borderColor: "border-indigo-200/30",
-    iconBg: "bg-indigo-500"
+    gradient: "from-orange-500 to-orange-600",
+    bgColor: "from-orange-50/50 to-orange-100/30",
+    borderColor: "border-orange-200/30",
+    iconBg: "bg-orange-500"
   },
 ]
 
@@ -128,19 +128,19 @@ const inquiryTypes = [
 ]
 
 const stats = [
-  { value: 500, suffix: "+", label: "Happy Clients", icon: Users, color: "text-indigo-600", bgColor: "bg-indigo-50", iconBg: "bg-indigo-500" },
+  { value: 500, suffix: "+", label: "Happy Clients", icon: Users, color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
   { value: 98, suffix: "%", label: "Satisfaction Rate", icon: Star, color: "text-emerald-600", bgColor: "bg-emerald-50", iconBg: "bg-emerald-500" },
   { value: 2, suffix: "hr", label: "Avg Response", icon: Clock, color: "text-violet-600", bgColor: "bg-violet-50", iconBg: "bg-violet-500" },
-  { value: 50, suffix: "+", label: "Languages", icon: Globe, color: "text-indigo-600", bgColor: "bg-indigo-50", iconBg: "bg-indigo-500" },
+  { value: 50, suffix: "+", label: "Languages", icon: Globe, color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
 ]
 
 const benefits = [
-  { icon: Zap, text: "Lightning-fast responses", description: "Get answers within 2 hours", color: "from-indigo-500 to-violet-500", bgColor: "bg-indigo-50" },
+  { icon: Zap, text: "Lightning-fast responses", description: "Get answers within 2 hours", color: "from-orange-500 to-violet-500", bgColor: "bg-orange-50" },
   { icon: Users, text: "Dedicated support team", description: "Personal account manager", color: "from-emerald-500 to-teal-500", bgColor: "bg-emerald-50" },
   { icon: Globe, text: "Global coverage", description: "Support in 50+ languages", color: "from-violet-500 to-purple-500", bgColor: "bg-violet-50" },
-  { icon: Shield, text: "Enterprise security", description: "SOC2 & HIPAA compliant", color: "from-indigo-500 to-violet-500", bgColor: "bg-indigo-50" },
+  { icon: Shield, text: "Enterprise security", description: "SOC2 & HIPAA compliant", color: "from-orange-500 to-violet-500", bgColor: "bg-orange-50" },
   { icon: Award, text: "Industry leaders", description: "Trusted by Fortune 500", color: "from-rose-500 to-pink-500", bgColor: "bg-rose-50" },
-  { icon: TrendingUp, text: "Proven results", description: "300% average ROI", color: "from-violet-500 to-indigo-500", bgColor: "bg-violet-50" },
+  { icon: TrendingUp, text: "Proven results", description: "300% average ROI", color: "from-violet-500 to-orange-500", bgColor: "bg-violet-50" },
 ]
 
 export default function ContactPage() {
@@ -200,29 +200,29 @@ export default function ContactPage() {
         <section className="pt-28 pb-20 px-4 relative overflow-hidden">
           {/* Animated Background */}
           <div className="absolute inset-0">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-200/15 rounded-full blur-[100px] animate-pulse" />
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/15 rounded-full blur-[100px] animate-pulse" />
             <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-200/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-100/10 rounded-full blur-[120px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/10 rounded-full blur-[120px]" />
             <div className="absolute top-1/4 right-1/3 w-72 h-72 bg-violet-100/10 rounded-full blur-[100px]" />
           </div>
 
           {/* Colorful Floating Dots */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-32 left-[10%] w-4 h-4 bg-indigo-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
+            <div className="absolute top-32 left-[10%] w-4 h-4 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
             <div className="absolute top-48 right-[15%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
             <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-violet-300 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-            <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-indigo-300 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
+            <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-orange-300 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
             <div className="absolute bottom-1/4 right-[25%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.8s' }} />
-            <div className="absolute top-2/3 left-[8%] w-4 h-4 bg-indigo-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '2.8s', animationDelay: '1.2s' }} />
+            <div className="absolute top-2/3 left-[8%] w-4 h-4 bg-orange-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '2.8s', animationDelay: '1.2s' }} />
           </div>
 
           <div className="container mx-auto max-w-6xl relative z-10">
             {/* Breadcrumb */}
             <nav className="mb-8 text-sm" aria-label="Breadcrumb">
               <ol className="flex items-center gap-2">
-                <li><Link href="/" className="text-slate-400 hover:text-indigo-600 transition-colors">Home</Link></li>
+                <li><Link href="/" className="text-slate-400 hover:text-orange-600 transition-colors">Home</Link></li>
                 <li className="text-slate-400">/</li>
-                <li className="text-indigo-600 font-medium">Contact</li>
+                <li className="text-orange-600 font-medium">Contact</li>
               </ol>
             </nav>
 
@@ -237,11 +237,11 @@ export default function ContactPage() {
 
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-6 leading-tight">
                   Let's Start a
-                  <span className="block bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent mt-2">Conversation</span>
+                  <span className="block bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent mt-2">Conversation</span>
                 </h1>
 
                 <p className="text-base sm:text-lg text-slate-500 mb-8 leading-relaxed">
-                  Have questions about our AI voice platform? We're here to help. Reach out and we'll respond within <strong className="text-indigo-600">2 hours</strong>.
+                  Have questions about our AI voice platform? We're here to help. Reach out and we'll respond within <strong className="text-orange-600">2 hours</strong>.
                 </p>
 
                 {/* Quick Features */}
@@ -327,7 +327,7 @@ export default function ContactPage() {
         <section id="contact-form" className="py-20 px-4 bg-slate-50/50 relative overflow-hidden">
           {/* Background Elements */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-100/40 rounded-full blur-3xl"></div>
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-100/40 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-100/30 rounded-full blur-3xl"></div>
           </div>
 
@@ -368,7 +368,7 @@ export default function ContactPage() {
                         value={form.firstName}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
                         placeholder="John"
                       />
                     </div>
@@ -382,7 +382,7 @@ export default function ContactPage() {
                         value={form.lastName}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
                         placeholder="Doe"
                       />
                     </div>
@@ -399,7 +399,7 @@ export default function ContactPage() {
                         value={form.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
                         placeholder="john@company.com"
                       />
                     </div>
@@ -412,7 +412,7 @@ export default function ContactPage() {
                         id="phone"
                         value={form.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
                         placeholder="+1 (555) 000-0000"
                       />
                     </div>
@@ -429,7 +429,7 @@ export default function ContactPage() {
                         value={form.company}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
                         placeholder="Your Company Inc."
                       />
                     </div>
@@ -442,7 +442,7 @@ export default function ContactPage() {
                         value={form.inquiry}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all hover:border-slate-300"
                       >
                         <option value="">Select an option</option>
                         {inquiryTypes.map((type) => (
@@ -462,7 +462,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       rows={4}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all resize-none hover:border-slate-300"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all resize-none hover:border-slate-300"
                       placeholder="Tell us about your needs..."
                     />
                   </div>
@@ -484,15 +484,15 @@ export default function ContactPage() {
 
                   <p className="text-xs text-slate-400 text-center">
                     By submitting, you agree to our{" "}
-                    <Link href="/privacy" className="text-indigo-600 hover:underline">Privacy Policy</Link>
+                    <Link href="/privacy" className="text-orange-600 hover:underline">Privacy Policy</Link>
                   </p>
                 </form>
               </div>
           </div>
         </section>
 
-        {/* Contact Methods - Blue Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 relative overflow-hidden">
+        {/* Contact Methods - orange Section */}
+        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
           {/* Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
@@ -510,7 +510,7 @@ export default function ContactPage() {
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-4">
                 Choose Your Preferred Channel
               </h2>
-              <p className="text-base sm:text-lg text-indigo-100 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-orange-100 max-w-2xl mx-auto">
                 We're available across multiple channels to ensure you can reach us in the way that works best for you.
               </p>
             </div>
@@ -528,7 +528,7 @@ export default function ContactPage() {
                     <method.icon className="w-7 h-7 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-2">{method.title}</h3>
-                  <p className="text-indigo-200 text-sm mb-3">{method.description}</p>
+                  <p className="text-orange-200 text-sm mb-3">{method.description}</p>
                   <div className="text-white font-semibold text-sm space-y-1">
                     {method.value.split('\n').map((line: string, idx: number) => (
                       <p key={idx}>{line}</p>
@@ -573,8 +573,8 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* CTA Section - Blue */}
-        <section className="py-20 px-4 bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 relative overflow-hidden">
+        {/* CTA Section - orange */}
+        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
           {/* Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
@@ -592,7 +592,7 @@ export default function ContactPage() {
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-6">
               Ready to Get Started?
             </h2>
-            <p className="text-base sm:text-lg text-indigo-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-orange-100 mb-8 max-w-2xl mx-auto">
               Start your free trial today and experience the power of AI voice agents. No credit card required.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">

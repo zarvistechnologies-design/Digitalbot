@@ -541,7 +541,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
       <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
         <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-8 transform transition-all animate-slideUp">
           <div className="text-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
               <CreditCard className="w-10 h-10 text-white" />
             </div>
             <h3 className="text-xl font-black text-slate-900 mb-2">
@@ -570,7 +570,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             )}
             <div className="flex justify-between items-center pt-2">
               <span className="text-lg font-black text-slate-900">Total:</span>
-              <span className="text-2xl font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-black bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent">
                 ${amount}
               </span>
             </div>
@@ -580,7 +580,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             <button
               onClick={handlePayment}
               disabled={loading}
-              className="w-full bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full bg-gradient-to-r from-purple-500 to-orange-600 hover:from-purple-600 hover:to-orange-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <>
@@ -759,8 +759,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   .tile-icon svg { width: 14px; height: 14px; }
   .tile-icon.purple { background: #f3e8ff; }
   .tile-icon.purple svg { fill: #7c3aed; }
-  .tile-icon.blue { background: #dbeafe; }
-  .tile-icon.blue svg { fill: #2563eb; }
+  .tile-icon.orange { background: #dbeafe; }
+  .tile-icon.orange svg { fill: #2563eb; }
   .tile-icon.emerald { background: #d1fae5; }
   .tile-icon.emerald svg { fill: #059669; }
   .tile-label { font-size: 8px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; margin-bottom: 3px; }
@@ -955,7 +955,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
         <div class="tile-sub">${invoiceData.userEmail || userInfo.email || 'N/A'}</div>
       </div>
       <div class="info-tile">
-        <div class="tile-icon blue">
+        <div class="tile-icon orange">
           <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
         </div>
         <div class="tile-label">Invoice Date</div>
@@ -1096,7 +1096,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             </div>
             <div className="border-t border-green-200 pt-3 flex justify-between items-center">
               <span className="text-sm text-slate-600 font-medium">New Balance</span>
-              <span className="text-lg font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              <span className="text-lg font-black bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent">
                 {successData.newBalance.toLocaleString()} credits
               </span>
             </div>
@@ -1143,7 +1143,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100">
+      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-purple-100">
         <div className="hidden lg:block">
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         </div>
@@ -1158,7 +1158,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100">
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-purple-100">
       {/* Mobile Menu Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -1190,7 +1190,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center gap-2 bg-gradient-to-r from-purple-100 to-blue-100 border-2 border-purple-300 rounded-xl px-4 py-2">
+              <div className="flex items-center gap-2 bg-gradient-to-r from-purple-100 to-orange-100 border-2 border-purple-300 rounded-xl px-4 py-2">
                 <Gift className="w-5 h-5 text-purple-600" />
                 <span className="text-sm font-bold text-purple-700">Special Offer: Get 20% more credits on Business Plan!</span>
               </div>
@@ -1199,7 +1199,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             {/* View Toggle Buttons */}
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-3xl font-black bg-gradient-to-r from-slate-900 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                <h1 className="text-3xl font-black bg-gradient-to-r from-slate-900 via-purple-600 to-orange-600 bg-clip-text text-transparent mb-2">
                   {activeView === 'credits' ? 'Credit Management' : 'Call History'}
                 </h1>
                 <p className="text-base text-slate-600 font-medium">
@@ -1215,7 +1215,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   onClick={() => setActiveView('credits')}
                   className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all ${
                     activeView === 'credits'
-                      ? 'bg-gradient-to-r from-purple-500 to-blue-600 text-white shadow-md'
+                      ? 'bg-gradient-to-r from-purple-500 to-orange-600 text-white shadow-md'
                       : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 >
@@ -1226,7 +1226,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   onClick={() => setActiveView('calls')}
                   className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all ${
                     activeView === 'calls'
-                      ? 'bg-gradient-to-r from-purple-500 to-blue-600 text-white shadow-md'
+                      ? 'bg-gradient-to-r from-purple-500 to-orange-600 text-white shadow-md'
                       : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 >
@@ -1247,13 +1247,13 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                 <div>
                   <p className="text-xs font-bold text-slate-500 mb-1 uppercase tracking-wide">Current Balance</p>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                    <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-orange-600 to-cyan-600 bg-clip-text text-transparent">
                       {userCredits.remaining}
                     </span>
                     <span className="text-base text-slate-500 font-medium">/ {userCredits.total} credits</span>
                   </div>
                 </div>
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-orange-600 rounded-xl flex items-center justify-center shadow-md">
                   <Zap className="w-8 h-8 text-white" />
                 </div>
               </div>
@@ -1266,7 +1266,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                 </div>
                 <div className="bg-slate-200 rounded-full h-2 overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 transition-all duration-700"
+                    className="h-full bg-gradient-to-r from-purple-500 via-orange-500 to-cyan-500 transition-all duration-700"
                     style={{ width: `${userCredits.percentage}%` }}
                   >
                   </div>
@@ -1286,7 +1286,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   <p className="text-[10px] text-slate-500 font-medium">Used</p>
                 </div>
                 <div className="text-center">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center mx-auto mb-1.5">
+                  <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-cyan-600 rounded-lg flex items-center justify-center mx-auto mb-1.5">
                     <Wallet className="w-5 h-5 text-white" />
                   </div>
                   <p className="text-base font-bold text-slate-900">{userCredits.remaining}</p>
@@ -1377,7 +1377,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
                     {isSelected && (
                       <div className="absolute top-3 right-3">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-orange-600 flex items-center justify-center">
                           <Check className="w-4 h-4 text-white" />
                         </div>
                       </div>
@@ -1394,7 +1394,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                       <div className="text-2xl font-bold text-slate-900 mb-2">
                         ${pkg.price}
                       </div>
-                      <div className="inline-block bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg px-3 py-1.5 border border-purple-200">
+                      <div className="inline-block bg-gradient-to-r from-purple-50 to-orange-50 rounded-lg px-3 py-1.5 border border-purple-200">
                         <div className="flex items-center gap-1.5">
                           <Zap className="w-4 h-4 text-purple-600" />
                           <span className="text-sm font-bold text-purple-600">
@@ -1408,7 +1408,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                     <button
                       className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg ${
                         isSelected
-                          ? 'bg-gradient-to-r from-purple-500 to-blue-600 text-white hover:scale-105'
+                          ? 'bg-gradient-to-r from-purple-500 to-orange-600 text-white hover:scale-105'
                           : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                       }`}
                     >
@@ -1464,9 +1464,9 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                 </div>
 
                 <div className="mt-3 text-center">
-                  <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg px-4 py-2 border border-purple-200">
+                  <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-50 to-orange-50 rounded-lg px-4 py-2 border border-purple-200">
                     <Zap className="w-4 h-4 text-purple-600" />
-                    <span className="text-base font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                    <span className="text-base font-bold bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent">
                       {calculateCredits(customAmount).toLocaleString()}
                     </span>
                     <span className="text-sm text-slate-600 font-medium">credits</span>
@@ -1496,7 +1496,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             <div className="mb-6">
               <button
                 onClick={() => setShowPaymentModal(true)}
-                className="w-full bg-gradient-to-r from-purple-500 via-blue-600 to-cyan-600 hover:from-purple-600 hover:via-blue-700 hover:to-cyan-700 text-white font-semibold py-3 rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm"
+                className="w-full bg-gradient-to-r from-purple-500 via-orange-600 to-cyan-600 hover:from-purple-600 hover:via-orange-700 hover:to-cyan-700 text-white font-semibold py-3 rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm"
               >
                 <CreditCard className="w-4 h-4" />
                 Proceed to Payment
@@ -1509,7 +1509,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           {mounted && (
             <div className="mb-6">
               <h2 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <History className="w-5 h-5 text-blue-600" />
+                <History className="w-5 h-5 text-orange-600" />
                 Transaction History
               </h2>
               <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
@@ -1571,7 +1571,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                                     status: txn.status,
                                     paymentMethod: txn.paymentMethod,
                                   })}
-                                  className="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1"
+                                  className="text-orange-600 hover:text-orange-800 font-bold flex items-center gap-1"
                                 >
                                   <Download className="w-4 h-4" />
                                   Invoice
@@ -1633,7 +1633,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           )}
 
           {/* Customer Support */}
-          <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 rounded-xl p-6 text-center shadow-lg mb-6">
+          <div className="bg-gradient-to-br from-orange-600 via-purple-600 to-pink-600 rounded-xl p-6 text-center shadow-lg mb-6">
             <div className="max-w-2xl mx-auto">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center mx-auto mb-3">
                 <Headphones className="w-6 h-6 text-white" />
@@ -1689,7 +1689,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               { icon: RefreshCw, title: 'AutoPay', desc: 'Never run out' }
             ].map((item, idx) => (
               <div key={idx} className="bg-white rounded-lg p-4 text-center border border-slate-200 shadow-sm hover:shadow-md transition-all">
-                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-orange-600 rounded-lg flex items-center justify-center mx-auto mb-2">
                   <item.icon className="w-5 h-5 text-white" />
                 </div>
                 <h4 className="font-bold text-slate-900 mb-0.5 text-xs">{item.title}</h4>
@@ -1715,7 +1715,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl p-6 text-white shadow-xl">
+                <div className="bg-gradient-to-br from-orange-500 to-cyan-600 rounded-2xl p-6 text-white shadow-xl">
                   <div className="flex items-center justify-between mb-4">
                     <Clock className="w-12 h-12" />
                     <div className="text-right">
@@ -1738,9 +1738,9 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
               {/* Recent Calls Table */}
               <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-xl overflow-hidden mb-8">
-                <div className="px-6 py-4 border-b-2 border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50">
+                <div className="px-6 py-4 border-b-2 border-slate-200 bg-gradient-to-r from-slate-50 to-orange-50">
                   <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                    <Phone className="w-6 h-6 text-blue-600" />
+                    <Phone className="w-6 h-6 text-orange-600" />
                     Recent Calls
                   </h2>
                 </div>
@@ -1766,7 +1766,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                             <td className="px-6 py-4">
                               <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
                                 call.type === 'Outbound'
-                                  ? 'bg-blue-100 text-blue-700'
+                                  ? 'bg-orange-100 text-orange-700'
                                   : 'bg-green-100 text-green-700'
                               }`}>
                                 {call.type}
@@ -1811,10 +1811,10 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                       <div>
                         <div className="flex justify-between mb-1">
                           <span className="text-sm font-medium text-slate-700">Outbound</span>
-                          <span className="text-sm font-black text-blue-600">{callStats.callTypes.outbound.percentage}%</span>
+                          <span className="text-sm font-black text-orange-600">{callStats.callTypes.outbound.percentage}%</span>
                         </div>
                         <div className="bg-slate-200 rounded-full h-2">
-                          <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full" style={{width: `${callStats.callTypes.outbound.percentage}%`}}></div>
+                          <div className="bg-gradient-to-r from-orange-500 to-orange-600 h-2 rounded-full" style={{width: `${callStats.callTypes.outbound.percentage}%`}}></div>
                         </div>
                       </div>
                       <div>

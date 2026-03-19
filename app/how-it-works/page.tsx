@@ -40,46 +40,46 @@ function AnimatedCounter({ end, suffix = "", duration = 2000 }: { end: number; s
 
 // Services that DigitalBot handles
 const services = [
-  { icon: Calendar, title: "Doctor Appointment", color: "bg-indigo-500", description: "24/7 medical scheduling" },
+  { icon: Calendar, title: "Doctor Appointment", color: "bg-orange-500", description: "24/7 medical scheduling" },
   { icon: Users, title: "Virtual Receptionist", color: "bg-emerald-500", description: "Professional call handling" },
   { icon: Target, title: "Lead Generation", color: "bg-violet-500", description: "Automated lead capture" },
-  { icon: Headphones, title: "Customer Agent", color: "bg-indigo-600", description: "Support & assistance" },
-  { icon: Building2, title: "AI Call Center", color: "bg-indigo-500", description: "Enterprise solutions" },
+  { icon: Headphones, title: "Customer Agent", color: "bg-orange-600", description: "Support & assistance" },
+  { icon: Building2, title: "AI Call Center", color: "bg-orange-500", description: "Enterprise solutions" },
 ]
 
 // Entry points
 const entryPoints = [
-  { icon: Phone, title: "Phone Call", description: "Direct voice calls", color: "from-indigo-500 to-violet-500" },
+  { icon: Phone, title: "Phone Call", description: "Direct voice calls", color: "from-orange-500 to-violet-500" },
   { icon: MessageSquare, title: "WhatsApp", description: "Messaging platform", color: "from-emerald-500 to-green-500" },
 ]
 
 // Smart booking features
 const bookingFeatures = [
-  { icon: Calendar, text: "Slot-Wise Booking", color: "text-indigo-600" },
+  { icon: Calendar, text: "Slot-Wise Booking", color: "text-orange-600" },
   { icon: Clock, text: "Real-Time Availability", color: "text-emerald-600" },
   { icon: Users, text: "Multi Doctor Multi Hospital View", color: "text-violet-600" },
   { icon: MessageSquare, text: "WhatsApp Confirmation", color: "text-green-600" },
-  { icon: Clock, text: "Doctor Availability & Duration", color: "text-indigo-600" },
+  { icon: Clock, text: "Doctor Availability & Duration", color: "text-orange-600" },
 ]
 
 // Integrations
 const integrations = [
   { icon: MessageSquare, title: "WhatsApp", color: "bg-green-500" },
-  { icon: Calendar, title: "Internal Booking System", color: "bg-indigo-500" },
+  { icon: Calendar, title: "Internal Booking System", color: "bg-orange-500" },
   { icon: Cog, title: "CRM / External APIs", color: "bg-violet-500" },
 ]
 
 // Platform benefits
 const platformBenefits = [
-  { icon: Calendar, title: "Appointment Management", description: "Smart scheduling system", color: "from-indigo-500 to-violet-500" },
+  { icon: Calendar, title: "Appointment Management", description: "Smart scheduling system", color: "from-orange-500 to-violet-500" },
   { icon: Phone, title: "Call Analytics", description: "Detailed call insights", color: "from-emerald-500 to-teal-500" },
   { icon: BarChart3, title: "Lead Statistics", description: "Track conversions", color: "from-violet-500 to-purple-500" },
-  { icon: TrendingUp, title: "Performance Metrics", description: "Real-time dashboards", color: "from-indigo-500 to-violet-500" },
+  { icon: TrendingUp, title: "Performance Metrics", description: "Real-time dashboards", color: "from-orange-500 to-violet-500" },
 ]
 
 // Bottom features
 const bottomFeatures = [
-  { icon: Cog, title: "No Code Setup", description: "Get started in minutes without any technical knowledge", color: "from-indigo-500 to-violet-500" },
+  { icon: Cog, title: "No Code Setup", description: "Get started in minutes without any technical knowledge", color: "from-orange-500 to-violet-500" },
   { icon: Clock, title: "24/7 Availability", description: "Your AI assistant never sleeps, never takes breaks", color: "from-emerald-500 to-teal-500" },
   { icon: DollarSign, title: "Cost Effective", description: "Save up to 70% compared to traditional call centers", color: "from-violet-500 to-purple-500" },
 ]
@@ -94,14 +94,14 @@ export default function HowItWorksPage() {
         <section className="pt-28 pb-16 px-4 relative overflow-hidden">
           {/* Animated Background */}
           <div className="absolute inset-0">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-200/30 rounded-full blur-[100px] animate-pulse" />
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/30 rounded-full blur-[100px] animate-pulse" />
             <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-200/30 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-100/20 rounded-full blur-[120px]" />
           </div>
 
           {/* Floating Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-32 left-[10%] w-4 h-4 bg-indigo-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
+            <div className="absolute top-32 left-[10%] w-4 h-4 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
             <div className="absolute top-48 right-[15%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
             <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-emerald-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
           </div>
@@ -110,9 +110,9 @@ export default function HowItWorksPage() {
             {/* Breadcrumb */}
             <nav className="mb-8 text-sm" aria-label="Breadcrumb">
               <ol className="flex items-center gap-2">
-                <li><Link href="/" className="text-slate-400 hover:text-indigo-600 transition-colors">Home</Link></li>
+                <li><Link href="/" className="text-slate-400 hover:text-orange-600 transition-colors">Home</Link></li>
                 <li className="text-gray-400">/</li>
-                <li className="text-indigo-600 font-medium">How It Works</li>
+                <li className="text-orange-600 font-medium">How It Works</li>
               </ol>
             </nav>
 
@@ -125,7 +125,7 @@ export default function HowItWorksPage() {
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-6 leading-tight">
                 How DigitalBot
-                <span className="block bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 bg-clip-text text-transparent mt-2">Powers Your Business</span>
+                <span className="block bg-gradient-to-r from-orange-600 via-orange-500 to-violet-600 bg-clip-text text-transparent mt-2">Powers Your Business</span>
               </h1>
 
               <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-2xl mx-auto">
@@ -165,8 +165,8 @@ export default function HowItWorksPage() {
                 {/* User Entry Points */}
                 <div className="glass-card rounded-3xl shadow-xl border border-white/40 p-6">
                   <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                    <div className="w-8 h-8 bg-indigo-50/60 rounded-lg flex items-center justify-center">
-                      <Phone className="w-4 h-4 text-indigo-600" />
+                    <div className="w-8 h-8 bg-orange-50/60 rounded-lg flex items-center justify-center">
+                      <Phone className="w-4 h-4 text-orange-600" />
                     </div>
                     User Entry Points
                   </h3>
@@ -210,17 +210,17 @@ export default function HowItWorksPage() {
                 <div className="relative">
                   {/* Animated rings */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-64 h-64 border-4 border-indigo-200 rounded-full animate-ping opacity-20" />
+                    <div className="w-64 h-64 border-4 border-orange-200 rounded-full animate-ping opacity-20" />
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-52 h-52 border-4 border-indigo-300 rounded-full animate-pulse opacity-30" />
+                    <div className="w-52 h-52 border-4 border-orange-300 rounded-full animate-pulse opacity-30" />
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-40 h-40 border-4 border-indigo-400 rounded-full opacity-40" />
+                    <div className="w-40 h-40 border-4 border-orange-400 rounded-full opacity-40" />
                   </div>
                   
                   {/* Core Bot */}
-                  <div className="relative z-10 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 rounded-full flex items-center justify-center shadow-2xl shadow-indigo-500/40">
+                  <div className="relative z-10 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-orange-500 via-orange-600 to-violet-600 rounded-full flex items-center justify-center shadow-2xl shadow-orange-500/40">
                     <div className="text-center">
                       <Bot className="w-12 h-12 md:w-16 md:h-16 text-white mx-auto mb-1" />
                       <p className="text-white font-semibold text-sm md:text-base">DigitalBot</p>
@@ -231,7 +231,7 @@ export default function HowItWorksPage() {
                 {/* Flow indicators */}
                 <div className="flex items-center gap-4 mt-8">
                   <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full">
-                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
+                    <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                     <span className="text-xs font-semibold text-slate-600">Processing</span>
                   </div>
                   <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full">
@@ -266,8 +266,8 @@ export default function HowItWorksPage() {
                 {/* Platform Benefits */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/40 p-6">
                   <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                    <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                      <BarChart3 className="w-4 h-4 text-indigo-600" />
+                    <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                      <BarChart3 className="w-4 h-4 text-orange-600" />
                     </div>
                     Platform Benefits
                   </h3>
@@ -328,15 +328,15 @@ export default function HowItWorksPage() {
 
             <div className="grid md:grid-cols-4 gap-6">
               {[
-                { step: "01", title: "Customer Calls", desc: "Via phone or WhatsApp", icon: Phone, color: "from-indigo-500 to-violet-500" },
+                { step: "01", title: "Customer Calls", desc: "Via phone or WhatsApp", icon: Phone, color: "from-orange-500 to-violet-500" },
                 { step: "02", title: "AI Processes", desc: "DigitalBot understands intent", icon: Bot, color: "from-violet-500 to-purple-500" },
-                { step: "03", title: "Action Taken", desc: "Booking, support, or lead capture", icon: Zap, color: "from-indigo-500 to-violet-500" },
+                { step: "03", title: "Action Taken", desc: "Booking, support, or lead capture", icon: Zap, color: "from-orange-500 to-violet-500" },
                 { step: "04", title: "Results Delivered", desc: "Confirmation & analytics", icon: CheckCircle, color: "from-emerald-500 to-teal-500" },
               ].map((step, i) => (
                 <div key={i} className="relative">
                   {/* Connector line */}
                   {i < 3 && (
-                    <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-1 bg-gradient-to-r from-indigo-200 to-indigo-100" />
+                    <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-1 bg-gradient-to-r from-orange-200 to-orange-100" />
                   )}
                   
                   <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/40 relative z-10 hover:shadow-xl transition-all hover:-translate-y-1">
@@ -354,7 +354,7 @@ export default function HowItWorksPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-12 px-4 bg-gradient-to-r from-indigo-600 to-violet-600">
+        <section className="py-12 px-4 bg-gradient-to-r from-orange-600 to-violet-600">
           <div className="container mx-auto max-w-6xl">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
@@ -367,7 +367,7 @@ export default function HowItWorksPage() {
                   <p className="text-3xl md:text-4xl font-semibold text-white mb-1">
                     <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                   </p>
-                  <p className="text-indigo-200 text-sm font-medium">{stat.label}</p>
+                  <p className="text-orange-200 text-sm font-medium">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -375,12 +375,12 @@ export default function HowItWorksPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-indigo-600 to-violet-700">
+        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 to-violet-700">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-6">
               Ready to Transform Your Business?
             </h2>
-            <p className="text-lg text-indigo-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-orange-100 mb-8 max-w-2xl mx-auto">
               Join 500+ companies using DigitalBot's AI workflow to automate their customer interactions.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">

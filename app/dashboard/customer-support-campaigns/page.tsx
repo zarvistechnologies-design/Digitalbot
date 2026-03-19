@@ -314,7 +314,7 @@ export default function CustomerSupportCampaignsPage() {
     switch (status) {
       case "active": return "bg-green-100 text-green-700 border-green-300";
       case "paused": return "bg-yellow-100 text-yellow-700 border-yellow-300";
-      case "completed": return "bg-blue-100 text-blue-700 border-blue-300";
+      case "completed": return "bg-orange-100 text-orange-700 border-orange-300";
       case "cancelled": return "bg-red-100 text-red-700 border-red-300";
       default: return "bg-purple-100 text-purple-700 border-purple-300";
     }
@@ -344,7 +344,7 @@ export default function CustomerSupportCampaignsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-orange-50">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Main Content */}
@@ -354,7 +354,7 @@ export default function CustomerSupportCampaignsPage() {
           <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-purple-100 transition-colors">
             <MenuIcon />
           </button>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent">
             Support Campaigns
           </h1>
           <div className="w-10" />
@@ -378,7 +378,7 @@ export default function CustomerSupportCampaignsPage() {
                 </button>
                 <button
                   onClick={() => setShowCreateModal(true)}
-                  className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-opacity shadow-lg"
+                  className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity shadow-lg"
                 >
                   <PlusIcon />
                   New Campaign
@@ -397,13 +397,13 @@ export default function CustomerSupportCampaignsPage() {
               <p className="text-sm text-gray-500">Active</p>
               <p className="text-2xl font-bold text-green-600">{stats.active}</p>
             </div>
-            <div className="bg-white rounded-2xl p-4 shadow-sm border border-blue-100">
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-orange-100">
               <p className="text-sm text-gray-500">Total Contacts</p>
-              <p className="text-2xl font-bold text-blue-600">{stats.totalContacts}</p>
+              <p className="text-2xl font-bold text-orange-600">{stats.totalContacts}</p>
             </div>
-            <div className="bg-white rounded-2xl p-4 shadow-sm border border-indigo-100">
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-orange-100">
               <p className="text-sm text-gray-500">Pending</p>
-              <p className="text-2xl font-bold text-indigo-600">{stats.pending}</p>
+              <p className="text-2xl font-bold text-orange-600">{stats.pending}</p>
             </div>
             <div className="bg-white rounded-2xl p-4 shadow-sm border border-emerald-100">
               <p className="text-sm text-gray-500">Completed</p>
@@ -423,7 +423,7 @@ export default function CustomerSupportCampaignsPage() {
                 onClick={() => setFilter(status)}
                 className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                   filter === status
-                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md"
+                    ? "bg-gradient-to-r from-purple-600 to-orange-600 text-white shadow-md"
                     : "bg-white text-gray-600 hover:bg-purple-50 border border-purple-100"
                 }`}
               >
@@ -446,7 +446,7 @@ export default function CustomerSupportCampaignsPage() {
               <p className="text-gray-500 mb-6">Create your first customer support campaign to get started</p>
               <button
                 onClick={() => setShowCreateModal(true)}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-opacity"
+                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity"
               >
                 Create Campaign
               </button>
@@ -490,7 +490,7 @@ export default function CustomerSupportCampaignsPage() {
                         {campaign.performance?.successRate && (
                           <>
                             <span>•</span>
-                            <span className="text-blue-600">{campaign.performance.successRate.toFixed(1)}% success</span>
+                            <span className="text-orange-600">{campaign.performance.successRate.toFixed(1)}% success</span>
                           </>
                         )}
                       </div>
@@ -707,7 +707,7 @@ export default function CustomerSupportCampaignsPage() {
               <button
                 onClick={createCampaign}
                 disabled={actionLoading === "create"}
-                className="px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="px-5 py-2 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
               >
                 {actionLoading === "create" ? "Creating..." : "Create Campaign"}
               </button>

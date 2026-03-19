@@ -245,7 +245,7 @@ export default function DoctorsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-purple-50/20">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="lg:pl-64">
@@ -254,7 +254,7 @@ export default function DoctorsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <Stethoscope className="w-8 h-8 text-blue-600" />
+                <Stethoscope className="w-8 h-8 text-orange-600" />
                 Doctors Management
               </h1>
               <p className="text-gray-600 mt-1">Manage your clinic&apos;s doctors and their schedules</p>
@@ -275,7 +275,7 @@ export default function DoctorsPage() {
                   setFormData(initialFormData);
                   setShowModal(true);
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 Add Doctor
@@ -291,7 +291,7 @@ export default function DoctorsPage() {
               placeholder="Search doctors by name, specialization, or phone..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             />
           </div>
 
@@ -326,12 +326,12 @@ export default function DoctorsPage() {
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                        <User className="w-6 h-6 text-blue-600" />
+                      <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                        <User className="w-6 h-6 text-orange-600" />
                       </div>
                       <div>
                         <h3 className="font-semibold text-gray-900">Dr. {doctor.name}</h3>
-                        <p className="text-sm text-blue-600">{doctor.specialization}</p>
+                        <p className="text-sm text-orange-600">{doctor.specialization}</p>
                       </div>
                     </div>
                     <span
@@ -361,7 +361,7 @@ export default function DoctorsPage() {
                       <Clock className="w-4 h-4" />
                       {doctor.slotDuration} min slots
                       {doctor.allowMultipleBookings && (
-                        <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
+                        <span className="ml-2 px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded-full">
                           {doctor.maxPatientsPerSlot || 1} patients/slot
                         </span>
                       )}
@@ -407,7 +407,7 @@ export default function DoctorsPage() {
                   <div className="flex gap-2 pt-4 border-t border-gray-100">
                     <button
                       onClick={() => handleEdit(doctor)}
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-orange-50 hover:bg-orange-100 text-orange-600 rounded-lg transition-colors"
                     >
                       <Edit className="w-4 h-4" />
                       Edit
@@ -465,7 +465,7 @@ export default function DoctorsPage() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Enter doctor's name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
 
@@ -478,7 +478,7 @@ export default function DoctorsPage() {
                   required
                   value={formData.specialization}
                   onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 >
                   <option value="">Select specialization</option>
                   {SPECIALIZATIONS.map((spec) => (
@@ -500,7 +500,7 @@ export default function DoctorsPage() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   placeholder="e.g., +91 98765 43210"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
 
@@ -514,7 +514,7 @@ export default function DoctorsPage() {
                   value={formData.phone2}
                   onChange={(e) => setFormData({ ...formData, phone2: e.target.value })}
                   placeholder="e.g., +91 98765 43211 (optional)"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
 
@@ -528,7 +528,7 @@ export default function DoctorsPage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="doctor@example.com"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
 
@@ -546,7 +546,7 @@ export default function DoctorsPage() {
                     setFormData({ ...formData, slotDuration: parseInt(e.target.value) || 30 })
                   }
                   placeholder="e.g., 15, 20, 30, 45, 60"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Common values: 15, 20, 30, 45, 60 minutes (or enter custom value)
@@ -573,7 +573,7 @@ export default function DoctorsPage() {
                       })
                     }
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      formData.allowMultipleBookings ? "bg-blue-600" : "bg-gray-300"
+                      formData.allowMultipleBookings ? "bg-orange-600" : "bg-gray-300"
                     }`}
                   >
                     <span
@@ -600,7 +600,7 @@ export default function DoctorsPage() {
                           maxPatientsPerSlot: Math.min(20, Math.max(1, parseInt(e.target.value) || 1)),
                         })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       Up to 20 patients can be booked in the same time slot
@@ -624,7 +624,7 @@ export default function DoctorsPage() {
                         defaultWorkingHours: { ...formData.defaultWorkingHours, start: e.target.value },
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -640,7 +640,7 @@ export default function DoctorsPage() {
                         defaultWorkingHours: { ...formData.defaultWorkingHours, end: e.target.value },
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -658,7 +658,7 @@ export default function DoctorsPage() {
                       onClick={() => toggleWorkingDay(day.value)}
                       className={`px-3 py-2 rounded-lg border transition-colors ${
                         formData.workingDays.includes(day.value)
-                          ? "bg-blue-600 text-white border-blue-600"
+                          ? "bg-orange-600 text-white border-orange-600"
                           : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
                       }`}
                     >
@@ -680,21 +680,21 @@ export default function DoctorsPage() {
                       type="time"
                       value={bt.start}
                       onChange={(e) => updateBlockedTime(index, 'start', e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                     <span className="text-gray-500">to</span>
                     <input
                       type="time"
                       value={bt.end}
                       onChange={(e) => updateBlockedTime(index, 'end', e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                     <input
                       type="text"
                       value={bt.reason}
                       onChange={(e) => updateBlockedTime(index, 'reason', e.target.value)}
                       placeholder="Reason"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                     <button
                       type="button"
@@ -709,7 +709,7 @@ export default function DoctorsPage() {
                 <button
                   type="button"
                   onClick={addBlockedTime}
-                  className="flex items-center gap-2 px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg border border-dashed border-blue-300"
+                  className="flex items-center gap-2 px-3 py-2 text-orange-600 hover:bg-orange-50 rounded-lg border border-dashed border-orange-300"
                 >
                   <Plus className="w-4 h-4" />
                   Add Break Time
@@ -729,7 +729,7 @@ export default function DoctorsPage() {
                   value={formData.calendarId}
                   onChange={(e) => setFormData({ ...formData, calendarId: e.target.value })}
                   placeholder="doctor@gmail.com (for calendar sync)"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Enter the doctor&apos;s Google Calendar email for automatic sync
@@ -748,7 +748,7 @@ export default function DoctorsPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50"
                 >
                   {saving ? "Saving..." : editingDoctor ? "Update Doctor" : "Add Doctor"}
                 </button>

@@ -14,14 +14,14 @@ const PrivacyPolicy = () => {
           <div className="max-w-5xl mx-auto px-6 py-12">
             {/* Hero Section */}
             <div className="text-center mb-12 relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-200/20 to-violet-200/20 blur-3xl -z-10"></div>
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-indigo-400 via-indigo-500 to-violet-600 rounded-3xl shadow-2xl mb-6 transform hover:scale-110 transition-transform duration-300">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-200/20 to-violet-200/20 blur-3xl -z-10"></div>
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-400 via-orange-500 to-violet-600 rounded-3xl shadow-2xl mb-6 transform hover:scale-110 transition-transform duration-300">
                 <Shield className="w-10 h-10 text-white" />
               </div>
-              <h1 className="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-500 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-orange-600 via-orange-500 to-violet-500 bg-clip-text text-transparent">
                 Privacy Policy
               </h1>
-              <p className="text-2xl text-indigo-600 font-semibold mb-3">DigitalBot.ai</p>
+              <p className="text-2xl text-orange-600 font-semibold mb-3">DigitalBot.ai</p>
               <div className="flex items-center justify-center space-x-2 text-gray-600">
                 <Clock className="w-5 h-5" />
                 <p className="text-sm">Last Updated: December 14, 2025</p>
@@ -29,9 +29,9 @@ const PrivacyPolicy = () => {
             </div>
 
             {/* Introduction Card */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border-l-4 border-indigo-500 hover:shadow-2xl transition-shadow duration-300">
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border-l-4 border-orange-500 hover:shadow-2xl transition-shadow duration-300">
               <div className="flex items-start space-x-4">
-                <div className="bg-gradient-to-br from-indigo-500 to-violet-500 p-3 rounded-2xl shadow-lg shrink-0">
+                <div className="bg-gradient-to-br from-orange-500 to-violet-500 p-3 rounded-2xl shadow-lg shrink-0">
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <p className="text-gray-700 leading-relaxed text-lg">
@@ -41,14 +41,14 @@ const PrivacyPolicy = () => {
             </div>
 
             {/* Important Notice */}
-            <div className="bg-gradient-to-r from-indigo-100 to-indigo-50 rounded-3xl shadow-lg p-6 mb-12 border-2 border-indigo-300 hover:border-indigo-400 transition-colors duration-300">
+            <div className="bg-gradient-to-r from-orange-100 to-orange-50 rounded-3xl shadow-lg p-6 mb-12 border-2 border-orange-300 hover:border-orange-400 transition-colors duration-300">
               <div className="flex items-start space-x-4">
-                <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-3 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-3 rounded-2xl shadow-lg">
                   <Eye className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="font-bold text-indigo-900 mb-2 text-xl">Important Notice</p>
-                  <p className="text-indigo-800">
+                  <p className="font-bold text-orange-900 mb-2 text-xl">Important Notice</p>
+                  <p className="text-orange-800">
                     By using DigitalBot.ai, you agree to the collection and use of information in accordance with this Privacy Policy.
                   </p>
                 </div>
@@ -56,9 +56,9 @@ const PrivacyPolicy = () => {
             </div>
 
             {/* Section 1 - Information Collection */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-indigo-100/40 hover:shadow-2xl transition-all duration-300">
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
                   <FileText className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">1. Information We Collect</h2>
@@ -66,8 +66,8 @@ const PrivacyPolicy = () => {
 
               <div className="space-y-6">
                 {/* 1.1 */}
-                <div className="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-6 border-l-4 border-indigo-400 hover:border-indigo-500 transition-colors">
-                  <h3 className="text-xl font-bold text-indigo-600 mb-3 flex items-center">
+                <div className="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-6 border-l-4 border-orange-400 hover:border-orange-500 transition-colors">
+                  <h3 className="text-xl font-bold text-orange-600 mb-3 flex items-center">
                     <ChevronRight className="w-5 h-5 mr-2" />
                     1.1 Information You Provide
                   </h3>
@@ -81,7 +81,7 @@ const PrivacyPolicy = () => {
                       'Any other information you choose to provide through forms or interactions'
                     ].map((item, idx) => (
                       <div key={idx} className="flex items-start space-x-3 bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="w-2 h-2 bg-indigo-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
                         <span className="text-gray-700 text-sm">{item}</span>
                       </div>
                     ))}
@@ -89,8 +89,8 @@ const PrivacyPolicy = () => {
                 </div>
 
                 {/* 1.2 */}
-                <div className="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-6 border-l-4 border-indigo-400 hover:border-indigo-500 transition-colors">
-                  <h3 className="text-xl font-bold text-indigo-600 mb-3 flex items-center">
+                <div className="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-6 border-l-4 border-orange-400 hover:border-orange-500 transition-colors">
+                  <h3 className="text-xl font-bold text-orange-600 mb-3 flex items-center">
                     <ChevronRight className="w-5 h-5 mr-2" />
                     1.2 Information from Meta/Facebook Integration
                   </h3>
@@ -104,13 +104,13 @@ const PrivacyPolicy = () => {
                       'User permissions granted through Facebook Login'
                     ].map((item, idx) => (
                       <div key={idx} className="flex items-start space-x-3 bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
                         <span className="text-gray-700 text-sm">{item}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="mt-4 bg-indigo-100 p-4 rounded-xl border border-indigo-200">
-                    <p className="text-sm text-indigo-900 font-semibold flex items-center">
+                  <div className="mt-4 bg-orange-100 p-4 rounded-xl border border-orange-200">
+                    <p className="text-sm text-orange-900 font-semibold flex items-center">
                       <Info className="w-4 h-4 mr-2 flex-shrink-0" />
                       We only access data that you explicitly authorize through Meta's permission dialogs.
                     </p>
@@ -161,8 +161,8 @@ const PrivacyPolicy = () => {
                 </div>
 
                 {/* 1.4 */}
-                <div className="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-6 border-l-4 border-indigo-400 hover:border-indigo-500 transition-colors">
-                  <h3 className="text-xl font-bold text-indigo-600 mb-3 flex items-center">
+                <div className="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-6 border-l-4 border-orange-400 hover:border-orange-500 transition-colors">
+                  <h3 className="text-xl font-bold text-orange-600 mb-3 flex items-center">
                     <ChevronRight className="w-5 h-5 mr-2" />
                     1.4 Voice and Call Data
                   </h3>
@@ -177,13 +177,13 @@ const PrivacyPolicy = () => {
                       'Customer sentiment and interaction quality metrics'
                     ].map((item, idx) => (
                       <div key={idx} className="flex items-start space-x-3 bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
                         <span className="text-gray-700 text-sm">{item}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="mt-4 bg-indigo-100 p-4 rounded-xl border border-indigo-200">
-                    <p className="text-sm text-indigo-900 font-semibold flex items-center">
+                  <div className="mt-4 bg-orange-100 p-4 rounded-xl border border-orange-200">
+                    <p className="text-sm text-orange-900 font-semibold flex items-center">
                       <Info className="w-4 h-4 mr-2 flex-shrink-0" />
                       Voice recordings are stored securely and used solely to provide and improve our AI voice services. You can request deletion at any time.
                     </p>
@@ -216,9 +216,9 @@ const PrivacyPolicy = () => {
             </section>
 
             {/* Section 2 - How We Use Info */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-indigo-100/40 hover:shadow-2xl transition-all duration-300">
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
                   <Users className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">2. How We Use Your Information</h2>
@@ -236,9 +236,9 @@ const PrivacyPolicy = () => {
                   { title: 'Security', desc: 'To detect, prevent, and address technical issues, fraud, and security threats', icon: '🔐' },
                   { title: 'Compliance', desc: 'To comply with legal obligations and enforce our terms of service', icon: '⚖️' },
                 ].map((item, idx) => (
-                  <div key={idx} className="group bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-6 border border-indigo-200 hover:border-indigo-400 hover:shadow-lg transition-all duration-300 cursor-pointer">
+                  <div key={idx} className="group bg-gradient-to-br from-orange-50 to-white rounded-2xl p-6 border border-orange-200 hover:border-orange-400 hover:shadow-lg transition-all duration-300 cursor-pointer">
                     <div className="text-4xl mb-3">{item.icon}</div>
-                    <h4 className="font-bold text-indigo-700 mb-2 text-lg">{item.title}</h4>
+                    <h4 className="font-bold text-orange-700 mb-2 text-lg">{item.title}</h4>
                     <p className="text-sm text-gray-700">{item.desc}</p>
                   </div>
                 ))}
@@ -246,16 +246,16 @@ const PrivacyPolicy = () => {
             </section>
 
             {/* Section 3 - Data Sharing */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-indigo-100/40 hover:shadow-2xl transition-all duration-300">
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
                   <Globe className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">3. Data Sharing and Disclosure</h2>
               </div>
 
-              <div className="bg-gradient-to-r from-indigo-100 to-indigo-50 rounded-2xl p-6 mb-6 border-2 border-indigo-300">
-                <p className="text-indigo-900 font-bold text-xl text-center flex items-center justify-center">
+              <div className="bg-gradient-to-r from-orange-100 to-orange-50 rounded-2xl p-6 mb-6 border-2 border-orange-300">
+                <p className="text-orange-900 font-bold text-xl text-center flex items-center justify-center">
                   <Shield className="w-6 h-6 mr-2" />
                   We do not sell your personal information
                 </p>
@@ -265,13 +265,13 @@ const PrivacyPolicy = () => {
 
               <div className="space-y-5">
                 {[
-                  { title: '3.1 With Your Consent', desc: 'We share information when you explicitly authorize us to do so.', gradient: 'from-indigo-50' },
-                  { title: '3.2 Service Providers', desc: 'We may share information with trusted third-party service providers who assist us in operating our website and services, such as: Cloud hosting providers, Analytics services, Payment processors, Customer support tools. These providers are contractually obligated to protect your information and use it only for the purposes we specify.', gradient: 'from-indigo-50' },
+                  { title: '3.1 With Your Consent', desc: 'We share information when you explicitly authorize us to do so.', gradient: 'from-orange-50' },
+                  { title: '3.2 Service Providers', desc: 'We may share information with trusted third-party service providers who assist us in operating our website and services, such as: Cloud hosting providers, Analytics services, Payment processors, Customer support tools. These providers are contractually obligated to protect your information and use it only for the purposes we specify.', gradient: 'from-orange-50' },
                   { title: '3.3 Meta/Facebook Platform', desc: 'We share data with Meta as necessary to provide our services through their platform, in compliance with Meta\'s Platform Terms and Policies.', gradient: 'from-purple-50' },
                   { title: '3.4 Legal Requirements', desc: 'We may disclose information if required by law, court order, or to: Comply with legal processes, Protect our rights, property, or safety, Prevent fraud or security issues, Respond to government requests.', gradient: 'from-pink-50' },
                 ].map((item, idx) => (
-                  <div key={idx} className={`bg-gradient-to-r ${item.gradient} to-white rounded-2xl p-6 border-l-4 border-indigo-500 hover:shadow-lg transition-all duration-300`}>
-                    <h3 className="text-xl font-bold text-indigo-700 mb-3">{item.title}</h3>
+                  <div key={idx} className={`bg-gradient-to-r ${item.gradient} to-white rounded-2xl p-6 border-l-4 border-orange-500 hover:shadow-lg transition-all duration-300`}>
+                    <h3 className="text-xl font-bold text-orange-700 mb-3">{item.title}</h3>
                     <p className="text-gray-700">{item.desc}</p>
                   </div>
                 ))}
@@ -279,9 +279,9 @@ const PrivacyPolicy = () => {
             </section>
 
             {/* Section 4 - Data Retention */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-indigo-100/40 hover:shadow-2xl transition-all duration-300">
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
                   <Clock className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">4. Data Retention</h2>
@@ -293,8 +293,8 @@ const PrivacyPolicy = () => {
 
               <div className="grid md:grid-cols-3 gap-6">
                 {[
-                  { title: 'Account Information', duration: 'Retained while active + reasonable period after deletion', icon: '👤', color: 'blue' },
-                  { title: 'Meta/Facebook Data', duration: 'According to service needs and Meta\'s policies', icon: '📘', color: 'blue' },
+                  { title: 'Account Information', duration: 'Retained while active + reasonable period after deletion', icon: '👤', color: 'orange' },
+                  { title: 'Meta/Facebook Data', duration: 'According to service needs and Meta\'s policies', icon: '📘', color: 'orange' },
                   { title: 'Usage Logs', duration: 'Typically 12-24 months for security/analytics', icon: '📊', color: 'purple' },
                 ].map((item, idx) => (
                   <div key={idx} className={`bg-gradient-to-br from-${item.color}-50 to-white rounded-2xl p-6 text-center border border-${item.color}-200 hover:shadow-lg hover:scale-105 transition-all duration-300`}>
@@ -307,9 +307,9 @@ const PrivacyPolicy = () => {
             </section>
 
             {/* Section 5 - Data Security */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-indigo-100/40 hover:shadow-2xl transition-all duration-300">
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
                   <Lock className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">5. Data Security</h2>
@@ -327,10 +327,10 @@ const PrivacyPolicy = () => {
                   { icon: '☁️', text: 'Secure data storage infrastructure' },
                   { icon: '👥', text: 'Employee training on data protection' },
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-start space-x-4 bg-gradient-to-r from-indigo-50 to-white rounded-2xl p-5 border border-indigo-200 hover:border-indigo-400 hover:shadow-md transition-all duration-300">
+                  <div key={idx} className="flex items-start space-x-4 bg-gradient-to-r from-orange-50 to-white rounded-2xl p-5 border border-orange-200 hover:border-orange-400 hover:shadow-md transition-all duration-300">
                     <div className="text-3xl">{item.icon}</div>
                     <p className="text-gray-700 flex-1 pt-1">{item.text}</p>
-                    <CheckCircle className="w-6 h-6 text-indigo-500 flex-shrink-0 mt-1" />
+                    <CheckCircle className="w-6 h-6 text-orange-500 flex-shrink-0 mt-1" />
                   </div>
                 ))}
               </div>
@@ -344,9 +344,9 @@ const PrivacyPolicy = () => {
             </section>
 
             {/* Section 6 - Your Rights */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-indigo-100/40 hover:shadow-2xl transition-all duration-300">
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
                   <Eye className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">6. Your Rights and Choices</h2>
@@ -363,11 +363,11 @@ const PrivacyPolicy = () => {
                   { title: '6.5 Opt-Out', desc: 'You can opt out of marketing communications by following the unsubscribe instructions in emails or contacting us directly.', icon: '📧' },
                   { title: '6.6 Cookie Management', desc: 'You can control cookies through your browser settings. Note that disabling cookies may affect website functionality.', icon: '🍪' }
                 ].map((item, idx) => (
-                  <div key={idx} className="bg-gradient-to-r from-indigo-50 to-white rounded-2xl p-6 border-l-4 border-indigo-500 hover:shadow-lg transition-all duration-300">
+                  <div key={idx} className="bg-gradient-to-r from-orange-50 to-white rounded-2xl p-6 border-l-4 border-orange-500 hover:shadow-lg transition-all duration-300">
                     <div className="flex items-start space-x-4">
                       <div className="text-4xl">{item.icon}</div>
                       <div className="flex-1">
-                        <h3 className="font-bold text-indigo-700 mb-2 text-lg">{item.title}</h3>
+                        <h3 className="font-bold text-orange-700 mb-2 text-lg">{item.title}</h3>
                         <p className="text-gray-700 text-sm">{item.desc}</p>
                       </div>
                     </div>
@@ -377,9 +377,9 @@ const PrivacyPolicy = () => {
             </section>
 
             {/* Section 7 - Meta Compliance */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-indigo-100/40 hover:shadow-2xl transition-all duration-300">
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
                   <Globe className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">7. Meta/Facebook Platform Compliance</h2>
@@ -392,20 +392,20 @@ const PrivacyPolicy = () => {
                   { title: 'Meta Platform Policy', url: 'https://developers.facebook.com/docs/development/release/policies/' },
                   { title: 'Meta Data Policy', url: 'https://www.facebook.com/privacy/policy/' }
                 ].map((item, idx) => (
-                  <a key={idx} href={item.url} target="_blank" rel="noopener noreferrer" className="block bg-gradient-to-r from-indigo-50 to-white hover:from-indigo-100 hover:to-indigo-50 transition-all rounded-2xl p-5 border border-indigo-200 hover:border-indigo-400 hover:shadow-lg group">
+                  <a key={idx} href={item.url} target="_blank" rel="noopener noreferrer" className="block bg-gradient-to-r from-orange-50 to-white hover:from-orange-100 hover:to-orange-50 transition-all rounded-2xl p-5 border border-orange-200 hover:border-orange-400 hover:shadow-lg group">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-bold text-indigo-700 text-lg mb-1">{item.title}</p>
+                        <p className="font-bold text-orange-700 text-lg mb-1">{item.title}</p>
                         <p className="text-sm text-gray-600">{item.url}</p>
                       </div>
-                      <ChevronRight className="w-6 h-6 text-indigo-500 group-hover:translate-x-2 transition-transform" />
+                      <ChevronRight className="w-6 h-6 text-orange-500 group-hover:translate-x-2 transition-transform" />
                     </div>
                   </a>
                 ))}
               </div>
-              <div className="mt-6 bg-indigo-50 p-5 rounded-2xl border border-indigo-200">
+              <div className="mt-6 bg-orange-50 p-5 rounded-2xl border border-orange-200">
                 <p className="text-gray-700 flex items-start">
-                  <CheckCircle className="w-5 h-5 text-indigo-500 mr-3 mt-0.5 flex-shrink-0" />
+                  <CheckCircle className="w-5 h-5 text-orange-500 mr-3 mt-0.5 flex-shrink-0" />
                   We comply with all Meta requirements including data usage restrictions, user privacy protections, and platform guidelines.
                 </p>
               </div>
@@ -529,22 +529,22 @@ const PrivacyPolicy = () => {
             </section>
 
             {/* Remaining Sections - Streamlined */}
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-indigo-100/40">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-indigo-500">9. Children's Privacy</h2>
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-orange-100/40">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-orange-500">9. Children's Privacy</h2>
               <p className="text-gray-700 text-lg">
                 Our services are not intended for children under the age of 13 (or the applicable age in your jurisdiction). We do not knowingly collect personal information from children. If you believe we have inadvertently collected information from a child, please contact us immediately so we can delete it.
               </p>
             </section>
 
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-indigo-100/40">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-indigo-500">10. International Data Transfers</h2>
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-orange-100/40">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-orange-500">10. International Data Transfers</h2>
               <p className="text-gray-700 text-lg">
                 Your information may be transferred to and processed in countries other than your country of residence. These countries may have different data protection laws. We ensure appropriate safeguards are in place to protect your information in accordance with this Privacy Policy.
               </p>
             </section>
 
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-indigo-100/40">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-indigo-500">11. Cookies and Tracking Technologies</h2>
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-orange-100/40">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-orange-500">11. Cookies and Tracking Technologies</h2>
               <p className="text-gray-700 mb-4 text-lg">We use cookies and similar technologies to:</p>
               <div className="grid md:grid-cols-2 gap-3 mb-6">
                 {[
@@ -553,26 +553,26 @@ const PrivacyPolicy = () => {
                   'Provide personalized experiences',
                   'Deliver relevant advertising'
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-start space-x-3 bg-indigo-50 rounded-xl p-4">
-                    <div className="w-2 h-2 bg-indigo-500 rounded-full mt-2"></div>
+                  <div key={idx} className="flex items-start space-x-3 bg-orange-50 rounded-xl p-4">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
                     <span className="text-gray-700">{item}</span>
                   </div>
                 ))}
               </div>
               <p className="text-gray-700 text-lg">
-                You can control cookie preferences through your browser settings. For more information, visit <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-700 underline font-semibold">www.allaboutcookies.org</a>.
+                You can control cookie preferences through your browser settings. For more information, visit <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 underline font-semibold">www.allaboutcookies.org</a>.
               </p>
             </section>
 
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-indigo-100/40">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-indigo-500">12. Third-Party Links</h2>
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-orange-100/40">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-orange-500">12. Third-Party Links</h2>
               <p className="text-gray-700 text-lg">
                 Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of these external sites. We encourage you to review their privacy policies before providing any personal information.
               </p>
             </section>
 
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-indigo-100/40">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-indigo-500">13. Changes to This Privacy Policy</h2>
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-orange-100/40">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-orange-500">13. Changes to This Privacy Policy</h2>
               <p className="text-gray-700 mb-4 text-lg">We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will notify you of significant changes by:</p>
               <div className="space-y-3 mb-6">
                 {[
@@ -580,8 +580,8 @@ const PrivacyPolicy = () => {
                   'Sending an email notification to registered users',
                   'Displaying a prominent notice on our website'
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-start space-x-3 bg-indigo-50 rounded-xl p-4">
-                    <div className="w-2 h-2 bg-indigo-500 rounded-full mt-2"></div>
+                  <div key={idx} className="flex items-start space-x-3 bg-orange-50 rounded-xl p-4">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
                     <span className="text-gray-700">{item}</span>
                   </div>
                 ))}
@@ -592,7 +592,7 @@ const PrivacyPolicy = () => {
             </section>
 
             {/* Contact Section */}
-            <section className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-700 rounded-3xl shadow-2xl p-10 mb-8 text-white">
+            <section className="bg-gradient-to-br from-orange-500 via-orange-600 to-violet-700 rounded-3xl shadow-2xl p-10 mb-8 text-white">
               <div className="flex items-center space-x-4 mb-8">
                 <div className="bg-white/20 backdrop-blur-sm p-4 rounded-2xl shadow-lg">
                   <Mail className="w-8 h-8 text-white" />
@@ -600,7 +600,7 @@ const PrivacyPolicy = () => {
                 <h2 className="text-4xl font-bold">14. Contact Us</h2>
               </div>
 
-              <p className="mb-8 text-xl text-indigo-50">If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
+              <p className="mb-8 text-xl text-orange-50">If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
 
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border-2 border-white/20 hover:bg-white/15 transition-colors">
                 <p className="font-bold text-2xl mb-6">DigitalBot.ai</p>
@@ -615,13 +615,13 @@ const PrivacyPolicy = () => {
                   </a>
                 </div>
                 <div className="mt-6 pt-6 border-t border-white/20">
-                  <p className="text-indigo-100">We will respond to your inquiry within 30 days.</p>
+                  <p className="text-orange-100">We will respond to your inquiry within 30 days.</p>
                 </div>
               </div>
             </section>
 
-            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-indigo-100/40">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-indigo-500">15. Legal Basis for Processing (GDPR)</h2>
+            <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-orange-100/40">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-4 border-b-4 border-orange-500">15. Legal Basis for Processing (GDPR)</h2>
               <p className="text-gray-700 mb-6 text-lg">If you are located in the European Economic Area (EEA), our legal bases for processing your personal data include:</p>
               <div className="grid md:grid-cols-2 gap-4">
                 {[
@@ -630,9 +630,9 @@ const PrivacyPolicy = () => {
                   { title: 'Legal Obligation', desc: 'Processing is required to comply with laws', icon: '⚖️' },
                   { title: 'Legitimate Interests', desc: 'Processing is necessary for our legitimate business interests, provided your rights are not overridden', icon: '🎯' }
                 ].map((item, idx) => (
-                  <div key={idx} className="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-6 border border-indigo-200 hover:shadow-lg transition-shadow">
+                  <div key={idx} className="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-6 border border-orange-200 hover:shadow-lg transition-shadow">
                     <div className="text-3xl mb-3">{item.icon}</div>
-                    <p className="font-bold text-indigo-700 mb-2 text-lg">{item.title}</p>
+                    <p className="font-bold text-orange-700 mb-2 text-lg">{item.title}</p>
                     <p className="text-gray-700 text-sm">{item.desc}</p>
                   </div>
                 ))}

@@ -263,7 +263,7 @@ export default function PromptsPage() {
         type="button"
         onClick={() => onChange(!checked)}
         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-          checked ? "bg-blue-600" : "bg-gray-300"
+          checked ? "bg-orange-600" : "bg-gray-300"
         }`}
       >
         <span
@@ -276,7 +276,7 @@ export default function PromptsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-purple-50/20">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="lg:pl-64">
@@ -389,7 +389,7 @@ export default function PromptsPage() {
                   {/* Features */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {prompt.features.appointmentBooking && (
-                      <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full flex items-center gap-1">
+                      <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full flex items-center gap-1">
                         <Check className="w-3 h-3" /> Booking
                       </span>
                     )}

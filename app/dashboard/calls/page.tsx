@@ -320,10 +320,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-orange-50 to-orange-50">
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-4 left-4 z-[1300] bg-gradient-to-r from-purple-600 to-blue-600 text-white p-3 rounded-xl shadow-lg hover:from-purple-700 hover:to-blue-700 transition-all"
+        className="md:hidden fixed top-4 left-4 z-[1300] bg-gradient-to-r from-purple-600 to-orange-600 text-white p-3 rounded-xl shadow-lg hover:from-purple-700 hover:to-orange-700 transition-all"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -353,7 +353,7 @@ const Dashboard = () => {
         ) : (
           <>
             {/* Hero Header with Gradient */}
-            <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white">
+            <div className="bg-gradient-to-r from-purple-600 via-orange-600 to-orange-600 text-white">
               <div className="max-w-7xl mx-auto px-6 py-8">
                 <div className="flex items-center justify-between">
                   <div>
@@ -382,14 +382,14 @@ const Dashboard = () => {
             <div className="max-w-7xl mx-auto px-6 -mt-6 mb-8">
               {/* Stats Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <div className="bg-white rounded-2xl p-5 shadow-lg border-l-4 border-blue-500 hover:shadow-xl transition-shadow">
+                <div className="bg-white rounded-2xl p-5 shadow-lg border-l-4 border-orange-500 hover:shadow-xl transition-shadow">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-500 text-sm font-medium mb-1">Total Calls</p>
                       <p className="text-3xl font-bold text-gray-900">{stats?.total_calls || calls.length}</p>
                     </div>
-                    <div className="bg-blue-100 p-3 rounded-xl">
-                      <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="bg-orange-100 p-3 rounded-xl">
+                      <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
@@ -458,7 +458,7 @@ const Dashboard = () => {
               <div className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 mb-6">
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 rounded-lg">
+                    <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-2 rounded-lg">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                       </svg>
@@ -549,7 +549,7 @@ const Dashboard = () => {
                       </button>
                       <button
                         onClick={handleApplyFilters}
-                        className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl font-semibold"
+                        className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:from-purple-700 hover:to-orange-700 transition-all shadow-lg hover:shadow-xl font-semibold"
                       >
                         Apply Filters
                       </button>
@@ -599,7 +599,7 @@ const Dashboard = () => {
                             <div className="flex items-center gap-2">
                               <p className="text-sm text-gray-900 font-medium">{phone}</p>
                               {isInbound ? (
-                                <span className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded-full font-semibold" title="Inbound">
+                                <span className="px-2 py-0.5 text-xs bg-orange-100 text-orange-700 rounded-full font-semibold" title="Inbound">
                                   ↓ IN
                                 </span>
                               ) : (
@@ -638,7 +638,7 @@ const Dashboard = () => {
                             {/* Call Details Section */}
                             <div className="mb-6 bg-white rounded-xl border-2 border-gray-200 p-5">
                               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 rounded-lg">
+                                <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-2 rounded-lg">
                                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                   </svg>
@@ -668,7 +668,7 @@ const Dashboard = () => {
                             {/* Recordings Section */}
                             <div className="mb-6">
                               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 rounded-lg">
+                                <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-2 rounded-lg">
                                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -697,16 +697,16 @@ const Dashboard = () => {
                                   </audio>
                                 </div>
                               ) : call.agent_config?.call_settings?.enable_recording ? (
-                                <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
+                                <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
                                   <div className="flex items-start gap-3">
-                                    <svg className="w-6 h-6 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-6 h-6 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     <div>
-                                      <p className="font-bold text-blue-900 mb-1">✅ Recording Enabled - Processing</p>
-                                      <p className="text-sm text-blue-800">
+                                      <p className="font-bold text-orange-900 mb-1">✅ Recording Enabled - Processing</p>
+                                      <p className="text-sm text-orange-800">
                                         Recording is enabled for this call. It may still be processing. Check your{' '}
-                                        <a href="https://dashboard.millis.ai" target="_blank" rel="noopener noreferrer" className="text-blue-600 font-bold underline hover:text-blue-700">
+                                        <a href="https://dashboard.millis.ai" target="_blank" rel="noopener noreferrer" className="text-orange-600 font-bold underline hover:text-orange-700">
                                           Millis Dashboard
                                         </a>{' '}
                                         for the recording.
@@ -715,14 +715,14 @@ const Dashboard = () => {
                                   </div>
                                 </div>
                               ) : (
-                                <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
+                                <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
                                   <div className="flex items-start gap-3">
-                                    <svg className="w-6 h-6 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-6 h-6 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     <div>
-                                      <p className="font-bold text-blue-900 mb-1">No Recording Available</p>
-                                      <p className="text-sm text-blue-800">
+                                      <p className="font-bold text-orange-900 mb-1">No Recording Available</p>
+                                      <p className="text-sm text-orange-800">
                                         Recording was not enabled for this call. Enable <code className="bg-gray-800 text-white px-2 py-1 rounded text-xs font-mono">enable_recording: true</code> in agent settings.
                                       </p>
                                     </div>
@@ -735,7 +735,7 @@ const Dashboard = () => {
                             {(call.chat || call.transcription) && (
                               <div>
                                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                  <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-2 rounded-lg">
+                                  <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-2 rounded-lg">
                                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                                     </svg>
@@ -776,17 +776,17 @@ const Dashboard = () => {
                                               key={index}
                                               className={`mb-3 p-4 rounded-xl border-2 ${
                                                 message.role === 'assistant'
-                                                  ? 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200'
+                                                  ? 'bg-gradient-to-r from-orange-50 to-orange-50 border-orange-200'
                                                   : 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200'
                                               }`}
                                             >
                                               <p className={`text-xs font-bold mb-2 uppercase tracking-wide ${
-                                                message.role === 'assistant' ? 'text-blue-900' : 'text-green-900'
+                                                message.role === 'assistant' ? 'text-orange-900' : 'text-green-900'
                                               }`}>
                                                 {message.role === 'assistant' ? '🤖 AI Agent' : '👤 User'}
                                               </p>
                                               <p className={`text-sm whitespace-pre-wrap leading-relaxed ${
-                                                message.role === 'assistant' ? 'text-blue-900' : 'text-green-900'
+                                                message.role === 'assistant' ? 'text-orange-900' : 'text-green-900'
                                               }`}>
                                                 {message.content}
                                               </p>
@@ -813,12 +813,12 @@ const Dashboard = () => {
                             )}
 
                             {!call.chat && !call.transcription && (
-                              <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mt-6">
+                              <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4 mt-6">
                                 <div className="flex items-center gap-3">
-                                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                   </svg>
-                                  <p className="text-blue-800 font-medium">No transcription available for this call</p>
+                                  <p className="text-orange-800 font-medium">No transcription available for this call</p>
                                 </div>
                               </div>
                             )}
@@ -831,7 +831,7 @@ const Dashboard = () => {
 
                 {calls.length === 0 && (
                   <div className="bg-white rounded-2xl border-2 border-gray-200 shadow-lg p-12 text-center">
-                    <div className="bg-gradient-to-r from-purple-100 to-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="bg-gradient-to-r from-purple-100 to-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                       <svg className="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>

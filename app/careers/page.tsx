@@ -94,7 +94,7 @@ export default function Careers() {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
         {/* Subtle blur orbs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-100/50 rounded-full blur-3xl -translate-y-1/2" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-100/50 rounded-full blur-3xl -translate-y-1/2" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-50/30 rounded-full blur-3xl translate-y-1/2" />
 
         <div className="relative z-10 container mx-auto">
@@ -106,14 +106,14 @@ export default function Careers() {
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-slate-900 leading-[1.1] tracking-tight mb-6">
             Careers at{" "}
-            <span className="bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-violet-600 bg-clip-text text-transparent">
               DigitalBot.ai
             </span>
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-500 leading-relaxed mb-8 max-w-3xl mx-auto">
             Join our team and help shape the future of{" "}
-            <span className="font-semibold bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 bg-clip-text text-transparent">
+            <span className="font-semibold bg-gradient-to-r from-orange-600 via-orange-500 to-violet-600 bg-clip-text text-transparent">
               AI-powered business automation
             </span>
             . We value innovation, collaboration, and growth.
@@ -153,7 +153,7 @@ export default function Careers() {
                 key={index}
                 className="text-center bg-white/80 backdrop-blur-sm border border-white/40 rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition-all"
               >
-                <div className="w-14 h-14 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 bg-gradient-to-r from-orange-600 to-violet-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <benefit.icon className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-2">
@@ -243,7 +243,7 @@ export default function Careers() {
       {/* CTA Section */}
       <section className="py-24 px-6 bg-gradient-to-b from-white to-[#f0f0ff] text-center">
         <div className="container mx-auto">
-          <div className="glass-card bg-indigo-50/30 border border-indigo-200/40 rounded-3xl p-12">
+          <div className="glass-card bg-orange-50/30 border border-orange-200/40 rounded-3xl p-12">
             <h2 className="text-3xl font-semibold text-slate-900 mb-4">
               Don&apos;t See the Right Role?
             </h2>

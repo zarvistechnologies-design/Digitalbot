@@ -53,7 +53,7 @@ interface Appointment {
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
 
 const statusStyles: Record<Appointment["status"], string> = {
-  scheduled: "bg-blue-100 text-blue-700 border-blue-300",
+  scheduled: "bg-orange-100 text-orange-700 border-orange-300",
   confirmed: "bg-green-100 text-green-700 border-green-300",
   completed: "bg-purple-100 text-purple-700 border-purple-300",
   cancelled: "bg-red-100 text-red-700 border-red-300",
@@ -62,7 +62,7 @@ const statusStyles: Record<Appointment["status"], string> = {
 };
 
 const statusColors: Record<Appointment["status"], string> = {
-  scheduled: "blue",
+  scheduled: "orange",
   confirmed: "green",
   completed: "purple",
   cancelled: "red",
@@ -99,7 +99,7 @@ function SourceBadge({ source }: { source: Appointment["source"] }) {
 
   const getStyles = () => {
     if (isAI) return "bg-purple-100 text-purple-700";
-    if (isManual) return "bg-blue-100 text-blue-700";
+    if (isManual) return "bg-orange-100 text-orange-700";
     return "bg-gray-100 text-gray-600";
   };
 
@@ -133,7 +133,7 @@ function AppointmentModal({
   const gradientMap = {
     green: "from-green-600 to-green-500",
     yellow: "from-yellow-600 to-yellow-500",
-    blue: "from-blue-600 to-blue-500",
+    orange: "from-orange-600 to-orange-500",
     red: "from-red-600 to-red-500",
     purple: "from-purple-600 to-purple-500",
     gray: "from-gray-600 to-gray-500",
@@ -202,9 +202,9 @@ function AppointmentModal({
           )}
 
           {/* Patient Information */}
-          <div className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-2xl p-6">
+          <div className="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 rounded-2xl p-6">
             <h3 className="text-xl font-bold mb-4 text-gray-900 flex items-center gap-2">
-              <User className="w-6 h-6 text-blue-600" />
+              <User className="w-6 h-6 text-orange-600" />
               Patient Information
             </h3>
             <div className="grid grid-cols-2 gap-4">
@@ -300,14 +300,14 @@ function AppointmentModal({
                             key={idx}
                             className={`p-3 rounded-lg ${
                               msg.role === "user"
-                                ? "bg-blue-50 border-l-4 border-blue-500"
+                                ? "bg-orange-50 border-l-4 border-orange-500"
                                 : "bg-purple-50 border-l-4 border-purple-500"
                             }`}
                           >
                             <div className="flex items-center gap-2 mb-1">
                               <span
                                 className={`text-xs font-bold uppercase ${
-                                  msg.role === "user" ? "text-blue-700" : "text-purple-700"
+                                  msg.role === "user" ? "text-orange-700" : "text-purple-700"
                                 }`}
                               >
                                 {msg.role === "user" ? "Patient" : "Assistant"}
@@ -351,7 +351,7 @@ function AppointmentModal({
               <button
                 onClick={() => onUpdate(apt._id, "scheduled")}
                 disabled={apt.status === "scheduled"}
-                className="px-4 py-3 text-sm font-bold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed bg-blue-500 text-white hover:bg-blue-600 shadow-md hover:shadow-lg transform hover:scale-105"
+                className="px-4 py-3 text-sm font-bold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed bg-orange-500 text-white hover:bg-orange-600 shadow-md hover:shadow-lg transform hover:scale-105"
               >
                 📅 Schedule
               </button>
@@ -398,7 +398,7 @@ function AppointmentModal({
           {/* Follow-up Call Section */}
           <div className="relative overflow-hidden bg-white border-2 border-gray-200 rounded-2xl">
             {/* Header with gradient background */}
-            <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 px-5 py-3">
+            <div className="bg-gradient-to-r from-violet-600 via-purple-600 to-orange-600 px-5 py-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <div className="p-1.5 bg-white/20 backdrop-blur-sm rounded-lg">
@@ -441,9 +441,9 @@ function AppointmentModal({
                   // TODO: Connect to AI Agent for automated follow-up call
                   alert(`Follow-up call will be initiated to ${apt.name} at ${apt.phone}`);
                 }}
-                className="w-full group relative overflow-hidden bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-lg p-3 text-sm font-semibold transition-all hover:shadow-xl hover:shadow-violet-500/25"
+                className="w-full group relative overflow-hidden bg-gradient-to-r from-violet-600 to-orange-600 text-white rounded-lg p-3 text-sm font-semibold transition-all hover:shadow-xl hover:shadow-violet-500/25"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-700 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-700 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative flex items-center justify-center gap-2">
                   <Bot className="w-4 h-4" />
                   <span> AI consultation Follow-up Call</span>
@@ -467,7 +467,7 @@ function AppointmentModal({
                   </button>
                   <button
                     onClick={() => alert('Post-appointment follow-up scheduled!')}
-                    className="flex-1 flex items-center justify-center gap-1.5 p-2 bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-lg hover:border-sky-400 hover:shadow-md transition-all group"
+                    className="flex-1 flex items-center justify-center gap-1.5 p-2 bg-gradient-to-br from-sky-50 to-orange-50 border border-sky-200 rounded-lg hover:border-sky-400 hover:shadow-md transition-all group"
                   >
                     <Calendar className="w-3.5 h-3.5 text-sky-500 group-hover:scale-110 transition-transform" />
                     <span className="text-xs font-medium text-gray-700">Post Visit</span>
@@ -709,9 +709,9 @@ export default function AppointmentsPage() {
           onClick={() => setSelectedDate(isSelected ? null : dateStr)}
           className={`h-9 flex items-center justify-center rounded-lg cursor-pointer text-sm font-medium transition-all ${
             isSelected
-              ? "bg-gradient-to-br from-blue-600 to-blue-500 text-white shadow-lg scale-105"
+              ? "bg-gradient-to-br from-orange-600 to-orange-500 text-white shadow-lg scale-105"
               : isToday
-              ? "bg-gradient-to-br from-blue-100 to-blue-50 text-blue-700 font-bold ring-2 ring-blue-400"
+              ? "bg-gradient-to-br from-orange-100 to-orange-50 text-orange-700 font-bold ring-2 ring-orange-400"
               : dateAppts.length > 0
               ? "bg-green-50 text-green-700 hover:bg-green-100 font-semibold"
               : "hover:bg-gray-100 text-gray-600"
@@ -736,7 +736,7 @@ export default function AppointmentsPage() {
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
+      <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-purple-50">
         <div className="w-64 bg-gray-900"></div>
         <main className="flex-1 ml-64"></main>
       </div>
@@ -746,14 +746,14 @@ export default function AppointmentsPage() {
   // ==================== DOCTOR SELECTION VIEW ====================
   if (!selectedDoctor) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
+      <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-purple-50">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="flex-1 ml-64 p-8">
           <div className="max-w-[1400px] mx-auto space-y-8">
             {/* Hospital Header */}
             <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-600 via-purple-600 to-pink-500 opacity-90"></div>
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20"></div>
 
               <div className="relative z-10 p-8">
@@ -764,7 +764,7 @@ export default function AppointmentsPage() {
                     </div>
                     <div>
                       <h1 className="text-4xl font-bold text-white tracking-tight mb-2">{clinicName}</h1>
-                      <p className="text-blue-100 text-lg font-medium mb-4">
+                      <p className="text-orange-100 text-lg font-medium mb-4">
                         Advanced Appointment Management System
                       </p>
                       <div className="flex flex-wrap gap-3">
@@ -835,7 +835,7 @@ export default function AppointmentsPage() {
 
               {loading ? (
                 <div className="flex justify-center items-center py-20">
-                  <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600"></div>
+                  <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600"></div>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -850,11 +850,11 @@ export default function AppointmentsPage() {
                       <div
                         key={doctor}
                         onClick={() => setSelectedDoctor(doctor)}
-                        className="group cursor-pointer rounded-2xl p-6 transition-all transform hover:scale-105 hover:shadow-2xl bg-gradient-to-br from-gray-50 to-white shadow-md border-2 border-gray-200 hover:border-blue-300"
+                        className="group cursor-pointer rounded-2xl p-6 transition-all transform hover:scale-105 hover:shadow-2xl bg-gradient-to-br from-gray-50 to-white shadow-md border-2 border-gray-200 hover:border-orange-300"
                       >
                         <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200">
-                          <div className="p-3 rounded-xl bg-gradient-to-br from-blue-100 to-purple-100">
-                            <User className="w-7 h-7 text-blue-600" />
+                          <div className="p-3 rounded-xl bg-gradient-to-br from-orange-100 to-purple-100">
+                            <User className="w-7 h-7 text-orange-600" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="text-lg font-bold truncate text-gray-900">
@@ -867,12 +867,12 @@ export default function AppointmentsPage() {
                         </div>
 
                         <div className="space-y-3">
-                          <div className="flex items-center justify-between p-3 rounded-xl bg-blue-50">
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-orange-50">
                             <div className="flex items-center gap-2">
-                              <Calendar className="w-4 h-4 text-blue-600" />
+                              <Calendar className="w-4 h-4 text-orange-600" />
                               <span className="text-sm font-medium text-gray-600">Total</span>
                             </div>
-                            <span className="font-bold text-xl text-blue-600">{doctorAppts.length}</span>
+                            <span className="font-bold text-xl text-orange-600">{doctorAppts.length}</span>
                           </div>
 
                           <div className="flex items-center justify-between p-3 rounded-xl bg-green-50">
@@ -898,7 +898,7 @@ export default function AppointmentsPage() {
                           </div>
                         </div>
 
-                        <div className="mt-4 pt-3 border-t border-gray-200 flex items-center justify-center text-blue-600 text-sm font-semibold opacity-0 group-hover:opacity-100 transition">
+                        <div className="mt-4 pt-3 border-t border-gray-200 flex items-center justify-center text-orange-600 text-sm font-semibold opacity-0 group-hover:opacity-100 transition">
                           <span>View Appointments</span>
                           <ChevronRight className="w-4 h-4 ml-1" />
                         </div>
@@ -916,7 +916,7 @@ export default function AppointmentsPage() {
 
   // ==================== DOCTOR'S APPOINTMENT VIEW ====================
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-purple-50">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <main className="flex-1 ml-64 p-8">
@@ -936,14 +936,14 @@ export default function AppointmentsPage() {
           </div>
 
           {/* Doctor Info Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-xl p-6 text-white">
+          <div className="bg-gradient-to-r from-orange-600 to-purple-600 rounded-2xl shadow-xl p-6 text-white">
             <div className="flex items-center gap-4">
               <div className="bg-white/20 backdrop-blur-sm p-4 rounded-xl">
                 <Stethoscope className="w-10 h-10" />
               </div>
               <div className="flex-1">
                 <h1 className="text-3xl font-bold">Dr. {selectedDoctor}</h1>
-                <p className="text-blue-100 mt-1">
+                <p className="text-orange-100 mt-1">
                   {selectedDate
                     ? `Viewing appointments for ${new Date(selectedDate).toLocaleDateString("en-US", {
                         weekday: "long",
@@ -1035,9 +1035,9 @@ export default function AppointmentsPage() {
                     <span className="font-bold text-gray-900 text-lg">{filteredAppointments.length}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-blue-50 p-2 rounded-lg text-center">
-                      <div className="text-xs text-blue-600 font-medium">Scheduled</div>
-                      <div className="text-lg font-bold text-blue-700">
+                    <div className="bg-orange-50 p-2 rounded-lg text-center">
+                      <div className="text-xs text-orange-600 font-medium">Scheduled</div>
+                      <div className="text-lg font-bold text-orange-700">
                         {filteredAppointments.filter((a) => a.status === "scheduled").length}
                       </div>
                     </div>
@@ -1065,13 +1065,13 @@ export default function AppointmentsPage() {
                         placeholder="Search patient name..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 text-gray-900 font-medium"
+                        className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 text-gray-900 font-medium"
                       />
                     </div>
                     <select
                       value={filterStatus}
                       onChange={(e) => setFilterStatus(e.target.value as any)}
-                      className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold text-gray-900 bg-white"
+                      className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 font-semibold text-gray-900 bg-white"
                     >
                       <option value="All">All Status</option>
                       <option value="scheduled">Scheduled</option>
@@ -1082,7 +1082,7 @@ export default function AppointmentsPage() {
                     <select
                       value={filterMonth}
                       onChange={(e) => setFilterMonth(e.target.value)}
-                      className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold text-gray-900 bg-white"
+                      className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 font-semibold text-gray-900 bg-white"
                     >
                       <option value="All">All Months</option>
                       <option value="0">January</option>
@@ -1101,7 +1101,7 @@ export default function AppointmentsPage() {
                     <select
                       value={filterYear}
                       onChange={(e) => setFilterYear(e.target.value)}
-                      className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold text-gray-900 bg-white"
+                      className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 font-semibold text-gray-900 bg-white"
                     >
                       <option value="All">All Years</option>
                       {availableYears.map((year) => (
@@ -1117,19 +1117,19 @@ export default function AppointmentsPage() {
                 <div className="p-6 space-y-4 max-h-[calc(100vh-400px)] overflow-y-auto">
                   {loading ? (
                     <div className="flex justify-center items-center py-20">
-                      <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600"></div>
+                      <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600"></div>
                     </div>
                   ) : filteredAppointments.length > 0 ? (
                     filteredAppointments.map((apt) => (
                       <div
                         key={apt._id}
                         onClick={() => setSelectedAppointment(apt)}
-                        className="group bg-gradient-to-br from-gray-50 to-white p-5 rounded-xl border-2 border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all cursor-pointer"
+                        className="group bg-gradient-to-br from-gray-50 to-white p-5 rounded-xl border-2 border-gray-200 hover:border-orange-400 hover:shadow-xl transition-all cursor-pointer"
                       >
                         <div className="flex gap-4">
                           {/* Patient Avatar */}
                           <div className="flex-shrink-0">
-                            <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform">
+                            <div className="bg-gradient-to-br from-orange-500 to-purple-500 p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform">
                               <User className="w-7 h-7 text-white" />
                             </div>
                           </div>
@@ -1180,8 +1180,8 @@ export default function AppointmentsPage() {
 
                             {/* Details Grid */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                              <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg">
-                                <Calendar className="w-4 h-4 text-blue-600" />
+                              <div className="flex items-center gap-2 bg-orange-50 px-3 py-2 rounded-lg">
+                                <Calendar className="w-4 h-4 text-orange-600" />
                                 <span className="text-sm font-semibold text-gray-700">
                                   {new Date(apt.date).toLocaleDateString("en-US", {
                                     month: "short",

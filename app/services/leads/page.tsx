@@ -152,9 +152,9 @@ export default function LeadsPage() {
           {/* Animated Background Elements - Hero Style */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {/* Floating Orbs */}
-            <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
+            <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
             <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
             
             {/* Animated Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -163,7 +163,7 @@ export default function LeadsPage() {
             }} />
             
             {/* Animated Lines */}
-            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
+            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
             <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
           </div>
 
@@ -194,9 +194,9 @@ export default function LeadsPage() {
                   />
                   
                   {/* Floating Badge - Bottom Right */}
-                  <div className="absolute bottom-4 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-indigo-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
+                  <div className="absolute bottom-4 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-600 rounded-xl flex items-center justify-center">
                         <Brain className="h-6 w-6 text-white" />
                       </div>
                       <div>
@@ -207,7 +207,7 @@ export default function LeadsPage() {
                   </div>
                   
                   {/* Floating Stats Badge - Top Left */}
-                  <div className="absolute top-4 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-indigo-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
+                  <div className="absolute top-4 left-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                         <TrendingUp className="h-6 w-6 text-white" />
@@ -224,27 +224,27 @@ export default function LeadsPage() {
               {/* Right Side - Content (Swapped) */}
               <div className={`order-1 lg:order-2 text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 {/* Badge */}
-                <div className="inline-flex items-center gap-2 glass-card bg-indigo-50/60 border border-indigo-200/40 px-3 py-1.5 rounded-full mb-4">
-                  <Sparkles className="h-4 w-4 text-indigo-600" />
-                  <span className="text-sm font-semibold text-indigo-700">AI-Powered Lead Intelligence</span>
+                <div className="inline-flex items-center gap-2 glass-card bg-orange-50/60 border border-orange-200/40 px-3 py-1.5 rounded-full mb-4">
+                  <Sparkles className="h-4 w-4 text-orange-600" />
+                  <span className="text-sm font-semibold text-orange-700">AI-Powered Lead Intelligence</span>
                 </div>
 
                 {/* Main Headline */}
                 <h1 className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
                   <span className="block text-black">Convert More Leads</span>
-                  <span className="block bg-gradient-to-r from-indigo-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">With AI Intelligence</span>
+                  <span className="block bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">With AI Intelligence</span>
                 </h1>
 
                 {/* Tagline Box */}
-                <div className="bg-gradient-to-r from-indigo-50/60 to-indigo-50/40 border border-indigo-200/40 rounded-2xl p-4 mb-4">
+                <div className="bg-gradient-to-r from-orange-50/60 to-orange-50/40 border border-orange-200/40 rounded-2xl p-4 mb-4">
                   <p className="text-gray-600 text-sm italic mb-1">"Manual lead scoring wastes time and misses opportunities."</p>
-                  <p className="text-indigo-600 font-bold text-base uppercase tracking-wider">LET AI DO IT INSTANTLY.</p>
+                  <p className="text-orange-600 font-bold text-base uppercase tracking-wider">LET AI DO IT INSTANTLY.</p>
                 </div>
 
                 {/* Description */}
                 <p className="text-gray-600 text-base lg:text-lg mb-4 leading-relaxed max-w-xl mx-auto lg:mx-0">
                   Transform your sales process with <strong className="text-gray-800">AI-powered lead scoring</strong> that identifies high-converting prospects instantly. 
-                  Increase conversions by <strong className="text-indigo-600">3x</strong> and save <strong className="text-indigo-600">20+ hours weekly</strong>.
+                  Increase conversions by <strong className="text-orange-600">3x</strong> and save <strong className="text-orange-600">20+ hours weekly</strong>.
                 </p>
 
                 {/* Dual Audio Players - Compact Style */}
@@ -254,7 +254,7 @@ export default function LeadsPage() {
                     <p className="text-xs font-medium text-gray-500 mb-1.5">🇺🇸 English Demo</p>
                     <button
                       onClick={toggleAudio}
-                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-indigo-300/40 transition-all group"
+                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-300/40 transition-all group"
                       aria-label={isPlaying ? "Pause English audio demo" : "Play English audio demo"}
                     >
                       <div className="flex-1 flex items-center justify-center h-6">
@@ -292,7 +292,7 @@ export default function LeadsPage() {
                           ))}
                         </svg>
                       </div>
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-md">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-md">
                         {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                       </div>
                     </button>
@@ -303,7 +303,7 @@ export default function LeadsPage() {
                     <p className="text-xs font-medium text-gray-500 mb-1.5">🇮🇳 Hindi Demo</p>
                     <button
                       onClick={toggleAudioHindi}
-                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-indigo-300/40 transition-all group"
+                      className="w-full bg-white rounded-xl px-3 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 hover:shadow-md hover:border-orange-300/40 transition-all group"
                       aria-label={isPlayingHindi ? "Pause Hindi audio demo" : "Play Hindi audio demo"}
                     >
                       <div className="flex-1 flex items-center justify-center h-6">
@@ -341,7 +341,7 @@ export default function LeadsPage() {
                           ))}
                         </svg>
                       </div>
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-md">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-md">
                         {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                       </div>
                     </button>
@@ -352,14 +352,14 @@ export default function LeadsPage() {
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-4">
                   <Link
                     href="/signup?service=lead"
-                    className="group px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-bold rounded-lg hover:from-indigo-600 hover:to-violet-700 transition-all duration-300 shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 flex items-center justify-center gap-2 text-sm"
+                    className="group px-5 py-2.5 bg-gradient-to-r from-orange-500 to-violet-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-violet-700 transition-all duration-300 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2 text-sm"
                   >
                     Start Free Trial
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <Link
                     href="#demo"
-                    className="px-5 py-2.5 bg-white text-indigo-600 border border-indigo-300/40 font-bold rounded-lg hover:bg-indigo-50/60 hover:border-indigo-400 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2 text-sm"
+                    className="px-5 py-2.5 bg-white text-orange-600 border border-orange-300/40 font-bold rounded-lg hover:bg-orange-50/60 hover:border-orange-400 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2 text-sm"
                   >
                     <Play className="w-4 h-4" fill="currentColor" />
                     Watch Demo
@@ -394,13 +394,13 @@ export default function LeadsPage() {
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-features') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 text-orange-600 rounded-full font-semibold text-sm mb-4">
                 <Bot className="w-4 h-4" />
                 AI That Never Stops
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                 Intelligent Lead Management, <br className="hidden sm:block" />
-                <span className="bg-gradient-to-r from-indigo-500 to-violet-600 bg-clip-text text-transparent">Powered By Advanced AI</span>
+                <span className="bg-gradient-to-r from-orange-500 to-violet-600 bg-clip-text text-transparent">Powered By Advanced AI</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
                 Discover leads with the highest conversion potential using AI that analyzes behavior, engagement, and buying signals automatically.
@@ -417,7 +417,7 @@ export default function LeadsPage() {
                   { icon: Target, title: "Smart Routing", desc: "Automatically route hot leads to the right sales agents" },
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-4 group">
-                    <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 flex-shrink-0">
+                    <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 flex-shrink-0">
                       <item.icon className="w-7 h-7 text-white" />
                     </div>
                     <div>
@@ -453,23 +453,23 @@ export default function LeadsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-how') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                How AI Lead Scoring <span className="bg-gradient-to-r from-indigo-500 to-violet-600 bg-clip-text text-transparent">Works</span>
+                How AI Lead Scoring <span className="bg-gradient-to-r from-orange-500 to-violet-600 bg-clip-text text-transparent">Works</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                <strong className="text-indigo-600">Simple setup. Instant results.</strong> Let AI handle the heavy lifting.
+                <strong className="text-orange-600">Simple setup. Instant results.</strong> Let AI handle the heavy lifting.
               </p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
               {/* AI Lead Scoring Flow */}
-              <div className={`bg-gradient-to-br from-indigo-50/60 to-white rounded-3xl p-8 border border-indigo-100/40 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 ${visibleSections.has('section-how') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '0.2s' }}>
+              <div className={`bg-gradient-to-br from-orange-50/60 to-white rounded-3xl p-8 border border-orange-100/40 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 ${visibleSections.has('section-how') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '0.2s' }}>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/20">
                     <Brain className="w-8 h-8 text-white" />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-900">AI Lead Scoring</h3>
-                    <p className="text-indigo-600 font-medium">Automated qualification</p>
+                    <p className="text-orange-600 font-medium">Automated qualification</p>
                   </div>
                 </div>
 
@@ -481,11 +481,11 @@ export default function LeadsPage() {
                     { step: "4", text: "Hot leads routed to sales", icon: Target },
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-4 group/item">
-                      <div className="w-10 h-10 bg-indigo-50/60 text-indigo-600 rounded-xl flex items-center justify-center font-bold text-lg group-hover/item:bg-indigo-500 group-hover/item:text-white transition-all">
+                      <div className="w-10 h-10 bg-orange-50/60 text-orange-600 rounded-xl flex items-center justify-center font-bold text-lg group-hover/item:bg-orange-500 group-hover/item:text-white transition-all">
                         {item.step}
                       </div>
                       <div className="flex-1 flex items-center gap-3">
-                        <item.icon className="w-5 h-5 text-indigo-500" />
+                        <item.icon className="w-5 h-5 text-orange-500" />
                         <span className="text-gray-700 font-medium">{item.text}</span>
                       </div>
                     </div>
@@ -538,13 +538,13 @@ export default function LeadsPage() {
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               {/* Content - Left Side */}
               <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50/60 text-indigo-600 rounded-full font-semibold text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 text-orange-600 rounded-full font-semibold text-sm mb-4">
                   <BarChart3 className="w-4 h-4" />
                   Powerful Dashboard
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                   One Dashboard. <br className="hidden sm:block" />
-                  <span className="bg-gradient-to-r from-indigo-500 to-violet-600 bg-clip-text text-transparent">Complete Visibility.</span>
+                  <span className="bg-gradient-to-r from-orange-500 to-violet-600 bg-clip-text text-transparent">Complete Visibility.</span>
                 </h2>
                 <p className="text-gray-600 text-lg mb-8">
                   Track every lead, monitor conversions, and optimize your sales funnel from a single, powerful dashboard.
@@ -559,7 +559,7 @@ export default function LeadsPage() {
                     "Custom filters & saved views",
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-indigo-500 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0" />
                       <span className="text-gray-700">{item}</span>
                     </div>
                   ))}
@@ -625,7 +625,7 @@ export default function LeadsPage() {
                 </div>
                 
                 {/* Floating Badge */}
-                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-indigo-500 to-violet-600 text-white px-4 py-2 rounded-xl shadow-lg shadow-indigo-300/40" aria-hidden="true">
+                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-orange-500 to-violet-600 text-white px-4 py-2 rounded-xl shadow-lg shadow-orange-300/40" aria-hidden="true">
                   <div className="text-sm font-semibold flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                     Live Analytics
@@ -640,12 +640,12 @@ export default function LeadsPage() {
         <section 
           id="section-stats"
           data-animate
-          className="px-4 py-20 bg-gradient-to-br from-indigo-600 via-violet-700 to-indigo-800"
+          className="px-4 py-20 bg-gradient-to-br from-orange-600 via-violet-700 to-orange-800"
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-stats') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
-                Proven Results That <span className="text-indigo-200">Speak for Themselves</span>
+                Proven Results That <span className="text-orange-200">Speak for Themselves</span>
               </h2>
               <p className="text-white/80 max-w-2xl mx-auto">
                 Join thousands of businesses already transforming their sales with AI-powered lead intelligence.
@@ -680,7 +680,7 @@ export default function LeadsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-usecases') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Built For <span className="bg-gradient-to-r from-indigo-500 to-violet-600 bg-clip-text text-transparent">Every Industry</span>
+                Built For <span className="bg-gradient-to-r from-orange-500 to-violet-600 bg-clip-text text-transparent">Every Industry</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 From B2B sales teams to real estate agencies — AI lead intelligence works everywhere.
@@ -694,9 +694,9 @@ export default function LeadsPage() {
                 { title: "Real Estate", desc: "Score property inquiries and close more deals", icon: Target },
                 { title: "E-commerce", desc: "Identify buyers and personalize follow-ups", icon: TrendingUp },
               ].map((item, idx) => (
-                <div key={idx} className="text-center p-6 rounded-2xl hover:bg-indigo-50/60 transition-colors group">
-                  <div className="w-16 h-16 mx-auto bg-indigo-50/60 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-indigo-50/600 group-hover:scale-110 transition-all">
-                    <item.icon className="w-8 h-8 text-indigo-600 group-hover:text-white transition-colors" />
+                <div key={idx} className="text-center p-6 rounded-2xl hover:bg-orange-50/60 transition-colors group">
+                  <div className="w-16 h-16 mx-auto bg-orange-50/60 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-50/600 group-hover:scale-110 transition-all">
+                    <item.icon className="w-8 h-8 text-orange-600 group-hover:text-white transition-colors" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
                   <p className="text-gray-600 text-sm">{item.desc}</p>
@@ -715,7 +715,7 @@ export default function LeadsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-features-grid') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Everything You Need to <span className="bg-gradient-to-r from-indigo-500 to-violet-600 bg-clip-text text-transparent">Win More Deals</span>
+                Everything You Need to <span className="bg-gradient-to-r from-orange-500 to-violet-600 bg-clip-text text-transparent">Win More Deals</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 Comprehensive features designed to maximize your lead conversion at every stage.
@@ -725,13 +725,13 @@ export default function LeadsPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 { title: "Smart Lead Routing", desc: "Automatically route hot leads to your best closers based on skills and availability", icon: RefreshCw, color: "sky" },
-                { title: "Conversation Intelligence", desc: "AI analyzes every call to extract key insights, objections, and buying signals", icon: MessageSquare, color: "indigo" },
-                { title: "Predictive Analytics", desc: "Know which leads are most likely to convert before you pick up the phone", icon: PieChart, color: "indigo" },
+                { title: "Conversation Intelligence", desc: "AI analyzes every call to extract key insights, objections, and buying signals", icon: MessageSquare, color: "orange" },
+                { title: "Predictive Analytics", desc: "Know which leads are most likely to convert before you pick up the phone", icon: PieChart, color: "orange" },
                 { title: "Multi-Channel Tracking", desc: "Track leads from calls, emails, web forms, and social media in one place", icon: Globe, color: "violet" },
                 { title: "Custom Lead Scoring", desc: "Build scoring models tailored to your business and ideal customer profile", icon: Filter, color: "purple" },
                 { title: "Real-Time Alerts", desc: "Get instant notifications when high-value leads take action", icon: Zap, color: "fuchsia" },
               ].map((feature, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-100 hover:border-indigo-200/40 hover:shadow-lg transition-all group">
+                <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-100 hover:border-orange-200/40 hover:shadow-lg transition-all group">
                   <div className={`w-12 h-12 bg-${feature.color}-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                     <feature.icon className={`w-6 h-6 text-${feature.color}-600`} />
                   </div>
@@ -753,7 +753,7 @@ export default function LeadsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-testimonials') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Loved by <span className="bg-gradient-to-r from-indigo-500 to-violet-600 bg-clip-text text-transparent">Sales Teams Everywhere</span>
+                Loved by <span className="bg-gradient-to-r from-orange-500 to-violet-600 bg-clip-text text-transparent">Sales Teams Everywhere</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 See how companies are transforming their sales process with AI lead intelligence.
@@ -787,7 +787,7 @@ export default function LeadsPage() {
                 <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow">
                   <div className="flex gap-1 mb-4">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-indigo-500 text-indigo-500" />
+                      <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
                     ))}
                   </div>
                   
@@ -796,7 +796,7 @@ export default function LeadsPage() {
                   </blockquote>
                   
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                       {testimonial.initials}
                     </div>
                     <div>
@@ -819,7 +819,7 @@ export default function LeadsPage() {
           <div className={`max-w-4xl mx-auto transition-all duration-700 ${visibleSections.has('section-faq') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Frequently Asked <span className="bg-gradient-to-r from-indigo-500 to-violet-600 bg-clip-text text-transparent">Questions</span>
+                Frequently Asked <span className="bg-gradient-to-r from-orange-500 to-violet-600 bg-clip-text text-transparent">Questions</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 Everything you need to know about our AI lead intelligence platform.
@@ -872,7 +872,7 @@ export default function LeadsPage() {
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-security') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                Enterprise-Grade <span className="bg-gradient-to-r from-indigo-500 to-violet-600 bg-clip-text text-transparent">Security & Compliance</span>
+                Enterprise-Grade <span className="bg-gradient-to-r from-orange-500 to-violet-600 bg-clip-text text-transparent">Security & Compliance</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 Your data is protected by industry-leading security standards.
@@ -887,8 +887,8 @@ export default function LeadsPage() {
                 { title: "99.9% Uptime", desc: "Enterprise SLA with guaranteed availability", icon: Award },
               ].map((item, idx) => (
                 <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-100 text-center hover:shadow-lg transition-shadow">
-                  <div className="w-14 h-14 mx-auto bg-indigo-50/60 rounded-xl flex items-center justify-center mb-4">
-                    <item.icon className="w-7 h-7 text-indigo-600" />
+                  <div className="w-14 h-14 mx-auto bg-orange-50/60 rounded-xl flex items-center justify-center mb-4">
+                    <item.icon className="w-7 h-7 text-orange-600" />
                   </div>
                   <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
                   <p className="text-gray-600 text-sm">{item.desc}</p>
@@ -899,7 +899,7 @@ export default function LeadsPage() {
         </section>
 
         {/* SECTION 12: FINAL CTA */}
-        <section className="px-4 py-24 bg-gradient-to-br from-indigo-600 via-violet-700 to-indigo-800 relative overflow-hidden">
+        <section className="px-4 py-24 bg-gradient-to-br from-orange-600 via-violet-700 to-orange-800 relative overflow-hidden">
           {/* Background decoration */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
@@ -918,7 +918,7 @@ export default function LeadsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link
                 href="/signup?service=lead"
-                className="group inline-flex items-center justify-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-lg text-base font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                className="group inline-flex items-center justify-center gap-2 bg-white text-orange-600 px-8 py-4 rounded-lg text-base font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
               >
                 Start Free Trial
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

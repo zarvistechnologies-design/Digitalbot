@@ -74,7 +74,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
           <div className="flex flex-col grow bg-slate-50 border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center shrink-0 px-4">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-purple-600 bg-clip-text text-transparent">
                 DigitalBot
               </h1>
             </div>
@@ -111,7 +111,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
           {/* Logo */}
           <div className="flex items-center shrink-0 px-4">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-purple-600 bg-clip-text text-transparent">
               DigitalBot
             </h1>
           </div>
@@ -119,7 +119,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           {/* User Info */}
           {user && (
             <div className="mt-6 px-4">
-              <div className="bg-indigo-50 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
+              <div className="bg-orange-50 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
                 <p className="text-sm font-semibold text-gray-900">{user.name}</p>
                 <p className="text-xs text-gray-600">{user.email}</p>
                 {user.assignedPhoneNumber && (
@@ -127,7 +127,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                     <span className="font-semibold">Assigned Number:</span> {user.assignedPhoneNumber}
                   </p>
                 )}
-                <p className="text-xs text-indigo-600 mt-1 capitalize">
+                <p className="text-xs text-orange-600 mt-1 capitalize">
                   {user.selectedService?.replace('_', ' ')} Service
                 </p>
               </div>
@@ -144,7 +144,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                   href={item.href}
                   className={cn(
                     isActive
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
+                      ? 'bg-gradient-to-r from-orange-600 to-purple-600 text-white shadow-md'
                       : 'text-gray-700 hover:bg-gray-100',
                     'group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all'
                   )}
@@ -187,7 +187,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           >
             <div className="flex flex-col h-full">
               <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-purple-600 bg-clip-text text-transparent">
                   DigitalBot
                 </h1>
                 <button
@@ -200,13 +200,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
               {user && (
                 <div className="mt-4 px-4">
-                  <div className="bg-indigo-50 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className="bg-orange-50 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
                     <p className="text-sm font-semibold text-gray-900">{user.name}</p>
                     <p className="text-xs text-gray-600">{user.email}</p>
                     <p className="text-xs text-gray-600 mt-1">
                       Assigned Number:{user.assignedPhoneNumber}
                     </p>
-                    <p className="text-xs text-indigo-600 mt-1 capitalize">
+                    <p className="text-xs text-orange-600 mt-1 capitalize">
                       {user.selectedService?.replace('_', ' ')} Service
                     </p>
                   </div>
@@ -223,7 +223,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                       onClick={() => setSidebarOpen(false)}
                       className={cn(
                         isActive
-                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
+                          ? 'bg-gradient-to-r from-orange-600 to-purple-600 text-white shadow-md'
                           : 'text-gray-700 hover:bg-gray-100',
                         'group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all'
                       )}

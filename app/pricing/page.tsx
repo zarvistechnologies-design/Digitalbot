@@ -61,9 +61,9 @@ const plans = [
     ],
     popular: false,
     cta: "Get Started",
-    gradient: "from-indigo-500 to-violet-500",
-    bgColor: "bg-indigo-50/50",
-    borderHover: "hover:border-indigo-400",
+    gradient: "from-orange-500 to-violet-500",
+    bgColor: "bg-orange-50/50",
+    borderHover: "hover:border-orange-400",
   },
   {
     name: "Scale",
@@ -84,7 +84,7 @@ const plans = [
     ],
     popular: true,
     cta: "Get Started",
-    gradient: "from-violet-500 to-indigo-500",
+    gradient: "from-violet-500 to-orange-500",
     bgColor: "bg-violet-50/50",
     borderHover: "hover:border-violet-400",
   },
@@ -155,26 +155,26 @@ export default function Pricing() {
         <section className="pt-28 pb-16 px-4 relative overflow-hidden">
           {/* Animated Background */}
           <div className="absolute inset-0">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-200/15 rounded-full blur-[100px] animate-pulse" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-indigo-300/15 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/15 rounded-full blur-[100px] animate-pulse" />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-300/15 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-200/10 rounded-full blur-[120px]" />
           </div>
 
           {/* Floating Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-32 left-[10%] w-4 h-4 bg-indigo-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
+            <div className="absolute top-32 left-[10%] w-4 h-4 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
             <div className="absolute top-48 right-[15%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
             <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-violet-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-            <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-indigo-300 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
+            <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-orange-300 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
           </div>
 
           <div className="container mx-auto max-w-6xl relative z-10">
             {/* Breadcrumb */}
             <nav className="mb-8 text-sm" aria-label="Breadcrumb">
               <ol className="flex items-center gap-2">
-                <li><Link href="/" className="text-slate-400 hover:text-indigo-600 transition-colors">Home</Link></li>
+                <li><Link href="/" className="text-slate-400 hover:text-orange-600 transition-colors">Home</Link></li>
                 <li className="text-slate-300">/</li>
-                <li className="text-indigo-600 font-medium">Pricing</li>
+                <li className="text-orange-600 font-medium">Pricing</li>
               </ol>
             </nav>
 
@@ -187,7 +187,7 @@ export default function Pricing() {
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-6 leading-tight">
                 AI Voice Agent Plans
-                <span className="block bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent mt-2">Built for Every Business</span>
+                <span className="block bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent mt-2">Built for Every Business</span>
               </h1>
 
               <p className="text-lg text-slate-500 mb-8 leading-relaxed max-w-2xl mx-auto">
@@ -209,7 +209,7 @@ export default function Pricing() {
         </section>
 
         {/* Stats Bar */}
-        <section className="py-12 px-4 bg-gradient-to-r from-indigo-600 to-violet-600">
+        <section className="py-12 px-4 bg-gradient-to-r from-orange-600 to-violet-600">
           <div className="container mx-auto max-w-6xl">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
@@ -222,7 +222,7 @@ export default function Pricing() {
                   <p className="text-3xl md:text-4xl font-semibold text-white mb-1">
                     <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                   </p>
-                  <p className="text-indigo-200 text-sm font-medium">{stat.label}</p>
+                  <p className="text-orange-200 text-sm font-medium">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -246,13 +246,13 @@ export default function Pricing() {
 
               {/* Currency Toggle */}
               <div className="flex items-center justify-center gap-4">
-                <span className={`text-sm font-semibold transition-colors ${!isINR ? 'text-indigo-600' : 'text-slate-300'}`}>USD ($)</span>
+                <span className={`text-sm font-semibold transition-colors ${!isINR ? 'text-orange-600' : 'text-slate-300'}`}>USD ($)</span>
                 <Switch
                   checked={isINR}
                   onCheckedChange={setIsINR}
                   className="data-[state=checked]:bg-slate-900"
                 />
-                <span className={`text-sm font-semibold transition-colors ${isINR ? 'text-indigo-600' : 'text-slate-300'}`}>INR (₹)</span>
+                <span className={`text-sm font-semibold transition-colors ${isINR ? 'text-orange-600' : 'text-slate-300'}`}>INR (₹)</span>
               </div>
             </div>
 
@@ -264,14 +264,14 @@ export default function Pricing() {
                     relative bg-white/80 backdrop-blur-sm rounded-3xl border transition-all duration-300 overflow-hidden group
                     hover:shadow-2xl hover:-translate-y-2
                     ${plan.popular
-                      ? 'border-indigo-300 shadow-xl scale-[1.02]'
+                      ? 'border-orange-300 shadow-xl scale-[1.02]'
                       : `border-slate-200 shadow-lg ${plan.borderHover}`
                     }
                   `}
                 >
                   {/* Popular Badge */}
                   {plan.popular && (
-                    <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-indigo-500 to-violet-500" />
+                    <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-orange-500 to-violet-500" />
                   )}
 
                   <div className="p-8">
@@ -284,7 +284,7 @@ export default function Pricing() {
                         <div className="flex items-center gap-2">
                           <h3 className="text-xl font-semibold text-slate-900">{plan.name}</h3>
                           {plan.popular && (
-                            <span className="px-2.5 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-full">
+                            <span className="px-2.5 py-0.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
                               Most Popular
                             </span>
                           )}
@@ -353,8 +353,8 @@ export default function Pricing() {
           <div className="container mx-auto max-w-5xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { icon: Shield, title: "Secure & Compliant", desc: "SOC 2, GDPR & HIPAA compliant", color: "from-indigo-500 to-violet-500", bgColor: "bg-slate-50" },
-                { icon: Zap, title: "5-Minute Setup", desc: "No code required, instant deployment", color: "from-violet-500 to-indigo-500", bgColor: "bg-slate-50" },
+                { icon: Shield, title: "Secure & Compliant", desc: "SOC 2, GDPR & HIPAA compliant", color: "from-orange-500 to-violet-500", bgColor: "bg-slate-50" },
+                { icon: Zap, title: "5-Minute Setup", desc: "No code required, instant deployment", color: "from-violet-500 to-orange-500", bgColor: "bg-slate-50" },
                 { icon: Star, title: "Cancel Anytime", desc: "No long-term contracts or commitments", color: "from-emerald-500 to-teal-500", bgColor: "bg-slate-50" },
               ].map((badge, i) => (
                 <div key={i} className={`${badge.bgColor} rounded-2xl p-6 flex items-center gap-4 hover:shadow-lg transition-all hover:-translate-y-1`}>
@@ -397,7 +397,7 @@ export default function Pricing() {
           {/* Subtle background */}
           <div className="absolute inset-0">
             <div className="absolute top-1/4 left-0 w-72 h-72 bg-slate-100/30 rounded-full blur-[100px]" />
-            <div className="absolute bottom-1/4 right-0 w-72 h-72 bg-indigo-100/30 rounded-full blur-[100px]" />
+            <div className="absolute bottom-1/4 right-0 w-72 h-72 bg-orange-100/30 rounded-full blur-[100px]" />
           </div>
 
           <div className="container mx-auto max-w-4xl relative z-10">
@@ -424,7 +424,7 @@ export default function Pricing() {
                   <AccordionTrigger className="text-left font-semibold text-slate-900 hover:no-underline py-5 px-4 text-base">
                     <div className="flex items-center gap-4 pr-4">
                       <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
-                        <span className="text-indigo-600 font-medium text-sm">{index + 1}</span>
+                        <span className="text-orange-600 font-medium text-sm">{index + 1}</span>
                       </div>
                       <span>{faq.question}</span>
                     </div>
@@ -439,12 +439,12 @@ export default function Pricing() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-indigo-600 to-violet-700">
+        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 to-violet-700">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-6">
               Ready to Transform Your Business?
             </h2>
-              <p className="text-lg text-indigo-100 mb-8 max-w-2xl mx-auto">
+              <p className="text-lg text-orange-100 mb-8 max-w-2xl mx-auto">
               Join 500+ companies already using DigitalBot to automate their customer communications with AI voice agents.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
@@ -452,7 +452,7 @@ export default function Pricing() {
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/contact#contact-form" className="px-8 py-4 bg-indigo-500/30 text-white font-medium rounded-xl hover:bg-indigo-500/50 transition-all border border-white/30">
+              <Link href="/contact#contact-form" className="px-8 py-4 bg-orange-500/30 text-white font-medium rounded-xl hover:bg-orange-500/50 transition-all border border-white/30">
                 Contact Sales
               </Link>
             </div>
@@ -460,7 +460,7 @@ export default function Pricing() {
             {/* Trust items */}
             <div className="flex flex-wrap justify-center gap-6 mt-10">
               {["🎯 No Credit Card", "⚡ 5-Min Setup", "💎 Cancel Anytime", "🔒 Enterprise Security"].map((item, i) => (
-                <span key={i} className="text-indigo-200 text-sm font-medium">{item}</span>
+                <span key={i} className="text-orange-200 text-sm font-medium">{item}</span>
               ))}
             </div>
           </div>

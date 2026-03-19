@@ -183,7 +183,7 @@ export default function Services() {
         }}></div>
         
         {/* Floating Orbs */}
-        <div className="absolute top-20 left-[10%] w-72 h-72 bg-indigo-200/15 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute top-20 left-[10%] w-72 h-72 bg-orange-200/15 rounded-full blur-[100px] animate-pulse"></div>
         <div className="absolute bottom-20 right-[10%] w-96 h-96 bg-violet-200/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-slate-100/30 to-slate-100/30 rounded-full blur-[100px]"></div>
         
@@ -198,13 +198,13 @@ export default function Services() {
           <nav className="flex justify-start mb-6" aria-label="Breadcrumb">
             <ol className="inline-flex items-center gap-2 text-sm bg-white/80 backdrop-blur-xl px-5 py-2.5 rounded-full border border-slate-200 shadow-sm">
               <li>
-                <Link href="/" className="text-slate-400 hover:text-indigo-600 transition-colors font-medium flex items-center gap-1.5">
+                <Link href="/" className="text-slate-400 hover:text-orange-600 transition-colors font-medium flex items-center gap-1.5">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                   Home
                 </Link>
               </li>
               <li><ChevronRight className="w-4 h-4 text-slate-300" /></li>
-              <li className="text-indigo-600 font-medium">Services</li>
+              <li className="text-orange-600 font-medium">Services</li>
             </ol>
           </nav>
 
@@ -225,7 +225,7 @@ export default function Services() {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold leading-[1.05] mb-8">
                 <span className="text-slate-900 block">Revolutionize Your</span>
                 <span className="relative inline-block mt-2">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600">
                     Customer Experience
                   </span>
                   <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
@@ -241,7 +241,7 @@ export default function Services() {
               </h1>
               
               <p className="text-lg sm:text-xl text-slate-500 leading-relaxed mb-6 max-w-2xl">
-                Deploy intelligent AI voice agents that handle <span className="font-semibold text-indigo-600">millions of conversations</span> across <span className="font-semibold text-indigo-600">25+ countries</span>. Available 24/7, speaking 60+ languages.
+                Deploy intelligent AI voice agents that handle <span className="font-semibold text-orange-600">millions of conversations</span> across <span className="font-semibold text-orange-600">25+ countries</span>. Available 24/7, speaking 60+ languages.
               </p>
 
               {/* CTA Buttons */}
@@ -268,7 +268,7 @@ export default function Services() {
                   <div className="relative">
                     <div className="flex -space-x-2">
                       {['👨‍💼', '👩‍💻', '👨‍🔬', '👩‍💼'].map((emoji, i) => (
-                        <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-indigo-200 border-2 border-white shadow-md flex items-center justify-center text-lg">
+                        <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-200 border-2 border-white shadow-md flex items-center justify-center text-lg">
                           {emoji}
                         </div>
                       ))}
@@ -304,19 +304,19 @@ export default function Services() {
               {/* 3D Card Stack Effect */}
               <div className="relative h-[500px] sm:h-[550px]">
                 {/* Background Glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-200/15 to-violet-200/15 rounded-[40px] blur-3xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-200/15 to-violet-200/15 rounded-[40px] blur-3xl"></div>
                 
                 {/* Main Card */}
                 <div className="absolute inset-4 bg-white/90 backdrop-blur-xl rounded-[32px] shadow-2xl shadow-slate-200/50 border border-white/50 overflow-hidden">
                   {/* Card Header */}
-                  <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 px-6 py-4 flex items-center justify-between">
+                  <div className="bg-gradient-to-r from-orange-600 to-orange-500 px-6 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
                         <Bot className="w-5 h-5 text-white" />
                       </div>
                       <div>
                         <div className="text-white font-semibold">AI Voice Agent</div>
-                        <div className="text-indigo-100 text-xs">Enterprise Ready</div>
+                        <div className="text-orange-100 text-xs">Enterprise Ready</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -331,13 +331,13 @@ export default function Services() {
                     <div className="bg-gradient-to-r from-slate-50 to-slate-50 rounded-2xl p-4 border border-slate-100">
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-sm font-semibold text-slate-600">Voice Activity</span>
-                        <span className="text-xs text-indigo-600 font-medium">Real-time</span>
+                        <span className="text-xs text-orange-600 font-medium">Real-time</span>
                       </div>
                       <div className="flex items-end justify-center gap-1 h-12">
                         {[40, 65, 45, 80, 55, 70, 50, 85, 60, 75, 45, 90, 55, 70, 40].map((h, i) => (
                           <div 
                             key={i} 
-                            className="w-2 bg-gradient-to-t from-indigo-500 to-indigo-400 rounded-full animate-pulse"
+                            className="w-2 bg-gradient-to-t from-orange-500 to-orange-400 rounded-full animate-pulse"
                             style={{ 
                               height: `${h}%`,
                               animationDelay: `${i * 0.1}s`,
@@ -350,20 +350,20 @@ export default function Services() {
                     
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 transition-all cursor-pointer group">
-                        <div className="text-2xl font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">2M+</div>
+                      <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-orange-200 hover:bg-orange-50/50 transition-all cursor-pointer group">
+                        <div className="text-2xl font-semibold text-slate-900 group-hover:text-orange-600 transition-colors">2M+</div>
                         <div className="text-xs text-slate-400">Calls/Month</div>
                       </div>
-                      <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 transition-all cursor-pointer group">
-                        <div className="text-2xl font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">&lt;1s</div>
+                      <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-orange-200 hover:bg-orange-50/50 transition-all cursor-pointer group">
+                        <div className="text-2xl font-semibold text-slate-900 group-hover:text-orange-600 transition-colors">&lt;1s</div>
                         <div className="text-xs text-slate-400">Response</div>
                       </div>
-                      <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 transition-all cursor-pointer group">
-                        <div className="text-2xl font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">99.9%</div>
+                      <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-orange-200 hover:bg-orange-50/50 transition-all cursor-pointer group">
+                        <div className="text-2xl font-semibold text-slate-900 group-hover:text-orange-600 transition-colors">99.9%</div>
                         <div className="text-xs text-slate-400">Uptime</div>
                       </div>
-                      <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/50 transition-all cursor-pointer group">
-                        <div className="text-2xl font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">60+</div>
+                      <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-orange-200 hover:bg-orange-50/50 transition-all cursor-pointer group">
+                        <div className="text-2xl font-semibold text-slate-900 group-hover:text-orange-600 transition-colors">60+</div>
                         <div className="text-xs text-slate-400">Languages</div>
                       </div>
                     </div>
@@ -387,8 +387,8 @@ export default function Services() {
                 {/* Floating Elements */}
                 <div className="absolute -left-4 top-20 bg-white/70 backdrop-blur-sm rounded-2xl p-3 shadow-xl shadow-slate-200/30 border border-slate-100 animate-bounce-slow">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                      <Globe className="w-4 h-4 text-indigo-600" />
+                    <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                      <Globe className="w-4 h-4 text-orange-600" />
                     </div>
                     <span className="text-sm font-semibold text-slate-600">25+ Countries</span>
                   </div>
@@ -423,9 +423,9 @@ export default function Services() {
               {[...stats, ...stats, ...stats, ...stats].map((stat, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 flex items-center gap-4 bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-4 border border-slate-200 shadow-sm hover:shadow-lg hover:border-indigo-200 transition-all group cursor-pointer"
+                  className="flex-shrink-0 flex items-center gap-4 bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-4 border border-slate-200 shadow-sm hover:shadow-lg hover:border-orange-200 transition-all group cursor-pointer"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-indigo-500/25">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-orange-500/25">
                     <stat.icon className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -448,8 +448,8 @@ export default function Services() {
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-slate-100/40 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
           
           {/* Floating Shapes */}
-          <div className="absolute top-20 right-20 w-20 h-20 border-2 border-indigo-200/30 rounded-2xl rotate-12 animate-bounce-slow opacity-40"></div>
-          <div className="absolute bottom-32 left-16 w-16 h-16 bg-gradient-to-br from-indigo-200/15 to-violet-200/10 rounded-full animate-bounce-slow" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute top-20 right-20 w-20 h-20 border-2 border-orange-200/30 rounded-2xl rotate-12 animate-bounce-slow opacity-40"></div>
+          <div className="absolute bottom-32 left-16 w-16 h-16 bg-gradient-to-br from-orange-200/15 to-violet-200/10 rounded-full animate-bounce-slow" style={{ animationDelay: '0.5s' }}></div>
           <div className="absolute top-1/2 right-10 w-8 h-8 bg-slate-300/30 rounded-lg rotate-45 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
         </div>
         
@@ -457,13 +457,13 @@ export default function Services() {
           {/* Section Header */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
-              <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Our Services</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">AI Voice Solutions</span>
               <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
                 Built for Scale
               </span>
             </h2>
@@ -487,7 +487,7 @@ export default function Services() {
                     relative h-full min-h-[480px] rounded-3xl overflow-hidden transition-all duration-500
                     ${isFeatured 
                       ? 'bg-gradient-to-br from-slate-800 via-slate-900 to-slate-900 text-white shadow-xl' 
-                      : 'bg-gradient-to-br from-slate-50 to-white border border-slate-200/60 hover:border-indigo-200 hover:shadow-2xl hover:shadow-indigo-100/50'
+                      : 'bg-gradient-to-br from-slate-50 to-white border border-slate-200/60 hover:border-orange-200 hover:shadow-2xl hover:shadow-orange-100/50'
                     }
                     hover:-translate-y-2 cursor-pointer
                   `}>
@@ -509,7 +509,7 @@ export default function Services() {
                       {/* Service Number */}
                       <div className={`
                         absolute top-6 left-8 text-7xl font-black opacity-10
-                        ${isFeatured ? 'text-white' : 'text-indigo-500'}
+                        ${isFeatured ? 'text-white' : 'text-orange-500'}
                       `}>
                         {String(index + 1).padStart(2, '0')}
                       </div>
@@ -519,7 +519,7 @@ export default function Services() {
                         relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6
                         ${isFeatured 
                           ? 'bg-white/20 backdrop-blur-sm' 
-                          : 'bg-gradient-to-br from-indigo-500 to-indigo-600 shadow-lg shadow-indigo-500/25'
+                          : 'bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/25'
                         }
                         group-hover:scale-110 group-hover:rotate-3 transition-all duration-300
                       `}>
@@ -529,7 +529,7 @@ export default function Services() {
                       {/* Title */}
                       <h3 className={`
                         text-lg font-semibold mb-3 relative z-10
-                        ${isFeatured ? 'text-white' : 'text-slate-900 group-hover:text-indigo-600'}
+                        ${isFeatured ? 'text-white' : 'text-slate-900 group-hover:text-orange-600'}
                         transition-colors
                       `}>
                         {service.title}
@@ -538,7 +538,7 @@ export default function Services() {
                       {/* Description */}
                       <p className={`
                         mb-6 relative z-10 leading-relaxed
-                        ${isFeatured ? 'text-indigo-100' : 'text-slate-500'}
+                        ${isFeatured ? 'text-orange-100' : 'text-slate-500'}
                       `}>
                         {service.description}
                       </p>
@@ -555,11 +555,11 @@ export default function Services() {
                               w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0
                               ${isFeatured 
                                 ? 'bg-white/20' 
-                                : 'bg-indigo-100 group-hover:bg-indigo-500 group-hover:scale-110'
+                                : 'bg-orange-100 group-hover:bg-orange-500 group-hover:scale-110'
                               }
                               transition-all duration-300
                             `}>
-                              <Check className={`h-3 w-3 ${isFeatured ? 'text-white' : 'text-indigo-600 group-hover:text-white'} transition-colors`} />
+                              <Check className={`h-3 w-3 ${isFeatured ? 'text-white' : 'text-orange-600 group-hover:text-white'} transition-colors`} />
                             </div>
                             <span className={isFeatured ? 'text-white/90' : 'text-slate-600'}>
                               {feature}
@@ -571,7 +571,7 @@ export default function Services() {
                       {/* CTA Button */}
                       <div className={`
                         flex items-center gap-2 font-semibold relative z-10
-                        ${isFeatured ? 'text-white' : 'text-indigo-600'}
+                        ${isFeatured ? 'text-white' : 'text-orange-600'}
                         group-hover:gap-4 transition-all duration-300
                       `}>
                         <span>Explore Service</span>
@@ -579,18 +579,18 @@ export default function Services() {
                           w-8 h-8 rounded-full flex items-center justify-center
                           ${isFeatured 
                             ? 'bg-white/20 group-hover:bg-white/30' 
-                            : 'bg-indigo-100 group-hover:bg-indigo-500'
+                            : 'bg-orange-100 group-hover:bg-orange-500'
                           }
                           transition-all duration-300
                         `}>
-                          <ArrowRight className={`h-4 w-4 ${isFeatured ? 'text-white' : 'text-indigo-600 group-hover:text-white'} group-hover:translate-x-0.5 transition-all`} />
+                          <ArrowRight className={`h-4 w-4 ${isFeatured ? 'text-white' : 'text-orange-600 group-hover:text-white'} group-hover:translate-x-0.5 transition-all`} />
                         </div>
                       </div>
                     </div>
                     
                     {/* Bottom Gradient Line for Non-Featured */}
                     {!isFeatured && (
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-400 via-indigo-500 to-violet-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-violet-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                     )}
                   </div>
                 </Link>
@@ -602,7 +602,7 @@ export default function Services() {
           <div className="mt-16 text-center">
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-gradient-to-r from-slate-50 via-slate-100/50 to-slate-50 rounded-3xl border border-slate-200">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/25">
                   <Zap className="h-6 w-6 text-white" />
                 </div>
                 <div className="text-left">
@@ -634,19 +634,19 @@ export default function Services() {
           {/* Section Header */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full mb-6">
-              <Globe className="w-4 h-4 text-indigo-600" />
+              <Globe className="w-4 h-4 text-orange-600" />
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Global Reach</span>
-              <span className="px-2 py-0.5 bg-indigo-600 text-white text-xs font-medium rounded-full">25+ Countries</span>
+              <span className="px-2 py-0.5 bg-orange-600 text-white text-xs font-medium rounded-full">25+ Countries</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Industries We</span>
               <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
                 Serve & Transform
               </span>
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-              Our AI voice assistants are <span className="font-semibold text-indigo-600">trusted across multiple industries</span> to deliver exceptional customer experiences and <span className="font-semibold text-indigo-600">operational efficiency</span>.
+              Our AI voice assistants are <span className="font-semibold text-orange-600">trusted across multiple industries</span> to deliver exceptional customer experiences and <span className="font-semibold text-orange-600">operational efficiency</span>.
             </p>
           </div>
 
@@ -675,7 +675,7 @@ export default function Services() {
                     className="flex-shrink-0 w-[300px] sm:w-[340px] snap-center group cursor-pointer"
                   >
                     {/* Card with white background and image on top */}
-                    <div className="relative bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg shadow-slate-200/60 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2 border border-slate-200/60 hover:border-indigo-200">
+                    <div className="relative bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg shadow-slate-200/60 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2 border border-slate-200/60 hover:border-orange-200">
                       {/* Image Section */}
                       <div className="relative h-48 overflow-hidden">
                         <img 
@@ -688,12 +688,12 @@ export default function Services() {
                         <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
                         
                         {/* Number Badge */}
-                        <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center font-semibold text-indigo-600 text-lg shadow-lg">
+                        <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center font-semibold text-orange-600 text-lg shadow-lg">
                           {String(index + 1).padStart(2, '0')}
                         </div>
                         
                         {/* Icon floating at bottom */}
-                        <div className="absolute -bottom-6 right-6 w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-xl shadow-indigo-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 border-4 border-white">
+                        <div className="absolute -bottom-6 right-6 w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-xl shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 border-4 border-white">
                           <industry.icon className="h-6 w-6 text-white" />
                         </div>
                       </div>
@@ -701,7 +701,7 @@ export default function Services() {
                       {/* Content Section */}
                       <div className="p-6 pt-4">
                         {/* Title */}
-                        <h3 className="text-lg font-semibold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                        <h3 className="text-lg font-semibold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">
                           {industry.name}
                         </h3>
                         
@@ -712,15 +712,15 @@ export default function Services() {
                         
                         {/* CTA */}
                         <div className="flex items-center justify-between pt-4 border-t border-slate-200">
-                          <span className="text-indigo-600 font-semibold text-sm">Explore Solutions</span>
-                          <div className="w-9 h-9 rounded-full bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-500 transition-all duration-300">
-                            <ArrowRight className="h-4 w-4 text-indigo-600 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+                          <span className="text-orange-600 font-semibold text-sm">Explore Solutions</span>
+                          <div className="w-9 h-9 rounded-full bg-orange-50 flex items-center justify-center group-hover:bg-orange-500 transition-all duration-300">
+                            <ArrowRight className="h-4 w-4 text-orange-600 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
                           </div>
                         </div>
                       </div>
                       
                       {/* Bottom Accent Line */}
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-400 via-indigo-500 to-violet-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-violet-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                     </div>
                   </div>
                 );
@@ -730,7 +730,7 @@ export default function Services() {
             {/* Scroll Indicators */}
             <div className="flex justify-center gap-2 mt-8">
               {industries.map((_, index) => (
-                <div key={index} className="w-2 h-2 rounded-full bg-slate-200 hover:bg-indigo-500 transition-colors cursor-pointer"></div>
+                <div key={index} className="w-2 h-2 rounded-full bg-slate-200 hover:bg-orange-500 transition-colors cursor-pointer"></div>
               ))}
             </div>
           </div>
@@ -743,11 +743,11 @@ export default function Services() {
               { value: '99%', label: 'Client Satisfaction', icon: Star },
             ].map((stat, idx) => (
               <div key={idx} className="flex items-center gap-4 group cursor-pointer">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all">
                   <stat.icon className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <div className="text-2xl font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">{stat.value}</div>
+                  <div className="text-2xl font-semibold text-slate-900 group-hover:text-orange-600 transition-colors">{stat.value}</div>
                   <div className="text-sm text-slate-400">{stat.label}</div>
                 </div>
               </div>
@@ -768,13 +768,13 @@ export default function Services() {
         <div className="container mx-auto relative z-10 max-w-6xl">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full mb-6">
-              <Zap className="w-4 h-4 text-indigo-600" />
+              <Zap className="w-4 h-4 text-orange-600" />
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Powerful Features</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Everything You Need to</span>
               <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
                 Automate Communication
               </span>
             </h2>
@@ -819,7 +819,7 @@ export default function Services() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent"></div>
                     <div className="absolute bottom-4 left-4 w-14 h-14 rounded-2xl bg-white/70 backdrop-blur-sm shadow-xl flex items-center justify-center">
-                      <feature.icon className="h-7 w-7 text-indigo-600" />
+                      <feature.icon className="h-7 w-7 text-orange-600" />
                     </div>
                   </div>
                 </div>
@@ -834,7 +834,7 @@ export default function Services() {
                   </p>
                   <div className="flex flex-wrap gap-3">
                     {feature.features.map((f, i) => (
-                      <span key={i} className="px-4 py-2 bg-slate-50 text-indigo-600 rounded-full text-sm font-medium border border-slate-200">
+                      <span key={i} className="px-4 py-2 bg-slate-50 text-orange-600 rounded-full text-sm font-medium border border-slate-200">
                         {f}
                       </span>
                     ))}
@@ -856,13 +856,13 @@ export default function Services() {
         <div className="container mx-auto relative z-10 max-w-6xl">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full mb-6">
-              <Star className="w-4 h-4 text-indigo-600 fill-indigo-600" />
+              <Star className="w-4 h-4 text-orange-600 fill-orange-600" />
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Client Success Stories</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Trusted by Leading</span>
               <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
                 Businesses Worldwide
               </span>
             </h2>
@@ -900,7 +900,7 @@ export default function Services() {
               }
             ].map((testimonial, idx) => (
               <div key={idx} className="flex-shrink-0 w-[350px] snap-center">
-                <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl shadow-slate-100/50 border border-slate-200/60 hover:shadow-2xl hover:border-indigo-200 transition-all duration-300 hover:-translate-y-2 h-full">
+                <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl shadow-slate-100/50 border border-slate-200/60 hover:shadow-2xl hover:border-orange-200 transition-all duration-300 hover:-translate-y-2 h-full">
                   {/* Rating */}
                   <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
@@ -915,7 +915,7 @@ export default function Services() {
                   
                   {/* Author */}
                   <div className="flex items-center gap-4 pt-4 border-t border-slate-200">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center text-white font-semibold text-lg">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-semibold text-lg">
                       {testimonial.author.charAt(0)}
                     </div>
                     <div>
@@ -944,7 +944,7 @@ export default function Services() {
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10"></div>
             <div className="flex gap-12 animate-marquee">
               {['Salesforce', 'HubSpot', 'Zendesk', 'Slack', 'Microsoft Teams', 'Zoom', 'Google', 'Twilio', 'Salesforce', 'HubSpot', 'Zendesk', 'Slack'].map((brand, idx) => (
-                <div key={idx} className="flex-shrink-0 px-8 py-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-indigo-200 hover:bg-slate-100 transition-all">
+                <div key={idx} className="flex-shrink-0 px-8 py-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-orange-200 hover:bg-slate-100 transition-all">
                   <span className="text-slate-600 font-semibold text-lg whitespace-nowrap">{brand}</span>
                 </div>
               ))}
@@ -966,25 +966,25 @@ export default function Services() {
           {/* Section Header */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full mb-6">
-              <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Simple Setup Process</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Get Started in</span>
               <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
                 Three Easy Steps
               </span>
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-              Transform your business communication with AI voice technology. Our streamlined process gets you up and running in <span className="font-semibold text-indigo-600">less than 2 weeks</span>.
+              Transform your business communication with AI voice technology. Our streamlined process gets you up and running in <span className="font-semibold text-orange-600">less than 2 weeks</span>.
             </p>
           </div>
 
           {/* Timeline Cards */}
           <div className="relative">
             {/* Connecting Line - Desktop */}
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-slate-200 via-indigo-300 to-indigo-500 -translate-y-1/2 rounded-full"></div>
+            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-slate-200 via-orange-300 to-orange-500 -translate-y-1/2 rounded-full"></div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6">
               {[
@@ -1015,26 +1015,26 @@ export default function Services() {
               ].map((item, idx) => (
                 <div key={idx} className="relative group">
                   {/* Card */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl shadow-slate-100/50 border border-slate-200/60 hover:shadow-2xl hover:border-indigo-200 transition-all duration-500 hover:-translate-y-3 h-full">
+                  <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl shadow-slate-100/50 border border-slate-200/60 hover:shadow-2xl hover:border-orange-200 transition-all duration-500 hover:-translate-y-3 h-full">
                     {/* Step Number - Floating Circle */}
                     <div className="absolute -top-5 left-1/2 -translate-x-1/2 lg:relative lg:top-0 lg:left-0 lg:translate-x-0">
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center text-white font-semibold text-xl shadow-lg shadow-indigo-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 border-4 border-white">
+                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-semibold text-xl shadow-lg shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 border-4 border-white">
                         {item.step}
                       </div>
                     </div>
                     
                     {/* Duration Badge */}
                     <div className="flex justify-between items-center mt-4 lg:mt-0 mb-4">
-                      <span className="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-semibold rounded-full border border-indigo-100">
+                      <span className="px-3 py-1 bg-orange-50 text-orange-600 text-xs font-semibold rounded-full border border-orange-100">
                         {item.duration}
                       </span>
-                      <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
-                        <item.icon className="w-5 h-5 text-indigo-600" />
+                      <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center group-hover:bg-orange-100 transition-colors">
+                        <item.icon className="w-5 h-5 text-orange-600" />
                       </div>
                     </div>
                     
                     {/* Content */}
-                    <h3 className="text-lg font-semibold text-slate-900 mb-3 group-hover:text-indigo-600 transition-colors">
+                    <h3 className="text-lg font-semibold text-slate-900 mb-3 group-hover:text-orange-600 transition-colors">
                       {item.title}
                     </h3>
                     <p className="text-slate-500 leading-relaxed mb-5">
@@ -1045,8 +1045,8 @@ export default function Services() {
                     <div className="space-y-2">
                       {item.features.map((feature, i) => (
                         <div key={i} className="flex items-center gap-2">
-                          <div className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center">
-                            <Check className="w-3 h-3 text-indigo-600" />
+                          <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center">
+                            <Check className="w-3 h-3 text-orange-600" />
                           </div>
                           <span className="text-sm text-slate-500">{feature}</span>
                         </div>
@@ -1057,8 +1057,8 @@ export default function Services() {
                   {/* Arrow Connector - Mobile */}
                   {idx < 2 && (
                     <div className="lg:hidden flex justify-center my-4">
-                      <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
-                        <ArrowRight className="w-4 h-4 text-indigo-600 rotate-90" />
+                      <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
+                        <ArrowRight className="w-4 h-4 text-orange-600 rotate-90" />
                       </div>
                     </div>
                   )}
@@ -1071,7 +1071,7 @@ export default function Services() {
           <div className="mt-10 text-center">
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-gradient-to-r from-slate-50 via-white to-slate-50 rounded-3xl border border-slate-200 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/25">
                   <Headphones className="h-6 w-6 text-white" />
                 </div>
                 <div className="text-left">
@@ -1103,18 +1103,18 @@ export default function Services() {
           {/* Section Header */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full mb-6">
-              <MessageSquare className="w-4 h-4 text-indigo-600" />
+              <MessageSquare className="w-4 h-4 text-orange-600" />
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Got Questions?</span>
             </div>
             <h2 id="faq-section" className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Frequently Asked</span>
               <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
                 Questions
               </span>
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-              Everything you need to know about our <span className="font-semibold text-indigo-600">AI Voice Assistant Services</span>
+              Everything you need to know about our <span className="font-semibold text-orange-600">AI Voice Assistant Services</span>
             </p>
           </div>
           
@@ -1184,16 +1184,16 @@ export default function Services() {
             ].map((faq, idx) => (
               <div 
                 key={idx} 
-                className="group bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-slate-200/60 hover:shadow-lg hover:border-indigo-200 hover:-translate-y-1 transition-all duration-300"
+                className="group bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-slate-200/60 hover:shadow-lg hover:border-orange-200 hover:-translate-y-1 transition-all duration-300"
               >
                 {/* Header */}
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-110 transition-transform">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/25 group-hover:scale-110 transition-transform">
                     <faq.icon className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <span className="text-xs font-semibold text-indigo-500 mb-1 block">FAQ {String(idx + 1).padStart(2, '0')}</span>
-                    <h3 className="text-base font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors leading-tight">
+                    <span className="text-xs font-semibold text-orange-500 mb-1 block">FAQ {String(idx + 1).padStart(2, '0')}</span>
+                    <h3 className="text-base font-semibold text-slate-900 group-hover:text-orange-600 transition-colors leading-tight">
                       {faq.question}
                     </h3>
                   </div>
@@ -1211,7 +1211,7 @@ export default function Services() {
           <div className="mt-10 text-center">
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-white/70 backdrop-blur-sm rounded-3xl border border-slate-200/60 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/25">
                   <MessageSquare className="h-6 w-6 text-white" />
                 </div>
                 <div className="text-left">
@@ -1231,7 +1231,7 @@ export default function Services() {
       </section>
 
       {/* CTA Section - Clean Modern Design */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-orange-950 via-slate-900 to-slate-950">
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-slate-700/30 rounded-full filter blur-3xl"></div>
@@ -1257,7 +1257,7 @@ export default function Services() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-6 leading-tight">
               Ready to Transform Your
               <br />
-              <span className="bg-gradient-to-r from-indigo-300 via-slate-200 to-white bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-300 via-slate-200 to-white bg-clip-text text-transparent">
                 Business Communication?
               </span>
             </h2>

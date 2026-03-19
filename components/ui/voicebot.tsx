@@ -105,7 +105,7 @@ export default function VoiceBot() {
           className={`w-full px-8 py-4 rounded-full font-semibold text-white transition-all transform hover:scale-105 ${
             isCallActive
               ? 'bg-red-500 hover:bg-red-600 active:scale-95'
-              : 'bg-indigo-500 hover:bg-indigo-600 active:scale-95'
+              : 'bg-orange-500 hover:bg-orange-600 active:scale-95'
           }`}
         >
           {isCallActive ? '🔴 End Call' : '🎤 Start Voice Call'}
@@ -131,9 +131,9 @@ export default function VoiceBot() {
             </div>
             
             <div className="flex gap-2 mt-2">
-              <div className={`w-2 h-8 bg-indigo-400 rounded ${isSpeaking ? '' : 'animate-pulse'}`} style={{animationDelay: '0ms'}}></div>
-              <div className={`w-2 h-12 bg-indigo-500 rounded ${isSpeaking ? '' : 'animate-pulse'}`} style={{animationDelay: '150ms'}}></div>
-              <div className={`w-2 h-10 bg-indigo-400 rounded ${isSpeaking ? '' : 'animate-pulse'}`} style={{animationDelay: '300ms'}}></div>
+              <div className={`w-2 h-8 bg-orange-400 rounded ${isSpeaking ? '' : 'animate-pulse'}`} style={{animationDelay: '0ms'}}></div>
+              <div className={`w-2 h-12 bg-orange-500 rounded ${isSpeaking ? '' : 'animate-pulse'}`} style={{animationDelay: '150ms'}}></div>
+              <div className={`w-2 h-10 bg-orange-400 rounded ${isSpeaking ? '' : 'animate-pulse'}`} style={{animationDelay: '300ms'}}></div>
             </div>
           </div>
         )}

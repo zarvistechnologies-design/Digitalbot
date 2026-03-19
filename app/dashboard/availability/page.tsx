@@ -229,7 +229,7 @@ export default function AvailabilityPage() {
   const isPast = selectedDate < new Date(new Date().setHours(0, 0, 0, 0));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-purple-50/20">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="lg:pl-64">
@@ -314,7 +314,7 @@ export default function AvailabilityPage() {
                 {!isToday && (
                   <button
                     onClick={goToToday}
-                    className="text-sm text-blue-600 hover:underline mt-1"
+                    className="text-sm text-orange-600 hover:underline mt-1"
                   >
                     Go to Today
                   </button>
@@ -342,7 +342,7 @@ export default function AvailabilityPage() {
                       isSelected
                         ? "bg-green-600 text-white"
                         : isTodayDate
-                        ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                        ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
                         : "hover:bg-gray-100"
                     }`}
                   >
@@ -486,11 +486,11 @@ export default function AvailabilityPage() {
                         </div>
                         <div className="text-sm text-green-600">Available Slots</div>
                       </div>
-                      <div className="bg-blue-50 rounded-xl p-4 text-center">
-                        <div className="text-2xl font-bold text-blue-700">
+                      <div className="bg-orange-50 rounded-xl p-4 text-center">
+                        <div className="text-2xl font-bold text-orange-700">
                           {availability?.bookedSlots?.length || 0}
                         </div>
-                        <div className="text-sm text-blue-600">Booked</div>
+                        <div className="text-sm text-orange-600">Booked</div>
                       </div>
                       <div className="bg-gray-50 rounded-xl p-4 text-center">
                         <div className="text-2xl font-bold text-gray-700">
@@ -509,10 +509,10 @@ export default function AvailabilityPage() {
                           {availability.bookedSlots.map((slot) => (
                             <div
                               key={slot.time}
-                              className="flex items-center justify-between p-4 bg-blue-50 rounded-xl border border-blue-200"
+                              className="flex items-center justify-between p-4 bg-orange-50 rounded-xl border border-orange-200"
                             >
                               <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2 text-blue-700">
+                                <div className="flex items-center gap-2 text-orange-700">
                                   <Clock className="w-4 h-4" />
                                   <span className="font-semibold">{slot.time}</span>
                                 </div>

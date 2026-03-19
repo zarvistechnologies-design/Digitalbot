@@ -86,7 +86,7 @@ userPhone ?: string;
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'active': return 'bg-green-100 text-green-700 border-green-300';
-            case 'scheduled': return 'bg-blue-100 text-blue-700 border-blue-300';
+            case 'scheduled': return 'bg-orange-100 text-orange-700 border-orange-300';
             case 'completed': return 'bg-gray-100 text-gray-700 border-gray-300';
             case 'paused': return 'bg-yellow-100 text-yellow-700 border-yellow-300';
             default: return 'bg-purple-100 text-purple-700 border-purple-300';
@@ -121,7 +121,7 @@ userPhone ?: string;
                                 {campaign.type}
                             </span>
                             {userPhone && (
-                                <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-blue-100 text-blue-700 border-2 border-blue-300">
+                                <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-orange-100 text-orange-700 border-2 border-orange-300">
                                     📞 {userPhone}
                                 </span>
                             )}
@@ -157,7 +157,7 @@ userPhone ?: string;
                                 <span className="px-2 py-1 bg-pink-600 text-white rounded text-xs font-semibold">A/B Testing</span>
                             )}
                             {campaign.aiFeatures.sentimentAnalysis && (
-                                <span className="px-2 py-1 bg-blue-600 text-white rounded text-xs font-semibold">Sentiment AI</span>
+                                <span className="px-2 py-1 bg-orange-600 text-white rounded text-xs font-semibold">Sentiment AI</span>
                             )}
                             {campaign.aiFeatures.performancePrediction && (
                                 <span className="px-2 py-1 bg-sky-600 text-white rounded text-xs font-semibold">Performance Prediction</span>
@@ -171,9 +171,9 @@ userPhone ?: string;
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-3 border-2 border-blue-200">
-                        <div className="text-xs text-blue-700 font-semibold mb-1">Total Contacts</div>
-                        <div className="text-2xl font-black text-blue-900">{campaign.totalContacts.toLocaleString()}</div>
+                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-3 border-2 border-orange-200">
+                        <div className="text-xs text-orange-700 font-semibold mb-1">Total Contacts</div>
+                        <div className="text-2xl font-black text-orange-900">{campaign.totalContacts.toLocaleString()}</div>
                     </div>
                     <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-3 border-2 border-green-200">
                         <div className="text-xs text-green-700 font-semibold mb-1">Successful</div>
@@ -190,7 +190,7 @@ userPhone ?: string;
                 </div>
 
                 {/* Performance Metrics */}
-                <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl p-4 mb-4 border-2 border-purple-200">
+                <div className="bg-gradient-to-br from-purple-50 to-orange-50 rounded-xl p-4 mb-4 border-2 border-purple-200">
                     <h4 className="text-sm font-bold text-purple-700 mb-3 flex items-center gap-2">
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -233,7 +233,7 @@ userPhone ?: string;
                     <div className="flex gap-2">
                         <button
                             onClick={onView}
-                            className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all font-semibold text-sm"
+                            className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-600 to-purple-600 text-white rounded-lg hover:from-orange-700 hover:to-purple-700 transition-all font-semibold text-sm"
                         >
                             📊 View
                         </button>
@@ -746,7 +746,7 @@ export default function CampaignsPage() {
 
     if (loading) {
         return (
-            <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100">
+            <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-purple-100">
                 <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
                     <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
                 </div>
@@ -764,7 +764,7 @@ export default function CampaignsPage() {
     }
 
     return (
-        <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100">
+        <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-purple-100">
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -849,16 +849,16 @@ export default function CampaignsPage() {
                             <p className="text-3xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">{activeCampaigns}</p>
                         </div>
 
-                        <div className="bg-white rounded-2xl shadow-lg border-2 border-blue-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 shadow-lg">
+                                <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-cyan-600 shadow-lg">
                                     <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
                                 </div>
                             </div>
                             <p className="text-slate-600 font-semibold mb-1 text-sm">Total Reach</p>
-                            <p className="text-3xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{totalContacts.toLocaleString()}</p>
+                            <p className="text-3xl font-black bg-gradient-to-r from-orange-600 to-cyan-600 bg-clip-text text-transparent">{totalContacts.toLocaleString()}</p>
                         </div>
 
                         <div className="bg-white rounded-2xl shadow-lg border-2 border-sky-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
@@ -894,10 +894,10 @@ export default function CampaignsPage() {
                                 {[
                                     { value: 'all', label: 'All Campaigns', color: 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200', active: 'bg-gradient-to-r from-purple-500 to-pink-600' },
                                     { value: 'active', label: 'Active', color: 'bg-green-50 text-green-700 border-green-300 hover:bg-green-100', active: 'bg-gradient-to-r from-green-500 to-emerald-600' },
-                                    { value: 'scheduled', label: 'Scheduled', color: 'bg-blue-50 text-blue-700 border-blue-300 hover:bg-blue-100', active: 'bg-gradient-to-r from-blue-500 to-cyan-600' },
+                                    { value: 'scheduled', label: 'Scheduled', color: 'bg-orange-50 text-orange-700 border-orange-300 hover:bg-orange-100', active: 'bg-gradient-to-r from-orange-500 to-cyan-600' },
                                     { value: 'paused', label: 'Paused', color: 'bg-yellow-50 text-yellow-700 border-yellow-300 hover:bg-yellow-100', active: 'bg-gradient-to-r from-yellow-500 to-sky-600' },
                                     { value: 'completed', label: 'Completed', color: 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100', active: 'bg-gradient-to-r from-gray-500 to-slate-600' },
-                                    { value: 'draft', label: 'Draft', color: 'bg-purple-50 text-purple-700 border-purple-300 hover:bg-purple-100', active: 'bg-gradient-to-r from-purple-500 to-indigo-600' }
+                                    { value: 'draft', label: 'Draft', color: 'bg-purple-50 text-purple-700 border-purple-300 hover:bg-purple-100', active: 'bg-gradient-to-r from-purple-500 to-orange-600' }
                                 ].map(filter => (
                                     <button
                                         key={filter.value}
@@ -1190,7 +1190,7 @@ export default function CampaignsPage() {
                                             {userInfo?.assignedPhoneNumber && (
                                                 <div className="col-span-2">
                                                     <p className="text-sm text-gray-600 font-semibold">Calling From</p>
-                                                    <p className="text-lg font-bold text-blue-600">📞 {userInfo.assignedPhoneNumber}</p>
+                                                    <p className="text-lg font-bold text-orange-600">📞 {userInfo.assignedPhoneNumber}</p>
                                                 </div>
                                             )}
                                         </div>
