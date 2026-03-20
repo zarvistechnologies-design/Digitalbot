@@ -401,8 +401,8 @@ export default function AvailabilityPage() {
                     {selectedDoctor.slotDuration} min slots •{" "}
                     Today: {(() => {
                       const dayHours = getDayHours(selectedDoctor, selectedDate);
-                      const start = availability?.workingHours?.start || dayHours?.start || selectedDoctor.defaultWorkingHours.start;
-                      const end = availability?.workingHours?.end || dayHours?.end || selectedDoctor.defaultWorkingHours.end;
+                      const start = dayHours?.start || availability?.workingHours?.start || selectedDoctor.defaultWorkingHours.start;
+                      const end = dayHours?.end || availability?.workingHours?.end || selectedDoctor.defaultWorkingHours.end;
                       return `${start} - ${end}`;
                     })()}
                   </p>
