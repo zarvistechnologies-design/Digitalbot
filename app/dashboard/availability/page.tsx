@@ -399,13 +399,27 @@ export default function AvailabilityPage() {
                   </h3>
                   <p className="text-sm text-gray-500">
                     {selectedDoctor.slotDuration} min slots •{" "}
-                    {(() => {
+                    Today: {(() => {
                       const dayHours = getDayHours(selectedDoctor, selectedDate);
                       const start = availability?.workingHours?.start || dayHours?.start || selectedDoctor.defaultWorkingHours.start;
                       const end = availability?.workingHours?.end || dayHours?.end || selectedDoctor.defaultWorkingHours.end;
                       return `${start} - ${end}`;
                     })()}
                   </p>
+                  {selectedDoctor.weeklySchedule && Object.values(selectedDoctor.weeklySchedule).some(d => d && d.start && d.end) && (
+                    <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1">
+                      {(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const).map((dayLabel, idx) => {
+                        const hours = getDayHours(selectedDoctor, (() => { const d = new Date(selectedDate); d.setDate(d.getDate() - d.getDay() + idx); return d; })());
+                        if (!hours) return null;
+                        const isSelectedDay = selectedDate.getDay() === idx;
+                        return (
+                          <span key={idx} className={`text-xs ${isSelectedDay ? "text-purple-700 font-semibold" : "text-gray-400"}`}>
+                            {dayLabel} {hours.start}-{hours.end}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex gap-2">
