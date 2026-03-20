@@ -660,64 +660,173 @@ export default function DoctorsPage() {
                 )}
               </div>
 
-              {/* Working Hours */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Start Time
-                  </label>
-                  <input
-                    type="time"
-                    value={formData.defaultWorkingHours.start}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        defaultWorkingHours: { ...formData.defaultWorkingHours, start: e.target.value },
-                      })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    End Time
-                  </label>
-                  <input
-                    type="time"
-                    value={formData.defaultWorkingHours.end}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        defaultWorkingHours: { ...formData.defaultWorkingHours, end: e.target.value },
-                      })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+              {/* Schedule Mode Toggle */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Working Schedule
+                </label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, useDifferentTimings: false })}
+                    className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                      !formData.useDifferentTimings
+                        ? "bg-orange-600 text-white border-orange-600"
+                        : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    Same timing every day
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({
+                      ...formData,
+                      useDifferentTimings: true,
+                      weeklySchedule: formData.weeklySchedule || { ...DEFAULT_WEEKLY_SCHEDULE },
+                    })}
+                    className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                      formData.useDifferentTimings
+                        ? "bg-orange-600 text-white border-orange-600"
+                        : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    Different timing per day
+                  </button>
                 </div>
               </div>
 
-              {/* Working Days */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Working Days
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {DAYS_OF_WEEK.map((day) => (
-                    <button
-                      key={day.value}
-                      type="button"
-                      onClick={() => toggleWorkingDay(day.value)}
-                      className={`px-3 py-2 rounded-lg border transition-colors ${
-                        formData.workingDays.includes(day.value)
-                          ? "bg-blue-600 text-white border-blue-600"
-                          : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
-                      }`}
-                    >
-                      {day.label}
-                    </button>
-                  ))}
+              {!formData.useDifferentTimings ? (
+                <>
+                  {/* Default Working Hours */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Start Time
+                      </label>
+                      <input
+                        type="time"
+                        value={formData.defaultWorkingHours.start}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            defaultWorkingHours: { ...formData.defaultWorkingHours, start: e.target.value },
+                          })
+                        }
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        End Time
+                      </label>
+                      <input
+                        type="time"
+                        value={formData.defaultWorkingHours.end}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            defaultWorkingHours: { ...formData.defaultWorkingHours, end: e.target.value },
+                          })
+                        }
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Working Days */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Working Days
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {DAYS_OF_WEEK.map((day) => (
+                        <button
+                          key={day.value}
+                          type="button"
+                          onClick={() => toggleWorkingDay(day.value)}
+                          className={`px-3 py-2 rounded-lg border transition-colors ${
+                            formData.workingDays.includes(day.value)
+                              ? "bg-orange-600 text-white border-orange-600"
+                              : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                          }`}
+                        >
+                          {day.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* Per-Day Schedule */
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Set timing for each day
+                  </label>
+                  {DAYS_OF_WEEK.map((day) => {
+                    const dayKey = day.key;
+                    const schedule = formData.weeklySchedule?.[dayKey];
+                    const isWorking = schedule?.isWorking !== false;
+                    return (
+                      <div
+                        key={day.value}
+                        className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+                          isWorking ? "bg-white border-gray-200" : "bg-gray-50 border-gray-100"
+                        }`}
+                      >
+                        {/* Day toggle */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const ws = { ...(formData.weeklySchedule || DEFAULT_WEEKLY_SCHEDULE) };
+                            ws[dayKey] = {
+                              ...ws[dayKey],
+                              start: ws[dayKey]?.start || "09:00",
+                              end: ws[dayKey]?.end || "17:00",
+                              isWorking: !isWorking,
+                            };
+                            setFormData({ ...formData, weeklySchedule: ws });
+                          }}
+                          className={`w-14 text-xs font-bold py-1.5 rounded-md border transition-colors ${
+                            isWorking
+                              ? "bg-orange-600 text-white border-orange-600"
+                              : "bg-gray-200 text-gray-500 border-gray-300"
+                          }`}
+                        >
+                          {day.label}
+                        </button>
+
+                        {isWorking ? (
+                          <>
+                            <input
+                              type="time"
+                              value={schedule?.start || "09:00"}
+                              onChange={(e) => {
+                                const ws = { ...(formData.weeklySchedule || DEFAULT_WEEKLY_SCHEDULE) };
+                                ws[dayKey] = { ...ws[dayKey], start: e.target.value, isWorking: true };
+                                setFormData({ ...formData, weeklySchedule: ws });
+                              }}
+                              className="px-2 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            />
+                            <span className="text-gray-400 text-sm">to</span>
+                            <input
+                              type="time"
+                              value={schedule?.end || "17:00"}
+                              onChange={(e) => {
+                                const ws = { ...(formData.weeklySchedule || DEFAULT_WEEKLY_SCHEDULE) };
+                                ws[dayKey] = { ...ws[dayKey], end: e.target.value, isWorking: true };
+                                setFormData({ ...formData, weeklySchedule: ws });
+                              }}
+                              className="px-2 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            />
+                          </>
+                        ) : (
+                          <span className="text-gray-400 text-sm italic">Day off</span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
+              )}
 
               {/* Break Times / Blocked Times */}
               <div>

@@ -15,6 +15,22 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 // ==================== TYPES ====================
+interface DaySchedule {
+  start: string;
+  end: string;
+  isWorking: boolean;
+}
+
+interface WeeklySchedule {
+  sunday?: DaySchedule;
+  monday?: DaySchedule;
+  tuesday?: DaySchedule;
+  wednesday?: DaySchedule;
+  thursday?: DaySchedule;
+  friday?: DaySchedule;
+  saturday?: DaySchedule;
+}
+
 interface Doctor {
   _id: string;
   name: string;
@@ -22,6 +38,7 @@ interface Doctor {
   slotDuration: number;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
+  weeklySchedule?: WeeklySchedule;
   active: boolean;
 }
 
@@ -65,6 +82,21 @@ const formatDate = (date: Date): string => {
 
 const getDayName = (date: Date): string => {
   return date.toLocaleDateString("en-US", { weekday: "long" });
+};
+
+const DAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"] as const;
+
+const getDayHours = (doctor: Doctor, date: Date): { start: string; end: string } | null => {
+  const dayIndex = date.getDay();
+  const dayKey = DAY_KEYS[dayIndex];
+  const ws = doctor.weeklySchedule;
+  if (ws && ws[dayKey] && ws[dayKey].start && ws[dayKey].end) {
+    if (!ws[dayKey].isWorking) return null;
+    return { start: ws[dayKey].start, end: ws[dayKey].end };
+  }
+  // Fallback to default
+  if (!doctor.workingDays?.includes(dayIndex)) return null;
+  return doctor.defaultWorkingHours;
 };
 
 const getMonthYear = (date: Date): string => {
@@ -367,7 +399,12 @@ export default function AvailabilityPage() {
                   </h3>
                   <p className="text-sm text-gray-500">
                     {selectedDoctor.slotDuration} min slots •{" "}
-                    {availability?.workingHours?.start || selectedDoctor.defaultWorkingHours.start} - {availability?.workingHours?.end || selectedDoctor.defaultWorkingHours.end}
+                    {(() => {
+                      const dayHours = getDayHours(selectedDoctor, selectedDate);
+                      const start = availability?.workingHours?.start || dayHours?.start || selectedDoctor.defaultWorkingHours.start;
+                      const end = availability?.workingHours?.end || dayHours?.end || selectedDoctor.defaultWorkingHours.end;
+                      return `${start} - ${end}`;
+                    })()}
                   </p>
                 </div>
 
