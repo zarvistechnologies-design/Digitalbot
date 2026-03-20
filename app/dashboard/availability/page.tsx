@@ -367,7 +367,7 @@ export default function AvailabilityPage() {
                   </h3>
                   <p className="text-sm text-gray-500">
                     {selectedDoctor.slotDuration} min slots •{" "}
-                    {selectedDoctor.defaultWorkingHours.start} - {selectedDoctor.defaultWorkingHours.end}
+                    {availability?.workingHours?.start || selectedDoctor.defaultWorkingHours.start} - {availability?.workingHours?.end || selectedDoctor.defaultWorkingHours.end}
                   </p>
                 </div>
 

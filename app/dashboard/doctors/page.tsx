@@ -21,6 +21,22 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 // ==================== TYPES ====================
+interface DaySchedule {
+  start?: string;
+  end?: string;
+  isWorking: boolean;
+}
+
+interface WeeklySchedule {
+  sunday?: DaySchedule;
+  monday?: DaySchedule;
+  tuesday?: DaySchedule;
+  wednesday?: DaySchedule;
+  thursday?: DaySchedule;
+  friday?: DaySchedule;
+  saturday?: DaySchedule;
+}
+
 interface Doctor {
   _id: string;
   name: string;
@@ -35,6 +51,7 @@ interface Doctor {
   maxPatientsPerSlot?: number;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
+  weeklySchedule?: WeeklySchedule;
   active: boolean;
   createdAt: string;
   updatedAt: string;
@@ -57,19 +74,31 @@ interface DoctorFormData {
   maxPatientsPerSlot: number;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
+  weeklySchedule?: WeeklySchedule;
+  useDifferentTimings: boolean;
   defaultBlockedTimes: BlockedTime[];
   calendarId: string;
 }
 
 const DAYS_OF_WEEK = [
-  { value: 0, label: "Sun" },
-  { value: 1, label: "Mon" },
-  { value: 2, label: "Tue" },
-  { value: 3, label: "Wed" },
-  { value: 4, label: "Thu" },
-  { value: 5, label: "Fri" },
-  { value: 6, label: "Sat" },
+  { value: 0, label: "Sun", key: "sunday" as const },
+  { value: 1, label: "Mon", key: "monday" as const },
+  { value: 2, label: "Tue", key: "tuesday" as const },
+  { value: 3, label: "Wed", key: "wednesday" as const },
+  { value: 4, label: "Thu", key: "thursday" as const },
+  { value: 5, label: "Fri", key: "friday" as const },
+  { value: 6, label: "Sat", key: "saturday" as const },
 ];
+
+const DEFAULT_WEEKLY_SCHEDULE: WeeklySchedule = {
+  sunday:    { start: "09:00", end: "17:00", isWorking: false },
+  monday:    { start: "09:00", end: "17:00", isWorking: true },
+  tuesday:   { start: "09:00", end: "17:00", isWorking: true },
+  wednesday: { start: "09:00", end: "17:00", isWorking: true },
+  thursday:  { start: "09:00", end: "17:00", isWorking: true },
+  friday:    { start: "09:00", end: "17:00", isWorking: true },
+  saturday:  { start: "09:00", end: "17:00", isWorking: false },
+};
 
 const SPECIALIZATIONS = [
   "General Physician",
@@ -101,6 +130,8 @@ const initialFormData: DoctorFormData = {
   maxPatientsPerSlot: 1,
   defaultWorkingHours: { start: "09:00", end: "17:00" },
   workingDays: [1, 2, 3, 4, 5],
+  weeklySchedule: undefined,
+  useDifferentTimings: false,
   defaultBlockedTimes: [],
   calendarId: "",
 };
@@ -150,10 +181,16 @@ export default function DoctorsPage() {
     setSaving(true);
 
     try {
+      // Build payload — only include weeklySchedule if different timings are enabled
+      const { useDifferentTimings, ...payload } = formData;
+      if (!useDifferentTimings) {
+        payload.weeklySchedule = undefined;
+      }
+
       if (editingDoctor) {
-        await doctorsAPI.update(editingDoctor._id, formData);
+        await doctorsAPI.update(editingDoctor._id, payload);
       } else {
-        await doctorsAPI.create(formData);
+        await doctorsAPI.create(payload);
       }
       setShowModal(false);
       setEditingDoctor(null);
@@ -180,9 +217,16 @@ export default function DoctorsPage() {
     }
   };
 
+  // Check if a doctor has weeklySchedule set with any day having start/end
+  const hasDifferentTimings = (ws?: WeeklySchedule) => {
+    if (!ws) return false;
+    return Object.values(ws).some((day) => day && day.start && day.end);
+  };
+
   // Handle edit
   const handleEdit = (doctor: Doctor) => {
     setEditingDoctor(doctor);
+    const hasDiffTimings = hasDifferentTimings(doctor.weeklySchedule);
     setFormData({
       name: doctor.name,
       specialization: doctor.specialization,
@@ -194,6 +238,8 @@ export default function DoctorsPage() {
       maxPatientsPerSlot: doctor.maxPatientsPerSlot || 1,
       defaultWorkingHours: doctor.defaultWorkingHours,
       workingDays: doctor.workingDays,
+      weeklySchedule: hasDiffTimings ? doctor.weeklySchedule : { ...DEFAULT_WEEKLY_SCHEDULE },
+      useDifferentTimings: hasDiffTimings,
       defaultBlockedTimes: (doctor as unknown as { defaultBlockedTimes?: BlockedTime[] }).defaultBlockedTimes || [],
       calendarId: doctor.calendarId || "",
     });
@@ -370,6 +416,11 @@ export default function DoctorsPage() {
                       <Calendar className="w-4 h-4" />
                       {formatWorkingDays(doctor.workingDays)}
                     </div>
+                    {hasDifferentTimings(doctor.weeklySchedule) && (
+                      <div className="text-xs text-purple-600 bg-purple-50 px-2 py-1 rounded-md">
+                        Custom schedule per day
+                      </div>
+                    )}
                     {/* Google Calendar Status */}
                     <div className="flex items-center gap-2">
                       {doctor.calendarConnected ? (
@@ -624,7 +675,7 @@ export default function DoctorsPage() {
                         defaultWorkingHours: { ...formData.defaultWorkingHours, start: e.target.value },
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -640,7 +691,7 @@ export default function DoctorsPage() {
                         defaultWorkingHours: { ...formData.defaultWorkingHours, end: e.target.value },
                       })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -658,7 +709,7 @@ export default function DoctorsPage() {
                       onClick={() => toggleWorkingDay(day.value)}
                       className={`px-3 py-2 rounded-lg border transition-colors ${
                         formData.workingDays.includes(day.value)
-                          ? "bg-orange-600 text-white border-orange-600"
+                          ? "bg-blue-600 text-white border-blue-600"
                           : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
                       }`}
                     >
