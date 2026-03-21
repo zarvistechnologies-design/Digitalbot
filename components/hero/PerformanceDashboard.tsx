@@ -44,9 +44,9 @@ export default function PerformanceDashboard() {
                         <BarChart3 className="h-4 w-4" />
                         LIVE PERFORMANCE
                     </div>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 glass-heading">
                         See the{' '}
-                        <span className="bg-gradient-to-r from-orange-600 to-violet-500 bg-clip-text text-transparent">Impact</span>
+                        <span className="bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">Impact</span>
                         {' '}in Real-Time
                     </h2>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -104,7 +104,7 @@ export default function PerformanceDashboard() {
                         </div>
 
                         {/* Cost Savings Card */}
-                        <div className="metric-card bg-gradient-to-br from-orange-600 to-violet-500 rounded-2xl p-5 shadow-lg shadow-orange-300/30 group hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                        <div className="metric-card bg-gradient-to-br from-orange-600 to-orange-500 rounded-2xl p-5 shadow-lg shadow-orange-300/30 group hover:shadow-xl transition-all duration-300 relative overflow-hidden">
                             <div className="absolute inset-0 overflow-hidden">
                                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent" style={{ animation: 'shimmer 3s infinite' }}></div>
                             </div>
@@ -156,7 +156,7 @@ export default function PerformanceDashboard() {
                 <div className="mt-12 text-center">
                     <Link 
                         href="/contact#contact-form" 
-                        className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-bold py-4 px-10 rounded-xl hover:from-orange-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105"
+                        className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white font-bold py-4 px-10 rounded-xl hover:from-orange-700 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105"
                     >
                         <span>Start Free Trial</span>
                         <ArrowRight className="h-5 w-5" />

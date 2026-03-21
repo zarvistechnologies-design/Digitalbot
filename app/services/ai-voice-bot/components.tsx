@@ -13,7 +13,7 @@ const iconMap: Record<string, LucideIcon> = {
 export function HeroCTAButtons() {
   return (
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-      <Link href="/contact#contact-form" className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-600 to-violet-500 text-white font-semibold text-base rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300">
+      <Link href="/contact#contact-form" className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-semibold text-base rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300">
         Start Free Trial
         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
       </Link>
@@ -28,7 +28,7 @@ export function HeroCTAButtons() {
 // Trust Indicators (Client Component for icons)
 export function TrustIndicators() {
   return (
-    <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-orange-600 via-violet-500 to-orange-600 relative overflow-hidden">
+    <section className="py-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
@@ -61,7 +61,7 @@ export function TrustIndicators() {
 // Final CTA Section (Client Component for icons)
 export function FinalCTASection() {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_50%)]"></div>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(255,255,255,0.05),transparent_50%)]"></div>
@@ -76,7 +76,7 @@ export function FinalCTASection() {
           <span className="text-sm font-semibold text-white">Ready to Transform Your Business?</span>
         </div>
 
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 glass-heading-light">
           Deploy Your AI Voice Bot Today
         </h2>
 
@@ -155,7 +155,7 @@ export function VoiceConversationPlayer() {
             {waveformBars.map((height, i) => (
               <div
                 key={i}
-                className="w-2 bg-gradient-to-t from-orange-600 via-violet-500 to-violet-400 rounded-full opacity-70"
+                className="w-2 bg-gradient-to-t from-orange-600 via-orange-500 to-orange-400 rounded-full opacity-70"
                 style={{ height: `${height}px` }}
               />
             ))}
@@ -164,7 +164,7 @@ export function VoiceConversationPlayer() {
         
         {/* Play Button */}
         <div className="flex items-center justify-center">
-          <button className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-600 to-violet-500 text-white font-semibold text-base rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300">
+          <button className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-semibold text-base rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300">
             <Play className="w-5 h-5" />
             <span>Play AI Voice Demo</span>
           </button>
@@ -188,7 +188,7 @@ export function BenefitsGrid() {
               <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-50 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                 <IconComponent className="h-6 w-6 text-orange-600" />
               </div>
-              <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-orange-600 to-violet-500 bg-clip-text text-transparent mb-1">{benefit.stat}</div>
+              <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent mb-1">{benefit.stat}</div>
               <p className="font-semibold text-gray-900 mb-1 text-sm">{benefit.title}</p>
               <p className="text-xs text-gray-600">{benefit.description}</p>
             </div>
@@ -225,7 +225,7 @@ export function FeaturesGrid() {
               <Image src={images[index]} alt={`${feature.title} - AI Voice Bot Feature`} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent"></div>
               <div className="absolute top-4 left-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-600 to-violet-500 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
                   <FeatureIcon className="h-5 w-5 text-white" />
                 </div>
               </div>
@@ -265,7 +265,7 @@ export function UseCasesGrid() {
               <Image src={images[index]} alt={`${useCase.title} - AI Voice Bot Use Case`} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-white via-white/30 to-transparent"></div>
               <div className="absolute bottom-4 left-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-600 to-violet-500 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
                   <UseCaseIcon className="h-5 w-5 text-white" />
                 </div>
               </div>
@@ -298,7 +298,7 @@ export function FAQSection() {
           <div className="absolute -top-10 -right-10 w-24 h-24 bg-orange-100/50 rounded-full blur-2xl group-hover:bg-orange-200/50 transition-colors"></div>
           
           <div className="flex items-start gap-4 relative z-10">
-            <div className="w-8 h-8 bg-gradient-to-br from-orange-600 to-violet-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0">
+            <div className="w-8 h-8 bg-gradient-to-br from-orange-600 to-orange-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0">
               <span className="text-white font-bold text-sm">Q</span>
             </div>
             <div className="flex-1">

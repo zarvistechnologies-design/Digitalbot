@@ -306,7 +306,7 @@ export default function VoiceDemoWidget() {
       {/* Floating Button */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-orange-500 to-violet-600 rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center hover:scale-110 transition-transform group"
+        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center hover:scale-110 transition-transform group"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         animate={{ 
@@ -377,7 +377,7 @@ export default function VoiceDemoWidget() {
                   {soundBars.map((height, i) => (
                     <motion.div
                       key={i}
-                      className={`w-2 rounded-full ${isCallActive ? 'bg-gradient-to-t from-orange-500 to-violet-400' : 'bg-gray-600'}`}
+                      className={`w-2 rounded-full ${isCallActive ? 'bg-gradient-to-t from-orange-500 to-orange-400' : 'bg-gray-600'}`}
                       animate={{
                         height: isSpeaking 
                           ? [16, 32 + height * 32, 16] 
@@ -424,7 +424,7 @@ export default function VoiceDemoWidget() {
                 className={`w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
                   isCallActive 
                     ? 'bg-red-500 hover:bg-red-600 text-white' 
-                    : 'bg-gradient-to-r from-orange-600 to-violet-600 hover:from-orange-700 hover:to-violet-700 text-white'
+                    : 'bg-gradient-to-r from-orange-600 to-orange-600 hover:from-orange-700 hover:to-orange-700 text-white'
                 } ${isConnecting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 whileHover={{ scale: isConnecting ? 1 : 1.02 }}
                 whileTap={{ scale: isConnecting ? 1 : 0.98 }}

@@ -184,7 +184,7 @@ export default function Services() {
         
         {/* Floating Orbs */}
         <div className="absolute top-20 left-[10%] w-72 h-72 bg-orange-200/15 rounded-full blur-[100px] animate-pulse"></div>
-        <div className="absolute bottom-20 right-[10%] w-96 h-96 bg-violet-200/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-20 right-[10%] w-96 h-96 bg-orange-200/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-slate-100/30 to-slate-100/30 rounded-full blur-[100px]"></div>
         
         {/* Animated Lines */}
@@ -225,7 +225,7 @@ export default function Services() {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold leading-[1.05] mb-8">
                 <span className="text-slate-900 block">Revolutionize Your</span>
                 <span className="relative inline-block mt-2">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600">
                     Customer Experience
                   </span>
                   <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
@@ -304,7 +304,7 @@ export default function Services() {
               {/* 3D Card Stack Effect */}
               <div className="relative h-[500px] sm:h-[550px]">
                 {/* Background Glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-200/15 to-violet-200/15 rounded-[40px] blur-3xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-200/15 to-orange-200/15 rounded-[40px] blur-3xl"></div>
                 
                 {/* Main Card */}
                 <div className="absolute inset-4 bg-white/90 backdrop-blur-xl rounded-[32px] shadow-2xl shadow-slate-200/50 border border-white/50 overflow-hidden">
@@ -449,7 +449,7 @@ export default function Services() {
           
           {/* Floating Shapes */}
           <div className="absolute top-20 right-20 w-20 h-20 border-2 border-orange-200/30 rounded-2xl rotate-12 animate-bounce-slow opacity-40"></div>
-          <div className="absolute bottom-32 left-16 w-16 h-16 bg-gradient-to-br from-orange-200/15 to-violet-200/10 rounded-full animate-bounce-slow" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute bottom-32 left-16 w-16 h-16 bg-gradient-to-br from-orange-200/15 to-orange-200/10 rounded-full animate-bounce-slow" style={{ animationDelay: '0.5s' }}></div>
           <div className="absolute top-1/2 right-10 w-8 h-8 bg-slate-300/30 rounded-lg rotate-45 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
         </div>
         
@@ -460,10 +460,10 @@ export default function Services() {
               <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Our Services</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6 glass-heading">
               <span className="text-slate-900">AI Voice Solutions</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600 bg-clip-text text-transparent">
                 Built for Scale
               </span>
             </h2>
@@ -590,7 +590,7 @@ export default function Services() {
                     
                     {/* Bottom Gradient Line for Non-Featured */}
                     {!isFeatured && (
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-violet-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                     )}
                   </div>
                 </Link>
@@ -638,10 +638,10 @@ export default function Services() {
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Global Reach</span>
               <span className="px-2 py-0.5 bg-orange-600 text-white text-xs font-medium rounded-full">25+ Countries</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6 glass-heading">
               <span className="text-slate-900">Industries We</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600 bg-clip-text text-transparent">
                 Serve & Transform
               </span>
             </h2>
@@ -720,7 +720,7 @@ export default function Services() {
                       </div>
                       
                       {/* Bottom Accent Line */}
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-violet-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                     </div>
                   </div>
                 );
@@ -771,10 +771,10 @@ export default function Services() {
               <Zap className="w-4 h-4 text-orange-600" />
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Powerful Features</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6 glass-heading">
               <span className="text-slate-900">Everything You Need to</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600 bg-clip-text text-transparent">
                 Automate Communication
               </span>
             </h2>
@@ -859,10 +859,10 @@ export default function Services() {
               <Star className="w-4 h-4 text-orange-600 fill-orange-600" />
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Client Success Stories</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6 glass-heading">
               <span className="text-slate-900">Trusted by Leading</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600 bg-clip-text text-transparent">
                 Businesses Worldwide
               </span>
             </h2>
@@ -969,10 +969,10 @@ export default function Services() {
               <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
               <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Simple Setup Process</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6 glass-heading">
               <span className="text-slate-900">Get Started in</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600 bg-clip-text text-transparent">
                 Three Easy Steps
               </span>
             </h2>
@@ -1109,7 +1109,7 @@ export default function Services() {
             <h2 id="faq-section" className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Frequently Asked</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600 bg-clip-text text-transparent">
                 Questions
               </span>
             </h2>
@@ -1254,7 +1254,7 @@ export default function Services() {
             </div>
             
             {/* Heading */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-6 leading-tight glass-heading-light">
               Ready to Transform Your
               <br />
               <span className="bg-gradient-to-r from-orange-300 via-slate-200 to-white bg-clip-text text-transparent">

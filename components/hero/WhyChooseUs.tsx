@@ -9,7 +9,7 @@ export default function WhyChooseUs() {
                 {/* Section Header */}
                 <div className="text-center mb-10">
                     <p className="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
-                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2 glass-heading">
                         The DigitalBot Advantage
                     </h2>
                     <p className="text-gray-500 max-w-xl mx-auto">
@@ -21,7 +21,7 @@ export default function WhyChooseUs() {
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[120px]">
 
                     {/* Feature 1 - Instant Setup (Large) */}
-                    <div className="col-span-2 row-span-2 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
+                    <div className="col-span-2 row-span-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                         <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
                         <div>
@@ -69,19 +69,19 @@ export default function WhyChooseUs() {
                     </div>
 
                     {/* Feature 3 - 24/7 Operations */}
-                    <div className="col-span-1 row-span-1 bg-gradient-to-br from-purple-500 to-orange-600 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
+                    <div className="col-span-1 row-span-1 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
                         <div className="flex items-center gap-2">
                             <Clock className="h-4 w-4 text-white" />
                             <h3 className="text-sm font-bold text-white">24/7 Operations</h3>
                         </div>
                         <div>
                             <div className="text-2xl font-bold text-white">99.9%</div>
-                            <div className="text-purple-200 text-xs">Uptime SLA</div>
+                            <div className="text-orange-200 text-xs">Uptime SLA</div>
                         </div>
                     </div>
 
                     {/* Feature 4 - Auto-Scaling */}
-                    <div className="col-span-1 row-span-1 bg-gradient-to-br from-orange-500 to-violet-500 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
+                    <div className="col-span-1 row-span-1 bg-gradient-to-br from-orange-500 to-orange-500 rounded-2xl p-4 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-shadow">
                         <div className="flex items-center gap-2">
                             <TrendingUp className="h-4 w-4 text-white" />
                             <h3 className="text-sm font-bold text-white">Auto-Scaling</h3>
@@ -93,7 +93,7 @@ export default function WhyChooseUs() {
                     </div>
 
                     {/* Feature 5 - Omnichannel */}
-                    <div className="col-span-1 row-span-1 bg-gradient-to-br from-orange-50 to-violet-100 rounded-2xl p-4 flex flex-col justify-between border border-orange-200/50 group hover:shadow-lg transition-shadow">
+                    <div className="col-span-1 row-span-1 bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-4 flex flex-col justify-between border border-orange-200/50 group hover:shadow-lg transition-shadow">
                         <div className="flex items-center gap-2">
                             <MessageSquare className="h-4 w-4 text-orange-500" />
                             <h3 className="text-sm font-bold text-gray-800">Omnichannel</h3>

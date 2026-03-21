@@ -58,7 +58,7 @@ export default function Docs() {
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Link
               href="#"
-              className="group px-6 py-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-medium rounded-lg hover:from-orange-500 hover:to-violet-500 transition-all shadow-sm btn-glow flex items-center gap-2"
+              className="group px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white font-medium rounded-lg hover:from-orange-500 hover:to-orange-500 transition-all shadow-sm btn-glow flex items-center gap-2"
             >
               Get Started
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -149,7 +149,7 @@ export default function Docs() {
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
               <Link
                 href="#"
-                className="group px-6 py-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-medium rounded-lg hover:from-orange-500 hover:to-violet-500 transition-all shadow-sm btn-glow flex items-center gap-2"
+                className="group px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white font-medium rounded-lg hover:from-orange-500 hover:to-orange-500 transition-all shadow-sm btn-glow flex items-center gap-2"
               >
                 Contact Support
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

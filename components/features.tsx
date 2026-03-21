@@ -20,21 +20,21 @@ const features: Feature[] = [
         icon: Bot,
         title: "Intelligent AI Chatbots",
         description: "Deploy smart conversational AI that understands context, learns from interactions, and provides human-like responses with advanced natural language understanding.",
-        gradient: "from-orange-500 to-violet-500",
+        gradient: "from-orange-500 to-orange-500",
         stats: [{ label: "Accuracy", value: "99.2%" }, { label: "Languages", value: "50+" }]
     },
     {
         icon: MessageSquare,
         title: "Multi-Channel Support",
         description: "Seamlessly integrate across websites, mobile apps, social media, and messaging platforms for a truly unified customer experience.",
-        gradient: "from-orange-500 to-violet-500",
+        gradient: "from-orange-500 to-orange-500",
         stats: [{ label: "Channels", value: "15+" }, { label: "Integrations", value: "500+" }]
     },
     {
         icon: Brain,
         title: "Natural Language Processing",
         description: "Advanced NLP capabilities understand customer intent, sentiment, and context to deliver highly personalized responses every time.",
-        gradient: "from-purple-500 to-pink-500",
+        gradient: "from-orange-500 to-pink-500",
         stats: [{ label: "Intent Detection", value: "98%" }, { label: "Sentiment", value: "Real-time" }]
     },
     {
@@ -55,7 +55,7 @@ const features: Feature[] = [
         icon: Globe,
         title: "Multi-Language Support",
         description: "Communicate with customers in their preferred language with built-in translation and localization features for global reach.",
-        gradient: "from-orange-500 to-violet-500",
+        gradient: "from-orange-500 to-orange-500",
         stats: [{ label: "Languages", value: "50+" }, { label: "Auto-detect", value: "Yes" }]
     },
 ]
@@ -115,8 +115,8 @@ export function Features() {
             {/* Background Elements */}
             {mounted && (
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-orange-400/15 to-violet-300/10 rounded-full blur-3xl" />
-                    <div className="absolute bottom-20 left-20 w-72 h-72 bg-gradient-to-br from-violet-400/10 to-orange-300/10 rounded-full blur-3xl" />
+                    <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-orange-400/15 to-orange-300/10 rounded-full blur-3xl" />
+                    <div className="absolute bottom-20 left-20 w-72 h-72 bg-gradient-to-br from-orange-400/10 to-orange-300/10 rounded-full blur-3xl" />
                 </div>
             )}
             
@@ -128,9 +128,9 @@ export function Features() {
                         <span className="text-sm font-semibold text-orange-700">Platform Features</span>
                     </div>
                     
-                    <h2 id="features-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
+                    <h2 id="features-heading" className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 glass-heading">
                         Powerful Features for
-                        <span className="bg-gradient-to-r from-orange-500 to-violet-500 bg-clip-text text-transparent"> Modern Business</span>
+                        <span className="bg-gradient-to-r from-orange-500 to-orange-500 bg-clip-text text-transparent"> Modern Business</span>
                     </h2>
                     
                     <p className="text-gray-600 text-base max-w-2xl mx-auto">

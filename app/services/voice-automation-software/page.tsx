@@ -264,7 +264,7 @@ export default function VoiceAutomationSoftwarePage() {
 
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
                     <span className="text-gray-900">Automate Every </span>
-                    <span className="bg-gradient-to-r from-orange-600 via-violet-500 to-violet-700 text-transparent bg-clip-text">
+                    <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-orange-700 text-transparent bg-clip-text">
                       Voice Interaction
                     </span>
                     <span className="text-gray-900"> with AI</span>
@@ -279,7 +279,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                     <Link 
                       href="/contact#contact-form"
-                      className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-600 to-violet-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-orange-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-200/50 hover:shadow-xl hover:shadow-orange-300/50 hover:-translate-y-0.5"
+                      className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-600 to-orange-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-orange-700 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-200/50 hover:shadow-xl hover:shadow-orange-300/50 hover:-translate-y-0.5"
                     >
                       Start Free Trial
                       <ArrowRight className="w-5 h-5" />
@@ -327,7 +327,7 @@ export default function VoiceAutomationSoftwarePage() {
                   {/* Floating Stats Card */}
                   <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl shadow-orange-100/40 border border-orange-100/40">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-500 rounded-xl flex items-center justify-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-500 rounded-xl flex items-center justify-center">
                         <BarChart3 className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -350,7 +350,7 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Stats Section */}
-          <section className="py-12 bg-gradient-to-r from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
+          <section className="py-12 bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.1),transparent_70%)]" />
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -383,7 +383,7 @@ export default function VoiceAutomationSoftwarePage() {
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 {/* Left Image */}
                 <div className="relative order-2 lg:order-1">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-violet-100/50 to-orange-200/50 rounded-3xl blur-2xl" />
+                  <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-orange-100/50 to-orange-200/50 rounded-3xl blur-2xl" />
                   <div className="relative h-[350px] sm:h-[400px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-orange-200/40">
                     <Image
                       src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=500&fit=crop"
@@ -401,7 +401,7 @@ export default function VoiceAutomationSoftwarePage() {
                     <Brain className="w-4 h-4" />
                     <span className="text-sm font-semibold">Smart Conversations</span>
                   </div>
-                  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+                  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 glass-heading">
                     Intelligent Conversation Flow
                   </h2>
                   <p className="text-lg text-gray-600 mb-8 leading-relaxed">
@@ -440,7 +440,7 @@ export default function VoiceAutomationSoftwarePage() {
                     <BarChart3 className="w-4 h-4" />
                     <span className="text-sm font-semibold">Analytics Dashboard</span>
                   </div>
-                  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+                  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 glass-heading">
                     Real-Time Performance Analytics
                   </h2>
                   <p className="text-lg text-gray-600 mb-8 leading-relaxed">
@@ -465,7 +465,7 @@ export default function VoiceAutomationSoftwarePage() {
 
                 {/* Right Image */}
                 <div className="relative">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-violet-100/50 to-orange-200/50 rounded-3xl blur-2xl" />
+                  <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-orange-100/50 to-orange-200/50 rounded-3xl blur-2xl" />
                   <div className="relative h-[350px] sm:h-[400px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-orange-200/40">
                     <Image
                       src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=500&fit=crop"
@@ -491,7 +491,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <Zap className="w-4 h-4" />
                   <span className="text-sm font-semibold">Powerful Features</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 glass-heading">
                   Why Choose Our Voice Automation Software
                 </h2>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -509,7 +509,7 @@ export default function VoiceAutomationSoftwarePage() {
                     <div className="absolute inset-0 bg-gradient-to-br from-orange-50/0 via-orange-100/0 to-orange-50/0 group-hover:from-orange-50/50 group-hover:via-orange-100/30 group-hover:to-orange-50/50 transition-all duration-500 rounded-2xl" />
                     
                     <div className="relative z-10">
-                      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-violet-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-orange-200/50">
+                      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-orange-200/50">
                         <feature.icon className="w-7 h-7 text-white" />
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-orange-700 transition-colors">
@@ -536,7 +536,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <Building2 className="w-4 h-4" />
                   <span className="text-sm font-semibold">Industry Solutions</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 glass-heading">
                   Voice Automation for Every Industry
                 </h2>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -550,7 +550,7 @@ export default function VoiceAutomationSoftwarePage() {
                     key={index}
                     className="group bg-white rounded-2xl p-6 border border-orange-100/40 shadow-lg shadow-orange-50/50 hover:shadow-xl hover:shadow-orange-100/50 hover:-translate-y-1 transition-all duration-300 text-center"
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:from-orange-500 group-hover:to-violet-500 transition-all duration-300">
+                    <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:from-orange-500 group-hover:to-orange-500 transition-all duration-300">
                       <useCase.icon className="w-8 h-8 text-orange-600 group-hover:text-white transition-colors" />
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-700 transition-colors">
@@ -575,7 +575,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <Mic className="w-4 h-4 animate-pulse" />
                   <span className="text-sm font-semibold">Live Demo</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 glass-heading">
                   Experience Natural AI Conversations
                 </h2>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -598,7 +598,7 @@ export default function VoiceAutomationSoftwarePage() {
                           className={`max-w-[80%] p-4 rounded-2xl ${
                             msg.speaker === "Customer"
                               ? "bg-gray-100 text-gray-900 rounded-bl-md"
-                              : "bg-gradient-to-r from-orange-500 to-violet-500 text-white rounded-br-md"
+                              : "bg-gradient-to-r from-orange-500 to-orange-500 text-white rounded-br-md"
                           }`}
                         >
                           <p className={`text-xs font-semibold mb-1 ${
@@ -616,7 +616,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <div className="flex justify-center">
                     <button
                       onClick={playConversation}
-                      className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-orange-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-200/50"
+                      className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-orange-700 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-200/50"
                     >
                       {isPlaying ? (
                         <>
@@ -638,7 +638,7 @@ export default function VoiceAutomationSoftwarePage() {
                       {Array.from({ length: 30 }).map((_, i) => (
                         <div
                           key={i}
-                          className="w-1 bg-gradient-to-t from-orange-600 to-violet-400 rounded-full animate-pulse"
+                          className="w-1 bg-gradient-to-t from-orange-600 to-orange-400 rounded-full animate-pulse"
                           style={{
                             height: `${Math.random() * 24 + 8}px`,
                             animationDelay: `${i * 0.05}s`,
@@ -664,7 +664,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <Headphones className="w-4 h-4" />
                   <span className="text-sm font-semibold">Common Questions</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 glass-heading">
                   Voice Automation Software FAQ
                 </h2>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -680,7 +680,7 @@ export default function VoiceAutomationSoftwarePage() {
                   >
                     <div className="flex gap-4">
                       <div className="flex-shrink-0">
-                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-500 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-orange-200/50">
+                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-orange-200/50">
                           {index + 1}
                         </div>
                       </div>
@@ -700,7 +700,7 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* CTA Section */}
-          <section className="py-20 bg-gradient-to-r from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
+          <section className="py-20 bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.15),transparent_60%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(99,102,241,0.3),transparent_60%)]" />
             
@@ -716,7 +716,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <span className="text-sm font-semibold">Start Your Voice Automation Journey</span>
                 </div>
                 
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight glass-heading-light">
                   Ready to Automate Your Voice Communications?
                 </h2>
                 

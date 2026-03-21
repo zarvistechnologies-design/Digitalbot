@@ -284,7 +284,7 @@ export default function AnalyticsOverview() {
           <header className="mb-6 sm:mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-orange-600 bg-clip-text text-transparent mb-2">
                   Analytics Dashboard
                 </h1>
                 <p className="text-slate-600 text-sm sm:text-base md:text-lg">Real-time insights into your AI call center performance</p>
@@ -329,7 +329,7 @@ export default function AnalyticsOverview() {
                 </div>
                 <button
                   onClick={handleOutboundCall}
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-orange-500 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 min-h-12"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 min-h-12"
                 >
                   <PhoneCall className="w-5 h-5" />
                   <span>Call Now</span>
@@ -375,7 +375,7 @@ export default function AnalyticsOverview() {
                     value={`${Math.round(analytics.avgDuration)}s`}
                     icon={Clock}
                     subtitle="Per call"
-                    color="purple"
+                    color="orange"
                   />
                   <MetricCard
                     title="Today's Calls"
@@ -391,7 +391,7 @@ export default function AnalyticsOverview() {
               {/* Call Direction & Status */}
               <section className="mb-6 sm:mb-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-5 flex items-center gap-2">
-                  <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500 shrink-0" />
+                  <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
                   <span>Call Analytics</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -407,7 +407,7 @@ export default function AnalyticsOverview() {
                     value={analytics.outboundCalls}
                     icon={PhoneOutgoing}
                     subtitle={`${analytics.totalCalls > 0 ? ((analytics.outboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total`}
-                    color="purple"
+                    color="orange"
                   />
                   <MetricCard
                     title="Busy Calls"
@@ -465,10 +465,10 @@ export default function AnalyticsOverview() {
                   <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg overflow-hidden">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
                       <div className="flex items-center gap-2">
-                        <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500 shrink-0" />
+                        <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
                         <h3 className="text-lg sm:text-xl font-bold text-slate-800">Hourly Distribution</h3>
                       </div>
-                      <span className="text-xs px-3 py-1 bg-purple-100 text-purple-700 rounded-full font-semibold self-start sm:self-auto">Column Chart</span>
+                      <span className="text-xs px-3 py-1 bg-orange-100 text-orange-700 rounded-full font-semibold self-start sm:self-auto">Column Chart</span>
                     </div>
                     <div className="overflow-x-auto -mx-4 sm:mx-0">
                       <div className="min-w-[500px] px-4 sm:px-0">
@@ -618,13 +618,13 @@ export default function AnalyticsOverview() {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 sm:p-5 bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl border border-purple-200 shadow-sm">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 sm:p-5 bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl border border-orange-200 shadow-sm">
                         <div className="flex items-center gap-3">
                           <PhoneOutgoing className="w-6 h-6 sm:w-7 sm:h-7 text-green-600 shrink-0" />
                           <span className="font-bold text-slate-800 text-base sm:text-lg">Outbound</span>
                         </div>
                         <div className="text-left sm:text-right">
-                          <div className="text-2xl sm:text-3xl font-black text-purple-600">{analytics.outboundCalls}</div>
+                          <div className="text-2xl sm:text-3xl font-black text-orange-600">{analytics.outboundCalls}</div>
                           <div className="text-xs sm:text-sm font-semibold text-slate-600">
                             {analytics.totalCalls > 0 ? ((analytics.outboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total
                           </div>
@@ -648,15 +648,15 @@ export default function AnalyticsOverview() {
                       </div>
                       <div className="relative pt-1">
                         <div className="flex mb-2 items-center justify-between">
-                          <div className="text-xs font-semibold text-purple-600">Outbound</div>
-                          <div className="text-xs font-semibold text-purple-600">
+                          <div className="text-xs font-semibold text-orange-600">Outbound</div>
+                          <div className="text-xs font-semibold text-orange-600">
                             {analytics.totalCalls > 0 ? ((analytics.outboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}%
                           </div>
                         </div>
-                        <div className="overflow-hidden h-2 sm:h-3 text-xs flex rounded-full bg-purple-100">
+                        <div className="overflow-hidden h-2 sm:h-3 text-xs flex rounded-full bg-orange-100">
                           <div
                             style={{ width: `${analytics.totalCalls > 0 ? (analytics.outboundCalls / analytics.totalCalls) * 100 : 0}%` }}
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-purple-400 to-purple-600 rounded-full transition-all duration-500"
+                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-orange-400 to-orange-600 rounded-full transition-all duration-500"
                           ></div>
                         </div>
                       </div>
@@ -669,19 +669,19 @@ export default function AnalyticsOverview() {
               {/* AI Analysis Performance */}
               <section className="mb-6 sm:mb-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-5 flex items-center gap-2">
-                  <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-violet-500" />
+                  <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
                   <span>AI Analysis Performance</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 
                   {/* Transcribed Calls */}
-                  <div className="bg-gradient-to-br from-violet-50 to-violet-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-violet-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-orange-200 shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-violet-400 to-violet-600 rounded-xl flex items-center justify-center shadow-md shrink-0">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center shadow-md shrink-0">
                         <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                       </div>
                       <div className="text-right">
-                        <div className="text-3xl sm:text-4xl font-black text-violet-600">{analytics.transcribedCalls}</div>
+                        <div className="text-3xl sm:text-4xl font-black text-orange-600">{analytics.transcribedCalls}</div>
                       </div>
                     </div>
                     <div>
@@ -690,12 +690,12 @@ export default function AnalyticsOverview() {
                         {analytics.totalCalls > 0 ? ((analytics.transcribedCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total calls processed
                       </p>
                     </div>
-                    <div className="mt-4 pt-4 border-t border-violet-200">
+                    <div className="mt-4 pt-4 border-t border-orange-200">
                       <div className="relative pt-1">
-                        <div className="overflow-hidden h-2 text-xs flex rounded-full bg-violet-200">
+                        <div className="overflow-hidden h-2 text-xs flex rounded-full bg-orange-200">
                           <div
                             style={{ width: `${analytics.totalCalls > 0 ? (analytics.transcribedCalls / analytics.totalCalls) * 100 : 0}%` }}
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-violet-400 to-violet-600 rounded-full transition-all duration-500"
+                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-orange-400 to-orange-600 rounded-full transition-all duration-500"
                           ></div>
                         </div>
                       </div>
@@ -773,7 +773,7 @@ export default function AnalyticsOverview() {
                       {analytics.peakHours.map((peak, index) => (
                         <div
                           key={peak.hour}
-                          className="text-center p-4 sm:p-5 bg-gradient-to-br from-orange-50 to-purple-50 rounded-xl border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300"
+                          className="text-center p-4 sm:p-5 bg-gradient-to-br from-orange-50 to-orange-50 rounded-xl border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300"
                         >
                           <div className="text-2xl sm:text-3xl font-black text-orange-600 mb-2">{peak.hour}:00</div>
                           <div className="text-slate-700 text-base sm:text-lg font-bold">{peak.count} calls</div>
@@ -813,7 +813,7 @@ export default function AnalyticsOverview() {
                               {call.direction === 'inbound' ? (
                                 <PhoneIncoming className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 shrink-0" />
                               ) : (
-                                <PhoneOutgoing className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 shrink-0" />
+                                <PhoneOutgoing className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 shrink-0" />
                               )}
                               <span className="font-semibold text-slate-800 text-sm sm:text-base truncate">{call.from_number} → {call.to_number}</span>
                             </div>

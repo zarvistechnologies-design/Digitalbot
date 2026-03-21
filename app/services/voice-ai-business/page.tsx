@@ -170,7 +170,7 @@ export default function VoiceAIBusiness() {
         {/* Animated Gradient Orbs */}
         <div className="absolute top-20 left-[10%] w-72 h-72 bg-orange-200/40 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-32 right-[5%] w-96 h-96 bg-orange-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
 
         {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -181,8 +181,8 @@ export default function VoiceAIBusiness() {
         {/* Floating Dots */}
         <div className="absolute top-1/4 left-[20%] w-2 h-2 bg-orange-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3s' }}></div>
         <div className="absolute top-1/3 right-[25%] w-3 h-3 bg-orange-400 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4s', animationDelay: '0.5s' }}></div>
-        <div className="absolute bottom-1/3 left-[30%] w-2 h-2 bg-violet-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '1s' }}></div>
-        <div className="absolute top-2/3 right-[15%] w-2.5 h-2.5 bg-violet-300 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
+        <div className="absolute bottom-1/3 left-[30%] w-2 h-2 bg-orange-400 rounded-full animate-bounce opacity-60" style={{ animationDuration: '3.5s', animationDelay: '1s' }}></div>
+        <div className="absolute top-2/3 right-[15%] w-2.5 h-2.5 bg-orange-300 rounded-full animate-bounce opacity-50" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
 
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -204,7 +204,7 @@ export default function VoiceAIBusiness() {
                   Voice AI for Business
                 </span>
                 <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold leading-tight">
-                  <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">
                     Transform Experience
                   </span>
                 </span>
@@ -212,7 +212,7 @@ export default function VoiceAIBusiness() {
 
               {/* Description Card */}
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
                 <div className="relative p-6 bg-white/90 backdrop-blur-sm rounded-2xl border border-orange-100/40 shadow-xl shadow-orange-100/30">
                   <p className="text-gray-600 text-sm lg:text-base leading-relaxed">
                     Enterprise-grade <strong className="text-gray-800">voice AI for business</strong> that automates customer service, accelerates sales, and boosts productivity by <span className="text-orange-600 font-medium">400%</span>. Deploy in <span className="text-orange-600 font-medium">48 hours</span> with zero infrastructure.
@@ -224,7 +224,7 @@ export default function VoiceAIBusiness() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link
                   href="/contact#contact-form"
-                  className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-violet-500 text-white font-bold text-base shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105"
+                  className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-orange-500 text-white font-bold text-base shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105"
                 >
                   <Target className="relative mr-2 w-5 h-5" />
                   <span className="relative">Start Free Trial</span>
@@ -260,7 +260,7 @@ export default function VoiceAIBusiness() {
             {/* Right Visual */}
             <div className="relative">
               {/* Glow Effect */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-violet-200/50 to-orange-200/50 rounded-3xl blur-2xl"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-orange-200/50 to-orange-200/50 rounded-3xl blur-2xl"></div>
               
               {/* Main Image Container */}
               <div className="relative">
@@ -278,7 +278,7 @@ export default function VoiceAIBusiness() {
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-orange-100/40">
                       <div className="flex items-center gap-4 mb-3">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center shadow-lg shadow-orange-400/30">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-400/30">
                           <Building2 className="w-6 h-6 text-white" />
                         </div>
                         <div>
@@ -320,7 +320,7 @@ export default function VoiceAIBusiness() {
                 <div className="absolute top-1/4 -left-4 lg:-left-8 animate-bounce" style={{ animationDuration: '4s', animationDelay: '0.5s' }}>
                   <div className="px-5 py-3 bg-white rounded-2xl border border-orange-100/40 shadow-xl shadow-orange-100/50">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center shadow-md">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-md">
                         <Clock className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -332,13 +332,13 @@ export default function VoiceAIBusiness() {
                 </div>
 
                 <div className="absolute -bottom-4 left-1/4 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1s' }}>
-                  <div className="px-5 py-3 bg-white rounded-2xl border border-violet-100 shadow-xl shadow-violet-100/50">
+                  <div className="px-5 py-3 bg-white rounded-2xl border border-orange-100 shadow-xl shadow-orange-100/50">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center shadow-md">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-md">
                         <Users className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <div className="text-xl font-black text-violet-600">24/7</div>
+                        <div className="text-xl font-black text-orange-600">24/7</div>
                         <div className="text-xs text-gray-500">Available</div>
                       </div>
                     </div>
@@ -360,7 +360,7 @@ export default function VoiceAIBusiness() {
         
         {/* Decorative Elements */}
         <div className="absolute top-20 left-10 w-64 h-64 bg-orange-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-violet-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-orange-200/20 rounded-full blur-3xl"></div>
         
         {/* Floating Icons */}
         <div className="absolute top-1/4 right-[15%] w-12 h-12 bg-white rounded-2xl shadow-lg shadow-orange-200/50 flex items-center justify-center border border-orange-100/40 animate-bounce" style={{ animationDuration: '4s' }}>
@@ -382,7 +382,7 @@ export default function VoiceAIBusiness() {
             </div>
             <h2 id="intro-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
               <span className="text-gray-900">What is </span>
-              <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Voice AI for Business?</span>
+              <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Voice AI for Business?</span>
             </h2>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
               The future of enterprise communication is here
@@ -408,7 +408,7 @@ export default function VoiceAIBusiness() {
                   }
                 ].map((item, i) => (
                   <div key={i} className="group p-5 bg-white rounded-2xl border border-orange-100/40 shadow-lg shadow-orange-100/30 hover:shadow-xl hover:shadow-orange-200/40 hover:border-orange-200/40 transition-all duration-300 hover:-translate-y-1">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-violet-500 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-orange-300/30 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-orange-300/30 group-hover:scale-110 transition-transform">
                       <item.icon className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
@@ -419,7 +419,7 @@ export default function VoiceAIBusiness() {
 
               {/* Main Content Card */}
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
                 <div className="relative p-6 sm:p-8 bg-white rounded-2xl border border-orange-100/40 shadow-xl">
                   <div className="space-y-4 text-gray-600 leading-relaxed">
                     <p>
@@ -453,7 +453,7 @@ export default function VoiceAIBusiness() {
             {/* Right Visual - 5 cols */}
             <div className="lg:col-span-5 relative">
               {/* Glow */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-violet-200/50 to-orange-200/50 rounded-3xl blur-2xl"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-orange-200/50 to-orange-200/50 rounded-3xl blur-2xl"></div>
               
               {/* Main Image */}
               <div className="relative h-[400px] sm:h-[450px] lg:h-[500px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-orange-200/50">
@@ -469,7 +469,7 @@ export default function VoiceAIBusiness() {
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-orange-100/40">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center shadow-lg shadow-orange-400/30">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-400/30">
                         <BrainCircuit className="w-7 h-7 text-white" />
                       </div>
                       <div>
@@ -510,7 +510,7 @@ export default function VoiceAIBusiness() {
               <div className="absolute top-1/3 -left-4 lg:-left-8 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
                 <div className="px-4 py-3 bg-white rounded-2xl border border-orange-100/40 shadow-xl">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
                       <Clock className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -546,14 +546,14 @@ export default function VoiceAIBusiness() {
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-orange-200/40 shadow-lg shadow-orange-100/50 mb-6">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-violet-500 flex items-center justify-center">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
                 <TrendingUp className="w-3 h-3 text-white" />
               </div>
               <span className="text-orange-600 text-sm font-semibold">Enterprise Benefits</span>
             </div>
             <h2 id="benefits-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
               <span className="text-gray-900">Why Leading Enterprises </span>
-              <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Choose Voice AI</span>
+              <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Choose Voice AI</span>
             </h2>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
               Discover how <span className="text-orange-600 font-medium">voice AI for business</span> transforms operations and delivers measurable ROI
@@ -568,11 +568,11 @@ export default function VoiceAIBusiness() {
                 className="group relative"
               >
                 {/* Glow effect on hover */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                 
                 <div className="relative h-full bg-white rounded-2xl p-6 border border-orange-100/40 shadow-lg shadow-orange-100/20 hover:shadow-xl hover:shadow-orange-200/30 hover:border-orange-200/40 transition-all duration-300 hover:-translate-y-1">
                   {/* Icon */}
-                  <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-violet-500 rounded-2xl flex items-center justify-center mb-5 shadow-lg shadow-orange-300/30 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl flex items-center justify-center mb-5 shadow-lg shadow-orange-300/30 group-hover:scale-110 transition-transform duration-300">
                     <benefit.icon className="w-7 h-7 text-white" />
                   </div>
                   
@@ -583,7 +583,7 @@ export default function VoiceAIBusiness() {
                   </p>
                   
                   {/* Bottom accent */}
-                  <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               </div>
             ))}
@@ -593,7 +593,7 @@ export default function VoiceAIBusiness() {
           <div className="text-center mt-12">
             <Link
               href="/contact#contact-form"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-violet-600 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105"
             >
               Explore All Benefits
               <ArrowRight className="w-5 h-5" />
@@ -611,7 +611,7 @@ export default function VoiceAIBusiness() {
         
         {/* Decorative */}
         <div className="absolute top-20 right-20 w-64 h-64 bg-orange-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-violet-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-orange-200/20 rounded-full blur-3xl"></div>
 
         <div className="container mx-auto max-w-7xl relative z-10">
           {/* Section Header */}
@@ -623,7 +623,7 @@ export default function VoiceAIBusiness() {
               <span className="text-orange-600 text-sm font-semibold">Real-World Results</span>
             </div>
             <h2 id="use-cases-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
-              <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Voice AI in Action</span>
+              <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Voice AI in Action</span>
             </h2>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
               See how businesses across industries achieve breakthrough performance improvements
@@ -637,12 +637,12 @@ export default function VoiceAIBusiness() {
                 key={i}
                 className="group relative"
               >
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                 
                 <div className="relative h-full bg-white rounded-2xl p-6 lg:p-8 border border-orange-100/40 shadow-lg shadow-orange-100/20 hover:shadow-xl hover:shadow-orange-200/30 hover:border-orange-200/40 transition-all duration-300 hover:-translate-y-1">
                   {/* Header */}
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-violet-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
                       <Building2 className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -673,20 +673,20 @@ export default function VoiceAIBusiness() {
         
         {/* Decorative */}
         <div className="absolute top-1/3 left-10 w-72 h-72 bg-orange-100/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/3 right-10 w-80 h-80 bg-violet-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/3 right-10 w-80 h-80 bg-orange-100/20 rounded-full blur-3xl"></div>
 
         <div className="container mx-auto max-w-7xl relative z-10">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-orange-200/40 shadow-lg shadow-orange-100/50 mb-6">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
                 <BrainCircuit className="w-3 h-3 text-white" />
               </div>
               <span className="text-orange-600 text-sm font-semibold">Advanced Technology</span>
             </div>
             <h2 id="features-advanced-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
               <span className="text-gray-900">How </span>
-              <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Voice AI Works</span>
+              <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Voice AI Works</span>
             </h2>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
               Enterprise-grade technology stack powering the most sophisticated voice AI solutions
@@ -741,12 +741,12 @@ export default function VoiceAIBusiness() {
                 key={i}
                 className="group relative"
               >
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                 
                 <div className="relative h-full bg-white rounded-2xl p-6 lg:p-8 border border-orange-100/40 shadow-lg shadow-orange-100/20 hover:shadow-xl hover:shadow-orange-200/30 hover:border-orange-200/40 transition-all duration-300 hover:-translate-y-1">
                   {/* Header */}
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
+                    <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-300/30 group-hover:scale-110 transition-transform flex-shrink-0">
                       <feature.icon className="w-7 h-7 text-white" />
                     </div>
                     <div>
@@ -785,7 +785,7 @@ export default function VoiceAIBusiness() {
         
         {/* Decorative */}
         <div className="absolute top-1/4 right-10 w-64 h-64 bg-orange-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 left-10 w-72 h-72 bg-violet-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-10 w-72 h-72 bg-orange-200/20 rounded-full blur-3xl"></div>
 
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -793,7 +793,7 @@ export default function VoiceAIBusiness() {
             {/* Left Content */}
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-orange-200/40 shadow-lg shadow-orange-100/50 mb-6">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-violet-500 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
                   <Mic className="w-3 h-3 text-white" />
                 </div>
                 <span className="text-orange-600 text-sm font-semibold">Voice AI Demo</span>
@@ -801,7 +801,7 @@ export default function VoiceAIBusiness() {
               
               <h2 id="demo-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
                 <span className="text-gray-900">Experience </span>
-                <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Voice AI in Action</span>
+                <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Voice AI in Action</span>
               </h2>
               <p className="text-gray-500 text-base sm:text-lg leading-relaxed mb-8">
                 Listen to how our voice AI for business handles real customer interactions with natural, intelligent responses that drive satisfaction and conversion.
@@ -809,7 +809,7 @@ export default function VoiceAIBusiness() {
 
               {/* Voice Player Card */}
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
                 <div className="relative bg-white rounded-2xl p-6 border border-orange-100/40 shadow-xl">
                   <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
                 </div>
@@ -819,7 +819,7 @@ export default function VoiceAIBusiness() {
             {/* Right Visual */}
             <div className="relative">
               {/* Glow */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-violet-200/50 to-orange-200/50 rounded-3xl blur-2xl"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-orange-200/50 to-orange-200/50 rounded-3xl blur-2xl"></div>
               
               <div className="relative h-[350px] sm:h-[400px] lg:h-[450px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-orange-200/50">
                 <Image
@@ -834,7 +834,7 @@ export default function VoiceAIBusiness() {
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-orange-100/40">
                     <div className="flex items-center gap-4 mb-3">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center shadow-lg shadow-orange-400/30">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-400/30">
                         <HeadphonesIcon className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -866,22 +866,22 @@ export default function VoiceAIBusiness() {
         
         {/* Decorative */}
         <div className="absolute top-20 left-1/4 w-64 h-64 bg-orange-100/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-violet-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-orange-100/20 rounded-full blur-3xl"></div>
 
         <div className="container mx-auto max-w-4xl relative z-10">
           {/* Section Header */}
           <div className="text-center mb-12 lg:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-orange-200/40 shadow-lg shadow-orange-100/50 mb-6">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
                 <MessageCircle className="w-3 h-3 text-white" />
               </div>
               <span className="text-orange-600 text-sm font-semibold">Got Questions?</span>
             </div>
             <h2 id="faq-heading" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
-              <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">
                 Frequently Asked
               </span>
-              <span className="bg-gradient-to-r from-orange-400 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
                 Questions
               </span>
             </h2>
@@ -923,11 +923,11 @@ export default function VoiceAIBusiness() {
                 className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-orange-100/40 shadow-lg shadow-orange-100/30 hover:shadow-xl hover:shadow-orange-200/40 hover:border-orange-300 transition-all duration-300 hover:-translate-y-1"
               >
                 {/* Glow effect on hover */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400/0 via-violet-400/0 to-violet-500/0 group-hover:from-orange-400/5 group-hover:via-violet-400/5 group-hover:to-violet-500/5 transition-all duration-300" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400/0 via-orange-400/0 to-orange-500/0 group-hover:from-orange-400/5 group-hover:via-orange-400/5 group-hover:to-orange-500/5 transition-all duration-300" />
                 
                 <div className="relative z-10">
                   <div className="flex items-start gap-4 mb-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center shadow-lg shadow-orange-400/30 font-bold text-xs text-white group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-400/30 font-bold text-xs text-white group-hover:scale-110 transition-transform duration-300">
                       {String(index + 1).padStart(2, '0')}
                     </div>
                     <h3 className="text-sm font-bold text-gray-800 leading-tight flex-1 group-hover:text-orange-700 transition-colors">
@@ -947,7 +947,7 @@ export default function VoiceAIBusiness() {
       {/* CTA Section - Premium Redesign */}
       <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="cta-heading">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-700 via-orange-600 to-violet-800"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-700 via-orange-600 to-orange-800"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.3),transparent_50%)]"></div>
         

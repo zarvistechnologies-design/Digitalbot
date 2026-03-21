@@ -68,7 +68,7 @@ const contactMethods = [
     description: "Speak with our team directly",
     value: "+9178925 18414",
     action: "tel:+9178925 18414",
-    gradient: "from-orange-500 to-violet-500",
+    gradient: "from-orange-500 to-orange-500",
     bgColor: "from-orange-50/50 to-orange-100/30",
     borderColor: "border-orange-200/30",
     iconBg: "bg-orange-500"
@@ -79,10 +79,10 @@ const contactMethods = [
     description: "Get a response within 2 hours",
     value: "hello@digitalbot.ai",
     action: "mailto:hello@digitalbot.ai",
-    gradient: "from-violet-500 to-purple-500",
-    bgColor: "from-violet-50/50 to-violet-100/30",
+    gradient: "from-orange-500 to-orange-500",
+    bgColor: "from-orange-50/50 to-orange-100/30",
     borderColor: "border-orange-200/30",
-    iconBg: "bg-violet-500"
+    iconBg: "bg-orange-500"
   },
   {
     icon: MessageSquare,
@@ -90,7 +90,7 @@ const contactMethods = [
     description: "Chat with our AI assistant",
     value: "Available 24/7",
     action: "#chat",
-    gradient: "from-orange-600 to-violet-600",
+    gradient: "from-orange-600 to-orange-600",
     bgColor: "from-orange-50/50 to-orange-100/30",
     borderColor: "border-orange-200/30",
     iconBg: "bg-orange-600"
@@ -101,10 +101,10 @@ const contactMethods = [
     description: "Our headquarters",
     value: "Behind Manyata Tech Park,\nHebbal, Bangalore 560077",
     action: "https://maps.google.com/?q=Manyata+Tech+Park+Hebbal+Bangalore",
-    gradient: "from-violet-600 to-purple-600",
-    bgColor: "from-violet-50/50 to-violet-100/30",
+    gradient: "from-orange-600 to-orange-600",
+    bgColor: "from-orange-50/50 to-orange-100/30",
     borderColor: "border-orange-200/30",
-    iconBg: "bg-violet-600"
+    iconBg: "bg-orange-600"
   },
   {
     icon: MapPin,
@@ -130,17 +130,17 @@ const inquiryTypes = [
 const stats = [
   { value: 500, suffix: "+", label: "Happy Clients", icon: Users, color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
   { value: 98, suffix: "%", label: "Satisfaction Rate", icon: Star, color: "text-emerald-600", bgColor: "bg-emerald-50", iconBg: "bg-emerald-500" },
-  { value: 2, suffix: "hr", label: "Avg Response", icon: Clock, color: "text-violet-600", bgColor: "bg-violet-50", iconBg: "bg-violet-500" },
+  { value: 2, suffix: "hr", label: "Avg Response", icon: Clock, color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
   { value: 50, suffix: "+", label: "Languages", icon: Globe, color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
 ]
 
 const benefits = [
-  { icon: Zap, text: "Lightning-fast responses", description: "Get answers within 2 hours", color: "from-orange-500 to-violet-500", bgColor: "bg-orange-50" },
+  { icon: Zap, text: "Lightning-fast responses", description: "Get answers within 2 hours", color: "from-orange-500 to-orange-500", bgColor: "bg-orange-50" },
   { icon: Users, text: "Dedicated support team", description: "Personal account manager", color: "from-emerald-500 to-teal-500", bgColor: "bg-emerald-50" },
-  { icon: Globe, text: "Global coverage", description: "Support in 50+ languages", color: "from-violet-500 to-purple-500", bgColor: "bg-violet-50" },
-  { icon: Shield, text: "Enterprise security", description: "SOC2 & HIPAA compliant", color: "from-orange-500 to-violet-500", bgColor: "bg-orange-50" },
+  { icon: Globe, text: "Global coverage", description: "Support in 50+ languages", color: "from-orange-500 to-orange-500", bgColor: "bg-orange-50" },
+  { icon: Shield, text: "Enterprise security", description: "SOC2 & HIPAA compliant", color: "from-orange-500 to-orange-500", bgColor: "bg-orange-50" },
   { icon: Award, text: "Industry leaders", description: "Trusted by Fortune 500", color: "from-rose-500 to-pink-500", bgColor: "bg-rose-50" },
-  { icon: TrendingUp, text: "Proven results", description: "300% average ROI", color: "from-violet-500 to-orange-500", bgColor: "bg-violet-50" },
+  { icon: TrendingUp, text: "Proven results", description: "300% average ROI", color: "from-orange-500 to-orange-500", bgColor: "bg-orange-50" },
 ]
 
 export default function ContactPage() {
@@ -201,18 +201,18 @@ export default function ContactPage() {
           {/* Animated Background */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/15 rounded-full blur-[100px] animate-pulse" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-200/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-200/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/10 rounded-full blur-[120px]" />
-            <div className="absolute top-1/4 right-1/3 w-72 h-72 bg-violet-100/10 rounded-full blur-[100px]" />
+            <div className="absolute top-1/4 right-1/3 w-72 h-72 bg-orange-100/10 rounded-full blur-[100px]" />
           </div>
 
           {/* Colorful Floating Dots */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-32 left-[10%] w-4 h-4 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
-            <div className="absolute top-48 right-[15%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
-            <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-violet-300 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+            <div className="absolute top-48 right-[15%] w-3 h-3 bg-orange-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
+            <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-orange-300 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
             <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-orange-300 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
-            <div className="absolute bottom-1/4 right-[25%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.8s' }} />
+            <div className="absolute bottom-1/4 right-[25%] w-3 h-3 bg-orange-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.8s' }} />
             <div className="absolute top-2/3 left-[8%] w-4 h-4 bg-orange-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '2.8s', animationDelay: '1.2s' }} />
           </div>
 
@@ -237,7 +237,7 @@ export default function ContactPage() {
 
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-6 leading-tight">
                   Let's Start a
-                  <span className="block bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent mt-2">Conversation</span>
+                  <span className="block bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600 bg-clip-text text-transparent mt-2">Conversation</span>
                 </h1>
 
                 <p className="text-base sm:text-lg text-slate-500 mb-8 leading-relaxed">
@@ -328,7 +328,7 @@ export default function ContactPage() {
           {/* Background Elements */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-100/40 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-100/30 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-100/30 rounded-full blur-3xl"></div>
           </div>
 
           <div className="container mx-auto max-w-2xl relative z-10">
@@ -492,7 +492,7 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Methods - orange Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
+        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 relative overflow-hidden">
           {/* Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
@@ -574,7 +574,7 @@ export default function ContactPage() {
         </section>
 
         {/* CTA Section - orange */}
-        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
+        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 relative overflow-hidden">
           {/* Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{

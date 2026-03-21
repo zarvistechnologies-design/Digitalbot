@@ -88,7 +88,7 @@ export default function Blog() {
         <section className="relative overflow-hidden bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] py-20 md:py-32">
           {/* Subtle Slate Blur Orbs */}
           <div className="absolute top-20 left-10 w-72 h-72 bg-orange-200/40 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-100/30 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-100/30 rounded-full blur-3xl" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-100/40 rounded-full blur-3xl" />
 
           <div className="container mx-auto px-4 relative z-10">
@@ -99,7 +99,7 @@ export default function Blog() {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 tracking-tight mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-violet-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent">
                   AI Voice Agent
                 </span>
                 <br />

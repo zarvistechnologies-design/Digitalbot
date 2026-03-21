@@ -316,7 +316,7 @@ export default function CustomerSupportCampaignsPage() {
       case "paused": return "bg-yellow-100 text-yellow-700 border-yellow-300";
       case "completed": return "bg-orange-100 text-orange-700 border-orange-300";
       case "cancelled": return "bg-red-100 text-red-700 border-red-300";
-      default: return "bg-purple-100 text-purple-700 border-purple-300";
+      default: return "bg-orange-100 text-orange-700 border-orange-300";
     }
   };
 
@@ -344,17 +344,17 @@ export default function CustomerSupportCampaignsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-50">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Main Content */}
       <div className="lg:ml-64 min-h-screen">
         {/* Mobile Header */}
-        <div className="lg:hidden flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm border-b border-purple-100">
-          <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-purple-100 transition-colors">
+        <div className="lg:hidden flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm border-b border-orange-100">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-orange-100 transition-colors">
             <MenuIcon />
           </button>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
             Support Campaigns
           </h1>
           <div className="w-10" />
@@ -371,14 +371,14 @@ export default function CustomerSupportCampaignsPage() {
               <div className="flex gap-3">
                 <button
                   onClick={fetchCampaigns}
-                  className="flex items-center gap-2 px-4 py-2 bg-white border border-purple-200 rounded-xl hover:bg-purple-50 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-white border border-orange-200 rounded-xl hover:bg-orange-50 transition-colors"
                 >
                   <RefreshIcon />
                   <span className="hidden sm:inline">Refresh</span>
                 </button>
                 <button
                   onClick={() => setShowCreateModal(true)}
-                  className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity shadow-lg"
+                  className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-orange-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity shadow-lg"
                 >
                   <PlusIcon />
                   New Campaign
@@ -389,9 +389,9 @@ export default function CustomerSupportCampaignsPage() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-            <div className="bg-white rounded-2xl p-4 shadow-sm border border-purple-100">
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-orange-100">
               <p className="text-sm text-gray-500">Total Campaigns</p>
-              <p className="text-2xl font-bold text-purple-600">{stats.total}</p>
+              <p className="text-2xl font-bold text-orange-600">{stats.total}</p>
             </div>
             <div className="bg-white rounded-2xl p-4 shadow-sm border border-green-100">
               <p className="text-sm text-gray-500">Active</p>
@@ -423,8 +423,8 @@ export default function CustomerSupportCampaignsPage() {
                 onClick={() => setFilter(status)}
                 className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                   filter === status
-                    ? "bg-gradient-to-r from-purple-600 to-orange-600 text-white shadow-md"
-                    : "bg-white text-gray-600 hover:bg-purple-50 border border-purple-100"
+                    ? "bg-gradient-to-r from-orange-600 to-orange-600 text-white shadow-md"
+                    : "bg-white text-gray-600 hover:bg-orange-50 border border-orange-100"
                 }`}
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -435,18 +435,18 @@ export default function CustomerSupportCampaignsPage() {
           {/* Campaigns List */}
           {loading ? (
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-600 border-t-transparent"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-orange-600 border-t-transparent"></div>
             </div>
           ) : error ? (
             <div className="bg-red-50 text-red-600 p-6 rounded-2xl text-center">{error}</div>
           ) : filteredCampaigns.length === 0 ? (
-            <div className="bg-white rounded-2xl p-12 text-center shadow-sm border border-purple-100">
+            <div className="bg-white rounded-2xl p-12 text-center shadow-sm border border-orange-100">
               <div className="text-6xl mb-4">📞</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No campaigns yet</h3>
               <p className="text-gray-500 mb-6">Create your first customer support campaign to get started</p>
               <button
                 onClick={() => setShowCreateModal(true)}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity"
+                className="px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity"
               >
                 Create Campaign
               </button>
@@ -459,7 +459,7 @@ export default function CustomerSupportCampaignsPage() {
                   className={`bg-white rounded-2xl p-6 shadow-sm border transition-shadow ${
                     campaign.status === 'active' 
                       ? 'border-green-300 ring-2 ring-green-100' 
-                      : 'border-purple-100 hover:shadow-md'
+                      : 'border-orange-100 hover:shadow-md'
                   }`}
                 >
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -573,7 +573,7 @@ export default function CustomerSupportCampaignsPage() {
                   type="text"
                   value={newCampaign.name}
                   onChange={(e) => setNewCampaign({ ...newCampaign, name: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="e.g., January Rent Reminders"
                 />
               </div>
@@ -584,7 +584,7 @@ export default function CustomerSupportCampaignsPage() {
                 <textarea
                   value={newCampaign.description}
                   onChange={(e) => setNewCampaign({ ...newCampaign, description: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   rows={2}
                   placeholder="Brief description of this campaign..."
                 />
@@ -596,7 +596,7 @@ export default function CustomerSupportCampaignsPage() {
                 <select
                   value={newCampaign.campaignType}
                   onChange={(e) => setNewCampaign({ ...newCampaign, campaignType: e.target.value as Campaign["campaignType"] })}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 >
                   <option value="rent-reminder">🏠 Rent Reminder</option>
                   <option value="payment-reminder">💰 Payment Reminder</option>
@@ -614,7 +614,7 @@ export default function CustomerSupportCampaignsPage() {
                   <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
                     <p className="text-yellow-800 text-sm">
                       No AI agents configured. Please go to{" "}
-                      <a href="/dashboard/agents" className="text-purple-600 underline">
+                      <a href="/dashboard/agents" className="text-orange-600 underline">
                         AI Agents
                       </a>{" "}
                       page to add your Millis AI agent ID.
@@ -624,7 +624,7 @@ export default function CustomerSupportCampaignsPage() {
                   <select
                     value={newCampaign.millisAgentId}
                     onChange={(e) => setNewCampaign({ ...newCampaign, millisAgentId: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   >
                     <option value="">Select an AI Agent</option>
                     {agents.map((agent) => (
@@ -639,7 +639,7 @@ export default function CustomerSupportCampaignsPage() {
               {/* File Upload */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Upload Contacts *</label>
-                <div className="border-2 border-dashed border-purple-200 rounded-xl p-6 text-center hover:border-purple-400 transition-colors">
+                <div className="border-2 border-dashed border-orange-200 rounded-xl p-6 text-center hover:border-orange-400 transition-colors">
                   <input
                     type="file"
                     accept=".xlsx,.xls,.csv"
@@ -657,7 +657,7 @@ export default function CustomerSupportCampaignsPage() {
                     </div>
                   </label>
                 </div>
-                {parsing && <p className="text-purple-600 text-sm mt-2">Parsing file...</p>}
+                {parsing && <p className="text-orange-600 text-sm mt-2">Parsing file...</p>}
                 {uploadedContacts.length > 0 && (
                   <p className="text-green-600 text-sm mt-2">✓ {uploadedContacts.length} contacts ready</p>
                 )}
@@ -707,7 +707,7 @@ export default function CustomerSupportCampaignsPage() {
               <button
                 onClick={createCampaign}
                 disabled={actionLoading === "create"}
-                className="px-5 py-2 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="px-5 py-2 bg-gradient-to-r from-orange-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
               >
                 {actionLoading === "create" ? "Creating..." : "Create Campaign"}
               </button>

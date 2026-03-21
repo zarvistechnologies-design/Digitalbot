@@ -112,7 +112,7 @@ const useCases = [
     description: "AI sales agents ask intelligent qualifying questions, score leads based on your criteria, and automatically route hot leads to your sales team while nurturing cold leads.",
     result: "3x more qualified leads",
     icon: Target,
-    color: "from-orange-500 to-violet-600",
+    color: "from-orange-500 to-orange-600",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -120,7 +120,7 @@ const useCases = [
     description: "Handle objections, present pricing, overcome hesitation, and guide prospects to purchase decisions with natural, persuasive conversations.",
     result: "45% higher conversion",
     icon: DollarSign,
-    color: "from-orange-500 to-purple-600",
+    color: "from-orange-500 to-orange-600",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -128,7 +128,7 @@ const useCases = [
     description: "Never let a lead go cold. Automatically follow up at the perfect time with personalized messages that move prospects through your pipeline.",
     result: "70% faster response time",
     icon: Zap,
-    color: "from-purple-500 to-pink-600",
+    color: "from-orange-500 to-pink-600",
     image: "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -382,11 +382,11 @@ export default function AISalesAgent() {
                   {/* Main Headline */}
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
                     <span className="block text-black">Sales That</span>
-                    <span className="block bg-gradient-to-r from-orange-500 via-violet-600 to-violet-700 bg-clip-text text-transparent">Never Stops</span>
+                    <span className="block bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 bg-clip-text text-transparent">Never Stops</span>
                   </h1>
 
                   {/* Tagline Box */}
-                  <div className="bg-gradient-to-r from-orange-50/60 to-violet-50/40 border border-orange-200/40 rounded-2xl p-5 mb-6">
+                  <div className="bg-gradient-to-r from-orange-50/60 to-orange-50/40 border border-orange-200/40 rounded-2xl p-5 mb-6">
                     <p className="text-gray-600 text-sm italic mb-1">&quot;Sales reps sleep, take breaks, get tired, need training.&quot;</p>
                     <p className="text-orange-600 font-bold text-base uppercase tracking-wider">WE NEVER DO.</p>
                   </div>
@@ -440,7 +440,7 @@ export default function AISalesAgent() {
                             ))}
                           </svg>
                         </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-md">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md">
                           {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                         </div>
                       </button>
@@ -488,7 +488,7 @@ export default function AISalesAgent() {
                             ))}
                           </svg>
                         </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-md">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md">
                           {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                         </div>
                       </button>
@@ -499,7 +499,7 @@ export default function AISalesAgent() {
                   <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                     <Link
                       href="/contact#contact-form"
-                      className="group px-6 py-3 bg-gradient-to-r from-orange-500 to-violet-600 text-white font-bold rounded-xl hover:from-orange-600 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2"
+                      className="group px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2"
                     >
                       Start Free Trial
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -557,7 +557,7 @@ export default function AISalesAgent() {
                     {/* Floating Badge - Bottom Right */}
                     <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
                           <TrendingUp className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -570,7 +570,7 @@ export default function AISalesAgent() {
                     {/* Floating Badge - Top Left */}
                     <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
                           <Target className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -623,7 +623,7 @@ export default function AISalesAgent() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                       <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-600 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
                           <benefit.icon className="w-5 h-5 text-white" />
                         </div>
                         <div>
@@ -922,7 +922,7 @@ export default function AISalesAgent() {
                     className="group bg-gray-50 rounded-xl overflow-hidden"
                   >
                     <summary className="flex items-center gap-4 p-5 cursor-pointer list-none hover:bg-gray-100 transition-colors">
-                      <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-violet-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                      <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                         {index + 1}
                       </div>
                       <span className="font-semibold text-gray-900 flex-1">{faq.name}</span>
@@ -938,7 +938,7 @@ export default function AISalesAgent() {
           </section>
 
           {/* CTA SECTION */}
-          <section className="py-20 bg-gradient-to-br from-orange-600 via-violet-700 to-orange-800 relative overflow-hidden">
+          <section className="py-20 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />

@@ -113,7 +113,7 @@ const useCases = [
     description: "Route and resolve high-volume support calls automatically. AI agents authenticate callers, surface knowledge articles, and complete account actions without human intervention.",
     result: "Reduce cost per call by 70%",
     icon: HeadphonesIcon,
-    color: "from-orange-500 to-violet-500",
+    color: "from-orange-500 to-orange-500",
     image: "https://images.unsplash.com/photo-1553775282-20af80779df7?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -129,7 +129,7 @@ const useCases = [
     description: "Automatically triage incident calls, schedule engineers, and confirm appointments while syncing updates to workforce management tools in real time.",
     result: "Cut dispatch delays by 55%",
     icon: Users,
-    color: "from-violet-500 to-purple-500",
+    color: "from-orange-500 to-orange-500",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -137,7 +137,7 @@ const useCases = [
     description: "Provide confidential hotlines with voice biometrics, call transcription, and automated routing to the right compliance teams within SLA windows.",
     result: "Achieve 100% policy adherence",
     icon: Shield,
-    color: "from-orange-400 to-violet-400",
+    color: "from-orange-400 to-orange-400",
     image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=800&q=80"
   }
 ];
@@ -335,7 +335,7 @@ export default function AICallCenter() {
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               {/* Floating Orbs */}
               <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
-              <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
               
               {/* Animated Grid */}
@@ -346,7 +346,7 @@ export default function AICallCenter() {
               
               {/* Animated Lines */}
               <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
-              <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
+              <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
             </div>
 
             <div className="container mx-auto relative z-30 max-w-7xl">
@@ -363,7 +363,7 @@ export default function AICallCenter() {
                   {/* Main Headline */}
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
                     <span className="block text-black">Transform Your</span>
-                    <span className="block bg-gradient-to-r from-orange-500 via-orange-600 to-violet-600 bg-clip-text text-transparent">Call Center with AI</span>
+                    <span className="block bg-gradient-to-r from-orange-500 via-orange-600 to-orange-600 bg-clip-text text-transparent">Call Center with AI</span>
                   </h1>
 
                   {/* Tagline Box */}
@@ -419,7 +419,7 @@ export default function AICallCenter() {
                           ))}
                         </svg>
                       </div>
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-lg">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg">
                         {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
                       </div>
                     </button>
@@ -429,7 +429,7 @@ export default function AICallCenter() {
                   <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                     <Link
                       href="/contact?service=customer-support"
-                      className="group px-6 py-3 bg-gradient-to-r from-orange-500 to-violet-600 text-white font-bold rounded-xl hover:from-orange-600 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2"
+                      className="group px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2"
                     >
                       Start Free Trial
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -486,7 +486,7 @@ export default function AICallCenter() {
                     {/* Floating Badge - Bottom Right */}
                     <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
                           <Phone className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -552,7 +552,7 @@ export default function AICallCenter() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                       <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-600 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
                           <benefit.icon className="w-5 h-5 text-white" />
                         </div>
                         <div>
@@ -871,7 +871,7 @@ export default function AICallCenter() {
           </section>
 
           {/* CTA SECTION */}
-          <section className="py-20 bg-gradient-to-br from-orange-600 via-violet-700 to-orange-800 relative overflow-hidden">
+          <section className="py-20 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />

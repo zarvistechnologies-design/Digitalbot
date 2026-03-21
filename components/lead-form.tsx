@@ -5,7 +5,7 @@
               <div className="relative max-w-lg w-full">
                 {/* Animated Background Shapes */}
                 <div className="absolute -top-10 -left-10 w-40 h-40 bg-orange-400/15 rounded-full blur-3xl animate-blob" />
-                <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-violet-500/15 rounded-full blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
+                <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-orange-500/15 rounded-full blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
                 <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-orange-600/15 rounded-full blur-3xl animate-blob" style={{ animationDelay: '4s' }} />
 
                 {/* Main Content */}
@@ -20,7 +20,7 @@
                   <h2 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
                     AI Voice Agent Solutions
                     <br />
-                    <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-violet-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                    <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
                       for Every Industry
                     </span>
                   </h2>
@@ -65,7 +65,7 @@
                 <div className="group opacity-0 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
                   <div className="relative p-4 glass-card bg-white/70 backdrop-blur-sm rounded-2xl border-orange-200/30 hover:border-orange-400/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-400/10 shadow-md">
                     {/* Icon Badge */}
-                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-violet-600 flex items-center justify-center shadow-lg">
+                    <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                       </svg>
@@ -237,8 +237,8 @@
 
                 {/* Hospitality & Hotels */}
                 <div className="group opacity-0 animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>
-                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl glass-card border-purple-200/30 hover:border-purple-400/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-400/10 shadow-md">
-                    <div className="absolute -top-4 -left-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-xl">
+                  <div className="relative p-4 bg-white dark:bg-white/10 backdrop-blur-sm rounded-2xl glass-card border-orange-200/30 hover:border-orange-400/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-400/10 shadow-md">
+                    <div className="absolute -top-4 -left-4 w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-xl">
                       <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
@@ -256,10 +256,10 @@
 
                     <div>
                       <div className="mb-4">
-                        <span className="inline-block px-2 py-0.5 bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+                        <span className="inline-block px-2 py-0.5 bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
                           Hospitality Industry
                         </span>
-                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-purple-500 transition-colors">
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2 group-hover:text-orange-500 transition-colors">
                           Hotels & Hospitality
                         </h3>
                         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-sm">
@@ -268,51 +268,51 @@
                       </div>
 
                       <div className="space-y-2">
-                        <div className="flex items-start gap-2 p-2 rounded-lg bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-2 p-2 rounded-lg bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Reservation Management</div>
-                            <div className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">Booking and confirmations</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Booking and confirmations</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Guest Services</div>
-                            <div className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">Room service and concierge</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Room service and concierge</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">Multi-Language Support</div>
-                            <div className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">Serve international guests</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Serve international guests</div>
                           </div>
                         </div>
 
-                        <div className="flex items-start gap-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 transition-colors">
-                          <div className="w-6 h-6 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="flex items-start gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 transition-colors">
+                          <div className="w-6 h-6 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="flex-1">
                             <div className="font-bold text-gray-900 dark:text-white text-sm">24/7 Front Desk</div>
-                            <div className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">Always available assistance</div>
+                            <div className="text-xs text-orange-600 dark:text-orange-400 mt-0.5">Always available assistance</div>
                           </div>
                         </div>
                       </div>

@@ -1,6 +1,6 @@
  "use client"
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { TrendingUp, Phone, Clock, Globe, Zap, Shield } from 'lucide-react'
 
 interface StatProps {
@@ -15,13 +15,29 @@ interface StatProps {
   bgColor?: string
 }
 
-function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, duration = 2, decimals = 0, color = 'from-orange-500 to-violet-500', bgColor = 'from-orange-50 to-violet-50/50' }: StatProps) {
+function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, duration = 2, decimals = 0, color = 'from-orange-500 to-orange-500', bgColor = 'from-orange-50 to-orange-50/50' }: StatProps) {
   const [count, setCount] = useState(0)
+  const [hasAnimated, setHasAnimated] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   useEffect(() => {
-    if (!isInView) return
+    if (!ref.current || hasAnimated) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasAnimated(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [hasAnimated])
+
+  useEffect(() => {
+    if (!hasAnimated) return
 
     let start = 0
     const end = value
@@ -39,7 +55,7 @@ function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, dura
     }, incrementTime * step)
 
     return () => clearInterval(timer)
-  }, [isInView, value, duration])
+  }, [hasAnimated, value, duration])
 
   const formattedValue = decimals > 0 
     ? count.toFixed(decimals) 
@@ -48,8 +64,8 @@ function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, dura
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      initial={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       className="group relative"
     >
@@ -74,12 +90,12 @@ function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, dura
 }
 
 const stats = [
-  { value: 10, suffix: 'M+', label: 'Calls Handled', icon: Phone, color: 'from-orange-500 to-violet-500', bgColor: 'from-orange-50 to-violet-50/50' },
+  { value: 10, suffix: 'M+', label: 'Calls Handled', icon: Phone, color: 'from-orange-500 to-orange-500', bgColor: 'from-orange-50 to-orange-50/50' },
   { value: 99.9, suffix: '%', label: 'Uptime Guarantee', icon: Shield, decimals: 1, color: 'from-emerald-500 to-teal-500', bgColor: 'from-emerald-50 to-emerald-100/50' },
-  { value: 750, suffix: 'ms', prefix: '<', label: 'Response Time', icon: Zap, color: 'from-orange-500 to-violet-500', bgColor: 'from-orange-50 to-violet-50/50' },
-  { value: 50, suffix: '+', label: 'Languages Supported', icon: Globe, color: 'from-violet-500 to-purple-500', bgColor: 'from-violet-50 to-violet-100/50' },
+  { value: 750, suffix: 'ms', prefix: '<', label: 'Response Time', icon: Zap, color: 'from-orange-500 to-orange-500', bgColor: 'from-orange-50 to-orange-50/50' },
+  { value: 50, suffix: '+', label: 'Languages Supported', icon: Globe, color: 'from-orange-500 to-orange-500', bgColor: 'from-orange-50 to-orange-100/50' },
   { value: 24, suffix: '/7', label: 'AI Availability', icon: Clock, color: 'from-rose-500 to-pink-500', bgColor: 'from-rose-50 to-rose-100/50' },
-  { value: 300, suffix: '%', label: 'Average ROI', icon: TrendingUp, color: 'from-orange-500 to-violet-500', bgColor: 'from-orange-50 to-violet-50/50' },
+  { value: 300, suffix: '%', label: 'Average ROI', icon: TrendingUp, color: 'from-orange-500 to-orange-500', bgColor: 'from-orange-50 to-orange-50/50' },
 ]
 
 export default function AnimatedStats() {
@@ -94,7 +110,7 @@ export default function AnimatedStats() {
       <div className="container mx-auto px-4 max-w-6xl relative z-10">
         {/* Header */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-16"
@@ -102,8 +118,8 @@ export default function AnimatedStats() {
           <span className="inline-block px-4 py-2 bg-orange-50/60 text-orange-700 rounded-full text-sm font-semibold mb-4 border border-orange-200/40">
             Platform Performance
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Numbers That <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500">Speak for Themselves</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 glass-heading">
+            Numbers That <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-500">Speak for Themselves</span>
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Industry-leading performance metrics that power thousands of businesses worldwide

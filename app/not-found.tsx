@@ -36,7 +36,7 @@ export default function NotFound() {
         {/* Glassmorphism/gradient background */}
         <div className="fixed inset-0 z-0 pointer-events-none">
           <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-orange-400/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-violet-200/30 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-orange-200/30 rounded-full blur-3xl" />
         </div>
 
         {/* Animated gradient lines */}
@@ -66,8 +66,8 @@ export default function NotFound() {
               <span className="relative shimmer-text animate-pulse">404</span>
             </h1>
             {/* Gradient Lines */}
-            <div className="absolute top-1/4 left-0 right-0 h-1 bg-gradient-to-r from-orange-400/40 via-violet-300/40 to-transparent animate-pulse" />
-            <div className="absolute bottom-1/4 left-0 right-0 h-1 bg-gradient-to-r from-violet-200/40 via-orange-400/40 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }} />
+            <div className="absolute top-1/4 left-0 right-0 h-1 bg-gradient-to-r from-orange-400/40 via-orange-300/40 to-transparent animate-pulse" />
+            <div className="absolute bottom-1/4 left-0 right-0 h-1 bg-gradient-to-r from-orange-200/40 via-orange-400/40 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }} />
           </div>
 
           {/* Title */}
@@ -79,7 +79,7 @@ export default function NotFound() {
                 PAGE NOT FOUND
               </span>
             </h2>
-            <div className="h-1 w-32 mx-auto bg-gradient-to-r from-transparent via-orange-400 via-60% to-violet-200" />
+            <div className="h-1 w-32 mx-auto bg-gradient-to-r from-transparent via-orange-400 via-60% to-orange-200" />
           </div>
 
           {/* Description Box */}
@@ -100,7 +100,7 @@ export default function NotFound() {
             <Button
               asChild
               size="lg"
-              className="group relative bg-gradient-to-r from-orange-600 to-violet-600 hover:from-orange-500 hover:to-violet-500 text-white font-black rounded-xl shadow-lg hover:shadow-orange-400/40 transition-all duration-300 w-full sm:w-auto overflow-hidden hover:scale-105 btn-glow"
+              className="group relative bg-gradient-to-r from-orange-600 to-orange-600 hover:from-orange-500 hover:to-orange-500 text-white font-black rounded-xl shadow-lg hover:shadow-orange-400/40 transition-all duration-300 w-full sm:w-auto overflow-hidden hover:scale-105 btn-glow"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
               }}
@@ -115,7 +115,7 @@ export default function NotFound() {
               asChild
               variant="outline"
               size="lg"
-              className="group bg-white/60 border-2 border-orange-400 hover:border-violet-500 hover:bg-orange-100/30 text-orange-500 hover:text-violet-600 font-black rounded-xl shadow-lg hover:shadow-orange-400/30 transition-all duration-300 w-full sm:w-auto"
+              className="group bg-white/60 border-2 border-orange-400 hover:border-orange-500 hover:bg-orange-100/30 text-orange-500 hover:text-orange-600 font-black rounded-xl shadow-lg hover:shadow-orange-400/30 transition-all duration-300 w-full sm:w-auto"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))'
               }}

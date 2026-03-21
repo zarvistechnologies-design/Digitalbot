@@ -237,7 +237,7 @@ export default function AppointmentsPage() {
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
             {/* Floating Orbs */}
             <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
             
             {/* Animated Grid Pattern */}
@@ -248,7 +248,7 @@ export default function AppointmentsPage() {
             
             {/* Animated Lines */}
             <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
-            <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
+            <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
           </div>
 
           <div className="container mx-auto relative z-30 max-w-7xl h-full flex items-center">
@@ -265,7 +265,7 @@ export default function AppointmentsPage() {
                 {/* Main Headline */}
                 <h1 id="hero-title" className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
                   <span className="block text-black">Never Miss Another</span>
-                  <span className="block bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Appointment Again</span>
+                  <span className="block bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Appointment Again</span>
                 </h1>
 
                 {/* Tagline Box */}
@@ -324,7 +324,7 @@ export default function AppointmentsPage() {
                           ))}
                         </svg>
                       </div>
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-md">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md">
                         {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                       </div>
                     </button>
@@ -373,7 +373,7 @@ export default function AppointmentsPage() {
                           ))}
                         </svg>
                       </div>
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-md">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md">
                         {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                       </div>
                     </button>
@@ -384,7 +384,7 @@ export default function AppointmentsPage() {
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                   <Link
                     href="/signup?service=appointment"
-                    className="group px-5 py-2.5 bg-gradient-to-r from-orange-500 to-violet-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-violet-700 transition-all duration-300 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2 text-sm"
+                    className="group px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2 text-sm"
                   >
                     Start Free Trial
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -441,7 +441,7 @@ export default function AppointmentsPage() {
                   {/* Floating Badge - Bottom Right */}
                   <div className="absolute bottom-4 right-0 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-600 rounded-xl flex items-center justify-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
                         <Clock className="h-6 w-6 text-white" />
                       </div>
                       <div>
@@ -498,7 +498,7 @@ export default function AppointmentsPage() {
                 style={{ transitionDelay: '0.1s' }}
                 role="listitem"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" aria-hidden="true">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" aria-hidden="true">
                   <Zap className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Lightning Response</h3>
@@ -509,7 +509,7 @@ export default function AppointmentsPage() {
                 className={`bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl hover:border-orange-200/40 transition-all group ${visibleSections.has('section-ai') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 style={{ transitionDelay: '0.2s' }}
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
                   <Calendar className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Smart Scheduling</h3>
@@ -544,7 +544,7 @@ export default function AppointmentsPage() {
                   <Users className="w-4 h-4" />
                   Dashboard Management
                 </div>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 glass-heading">
                   One Dashboard. <br className="hidden sm:block" />
                   <span className="text-orange-600">Any Scale.</span>
                 </h2>
@@ -626,7 +626,7 @@ export default function AppointmentsPage() {
                 </div>
                 
                 {/* Floating Badge */}
-                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-orange-500 to-violet-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-orange-300/40" aria-hidden="true">
+                <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-orange-500 to-orange-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-orange-300/40" aria-hidden="true">
                   <div className="text-sm font-semibold flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                     Live Preview
@@ -645,7 +645,7 @@ export default function AppointmentsPage() {
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-booking') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 glass-heading">
                 How Appointments Are <span className="text-orange-600">Booked</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
@@ -657,7 +657,7 @@ export default function AppointmentsPage() {
               {/* AI Call Booking */}
               <div className={`bg-gradient-to-br from-orange-50/60 to-white rounded-3xl p-8 border border-orange-100/40 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 group ${visibleSections.has('section-booking') ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '0.2s' }}>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30">
                     <Phone className="w-8 h-8 text-white" />
                   </div>
                   <div>
@@ -734,7 +734,7 @@ export default function AppointmentsPage() {
                   <Calendar className="w-4 h-4" />
                   Doctor-Controlled Slots
                 </div>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-6 glass-heading">
                   Slot-Wise <span className="text-orange-600">Smart Scheduling</span>
                 </h2>
                 <p className="text-gray-600 text-lg mb-6">
@@ -841,7 +841,7 @@ export default function AppointmentsPage() {
                 <Bell className="w-4 h-4" />
                 Automated Notifications
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 glass-heading">
                 Automated <span className="text-green-600">WhatsApp Notifications</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
@@ -918,7 +918,7 @@ export default function AppointmentsPage() {
                   {/* Google Calendar Header */}
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-600 rounded-xl flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
                         <Calendar className="w-5 h-5 text-white" />
                       </div>
                       <span className="font-bold text-gray-900">Google Calendar</span>
@@ -966,7 +966,7 @@ export default function AppointmentsPage() {
                   <Calendar className="w-4 h-4" />
                   Calendar Integration
                 </div>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-6 glass-heading">
                   Google Calendar Sync <br className="hidden sm:block" />
                   <span className="text-orange-600">for Doctors</span>
                 </h2>
@@ -1006,7 +1006,7 @@ export default function AppointmentsPage() {
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-results') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-8">
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 glass-heading">
                 Proven Results That <span className="text-orange-600">Speak for Themselves</span>
               </h2>
               <p className="text-gray-600">Join 1,000+ businesses already transformed by AI scheduling</p>
@@ -1089,7 +1089,7 @@ export default function AppointmentsPage() {
             
             {/* Header with animated badge */}
             <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-violet-600 text-white rounded-full font-semibold text-sm mb-6 shadow-lg shadow-orange-500/25">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full font-semibold text-sm mb-6 shadow-lg shadow-orange-500/25">
                 <Sparkles className="w-4 h-4" aria-hidden="true" />
                 The Comparison You Need to See
                 <Sparkles className="w-4 h-4" aria-hidden="true" />
@@ -1112,7 +1112,7 @@ export default function AppointmentsPage() {
               
               {/* Voice AI Card - Winner */}
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-400 rounded-3xl blur-sm opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-400 rounded-3xl blur-sm opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <div className="relative bg-white rounded-3xl p-8 border border-orange-100/40 shadow-xl h-full">
                   {/* Winner Badge */}
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
@@ -1123,7 +1123,7 @@ export default function AppointmentsPage() {
                   </div>
                   
                   <div className="flex items-center gap-4 mb-8 mt-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30 group-hover:scale-110 transition-transform">
+                    <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30 group-hover:scale-110 transition-transform">
                       <Bot className="w-8 h-8 text-white" />
                     </div>
                     <div>
@@ -1141,7 +1141,7 @@ export default function AppointmentsPage() {
                       { label: 'Languages Supported', value: '50+', icon: Languages, highlight: true },
                       { label: 'No-Show Rate', value: 'Only 4%', icon: Users, highlight: true },
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-50/60 to-violet-50/40 rounded-xl border border-orange-100/40 hover:shadow-md hover:-translate-x-1 transition-all duration-300">
+                      <div key={idx} className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-50/60 to-orange-50/40 rounded-xl border border-orange-100/40 hover:shadow-md hover:-translate-x-1 transition-all duration-300">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-orange-50/60 rounded-lg flex items-center justify-center">
                             <item.icon className="w-5 h-5 text-orange-600" />
@@ -1242,7 +1242,7 @@ export default function AppointmentsPage() {
                 )}
                 <div className="flex justify-center gap-6 mt-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-r from-orange-500 to-violet-500" />
+                    <div className="w-4 h-4 rounded-full bg-gradient-to-r from-orange-500 to-orange-500" />
                     <span className="text-gray-600 text-sm font-medium">Voice AI (78%)</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -1281,9 +1281,9 @@ export default function AppointmentsPage() {
             {/* Impact Stats - Animated Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
               {[
-                { label: 'Faster Response', value: '90×', sublabel: 'vs traditional', icon: Zap, color: 'orange', bg: 'from-orange-500 to-violet-600' },
+                { label: 'Faster Response', value: '90×', sublabel: 'vs traditional', icon: Zap, color: 'orange', bg: 'from-orange-500 to-orange-600' },
                 { label: 'More Bookings', value: '3.4×', sublabel: 'increase', icon: TrendingUp, color: 'green', bg: 'from-green-500 to-emerald-500' },
-                { label: 'Lower No-Shows', value: '77%', sublabel: 'reduction', icon: Users, color: 'orange', bg: 'from-orange-500 to-violet-500' },
+                { label: 'Lower No-Shows', value: '77%', sublabel: 'reduction', icon: Users, color: 'orange', bg: 'from-orange-500 to-orange-500' },
                 { label: 'Cost Savings', value: '60%', sublabel: 'saved monthly', icon: BarChart3, color: 'green', bg: 'from-green-500 to-teal-500' },
               ].map((stat, idx) => (
                 <div 
@@ -1304,7 +1304,7 @@ export default function AppointmentsPage() {
             </div>
 
             {/* CTA Section */}
-            <div className="text-center bg-gradient-to-r from-orange-600 to-violet-700 rounded-3xl p-8 sm:p-12 shadow-2xl shadow-orange-500/20 relative overflow-hidden">
+            <div className="text-center bg-gradient-to-r from-orange-600 to-orange-700 rounded-3xl p-8 sm:p-12 shadow-2xl shadow-orange-500/20 relative overflow-hidden">
               <div className="absolute inset-0 opacity-10" style={{
                 backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
                 backgroundSize: '24px 24px'
@@ -1335,7 +1335,7 @@ export default function AppointmentsPage() {
         >
           <div className={`max-w-6xl mx-auto transition-all duration-700 ${visibleSections.has('section-solution') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="text-center mb-12">
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 glass-heading">
                 Complete AI <span className="text-orange-600">Scheduling Solution</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
@@ -1374,7 +1374,7 @@ export default function AppointmentsPage() {
             <div className="mt-10 text-center">
               <Link
                 href="/signup?service=appointment"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-violet-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-orange-300/40 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-orange-300/40 transition-all"
               >
                 Get Started Free
                 <ArrowRight className="w-4 h-4" />
@@ -1395,7 +1395,7 @@ export default function AppointmentsPage() {
               <Play className="w-4 h-4" />
               Interactive Demo
             </div>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 glass-heading">
               Experience the <span className="text-orange-600">Future of Booking</span>
             </h2>
             <p className="text-gray-600 text-lg mb-8">
@@ -1409,7 +1409,7 @@ export default function AppointmentsPage() {
                 {DEMO_WAVEFORM_HEIGHTS.map((bar, i) => (
                   <div 
                     key={i} 
-                    className="w-1.5 bg-gradient-to-t from-orange-500 to-violet-500 rounded-full"
+                    className="w-1.5 bg-gradient-to-t from-orange-500 to-orange-500 rounded-full"
                     style={{
                       height: `${bar.height}%`,
                       animation: `pulse ${bar.duration}s ease-in-out infinite`,
@@ -1437,7 +1437,7 @@ export default function AppointmentsPage() {
 
               <Link
                 href="/signup?demo=appointments"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-violet-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg hover:shadow-orange-300/40 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg hover:shadow-orange-300/40 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                 aria-label="Watch the full appointment booking demo"
               >
                 <Play className="w-5 h-5" aria-hidden="true" />
@@ -1494,7 +1494,7 @@ export default function AppointmentsPage() {
                     &quot;{testimonial.quote}&quot;
                   </blockquote>
                   <figcaption className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-violet-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                    <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xs shadow-sm">
                       {testimonial.initials}
                     </div>
                     <div>
@@ -1561,7 +1561,7 @@ export default function AppointmentsPage() {
                 <Building2 className="w-4 h-4" />
                 Industries We Serve
               </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 glass-heading">
                 Built for <span className="text-orange-600">Every Industry</span>
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">

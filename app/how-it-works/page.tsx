@@ -42,14 +42,14 @@ function AnimatedCounter({ end, suffix = "", duration = 2000 }: { end: number; s
 const services = [
   { icon: Calendar, title: "Doctor Appointment", color: "bg-orange-500", description: "24/7 medical scheduling" },
   { icon: Users, title: "Virtual Receptionist", color: "bg-emerald-500", description: "Professional call handling" },
-  { icon: Target, title: "Lead Generation", color: "bg-violet-500", description: "Automated lead capture" },
+  { icon: Target, title: "Lead Generation", color: "bg-orange-500", description: "Automated lead capture" },
   { icon: Headphones, title: "Customer Agent", color: "bg-orange-600", description: "Support & assistance" },
   { icon: Building2, title: "AI Call Center", color: "bg-orange-500", description: "Enterprise solutions" },
 ]
 
 // Entry points
 const entryPoints = [
-  { icon: Phone, title: "Phone Call", description: "Direct voice calls", color: "from-orange-500 to-violet-500" },
+  { icon: Phone, title: "Phone Call", description: "Direct voice calls", color: "from-orange-500 to-orange-500" },
   { icon: MessageSquare, title: "WhatsApp", description: "Messaging platform", color: "from-emerald-500 to-green-500" },
 ]
 
@@ -57,7 +57,7 @@ const entryPoints = [
 const bookingFeatures = [
   { icon: Calendar, text: "Slot-Wise Booking", color: "text-orange-600" },
   { icon: Clock, text: "Real-Time Availability", color: "text-emerald-600" },
-  { icon: Users, text: "Multi Doctor Multi Hospital View", color: "text-violet-600" },
+  { icon: Users, text: "Multi Doctor Multi Hospital View", color: "text-orange-600" },
   { icon: MessageSquare, text: "WhatsApp Confirmation", color: "text-green-600" },
   { icon: Clock, text: "Doctor Availability & Duration", color: "text-orange-600" },
 ]
@@ -66,22 +66,22 @@ const bookingFeatures = [
 const integrations = [
   { icon: MessageSquare, title: "WhatsApp", color: "bg-green-500" },
   { icon: Calendar, title: "Internal Booking System", color: "bg-orange-500" },
-  { icon: Cog, title: "CRM / External APIs", color: "bg-violet-500" },
+  { icon: Cog, title: "CRM / External APIs", color: "bg-orange-500" },
 ]
 
 // Platform benefits
 const platformBenefits = [
-  { icon: Calendar, title: "Appointment Management", description: "Smart scheduling system", color: "from-orange-500 to-violet-500" },
+  { icon: Calendar, title: "Appointment Management", description: "Smart scheduling system", color: "from-orange-500 to-orange-500" },
   { icon: Phone, title: "Call Analytics", description: "Detailed call insights", color: "from-emerald-500 to-teal-500" },
-  { icon: BarChart3, title: "Lead Statistics", description: "Track conversions", color: "from-violet-500 to-purple-500" },
-  { icon: TrendingUp, title: "Performance Metrics", description: "Real-time dashboards", color: "from-orange-500 to-violet-500" },
+  { icon: BarChart3, title: "Lead Statistics", description: "Track conversions", color: "from-orange-500 to-orange-500" },
+  { icon: TrendingUp, title: "Performance Metrics", description: "Real-time dashboards", color: "from-orange-500 to-orange-500" },
 ]
 
 // Bottom features
 const bottomFeatures = [
-  { icon: Cog, title: "No Code Setup", description: "Get started in minutes without any technical knowledge", color: "from-orange-500 to-violet-500" },
+  { icon: Cog, title: "No Code Setup", description: "Get started in minutes without any technical knowledge", color: "from-orange-500 to-orange-500" },
   { icon: Clock, title: "24/7 Availability", description: "Your AI assistant never sleeps, never takes breaks", color: "from-emerald-500 to-teal-500" },
-  { icon: DollarSign, title: "Cost Effective", description: "Save up to 70% compared to traditional call centers", color: "from-violet-500 to-purple-500" },
+  { icon: DollarSign, title: "Cost Effective", description: "Save up to 70% compared to traditional call centers", color: "from-orange-500 to-orange-500" },
 ]
 
 export default function HowItWorksPage() {
@@ -95,14 +95,14 @@ export default function HowItWorksPage() {
           {/* Animated Background */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/30 rounded-full blur-[100px] animate-pulse" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-200/30 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-200/30 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-100/20 rounded-full blur-[120px]" />
           </div>
 
           {/* Floating Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-32 left-[10%] w-4 h-4 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
-            <div className="absolute top-48 right-[15%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
+            <div className="absolute top-48 right-[15%] w-3 h-3 bg-orange-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
             <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-emerald-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
           </div>
 
@@ -125,7 +125,7 @@ export default function HowItWorksPage() {
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-6 leading-tight">
                 How DigitalBot
-                <span className="block bg-gradient-to-r from-orange-600 via-orange-500 to-violet-600 bg-clip-text text-transparent mt-2">Powers Your Business</span>
+                <span className="block bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent mt-2">Powers Your Business</span>
               </h1>
 
               <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-2xl mx-auto">
@@ -220,7 +220,7 @@ export default function HowItWorksPage() {
                   </div>
                   
                   {/* Core Bot */}
-                  <div className="relative z-10 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-orange-500 via-orange-600 to-violet-600 rounded-full flex items-center justify-center shadow-2xl shadow-orange-500/40">
+                  <div className="relative z-10 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-orange-500 via-orange-600 to-orange-600 rounded-full flex items-center justify-center shadow-2xl shadow-orange-500/40">
                     <div className="text-center">
                       <Bot className="w-12 h-12 md:w-16 md:h-16 text-white mx-auto mb-1" />
                       <p className="text-white font-semibold text-sm md:text-base">DigitalBot</p>
@@ -246,8 +246,8 @@ export default function HowItWorksPage() {
                 {/* Automation & Integrations */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/40 p-6">
                   <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                    <div className="w-8 h-8 bg-violet-100 rounded-lg flex items-center justify-center">
-                      <Cog className="w-4 h-4 text-violet-600" />
+                    <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                      <Cog className="w-4 h-4 text-orange-600" />
                     </div>
                     Automation & Integrations
                   </h3>
@@ -328,9 +328,9 @@ export default function HowItWorksPage() {
 
             <div className="grid md:grid-cols-4 gap-6">
               {[
-                { step: "01", title: "Customer Calls", desc: "Via phone or WhatsApp", icon: Phone, color: "from-orange-500 to-violet-500" },
-                { step: "02", title: "AI Processes", desc: "DigitalBot understands intent", icon: Bot, color: "from-violet-500 to-purple-500" },
-                { step: "03", title: "Action Taken", desc: "Booking, support, or lead capture", icon: Zap, color: "from-orange-500 to-violet-500" },
+                { step: "01", title: "Customer Calls", desc: "Via phone or WhatsApp", icon: Phone, color: "from-orange-500 to-orange-500" },
+                { step: "02", title: "AI Processes", desc: "DigitalBot understands intent", icon: Bot, color: "from-orange-500 to-orange-500" },
+                { step: "03", title: "Action Taken", desc: "Booking, support, or lead capture", icon: Zap, color: "from-orange-500 to-orange-500" },
                 { step: "04", title: "Results Delivered", desc: "Confirmation & analytics", icon: CheckCircle, color: "from-emerald-500 to-teal-500" },
               ].map((step, i) => (
                 <div key={i} className="relative">
@@ -354,7 +354,7 @@ export default function HowItWorksPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-12 px-4 bg-gradient-to-r from-orange-600 to-violet-600">
+        <section className="py-12 px-4 bg-gradient-to-r from-orange-600 to-orange-600">
           <div className="container mx-auto max-w-6xl">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
@@ -375,7 +375,7 @@ export default function HowItWorksPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 to-violet-700">
+        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 to-orange-700">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-6">
               Ready to Transform Your Business?

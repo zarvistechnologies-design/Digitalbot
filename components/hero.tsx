@@ -17,7 +17,7 @@ const services = [
         subtitle: "24/7 AI-Powered Medical Scheduling",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/doctor_appointment_i73m9a",
         desc: "Never miss a patient again. Our AI voice agent handles appointment booking, rescheduling, and confirmations around the clock—with perfect accuracy and a warm, human touch.",
-        color: "from-orange-500 to-violet-500",
+        color: "from-orange-500 to-orange-500",
         stat: "95%",
         statLabel: "Booking Success Rate",
         audio: "/audio/doctor-appointment-sample.mp3",          
@@ -34,7 +34,7 @@ const services = [
         subtitle: "Automated Outbound Sales Machine",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/lead_generation_qas7wm",
         desc: "Scale your sales pipeline effortlessly. Our AI makes thousands of outbound calls daily, qualifying leads and booking meetings while your team focuses on closing.",
-        color: "from-orange-500 to-violet-500",
+        color: "from-orange-500 to-orange-500",
         stat: "3x",
         statLabel: "More Qualified Leads",
         audio: "/audio/lead-generation-sample.mp3",
@@ -50,7 +50,7 @@ const services = [
         subtitle: "Empathetic Support That Never Sleeps",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/customercareagent_k6wqe8",
         desc: "Delight customers with instant, empathetic support. Our AI resolves issues on the first call, escalates complex cases smartly, and keeps your CSAT scores soaring.",
-        color: "from-orange-500 to-violet-500",
+        color: "from-orange-500 to-orange-500",
         stat: "90%",
         statLabel: "First Call Resolution",
         audio: "/audio/customer-care-sample.mp3",
@@ -66,7 +66,7 @@ const services = [
         subtitle: "Seamlessly Connect AI Voice to Your Systems",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/voicebot_integaration_pjlorx",
         desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
-        color: "from-violet-500 to-orange-600",
+        color: "from-orange-500 to-orange-600",
         stat: "50+",
         statLabel: "Native Integrations",
         audio: "/audio/virtual-receptionist-sample.mp3",
@@ -82,7 +82,7 @@ const services = [
         subtitle: "Enterprise-Grade Communication Hub",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/ai_call_center_kalt8q",
         desc: "Transform your entire call center operation. Handle unlimited concurrent calls with intelligent routing, real-time analytics, and seamless human handoff when needed.",
-        color: "from-purple-500 to-orange-500",
+        color: "from-orange-500 to-orange-500",
         stat: "∞",
         statLabel: "Unlimited Capacity",
         audio: "/audio/call-center-sample.mp3",
@@ -880,7 +880,7 @@ export default function Hero() {
                         {/* Floating Orbs */}
                         <div className="absolute inset-0 overflow-hidden pointer-events-none">
                             <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/15 rounded-full blur-3xl animate-float"></div>
-                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/8 rounded-full blur-3xl animate-pulse-slow"></div>
                         </div>
                         
@@ -892,15 +892,19 @@ export default function Hero() {
                         
                         {/* Floating Particles */}
                         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                            {[...Array(20)].map((_, i) => (
+                            {[...Array(80)].map((_, i) => (
                                 <div
                                     key={i}
-                                    className="absolute w-2 h-2 bg-orange-400/20 rounded-full animate-float"
+                                    className="absolute rounded-full animate-float"
                                     style={{
-                                        left: `${Math.random() * 100}%`,
-                                        top: `${Math.random() * 100}%`,
-                                        animationDelay: `${Math.random() * 5}s`,
-                                        animationDuration: `${3 + Math.random() * 4}s`
+                                        left: `${(i * 1.27) % 100}%`,
+                                        top: `${(i * 3.67) % 100}%`,
+                                        width: `${2 + (i % 5) * 2}px`,
+                                        height: `${2 + (i % 5) * 2}px`,
+                                        background: i % 4 === 0 ? 'rgba(249, 115, 22, 0.3)' : i % 4 === 1 ? 'rgba(251, 146, 60, 0.22)' : i % 4 === 2 ? 'rgba(253, 186, 116, 0.2)' : 'rgba(234, 88, 12, 0.18)',
+                                        boxShadow: i % 4 === 0 ? '0 0 8px rgba(249, 115, 22, 0.35)' : i % 7 === 0 ? '0 0 5px rgba(251, 146, 60, 0.25)' : 'none',
+                                        animationDelay: `${(i * 0.15) % 6}s`,
+                                        animationDuration: `${2.5 + (i % 6)}s`
                                     }}
                                 ></div>
                             ))}
@@ -908,17 +912,41 @@ export default function Hero() {
 
                         {/* Animated Lines */}
                         <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/15 to-transparent animate-pulse-slow"></div>
-                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/10 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-500/10 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+
+                        {/* Wavy Sound Effect - Top Waves */}
+                        <div className="absolute top-0 left-0 right-0 h-40 overflow-hidden pointer-events-none z-10 opacity-40 rotate-180">
+                            <svg className="absolute bottom-0 w-[200%] h-full" viewBox="0 0 1500 200" preserveAspectRatio="none" style={{ animation: 'wave-drift 12s ease-in-out infinite' }}>
+                                <path d="M0,130 C180,160 380,100 580,130 C780,160 980,100 1180,130 C1380,160 1500,120 1500,130 L1500,200 L0,200 Z" fill="url(#waveGradTop1)" />
+                                <defs>
+                                    <linearGradient id="waveGradTop1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="rgb(253,186,116)" stopOpacity="0.12" />
+                                        <stop offset="50%" stopColor="rgb(249,115,22)" stopOpacity="0.2" />
+                                        <stop offset="100%" stopColor="rgb(253,186,116)" stopOpacity="0.12" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <svg className="absolute bottom-0 w-[200%] h-full" viewBox="0 0 1500 200" preserveAspectRatio="none" style={{ animation: 'wave-drift 9s ease-in-out infinite reverse', animationDelay: '1.5s' }}>
+                                <path d="M0,150 C120,170 320,130 520,150 C720,170 920,130 1120,150 C1320,170 1500,140 1500,150 L1500,200 L0,200 Z" fill="url(#waveGradTop2)" />
+                                <defs>
+                                    <linearGradient id="waveGradTop2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="rgb(251,146,60)" stopOpacity="0.08" />
+                                        <stop offset="50%" stopColor="rgb(253,186,116)" stopOpacity="0.15" />
+                                        <stop offset="100%" stopColor="rgb(251,146,60)" stopOpacity="0.08" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
 
                         {/* Wavy Sound Effect - Bottom Waves */}
-                        <div className="absolute bottom-0 left-0 right-0 h-48 overflow-hidden pointer-events-none z-10 opacity-30">
+                        <div className="absolute bottom-0 left-0 right-0 h-64 overflow-hidden pointer-events-none z-10 opacity-70">
                             <svg className="absolute bottom-0 w-[200%] h-full" viewBox="0 0 1500 200" preserveAspectRatio="none" style={{ animation: 'wave-drift 8s ease-in-out infinite' }}>
                                 <path d="M0,100 C150,140 350,60 500,100 C650,140 850,60 1000,100 C1150,140 1350,60 1500,100 L1500,200 L0,200 Z" fill="url(#waveGrad1)" />
                                 <defs>
                                     <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="rgb(59,130,246)" stopOpacity="0.15" />
-                                        <stop offset="50%" stopColor="rgb(37,99,235)" stopOpacity="0.25" />
-                                        <stop offset="100%" stopColor="rgb(59,130,246)" stopOpacity="0.15" />
+                                        <stop offset="0%" stopColor="rgb(249,115,22)" stopOpacity="0.15" />
+                                        <stop offset="50%" stopColor="rgb(234,88,12)" stopOpacity="0.3" />
+                                        <stop offset="100%" stopColor="rgb(249,115,22)" stopOpacity="0.15" />
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -926,9 +954,9 @@ export default function Hero() {
                                 <path d="M0,120 C200,160 400,80 600,120 C800,160 1000,80 1200,120 C1400,160 1500,100 1500,120 L1500,200 L0,200 Z" fill="url(#waveGrad2)" />
                                 <defs>
                                     <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="rgb(96,165,250)" stopOpacity="0.1" />
-                                        <stop offset="50%" stopColor="rgb(59,130,246)" stopOpacity="0.2" />
-                                        <stop offset="100%" stopColor="rgb(96,165,250)" stopOpacity="0.1" />
+                                        <stop offset="0%" stopColor="rgb(251,146,60)" stopOpacity="0.12" />
+                                        <stop offset="50%" stopColor="rgb(249,115,22)" stopOpacity="0.25" />
+                                        <stop offset="100%" stopColor="rgb(251,146,60)" stopOpacity="0.12" />
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -936,9 +964,9 @@ export default function Hero() {
                                 <path d="M0,140 C100,170 300,110 500,140 C700,170 900,110 1100,140 C1300,170 1500,130 1500,140 L1500,200 L0,200 Z" fill="url(#waveGrad3)" />
                                 <defs>
                                     <linearGradient id="waveGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="rgb(147,197,253)" stopOpacity="0.08" />
-                                        <stop offset="50%" stopColor="rgb(96,165,250)" stopOpacity="0.18" />
-                                        <stop offset="100%" stopColor="rgb(147,197,253)" stopOpacity="0.08" />
+                                        <stop offset="0%" stopColor="rgb(253,186,116)" stopOpacity="0.1" />
+                                        <stop offset="50%" stopColor="rgb(251,146,60)" stopOpacity="0.2" />
+                                        <stop offset="100%" stopColor="rgb(253,186,116)" stopOpacity="0.1" />
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -949,7 +977,7 @@ export default function Hero() {
                             {[...Array(5)].map((_, i) => (
                                 <div
                                     key={`left-bar-${i}`}
-                                    className="w-1 bg-gradient-to-t from-orange-400 to-violet-300 rounded-full"
+                                    className="w-1 bg-gradient-to-t from-orange-400 to-orange-300 rounded-full"
                                     style={{
                                         animation: `sound-wave-bar ${0.8 + i * 0.15}s ease-in-out infinite`,
                                         animationDelay: `${i * 0.12}s`,
@@ -964,7 +992,7 @@ export default function Hero() {
                             {[...Array(5)].map((_, i) => (
                                 <div
                                     key={`right-bar-${i}`}
-                                    className="w-1 bg-gradient-to-t from-orange-400 to-violet-300 rounded-full"
+                                    className="w-1 bg-gradient-to-t from-orange-400 to-orange-300 rounded-full"
                                     style={{
                                         animation: `sound-wave-bar ${0.9 + i * 0.12}s ease-in-out infinite`,
                                         animationDelay: `${i * 0.15 + 0.3}s`,
@@ -1032,7 +1060,7 @@ export default function Hero() {
                     </div>
 
                     {/* Curved Arrow from Customer to Mic */}
-                    <div className="hidden lg:block absolute z-35 pointer-events-none" style={{ left: '12%', top: '35%', width: '38%', height: '200px' }}>
+                    <div className="hidden lg:block absolute z-35 pointer-events-none" style={{ left: '10%', top: '38%', width: '40%', height: '200px' }}>
                         <svg width="100%" height="100%" viewBox="0 0 500 200" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                             {/* Gentle curve from left (image) to right (mic) */}
                             <path
@@ -1047,23 +1075,23 @@ export default function Hero() {
                             {/* Arrowhead */}
                             <polygon
                                 points="473,32 490,42 475,50"
-                                fill="#818cf8"
+                                fill="#f97316"
                                 style={{ animation: 'arrow-head-fade 2.5s ease-out forwards' }}
                             />
-                            <defs>
+                          <defs>
                                 <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                                     <stop offset="0%" stopColor="#cbd5e1" />
-                                    <stop offset="100%" stopColor="#818cf8" />
+                                    <stop offset="100%" stopColor="#f97316" />
                                 </linearGradient>
                             </defs>
                         </svg>
                     </div>
 
                     {/* Curved Arrow from Mic to Screenshots (Right) */}
-                    <div className="hidden lg:block absolute z-35 pointer-events-none" style={{ right: '12%', top: '28%', width: '38%', height: '200px' }}>
+                    <div className="hidden lg:block absolute z-35 pointer-events-none" style={{ right: '2%', top: '30%', width: '46%', height: '220px', transform: 'rotate(-8deg)', transformOrigin: 'left center' }}>
                         <svg width="100%" height="100%" viewBox="0 0 500 200" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                             <path
-                                d="M20,80 Q100,120 200,150 C300,170 400,150 490,90"
+                                d="M10,90 Q80,110 180,120 C280,135 380,120 490,80"
                                 stroke="url(#arrowGradientRight)"
                                 strokeWidth="2"
                                 strokeDasharray="600"
@@ -1072,13 +1100,13 @@ export default function Hero() {
                                 style={{ animation: 'arrow-draw 2.5s ease-out 0.5s forwards', strokeDashoffset: 600 }}
                             />
                             <polygon
-                                points="483,92 498,106 480,108"
-                                fill="#818cf8"
+                                points="484,82 500,74 494,92"
+                                fill="#f97316"
                                 style={{ animation: 'arrow-head-fade 2.5s ease-out 0.5s forwards' }}
                             />
                             <defs>
                                 <linearGradient id="arrowGradientRight" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor="#818cf8" />
+                                    <stop offset="0%" stopColor="#f97316" />
                                     <stop offset="100%" stopColor="#cbd5e1" />
                                 </linearGradient>
                             </defs>
@@ -1127,9 +1155,9 @@ export default function Hero() {
                             </div>
 
                             {/* Main Headline */}
-                            <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 leading-[1.1] tracking-tight animate-fade-in-up-2">
-                                Your AI Voice Agent<br />
-                                <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">That Never Sleeps</span>
+                            <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] tracking-tight animate-fade-in-up-2 glass-heading">
+                                Your <span className="hero-shiny-orange">AI Voice Agent</span><br />
+                                That Never Sleeps
                             </h1>
 
                             {/* Tagline */}
@@ -1139,12 +1167,17 @@ export default function Hero() {
 
                             {/* Voice Mic Button */}
                             <div className="flex flex-col items-center gap-3 animate-fade-in-up-3">
+                                <div className="relative">
+                                    {/* Subtle wavy glow rings behind mic */}
+                                    <span className="absolute inset-[-16px] rounded-full bg-orange-400/15 animate-mic-wavy-1" />
+                                    <span className="absolute inset-[-32px] rounded-full bg-orange-300/10 animate-mic-wavy-2" />
+                                    <span className="absolute inset-[-48px] rounded-full bg-orange-200/8 animate-mic-wavy-3" />
                                 <button
                                     onClick={toggleCall}
                                     className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
                                         isCallActive
                                             ? 'bg-gradient-to-br from-red-500 to-red-600 animate-mic-active hover:from-red-600 hover:to-red-700 scale-110'
-                                            : 'bg-gradient-to-br from-orange-500 to-violet-500 animate-mic-pulse hover:from-orange-600 hover:to-violet-600 hover:scale-110'
+                                            : 'bg-gradient-to-br from-orange-500 to-orange-500 mic-glow-soft hover:from-orange-600 hover:to-orange-600 hover:scale-110'
                                     } shadow-xl shadow-orange-500/20`}
                                     aria-label={isCallActive ? 'End voice call' : 'Start voice call'}
                                 >
@@ -1162,6 +1195,7 @@ export default function Hero() {
                                         <Mic className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                                     )}
                                 </button>
+                                </div>
                                 <p className="text-sm font-medium text-gray-500">
                                     {isCallActive
                                         ? <span className="text-red-500 flex items-center gap-1.5"><span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />{callStatus || 'Call active'} — tap to end</span>
@@ -1181,7 +1215,7 @@ export default function Hero() {
                             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-in-up-3 pt-2">
                                 <Link
                                     href="/contact#contact-form"
-                                    className="group px-8 py-3.5 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-medium rounded-xl hover:from-orange-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-sm btn-glow"
+                                    className="group px-8 py-3.5 bg-gradient-to-r from-orange-600 to-orange-600 text-white font-medium rounded-xl hover:from-orange-700 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-sm btn-glow"
                                 >
                                     Get Started Free
                                     <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
@@ -1226,7 +1260,7 @@ export default function Hero() {
                                 className="group glass-card rounded-xl p-6 hover:border-orange-200/40 hover:shadow-lg transition-all duration-400"
                                 style={{ animationDelay: `${i * 0.1}s` }}
                             >
-                                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-violet-500 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300 shadow-md shadow-orange-500/15">
+                                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-orange-500 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300 shadow-md shadow-orange-500/15">
                                     <feature.icon className="h-5 w-5 text-white" />
                                 </div>
                                 <h3 className="text-base font-semibold text-slate-900 mb-1.5">{feature.title}</h3>
@@ -1242,13 +1276,13 @@ export default function Hero() {
             <AnimatedStats />
 
             {/* Section Header - Fixed above the scrolling content */}
-            <section className="py-8 sm:py-08 lg:py-16 bg-gradient-to-b from-white to-[#fafbff]">
+            <section className="pt-4 pb-6 sm:pt-6 sm:pb-8 bg-gradient-to-b from-white to-[#fafbff]">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div className="inline-flex items-center space-x-2 glass-card bg-orange-50/60 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-orange-200/40 text-xs sm:text-sm text-orange-600 font-semibold mb-4 uppercase tracking-widest">
                         <MessageSquare className="h-4 w-4" />
                         <span>🎯 Our AI Voice Services</span>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 sm:mb-4">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 sm:mb-4 glass-heading">
                         Choose Your AI Voice Solution
                     </h2>
                     <p className="text-base sm:text-lg lg:text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed px-4">
@@ -1355,7 +1389,7 @@ export default function Hero() {
                     {/* Section Header */}
                     <div className="text-center mb-10">
                         <p className="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2 glass-heading">
                             The DigitalBot Advantage
                         </h2>
                         <p className="text-slate-500 max-w-xl mx-auto">
@@ -1367,7 +1401,7 @@ export default function Hero() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                         {/* Feature 1 - Instant Setup */}
-                        <div className="bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
+                        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                             <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
                             <div>
@@ -1418,24 +1452,24 @@ export default function Hero() {
                         </div>
 
                         {/* Feature 3 - 24/7 Operations */}
-                        <div className="bg-gradient-to-br from-violet-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-violet-500/15 transition-all duration-400 min-h-[280px]">
+                        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <Clock className="h-5 w-5 text-white" />
                                     <h3 className="text-lg font-bold text-white">24/7 Operations</h3>
                                 </div>
-                                <p className="text-sm text-purple-100 mb-4">
+                                <p className="text-sm text-orange-100 mb-4">
                                     Uninterrupted service with industry-leading uptime. Your AI assistants never sleep, ensuring constant availability for your customers.
                                 </p>
                             </div>
                             <div className="mt-auto">
                                 <div className="text-4xl font-bold text-white">99.9%</div>
-                                <div className="text-purple-200 text-sm">Uptime SLA Guarantee</div>
+                                <div className="text-orange-200 text-sm">Uptime SLA Guarantee</div>
                             </div>
                         </div>
 
                         {/* Feature 4 - Auto-Scaling */}
-                        <div className="bg-gradient-to-br from-orange-500 to-violet-500 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
+                        <div className="bg-gradient-to-br from-orange-500 to-orange-500 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <TrendingUp className="h-5 w-5 text-white" />
@@ -1494,7 +1528,7 @@ export default function Hero() {
                             <p className="text-sm text-slate-500">14-day free trial • No credit card • Cancel anytime</p>
                         </div>
                         <div className="flex gap-3">
-                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-violet-500 text-white font-medium py-3 px-6 rounded-xl hover:from-orange-600 hover:to-violet-600 transition-all duration-300 shadow-lg shadow-orange-500/20 btn-glow">
+                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-500 text-white font-medium py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-600 transition-all duration-300 shadow-lg shadow-orange-500/20 btn-glow">
                                 Start Free <ArrowRight className="h-4 w-4" />
                             </Link>
                             <Link href="/contact#contact-form" className="inline-flex items-center gap-2 text-slate-600 font-medium py-3 px-6 rounded-xl border border-slate-200/60 glass-subtle hover:border-orange-200 hover:text-orange-600 transition-all duration-300">

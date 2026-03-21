@@ -91,7 +91,7 @@ export default function LiveChatWidget() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-gradient-to-r from-orange-500 to-violet-600 rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center hover:scale-110 transition-transform"
+            className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center hover:scale-110 transition-transform"
           >
             <MessageCircle className="h-6 w-6 text-white" />
             
@@ -113,7 +113,7 @@ export default function LiveChatWidget() {
             className="fixed bottom-24 right-6 z-40 w-[360px] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-orange-500 to-violet-600 p-4">
+            <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -216,7 +216,7 @@ export default function LiveChatWidget() {
                 <button
                   onClick={handleSend}
                   disabled={!input.trim()}
-                  className="w-10 h-10 bg-orange-500 hover:bg-violet-600 disabled:bg-gray-300 rounded-xl flex items-center justify-center transition-colors"
+                  className="w-10 h-10 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 rounded-xl flex items-center justify-center transition-colors"
                 >
                   <Send className="h-4 w-4 text-white" />
                 </button>

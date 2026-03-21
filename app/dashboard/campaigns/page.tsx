@@ -89,7 +89,7 @@ userPhone ?: string;
             case 'scheduled': return 'bg-orange-100 text-orange-700 border-orange-300';
             case 'completed': return 'bg-gray-100 text-gray-700 border-gray-300';
             case 'paused': return 'bg-yellow-100 text-yellow-700 border-yellow-300';
-            default: return 'bg-purple-100 text-purple-700 border-purple-300';
+            default: return 'bg-orange-100 text-orange-700 border-orange-300';
         }
     };
 
@@ -104,7 +104,7 @@ userPhone ?: string;
     };
 
     return (
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-purple-200 transition-all duration-300 hover:shadow-xl hover:border-purple-400">
+        <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 transition-all duration-300 hover:shadow-xl hover:border-orange-400">
             <div className="p-6">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
@@ -117,7 +117,7 @@ userPhone ?: string;
                             <span className={`px-3 py-1 rounded-lg text-xs font-bold border-2 ${getStatusColor(campaign.status)}`}>
                                 {campaign.status.toUpperCase()}
                             </span>
-                            <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-purple-100 text-purple-700 border-2 border-purple-300">
+                            <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-orange-100 text-orange-700 border-2 border-orange-300">
                                 {campaign.type}
                             </span>
                             {userPhone && (
@@ -144,14 +144,14 @@ userPhone ?: string;
 
                 {/* AI Features Badge */}
                 {Object.values(campaign.aiFeatures).some(v => v) && (
-                    <div className="mb-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border-2 border-purple-200">
+                    <div className="mb-4 p-3 bg-gradient-to-r from-orange-50 to-pink-50 rounded-xl border-2 border-orange-200">
                         <div className="flex items-center gap-2 mb-2">
                             <span className="text-lg">🤖</span>
-                            <span className="text-sm font-bold text-purple-700">AI-Powered Features</span>
+                            <span className="text-sm font-bold text-orange-700">AI-Powered Features</span>
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {campaign.aiFeatures.smartScheduling && (
-                                <span className="px-2 py-1 bg-purple-600 text-white rounded text-xs font-semibold">Smart Scheduling</span>
+                                <span className="px-2 py-1 bg-orange-600 text-white rounded text-xs font-semibold">Smart Scheduling</span>
                             )}
                             {campaign.aiFeatures.abTesting && (
                                 <span className="px-2 py-1 bg-pink-600 text-white rounded text-xs font-semibold">A/B Testing</span>
@@ -190,8 +190,8 @@ userPhone ?: string;
                 </div>
 
                 {/* Performance Metrics */}
-                <div className="bg-gradient-to-br from-purple-50 to-orange-50 rounded-xl p-4 mb-4 border-2 border-purple-200">
-                    <h4 className="text-sm font-bold text-purple-700 mb-3 flex items-center gap-2">
+                <div className="bg-gradient-to-br from-orange-50 to-orange-50 rounded-xl p-4 mb-4 border-2 border-orange-200">
+                    <h4 className="text-sm font-bold text-orange-700 mb-3 flex items-center gap-2">
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
@@ -233,7 +233,7 @@ userPhone ?: string;
                     <div className="flex gap-2">
                         <button
                             onClick={onView}
-                            className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-600 to-purple-600 text-white rounded-lg hover:from-orange-700 hover:to-purple-700 transition-all font-semibold text-sm"
+                            className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-600 to-orange-600 text-white rounded-lg hover:from-orange-700 hover:to-orange-700 transition-all font-semibold text-sm"
                         >
                             📊 View
                         </button>
@@ -746,16 +746,16 @@ export default function CampaignsPage() {
 
     if (loading) {
         return (
-            <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-purple-100">
+            <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
                 <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
                     <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
                 </div>
                 <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8 flex items-center justify-center">
                     <div className="text-center">
-                        <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                             <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-white"></div>
                         </div>
-                        <p className="text-2xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">Loading Campaigns...</p>
+                        <p className="text-2xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent mb-2">Loading Campaigns...</p>
                         <p className="text-sm text-slate-600">Fetching your campaign data</p>
                     </div>
                 </main>
@@ -764,11 +764,11 @@ export default function CampaignsPage() {
     }
 
     return (
-        <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-purple-100">
+        <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border-2 border-purple-200 hover:border-purple-400 transition-all"
+                className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border-2 border-orange-200 hover:border-orange-400 transition-all"
                 aria-label="Toggle menu"
             >
                 <MenuIcon />
@@ -791,21 +791,21 @@ export default function CampaignsPage() {
                 <div className="max-w-8xl mx-auto space-y-6 sm:space-y-8">
 
                     {/* Header */}
-                    <div className="bg-white rounded-2xl shadow-xl border-2 border-purple-200 p-4 sm:p-6 lg:p-8">
+                    <div className="bg-white rounded-2xl shadow-xl border-2 border-orange-200 p-4 sm:p-6 lg:p-8">
                         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                             <div>
-                                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-100 to-pink-100 border-2 border-purple-300 rounded-xl px-4 py-2 mb-3">
+                                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-pink-100 border-2 border-orange-300 rounded-xl px-4 py-2 mb-3">
                                     <span className="text-2xl">🚀</span>
-                                    <span className="text-sm font-bold text-purple-700">Advanced Campaign Manager</span>
+                                    <span className="text-sm font-bold text-orange-700">Advanced Campaign Manager</span>
                                 </div>
-                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black bg-gradient-to-r from-slate-900 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black bg-gradient-to-r from-slate-900 via-orange-600 to-pink-600 bg-clip-text text-transparent mb-2">
                                     Campaign Management
                                 </h1>
                                 <p className="text-slate-600 mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg">
                                     AI-powered campaigns • Multi-channel • Smart automation
                                 </p>
                                 {userInfo?.assignedPhoneNumber && (
-                                    <p className="text-sm text-purple-600 font-semibold mt-2">
+                                    <p className="text-sm text-orange-600 font-semibold mt-2">
                                         📞 Your calling number: {userInfo.assignedPhoneNumber}
                                     </p>
                                 )}
@@ -813,7 +813,7 @@ export default function CampaignsPage() {
 
                             <button
                                 onClick={() => setShowCreateModal(true)}
-                                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-lg hover:scale-105 transform"
+                                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-lg hover:scale-105 transform"
                             >
                                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -825,16 +825,16 @@ export default function CampaignsPage() {
 
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                        <div className="bg-white rounded-2xl shadow-lg border-2 border-purple-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg">
+                                <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-pink-600 shadow-lg">
                                     <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                 </div>
                             </div>
                             <p className="text-slate-600 font-semibold mb-1 text-sm">Total Campaigns</p>
-                            <p className="text-3xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{totalCampaigns}</p>
+                            <p className="text-3xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">{totalCampaigns}</p>
                         </div>
 
                         <div className="bg-white rounded-2xl shadow-lg border-2 border-green-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
@@ -875,7 +875,7 @@ export default function CampaignsPage() {
                     </div>
 
                     {/* Filters */}
-                    <div className="bg-white rounded-2xl shadow-xl border-2 border-purple-200 p-4 sm:p-6">
+                    <div className="bg-white rounded-2xl shadow-xl border-2 border-orange-200 p-4 sm:p-6">
                         <div className="flex flex-col gap-4">
                             <div className="relative">
                                 <input
@@ -883,21 +883,21 @@ export default function CampaignsPage() {
                                     placeholder="🔍 Search campaigns..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full px-6 py-4 pl-12 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl focus:bg-white focus:border-purple-400 focus:ring-4 focus:ring-purple-100 transition-all duration-200 text-lg text-slate-800 placeholder-slate-500 font-medium"
+                                    className="w-full px-6 py-4 pl-12 bg-gradient-to-r from-orange-50 to-pink-50 border-2 border-orange-200 rounded-xl focus:bg-white focus:border-orange-400 focus:ring-4 focus:ring-orange-100 transition-all duration-200 text-lg text-slate-800 placeholder-slate-500 font-medium"
                                 />
-                                <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </div>
 
                             <div className="flex flex-wrap gap-3">
                                 {[
-                                    { value: 'all', label: 'All Campaigns', color: 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200', active: 'bg-gradient-to-r from-purple-500 to-pink-600' },
+                                    { value: 'all', label: 'All Campaigns', color: 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200', active: 'bg-gradient-to-r from-orange-500 to-pink-600' },
                                     { value: 'active', label: 'Active', color: 'bg-green-50 text-green-700 border-green-300 hover:bg-green-100', active: 'bg-gradient-to-r from-green-500 to-emerald-600' },
                                     { value: 'scheduled', label: 'Scheduled', color: 'bg-orange-50 text-orange-700 border-orange-300 hover:bg-orange-100', active: 'bg-gradient-to-r from-orange-500 to-cyan-600' },
                                     { value: 'paused', label: 'Paused', color: 'bg-yellow-50 text-yellow-700 border-yellow-300 hover:bg-yellow-100', active: 'bg-gradient-to-r from-yellow-500 to-sky-600' },
                                     { value: 'completed', label: 'Completed', color: 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100', active: 'bg-gradient-to-r from-gray-500 to-slate-600' },
-                                    { value: 'draft', label: 'Draft', color: 'bg-purple-50 text-purple-700 border-purple-300 hover:bg-purple-100', active: 'bg-gradient-to-r from-purple-500 to-orange-600' }
+                                    { value: 'draft', label: 'Draft', color: 'bg-orange-50 text-orange-700 border-orange-300 hover:bg-orange-100', active: 'bg-gradient-to-r from-orange-500 to-orange-600' }
                                 ].map(filter => (
                                     <button
                                         key={filter.value}
@@ -917,13 +917,13 @@ export default function CampaignsPage() {
                     {/* Campaigns Grid */}
                     <div className="grid gap-6">
                         {filteredCampaigns.length === 0 ? (
-                            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl shadow-2xl border-2 border-purple-300 p-16 text-center">
-                                <div className="text-purple-500 mb-6">
+                            <div className="bg-gradient-to-br from-orange-50 to-pink-50 rounded-3xl shadow-2xl border-2 border-orange-300 p-16 text-center">
+                                <div className="text-orange-500 mb-6">
                                     <svg className="mx-auto h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                 </div>
-                                <h3 className="text-3xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+                                <h3 className="text-3xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent mb-3">
                                     {searchTerm || filterStatus !== 'all' ? 'No campaigns match your filters' : 'No campaigns yet'}
                                 </h3>
                                 <p className="text-gray-600 text-lg mb-6">
@@ -935,7 +935,7 @@ export default function CampaignsPage() {
                                 {!searchTerm && filterStatus === 'all' && (
                                     <button
                                         onClick={() => setShowCreateModal(true)}
-                                        className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-lg hover:scale-105 transform mx-auto"
+                                        className="px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-lg hover:scale-105 transform mx-auto"
                                     >
                                         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -962,7 +962,7 @@ export default function CampaignsPage() {
 
                     <div className="text-center py-6">
                         <p className="text-gray-600 text-lg">
-                            Showing <span className="font-bold text-purple-600">{filteredCampaigns.length}</span> of <span className="font-bold text-purple-600">{totalCampaigns}</span> campaigns
+                            Showing <span className="font-bold text-orange-600">{filteredCampaigns.length}</span> of <span className="font-bold text-orange-600">{totalCampaigns}</span> campaigns
                         </p>
                     </div>
 
@@ -974,13 +974,13 @@ export default function CampaignsPage() {
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
                         {/* Modal Header */}
-                        <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 rounded-t-3xl">
+                        <div className="sticky top-0 bg-gradient-to-r from-orange-600 to-pink-600 text-white p-6 rounded-t-3xl">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <h2 className="text-3xl font-black">🚀 Create New Campaign</h2>
-                                    <p className="text-purple-100 mt-1">Launch AI-powered bulk calling campaign</p>
+                                    <p className="text-orange-100 mt-1">Launch AI-powered bulk calling campaign</p>
                                     {userInfo?.assignedPhoneNumber && (
-                                        <p className="text-purple-100 text-sm mt-1">
+                                        <p className="text-orange-100 text-sm mt-1">
                                             📞 Calls will be made from: {userInfo.assignedPhoneNumber}
                                         </p>
                                     )}
@@ -1016,7 +1016,7 @@ export default function CampaignsPage() {
                                             value={campaignName}
                                             onChange={(e) => setCampaignName(e.target.value)}
                                             placeholder="e.g., Black Friday Sales Campaign"
-                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all"
                                         />
                                     </div>
 
@@ -1030,8 +1030,8 @@ export default function CampaignsPage() {
                                                     key={type}
                                                     onClick={() => setCampaignType(type)}
                                                     className={`p-4 rounded-xl border-2 font-semibold transition-all ${campaignType === type
-                                                        ? 'border-purple-500 bg-purple-50 text-purple-700'
-                                                        : 'border-gray-300 hover:border-purple-300'
+                                                        ? 'border-orange-500 bg-orange-50 text-orange-700'
+                                                        : 'border-gray-300 hover:border-orange-300'
                                                         }`}
                                                 >
                                                     {type === 'voice' && '📞'}
@@ -1053,7 +1053,7 @@ export default function CampaignsPage() {
                                             value={targetAudience}
                                             onChange={(e) => setTargetAudience(e.target.value)}
                                             placeholder="e.g., Premium Customers, New Leads"
-                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all"
                                         />
                                     </div>
 
@@ -1067,7 +1067,7 @@ export default function CampaignsPage() {
                                                 value={agentId}
                                                 onChange={(e) => setAgentId(e.target.value)}
                                                 placeholder="e.g., -OXrv5021Ddq4NGGbG0h"
-                                                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all"
                                             />
                                             <p className="text-xs text-gray-500 mt-1">Get this from your Millis AI Voice Agent dashboard</p>
                                         </div>
@@ -1075,7 +1075,7 @@ export default function CampaignsPage() {
                                     <button
                                         onClick={() => setUploadStep('upload')}
                                         disabled={!campaignName || !targetAudience}
-                                        className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                        className="w-full py-4 bg-gradient-to-r from-orange-600 to-pink-600 text-white rounded-xl font-bold hover:from-orange-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                                     >
                                         Next: Upload Contacts →
                                     </button>
@@ -1091,7 +1091,7 @@ export default function CampaignsPage() {
                                     </div>
 
                                     {/* CSV Upload */}
-                                    <div className="border-4 border-dashed border-gray-300 rounded-2xl p-8 text-center hover:border-purple-400 transition-all">
+                                    <div className="border-4 border-dashed border-gray-300 rounded-2xl p-8 text-center hover:border-orange-400 transition-all">
                                         <input
                                             ref={fileInputRef}
                                             type="file"
@@ -1104,7 +1104,7 @@ export default function CampaignsPage() {
                                         </svg>
                                         <button
                                             onClick={() => fileInputRef.current?.click()}
-                                            className="px-6 py-3 bg-purple-600 text-white rounded-xl font-bold hover:bg-purple-700 transition-all"
+                                            className="px-6 py-3 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 transition-all"
                                         >
                                             Choose CSV File
                                         </button>
@@ -1123,7 +1123,7 @@ export default function CampaignsPage() {
                                     {/* Manual Add */}
                                     <button
                                         onClick={handleAddManualContact}
-                                        className="w-full py-4 border-2 border-purple-600 text-purple-600 rounded-xl font-bold hover:bg-purple-50 transition-all"
+                                        className="w-full py-4 border-2 border-orange-600 text-orange-600 rounded-xl font-bold hover:bg-orange-50 transition-all"
                                     >
                                         ➕ Add Contact Manually
                                     </button>
@@ -1146,7 +1146,7 @@ export default function CampaignsPage() {
                                         <button
                                             onClick={() => setUploadStep('review')}
                                             disabled={contacts.length === 0}
-                                            className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                            className="flex-1 py-3 bg-gradient-to-r from-orange-600 to-pink-600 text-white rounded-xl font-bold hover:from-orange-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                                         >
                                             Review Contacts →
                                         </button>
@@ -1163,7 +1163,7 @@ export default function CampaignsPage() {
                                     </div>
 
                                     {/* Campaign Summary */}
-                                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-300 rounded-2xl p-6 space-y-4">
+                                    <div className="bg-gradient-to-br from-orange-50 to-pink-50 border-2 border-orange-300 rounded-2xl p-6 space-y-4">
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
                                                 <p className="text-sm text-gray-600 font-semibold">Campaign Name</p>
@@ -1179,7 +1179,7 @@ export default function CampaignsPage() {
                                             </div>
                                             <div>
                                                 <p className="text-sm text-gray-600 font-semibold">Total Contacts</p>
-                                                <p className="text-lg font-bold text-purple-600">{contacts.length}</p>
+                                                <p className="text-lg font-bold text-orange-600">{contacts.length}</p>
                                             </div>
                                             {agentId && (
                                                 <div className="col-span-2">

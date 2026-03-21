@@ -148,7 +148,7 @@ export default function LoginPage(): JSX.Element {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-orange-500 to-violet-500 text-white py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-violet-600 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 btn-glow"
+            className="w-full bg-gradient-to-r from-orange-500 to-orange-500 text-white py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-orange-600 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 btn-glow"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>

@@ -84,48 +84,48 @@ const features = [
     title: "Natural Language Understanding",
     description: "Advanced NLU engine that comprehends context, intent, and sentiment across multiple languages, delivering human-like conversational AI experiences.",
     borderColor: "border-orange-400",
-    iconBg: "from-orange-500 to-violet-500",
-    glow: "from-orange-400 via-violet-500 to-violet-600"
+    iconBg: "from-orange-500 to-orange-500",
+    glow: "from-orange-400 via-orange-500 to-orange-600"
   },
   {
     icon: Zap,
     title: "Real-Time Processing",
     description: "Lightning-fast conversational AI responds in under 750ms, maintaining natural conversation flow without awkward delays or interruptions.",
     borderColor: "border-orange-400",
-    iconBg: "from-orange-400 to-violet-500",
-    glow: "from-orange-400 via-violet-500 to-violet-600"
+    iconBg: "from-orange-400 to-orange-500",
+    glow: "from-orange-400 via-orange-500 to-orange-600"
   },
   {
     icon: MessageCircle,
     title: "Multi-Turn Conversations",
     description: "Conversational AI maintains context across multiple exchanges, remembering previous interactions to provide coherent, relevant responses.",
     borderColor: "border-orange-400",
-    iconBg: "from-orange-400 to-violet-500",
-    glow: "from-orange-400 via-violet-500 to-violet-400"
+    iconBg: "from-orange-400 to-orange-500",
+    glow: "from-orange-400 via-orange-500 to-orange-400"
   },
   {
     icon: Globe,
     title: "Multilingual Support",
     description: "Conversational AI platform supporting 30+ languages with native-level pronunciation, cultural awareness, and automatic language detection.",
     borderColor: "border-orange-400",
-    iconBg: "from-orange-500 to-violet-500",
-    glow: "from-orange-500 via-violet-500 to-violet-600"
+    iconBg: "from-orange-500 to-orange-500",
+    glow: "from-orange-500 via-orange-500 to-orange-600"
   },
   {
     icon: Sparkles,
     title: "Emotion Recognition",
     description: "Advanced conversational AI detects customer emotions through voice tone and word choice, adapting responses for empathetic interactions.",
     borderColor: "border-orange-400",
-    iconBg: "from-orange-500 to-violet-500",
-    glow: "from-orange-400 via-violet-400 to-violet-600"
+    iconBg: "from-orange-500 to-orange-500",
+    glow: "from-orange-400 via-orange-400 to-orange-600"
   },
   {
     icon: Shield,
     title: "Enterprise Security",
     description: "Bank-level encryption, SOC 2 compliance, and GDPR-ready conversational AI infrastructure protecting every customer interaction.",
     borderColor: "border-orange-400",
-    iconBg: "from-orange-500 to-violet-500",
-    glow: "from-orange-500 via-violet-500 to-violet-600"
+    iconBg: "from-orange-500 to-orange-500",
+    glow: "from-orange-500 via-orange-500 to-orange-600"
   },
 ]
 
@@ -226,7 +226,7 @@ export default function ConversationalAI() {
           
           {/* Decorative Blur Orbs */}
           <div className="absolute top-20 left-10 w-72 h-72 bg-orange-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-200/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl"></div>
           
           {/* Floating Icons */}
           <div className="absolute top-1/4 right-[15%] w-12 h-12 bg-white rounded-2xl shadow-lg shadow-orange-200/50 flex items-center justify-center border border-orange-100/40 animate-bounce" style={{ animationDuration: '4s' }}>
@@ -241,7 +241,7 @@ export default function ConversationalAI() {
               {/* Left: Content */}
               <div className="space-y-6">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-orange-200/40 shadow-lg shadow-orange-100/50">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
                     <Sparkles className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-orange-600 text-sm font-semibold">AI-Powered Conversations</span>
@@ -251,7 +251,7 @@ export default function ConversationalAI() {
                   <span className="text-gray-900">Transform Customer</span>
                   <br />
                   <span className="text-gray-900">Engagement with </span>
-                  <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Conversational AI</span>
+                  <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Conversational AI</span>
                 </h1>
                 
                 <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-xl">
@@ -274,7 +274,7 @@ export default function ConversationalAI() {
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Link href="/contact#contact-form" className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-violet-500 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 hover:-translate-y-1">
+                  <Link href="/contact#contact-form" className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-500 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 hover:-translate-y-1">
                     Get Started Free
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
@@ -287,7 +287,7 @@ export default function ConversationalAI() {
               
               {/* Right: Image */}
               <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-violet-300/50 to-orange-200/50 rounded-3xl blur-2xl"></div>
+                <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-orange-300/50 to-orange-200/50 rounded-3xl blur-2xl"></div>
                 <div className="relative h-[350px] sm:h-[400px] lg:h-[500px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-orange-200/50">
                   <Image
                     src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
@@ -325,7 +325,7 @@ export default function ConversationalAI() {
 
         {/* Stats Section - Premium Redesign */}
         <section className="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="performance-stats">
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-600 via-orange-700 to-violet-800"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800"></div>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.1),transparent_70%)]"></div>
           
           <div className="container mx-auto max-w-6xl relative z-10">
@@ -363,14 +363,14 @@ export default function ConversationalAI() {
             {/* Section Header */}
             <div className="text-center mb-12 lg:mb-16">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-orange-200/40 shadow-lg shadow-orange-100/50 mb-6">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
                   <Sparkles className="w-3 h-3 text-white" />
                 </div>
                 <span className="text-orange-600 text-sm font-semibold">Powerful Features</span>
               </div>
               <h2 id="features-section" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
                 <span className="text-gray-900">Why Choose Our </span>
-                <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Conversational AI</span>
+                <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Conversational AI</span>
               </h2>
               <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
                 Enterprise-grade AI technology powering intelligent conversations at scale
@@ -384,10 +384,10 @@ export default function ConversationalAI() {
                   key={index}
                   className="group relative"
                 >
-                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                   
                   <div className="relative h-full bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-orange-100/40 shadow-lg shadow-orange-100/20 hover:shadow-xl hover:shadow-orange-200/30 hover:border-orange-200 transition-all duration-300 hover:-translate-y-1">
-                    <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-violet-600 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-orange-400/30">
+                    <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-orange-400/30">
                       <feature.icon className="w-7 h-7 text-white" />
                     </div>
                     <h3 className="text-lg font-bold mb-3 text-gray-800 group-hover:text-orange-600 transition-colors">
@@ -412,19 +412,19 @@ export default function ConversationalAI() {
           
           {/* Decorative */}
           <div className="absolute top-20 right-20 w-64 h-64 bg-orange-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-violet-200/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-80 h-80 bg-orange-200/20 rounded-full blur-3xl"></div>
 
           <div className="container mx-auto max-w-7xl relative z-10">
             {/* Section Header */}
             <div className="text-center mb-12 lg:mb-16">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-orange-200/40 shadow-lg shadow-orange-100/50 mb-6">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
                   <TrendingUp className="w-3 h-3 text-white" />
                 </div>
                 <span className="text-orange-600 text-sm font-semibold">Industry Applications</span>
               </div>
               <h2 id="use-cases" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
-                <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Conversational AI</span>
+                <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Conversational AI</span>
                 <span className="text-gray-900"> Use Cases</span>
               </h2>
               <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
@@ -436,17 +436,17 @@ export default function ConversationalAI() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
               {useCases.map((useCase, index) => (
                 <div key={index} className="group relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                   
                   <div className="relative h-full bg-white/80 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-orange-100/40 shadow-lg shadow-orange-100/20 hover:shadow-xl hover:shadow-orange-200/30 hover:border-orange-200 transition-all duration-300 hover:-translate-y-1">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-orange-400 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-400/30 group-hover:scale-110 transition-transform duration-300">
+                      <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-400/30 group-hover:scale-110 transition-transform duration-300">
                         <useCase.icon className="w-7 h-7 text-white" />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-2">
                           <h3 className="text-lg font-bold text-gray-800 group-hover:text-orange-600 transition-colors">{useCase.title}</h3>
-                          <span className="px-3 py-1 bg-gradient-to-r from-orange-500 to-violet-500 text-white text-xs font-bold rounded-full shadow-md">{useCase.metric}</span>
+                          <span className="px-3 py-1 bg-gradient-to-r from-orange-500 to-orange-500 text-white text-xs font-bold rounded-full shadow-md">{useCase.metric}</span>
                         </div>
                         <p className="text-gray-600 text-sm leading-relaxed">{useCase.description}</p>
                       </div>
@@ -466,20 +466,20 @@ export default function ConversationalAI() {
           
           {/* Decorative */}
           <div className="absolute top-1/4 right-10 w-64 h-64 bg-orange-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 left-10 w-72 h-72 bg-violet-200/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 left-10 w-72 h-72 bg-orange-200/20 rounded-full blur-3xl"></div>
 
           <div className="max-w-4xl mx-auto relative z-10">
             {/* Section Header */}
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-orange-200/40 shadow-lg shadow-orange-100/50 mb-6">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
                   <Mic className="w-3 h-3 text-white animate-pulse" />
                 </div>
                 <span className="text-orange-600 text-sm font-semibold">Live Demo</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 glass-heading">
                 <span className="text-gray-900">Experience </span>
-                <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Natural AI Conversations</span>
+                <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Natural AI Conversations</span>
               </h2>
               <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
                 Listen to how our conversational AI handles real customer interactions with human-like intelligence
@@ -488,7 +488,7 @@ export default function ConversationalAI() {
 
             {/* Demo Card */}
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-violet-500 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-500 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
               
               <div className="relative bg-white/90 backdrop-blur-md rounded-3xl p-6 lg:p-8 border border-orange-100/40 shadow-xl">
                 <div className="space-y-4 mb-8">
@@ -498,7 +498,7 @@ export default function ConversationalAI() {
                       className={`p-4 rounded-2xl transition-all duration-300 ${
                         msg.speaker === "Customer"
                           ? "bg-orange-50/60 border border-orange-100/40 ml-0 mr-8"
-                          : "bg-gradient-to-r from-orange-500 to-violet-500 text-white ml-8 mr-0"
+                          : "bg-gradient-to-r from-orange-500 to-orange-500 text-white ml-8 mr-0"
                       } ${
                         currentMessage >= idx + 1 ? "opacity-100 scale-100" : "opacity-60 scale-98"
                       }`}
@@ -512,7 +512,7 @@ export default function ConversationalAI() {
                 <div className="flex items-center justify-center">
                   <button
                     onClick={playConversation}
-                    className="group/btn flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-violet-500 hover:from-orange-600 hover:to-violet-600 text-white shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 font-bold rounded-xl"
+                    className="group/btn flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-600 text-white shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 font-bold rounded-xl"
                   >
                     {isPlaying ? (
                       <Pause className="w-5 h-5" />
@@ -531,7 +531,7 @@ export default function ConversationalAI() {
                       return (
                         <div
                           key={i}
-                          className="w-1.5 bg-gradient-to-t from-orange-600 via-violet-400 to-violet-300 rounded-full animate-pulse"
+                          className="w-1.5 bg-gradient-to-t from-orange-600 via-orange-400 to-orange-300 rounded-full animate-pulse"
                           style={{
                             height: `${heights[i]}px`,
                             animationDelay: `${i * 0.1}s`
@@ -560,13 +560,13 @@ export default function ConversationalAI() {
             {/* Section Header */}
             <div className="text-center mb-12 lg:mb-16">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-orange-200/40 shadow-lg shadow-orange-100/50 mb-6">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
                   <MessageCircle className="w-3 h-3 text-white" />
                 </div>
                 <span className="text-orange-600 text-sm font-semibold">Got Questions?</span>
               </div>
               <h2 id="faq-section" className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4">
-                <span className="bg-gradient-to-r from-orange-500 via-violet-500 to-violet-600 bg-clip-text text-transparent">Frequently Asked</span>
+                <span className="bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 bg-clip-text text-transparent">Frequently Asked</span>
                 <span className="text-gray-900"> Questions</span>
               </h2>
               <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto">
@@ -599,11 +599,11 @@ export default function ConversationalAI() {
                   className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-orange-100/40 shadow-lg shadow-orange-100/30 hover:shadow-xl hover:shadow-orange-200/40 hover:border-orange-300 transition-all duration-300 hover:-translate-y-1"
                 >
                   {/* Glow effect on hover */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400/0 via-orange-400/0 to-violet-500/0 group-hover:from-orange-400/5 group-hover:via-orange-400/5 group-hover:to-violet-500/5 transition-all duration-300" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400/0 via-orange-400/0 to-orange-500/0 group-hover:from-orange-400/5 group-hover:via-orange-400/5 group-hover:to-orange-500/5 transition-all duration-300" />
                   
                   <div className="relative z-10">
                     <div className="flex items-start gap-4 mb-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-orange-400 to-violet-600 flex items-center justify-center shadow-lg shadow-orange-400/30 font-bold text-xs text-white group-hover:scale-110 transition-transform duration-300">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-400/30 font-bold text-xs text-white group-hover:scale-110 transition-transform duration-300">
                         {String(index + 1).padStart(2, '0')}
                       </div>
                       <h3 className="text-sm font-bold text-gray-800 leading-tight flex-1 group-hover:text-orange-700 transition-colors">
@@ -623,7 +623,7 @@ export default function ConversationalAI() {
         {/* CTA Section - Premium Redesign */}
         <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" role="region" aria-labelledby="cta-heading">
           {/* Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-700 via-orange-600 to-violet-800"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-700 via-orange-600 to-orange-800"></div>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_50%)]"></div>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.3),transparent_50%)]"></div>
           

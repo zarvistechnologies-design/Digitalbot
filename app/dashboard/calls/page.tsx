@@ -320,10 +320,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-orange-50 to-orange-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-orange-50 via-orange-50 to-orange-50">
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-4 left-4 z-[1300] bg-gradient-to-r from-purple-600 to-orange-600 text-white p-3 rounded-xl shadow-lg hover:from-purple-700 hover:to-orange-700 transition-all"
+        className="md:hidden fixed top-4 left-4 z-[1300] bg-gradient-to-r from-orange-600 to-orange-600 text-white p-3 rounded-xl shadow-lg hover:from-orange-700 hover:to-orange-700 transition-all"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -333,7 +333,7 @@ const Dashboard = () => {
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          className="md:hidden fixed inset-0 bg-purple-900/20 backdrop-blur-sm z-[1200]"
+          className="md:hidden fixed inset-0 bg-orange-900/20 backdrop-blur-sm z-[1200]"
         />
       )}
 
@@ -348,23 +348,23 @@ const Dashboard = () => {
       <div className="w-full md:ml-60 pt-20 md:pt-0">
         {loading && !isUsingMockData ? (
           <div className="flex justify-center items-center min-h-screen">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-600"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-600"></div>
           </div>
         ) : (
           <>
             {/* Hero Header with Gradient */}
-            <div className="bg-gradient-to-r from-purple-600 via-orange-600 to-orange-600 text-white">
+            <div className="bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600 text-white">
               <div className="max-w-7xl mx-auto px-6 py-8">
                 <div className="flex items-center justify-between">
                   <div>
                     <h1 className="text-3xl md:text-4xl font-bold mb-2">Call Management</h1>
-                    <p className="text-purple-100 text-sm md:text-base">Track and analyze your AI-powered conversations</p>
+                    <p className="text-orange-100 text-sm md:text-base">Track and analyze your AI-powered conversations</p>
                     <div className="flex items-center gap-2 mt-3 text-sm">
                       <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
                         <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                         <span>Live</span>
                       </div>
-                      <div className="text-purple-100">Last updated: {formatLastRefreshTime() || 'Just now'}</div>
+                      <div className="text-orange-100">Last updated: {formatLastRefreshTime() || 'Just now'}</div>
                     </div>
                   </div>
                   <button
@@ -424,14 +424,14 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl p-5 shadow-lg border-l-4 border-purple-500 hover:shadow-xl transition-shadow">
+                <div className="bg-white rounded-2xl p-5 shadow-lg border-l-4 border-orange-500 hover:shadow-xl transition-shadow">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-500 text-sm font-medium mb-1">Inbound</p>
                       <p className="text-3xl font-bold text-gray-900">{stats?.calls_by_direction?.inbound || calls.filter(c => c.direction === 'inbound').length}</p>
                     </div>
-                    <div className="bg-purple-100 p-3 rounded-xl">
-                      <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="bg-orange-100 p-3 rounded-xl">
+                      <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </div>
@@ -458,7 +458,7 @@ const Dashboard = () => {
               <div className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 mb-6">
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-2 rounded-lg">
+                    <div className="bg-gradient-to-r from-orange-500 to-orange-500 p-2 rounded-lg">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                       </svg>
@@ -467,7 +467,7 @@ const Dashboard = () => {
                   </div>
                   <button
                     onClick={() => setShowFilters(!showFilters)}
-                    className="text-purple-600 hover:text-purple-700 font-semibold px-4 py-2 rounded-lg hover:bg-purple-50 transition-colors"
+                    className="text-orange-600 hover:text-orange-700 font-semibold px-4 py-2 rounded-lg hover:bg-orange-50 transition-colors"
                   >
                     {showFilters ? 'Hide Filters' : 'Show Filters'}
                   </button>
@@ -481,7 +481,7 @@ const Dashboard = () => {
                         <select
                           value={selectedAgent}
                           onChange={(e) => setSelectedAgent(e.target.value)}
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white shadow-sm"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white shadow-sm"
                         >
                           <option value="">All Agents</option>
                           {availableAgents.map((agent) => (
@@ -497,7 +497,7 @@ const Dashboard = () => {
                         <select
                           value={selectedStatus}
                           onChange={(e) => setSelectedStatus(e.target.value)}
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white shadow-sm"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white shadow-sm"
                         >
                           <option value="">All Status</option>
                           <option value="completed">Completed</option>
@@ -515,7 +515,7 @@ const Dashboard = () => {
                           value={phoneFilter}
                           onChange={(e) => setPhoneFilter(e.target.value)}
                           placeholder="Enter phone number"
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all shadow-sm"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all shadow-sm"
                         />
                       </div>
 
@@ -525,7 +525,7 @@ const Dashboard = () => {
                           type="datetime-local"
                           value={startDate}
                           onChange={(e) => setStartDate(e.target.value)}
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all shadow-sm"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all shadow-sm"
                         />
                       </div>
 
@@ -535,7 +535,7 @@ const Dashboard = () => {
                           type="datetime-local"
                           value={endDate}
                           onChange={(e) => setEndDate(e.target.value)}
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all shadow-sm"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all shadow-sm"
                         />
                       </div>
                     </div>
@@ -549,7 +549,7 @@ const Dashboard = () => {
                       </button>
                       <button
                         onClick={handleApplyFilters}
-                        className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:from-purple-700 hover:to-orange-700 transition-all shadow-lg hover:shadow-xl font-semibold"
+                        className="px-6 py-2.5 bg-gradient-to-r from-orange-600 to-orange-600 text-white rounded-xl hover:from-orange-700 hover:to-orange-700 transition-all shadow-lg hover:shadow-xl font-semibold"
                       >
                         Apply Filters
                       </button>
@@ -638,7 +638,7 @@ const Dashboard = () => {
                             {/* Call Details Section */}
                             <div className="mb-6 bg-white rounded-xl border-2 border-gray-200 p-5">
                               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-2 rounded-lg">
+                                <div className="bg-gradient-to-r from-orange-500 to-orange-500 p-2 rounded-lg">
                                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                   </svg>
@@ -668,7 +668,7 @@ const Dashboard = () => {
                             {/* Recordings Section */}
                             <div className="mb-6">
                               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-2 rounded-lg">
+                                <div className="bg-gradient-to-r from-orange-500 to-orange-500 p-2 rounded-lg">
                                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -680,7 +680,7 @@ const Dashboard = () => {
                               {call.recording_url || (call.recording && (call.recording.url || call.recording.recording_url)) ? (
                                 <div className="bg-white rounded-xl border-2 border-gray-200 p-5 shadow-sm">
                                   <div className="flex items-start gap-2 mb-3">
-                                    <svg className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                     </svg>
                                     <p className="text-xs text-gray-600 font-mono break-all bg-gray-50 p-2 rounded-lg flex-1">
@@ -735,7 +735,7 @@ const Dashboard = () => {
                             {(call.chat || call.transcription) && (
                               <div>
                                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                  <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-2 rounded-lg">
+                                  <div className="bg-gradient-to-r from-orange-500 to-orange-500 p-2 rounded-lg">
                                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                                     </svg>
@@ -831,8 +831,8 @@ const Dashboard = () => {
 
                 {calls.length === 0 && (
                   <div className="bg-white rounded-2xl border-2 border-gray-200 shadow-lg p-12 text-center">
-                    <div className="bg-gradient-to-r from-purple-100 to-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="bg-gradient-to-r from-orange-100 to-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </div>

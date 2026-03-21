@@ -14,11 +14,11 @@ const PrivacyPolicy = () => {
           <div className="max-w-5xl mx-auto px-6 py-12">
             {/* Hero Section */}
             <div className="text-center mb-12 relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-200/20 to-violet-200/20 blur-3xl -z-10"></div>
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-400 via-orange-500 to-violet-600 rounded-3xl shadow-2xl mb-6 transform hover:scale-110 transition-transform duration-300">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-200/20 to-orange-200/20 blur-3xl -z-10"></div>
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 rounded-3xl shadow-2xl mb-6 transform hover:scale-110 transition-transform duration-300">
                 <Shield className="w-10 h-10 text-white" />
               </div>
-              <h1 className="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-orange-600 via-orange-500 to-violet-500 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-500 bg-clip-text text-transparent">
                 Privacy Policy
               </h1>
               <p className="text-2xl text-orange-600 font-semibold mb-3">DigitalBot.ai</p>
@@ -31,7 +31,7 @@ const PrivacyPolicy = () => {
             {/* Introduction Card */}
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border-l-4 border-orange-500 hover:shadow-2xl transition-shadow duration-300">
               <div className="flex items-start space-x-4">
-                <div className="bg-gradient-to-br from-orange-500 to-violet-500 p-3 rounded-2xl shadow-lg shrink-0">
+                <div className="bg-gradient-to-br from-orange-500 to-orange-500 p-3 rounded-2xl shadow-lg shrink-0">
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <p className="text-gray-700 leading-relaxed text-lg">
@@ -43,7 +43,7 @@ const PrivacyPolicy = () => {
             {/* Important Notice */}
             <div className="bg-gradient-to-r from-orange-100 to-orange-50 rounded-3xl shadow-lg p-6 mb-12 border-2 border-orange-300 hover:border-orange-400 transition-colors duration-300">
               <div className="flex items-start space-x-4">
-                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-3 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-3 rounded-2xl shadow-lg">
                   <Eye className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -58,7 +58,7 @@ const PrivacyPolicy = () => {
             {/* Section 1 - Information Collection */}
             <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-2xl shadow-lg">
                   <FileText className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">1. Information We Collect</h2>
@@ -190,8 +190,8 @@ const PrivacyPolicy = () => {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-6 border-l-4 border-purple-400 hover:border-purple-500 transition-colors">
-                  <h3 className="text-xl font-bold text-purple-600 mb-3 flex items-center">
+                <div className="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-6 border-l-4 border-orange-400 hover:border-orange-500 transition-colors">
+                  <h3 className="text-xl font-bold text-orange-600 mb-3 flex items-center">
                     <ChevronRight className="w-5 h-5 mr-2" />
                     1.5 Automatically Collected Information
                   </h3>
@@ -206,7 +206,7 @@ const PrivacyPolicy = () => {
                       'Cookies and similar tracking technologies'
                     ].map((item, idx) => (
                       <div key={idx} className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow text-center">
-                        <div className="w-3 h-3 bg-purple-500 rounded-full mx-auto mb-2"></div>
+                        <div className="w-3 h-3 bg-orange-500 rounded-full mx-auto mb-2"></div>
                         <span className="text-gray-700 text-sm">{item}</span>
                       </div>
                     ))}
@@ -218,7 +218,7 @@ const PrivacyPolicy = () => {
             {/* Section 2 - How We Use Info */}
             <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-2xl shadow-lg">
                   <Users className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">2. How We Use Your Information</h2>
@@ -248,7 +248,7 @@ const PrivacyPolicy = () => {
             {/* Section 3 - Data Sharing */}
             <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-2xl shadow-lg">
                   <Globe className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">3. Data Sharing and Disclosure</h2>
@@ -267,7 +267,7 @@ const PrivacyPolicy = () => {
                 {[
                   { title: '3.1 With Your Consent', desc: 'We share information when you explicitly authorize us to do so.', gradient: 'from-orange-50' },
                   { title: '3.2 Service Providers', desc: 'We may share information with trusted third-party service providers who assist us in operating our website and services, such as: Cloud hosting providers, Analytics services, Payment processors, Customer support tools. These providers are contractually obligated to protect your information and use it only for the purposes we specify.', gradient: 'from-orange-50' },
-                  { title: '3.3 Meta/Facebook Platform', desc: 'We share data with Meta as necessary to provide our services through their platform, in compliance with Meta\'s Platform Terms and Policies.', gradient: 'from-purple-50' },
+                  { title: '3.3 Meta/Facebook Platform', desc: 'We share data with Meta as necessary to provide our services through their platform, in compliance with Meta\'s Platform Terms and Policies.', gradient: 'from-orange-50' },
                   { title: '3.4 Legal Requirements', desc: 'We may disclose information if required by law, court order, or to: Comply with legal processes, Protect our rights, property, or safety, Prevent fraud or security issues, Respond to government requests.', gradient: 'from-pink-50' },
                 ].map((item, idx) => (
                   <div key={idx} className={`bg-gradient-to-r ${item.gradient} to-white rounded-2xl p-6 border-l-4 border-orange-500 hover:shadow-lg transition-all duration-300`}>
@@ -281,7 +281,7 @@ const PrivacyPolicy = () => {
             {/* Section 4 - Data Retention */}
             <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-2xl shadow-lg">
                   <Clock className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">4. Data Retention</h2>
@@ -295,7 +295,7 @@ const PrivacyPolicy = () => {
                 {[
                   { title: 'Account Information', duration: 'Retained while active + reasonable period after deletion', icon: '👤', color: 'orange' },
                   { title: 'Meta/Facebook Data', duration: 'According to service needs and Meta\'s policies', icon: '📘', color: 'orange' },
-                  { title: 'Usage Logs', duration: 'Typically 12-24 months for security/analytics', icon: '📊', color: 'purple' },
+                  { title: 'Usage Logs', duration: 'Typically 12-24 months for security/analytics', icon: '📊', color: 'orange' },
                 ].map((item, idx) => (
                   <div key={idx} className={`bg-gradient-to-br from-${item.color}-50 to-white rounded-2xl p-6 text-center border border-${item.color}-200 hover:shadow-lg hover:scale-105 transition-all duration-300`}>
                     <div className="text-5xl mb-4">{item.icon}</div>
@@ -309,7 +309,7 @@ const PrivacyPolicy = () => {
             {/* Section 5 - Data Security */}
             <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-2xl shadow-lg">
                   <Lock className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">5. Data Security</h2>
@@ -346,7 +346,7 @@ const PrivacyPolicy = () => {
             {/* Section 6 - Your Rights */}
             <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-2xl shadow-lg">
                   <Eye className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">6. Your Rights and Choices</h2>
@@ -379,7 +379,7 @@ const PrivacyPolicy = () => {
             {/* Section 7 - Meta Compliance */}
             <section className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-10 mb-8 border border-orange-100/40 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center space-x-4 mb-8">
-                <div className="bg-gradient-to-br from-orange-500 to-violet-600 p-4 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-2xl shadow-lg">
                   <Globe className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800">7. Meta/Facebook Platform Compliance</h2>
@@ -592,7 +592,7 @@ const PrivacyPolicy = () => {
             </section>
 
             {/* Contact Section */}
-            <section className="bg-gradient-to-br from-orange-500 via-orange-600 to-violet-700 rounded-3xl shadow-2xl p-10 mb-8 text-white">
+            <section className="bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-3xl shadow-2xl p-10 mb-8 text-white">
               <div className="flex items-center space-x-4 mb-8">
                 <div className="bg-white/20 backdrop-blur-sm p-4 rounded-2xl shadow-lg">
                   <Mail className="w-8 h-8 text-white" />

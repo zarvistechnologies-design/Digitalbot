@@ -163,7 +163,7 @@ const ProductShowcase = () => {
                             {/* Labels around circle */}
                             <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 text-[11px] font-semibold text-gray-400 tracking-wide">Automate</span>
                             <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 text-[11px] font-semibold text-gray-400 tracking-wide">Optimize</span>
-                            <span className="absolute top-1/2 -right-4 -translate-y-1/2 text-[11px] font-semibold text-violet-500 tracking-wide rotate-90">Personalize</span>
+                            <span className="absolute top-1/2 -right-4 -translate-y-1/2 text-[11px] font-semibold text-orange-500 tracking-wide rotate-90">Personalize</span>
                             <span className="absolute top-1/2 -left-4 -translate-y-1/2 text-[11px] font-semibold text-orange-500 tracking-wide -rotate-90">Observe</span>
                         </div>
                         <div className="ml-8 text-left">
@@ -195,7 +195,7 @@ const ProductShowcase = () => {
                     {/* Card 5 - Platform (with person image) */}
                     <div 
                         ref={(el) => setCardRef(el, 4)}
-                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-orange-50 to-violet-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
+                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-orange-50 to-orange-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
                     >
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             DigitalBot<br/>Platform
@@ -213,7 +213,7 @@ const ProductShowcase = () => {
                                 <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center">
                                     <MessageSquare className="h-4 w-4 text-orange-500" />
                                 </div>
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-violet-500 shadow-sm flex items-center justify-center">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 shadow-sm flex items-center justify-center">
                                     <Bot className="h-4 w-4 text-white" />
                                 </div>
                             </div>
@@ -253,12 +253,12 @@ const ProductShowcase = () => {
                         ref={(el) => setCardRef(el, 7)}
                         className="col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors h-[160px] flex flex-col items-center justify-center gap-3"
                     >
-                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-400 to-violet-500 flex items-center justify-center shadow-lg flex-shrink-0">
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg flex-shrink-0">
                             <Headphones className="h-6 w-6 text-white" />
                         </div>
                         <div className="text-center">
                             <p className="text-lg font-bold text-gray-900">VoiceStream</p>
-                            <Link href="/services/voice-ai-business" className="inline-flex items-center gap-1 text-purple-500 font-medium text-sm hover:gap-2 transition-all">
+                            <Link href="/services/voice-ai-business" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
                                 Learn More <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                         </div>

@@ -106,7 +106,7 @@ export default function ComparisonTable() {
     : Object.keys(featureLabels).slice(0, 7)
 
   return (
-    <section className="py-20 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 relative overflow-hidden">
       {/* Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -125,8 +125,8 @@ export default function ComparisonTable() {
           <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-full text-sm font-semibold mb-4">
             Why Choose Us
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            See How We <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-violet-300">Stack Up</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 glass-heading-light">
+            See How We <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-orange-300">Stack Up</span>
           </h2>
           <p className="text-orange-100 max-w-2xl mx-auto">
             Compare DigitalBot with other AI voice platforms and see why businesses choose us

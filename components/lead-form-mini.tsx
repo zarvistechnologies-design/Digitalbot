@@ -68,7 +68,7 @@ export function LeadFormMini() {
     <div className="w-full max-w-md mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4 relative">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-orange-600 to-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+          <div className="w-10 h-10 bg-gradient-to-br from-orange-600 to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
             <Send className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -158,7 +158,7 @@ export function LeadFormMini() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 bg-gradient-to-r from-orange-600 to-violet-600 hover:from-orange-700 hover:to-violet-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl group btn-glow"
+            className="w-full py-3.5 bg-gradient-to-r from-orange-600 to-orange-600 hover:from-orange-700 hover:to-orange-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-orange-500/30 hover:shadow-xl group btn-glow"
           >
             {isSubmitting ? (
               <>
