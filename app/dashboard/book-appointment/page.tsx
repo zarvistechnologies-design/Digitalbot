@@ -27,6 +27,22 @@ interface BlockedTime {
   reason: string;
 }
 
+interface DaySchedule {
+  start: string;
+  end: string;
+  isWorking: boolean;
+}
+
+interface WeeklySchedule {
+  sunday?: DaySchedule;
+  monday?: DaySchedule;
+  tuesday?: DaySchedule;
+  wednesday?: DaySchedule;
+  thursday?: DaySchedule;
+  friday?: DaySchedule;
+  saturday?: DaySchedule;
+}
+
 interface Doctor {
   _id: string;
   name: string;
@@ -35,6 +51,7 @@ interface Doctor {
   slotDuration: number;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
+  weeklySchedule?: WeeklySchedule;
   defaultBlockedTimes?: BlockedTime[];
   allowMultipleBookings?: boolean;
   maxPatientsPerSlot?: number;
@@ -78,6 +95,19 @@ const initialFormData: FormData = {
 };
 
 const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const DAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"] as const;
+
+const getDayHours = (doctor: Doctor, dayOfWeek: number): { start: string; end: string } | null => {
+  const dayKey = DAY_KEYS[dayOfWeek];
+  const ws = doctor.weeklySchedule;
+  if (ws && ws[dayKey] && ws[dayKey].start && ws[dayKey].end) {
+    if (!ws[dayKey].isWorking) return null;
+    return { start: ws[dayKey].start, end: ws[dayKey].end };
+  }
+  // Fallback to default
+  if (!doctor.workingDays?.includes(dayOfWeek)) return null;
+  return doctor.defaultWorkingHours;
+};
 
 // ==================== TIME SLOTS ====================
 const generateTimeSlots = (
@@ -169,7 +199,11 @@ function DoctorCard({
           <div className="mt-3 space-y-1.5">
             <div className="flex items-center gap-2 text-xs text-gray-600">
               <Clock className="h-3.5 w-3.5" />
-              <span>{doctor.defaultWorkingHours?.start} - {doctor.defaultWorkingHours?.end}</span>
+              {doctor.weeklySchedule && Object.values(doctor.weeklySchedule).some(d => d && d.start && d.end) ? (
+                <span className="text-purple-600">Custom hours per day</span>
+              ) : (
+                <span>{doctor.defaultWorkingHours?.start} - {doctor.defaultWorkingHours?.end}</span>
+              )}
             </div>
             <div className="flex items-center gap-2 text-xs text-gray-600">
               <Calendar className="h-3.5 w-3.5" />
@@ -357,7 +391,8 @@ export default function BookAppointmentPage() {
     const dayOfWeek = selectedDate.getDay();
 
     // Check if the selected day is a working day for the doctor
-    if (!selectedDoctor.workingDays?.includes(dayOfWeek)) {
+    const dayHours = getDayHours(selectedDoctor, dayOfWeek);
+    if (!dayHours) {
       setError(`Doctor is not available on ${DAYS_OF_WEEK[dayOfWeek]}. Please select a working day.`);
       setTimeout(() => setError(null), 3000);
       return;
@@ -397,9 +432,10 @@ export default function BookAppointmentPage() {
       // Add blocked times for display (so user can see when breaks are)
       // Only use doctor's configured blocked times - if not set, show all slots
       const blockedTimes = selectedDoctor.defaultBlockedTimes || [];
+      const hours = getDayHours(selectedDoctor, dayOfWeek);
       const allSlots = generateTimeSlots(
-        selectedDoctor.defaultWorkingHours?.start || "09:00",
-        selectedDoctor.defaultWorkingHours?.end || "17:00",
+        hours?.start || selectedDoctor.defaultWorkingHours?.start || "09:00",
+        hours?.end || selectedDoctor.defaultWorkingHours?.end || "17:00",
         selectedDoctor.slotDuration || 30,
         blockedTimes
       );
@@ -422,9 +458,10 @@ export default function BookAppointmentPage() {
       console.error("Failed to fetch availability:", err);
       // Fallback to local generation - only use doctor's configured blocked times
       const blockedTimes = selectedDoctor.defaultBlockedTimes || [];
+      const hours = getDayHours(selectedDoctor, dayOfWeek);
       const slots = generateTimeSlots(
-        selectedDoctor.defaultWorkingHours?.start || "09:00",
-        selectedDoctor.defaultWorkingHours?.end || "17:00",
+        hours?.start || selectedDoctor.defaultWorkingHours?.start || "09:00",
+        hours?.end || selectedDoctor.defaultWorkingHours?.end || "17:00",
         selectedDoctor.slotDuration || 30,
         blockedTimes
       );
@@ -697,14 +734,19 @@ export default function BookAppointmentPage() {
                       </label>
                       <div className="flex flex-wrap gap-2 mb-3">
                         <span className="text-xs text-gray-500">Working Days:</span>
-                        {selectedDoctor.workingDays?.map((d) => (
-                          <span
-                            key={d}
-                            className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full"
-                          >
-                            {DAYS_OF_WEEK[d]}
-                          </span>
-                        ))}
+                        {DAYS_OF_WEEK.map((dayLabel, idx) => {
+                          const hours = getDayHours(selectedDoctor, idx);
+                          if (!hours) return null;
+                          return (
+                            <span
+                              key={idx}
+                              className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full"
+                              title={`${hours.start} - ${hours.end}`}
+                            >
+                              {dayLabel} {selectedDoctor.weeklySchedule ? `(${hours.start}-${hours.end})` : ""}
+                            </span>
+                          );
+                        })}
                       </div>
                       <input
                         type="date"

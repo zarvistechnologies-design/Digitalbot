@@ -69,7 +69,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     const service = getServiceFromUrl()
 
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-tef8.onrender.com/api'}/auth/register`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api'}/auth/register`, {
         ...form,
         selectedService: service,
       })

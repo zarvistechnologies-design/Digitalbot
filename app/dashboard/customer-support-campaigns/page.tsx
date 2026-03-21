@@ -2,7 +2,7 @@
 import Sidebar from "@/components/Sidebar";
 import { useEffect, useState } from "react";
 
-const API_BASE = "https://digital-api-tef8.onrender.com/api";
+const API_BASE = "https://digital-api-46ss.onrender.com/api";
 
 const getAuthToken = () => {
   if (typeof window !== "undefined") {

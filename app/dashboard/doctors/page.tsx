@@ -21,6 +21,22 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 // ==================== TYPES ====================
+interface DaySchedule {
+  start?: string;
+  end?: string;
+  isWorking: boolean;
+}
+
+interface WeeklySchedule {
+  sunday?: DaySchedule;
+  monday?: DaySchedule;
+  tuesday?: DaySchedule;
+  wednesday?: DaySchedule;
+  thursday?: DaySchedule;
+  friday?: DaySchedule;
+  saturday?: DaySchedule;
+}
+
 interface Doctor {
   _id: string;
   name: string;
@@ -35,6 +51,7 @@ interface Doctor {
   maxPatientsPerSlot?: number;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
+  weeklySchedule?: WeeklySchedule;
   active: boolean;
   createdAt: string;
   updatedAt: string;
@@ -57,19 +74,31 @@ interface DoctorFormData {
   maxPatientsPerSlot: number;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
+  weeklySchedule?: WeeklySchedule;
+  useDifferentTimings: boolean;
   defaultBlockedTimes: BlockedTime[];
   calendarId: string;
 }
 
 const DAYS_OF_WEEK = [
-  { value: 0, label: "Sun" },
-  { value: 1, label: "Mon" },
-  { value: 2, label: "Tue" },
-  { value: 3, label: "Wed" },
-  { value: 4, label: "Thu" },
-  { value: 5, label: "Fri" },
-  { value: 6, label: "Sat" },
+  { value: 0, label: "Sun", key: "sunday" as const },
+  { value: 1, label: "Mon", key: "monday" as const },
+  { value: 2, label: "Tue", key: "tuesday" as const },
+  { value: 3, label: "Wed", key: "wednesday" as const },
+  { value: 4, label: "Thu", key: "thursday" as const },
+  { value: 5, label: "Fri", key: "friday" as const },
+  { value: 6, label: "Sat", key: "saturday" as const },
 ];
+
+const DEFAULT_WEEKLY_SCHEDULE: WeeklySchedule = {
+  sunday:    { start: "09:00", end: "17:00", isWorking: false },
+  monday:    { start: "09:00", end: "17:00", isWorking: true },
+  tuesday:   { start: "09:00", end: "17:00", isWorking: true },
+  wednesday: { start: "09:00", end: "17:00", isWorking: true },
+  thursday:  { start: "09:00", end: "17:00", isWorking: true },
+  friday:    { start: "09:00", end: "17:00", isWorking: true },
+  saturday:  { start: "09:00", end: "17:00", isWorking: false },
+};
 
 const SPECIALIZATIONS = [
   "General Physician",
@@ -101,6 +130,8 @@ const initialFormData: DoctorFormData = {
   maxPatientsPerSlot: 1,
   defaultWorkingHours: { start: "09:00", end: "17:00" },
   workingDays: [1, 2, 3, 4, 5],
+  weeklySchedule: undefined,
+  useDifferentTimings: false,
   defaultBlockedTimes: [],
   calendarId: "",
 };
@@ -150,10 +181,16 @@ export default function DoctorsPage() {
     setSaving(true);
 
     try {
+      // Build payload — only include weeklySchedule if different timings are enabled
+      const { useDifferentTimings, ...payload } = formData;
+      if (!useDifferentTimings) {
+        payload.weeklySchedule = undefined;
+      }
+
       if (editingDoctor) {
-        await doctorsAPI.update(editingDoctor._id, formData);
+        await doctorsAPI.update(editingDoctor._id, payload);
       } else {
-        await doctorsAPI.create(formData);
+        await doctorsAPI.create(payload);
       }
       setShowModal(false);
       setEditingDoctor(null);
@@ -180,9 +217,16 @@ export default function DoctorsPage() {
     }
   };
 
+  // Check if a doctor has weeklySchedule set with any day having start/end
+  const hasDifferentTimings = (ws?: WeeklySchedule) => {
+    if (!ws) return false;
+    return Object.values(ws).some((day) => day && day.start && day.end);
+  };
+
   // Handle edit
   const handleEdit = (doctor: Doctor) => {
     setEditingDoctor(doctor);
+    const hasDiffTimings = hasDifferentTimings(doctor.weeklySchedule);
     setFormData({
       name: doctor.name,
       specialization: doctor.specialization,
@@ -194,6 +238,8 @@ export default function DoctorsPage() {
       maxPatientsPerSlot: doctor.maxPatientsPerSlot || 1,
       defaultWorkingHours: doctor.defaultWorkingHours,
       workingDays: doctor.workingDays,
+      weeklySchedule: hasDiffTimings ? doctor.weeklySchedule : { ...DEFAULT_WEEKLY_SCHEDULE },
+      useDifferentTimings: hasDiffTimings,
       defaultBlockedTimes: (doctor as unknown as { defaultBlockedTimes?: BlockedTime[] }).defaultBlockedTimes || [],
       calendarId: doctor.calendarId || "",
     });
@@ -370,6 +416,11 @@ export default function DoctorsPage() {
                       <Calendar className="w-4 h-4" />
                       {formatWorkingDays(doctor.workingDays)}
                     </div>
+                    {hasDifferentTimings(doctor.weeklySchedule) && (
+                      <div className="text-xs text-purple-600 bg-purple-50 px-2 py-1 rounded-md">
+                        Custom schedule per day
+                      </div>
+                    )}
                     {/* Google Calendar Status */}
                     <div className="flex items-center gap-2">
                       {doctor.calendarConnected ? (
@@ -609,64 +660,173 @@ export default function DoctorsPage() {
                 )}
               </div>
 
-              {/* Working Hours */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Start Time
-                  </label>
-                  <input
-                    type="time"
-                    value={formData.defaultWorkingHours.start}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        defaultWorkingHours: { ...formData.defaultWorkingHours, start: e.target.value },
-                      })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    End Time
-                  </label>
-                  <input
-                    type="time"
-                    value={formData.defaultWorkingHours.end}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        defaultWorkingHours: { ...formData.defaultWorkingHours, end: e.target.value },
-                      })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  />
+              {/* Schedule Mode Toggle */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Working Schedule
+                </label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, useDifferentTimings: false })}
+                    className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                      !formData.useDifferentTimings
+                        ? "bg-orange-600 text-white border-orange-600"
+                        : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    Same timing every day
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({
+                      ...formData,
+                      useDifferentTimings: true,
+                      weeklySchedule: formData.weeklySchedule || { ...DEFAULT_WEEKLY_SCHEDULE },
+                    })}
+                    className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                      formData.useDifferentTimings
+                        ? "bg-orange-600 text-white border-orange-600"
+                        : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    Different timing per day
+                  </button>
                 </div>
               </div>
 
-              {/* Working Days */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Working Days
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {DAYS_OF_WEEK.map((day) => (
-                    <button
-                      key={day.value}
-                      type="button"
-                      onClick={() => toggleWorkingDay(day.value)}
-                      className={`px-3 py-2 rounded-lg border transition-colors ${
-                        formData.workingDays.includes(day.value)
-                          ? "bg-orange-600 text-white border-orange-600"
-                          : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
-                      }`}
-                    >
-                      {day.label}
-                    </button>
-                  ))}
+              {!formData.useDifferentTimings ? (
+                <>
+                  {/* Default Working Hours */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Start Time
+                      </label>
+                      <input
+                        type="time"
+                        value={formData.defaultWorkingHours.start}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            defaultWorkingHours: { ...formData.defaultWorkingHours, start: e.target.value },
+                          })
+                        }
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        End Time
+                      </label>
+                      <input
+                        type="time"
+                        value={formData.defaultWorkingHours.end}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            defaultWorkingHours: { ...formData.defaultWorkingHours, end: e.target.value },
+                          })
+                        }
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Working Days */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Working Days
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {DAYS_OF_WEEK.map((day) => (
+                        <button
+                          key={day.value}
+                          type="button"
+                          onClick={() => toggleWorkingDay(day.value)}
+                          className={`px-3 py-2 rounded-lg border transition-colors ${
+                            formData.workingDays.includes(day.value)
+                              ? "bg-orange-600 text-white border-orange-600"
+                              : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                          }`}
+                        >
+                          {day.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* Per-Day Schedule */
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Set timing for each day
+                  </label>
+                  {DAYS_OF_WEEK.map((day) => {
+                    const dayKey = day.key;
+                    const schedule = formData.weeklySchedule?.[dayKey];
+                    const isWorking = schedule?.isWorking !== false;
+                    return (
+                      <div
+                        key={day.value}
+                        className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+                          isWorking ? "bg-white border-gray-200" : "bg-gray-50 border-gray-100"
+                        }`}
+                      >
+                        {/* Day toggle */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const ws = { ...(formData.weeklySchedule || DEFAULT_WEEKLY_SCHEDULE) };
+                            ws[dayKey] = {
+                              ...ws[dayKey],
+                              start: ws[dayKey]?.start || "09:00",
+                              end: ws[dayKey]?.end || "17:00",
+                              isWorking: !isWorking,
+                            };
+                            setFormData({ ...formData, weeklySchedule: ws });
+                          }}
+                          className={`w-14 text-xs font-bold py-1.5 rounded-md border transition-colors ${
+                            isWorking
+                              ? "bg-orange-600 text-white border-orange-600"
+                              : "bg-gray-200 text-gray-500 border-gray-300"
+                          }`}
+                        >
+                          {day.label}
+                        </button>
+
+                        {isWorking ? (
+                          <>
+                            <input
+                              type="time"
+                              value={schedule?.start || "09:00"}
+                              onChange={(e) => {
+                                const ws = { ...(formData.weeklySchedule || DEFAULT_WEEKLY_SCHEDULE) };
+                                ws[dayKey] = { ...ws[dayKey], start: e.target.value, isWorking: true };
+                                setFormData({ ...formData, weeklySchedule: ws });
+                              }}
+                              className="px-2 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            />
+                            <span className="text-gray-400 text-sm">to</span>
+                            <input
+                              type="time"
+                              value={schedule?.end || "17:00"}
+                              onChange={(e) => {
+                                const ws = { ...(formData.weeklySchedule || DEFAULT_WEEKLY_SCHEDULE) };
+                                ws[dayKey] = { ...ws[dayKey], end: e.target.value, isWorking: true };
+                                setFormData({ ...formData, weeklySchedule: ws });
+                              }}
+                              className="px-2 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            />
+                          </>
+                        ) : (
+                          <span className="text-gray-400 text-sm italic">Day off</span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
+              )}
 
               {/* Break Times / Blocked Times */}
               <div>
