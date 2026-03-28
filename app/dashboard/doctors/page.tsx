@@ -2,21 +2,22 @@
 import Sidebar from "@/components/Sidebar";
 import { calendarAPI, doctorsAPI } from "@/lib/api";
 import {
-  AlertCircle,
-  Calendar,
-  Check,
-  Clock,
-  Edit,
-  ExternalLink,
-  Mail,
-  Phone,
-  Plus,
-  RefreshCw,
-  Search,
-  Stethoscope,
-  Trash2,
-  User,
-  X,
+    AlertCircle,
+    Calendar,
+    Check,
+    Clock,
+    Edit,
+    ExternalLink,
+    Mail,
+    Menu,
+    Phone,
+    Plus,
+    RefreshCw,
+    Search,
+    Stethoscope,
+    Trash2,
+    User,
+    X,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -292,10 +293,20 @@ export default function DoctorsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-purple-50/20">
+      {/* Mobile Menu Button */}
+      {!sidebarOpen && (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-xl shadow-lg border border-gray-200"
+        >
+          <Menu className="w-6 h-6 text-gray-700" />
+        </button>
+      )}
+
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="lg:pl-64">
-        <div className="p-4 lg:p-8">
+        <div className="p-4 lg:p-8 pt-20 lg:pt-8">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
@@ -835,7 +846,7 @@ export default function DoctorsPage() {
                 </label>
                 
                 {formData.defaultBlockedTimes.map((bt, index) => (
-                  <div key={index} className="flex gap-2 mb-2 items-center">
+                  <div key={index} className="flex flex-wrap sm:flex-nowrap gap-2 mb-2 items-center">
                     <input
                       type="time"
                       value={bt.start}
@@ -854,7 +865,7 @@ export default function DoctorsPage() {
                       value={bt.reason}
                       onChange={(e) => updateBlockedTime(index, 'reason', e.target.value)}
                       placeholder="Reason"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="flex-1 min-w-[120px] px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                     <button
                       type="button"

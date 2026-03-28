@@ -1,10 +1,12 @@
 'use client';
 
 import Sidebar from '@/components/Sidebar';
+import { useWebSocket } from '@/hooks/use-websocket';
 import { callsAPI } from '@/lib/api';
+import { CACHE_KEYS, cachedFetch, getStaleCache, invalidateCache, setCache } from '@/lib/cache';
 import { Call, CallStats } from '@/types';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // Mock data for testing when API is not available
 const mockCalls: Call[] = [
@@ -63,6 +65,21 @@ const Dashboard = () => {
 
   useEffect(() => {
     setMounted(true);
+    // Load from cache instantly on mount
+    const cachedCalls = getStaleCache<Call[]>(CACHE_KEYS.CALLS);
+    if (cachedCalls && cachedCalls.length > 0) {
+      setCalls(cachedCalls);
+      setAllCalls(cachedCalls);
+      setLoading(false);
+    }
+    const cachedStats = getStaleCache<CallStats>(CACHE_KEYS.CALLS_STATS);
+    if (cachedStats) {
+      setStats(cachedStats);
+    }
+    const cachedAgents = getStaleCache<string[]>(CACHE_KEYS.CALLS_AGENTS);
+    if (cachedAgents) {
+      setAvailableAgents(cachedAgents);
+    }
   }, []);
 
   // Helper function to get phone number from call object
@@ -84,7 +101,9 @@ const Dashboard = () => {
   const fetchCalls = async (page = 1, limit = 100, search = '', isBackground = false) => {
     try {
       if (!isBackground) {
-        setLoading(true);
+        // Only show loading if no cached data available
+        const cached = getStaleCache<Call[]>(CACHE_KEYS.CALLS);
+        if (!cached || cached.length === 0) setLoading(true);
       } else {
         setIsBackgroundFetching(true);
       }
@@ -106,14 +125,12 @@ const Dashboard = () => {
           !calls.some(existingCall => existingCall.id === newCall.id)
         );
         setNewCallsCount(newCalls.length);
-
-        if (newCalls.length > 0) {
-          console.log(`${newCalls.length} new call(s) received`);
-        }
       }
 
       setCalls(callsData);
       setAllCalls(callsData);
+      // Update shared cache so Dashboard gets fresh data too
+      setCache(CACHE_KEYS.CALLS, callsData, 60000);
       setIsUsingMockData(false);
       setLastRefreshTime(new Date());
 
@@ -135,9 +152,11 @@ const Dashboard = () => {
 
   const fetchAgents = async () => {
     try {
-      const response = await callsAPI.getAgents();
-      const agentList = response.data.data || [];
-      const agentNames = agentList.map((agent: any) => agent.name);
+      const agentNames = await cachedFetch(CACHE_KEYS.CALLS_AGENTS, async () => {
+        const response = await callsAPI.getAgents();
+        const agentList = response.data.data || [];
+        return agentList.map((agent: any) => agent.name);
+      }, 120000); // 2 min cache for agents
       setAvailableAgents(agentNames);
     } catch (err: any) {
       console.warn('Could not fetch agents:', err.message);
@@ -148,8 +167,11 @@ const Dashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await callsAPI.getStats();
-      setStats(response.data.data);
+      const statsData = await cachedFetch(CACHE_KEYS.CALLS_STATS, async () => {
+        const response = await callsAPI.getStats();
+        return response.data.data;
+      }, 30000); // 30s cache for stats
+      setStats(statsData);
     } catch (err: any) {
       console.warn('Stats API not available, using mock data');
       setStats(mockStats);
@@ -164,12 +186,25 @@ const Dashboard = () => {
     }
   }, [mounted]);
 
+  // WebSocket: instant update when new calls arrive
+  useWebSocket({
+    onMessage: useCallback((msg: any) => {
+      if (msg.type === 'new-call' || msg.type === 'call-update') {
+        invalidateCache(CACHE_KEYS.CALLS);
+        invalidateCache(CACHE_KEYS.CALLS_STATS);
+        fetchCalls(1, 100, searchQuery, true);
+        fetchStats();
+      }
+    }, [searchQuery]),
+  });
+
   useEffect(() => {
     if (!mounted || !isAutoRefreshEnabled) return;
 
     const interval = setInterval(() => {
       if (!loading) {
         fetchCalls(1, 100, searchQuery, true);
+        invalidateCache(CACHE_KEYS.CALLS_STATS);
         fetchStats();
       }
     }, refreshInterval);
@@ -245,6 +280,9 @@ const Dashboard = () => {
 
   const handleRefresh = () => {
     setNewCallsCount(0);
+    invalidateCache(CACHE_KEYS.CALLS);
+    invalidateCache(CACHE_KEYS.CALLS_STATS);
+    invalidateCache(CACHE_KEYS.CALLS_AGENTS);
     fetchCalls();
     fetchStats();
     fetchAgents();

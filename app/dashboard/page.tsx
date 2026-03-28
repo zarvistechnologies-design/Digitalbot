@@ -1,7 +1,10 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import { useCachedFetch } from "@/hooks/use-cached-fetch";
+import { useWebSocket } from "@/hooks/use-websocket";
+import { CACHE_KEYS, invalidateCache } from "@/lib/cache";
 import { Activity, AlertCircle, ArrowDown, ArrowUp, BarChart3, Brain, CheckCircle, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, TrendingUp, X, XCircle, Zap } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface Call {
@@ -45,10 +48,7 @@ interface Analytics {
 
 export default function AnalyticsOverview() {
   const [mounted, setMounted] = useState(false);
-  const [analytics, setAnalytics] = useState<Analytics | null>(null);
-  const [loading, setLoading] = useState(false);
   const [dateFilter, setDateFilter] = useState("7");
-  const [recentCalls, setRecentCalls] = useState<Call[]>([]);
   const [toNumber, setToNumber] = useState("");
   const [callStatus, setCallStatus] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -59,130 +59,133 @@ export default function AnalyticsOverview() {
     setMounted(true);
   }, []);
 
-  const fetchAnalytics = async () => {
-    setLoading(true);
-    try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
-      const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api'; // Local backend
-      
-      // Fetch calls from your backend API
-      const callsRes = await fetch(`${API_BASE_URL}/calls?limit=1000`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!callsRes.ok) {
-        throw new Error(`Failed to fetch calls: ${callsRes.status}`);
+  // Fetch raw calls once and cache — shared with Calls page
+  const fetchCallsData = useCallback(async () => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
+    const callsRes = await fetch(`${API_BASE_URL}/calls?limit=1000`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
+    });
+    if (!callsRes.ok) throw new Error(`Failed to fetch calls: ${callsRes.status}`);
+    const callsData = await callsRes.json();
+    return callsData.data?.calls || callsData.calls || [];
+  }, []);
 
-      const callsData = await callsRes.json();
-      const calls = callsData.data?.calls || callsData.calls || [];
+  const { data: rawCalls, loading, refresh } = useCachedFetch<Call[]>({
+    key: CACHE_KEYS.CALLS,
+    fetcher: fetchCallsData,
+    ttl: 60000, // 1 minute cache
+    enabled: mounted,
+  });
 
-      console.log('Fetched calls:', calls.length);
-
-      const now = new Date();
-      const filterDays = parseInt(dateFilter);
-      const filterDate = new Date(now.getTime() - (filterDays * 24 * 60 * 60 * 1000));
-
-      const filteredCalls = calls.filter((call: Call) => new Date(call.start_time) >= filterDate);
-
-      const completed = filteredCalls.filter((c: Call) => c.status === 'completed' || c.status === 'user-ended' || c.status === 'agent-ended').length;
-      const failed = filteredCalls.filter((c: Call) => c.status === 'failed' || c.status === 'error').length;
-      const busy = filteredCalls.filter((c: Call) => c.status === 'busy' || c.status === 'no-answer').length;
-      const inbound = filteredCalls.filter((c: Call) => c.direction === 'inbound').length;
-      const outbound = filteredCalls.filter((c: Call) => c.direction === 'outbound').length;
-      const transcribed = filteredCalls.filter((c: Call) => c.transcription || c.transcription_formatted || c.chat).length;
-      const summarized = filteredCalls.filter((c: Call) => c.transcription_formatted).length;
-
-      const totalDuration = filteredCalls.reduce((sum: number, call: Call) => sum + (call.duration || 0), 0);
-      const avgDuration = filteredCalls.length > 0 ? totalDuration / filteredCalls.length : 0;
-
-      const today = new Date().toDateString();
-      const todaysCalls = filteredCalls.filter((call: Call) => new Date(call.start_time).toDateString() === today).length;
-      const hourCounts: { [key: number]: number } = {};
-      filteredCalls.forEach((call: Call) => {
-        const hour = new Date(call.start_time).getHours();
-        hourCounts[hour] = (hourCounts[hour] || 0) + 1;
-      });
-      const peakHours = Object.entries(hourCounts).map(([hour, count]) => ({ hour: parseInt(hour), count })).sort((a, b) => b.count - a.count).slice(0, 5);
-
-      const dailyStats = [];
-      for (let i = 6; i >= 0; i--) {
-        const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000));
-        const dateStr = date.toDateString();
-        const dayCalls = filteredCalls.filter((call: Call) => new Date(call.start_time).toDateString() === dateStr);
-        dailyStats.push({
-          date: date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-          calls: dayCalls.length,
-          completed: dayCalls.filter((c: Call) => c.status === 'completed' || c.status === 'user-ended' || c.status === 'agent-ended').length,
-          failed: dayCalls.filter((c: Call) => c.status === 'failed' || c.status === 'error').length
-        });
+  // Invalidate cache on new call via WebSocket
+  useWebSocket({
+    onMessage: useCallback((msg: any) => {
+      if (msg.type === 'new-call' || msg.type === 'call-update') {
+        invalidateCache(CACHE_KEYS.CALLS);
+        refresh(true);
       }
+    }, [refresh]),
+  });
 
-      const statusCounts: { [key: string]: number } = {};
-      filteredCalls.forEach((call: Call) => { statusCounts[call.status] = (statusCounts[call.status] || 0) + 1; });
-      const statusDistribution = Object.entries(statusCounts).map(([status, count]) => ({ status, count, percentage: filteredCalls.length > 0 ? (count / filteredCalls.length) * 100 : 0 }));
+  // Compute all analytics from raw calls using useMemo — instant on filter change
+  const { analytics, recentCalls } = useMemo(() => {
+    const calls = rawCalls || [];
+    if (calls.length === 0) return { analytics: null, recentCalls: [] };
 
-      const hourlyDistribution = Array.from({ length: 24 }, (_, hour) => ({ hour: `${hour.toString().padStart(2, '0')}:00`, calls: hourCounts[hour] || 0 }));
+    const now = new Date();
+    const filterDays = parseInt(dateFilter);
+    const filterDate = new Date(now.getTime() - (filterDays * 24 * 60 * 60 * 1000));
+    const filteredCalls = calls.filter((call: Call) => new Date(call.start_time) >= filterDate);
 
-      const durationAnalysis = [
-        { range: '0-30s', count: filteredCalls.filter((c: Call) => c.duration <= 30).length },
-        { range: '30s-1m', count: filteredCalls.filter((c: Call) => c.duration > 30 && c.duration <= 60).length },
-        { range: '1-2m', count: filteredCalls.filter((c: Call) => c.duration > 60 && c.duration <= 120).length },
-        { range: '2-5m', count: filteredCalls.filter((c: Call) => c.duration > 120 && c.duration <= 300).length },
-        { range: '5-10m', count: filteredCalls.filter((c: Call) => c.duration > 300 && c.duration <= 600).length },
-        { range: '10m+', count: filteredCalls.filter((c: Call) => c.duration > 600).length }
-      ];
-      const weeklyComparison = Array.from({ length: 4 }, (_, i) => {
-        const weekStart = new Date(now.getTime() - ((i + 1) * 7 * 24 * 60 * 60 * 1000));
-        const weekEnd = new Date(weekStart.getTime() + (7 * 24 * 60 * 60 * 1000));
-        const weekCalls = filteredCalls.filter((call: Call) => {
-          const callDate = new Date(call.start_time);
-          return callDate >= weekStart && callDate < weekEnd;
-        });
-        const weekCompleted = weekCalls.filter((c: Call) => c.status === 'completed' || c.status === 'user-ended' || c.status === 'agent-ended').length;
-        return { week: `Week ${i + 1}`, calls: weekCalls.length, successRate: weekCalls.length > 0 ? (weekCompleted / weekCalls.length) * 100 : 0 };
-      }).reverse();
+    const completed = filteredCalls.filter((c: Call) => c.status === 'completed' || c.status === 'user-ended' || c.status === 'agent-ended').length;
+    const failed = filteredCalls.filter((c: Call) => c.status === 'failed' || c.status === 'error').length;
+    const busy = filteredCalls.filter((c: Call) => c.status === 'busy' || c.status === 'no-answer').length;
+    const inbound = filteredCalls.filter((c: Call) => c.direction === 'inbound').length;
+    const outbound = filteredCalls.filter((c: Call) => c.direction === 'outbound').length;
+    const transcribed = filteredCalls.filter((c: Call) => c.transcription || c.transcription_formatted || c.chat).length;
+    const summarized = filteredCalls.filter((c: Call) => c.transcription_formatted).length;
+    const totalDuration = filteredCalls.reduce((sum: number, call: Call) => sum + (call.duration || 0), 0);
+    const avgDuration = filteredCalls.length > 0 ? totalDuration / filteredCalls.length : 0;
+    const today = new Date().toDateString();
+    const todaysCalls = filteredCalls.filter((call: Call) => new Date(call.start_time).toDateString() === today).length;
 
-      const prevPeriodStart = new Date(now.getTime() - (filterDays * 2 * 24 * 60 * 60 * 1000));
-      const prevPeriodEnd = new Date(now.getTime() - (filterDays * 24 * 60 * 60 * 1000));
-      const prevPeriodCalls = calls.filter((call: Call) => {
-        const callDate = new Date(call.start_time);
-        return callDate >= prevPeriodStart && callDate < prevPeriodEnd;
-      }).length;
-      const weeklyGrowth = prevPeriodCalls > 0 ? ((filteredCalls.length - prevPeriodCalls) / prevPeriodCalls) * 100 : 0;
+    const hourCounts: { [key: number]: number } = {};
+    filteredCalls.forEach((call: Call) => {
+      const hour = new Date(call.start_time).getHours();
+      hourCounts[hour] = (hourCounts[hour] || 0) + 1;
+    });
+    const peakHours = Object.entries(hourCounts).map(([hour, count]) => ({ hour: parseInt(hour), count })).sort((a, b) => b.count - a.count).slice(0, 5);
 
-      // Calculate monthly growth from actual data instead of random
-      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-      const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
-      const thisMonthCalls = calls.filter((call: Call) => new Date(call.start_time) >= monthStart).length;
-      const lastMonthCalls = calls.filter((call: Call) => {
-        const callDate = new Date(call.start_time);
-        return callDate >= prevMonthStart && callDate <= prevMonthEnd;
-      }).length;
-      const monthlyGrowth = lastMonthCalls > 0 ? ((thisMonthCalls - lastMonthCalls) / lastMonthCalls) * 100 : 0;
-
-      const analyticsData: Analytics = { totalCalls: filteredCalls.length, completedCalls: completed, failedCalls: failed, avgDuration, inboundCalls: inbound, outboundCalls: outbound, busyCalls: busy, transcribedCalls: transcribed, summarizedCalls: summarized, todaysCalls, weeklyGrowth, monthlyGrowth, peakHours, dailyStats, statusDistribution, hourlyDistribution, durationAnalysis, weeklyComparison };
-      setAnalytics(analyticsData);
-      setRecentCalls(calls.slice(0, 5));
-    } catch (err) {
-      console.error('Failed to fetch analytics:', err);
-    } finally {
-      setLoading(false);
+    const dailyStats = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000));
+      const dateStr = date.toDateString();
+      const dayCalls = filteredCalls.filter((call: Call) => new Date(call.start_time).toDateString() === dateStr);
+      dailyStats.push({
+        date: date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+        calls: dayCalls.length,
+        completed: dayCalls.filter((c: Call) => c.status === 'completed' || c.status === 'user-ended' || c.status === 'agent-ended').length,
+        failed: dayCalls.filter((c: Call) => c.status === 'failed' || c.status === 'error').length
+      });
     }
-  };
 
-  useEffect(() => { fetchAnalytics(); }, [dateFilter]);
+    const statusCounts: { [key: string]: number } = {};
+    filteredCalls.forEach((call: Call) => { statusCounts[call.status] = (statusCounts[call.status] || 0) + 1; });
+    const statusDistribution = Object.entries(statusCounts).map(([status, count]) => ({ status, count, percentage: filteredCalls.length > 0 ? (count / filteredCalls.length) * 100 : 0 }));
+    const hourlyDistribution = Array.from({ length: 24 }, (_, hour) => ({ hour: `${hour.toString().padStart(2, '0')}:00`, calls: hourCounts[hour] || 0 }));
+
+    const durationAnalysis = [
+      { range: '0-30s', count: filteredCalls.filter((c: Call) => c.duration <= 30).length },
+      { range: '30s-1m', count: filteredCalls.filter((c: Call) => c.duration > 30 && c.duration <= 60).length },
+      { range: '1-2m', count: filteredCalls.filter((c: Call) => c.duration > 60 && c.duration <= 120).length },
+      { range: '2-5m', count: filteredCalls.filter((c: Call) => c.duration > 120 && c.duration <= 300).length },
+      { range: '5-10m', count: filteredCalls.filter((c: Call) => c.duration > 300 && c.duration <= 600).length },
+      { range: '10m+', count: filteredCalls.filter((c: Call) => c.duration > 600).length }
+    ];
+
+    const weeklyComparison = Array.from({ length: 4 }, (_, i) => {
+      const weekStart = new Date(now.getTime() - ((i + 1) * 7 * 24 * 60 * 60 * 1000));
+      const weekEnd = new Date(weekStart.getTime() + (7 * 24 * 60 * 60 * 1000));
+      const weekCalls = filteredCalls.filter((call: Call) => {
+        const callDate = new Date(call.start_time);
+        return callDate >= weekStart && callDate < weekEnd;
+      });
+      const weekCompleted = weekCalls.filter((c: Call) => c.status === 'completed' || c.status === 'user-ended' || c.status === 'agent-ended').length;
+      return { week: `Week ${i + 1}`, calls: weekCalls.length, successRate: weekCalls.length > 0 ? (weekCompleted / weekCalls.length) * 100 : 0 };
+    }).reverse();
+
+    const prevPeriodStart = new Date(now.getTime() - (filterDays * 2 * 24 * 60 * 60 * 1000));
+    const prevPeriodEnd = new Date(now.getTime() - (filterDays * 24 * 60 * 60 * 1000));
+    const prevPeriodCalls = calls.filter((call: Call) => {
+      const callDate = new Date(call.start_time);
+      return callDate >= prevPeriodStart && callDate < prevPeriodEnd;
+    }).length;
+    const weeklyGrowth = prevPeriodCalls > 0 ? ((filteredCalls.length - prevPeriodCalls) / prevPeriodCalls) * 100 : 0;
+
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+    const thisMonthCalls = calls.filter((call: Call) => new Date(call.start_time) >= monthStart).length;
+    const lastMonthCalls = calls.filter((call: Call) => {
+      const callDate = new Date(call.start_time);
+      return callDate >= prevMonthStart && callDate <= prevMonthEnd;
+    }).length;
+    const monthlyGrowth = lastMonthCalls > 0 ? ((thisMonthCalls - lastMonthCalls) / lastMonthCalls) * 100 : 0;
+
+    const analyticsData: Analytics = { totalCalls: filteredCalls.length, completedCalls: completed, failedCalls: failed, avgDuration, inboundCalls: inbound, outboundCalls: outbound, busyCalls: busy, transcribedCalls: transcribed, summarizedCalls: summarized, todaysCalls, weeklyGrowth, monthlyGrowth, peakHours, dailyStats, statusDistribution, hourlyDistribution, durationAnalysis, weeklyComparison };
+    return { analytics: analyticsData, recentCalls: calls.slice(0, 5) };
+  }, [rawCalls, dateFilter]);
 
   const handleOutboundCall = async () => {
     if (!toNumber) return alert("Please enter a number to call.");
     setCallStatus("Calling...");
     try {
       const token = 'demo-token'; // Use demo-token for development
-      const API_BASE_URL = 'https://digital-api-tef8.onrender.com/api'; // Local backend
+      const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
       
       const res = await fetch(`${API_BASE_URL}/outbound-call`, {
         method: "POST",
@@ -196,7 +199,7 @@ export default function AnalyticsOverview() {
       if (res.ok) {
         setCallStatus("Call initiated successfully!");
         if (mounted) {
-          fetchAnalytics();
+          refresh();
         }
         setToNumber("");
       } else {

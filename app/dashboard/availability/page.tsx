@@ -2,15 +2,16 @@
 import Sidebar from "@/components/Sidebar";
 import { availabilityAPI, doctorsAPI } from "@/lib/api";
 import {
-  AlertCircle,
-  Calendar,
-  CalendarX,
-  ChevronLeft,
-  ChevronRight,
-  Clock,
-  RefreshCw,
-  User,
-  XCircle,
+    AlertCircle,
+    Calendar,
+    CalendarX,
+    ChevronLeft,
+    ChevronRight,
+    Clock,
+    Menu,
+    RefreshCw,
+    User,
+    XCircle
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -262,10 +263,20 @@ export default function AvailabilityPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-purple-50/20">
+      {/* Mobile Menu Button */}
+      {!sidebarOpen && (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-xl shadow-lg border border-gray-200"
+        >
+          <Menu className="w-6 h-6 text-gray-700" />
+        </button>
+      )}
+
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="lg:pl-64">
-        <div className="p-4 lg:p-8">
+        <div className="p-4 lg:p-8 pt-20 lg:pt-8">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
@@ -392,7 +403,7 @@ export default function AvailabilityPage() {
           {selectedDoctor && (
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
               {/* Header */}
-              <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+              <div className="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h3 className="font-semibold text-gray-900">
                     Dr. {selectedDoctor.name} - {selectedDoctor.specialization}
@@ -560,8 +571,7 @@ export default function AvailabilityPage() {
                           {availability.bookedSlots.map((slot) => (
                             <div
                               key={slot.time}
-                              className="flex items-center justify-between p-4 bg-orange-50 rounded-xl border border-orange-200"
-                            >
+                              className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-orange-50 rounded-xl border border-orange-200 gap-3">
                               <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-2 text-orange-700">
                                   <Clock className="w-4 h-4" />

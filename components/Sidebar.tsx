@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bot, Calendar, CalendarCheck, CreditCard, LayoutDashboard, LogOut, Megaphone, PhoneCall, PlusCircle, Stethoscope, Users, X } from 'lucide-react';
+import { Bot, Calendar, CalendarCheck, CreditCard, FileText, LayoutDashboard, LogOut, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Stethoscope, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -53,6 +53,16 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     if (user?.selectedService === 'customer-support') {
       serviceItems.push({ name: 'Support Campaigns', href: '/dashboard/customer-support-campaigns', icon: Megaphone });
       serviceItems.push({ name: 'AI Agents', href: '/dashboard/agents', icon: Bot });
+    }
+    if (user?.selectedService === 'healthiqure') {
+      serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
+      serviceItems.push({ name: 'Book Appointment', href: '/dashboard/book-appointment', icon: PlusCircle });
+      serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
+      serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
+      serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/bot-sessions', icon: MessageSquare });
+      serviceItems.push({ name: 'Bot Documents', href: '/dashboard/bot-documents', icon: FileText });
+      serviceItems.push({ name: 'Bot Leads', href: '/dashboard/bot-leads', icon: Users });
+      serviceItems.push({ name: 'Patient Contacts', href: '/dashboard/bot-contacts', icon: Send });
     }
     return serviceItems;
   };

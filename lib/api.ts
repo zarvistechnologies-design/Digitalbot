@@ -320,4 +320,148 @@ export const calendarAPI = {
     api.get(`/calendar/sync/${doctorId}/${date}`),
 };
 
+// ========================================
+// HEALTHIQURE BOT API
+// ========================================
+export const healthiqureAPI = {
+  // Get all bot sessions
+  getSessions: (params?: {
+    state?: string;
+    location?: string;
+    service?: string;
+    page?: number;
+    limit?: number;
+  }) => api.get('/healthiqure/sessions', { params }),
+
+  // Get single session by phone
+  getSession: (phone: string) => api.get(`/healthiqure/sessions/${phone}`),
+
+  // Get sessions with documents (mediaUrls)
+  getDocuments: (params?: {
+    location?: string;
+    service?: string;
+    page?: number;
+    limit?: number;
+  }) => api.get('/healthiqure/sessions/documents/all', { params }),
+
+  // Fetch media blob from backend proxy (uses Authorization header via axios interceptor)
+  getMediaBlob: (mediaId: string) =>
+    api.get(`/healthiqure/media/${encodeURIComponent(mediaId)}`, { responseType: 'blob' }),
+
+  // Get bot analytics/stats
+  getAnalytics: (params?: {
+    days?: number;
+  }) => api.get('/healthiqure/analytics', { params }),
+
+  // Send confirmation — Doctor consultation
+  confirmAppointment: (data: {
+    phone: string;
+    doctorName: string;
+    date: string;
+    time: string;
+    consultationType?: string;
+    videoCallNumber?: string;
+    location?: string;
+  }) => api.post('/healthiqure/confirm-appointment', data),
+
+  // Send confirmation — Pharmacy ready
+  confirmPharmacy: (data: { phone: string }) =>
+    api.post('/healthiqure/pharmacy-ready', data),
+
+  // Send confirmation — Lab test
+  confirmLab: (data: {
+    phone: string;
+    date: string;
+    time: string;
+    location?: string;
+  }) => api.post('/healthiqure/confirm-lab', data),
+
+  // Send confirmation — ECG
+  confirmEcg: (data: {
+    phone: string;
+    date: string;
+    time: string;
+    location?: string;
+  }) => api.post('/healthiqure/confirm-ecg', data),
+
+  // Send confirmation — Ultrasound
+  confirmUltrasound: (data: {
+    phone: string;
+    date: string;
+    time: string;
+    ultrasoundType?: string;
+    location?: string;
+  }) => api.post('/healthiqure/confirm-ultrasound', data),
+
+  // Send confirmation — Skin
+  confirmSkin: (data: {
+    phone: string;
+    date: string;
+    time: string;
+    location?: string;
+  }) => api.post('/healthiqure/confirm-skin', data),
+
+  // Send confirmation — Hospital admission
+  confirmHospital: (data: {
+    phone: string;
+    registrationNo?: string;
+    hospitalName: string;
+    hospitalAddress?: string;
+    contactPerson?: string;
+    contactNumber?: string;
+    attendingDoctor?: string;
+    spocNumber?: string;
+  }) => api.post('/healthiqure/confirm-hospital', data),
+
+  // Send confirmation — Partner location
+  confirmPartner: (data: {
+    phone: string;
+    service?: string;
+    locationName: string;
+    address?: string;
+    contactPerson?: string;
+    date: string;
+    time: string;
+  }) => api.post('/healthiqure/confirm-partner', data),
+
+  // Send custom message
+  sendMessage: (data: {
+    phone: string;
+    message: string;
+  }) => api.post('/healthiqure/send-message', data),
+
+  // Reset session
+  resetSession: (phone: string) => api.post('/healthiqure/reset-session', { phone }),
+
+  // Get bot leads (sessions with service selected)
+  getLeads: (params?: {
+    location?: string;
+    service?: string;
+    status?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+    sort?: string;
+    order?: string;
+  }) => api.get('/healthiqure/leads', { params }),
+
+  // Mark lead as contacted (supports historyId for archived queries)
+  markContacted: (phone: string, historyId?: string) =>
+    api.patch(`/healthiqure/leads/${phone}/contacted${historyId ? `?historyId=${historyId}` : ''}`),
+
+  // Send bulk message to multiple recipients
+  sendBulkMessage: (data: {
+    phones: string[];
+    message: string;
+  }) => api.post('/healthiqure/send-bulk-message', data),
+
+  // Get notification numbers
+  getNotificationNumbers: () =>
+    api.get('/healthiqure/notification-numbers'),
+
+  // Update notification numbers
+  setNotificationNumbers: (numbers: string[]) =>
+    api.put('/healthiqure/notification-numbers', { numbers }),
+};
+
 export default api;

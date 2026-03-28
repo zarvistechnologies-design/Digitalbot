@@ -12,6 +12,7 @@ import {
   Clock,
   FileText,
   HeartPulse,
+  Menu,
   Phone,
   RefreshCw,
   Search,
@@ -141,12 +142,12 @@ function AppointmentModal({
   const headerClass = `bg-gradient-to-r ${gradientMap[color as keyof typeof gradientMap]} p-6 flex justify-between items-center`;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className={headerClass}>
           <div>
-            <h2 className="text-3xl font-bold text-white mb-2">Appointment Details</h2>
+            <h2 className="text-xl sm:text-3xl font-bold text-white mb-2">Appointment Details</h2>
             {apt.source === "millis_ai_auto" && (
               <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full w-fit">
                 <Zap className="w-4 h-4" />
@@ -160,7 +161,7 @@ function AppointmentModal({
         </div>
 
         {/* Content */}
-        <div className="p-8 space-y-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+        <div className="p-4 sm:p-8 space-y-4 sm:space-y-6 overflow-y-auto max-h-[calc(95vh-200px)] sm:max-h-[calc(90vh-200px)]">
           {/* AI Analysis Section */}
           {apt.source === "millis_ai_auto" && apt.metadata && (
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-6">
@@ -168,7 +169,7 @@ function AppointmentModal({
                 <Zap className="w-6 h-6" />
                 AI Analysis Details
               </h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {apt.metadata.confidence_score && (
                   <div className="bg-white p-4 rounded-xl">
                     <p className="text-sm text-purple-700 font-semibold mb-1">Confidence Score</p>
@@ -207,14 +208,14 @@ function AppointmentModal({
               <User className="w-6 h-6 text-orange-600" />
               Patient Information
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600 font-semibold mb-1">Full Name</p>
-                <p className="text-xl font-bold text-gray-900">{apt.name}</p>
+                <p className="text-lg sm:text-xl font-bold text-gray-900">{apt.name}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600 font-semibold mb-1">Phone Number</p>
-                <p className="text-xl font-bold text-gray-900">{apt.phone}</p>
+                <p className="text-lg sm:text-xl font-bold text-gray-900">{apt.phone}</p>
               </div>
               {apt.email && (
                 <div className="col-span-2">
@@ -241,7 +242,7 @@ function AppointmentModal({
                   <p className="text-2xl font-bold text-green-900">Dr. {apt.metadata.doctor_name}</p>
                 </div>
               )}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded-xl border-2 border-gray-200">
                   <p className="text-sm text-gray-600 font-semibold mb-1">Date</p>
                   <p className="text-lg font-bold text-gray-900" suppressHydrationWarning>
@@ -498,7 +499,7 @@ function AppointmentModal({
         </div>
 
         {/* Footer */}
-        <div className="p-6 bg-gray-50 border-t-2 border-gray-200 flex justify-end">
+        <div className="p-4 sm:p-6 bg-gray-50 border-t-2 border-gray-200 flex justify-end">
           <button
             onClick={onClose}
             className="px-8 py-3 bg-gray-700 hover:bg-gray-800 text-white rounded-xl font-bold transition shadow-md hover:shadow-lg"
@@ -737,8 +738,8 @@ export default function AppointmentsPage() {
   if (!mounted) {
     return (
       <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-purple-50">
-        <div className="w-64 bg-gray-900"></div>
-        <main className="flex-1 ml-64"></main>
+        <div className="hidden lg:block w-64 bg-gray-900"></div>
+        <main className="flex-1 lg:ml-64"></main>
       </div>
     );
   }
@@ -747,38 +748,61 @@ export default function AppointmentsPage() {
   if (!selectedDoctor) {
     return (
       <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-purple-50">
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-xl shadow-lg border border-gray-200"
+        >
+          {sidebarOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
+        </button>
 
-        <main className="flex-1 ml-64 p-8">
+        {/* Mobile Sidebar Overlay */}
+        {sidebarOpen && (
+          <div
+            className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <div className="w-64 h-full" onClick={(e) => e.stopPropagation()}>
+              <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            </div>
+          </div>
+        )}
+
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block">
+          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        </div>
+
+        <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 pt-20 lg:pt-8">
           <div className="max-w-[1400px] mx-auto space-y-8">
             {/* Hospital Header */}
             <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-600 via-purple-600 to-pink-500 opacity-90"></div>
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20"></div>
 
-              <div className="relative z-10 p-8">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-5">
-                    <div className="bg-white/20 backdrop-blur-md p-5 rounded-2xl border border-white/30 shadow-xl">
-                      <Building2 className="w-12 h-12 text-white" />
+              <div className="relative z-10 p-4 sm:p-6 md:p-8">
+                <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                  <div className="flex items-start gap-3 sm:gap-5">
+                    <div className="bg-white/20 backdrop-blur-md p-3 sm:p-5 rounded-2xl border border-white/30 shadow-xl">
+                      <Building2 className="w-8 h-8 sm:w-12 sm:h-12 text-white" />
                     </div>
                     <div>
-                      <h1 className="text-4xl font-bold text-white tracking-tight mb-2">{clinicName}</h1>
-                      <p className="text-orange-100 text-lg font-medium mb-4">
+                      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">{clinicName}</h1>
+                      <p className="text-orange-100 text-sm sm:text-lg font-medium mb-4">
                         Advanced Appointment Management System
                       </p>
-                      <div className="flex flex-wrap gap-3">
-                        <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/30">
-                          <div className="text-white/80 text-xs font-medium mb-0.5">Total Appointments</div>
-                          <div className="text-white text-2xl font-bold">{appointments.length}</div>
+                      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3">
+                        <div className="bg-white/20 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border border-white/30">
+                          <div className="text-white/80 text-[10px] sm:text-xs font-medium mb-0.5">Total Appointments</div>
+                          <div className="text-white text-lg sm:text-2xl font-bold">{appointments.length}</div>
                         </div>
-                        <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/30">
-                          <div className="text-white/80 text-xs font-medium mb-0.5">Active Doctors</div>
-                          <div className="text-white text-2xl font-bold">{doctors.length}</div>
+                        <div className="bg-white/20 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border border-white/30">
+                          <div className="text-white/80 text-[10px] sm:text-xs font-medium mb-0.5">Active Doctors</div>
+                          <div className="text-white text-lg sm:text-2xl font-bold">{doctors.length}</div>
                         </div>
-                        <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/30">
-                          <div className="text-white/80 text-xs font-medium mb-0.5">Today's Schedule</div>
-                          <div className="text-white text-2xl font-bold">
+                        <div className="bg-white/20 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border border-white/30">
+                          <div className="text-white/80 text-[10px] sm:text-xs font-medium mb-0.5">Today's Schedule</div>
+                          <div className="text-white text-lg sm:text-2xl font-bold">
                             {
                               appointments.filter(
                                 (a) => new Date(a.date).toDateString() === new Date().toDateString()
@@ -786,9 +810,9 @@ export default function AppointmentsPage() {
                             }
                           </div>
                         </div>
-                        <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/30">
-                          <div className="text-white/80 text-xs font-medium mb-0.5">AI Auto-Created</div>
-                          <div className="text-white text-2xl font-bold flex items-center gap-1">
+                        <div className="bg-white/20 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border border-white/30">
+                          <div className="text-white/80 text-[10px] sm:text-xs font-medium mb-0.5">AI Auto-Created</div>
+                          <div className="text-white text-lg sm:text-2xl font-bold flex items-center gap-1">
                             <Zap className="w-5 h-5" />
                             {appointments.filter((a) => a.source === "millis_ai_auto").length}
                           </div>
@@ -917,9 +941,32 @@ export default function AppointmentsPage() {
   // ==================== DOCTOR'S APPOINTMENT VIEW ====================
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-purple-50">
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-xl shadow-lg border border-gray-200"
+      >
+        {sidebarOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
+      </button>
 
-      <main className="flex-1 ml-64 p-8">
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setSidebarOpen(false)}
+        >
+          <div className="w-64 h-full" onClick={(e) => e.stopPropagation()}>
+            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block">
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      </div>
+
+      <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 pt-20 lg:pt-8">
         <div className="max-w-[1600px] mx-auto space-y-6">
           {/* Back Button & Doctor Header */}
           <div className="flex items-center gap-4">
@@ -936,14 +983,14 @@ export default function AppointmentsPage() {
           </div>
 
           {/* Doctor Info Header */}
-          <div className="bg-gradient-to-r from-orange-600 to-purple-600 rounded-2xl shadow-xl p-6 text-white">
-            <div className="flex items-center gap-4">
-              <div className="bg-white/20 backdrop-blur-sm p-4 rounded-xl">
-                <Stethoscope className="w-10 h-10" />
+          <div className="bg-gradient-to-r from-orange-600 to-purple-600 rounded-2xl shadow-xl p-4 sm:p-6 text-white">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="bg-white/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl">
+                <Stethoscope className="w-7 h-7 sm:w-10 sm:h-10" />
               </div>
               <div className="flex-1">
-                <h1 className="text-3xl font-bold">Dr. {selectedDoctor}</h1>
-                <p className="text-orange-100 mt-1">
+                <h1 className="text-xl sm:text-3xl font-bold">Dr. {selectedDoctor}</h1>
+                <p className="text-orange-100 mt-1 text-sm sm:text-base">
                   {selectedDate
                     ? `Viewing appointments for ${new Date(selectedDate).toLocaleDateString("en-US", {
                         weekday: "long",
@@ -955,19 +1002,19 @@ export default function AppointmentsPage() {
                   • {filteredAppointments.length} total
                 </p>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 {selectedDate && (
                   <button
                     onClick={() => setSelectedDate(null)}
-                    className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl transition backdrop-blur-sm font-semibold"
+                    className="px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl transition backdrop-blur-sm font-semibold text-sm sm:text-base"
                   >
-                    Clear Date Filter
+                    Clear Date
                   </button>
                 )}
                 <button
                   onClick={fetchAppointments}
                   disabled={loading}
-                  className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl transition backdrop-blur-sm disabled:opacity-50"
+                  className="px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl transition backdrop-blur-sm disabled:opacity-50"
                 >
                   <RefreshCw className={`w-5 h-5 ${loading ? "animate-spin" : ""}`} />
                 </button>
@@ -1056,9 +1103,9 @@ export default function AppointmentsPage() {
             <div className="lg:col-span-8 xl:col-span-9">
               <div className="bg-white rounded-2xl shadow-xl border border-gray-100">
                 {/* Search & Filters */}
-                <div className="p-6 border-b border-gray-200 bg-gray-50">
-                  <div className="flex flex-wrap gap-3">
-                    <div className="flex-1 min-w-[200px] relative">
+                <div className="p-4 sm:p-6 border-b border-gray-200 bg-gray-50">
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                    <div className="flex-1 min-w-[160px] sm:min-w-[200px] relative">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="text"
@@ -1114,7 +1161,7 @@ export default function AppointmentsPage() {
                 </div>
 
                 {/* Appointments List */}
-                <div className="p-6 space-y-4 max-h-[calc(100vh-400px)] overflow-y-auto">
+                <div className="p-4 sm:p-6 space-y-4 max-h-[calc(100vh-400px)] overflow-y-auto">
                   {loading ? (
                     <div className="flex justify-center items-center py-20">
                       <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600"></div>
