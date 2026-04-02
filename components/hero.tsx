@@ -2,7 +2,7 @@
 import PlatformFeatures from "@/components/platform-features";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Award, BarChart3, Briefcase, Building2, Calendar, Car, CheckCircle, Clock, Dumbbell, Globe, GraduationCap, Headphones, Home, LayoutDashboard, Megaphone, MessageSquare, Mic, Package, PhoneCall, Pill, Shield, ShoppingCart, Stethoscope, TrendingUp, Truck, Users, Zap } from "lucide-react";
+import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, Mic, PhoneCall, Shield, TrendingUp, Users, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
 
@@ -451,7 +451,7 @@ function DashboardShowcase() {
                                                 return (
                                                 <div key={i} className="flex-1 flex flex-col items-stretch justify-end">
                                                     <div
-                                                        className="rounded-t-xl bg-slate-900 shadow-sm"
+                                                        className="rounded-t-xl bg-gradient-to-t from-orange-500 to-orange-400 shadow-sm"
                                                         style={{ height: `${Math.round((val / maxChart) * 170)}px`, minWidth: '24px' }}
                                                     />
                                                     <span className="text-[7px] sm:text-[8px] text-slate-400 text-center mt-1.5">{9 + i}am</span>
@@ -1750,65 +1750,6 @@ export default function Hero() {
                                 <div className="absolute bottom-0 left-0 right-0 p-4">
                                     <h3 className="text-base font-bold text-white drop-shadow-lg">{service.title}</h3>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Industries We Serve */}
-            <section className="py-20 sm:py-28 bg-white relative overflow-hidden">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <div className="inline-flex items-center gap-2 bg-white border border-orange-100 px-4 py-2 rounded-full shadow-sm mb-5">
-                            <Globe className="h-4 w-4 text-orange-500" />
-                            <span className="text-xs font-semibold tracking-wide text-slate-600 uppercase">24+ Industries</span>
-                        </div>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-5">
-                            One AI Platform,{' '}
-                            <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Every Industry</span>
-                        </h2>
-                        <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-                            From healthcare to e-commerce, our voice AI and chatbots understand your domain and speak your customers&apos; language
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
-                        {[
-                            { name: 'Car Dealership', icon: Car, gradient: 'from-emerald-500 to-green-600' },
-                            { name: 'Travel', icon: Globe, gradient: 'from-pink-500 to-rose-600' },
-                            { name: 'SaaS', icon: Zap, gradient: 'from-violet-500 to-purple-600' },
-                            { name: 'Mortgage', icon: Home, gradient: 'from-sky-500 to-blue-600' },
-                            { name: 'Banking', icon: Building2, gradient: 'from-amber-500 to-yellow-600' },
-                            { name: 'Insurance', icon: Shield, gradient: 'from-blue-500 to-indigo-600' },
-                            { name: 'Construction', icon: Truck, gradient: 'from-orange-500 to-amber-600' },
-                            { name: 'Events', icon: Calendar, gradient: 'from-purple-500 to-violet-600' },
-                            { name: 'Call Centre', icon: Headphones, gradient: 'from-red-500 to-rose-600' },
-                            { name: 'Education', icon: GraduationCap, gradient: 'from-cyan-500 to-teal-600' },
-                            { name: 'Fitness', icon: Dumbbell, gradient: 'from-rose-500 to-pink-600' },
-                            { name: 'Healthcare', icon: Stethoscope, gradient: 'from-teal-500 to-emerald-600' },
-                            { name: 'Retail', icon: ShoppingCart, gradient: 'from-orange-500 to-red-500' },
-                            { name: 'Financial Services', icon: TrendingUp, gradient: 'from-indigo-500 to-blue-600' },
-                            { name: 'Coaching', icon: Award, gradient: 'from-violet-500 to-fuchsia-600' },
-                            { name: 'Consulting', icon: Briefcase, gradient: 'from-emerald-500 to-teal-600' },
-                            { name: 'Accounting & Legal', icon: BarChart3, gradient: 'from-amber-500 to-orange-600' },
-                            { name: 'IT Services', icon: Globe, gradient: 'from-sky-500 to-cyan-600' },
-                            { name: 'Recruitment', icon: Users, gradient: 'from-blue-500 to-violet-600' },
-                            { name: 'Pharmaceuticals', icon: Pill, gradient: 'from-pink-500 to-fuchsia-600' },
-                            { name: 'E-commerce', icon: Package, gradient: 'from-red-500 to-orange-500' },
-                            { name: 'Automobile', icon: Car, gradient: 'from-slate-500 to-gray-600' },
-                            { name: 'Real Estate', icon: Home, gradient: 'from-green-500 to-emerald-600' },
-                            { name: 'Marketing', icon: Megaphone, gradient: 'from-fuchsia-500 to-pink-600' },
-                        ].map((industry, i) => (
-                            <div
-                                key={i}
-                                className={`group relative rounded-2xl bg-gradient-to-br ${industry.gradient} p-5 sm:p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden`}
-                            >
-                                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, rgba(255,255,255,0.4) 0%, transparent 50%)' }} />
-                                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                                    <industry.icon className="h-6 w-6 text-white" />
-                                </div>
-                                <p className="text-[15px] font-semibold text-white">{industry.name}</p>
                             </div>
                         ))}
                     </div>

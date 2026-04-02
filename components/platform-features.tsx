@@ -363,8 +363,8 @@ export default function PlatformFeatures() {
         {/* Header */}
         <div className="text-center mb-16">
           <p className="text-orange-500 font-bold text-sm tracking-widest uppercase mb-3">Our Platform</p>
-          <h2 className="text-3xl md:text-5xl font-black text-gray-900 leading-[1.1] mb-4">
-            Everything you need,<br />
+          <h2 className="text-3xl md:text-5xl font-black leading-[1.1] mb-4">
+            <span className="text-gray-900">Everything you need,</span><br />
             <span className="text-orange-500">one powerful platform</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-xl mx-auto">
@@ -410,7 +410,7 @@ export default function PlatformFeatures() {
           </button>
 
           {/* Main content card */}
-          <div className={`rounded-3xl border ${active.colorBorder} bg-gradient-to-br from-white to-gray-50 p-8 md:p-12 lg:p-14`}>
+          <div className={`rounded-3xl border-2 border-gray-900 bg-gradient-to-br from-white to-gray-50 p-8 md:p-12 lg:p-14`}>
 
             {/* Top: badge + tagline + counter */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
