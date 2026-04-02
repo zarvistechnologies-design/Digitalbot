@@ -33,7 +33,7 @@ export default function Home() {
         <TestimonialCarousel />
      
         {/* Voice Search Optimized Q&A - Clean Card Design */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-50 via-white to-orange-100/30 relative overflow-hidden" role="region" aria-labelledby="voice-search-qa">
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden" role="region" aria-labelledby="voice-search-qa">
           {/* CSS Animations */}
           <style dangerouslySetInnerHTML={{
             __html: `
@@ -48,6 +48,8 @@ export default function Home() {
             .qa-card {
               opacity: 0;
               animation: fadeSlideUp 0.6s ease-out forwards;
+              background: #ffffff !important;
+              border-color: rgb(229 231 235) !important;
             }
             .qa-card:nth-child(1) { animation-delay: 0.1s; }
             .qa-card:nth-child(2) { animation-delay: 0.2s; }
@@ -58,11 +60,7 @@ export default function Home() {
             }
           `}} />
 
-          {/* Subtle Background Elements */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-100/40 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-200/30 rounded-full blur-3xl"></div>
-          </div>
+          <div className="absolute inset-0 bg-white pointer-events-none" aria-hidden="true"></div>
 
           <div className="container mx-auto max-w-6xl relative z-10">
             {/* Header */}
@@ -388,7 +386,7 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-orange-50/50 via-white to-orange-50/30 relative" role="region" aria-labelledby="faq-section">
+        <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-white relative" role="region" aria-labelledby="faq-section">
           <div className="container mx-auto max-w-6xl relative z-10">
 
             {/* Section Heading - Top Center */}

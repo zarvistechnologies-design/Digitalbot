@@ -17,9 +17,8 @@ export function CTA() {
   ]
 
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-[#fafbff] via-white to-white">
-      {/* Background decorations */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-orange-100/40 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+    <section className="relative py-20 overflow-hidden bg-white">
+      <div className="absolute inset-0 bg-white" aria-hidden="true"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
         
@@ -45,8 +44,7 @@ export function CTA() {
           
           {/* Left Side - Image */}
           <div className="relative flex items-center justify-center lg:justify-start">
-            {/* Orange background shape */}
-            <div className="absolute bottom-0 left-1/2 lg:left-[40%] -translate-x-1/2 w-[75%] h-[55%] bg-gradient-to-t from-orange-200/80 via-orange-100/60 to-orange-50/30 rounded-[50px]"></div>
+            <div className="absolute bottom-0 left-1/2 lg:left-[40%] -translate-x-1/2 w-[75%] h-[55%] bg-white rounded-[50px]"></div>
             <div className="relative w-full max-w-md lg:max-w-none">
               <img
                 src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/stat_heubsl"

@@ -1,10 +1,8 @@
 "use client"
-import { Lead } from "@/components/lead";
 import PlatformFeatures from "@/components/platform-features";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, Mic, Phone, PhoneCall, Shield, TrendingUp, Users, Zap } from "lucide-react";
-import Image from "next/image";
+import { ArrowRight, Award, BarChart3, Briefcase, Building2, Calendar, Car, CheckCircle, Clock, Dumbbell, Globe, GraduationCap, Headphones, Home, LayoutDashboard, Megaphone, MessageSquare, Mic, Package, PhoneCall, Pill, Shield, ShoppingCart, Stethoscope, TrendingUp, Truck, Users, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
 
@@ -15,7 +13,7 @@ const services = [
     {
         title: "Doctor Appointments",
         subtitle: "24/7 AI-Powered Medical Scheduling",
-        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/doctor_appointment_i73m9a",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:16a34a/doctor_appointment_i73m9a",
         desc: "Never miss a patient again. Our AI voice agent handles appointment booking, rescheduling, and confirmations around the clock—with perfect accuracy and a warm, human touch.",
         color: "from-blue-500 to-red-500",
         stat: "95%",
@@ -32,7 +30,7 @@ const services = [
     {
         title: "Lead Generation",
         subtitle: "Automated Outbound Sales Machine",
-        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/lead_generation_qas7wm",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:2563eb/lead_generation_qas7wm",
         desc: "Scale your sales pipeline effortlessly. Our AI makes thousands of outbound calls daily, qualifying leads and booking meetings while your team focuses on closing.",
         color: "from-blue-500 to-purple-500",
         stat: "3x",
@@ -48,7 +46,7 @@ const services = [
     {
         title: "Customer Care Agent",
         subtitle: "Empathetic Support That Never Sleeps",
-        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/customercareagent_k6wqe8",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:38bdf8/customercareagent_k6wqe8",
         desc: "Delight customers with instant, empathetic support. Our AI resolves issues on the first call, escalates complex cases smartly, and keeps your CSAT scores soaring.",
         color: "from-teal-500 to-blue-500",
         stat: "90%",
@@ -64,7 +62,7 @@ const services = [
     {
         title: "Voicebot Integration",
         subtitle: "Seamlessly Connect AI Voice to Your Systems",
-        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/voicebot_integaration_pjlorx",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:94a3b8/voicebot_integaration_pjlorx",
         desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
         color: "from-cyan-500 to-blue-600",
         stat: "50+",
@@ -80,7 +78,7 @@ const services = [
     {
         title: "AI Call Center",
         subtitle: "Enterprise-Grade Communication Hub",
-        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/ai_call_center_kalt8q",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:7c3aed/ai_call_center_kalt8q",
         desc: "Transform your entire call center operation. Handle unlimited concurrent calls with intelligent routing, real-time analytics, and seamless human handoff when needed.",
         color: "from-purple-500 to-indigo-500",
         stat: "∞",
@@ -95,6 +93,420 @@ const services = [
     },
 ];
 
+// Dashboard data for each service
+const dashboardTabs = [
+    {
+        id: 'general',
+        label: 'General Dashboard',
+        icon: LayoutDashboard,
+        assistantName: 'AI Voice Assistant',
+        assistantId: 'ID:98234567',
+        mobNumber: '+1 470 504 3155',
+        stats: [
+            { label: 'Total Calls', value: '8,420', icon: PhoneCall, color: 'text-orange-500' },
+            { label: 'Avg. Call Duration', value: '3.2m', icon: Clock, color: 'text-blue-500' },
+            { label: 'Total Minute Use', value: '26,944m', icon: BarChart3, color: 'text-purple-500' },
+        ],
+        chartData: [45, 72, 58, 83, 67, 91, 76, 88, 95, 80],
+        donutPercent: 91,
+        donutStats: [
+            { label: 'Total Calls', value: '8,420 calls', color: 'bg-emerald-500' },
+            { label: 'Total minute use', value: '26,944 min', color: 'bg-orange-400' },
+            { label: 'Avg. call duration', value: '3.2 min', color: 'bg-blue-500' },
+        ],
+        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Deployment', 'Calls'],
+    },
+    {
+        id: 'doctor',
+        label: 'Doctor Appointments',
+        icon: Calendar,
+        assistantName: 'Dr. Appointment Bot',
+        assistantId: 'ID:23569842',
+        mobNumber: '+1 470 504 3155',
+        stats: [
+            { label: 'Appointments', value: '1,425', icon: Calendar, color: 'text-blue-500' },
+            { label: 'Avg. Call Duration', value: '3.1m', icon: Clock, color: 'text-emerald-500' },
+            { label: 'Total Minute Use', value: '4,856m', icon: BarChart3, color: 'text-purple-500' },
+        ],
+        chartData: [38, 62, 45, 78, 55, 85, 70, 60, 90, 73],
+        donutPercent: 84,
+        donutStats: [
+            { label: 'Total Calls', value: '1,425 calls', color: 'bg-emerald-500' },
+            { label: 'Total minute use', value: '4,856 min', color: 'bg-orange-400' },
+            { label: 'Avg. call duration', value: '3,145 min', color: 'bg-blue-500' },
+        ],
+        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Deployment', 'Calls'],
+    },
+    {
+        id: 'leads',
+        label: 'Lead Generation',
+        icon: TrendingUp,
+        assistantName: 'Lead Gen Assistant',
+        assistantId: 'ID:45782310',
+        mobNumber: '+1 470 504 3155',
+        stats: [
+            { label: 'Leads Captured', value: '3,210', icon: Users, color: 'text-orange-500' },
+            { label: 'Conversion Rate', value: '34%', icon: TrendingUp, color: 'text-emerald-500' },
+            { label: 'Calls Made', value: '9,630m', icon: PhoneCall, color: 'text-blue-500' },
+        ],
+        chartData: [52, 40, 68, 55, 82, 63, 75, 90, 48, 86],
+        donutPercent: 78,
+        donutStats: [
+            { label: 'Qualified Leads', value: '2,504 leads', color: 'bg-emerald-500' },
+            { label: 'Follow ups', value: '706 pending', color: 'bg-orange-400' },
+            { label: 'Conversion rate', value: '34%', color: 'bg-blue-500' },
+        ],
+        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Campaigns', 'Leads'],
+    },
+    {
+        id: 'support',
+        label: 'Customer Support',
+        icon: Headphones,
+        assistantName: 'Support Assistant',
+        assistantId: 'ID:67891234',
+        mobNumber: '+1 470 504 3155',
+        stats: [
+            { label: 'Tickets Resolved', value: '5,840', icon: CheckCircle, color: 'text-emerald-500' },
+            { label: 'Avg. Resolution', value: '2.8m', icon: Clock, color: 'text-blue-500' },
+            { label: 'Satisfaction', value: '96%', icon: Award, color: 'text-orange-500' },
+        ],
+        chartData: [60, 78, 52, 88, 70, 95, 65, 82, 73, 90],
+        donutPercent: 96,
+        donutStats: [
+            { label: 'Resolved', value: '5,840 tickets', color: 'bg-emerald-500' },
+            { label: 'Escalated', value: '243 tickets', color: 'bg-orange-400' },
+            { label: 'Avg. resolution', value: '2.8 min', color: 'bg-blue-500' },
+        ],
+        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Tickets', 'Reports'],
+    },
+    {
+        id: 'whatsapp',
+        label: 'WhatsApp Chatbot',
+        icon: MessageSquare,
+        assistantName: 'WhatsApp Bot',
+        assistantId: 'ID:88901256',
+        mobNumber: '+1 470 504 3155',
+        stats: [
+            { label: 'Messages Sent', value: '24,300', icon: MessageSquare, color: 'text-emerald-500' },
+            { label: 'Active Chats', value: '1,840', icon: Users, color: 'text-blue-500' },
+            { label: 'Response Rate', value: '99.2%', icon: Zap, color: 'text-orange-500' },
+        ],
+        chartData: [55, 82, 68, 92, 75, 88, 60, 95, 78, 85],
+        donutPercent: 94,
+        donutStats: [
+            { label: 'Auto-resolved', value: '22,842 chats', color: 'bg-emerald-500' },
+            { label: 'Escalated', value: '1,458 chats', color: 'bg-orange-400' },
+            { label: 'Avg. response', value: '< 3 sec', color: 'bg-blue-500' },
+        ],
+        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Chats', 'Contacts'],
+        whatsappChat: [
+            { from: 'user', text: 'Hi, I want to book an appointment with Dr. Sharma for tomorrow.', time: '10:32 AM' },
+            { from: 'bot', text: 'Hello! 👋 I\'d be happy to help you book an appointment with Dr. Sharma. Let me check tomorrow\'s availability for you.', time: '10:32 AM' },
+            { from: 'bot', text: 'Dr. Sharma has the following slots available tomorrow:\n\n🕐 9:00 AM\n🕐 11:30 AM\n🕐 2:00 PM\n🕐 4:30 PM\n\nWhich time works best for you?', time: '10:32 AM' },
+            { from: 'user', text: 'The 11:30 AM slot please', time: '10:33 AM' },
+            { from: 'bot', text: 'Your appointment has been confirmed! ✅\n\n📋 Dr. Sharma\n📅 Tomorrow, 11:30 AM\n📍 City Health Clinic, Room 204\n\nYou\'ll receive an SMS reminder 1 hour before. Is there anything else I can help with?', time: '10:33 AM' },
+            { from: 'user', text: 'No that\'s all, thank you!', time: '10:34 AM' },
+            { from: 'bot', text: 'You\'re welcome! Have a great day! 😊', time: '10:34 AM' },
+        ],
+    },
+];
+
+const sidebarIcons: Record<string, any> = {
+    Dashboard: LayoutDashboard,
+    Configure: Shield,
+    Prompt: MessageSquare,
+    Actions: Zap,
+    Deployment: Globe,
+    Calls: PhoneCall,
+    Campaigns: TrendingUp,
+    Leads: Users,
+    Tickets: Headphones,
+    Reports: BarChart3,
+    Chats: MessageSquare,
+    Contacts: Users,
+};
+
+function DashboardShowcase() {
+    const [activeTab, setActiveTab] = useState(0);
+    const tab = dashboardTabs[activeTab];
+    const maxChart = Math.max(...tab.chartData);
+    const isWhatsApp = tab.id === 'whatsapp';
+
+    return (
+        <section className="pt-0 pb-16 sm:pb-20 bg-white relative overflow-hidden">
+            <style dangerouslySetInnerHTML={{ __html: `
+                @keyframes dash-fade-in { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+                @keyframes dash-scale { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
+                .dash-animate { animation: dash-fade-in 0.6s ease-out both; }
+                .dash-scale { animation: dash-scale 0.7s ease-out 0.2s both; }
+            `}} />
+
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                {/* Section header */}
+                <div className="text-center mb-10 sm:mb-14 dash-animate">
+                    <div className="inline-flex items-center gap-2 bg-white border border-orange-100 px-4 py-2 rounded-full shadow-sm mb-5">
+                        <LayoutDashboard className="h-4 w-4 text-orange-500" />
+                        <span className="text-xs font-semibold tracking-wide text-slate-600 uppercase">See Our Dashboard</span>
+                    </div>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                        One Platform, Every{' '}
+                        <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">AI Service</span>
+                    </h2>
+                    <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+                        Manage doctor appointments, lead generation, customer support, and more — all from a single, powerful dashboard.
+                    </p>
+                </div>
+
+                {/* Tab buttons */}
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 dash-animate" style={{ animationDelay: '0.15s' }}>
+                    {dashboardTabs.map((t, i) => (
+                        <button
+                            key={t.id}
+                            onClick={() => setActiveTab(i)}
+                            className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
+                                activeTab === i
+                                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/20'
+                                    : 'bg-white text-slate-600 border border-slate-200 hover:border-orange-200 hover:text-orange-600'
+                            }`}
+                        >
+                            <t.icon className="h-4 w-4" />
+                            <span className="hidden sm:inline">{t.label}</span>
+                        </button>
+                    ))}
+                </div>
+
+                {/* Dashboard mockup */}
+                <div className="dash-scale relative mx-auto max-w-6xl" key={tab.id}>
+                    {/* Tablet frame */}
+                    <div className="rounded-[24px] sm:rounded-[32px] border-[6px] sm:border-[8px] border-slate-800 bg-white shadow-[0_40px_100px_rgba(0,0,0,0.12)] overflow-hidden">
+
+                        {/* Dashboard content */}
+                        <div className="flex">
+                            {/* Sidebar */}
+                            <div className="hidden sm:flex flex-col w-[200px] lg:w-[220px] border-r border-slate-100 bg-slate-50/60 py-5 px-3">
+                                {/* Logo */}
+                                <div className="flex items-center gap-2 px-3 mb-5">
+                                    <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                                        <Zap className="h-4 w-4 text-white" />
+                                    </div>
+                                </div>
+
+                                {/* Assistant info */}
+                                <div className="bg-white rounded-xl border border-slate-100 p-3 mb-4">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <div className="h-6 w-6 rounded-lg bg-slate-100 flex items-center justify-center">
+                                            <tab.icon className="h-3.5 w-3.5 text-slate-500" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold text-slate-800 leading-tight">{tab.assistantName}</p>
+                                            <p className="text-[9px] text-slate-400">{tab.assistantId}</p>
+                                        </div>
+                                    </div>
+                                    <p className="text-[10px] text-slate-400 mt-1.5">Mob: {tab.mobNumber}</p>
+                                    <button className="mt-2 w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[10px] font-semibold py-1.5 rounded-lg">
+                                        <PhoneCall className="h-3 w-3" />
+                                        Test Assistant
+                                    </button>
+                                </div>
+
+                                {/* Nav items */}
+                                <nav className="space-y-0.5">
+                                    {tab.sidebarItems.map((item, i) => {
+                                        const Icon = sidebarIcons[item] || LayoutDashboard;
+                                        return (
+                                            <div key={item} className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                                                i === 0 ? 'bg-orange-50 text-orange-600' : 'text-slate-500 hover:bg-slate-100'
+                                            }`}>
+                                                <Icon className="h-3.5 w-3.5" />
+                                                {item}
+                                            </div>
+                                        );
+                                    })}
+                                </nav>
+                            </div>
+
+                            {/* Main content */}
+                            <div className="flex-1 p-4 sm:p-5 lg:p-6 overflow-hidden">
+                                {/* Header */}
+                                <div className="flex items-center justify-between mb-5">
+                                    <h3 className="text-base sm:text-lg font-bold text-slate-800">Dashboard</h3>
+                                    <div className="flex items-center gap-2">
+                                        <span className="px-2.5 py-1 rounded-md border border-slate-200 text-[10px] text-slate-500 font-medium">Type</span>
+                                        <span className="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                                            Live
+                                        </span>
+                                        <span className="px-2.5 py-1 rounded-md border border-slate-200 text-[10px] text-slate-500 font-medium">Last Week</span>
+                                    </div>
+                                </div>
+
+                                {/* Stat cards */}
+                                <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-5">
+                                    {tab.stats.map((stat, i) => (
+                                        <div key={i} className="rounded-xl border border-slate-100 bg-white p-3 sm:p-4 hover:shadow-md transition-shadow">
+                                            <div className="flex items-center gap-2 mb-1.5">
+                                                <div className={`h-7 w-7 rounded-lg bg-slate-50 flex items-center justify-center`}>
+                                                    <stat.icon className={`h-3.5 w-3.5 ${stat.color}`} />
+                                                </div>
+                                                <span className="text-[10px] sm:text-xs text-slate-400 font-medium">{stat.label}</span>
+                                            </div>
+                                            <p className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800">{stat.value}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Chart + Donut row OR WhatsApp Chat */}
+                                {isWhatsApp ? (
+                                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                                        {/* WhatsApp Chat */}
+                                        <div className="lg:col-span-3 rounded-xl border border-slate-100 bg-[#efeae2] overflow-hidden">
+                                            <div className="bg-[#075e54] px-4 py-3 flex items-center gap-3">
+                                                <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center">
+                                                    <MessageSquare className="h-4 w-4 text-white" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-semibold text-white">DigitalBot AI</p>
+                                                    <p className="text-[10px] text-emerald-200">online</p>
+                                                </div>
+                                                <div className="ml-auto flex items-center gap-3 text-white/80">
+                                                    <PhoneCall className="h-4 w-4" />
+                                                    <span className="text-[10px]">⋮</span>
+                                                </div>
+                                            </div>
+                                            <div className="p-3 space-y-2 max-h-[340px] sm:max-h-[400px] overflow-y-auto" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'200\' height=\'200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cdefs%3E%3Cpattern id=\'p\' width=\'20\' height=\'20\' patternUnits=\'userSpaceOnUse\'%3E%3Ccircle cx=\'10\' cy=\'10\' r=\'0.8\' fill=\'%23d5ccb9\' opacity=\'0.3\'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=\'200\' height=\'200\' fill=\'%23efeae2\'/%3E%3Crect width=\'200\' height=\'200\' fill=\'url(%23p)\'/%3E%3C/svg%3E")' }}>
+                                                {(tab as any).whatsappChat?.map((msg: any, i: number) => (
+                                                    <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                                        <div className={`max-w-[80%] rounded-xl px-3 py-2 shadow-sm ${
+                                                            msg.from === 'user'
+                                                                ? 'bg-[#dcf8c6] rounded-tr-none'
+                                                                : 'bg-white rounded-tl-none'
+                                                        }`}>
+                                                            <p className="text-[11px] sm:text-xs text-slate-800 whitespace-pre-line leading-relaxed">{msg.text}</p>
+                                                            <p className="text-[8px] sm:text-[9px] text-slate-400 text-right mt-0.5">{msg.time} {msg.from === 'user' ? '✓✓' : ''}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className="bg-white px-3 py-2 flex items-center gap-2 border-t border-slate-100">
+                                                <span className="text-slate-400 text-lg">😊</span>
+                                                <div className="flex-1 rounded-full bg-slate-50 border border-slate-100 px-3 py-1.5 text-[11px] text-slate-400">Type a message...</div>
+                                                <div className="h-7 w-7 rounded-full bg-[#075e54] flex items-center justify-center">
+                                                    <Mic className="h-3.5 w-3.5 text-white" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Donut chart */}
+                                        <div className="lg:col-span-2 rounded-xl border border-slate-100 bg-white p-4">
+                                            <p className="text-xs font-semibold text-slate-700 mb-3">Chat Analytics</p>
+                                            <div className="flex justify-center mb-3">
+                                                <div className="relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px]">
+                                                    <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                                                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f1f5f9" strokeWidth="3" />
+                                                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="#25d366" strokeWidth="3"
+                                                            strokeDasharray={`${tab.donutPercent} ${100 - tab.donutPercent}`} strokeLinecap="round" />
+                                                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="#075e54" strokeWidth="3"
+                                                            strokeDasharray={`${Math.round(tab.donutPercent * 0.35)} ${100 - Math.round(tab.donutPercent * 0.35)}`}
+                                                            strokeDashoffset={`-${tab.donutPercent}`} strokeLinecap="round" />
+                                                    </svg>
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                                        <span className="text-[8px] text-slate-400">Auto-resolved</span>
+                                                        <span className="text-lg font-bold text-slate-800">{tab.donutPercent}%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <div className="flex items-center justify-between text-[10px]">
+                                                    <span className="text-slate-500 font-medium">Status</span>
+                                                    <span className="text-slate-500 font-medium">Result</span>
+                                                </div>
+                                                {tab.donutStats.map((s, i) => (
+                                                    <div key={i} className="flex items-center justify-between text-[10px]">
+                                                        <span className="flex items-center gap-1.5">
+                                                            <span className={`w-2 h-2 rounded-full ${s.color}`} />
+                                                            <span className="text-slate-600">{s.label}</span>
+                                                        </span>
+                                                        <span className="font-semibold text-slate-700">{s.value}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                                    {/* Chart */}
+                                    <div className="lg:col-span-3 rounded-xl border border-slate-100 bg-white p-4">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div>
+                                                <p className="text-xs font-semibold text-slate-700">Total Call Analysis</p>
+                                                <p className="text-[10px] text-slate-400">{tab.stats[0].value}</p>
+                                            </div>
+                                            <span className="px-2.5 py-1 rounded-md border border-slate-200 text-[10px] text-slate-500 font-medium flex items-center gap-1">
+                                                Total Calls <span className="text-[8px]">▼</span>
+                                            </span>
+                                        </div>
+                                        {/* Bar chart */}
+                                        <div className="flex items-end gap-2 sm:gap-3 px-2" style={{ height: '200px' }}>
+                                            {tab.chartData.map((val, i) => {
+                                                return (
+                                                <div key={i} className="flex-1 flex flex-col items-stretch justify-end">
+                                                    <div
+                                                        className="rounded-t-xl bg-slate-900 shadow-sm"
+                                                        style={{ height: `${Math.round((val / maxChart) * 170)}px`, minWidth: '24px' }}
+                                                    />
+                                                    <span className="text-[7px] sm:text-[8px] text-slate-400 text-center mt-1.5">{9 + i}am</span>
+                                                </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Donut chart */}
+                                    <div className="lg:col-span-2 rounded-xl border border-slate-100 bg-white p-4">
+                                        <p className="text-xs font-semibold text-slate-700 mb-3">Total Calls</p>
+                                        <div className="flex justify-center mb-3">
+                                            <div className="relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px]">
+                                                <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                                                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f1f5f9" strokeWidth="3" />
+                                                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f59e0b" strokeWidth="3"
+                                                        strokeDasharray={`${tab.donutPercent} ${100 - tab.donutPercent}`} strokeLinecap="round" />
+                                                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#3b82f6" strokeWidth="3"
+                                                        strokeDasharray={`${Math.round(tab.donutPercent * 0.35)} ${100 - Math.round(tab.donutPercent * 0.35)}`}
+                                                        strokeDashoffset={`-${tab.donutPercent}`} strokeLinecap="round" />
+                                                </svg>
+                                                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                                    <span className="text-[8px] text-slate-400">Summary</span>
+                                                    <span className="text-lg font-bold text-slate-800">{tab.donutPercent}%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="flex items-center justify-between text-[10px]">
+                                                <span className="text-slate-500 font-medium">Status</span>
+                                                <span className="text-slate-500 font-medium">Result</span>
+                                            </div>
+                                            {tab.donutStats.map((s, i) => (
+                                                <div key={i} className="flex items-center justify-between text-[10px]">
+                                                    <span className="flex items-center gap-1.5">
+                                                        <span className={`w-2 h-2 rounded-full ${s.color}`} />
+                                                        <span className="text-slate-600">{s.label}</span>
+                                                    </span>
+                                                    <span className="font-semibold text-slate-700">{s.value}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
+
 export default function Hero() {
     const [counts, setCounts] = useState([0, 0, 0])
 
@@ -105,14 +517,8 @@ export default function Hero() {
     const [callStatus, setCallStatus] = useState('')
     const [vapiLoaded, setVapiLoaded] = useState(false)
 
-    // Ref for attractive scroll-story section
-    const storySectionRef = useRef<HTMLDivElement>(null)
-    
     // Ref for journey flowchart section
     const flowchartRef = useRef<HTMLDivElement>(null)
-
-    // Track active service for audio
-    const [activeService, setActiveService] = useState(0)
 
     // Fixed: Single mounted state to prevent hydration mismatch
     const [mounted, setMounted] = useState(false)
@@ -201,79 +607,6 @@ export default function Hero() {
             }
         }
     }
-
-    // GSAP pinned scroll showcase with ScrollTrigger
-    useEffect(() => {
-        if (!mounted || !storySectionRef.current) return;
-
-        const ctx = gsap.context(() => {
-            const illustrations = gsap.utils.toArray<HTMLElement>('.exo-illustration');
-            const contents = gsap.utils.toArray<HTMLElement>('.exo-content');
-
-            // Initial states - all hidden except first
-            illustrations.forEach((el, i) => {
-                gsap.set(el, {
-                    opacity: i === 0 ? 1 : 0,
-                    zIndex: i === 0 ? 10 : 1
-                });
-            });
-            contents.forEach((el, i) => {
-                gsap.set(el, {
-                    opacity: i === 0 ? 1 : 0,
-                    zIndex: i === 0 ? 10 : 1
-                });
-            });
-
-            // Floating animation for images using GSAP
-            illustrations.forEach((el) => {
-                const img = el.querySelector('img');
-                if (img) {
-                    gsap.to(img, {
-                        y: -12,
-                        duration: 3 + Math.random() * 2,
-                        ease: "sine.inOut",
-                        repeat: -1,
-                        yoyo: true,
-                    });
-                }
-            });
-
-            // ScrollTrigger for pinned scroll showcase
-            ScrollTrigger.create({
-                trigger: storySectionRef.current,
-                start: "top top",
-                end: `+=${services.length * 100}%`,
-                pin: true,
-                scrub: true,
-                onUpdate: (self) => {
-                    const progress = self.progress;
-                    const currentIndex = Math.min(
-                        Math.floor(progress * services.length),
-                        services.length - 1
-                    );
-
-                    setActiveService(currentIndex);
-
-                    illustrations.forEach((el, i) => {
-                        gsap.to(el, {
-                            opacity: i === currentIndex ? 1 : 0,
-                            duration: 0.3,
-                            zIndex: i === currentIndex ? 10 : 1,
-                        });
-                    });
-                    contents.forEach((el, i) => {
-                        gsap.to(el, {
-                            opacity: i === currentIndex ? 1 : 0,
-                            duration: 0.3,
-                            zIndex: i === currentIndex ? 10 : 1,
-                        });
-                    });
-                }
-            });
-        }, storySectionRef);
-
-        return () => ctx.revert();
-    }, [mounted]);
 
     // GSAP Journey Flowchart animation with ScrollTrigger
     useEffect(() => {
@@ -907,487 +1240,586 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-b from-orange-50/30 via-white to-orange-50/20" role="region" aria-labelledby="hero-heading">
+            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white" role="region" aria-labelledby="hero-heading">
 
-                {/* Animated Background Elements */}
-                {mounted && (
-                    <>
-                        {/* Floating Orbs */}
-                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                            <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/15 rounded-full blur-3xl animate-float"></div>
-                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-300/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/8 rounded-full blur-3xl animate-pulse-slow"></div>
-                        </div>
-                        
-                        {/* Animated Grid Pattern */}
-                        <div className="absolute inset-0 opacity-[0.08]" style={{
-                            backgroundImage: 'linear-gradient(to right, #94a3b8 1px, transparent 1px), linear-gradient(to bottom, #94a3b8 1px, transparent 1px)',
-                            backgroundSize: '60px 60px'
-                        }}></div>
-                        
-                        {/* Floating Particles */}
-                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                            {[...Array(20)].map((_, i) => (
-                                <div
-                                    key={i}
-                                    className="absolute w-2 h-2 bg-orange-400/20 rounded-full animate-float"
-                                    style={{
-                                        left: `${Math.random() * 100}%`,
-                                        top: `${Math.random() * 100}%`,
-                                        animationDelay: `${Math.random() * 5}s`,
-                                        animationDuration: `${3 + Math.random() * 4}s`
-                                    }}
-                                ></div>
-                            ))}
-                        </div>
+                <div className="absolute inset-0 bg-white pointer-events-none" aria-hidden="true"></div>
 
-                        {/* Animated Lines */}
-                        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/15 to-transparent animate-pulse-slow"></div>
-                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-300/10 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
-
-                        {/* Wavy Sound Effect - Bottom Waves */}
-                        <div className="absolute bottom-0 left-0 right-0 h-48 overflow-hidden pointer-events-none z-10 opacity-30">
-                            <svg className="absolute bottom-0 w-[200%] h-full" viewBox="0 0 1500 200" preserveAspectRatio="none" style={{ animation: 'wave-drift 8s ease-in-out infinite' }}>
-                                <path d="M0,100 C150,140 350,60 500,100 C650,140 850,60 1000,100 C1150,140 1350,60 1500,100 L1500,200 L0,200 Z" fill="url(#waveGrad1)" />
-                                <defs>
-                                    <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="rgb(249,115,22)" stopOpacity="0.15" />
-                                        <stop offset="50%" stopColor="rgb(234,88,12)" stopOpacity="0.25" />
-                                        <stop offset="100%" stopColor="rgb(249,115,22)" stopOpacity="0.15" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <svg className="absolute bottom-0 w-[200%] h-full" viewBox="0 0 1500 200" preserveAspectRatio="none" style={{ animation: 'wave-drift 6s ease-in-out infinite reverse', animationDelay: '1s' }}>
-                                <path d="M0,120 C200,160 400,80 600,120 C800,160 1000,80 1200,120 C1400,160 1500,100 1500,120 L1500,200 L0,200 Z" fill="url(#waveGrad2)" />
-                                <defs>
-                                    <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="rgb(251,146,60)" stopOpacity="0.1" />
-                                        <stop offset="50%" stopColor="rgb(249,115,22)" stopOpacity="0.2" />
-                                        <stop offset="100%" stopColor="rgb(251,146,60)" stopOpacity="0.1" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <svg className="absolute bottom-0 w-[200%] h-full" viewBox="0 0 1500 200" preserveAspectRatio="none" style={{ animation: 'wave-drift 10s ease-in-out infinite', animationDelay: '2s' }}>
-                                <path d="M0,140 C100,170 300,110 500,140 C700,170 900,110 1100,140 C1300,170 1500,130 1500,140 L1500,200 L0,200 Z" fill="url(#waveGrad3)" />
-                                <defs>
-                                    <linearGradient id="waveGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="rgb(253,186,116)" stopOpacity="0.08" />
-                                        <stop offset="50%" stopColor="rgb(251,146,60)" stopOpacity="0.18" />
-                                        <stop offset="100%" stopColor="rgb(253,186,116)" stopOpacity="0.08" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </div>
-
-                        {/* Sound Wave Equalizer Bars - Left Side */}
-                        <div className="absolute left-6 top-1/2 -translate-y-1/2 flex items-end gap-1 h-32 opacity-20 pointer-events-none">
-                            {[...Array(5)].map((_, i) => (
-                                <div
-                                    key={`left-bar-${i}`}
-                                    className="w-1 bg-gradient-to-t from-orange-400 to-orange-200 rounded-full"
-                                    style={{
-                                        animation: `sound-wave-bar ${0.8 + i * 0.15}s ease-in-out infinite`,
-                                        animationDelay: `${i * 0.12}s`,
-                                        height: '40%'
-                                    }}
-                                />
-                            ))}
-                        </div>
-
-                        {/* Sound Wave Equalizer Bars - Right Side */}
-                        <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-end gap-1 h-32 opacity-20 pointer-events-none">
-                            {[...Array(5)].map((_, i) => (
-                                <div
-                                    key={`right-bar-${i}`}
-                                    className="w-1 bg-gradient-to-t from-orange-400 to-orange-200 rounded-full"
-                                    style={{
-                                        animation: `sound-wave-bar ${0.9 + i * 0.12}s ease-in-out infinite`,
-                                        animationDelay: `${i * 0.15 + 0.3}s`,
-                                        height: '40%'
-                                    }}
-                                />
-                            ))}
-                        </div>
-
-                        {/* Sound Rings - Center Background */}
-                        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                            {[...Array(3)].map((_, i) => (
-                                <div
-                                    key={`ring-${i}`}
-                                    className="absolute inset-0 border border-orange-300/15 rounded-full"
-                                    style={{
-                                        width: `${120 + i * 80}px`,
-                                        height: `${120 + i * 80}px`,
-                                        marginLeft: `-${(120 + i * 80) / 2}px`,
-                                        marginTop: `-${(120 + i * 80) / 2}px`,
-                                        animation: `sound-ring ${2 + i * 0.5}s ease-out infinite`,
-                                        animationDelay: `${i * 0.7}s`
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    </>
-                )}
+                {/* Hero animations */}
+                <style dangerouslySetInnerHTML={{ __html: `
+                    @keyframes hero-float {
+                        0%, 100% { transform: translateY(0); }
+                        50% { transform: translateY(-14px); }
+                    }
+                    @keyframes hero-float-delay {
+                        0%, 100% { transform: translateY(0) rotate(-6deg); }
+                        50% { transform: translateY(-10px) rotate(-6deg); }
+                    }
+                    @keyframes hero-slide-up {
+                        from { opacity: 0; transform: translateY(40px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    @keyframes hero-scale-in {
+                        from { opacity: 0; transform: scale(0.88); }
+                        to { opacity: 1; transform: scale(1); }
+                    }
+                    @keyframes badge-float {
+                        0%, 100% { transform: translateY(0) translateX(0); }
+                        33% { transform: translateY(-6px) translateX(4px); }
+                        66% { transform: translateY(4px) translateX(-3px); }
+                    }
+                    .hero-phone-main { animation: hero-float 5s ease-in-out infinite; }
+                    .hero-phone-secondary { animation: hero-float-delay 5.5s ease-in-out infinite 0.4s; }
+                    .hero-slide-1 { animation: hero-slide-up 0.7s ease-out 0.1s both; }
+                    .hero-slide-2 { animation: hero-slide-up 0.7s ease-out 0.25s both; }
+                    .hero-slide-3 { animation: hero-slide-up 0.7s ease-out 0.4s both; }
+                    .hero-slide-4 { animation: hero-slide-up 0.7s ease-out 0.55s both; }
+                    .hero-phones-in { animation: hero-scale-in 0.9s ease-out 0.3s both; }
+                    .hero-badge-float { animation: badge-float 4s ease-in-out infinite; }
+                    .hero-badge-float-2 { animation: badge-float 4.5s ease-in-out infinite 1s; }
+                    @keyframes wave-bar {
+                        0% { transform: scaleY(0.3); }
+                        100% { transform: scaleY(1); }
+                    }
+                `}} />
 
                 <div className="container mx-auto relative z-30 max-w-7xl px-4 sm:px-6 lg:px-8">
 
-                    {/* Customer Calling - Left Side (lg+ only) */}
-                    <div className="hidden lg:block absolute left-0 top-1/3 -translate-y-1/2 z-40 animate-caller-float" style={{ left: '-30px' }}>
-                        <div className="caller-img-wrapper relative cursor-default">
-                            {/* Customer Image */}
-                            <Image
-                                src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1772962028/Gemini_Generated_Image_5ehrm05ehrm05ehr-removebg-preview_1_tltgob.png"
-                                alt="Customer making a phone call"
-                                width={280}
-                                height={350}
-                                className="w-56 xl:w-64 h-auto object-contain drop-shadow-lg"
-                                priority
-                            />
+                    {/* Top: Badge + Headline */}
+                    <div className="text-center pt-10 sm:pt-14 lg:pt-16 space-y-5">
+                        <div className="inline-flex items-center gap-2 bg-white border border-orange-100 px-4 py-2 rounded-full shadow-sm hero-slide-1">
+                            <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                            <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">AI Voice Agents — Now Generally Available</span>
+                        </div>
 
-                            {/* Speech Bubble - appears on hover */}
-                            <div className="caller-speech-bubble absolute -top-4 right-0 translate-x-8">
-                                <div className="bg-white rounded-2xl shadow-lg border border-slate-100 px-4 py-3 max-w-[200px] relative">
-                                    <p className="text-xs font-medium text-slate-700 leading-relaxed">
-                                        Hey, can I get an appointment with Dr. Mishra?
-                                    </p>
-                                    {/* Bubble tail */}
-                                    <div className="absolute -bottom-2 left-6 w-4 h-4 bg-white border-b border-r border-slate-100 rotate-45" />
+                        <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 leading-[1.08] tracking-tight hero-slide-2">
+                            Your AI Voice Agent<br />
+                            <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-clip-text text-transparent">That Never Sleeps</span>
+                        </h1>
+
+                        <p className="text-lg sm:text-xl text-slate-500 font-normal leading-relaxed max-w-2xl mx-auto hero-slide-3">
+                            Your receptionist sleeps, gets sick, takes breaks. <span className="text-slate-900 font-medium">We never do.</span>
+                        </p>
+                    </div>
+
+                    {/* Center: Two Large Phones */}
+                    <div className="relative flex justify-center items-end mt-12 sm:mt-16 hero-phones-in" style={{ minHeight: '520px' }}>
+                        {/* Subtle glow behind phones */}
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[420px] h-[320px] rounded-full bg-gradient-to-t from-slate-100/40 via-slate-50/20 to-transparent blur-3xl pointer-events-none" />
+
+                        {/* Left Phone (secondary, tilted) */}
+                        <div className="hero-phone-secondary relative z-10 mr-[-40px] sm:mr-[-50px] mb-6 sm:mb-8">
+                            <div className="w-[180px] sm:w-[220px] md:w-[260px] h-[360px] sm:h-[430px] md:h-[500px] rounded-[32px] sm:rounded-[38px] border-[5px] sm:border-[7px] border-slate-800 bg-white p-3 sm:p-4 shadow-[0_30px_80px_rgba(0,0,0,0.1)] rotate-[-6deg]">
+                                <div className="mx-auto mb-3 sm:mb-4 h-5 sm:h-6 w-16 sm:w-20 rounded-full bg-slate-800" />
+                                <div className="flex flex-col items-center justify-center h-[calc(100%-40px)] text-center space-y-4 sm:space-y-5">
+                                    {/* Voice wave - static multicolor */}
+                                    <div className="flex items-end justify-center gap-[3px] h-14 sm:h-16">
+                                        {[
+                                            { h: 0.6, color: 'bg-emerald-500' }, { h: 1, color: 'bg-violet-500' }, { h: 0.4, color: 'bg-orange-400' },
+                                            { h: 0.9, color: 'bg-emerald-400' }, { h: 0.7, color: 'bg-violet-400' }, { h: 1, color: 'bg-orange-500' },
+                                            { h: 0.5, color: 'bg-emerald-500' }, { h: 0.8, color: 'bg-violet-500' }, { h: 0.6, color: 'bg-orange-400' },
+                                            { h: 1, color: 'bg-emerald-400' }, { h: 0.3, color: 'bg-violet-400' }, { h: 0.7, color: 'bg-orange-500' },
+                                        ].map((bar, i) => (
+                                            <div
+                                                key={i}
+                                                className={`w-[3px] sm:w-1 rounded-full ${bar.color}`}
+                                                style={{ height: `${bar.h * 100}%` }}
+                                            />
+                                        ))}
+                                    </div>
+                                    <div className="space-y-2 px-1">
+                                        <p className="text-xs sm:text-sm font-bold text-emerald-700 leading-tight">Tell us your requirements</p>
+                                        <p className="text-[10px] sm:text-xs text-violet-500 leading-relaxed">Describe what you need — industry, use case, language, tone</p>
+                                    </div>
+                                    <div className="w-full space-y-2">
+                                        <div className="flex items-center gap-2 rounded-xl bg-slate-50 border border-slate-100 px-2.5 sm:px-3 py-2">
+                                            <CheckCircle className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
+                                            <span className="text-[10px] sm:text-xs text-violet-600">Define your script</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 rounded-xl bg-slate-50 border border-slate-100 px-2.5 sm:px-3 py-2">
+                                            <CheckCircle className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
+                                            <span className="text-[10px] sm:text-xs text-violet-600">Choose a voice</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 rounded-xl bg-slate-50 border border-slate-100 px-2.5 sm:px-3 py-2">
+                                            <CheckCircle className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
+                                            <span className="text-[10px] sm:text-xs text-violet-600">Go live in hours</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            {/* Calling indicator */}
-                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-emerald-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full shadow-md">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
-                                </span>
-                                <span className="text-[10px] font-semibold tracking-wide uppercase">Calling</span>
+                        {/* Right Phone (main, straight) */}
+                        <div className="hero-phone-main relative z-20">
+                            <div className="w-[200px] sm:w-[250px] md:w-[300px] h-[400px] sm:h-[490px] md:h-[580px] rounded-[36px] sm:rounded-[42px] border-[5px] sm:border-[7px] border-slate-800 bg-white p-3 sm:p-5 shadow-[0_40px_100px_rgba(0,0,0,0.12)]">
+                                <div className="mx-auto mb-4 sm:mb-5 h-5 sm:h-7 w-20 sm:w-24 rounded-full bg-slate-800" />
+                                <div className="flex flex-col items-center h-[calc(100%-50px)] space-y-3 sm:space-y-4">
+                                    {/* Header badge */}
+                                    <div className="w-full flex items-center justify-between rounded-2xl bg-slate-50 border border-slate-100 px-3 sm:px-4 py-2 sm:py-2.5">
+                                        <span className="text-[11px] sm:text-sm font-semibold text-violet-700">Voice Agent Studio</span>
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                                            <span className="text-[9px] sm:text-[10px] text-emerald-600 font-medium">Ready</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Main message */}
+                                    <div className="w-full rounded-2xl bg-white border border-slate-100 p-3 sm:p-4 text-center">
+                                        <p className="text-[10px] sm:text-xs text-emerald-600 font-semibold uppercase tracking-wider mb-1">Zero Effort</p>
+                                        <p className="text-lg sm:text-xl md:text-2xl font-bold leading-tight text-violet-800">Your voice bot, ready in hours.</p>
+                                    </div>
+
+                                    {/* Sound wave visualization - static multicolor */}
+                                    <div className="w-full flex items-end justify-center gap-[2px] h-12 sm:h-16">
+                                            {[
+                                                { h: 0.3, color: 'bg-emerald-400' }, { h: 0.5, color: 'bg-violet-400' }, { h: 0.8, color: 'bg-orange-400' },
+                                                { h: 0.4, color: 'bg-emerald-500' }, { h: 1, color: 'bg-violet-500' }, { h: 0.6, color: 'bg-orange-400' },
+                                                { h: 0.9, color: 'bg-emerald-400' }, { h: 0.3, color: 'bg-violet-400' }, { h: 0.7, color: 'bg-orange-500' },
+                                                { h: 1, color: 'bg-emerald-500' }, { h: 0.5, color: 'bg-violet-500' }, { h: 0.8, color: 'bg-orange-400' },
+                                                { h: 0.4, color: 'bg-emerald-400' }, { h: 0.9, color: 'bg-violet-400' }, { h: 0.6, color: 'bg-orange-500' },
+                                                { h: 0.3, color: 'bg-emerald-500' }, { h: 0.7, color: 'bg-violet-400' }, { h: 0.5, color: 'bg-orange-400' },
+                                                { h: 1, color: 'bg-emerald-400' }, { h: 0.4, color: 'bg-violet-500' },
+                                            ].map((bar, i) => (
+                                                <div
+                                                    key={i}
+                                                    className={`w-[2px] sm:w-[3px] rounded-full ${bar.color}`}
+                                                    style={{ height: `${bar.h * 100}%`, opacity: 0.9 }}
+                                                />
+                                            ))}
+                                    </div>
+
+                                    {/* Steps */}
+                                    <div className="w-full grid grid-cols-2 gap-2 sm:gap-2.5">
+                                        <div className="rounded-2xl bg-slate-50 border border-slate-100 p-2.5 sm:p-3 text-center">
+                                            <p className="text-[9px] sm:text-[10px] text-emerald-600 uppercase font-bold tracking-wider">Step 1</p>
+                                            <p className="mt-1 text-[10px] sm:text-xs font-semibold text-violet-700">Share needs</p>
+                                        </div>
+                                        <div className="rounded-2xl bg-slate-50 border border-slate-100 p-2.5 sm:p-3 text-center">
+                                            <p className="text-[9px] sm:text-[10px] text-emerald-600 uppercase font-bold tracking-wider">Step 2</p>
+                                            <p className="mt-1 text-[10px] sm:text-xs font-semibold text-violet-700">We build it</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Bottom CTA */}
+                                    <div className="w-full rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 p-3 sm:p-4 text-white text-center shadow-md shadow-orange-500/20">
+                                        <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em]">No Code Needed</p>
+                                        <p className="mt-1 text-sm sm:text-base font-bold">Just tell us & go live 🚀</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Floating badges */}
+                        <div className="hidden sm:block absolute left-[8%] lg:left-[14%] top-20 hero-badge-float">
+                            <div className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-lg shadow-slate-100/30">
+                                <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                                    <PhoneCall className="h-4 w-4 text-orange-500" />
+                                    50K+ calls automated
+                                </div>
+                            </div>
+                        </div>
+                        <div className="hidden sm:block absolute right-[8%] lg:right-[14%] top-32 hero-badge-float-2">
+                            <div className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-lg shadow-slate-100/30">
+                                <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                                    <MessageSquare className="h-4 w-4 text-orange-500" />
+                                    50K+ happy users
+                                </div>
+                            </div>
+                        </div>
+                        <div className="hidden lg:block absolute right-[10%] bottom-28 hero-badge-float">
+                            <div className="rounded-2xl border border-emerald-100 bg-white px-4 py-2.5 shadow-lg shadow-emerald-100/30">
+                                <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                                    <CheckCircle className="h-4 w-4 text-emerald-500" />
+                                    99.9% uptime
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Curved Arrow from Customer to Mic */}
-                    <div className="hidden lg:block absolute z-35 pointer-events-none" style={{ left: '12%', top: '35%', width: '38%', height: '200px' }}>
-                        <svg width="100%" height="100%" viewBox="0 0 500 200" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                            {/* Gentle curve from left (image) to right (mic) */}
-                            <path
-                                d="M0,100 C120,100 200,30 350,20 Q430,14 480,40"
-                                stroke="url(#arrowGradient)"
-                                strokeWidth="2"
-                                strokeDasharray="600"
-                                fill="none"
-                                strokeLinecap="round"
-                                style={{ animation: 'arrow-draw 2.5s ease-out forwards' }}
-                            />
-                            {/* Arrowhead */}
-                            <polygon
-                                points="473,32 490,42 475,50"
-                                fill="#f97316"
-                                style={{ animation: 'arrow-head-fade 2.5s ease-out forwards' }}
-                            />
-                            <defs>
-                                <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor="#fed7aa" />
-                                    <stop offset="100%" stopColor="#f97316" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-
-                    {/* Curved Arrow from Mic to Screenshots (Right) */}
-                    <div className="hidden lg:block absolute z-35 pointer-events-none" style={{ right: '12%', top: '28%', width: '38%', height: '200px' }}>
-                        <svg width="100%" height="100%" viewBox="0 0 500 200" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M20,80 Q100,120 200,150 C300,170 400,150 490,90"
-                                stroke="url(#arrowGradientRight)"
-                                strokeWidth="2"
-                                strokeDasharray="600"
-                                fill="none"
-                                strokeLinecap="round"
-                                style={{ animation: 'arrow-draw 2.5s ease-out 0.5s forwards', strokeDashoffset: 600 }}
-                            />
-                            <polygon
-                                points="483,92 498,106 480,108"
-                                fill="#f97316"
-                                style={{ animation: 'arrow-head-fade 2.5s ease-out 0.5s forwards' }}
-                            />
-                            <defs>
-                                <linearGradient id="arrowGradientRight" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor="#f97316" />
-                                    <stop offset="100%" stopColor="#fed7aa" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-
-                    {/* Dashboard Screenshots - Right Side (lg+ only) */}
-                    <div className="hidden lg:block absolute right-0 top-1/3 -translate-y-1/2 z-40" style={{ right: '-40px' }}>
-                        <div className="relative" style={{ width: '300px' }}>
-                            {[
-                                { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1773106306/Gemini_Generated_Image_u3kh3vu3kh3vu3kh_ee7nyy.png', alt: 'AI Dashboard Analytics', landscape: true },
-                                { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1772967767/Screenshot_2025-11-29_202610_luufqi.png', alt: 'Call Management Dashboard', landscape: true },
-                                { src: 'https://res.cloudinary.com/dew9qfpbl/image/upload/v1772967676/Screenshot_2025-11-30_131935_cg2dbq.png', alt: 'Voice Agent Performance', landscape: true },
-                            ].map((img, i) => (
-                                <div
-                                    key={i}
-                                    className={`rounded-xl overflow-hidden shadow-2xl border border-slate-200/60 ${i > 0 ? 'absolute top-0 left-0' : 'relative'}`}
-                                    style={{
-                                        animation: `screenshot-cycle 12s ease-in-out infinite`,
-                                        animationDelay: `${i * 4}s`,
-                                        opacity: i === 0 ? undefined : 0,
-                                    }}
-                                >
-                                    <Image
-                                        src={img.src}
-                                        alt={img.alt}
-                                        width={300}
-                                        height={0}
-                                        className="w-[300px] h-auto rounded-xl"
-                                        style={{ objectFit: 'contain' }}
-                                    />
-                                </div>
-                            ))}
+                    {/* Bottom: CTAs */}
+                    <div className="text-center mt-10 sm:mt-14 space-y-6 hero-slide-4">
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+                            <Link
+                                href="/contact#contact-form"
+                                className="group px-8 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-sm btn-glow"
+                            >
+                                Get Started Free
+                                <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                            </Link>
+                            <Link
+                                href="/contact"
+                                className="group px-8 py-3.5 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-medium rounded-xl hover:from-purple-600 hover:to-purple-700 transition-all duration-300 shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 flex items-center justify-center gap-2 text-sm"
+                            >
+                                Schedule a Demo
+                            </Link>
                         </div>
                     </div>
+                </div>
 
-                    {/* Main Hero - Content Only */}
-                    <div className="flex flex-col items-center min-h-[70vh] sm:min-h-[65vh] py-16 sm:py-20 lg:py-28 justify-center">
-                        
-                        {/* Content */}
-                        <div className="text-center space-y-8 max-w-4xl">
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-2 glass-card bg-white/70 border border-orange-100/40 px-4 py-2 rounded-full animate-fade-in-up-1 shadow-sm">
-                                <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-                                <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">AI Voice Agents — Now Generally Available</span>
+            </section>
+
+            {/* Dashboard Showcase Section */}
+            <DashboardShowcase />
+
+            {/* WhatsApp Chatbot Section */}
+            <section className="py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                        {/* LEFT: iPhone WhatsApp Mockup */}
+                        <div className="flex justify-center">
+                            <div className="relative">
+                                {/* Annotation labels */}
+                                <div className="hidden lg:block absolute -left-44 top-[22%] text-right">
+                                    <p className="text-sm font-semibold text-slate-700">Branding & Logo</p>
+                                    <div className="flex items-center justify-end gap-1 mt-1">
+                                        <span className="h-px w-16 bg-orange-300 inline-block" />
+                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
+                                    </div>
+                                </div>
+                                <div className="hidden lg:block absolute -left-48 top-[55%] text-right">
+                                    <p className="text-sm font-semibold text-slate-700">Rich Media, Chips</p>
+                                    <p className="text-sm font-semibold text-slate-700">& Carousels</p>
+                                    <div className="flex items-center justify-end gap-1 mt-1">
+                                        <span className="h-px w-16 bg-orange-300 inline-block" />
+                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
+                                    </div>
+                                </div>
+                                <div className="hidden lg:block absolute -left-44 bottom-[15%] text-right">
+                                    <p className="text-sm font-semibold text-slate-700">Suggested Actions</p>
+                                    <div className="flex items-center justify-end gap-1 mt-1">
+                                        <span className="h-px w-16 bg-purple-300 inline-block" style={{ borderStyle: 'dashed' }} />
+                                        <span className="w-2 h-2 rounded-full bg-purple-400" />
+                                    </div>
+                                </div>
+                                <div className="hidden lg:block absolute -right-44 top-[22%] text-left">
+                                    <p className="text-sm font-semibold text-slate-700">Verified Sender</p>
+                                    <div className="flex items-center gap-1 mt-1">
+                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
+                                        <span className="h-px w-16 bg-orange-300 inline-block" />
+                                    </div>
+                                </div>
+                                <div className="hidden lg:block absolute -right-48 bottom-[18%] text-left">
+                                    <p className="text-sm font-semibold text-slate-700">Delivery and</p>
+                                    <p className="text-sm font-semibold text-slate-700">Read Receipts</p>
+                                    <div className="flex items-center gap-1 mt-1">
+                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
+                                        <span className="h-px w-16 bg-orange-300 inline-block" />
+                                    </div>
+                                </div>
+
+                                {/* iPhone Frame */}
+                                <div className="w-[280px] sm:w-[300px] rounded-[40px] border-[6px] border-slate-800 bg-white shadow-[0_40px_100px_rgba(0,0,0,0.15)] overflow-hidden">
+                                    {/* Status bar */}
+                                    <div className="bg-[#075e54] px-4 pt-2 pb-0">
+                                        <div className="flex items-center justify-between text-white text-[10px] mb-2">
+                                            <span>9:41</span>
+                                            <div className="mx-auto w-20 h-5 rounded-full bg-slate-900" />
+                                            <div className="flex items-center gap-1">
+                                                <span>5G</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* WhatsApp header */}
+                                    <div className="bg-[#075e54] px-3 py-2 flex items-center gap-2">
+                                        <ArrowRight className="h-4 w-4 text-white rotate-180" />
+                                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-xs font-bold">D</div>
+                                        <div className="flex-1">
+                                            <p className="text-sm font-semibold text-white">DigitalBot AI</p>
+                                            <p className="text-[10px] text-emerald-200 flex items-center gap-1">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-300" />
+                                                Verified Business
+                                            </p>
+                                        </div>
+                                        <PhoneCall className="h-4 w-4 text-white/80" />
+                                    </div>
+                                    {/* Chat messages */}
+                                    <div className="bg-[#efeae2] p-3 space-y-2 min-h-[380px] sm:min-h-[420px]">
+                                        <p className="text-center text-[9px] text-slate-500 bg-white/70 rounded-full px-3 py-0.5 mx-auto w-fit">Today 8:30 AM</p>
+                                        {/* Bot message with rich content */}
+                                        <div className="flex justify-start">
+                                            <div className="max-w-[85%] bg-white rounded-xl rounded-tl-none px-3 py-2 shadow-sm">
+                                                <p className="text-[11px] text-slate-800 font-medium">The holiday season is almost here!</p>
+                                                <p className="text-[11px] text-slate-600 mt-1">Start planning your dream getaway with special <span className="font-bold text-slate-800">30% discount</span></p>
+                                                {/* Image carousel */}
+                                                <div className="grid grid-cols-2 gap-1.5 mt-2">
+                                                    <div className="rounded-lg overflow-hidden bg-slate-100">
+                                                        <div className="h-16 bg-gradient-to-br from-emerald-300 to-emerald-500 flex items-end p-1.5">
+                                                            <span className="text-[9px] text-white font-bold bg-black/30 px-1.5 py-0.5 rounded">🏔️ Manali</span>
+                                                        </div>
+                                                        <div className="p-1.5 space-y-1">
+                                                            <p className="text-[9px] font-bold text-slate-700">Manali</p>
+                                                            <p className="text-[8px] text-emerald-600 font-medium">📍 Book Now</p>
+                                                            <p className="text-[8px] text-blue-500 font-medium">📞 Call Agent</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="rounded-lg overflow-hidden bg-slate-100">
+                                                        <div className="h-16 bg-gradient-to-br from-cyan-300 to-blue-500 flex items-end p-1.5">
+                                                            <span className="text-[9px] text-white font-bold bg-black/30 px-1.5 py-0.5 rounded">🏖️ Beach</span>
+                                                        </div>
+                                                        <div className="p-1.5 space-y-1">
+                                                            <p className="text-[9px] font-bold text-slate-700">Lakshadweep</p>
+                                                            <p className="text-[8px] text-emerald-600 font-medium">📍 Book Now</p>
+                                                            <p className="text-[8px] text-blue-500 font-medium">📞 Call Agent</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p className="text-[8px] text-slate-400 text-right mt-1">8:30 ✓✓</p>
+                                            </div>
+                                        </div>
+                                        {/* User reply */}
+                                        <div className="flex justify-end">
+                                            <div className="max-w-[75%] bg-[#dcf8c6] rounded-xl rounded-tr-none px-3 py-2 shadow-sm">
+                                                <p className="text-[11px] text-slate-800">I&apos;d love to book Manali! What dates are available?</p>
+                                                <p className="text-[8px] text-slate-400 text-right mt-0.5">8:31 ✓✓</p>
+                                            </div>
+                                        </div>
+                                        {/* Bot reply */}
+                                        <div className="flex justify-start">
+                                            <div className="max-w-[85%] bg-white rounded-xl rounded-tl-none px-3 py-2 shadow-sm">
+                                                <p className="text-[11px] text-slate-800">Great choice! 🏔️ Here are the available dates for Manali:</p>
+                                                <p className="text-[11px] text-slate-600 mt-1">📅 Dec 20 - Dec 25<br/>📅 Dec 27 - Jan 1<br/>📅 Jan 5 - Jan 10</p>
+                                                <div className="flex gap-1.5 mt-2">
+                                                    <span className="text-[9px] bg-emerald-50 text-emerald-600 border border-emerald-200 px-2 py-1 rounded-full font-medium">Dec 20-25</span>
+                                                    <span className="text-[9px] bg-blue-50 text-blue-600 border border-blue-200 px-2 py-1 rounded-full font-medium">Dec 27-Jan 1</span>
+                                                </div>
+                                                <p className="text-[8px] text-slate-400 text-right mt-1">8:31 ✓✓</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Input bar */}
+                                    <div className="bg-[#efeae2] px-2 pb-3">
+                                        <div className="flex items-center gap-2 bg-white rounded-full px-3 py-1.5">
+                                            <span className="text-lg">😊</span>
+                                            <span className="flex-1 text-[11px] text-slate-400">Type a message...</span>
+                                            <div className="h-7 w-7 rounded-full bg-[#075e54] flex items-center justify-center">
+                                                <Mic className="h-3.5 w-3.5 text-white" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
 
-                            {/* Main Headline */}
-                            <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 leading-[1.1] tracking-tight animate-fade-in-up-2">
-                                Your AI Voice Agent<br />
-                                <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-clip-text text-transparent">That Never Sleeps</span>
-                            </h1>
-
-                            {/* Tagline */}
-                            <p className="text-lg sm:text-xl text-slate-500 font-normal leading-relaxed max-w-2xl mx-auto animate-fade-in-up-3">
-                                Your receptionist sleeps, gets sick, takes breaks. <span className="text-slate-900 font-medium">We never do.</span>
-                            </p>
-
-                            {/* Voice Mic Button */}
-                            <div className="flex flex-col items-center gap-3 animate-fade-in-up-3">
-                                <button
-                                    onClick={toggleCall}
-                                    className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
-                                        isCallActive
-                                            ? 'bg-gradient-to-br from-red-500 to-red-600 animate-mic-active hover:from-red-600 hover:to-red-700 scale-110'
-                                            : 'bg-gradient-to-br from-orange-500 to-orange-600 animate-mic-pulse hover:from-orange-600 hover:to-orange-700 hover:scale-110'
-                                    } shadow-xl shadow-orange-500/20`}
-                                    aria-label={isCallActive ? 'End voice call' : 'Start voice call'}
-                                >
-                                    {/* Animated rings when active */}
-                                    {isCallActive && (
-                                        <>
-                                            <span className="absolute inset-0 rounded-full border-2 border-red-400" style={{ animation: 'mic-ring-expand 1.5s ease-out infinite' }} />
-                                            <span className="absolute inset-0 rounded-full border-2 border-red-400" style={{ animation: 'mic-ring-expand 1.5s ease-out infinite 0.5s' }} />
-                                            <span className="absolute inset-0 rounded-full border-2 border-red-400" style={{ animation: 'mic-ring-expand 1.5s ease-out infinite 1s' }} />
-                                        </>
-                                    )}
-                                    {isCallActive ? (
-                                        <Phone className="h-8 w-8 sm:h-10 sm:w-10 text-white rotate-[135deg]" />
-                                    ) : (
-                                        <Mic className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
-                                    )}
-                                </button>
-                                <p className="text-sm font-medium text-gray-500">
-                                    {isCallActive
-                                        ? <span className="text-red-500 flex items-center gap-1.5"><span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />{callStatus || 'Call active'} — tap to end</span>
-                                        : isSpeaking
-                                            ? <span className="text-orange-500">Assistant is speaking...</span>
-                                            : 'Tap to talk to our AI agent'
-                                    }
-                                </p>
+                        {/* RIGHT: Get Customized Chatbot */}
+                        <div className="space-y-6">
+                            <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-full">
+                                <MessageSquare className="h-4 w-4 text-emerald-600" />
+                                <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">WhatsApp Chatbot</span>
                             </div>
-
-                            {/* Description */}
-                            <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto animate-fade-in-up-3">
-                                Deploy enterprise-grade <span className="text-slate-800 font-medium">AI voice agents</span> that handle unlimited concurrent calls, respond instantly in 50+ languages, and deliver real-time analytics — all without writing a single line of code.
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                                Get Your{' '}
+                                <span className="bg-gradient-to-r from-emerald-500 to-emerald-600 bg-clip-text text-transparent">Customized Chatbot</span>
+                            </h2>
+                            <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
+                                Deliver interactive messages directly to your customer&apos;s WhatsApp. Rich media, carousels, quick replies, and verified sender — all automated with AI.
                             </p>
-
-                            {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-in-up-3 pt-2">
-                                <Link
-                                    href="/contact#contact-form"
-                                    className="group px-8 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-sm btn-glow"
-                                >
-                                    Get Started Free
+                            <div className="space-y-3">
+                                {[
+                                    { icon: CheckCircle, text: 'Rich media with images, carousels & buttons' },
+                                    { icon: CheckCircle, text: 'Verified business sender with branding' },
+                                    { icon: CheckCircle, text: 'Delivery & read receipts tracking' },
+                                    { icon: CheckCircle, text: 'Human-like AI conversations 24/7' },
+                                    { icon: CheckCircle, text: 'Suggested quick actions & smart replies' },
+                                ].map((item, i) => (
+                                    <div key={i} className="flex items-center gap-3">
+                                        <item.icon className="h-5 w-5 text-emerald-500 flex-shrink-0" />
+                                        <span className="text-sm text-slate-600">{item.text}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                                <Link href="/contact#contact-form" className="group px-7 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-medium rounded-xl hover:from-emerald-600 hover:to-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 text-sm">
+                                    Get Started
                                     <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
-                                <Link
-                                    href="/services"
-                                    className="px-8 py-3.5 text-slate-600 font-medium rounded-xl border border-slate-200/60 glass-subtle hover:border-orange-200 hover:text-orange-600 transition-all duration-300 text-sm"
-                                >
-                                    View Platform
+                                <Link href="/contact" className="px-7 py-3 text-slate-600 font-medium rounded-xl border border-slate-200 hover:border-emerald-200 hover:text-emerald-600 transition-all text-sm text-center">
+                                    Book a Free Demo
                                 </Link>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                            {/* Trust Indicators */}
-                            <div className="flex flex-wrap gap-6 justify-center items-center animate-fade-in-up-3 pt-4">
-                                <span className="flex items-center gap-1.5 text-sm text-slate-400">
-                                    <CheckCircle className="h-4 w-4 text-orange-500 flex-shrink-0" />
-                                    No credit card required
-                                </span>
-                                <span className="flex items-center gap-1.5 text-sm text-slate-400">
-                                    <CheckCircle className="h-4 w-4 text-orange-500 flex-shrink-0" />
-                                    5-minute setup
-                                </span>
-                                <span className="flex items-center gap-1.5 text-sm text-slate-400">
-                                    <CheckCircle className="h-4 w-4 text-orange-500 flex-shrink-0" />
-                                    50+ languages
-                                </span>
+            {/* Voice AI Section */}
+            <section className="py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                        {/* LEFT: Voice AI Content */}
+                        <div className="space-y-6">
+                            <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
+                                <Mic className="h-4 w-4 text-orange-600" />
+                                <span className="text-xs font-semibold text-orange-700 uppercase tracking-wide">AI Voice Agent</span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                                How{' '}
+                                <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Voice AI</span>{' '}
+                                Transforms Your Business
+                            </h2>
+                            <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
+                                Your AI voice agent handles calls, books appointments, qualifies leads, and provides customer support — all while sounding completely natural and human-like.
+                            </p>
+                            <div className="space-y-3">
+                                {[
+                                    { icon: CheckCircle, text: 'Handle unlimited concurrent calls naturally' },
+                                    { icon: CheckCircle, text: 'Book & reschedule appointments with calendar sync' },
+                                    { icon: CheckCircle, text: 'Qualify leads and route to your sales team' },
+                                    { icon: CheckCircle, text: '24/7 customer support — never miss a call' },
+                                    { icon: CheckCircle, text: 'Real-time transcription & call analytics' },
+                                    { icon: CheckCircle, text: '50+ languages with native-quality voice' },
+                                ].map((item, i) => (
+                                    <div key={i} className="flex items-center gap-3">
+                                        <item.icon className="h-5 w-5 text-orange-500 flex-shrink-0" />
+                                        <span className="text-sm text-slate-800">{item.text}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                                <Link href="/contact#contact-form" className="group px-7 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 text-sm">
+                                    Try Voice AI Free
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                                </Link>
+                                <Link href="/contact" className="px-7 py-3 text-slate-900 font-medium rounded-xl border border-slate-300 hover:border-orange-300 hover:text-orange-600 transition-all text-sm text-center">
+                                    Book a Free Demo
+                                </Link>
                             </div>
                         </div>
 
+                        {/* RIGHT: Voice Agent Image */}
+                        <div className="flex justify-center lg:justify-end">
+                            <div className="relative w-full max-w-[680px]">
+                                <div className="absolute -inset-6 bg-gradient-to-r from-orange-100/60 to-orange-50/40 rounded-3xl blur-3xl" />
+                                <img
+                                    src="/images/telecom_i98unj.webp"
+                                    alt="AI Voice Agent - Call Handling"
+                                    className="relative w-full h-auto rounded-2xl drop-shadow-2xl"
+                                    loading="lazy"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Voice Garden - Service Samples */}
+            <section className="py-16 sm:py-20 bg-white relative overflow-hidden">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {/* Section Header */}
+                    <div className="text-center mb-12 sm:mb-16">
+                        <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-5 py-2 rounded-full mb-6">
+                            <span className="text-sm font-semibold text-slate-700">Voice Garden</span>
+                        </div>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-5 leading-tight">
+                            Leverage AI voice call agents who sound<br className="hidden sm:block" /> and act like real people
+                        </h2>
+                        <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+                            Handle your phone calls 24/7 with human-like voices and intelligent speech detection for realistic customer interactions.
+                        </p>
                     </div>
 
-                    {/* Feature Cards Below Hero */}
-                    <div className="mt-16 sm:mt-20 lg:mt-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-                        {[
-                            { icon: PhoneCall, title: "Smart Call Handling", desc: "Handle unlimited concurrent calls with natural, human-like conversations" },
-                            { icon: BarChart3, title: "Real-Time Analytics", desc: "Track every interaction with actionable insights and live dashboards" },
-                            { icon: Clock, title: "24/7 Availability", desc: "Always-on coverage — never miss a call, day or night" },
-                            { icon: Globe, title: "50+ Languages", desc: "Engage customers globally in their preferred language" }
-                        ].map((feature, i) => (
-                            <div
-                                key={i}
-                                className="group glass-card rounded-xl p-6 hover:border-orange-200/40 hover:shadow-lg transition-all duration-400"
-                                style={{ animationDelay: `${i * 0.1}s` }}
-                            >
-                                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300 shadow-md shadow-orange-500/15">
-                                    <feature.icon className="h-5 w-5 text-white" />
+                    {/* Service Sample Cards */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+                        {services.slice(0, 4).map((service, i) => (
+                            <div key={i} className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 aspect-[3/4]">
+                                {/* Person image as background */}
+                                <img
+                                    src={service.img}
+                                    alt={service.title}
+                                    className="absolute inset-0 w-full h-full object-cover object-top"
+                                    loading="lazy"
+                                />
+                                {/* Bottom gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+                                {/* Play button centered */}
+                                <button
+                                    className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                                    onClick={() => {
+                                        const audio = new Audio(service.audio);
+                                        audio.play();
+                                    }}
+                                    aria-label={`Play ${service.title} sample`}
+                                >
+                                    <div className="h-14 w-14 rounded-full bg-blue-400/80 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 group-hover:bg-blue-500/90 transition-all shadow-lg">
+                                        <svg className="h-6 w-6 text-white ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                    </div>
+                                </button>
+
+                                {/* Title at bottom */}
+                                <div className="absolute bottom-0 left-0 right-0 p-4">
+                                    <h3 className="text-base font-bold text-white drop-shadow-lg">{service.title}</h3>
                                 </div>
-                                <h3 className="text-base font-semibold text-slate-900 mb-1.5">{feature.title}</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed">{feature.desc}</p>
                             </div>
                         ))}
                     </div>
                 </div>
-
             </section>
 
-            
-       
-
-            {/* Section Header - Fixed above the scrolling content */}
-            <section className="py-8 sm:py-08 lg:py-16 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <div className="inline-flex items-center space-x-2 bg-blue-500/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-blue-400/30 text-xs sm:text-sm text-blue-600 font-semibold mb-4 uppercase tracking-widest">
-                        <MessageSquare className="h-4 w-4" />
-                        <span>🎯 Our AI Voice Services</span>
+            {/* Industries We Serve */}
+            <section className="py-20 sm:py-28 bg-white relative overflow-hidden">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 bg-white border border-orange-100 px-4 py-2 rounded-full shadow-sm mb-5">
+                            <Globe className="h-4 w-4 text-orange-500" />
+                            <span className="text-xs font-semibold tracking-wide text-slate-600 uppercase">24+ Industries</span>
+                        </div>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-5">
+                            One AI Platform,{' '}
+                            <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Every Industry</span>
+                        </h2>
+                        <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                            From healthcare to e-commerce, our voice AI and chatbots understand your domain and speak your customers&apos; language
+                        </p>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-                        Choose Your AI Voice Solution
-                    </h2>
-                    <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
-                        Select from our comprehensive suite of AI voice services. Each solution is ready to deploy on our platform and can be customized for your business needs.
-                    </p>
-                </div>
-            </section>
 
-            {/* AI Voice Use Cases Section - Style Pinned Scroll */}
-            <section ref={storySectionRef} className="min-h-screen lg:h-1000 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
-                <div className="container mx-auto h-1000 px-4 sm:px-6 lg:px-8 flex items-center">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full items-stretch">
-
-                        {/* LEFT: Floating Illustrations */}
-                        <div className="relative h-[40vh] sm:h-[50vh] lg:h-[85vh] max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] flex items-center justify-center lg:justify-start">
-                            {services.map((s, i) => (
-                                <div key={i} className={`exo-illustration absolute inset-0 flex items-center justify-center lg:justify-start ${i === 0 ? '' : 'pointer-events-none'}`}>
-                                    <img
-                                        src={s.img}
-                                        alt={s.title}
-                                        className="exo-main-img h-[35vh] sm:h-[45vh] lg:h-[75vh] max-h-[350px] sm:max-h-[450px] lg:max-h-[550px] object-contain drop-shadow-2xl"
-                                    />
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+                        {[
+                            { name: 'Car Dealership', icon: Car, gradient: 'from-emerald-500 to-green-600' },
+                            { name: 'Travel', icon: Globe, gradient: 'from-pink-500 to-rose-600' },
+                            { name: 'SaaS', icon: Zap, gradient: 'from-violet-500 to-purple-600' },
+                            { name: 'Mortgage', icon: Home, gradient: 'from-sky-500 to-blue-600' },
+                            { name: 'Banking', icon: Building2, gradient: 'from-amber-500 to-yellow-600' },
+                            { name: 'Insurance', icon: Shield, gradient: 'from-blue-500 to-indigo-600' },
+                            { name: 'Construction', icon: Truck, gradient: 'from-orange-500 to-amber-600' },
+                            { name: 'Events', icon: Calendar, gradient: 'from-purple-500 to-violet-600' },
+                            { name: 'Call Centre', icon: Headphones, gradient: 'from-red-500 to-rose-600' },
+                            { name: 'Education', icon: GraduationCap, gradient: 'from-cyan-500 to-teal-600' },
+                            { name: 'Fitness', icon: Dumbbell, gradient: 'from-rose-500 to-pink-600' },
+                            { name: 'Healthcare', icon: Stethoscope, gradient: 'from-teal-500 to-emerald-600' },
+                            { name: 'Retail', icon: ShoppingCart, gradient: 'from-orange-500 to-red-500' },
+                            { name: 'Financial Services', icon: TrendingUp, gradient: 'from-indigo-500 to-blue-600' },
+                            { name: 'Coaching', icon: Award, gradient: 'from-violet-500 to-fuchsia-600' },
+                            { name: 'Consulting', icon: Briefcase, gradient: 'from-emerald-500 to-teal-600' },
+                            { name: 'Accounting & Legal', icon: BarChart3, gradient: 'from-amber-500 to-orange-600' },
+                            { name: 'IT Services', icon: Globe, gradient: 'from-sky-500 to-cyan-600' },
+                            { name: 'Recruitment', icon: Users, gradient: 'from-blue-500 to-violet-600' },
+                            { name: 'Pharmaceuticals', icon: Pill, gradient: 'from-pink-500 to-fuchsia-600' },
+                            { name: 'E-commerce', icon: Package, gradient: 'from-red-500 to-orange-500' },
+                            { name: 'Automobile', icon: Car, gradient: 'from-slate-500 to-gray-600' },
+                            { name: 'Real Estate', icon: Home, gradient: 'from-green-500 to-emerald-600' },
+                            { name: 'Marketing', icon: Megaphone, gradient: 'from-fuchsia-500 to-pink-600' },
+                        ].map((industry, i) => (
+                            <div
+                                key={i}
+                                className={`group relative rounded-2xl bg-gradient-to-br ${industry.gradient} p-5 sm:p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden`}
+                            >
+                                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, rgba(255,255,255,0.4) 0%, transparent 50%)' }} />
+                                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                                    <industry.icon className="h-6 w-6 text-white" />
                                 </div>
-                            ))}
-                        </div>
-
-                        {/* RIGHT: Content */}
-                        <div className="relative h-[85vh] max-h-[600px] flex flex-col justify-center">
-                            {services.map((s, i) => (
-                                <div key={i} className={`exo-content flex flex-col justify-center ${i === 0 ? '' : 'absolute inset-0'}`}>
-                                    {/* Stat Badge */}
-                                    <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${s.color} text-white text-sm font-bold mb-4 w-fit`}>
-                                        <CheckCircle className="h-4 w-4" />
-                                        <span>{s.stat} {s.statLabel}</span>
-                                    </div>
-
-                                    <h2 className={`text-3xl lg:text-4xl font-bold mb-2 bg-gradient-to-r ${s.color} bg-clip-text text-transparent`}>
-                                        {s.title}
-                                    </h2>
-                                    <p className="text-lg text-gray-500 mb-3 font-medium">{s.subtitle}</p>
-                                    <p className="text-base text-gray-600 mb-5 leading-relaxed max-w-lg">
-                                        {s.desc}
-                                    </p>
-
-                                    {/* Audio Player - only interactive when active */}
-                                    <div className="mb-5 bg-white rounded-xl p-4 shadow-sm border border-gray-100 max-w-md">
-                                        <p className="text-xs text-gray-500 mb-2 font-medium uppercase tracking-wide">🎧 Listen to Sample Call</p>
-                                        {activeService === i ? (
-                                            <audio
-                                                controls
-                                                className="w-full h-10"
-                                                style={{ accentColor: '#f97316' }}
-                                                preload="metadata"
-                                            >
-                                                <source src={s.audio} type="audio/mpeg" />
-                                                Your browser does not support audio.
-                                            </audio>
-                                        ) : (
-                                            <div className="w-full h-10 bg-gray-100 rounded-full flex items-center justify-center text-xs text-gray-400">
-                                                Scroll to activate audio
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Feature Cards Grid */}
-                                    <div className="grid grid-cols-2 gap-3">
-                                        {s.features.map((f, fi) => (
-                                            <div key={fi} className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all">
-                                                <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${s.color} flex items-center justify-center mb-2`}>
-                                                    {f.icon === 'Calendar' && <Calendar className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Clock' && <Clock className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Users' && <Users className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Shield' && <Shield className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'PhoneCall' && <PhoneCall className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'MessageSquare' && <MessageSquare className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Globe' && <Globe className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'TrendingUp' && <TrendingUp className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'BarChart3' && <BarChart3 className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Zap' && <Zap className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Headphones' && <Headphones className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'CheckCircle' && <CheckCircle className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'Award' && <Award className="h-5 w-5 text-white" />}
-                                                    {f.icon === 'LayoutDashboard' && <LayoutDashboard className="h-5 w-5 text-white" />}
-                                                </div>
-                                                <p className="text-xs text-gray-700 font-medium leading-tight">{f.text}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
+                                <p className="text-[15px] font-semibold text-white">{industry.name}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
-
-            {/* Demo Form */}
-            <Lead />
 
             {/* Platform Features Showcase */}
             <PlatformFeatures />
 
             {/* Why Choose DigitalBot - Bento Grid Style */}
-            <section className="py-8 px-4 bg-gradient-to-b from-white via-[#fafbff] to-white overflow-hidden">
+            <section className="py-8 px-4 bg-white overflow-hidden">
                 <div className="container mx-auto max-w-6xl">
                     {/* Section Header */}
                     <div className="text-center mb-10">

@@ -107,19 +107,8 @@ export default function TestimonialCarousel() {
   const currentTestimonial = testimonials[activeIndex]
 
   return (
-    <section className="py-10 sm:py-14 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        {/* Gradient Orbs */}
-        <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-gradient-to-br from-orange-100 to-orange-100 rounded-full blur-3xl opacity-60 -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-orange-100 to-pink-100 rounded-full blur-3xl opacity-60 translate-x-1/2 translate-y-1/2" />
-        
-        {/* Dot Pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #f97316 1px, transparent 0)`,
-          backgroundSize: '32px 32px'
-        }} />
-      </div>
+    <section className="py-10 sm:py-14 bg-white relative overflow-hidden">
+      <div className="absolute inset-0 bg-white" aria-hidden="true" />
 
       <div className="container mx-auto px-4 max-w-6xl relative z-10">
         {/* Header */}

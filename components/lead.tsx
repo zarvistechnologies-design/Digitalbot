@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, BarChart3, Building2, CheckCircle2, Clock, Globe, Headphones, Mail, MessageSquare, Phone, Send, Shield, Sparkles, Star, User, Users, Zap } from "lucide-react"
+import { ArrowRight, Building2, CheckCircle2, Mail, MessageSquare, Mic, Phone, PhoneCall, Send, Shield, Star, User, Zap } from "lucide-react"
 import { useState } from "react"
 
 export function Lead() {
@@ -75,37 +75,15 @@ export function Lead() {
   return (
     <>
       {/* Main Lead Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-br from-orange-200/40 to-orange-200/30 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 -right-20 w-80 h-80 bg-gradient-to-br from-orange-200/40 to-orange-200/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-emerald-100/20 to-transparent rounded-full blur-3xl" />
-          <div className="absolute top-40 right-1/3 w-64 h-64 bg-gradient-to-br from-rose-200/30 to-pink-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        </div>
-
-        {/* Floating Shapes */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-32 left-[15%] w-4 h-4 bg-orange-400 rounded-full opacity-70 animate-bounce" style={{ animationDuration: '3s' }} />
-          <div className="absolute top-48 right-[20%] w-3 h-3 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
-          <div className="absolute bottom-32 left-[25%] w-5 h-5 bg-emerald-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-          <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-rose-400 rounded-full opacity-70 animate-ping" style={{ animationDuration: '2s' }} />
-          <div className="absolute bottom-48 right-[30%] w-3 h-3 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1.5s' }} />
-          <div className="absolute top-24 left-[40%] w-2 h-2 bg-orange-400 rounded-full opacity-50 animate-ping" style={{ animationDuration: '2.5s', animationDelay: '0.8s' }} />
-        </div>
+      <section className="relative overflow-hidden bg-white">
+        <div className="absolute inset-0 bg-white pointer-events-none" aria-hidden="true" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-[1fr_1fr] gap-12 items-center">
               {/* Left: Form */}
               <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/20 via-orange-500/20 to-orange-400/20 rounded-3xl blur-2xl opacity-60" />
-                
-                <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl shadow-orange-500/10 border border-white/40">
-                  {/* Decorative Corner */}
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500/10 via-orange-500/10 to-transparent rounded-bl-[100px]" />
-                  <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-orange-400/10 via-orange-500/10 to-transparent rounded-tr-[80px]" />
+                <div className="relative bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
 
                   <div className="relative z-10">
                     {/* Form Header */}
@@ -261,64 +239,88 @@ export function Lead() {
                 </div>
               </div>
 
-              {/* Right: Attractive Content */}
-              <div className="hidden lg:flex flex-col gap-8">
-                {/* Hero Tagline */}
-                <div>
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/80 border border-orange-200/50 rounded-full mb-5">
-                    <Sparkles className="w-4 h-4 text-orange-600" />
-                    <span className="text-sm font-semibold text-orange-700">AI-Powered Voice Agents</span>
+              {/* Right: Two-Phone Preview */}
+              <div className="hidden lg:flex justify-center">
+                <div className="relative w-full max-w-[520px] min-h-[560px] overflow-hidden rounded-[32px] border border-[#2b2038] bg-[radial-gradient(circle_at_top_left,_rgba(196,181,253,0.55),transparent_30%),radial-gradient(circle_at_top_right,_rgba(251,146,60,0.35),transparent_28%),radial-gradient(circle_at_bottom_center,_rgba(168,139,250,0.28),transparent_35%),linear-gradient(135deg,#17131f_0%,#120f1f_42%,#241521_100%)] p-6 shadow-[0_30px_80px_rgba(15,10,30,0.35)]">
+                  <div className="absolute inset-x-10 bottom-0 h-24 rounded-full bg-white/20 blur-3xl" />
+
+                  <div className="flex items-center justify-between text-white/80">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-medium backdrop-blur">
+                      <Zap className="h-3.5 w-3.5 text-orange-300" />
+                      Live Voice UI
+                    </div>
+                    <div className="rounded-full border border-orange-300/40 bg-orange-400/10 px-4 py-1.5 text-[11px] font-medium text-orange-100 backdrop-blur">
+                      Get Started
+                    </div>
                   </div>
-                  <h2 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-                    Transform Every Call Into a{" "}
-                    <span className="bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent">Growth Opportunity</span>
-                  </h2>
-                  <p className="text-gray-600 text-lg leading-relaxed">
-                    Our AI voice assistants handle customer calls 24/7 — booking appointments, answering questions, and closing deals while you focus on what matters.
-                  </p>
-                </div>
 
-                {/* Feature Highlights */}
-                <div className="space-y-4">
-                  {[
-                    { icon: Headphones, title: "Natural Conversations", desc: "Human-like AI that understands context and intent" },
-                    { icon: Zap, title: "Instant Setup", desc: "Go live in under 10 minutes with zero coding" },
-                    { icon: Globe, title: "50+ Languages", desc: "Speak your customers' language, anywhere in the world" },
-                    { icon: BarChart3, title: "Real-time Analytics", desc: "Track every call, sentiment, and conversion metric" },
-                  ].map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-4 p-4 rounded-2xl bg-white/60 border border-gray-100 hover:shadow-md hover:border-orange-200/60 transition-all duration-300 group">
-                      <div className="w-11 h-11 flex-shrink-0 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-md shadow-orange-500/20 group-hover:scale-110 transition-transform">
-                        <feature.icon className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900 mb-0.5">{feature.title}</h4>
-                        <p className="text-sm text-gray-500">{feature.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Social Proof Mini */}
-                <div className="flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-r from-gray-900 to-gray-800 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl" />
-                  <div className="relative z-10 flex items-center gap-4 w-full">
-                    {/* Avatar Stack */}
-                    <div className="flex -space-x-3 flex-shrink-0">
-                      {["bg-orange-500", "bg-emerald-500", "bg-blue-500", "bg-rose-500"].map((bg, i) => (
-                        <div key={i} className={`w-10 h-10 rounded-full ${bg} border-2 border-gray-900 flex items-center justify-center text-white font-bold text-xs`}>
-                          {["A", "S", "M", "K"][i]}
-                        </div>
-                      ))}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1 mb-0.5">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 text-orange-400 fill-orange-400" />
-                        ))}
-                      </div>
-                      <p className="text-gray-300 text-sm">
-                        <span className="text-white font-semibold">500+</span> businesses trust us with <span className="text-white font-semibold">2M+</span> calls/month
+                  <div className="relative mt-8 h-[460px]">
+                    <div className="absolute left-0 top-8 max-w-[170px] space-y-3 text-white">
+                      <p className="text-2xl font-semibold leading-tight">
+                        See your AI agent working in real time.
                       </p>
+                      <p className="text-sm leading-6 text-white/70">
+                        Calls, summaries, transfers, and bookings — all in one smart flow.
+                      </p>
+                      <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-xs text-white/80 backdrop-blur">
+                        <PhoneCall className="h-3.5 w-3.5 text-orange-300" />
+                        50K+ calls automated
+                      </div>
+                    </div>
+
+                    <div className="absolute bottom-0 left-[110px] h-[250px] w-[160px] rounded-[28px] border-[6px] border-[#15121d] bg-[linear-gradient(180deg,#5642b1_0%,#1a1630_55%,#111018_100%)] p-3 shadow-[0_20px_50px_rgba(12,8,24,0.6)]">
+                      <div className="mx-auto mb-3 h-5 w-20 rounded-full bg-black/70" />
+                      <div className="rounded-[20px] bg-white/10 p-3 backdrop-blur">
+                        <div className="mb-3 flex items-center gap-2">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 text-white">
+                            <Mic className="h-5 w-5" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-white">DigitalBot</p>
+                            <p className="text-[10px] text-white/60">AI call assistant</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between rounded-xl bg-blue-500/30 px-2 py-1 text-[10px] text-white">
+                          <span>Call summary</span>
+                          <span>GET</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="absolute right-4 top-0 h-[390px] w-[210px] rounded-[34px] border-[7px] border-[#15121d] bg-[linear-gradient(180deg,#5b47c8_0%,#221c46_50%,#0e1018_100%)] p-4 shadow-[0_30px_70px_rgba(8,6,20,0.65)]">
+                      <div className="mx-auto mb-4 h-6 w-24 rounded-full bg-black/80" />
+                      <div className="mb-4 flex items-center justify-between rounded-2xl bg-white/10 px-3 py-2 text-white/90 backdrop-blur">
+                        <span className="text-[11px]">AI Voice Console</span>
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-[10px]">⋯</span>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="rounded-2xl bg-white/10 p-3 backdrop-blur">
+                          <p className="text-xs text-white/60">Now live</p>
+                          <p className="mt-1 text-[28px] font-semibold leading-8 text-white">Hey, your AI agent is handling calls.</p>
+                        </div>
+                        <div className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/50">Search conversations</div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="rounded-2xl bg-white/10 p-3">
+                            <p className="text-[10px] text-white/60">Lead</p>
+                            <p className="mt-3 text-sm font-medium text-white">Booked demo</p>
+                          </div>
+                          <div className="rounded-2xl bg-white/10 p-3">
+                            <p className="text-[10px] text-white/60">Transfer</p>
+                            <p className="mt-3 text-sm font-medium text-white">Agent ready</p>
+                          </div>
+                        </div>
+                        <div className="rounded-2xl bg-gradient-to-r from-orange-400/80 to-amber-300/80 p-3 text-[#1a1023]">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.2em]">Today</p>
+                          <p className="mt-1 text-sm font-semibold">12 appointments confirmed</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="absolute right-0 top-24 rounded-2xl border border-white/15 bg-white/90 px-3 py-2 shadow-lg">
+                      <div className="flex items-center gap-2 text-[11px] font-medium text-slate-700">
+                        <MessageSquare className="h-3.5 w-3.5 text-orange-500" />
+                        50K+ happy users
+                      </div>
                     </div>
                   </div>
                 </div>

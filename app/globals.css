@@ -4,7 +4,7 @@
 
 :root {
   /* Premium AI SaaS — Deep orange glassmorphism palette */
-  --background: #fafbff;
+  --background: #ffffff;
   --foreground: #0f172a;
   --card: rgba(255, 255, 255, 0.7);
   --card-foreground: #0f172a;
@@ -40,7 +40,7 @@
   /* Glass tokens */
   --glass-bg: rgba(255, 255, 255, 0.55);
   --glass-border: rgba(255, 255, 255, 0.35);
-  --glass-shadow: 0 8px 32px rgba(249, 115, 22, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
   --glow-primary: rgba(249, 115, 22, 0.35);
   --glow-accent: rgba(139, 92, 246, 0.30);
 }
