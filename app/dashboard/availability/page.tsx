@@ -262,7 +262,7 @@ export default function AvailabilityPage() {
   const isPast = selectedDate < new Date(new Date().setHours(0, 0, 0, 0));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-purple-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-orange-50/20">
       {/* Mobile Menu Button */}
       {!sidebarOpen && (
         <button
@@ -424,7 +424,7 @@ export default function AvailabilityPage() {
                         if (!hours) return null;
                         const isSelectedDay = selectedDate.getDay() === idx;
                         return (
-                          <span key={idx} className={`text-xs ${isSelectedDay ? "text-purple-700 font-semibold" : "text-gray-400"}`}>
+                          <span key={idx} className={`text-xs ${isSelectedDay ? "text-orange-700 font-semibold" : "text-gray-400"}`}>
                             {dayLabel} {hours.start}-{hours.end}
                           </span>
                         );

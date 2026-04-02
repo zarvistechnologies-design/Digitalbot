@@ -7,14 +7,14 @@ import Link from "next/link"
 export function Footer() {
 
   const services = [
-    { name: "AI Voice Bot", href: "/services/ai-voice-bot", icon: Bot, gradient: "from-orange-500 to-violet-500", description: "24/7 automated voice assistance" },
-    { name: "Voice AI for Business", href: "/services/voice-ai-business", icon: Building2, gradient: "from-orange-500 to-violet-500", description: "Enterprise AI solutions" },
-    { name: "Voice Automation", href: "/services/voice-automation-software", icon: Zap, gradient: "from-orange-500 to-violet-600", description: "Streamline workflows" },
-    { name: "AI Customer Support", href: "/services/ai-customer-support", icon: HeadphonesIcon, gradient: "from-orange-500 to-violet-600", description: "Smart support system" },
-    { name: "Conversational AI", href: "/services/conversational-ai", icon: MessageSquare, gradient: "from-orange-500 to-violet-500", description: "Natural conversations" },
-    { name: "AI Call Center", href: "/services/ai-call-center", icon: Phone, gradient: "from-orange-500 to-violet-500", description: "Automated call handling" },
-    { name: "AI Sales Agent", href: "/services/ai-sales-agent", icon: Users, gradient: "from-orange-500 to-violet-600", description: "Boost sales conversions" },
-    { name: "Virtual Receptionist", href: "/services/ai-virtual-receptionist", icon: Sparkles, gradient: "from-orange-500 to-violet-600", description: "Professional front desk AI" },
+    { name: "AI Voice Bot", href: "/services/ai-voice-bot", icon: Bot, gradient: "from-orange-500 to-orange-600", description: "24/7 automated voice assistance" },
+    { name: "Voice AI for Business", href: "/services/voice-ai-business", icon: Building2, gradient: "from-orange-500 to-orange-600", description: "Enterprise AI solutions" },
+    { name: "Voice Automation", href: "/services/voice-automation-software", icon: Zap, gradient: "from-orange-500 to-orange-600", description: "Streamline workflows" },
+    { name: "AI Customer Support", href: "/services/ai-customer-support", icon: HeadphonesIcon, gradient: "from-orange-500 to-orange-600", description: "Smart support system" },
+    { name: "Conversational AI", href: "/services/conversational-ai", icon: MessageSquare, gradient: "from-orange-500 to-orange-600", description: "Natural conversations" },
+    { name: "AI Call Center", href: "/services/ai-call-center", icon: Phone, gradient: "from-orange-500 to-orange-600", description: "Automated call handling" },
+    { name: "AI Sales Agent", href: "/services/ai-sales-agent", icon: Users, gradient: "from-orange-500 to-orange-600", description: "Boost sales conversions" },
+    { name: "Virtual Receptionist", href: "/services/ai-virtual-receptionist", icon: Sparkles, gradient: "from-orange-500 to-orange-600", description: "Professional front desk AI" },
   ]
 
   const features = [
@@ -28,13 +28,13 @@ export function Footer() {
     <footer className="relative bg-gradient-to-b from-white to-[#fafbff] border-t border-orange-100/30 overflow-hidden">
       {/* Subtle background glow */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-400/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-400/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-400/5 rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        {/* Enhanced Premium Feature Banner - Purple/orange */}
+        {/* Enhanced Premium Feature Banner - Orange theme */}
         <div className="py-12 mb-8">
-          <div className="relative glass-strong bg-gradient-to-r from-orange-500/90 via-violet-500/90 to-orange-600/90 rounded-3xl p-8 shadow-2xl shadow-orange-500/20 overflow-hidden group border border-orange-400/20">
+          <div className="relative glass-strong bg-gradient-to-r from-orange-500/90 via-orange-600/90 to-orange-600/90 rounded-3xl p-8 shadow-2xl shadow-orange-500/20 overflow-hidden group border border-orange-400/20">
             {/* Enhanced Animated shimmer effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
@@ -73,7 +73,7 @@ export function Footer() {
             <div className="group relative inline-block">
               <Link href="/" className="block">
                 {/* Glow effect - orange */}
-                <div className="absolute -inset-6 bg-gradient-to-r from-orange-500/40 via-violet-600/40 to-orange-600/40 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                <div className="absolute -inset-6 bg-gradient-to-r from-orange-500/40 via-orange-600/40 to-orange-600/40 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
                 <Image
                   src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
                   alt="DigitalBot.AI - AI Voice Assistant Platform"
@@ -91,14 +91,14 @@ export function Footer() {
               Transform customer interactions with intelligent automation.
             </p>
 
-            {/* Enhanced Trust Badges - Purple/orange */}
+            {/* Enhanced Trust Badges - Orange theme */}
             <div className="grid grid-cols-2 gap-3">
               {features.map((feature, idx) => {
                 const colors = [
-                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-violet-500', shadow: 'hover:shadow-orange-500/15' },
-                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-violet-500 to-orange-500', shadow: 'hover:shadow-violet-500/15' },
-                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-violet-500', shadow: 'hover:shadow-orange-500/15' },
-                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-violet-500 to-orange-500', shadow: 'hover:shadow-violet-500/15' },
+                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-orange-600', shadow: 'hover:shadow-orange-500/15' },
+                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-orange-500', shadow: 'hover:shadow-orange-500/15' },
+                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-orange-600', shadow: 'hover:shadow-orange-500/15' },
+                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-orange-500', shadow: 'hover:shadow-orange-500/15' },
                 ]
                 const colorSet = colors[idx]
                 return (
@@ -112,7 +112,7 @@ export function Footer() {
               })}
             </div>
 
-            {/* Enhanced Social Media - Purple/orange */}
+            {/* Enhanced Social Media - Orange theme */}
             <div>
               <h4 className="text-sm font-bold text-gradient mb-4 flex items-center gap-2 uppercase tracking-widest">
                 <Globe className="w-4 h-4 text-orange-500" />
@@ -120,11 +120,11 @@ export function Footer() {
               </h4>
               <div className="flex items-center gap-2">
                 {[
-                  { icon: Twitter, link: "https://twitter.com/digitalbot_ai", label: "Twitter", color: "from-orange-500 to-violet-500" },
-                  { icon: Linkedin, link: "https://linkedin.com/company/digitalbot-ai", label: "LinkedIn", color: "from-violet-500 to-orange-600" },
-                  { icon: Instagram, link: "https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz", label: "Instagram", color: "from-pink-500 to-violet-500" },
-                  { icon: Facebook, link: "https://www.facebook.com/profile.php?id=61583885495540", label: "Facebook", color: "from-orange-500 to-violet-500" },
-                  { icon: Mail, link: "mailto:contact@digitalbot.ai", label: "Email", color: "from-violet-500 to-orange-500" }
+                  { icon: Twitter, link: "https://twitter.com/digitalbot_ai", label: "Twitter", color: "from-orange-500 to-orange-600" },
+                  { icon: Linkedin, link: "https://linkedin.com/company/digitalbot-ai", label: "LinkedIn", color: "from-orange-500 to-orange-600" },
+                  { icon: Instagram, link: "https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz", label: "Instagram", color: "from-pink-500 to-orange-600" },
+                  { icon: Facebook, link: "https://www.facebook.com/profile.php?id=61583885495540", label: "Facebook", color: "from-orange-500 to-orange-600" },
+                  { icon: Mail, link: "mailto:contact@digitalbot.ai", label: "Email", color: "from-orange-500 to-orange-500" }
                 ].map((social, idx) => (
                   <Link
                     key={idx}
@@ -148,7 +148,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Enhanced AI Services Grid - Purple/orange */}
+          {/* Enhanced AI Services Grid - Orange theme */}
           <div className="lg:col-span-8">
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-2">
@@ -167,13 +167,13 @@ export function Footer() {
                 const Icon = service.icon
                 const colorSets = [
                   { gradient: 'from-orange-500 via-violet-500 to-orange-600', border: 'border-orange-200/30', iconBg: 'from-orange-50/80 to-white/60' },
-                  { gradient: 'from-violet-500 via-orange-500 to-violet-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
+                  { gradient: 'from-orange-500 via-orange-500 to-orange-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
                   { gradient: 'from-orange-500 via-violet-500 to-orange-600', border: 'border-orange-200/30', iconBg: 'from-orange-50/80 to-white/60' },
-                  { gradient: 'from-violet-500 via-orange-500 to-violet-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
+                  { gradient: 'from-orange-500 via-orange-500 to-orange-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
                   { gradient: 'from-orange-500 via-violet-500 to-orange-600', border: 'border-orange-200/30', iconBg: 'from-orange-50/80 to-white/60' },
-                  { gradient: 'from-violet-500 via-orange-500 to-violet-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
+                  { gradient: 'from-orange-500 via-orange-500 to-orange-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
                   { gradient: 'from-orange-500 via-violet-500 to-orange-600', border: 'border-orange-200/30', iconBg: 'from-orange-50/80 to-white/60' },
-                  { gradient: 'from-violet-500 via-orange-500 to-violet-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
+                  { gradient: 'from-orange-500 via-orange-500 to-orange-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
                 ]
                 const colorSet = colorSets[idx % colorSets.length]
                 return (
@@ -256,7 +256,7 @@ export function Footer() {
                           href={link.href}
                           className="text-sm text-slate-500 hover:text-orange-600 transition-colors duration-300 flex items-center gap-2 group"
                         >
-                          <span className="w-0 h-px bg-gradient-to-r from-orange-500 to-violet-500 group-hover:w-4 transition-all duration-300" />
+                          <span className="w-0 h-px bg-gradient-to-r from-orange-500 to-orange-600 group-hover:w-4 transition-all duration-300" />
                           {link.name}
                         </Link>
                       </li>
@@ -271,7 +271,7 @@ export function Footer() {
         {/* Enhanced Bottom Bar - orange */}
         <div className="border-t border-orange-100/30 pt-8 pb-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Enhanced Copyright with Animation - Purple/orange */}
+            {/* Enhanced Copyright with Animation - Orange theme */}
             <div className="flex items-center gap-3">
               <div className="relative">
                 <div className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 via-violet-500 to-orange-600 animate-ping absolute" />

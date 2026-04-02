@@ -15,7 +15,7 @@ interface StatProps {
   bgColor?: string
 }
 
-function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, duration = 2, decimals = 0, color = 'from-orange-500 to-violet-500', bgColor = 'from-orange-50 to-violet-50/50' }: StatProps) {
+function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, duration = 2, decimals = 0, color = 'from-orange-500 to-orange-600', bgColor = 'from-orange-50 to-orange-50/50' }: StatProps) {
   const [count, setCount] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
@@ -74,12 +74,12 @@ function AnimatedStat({ value, suffix = '', prefix = '', label, icon: Icon, dura
 }
 
 const stats = [
-  { value: 10, suffix: 'M+', label: 'Calls Handled', icon: Phone, color: 'from-orange-500 to-violet-500', bgColor: 'from-orange-50 to-violet-50/50' },
+  { value: 10, suffix: 'M+', label: 'Calls Handled', icon: Phone, color: 'from-orange-500 to-orange-600', bgColor: 'from-orange-50 to-orange-50/50' },
   { value: 99.9, suffix: '%', label: 'Uptime Guarantee', icon: Shield, decimals: 1, color: 'from-emerald-500 to-teal-500', bgColor: 'from-emerald-50 to-emerald-100/50' },
-  { value: 750, suffix: 'ms', prefix: '<', label: 'Response Time', icon: Zap, color: 'from-orange-500 to-violet-500', bgColor: 'from-orange-50 to-violet-50/50' },
-  { value: 50, suffix: '+', label: 'Languages Supported', icon: Globe, color: 'from-violet-500 to-purple-500', bgColor: 'from-violet-50 to-violet-100/50' },
+  { value: 750, suffix: 'ms', prefix: '<', label: 'Response Time', icon: Zap, color: 'from-orange-500 to-orange-600', bgColor: 'from-orange-50 to-orange-50/50' },
+  { value: 50, suffix: '+', label: 'Languages Supported', icon: Globe, color: 'from-orange-500 to-orange-600', bgColor: 'from-orange-50 to-orange-100/50' },
   { value: 24, suffix: '/7', label: 'AI Availability', icon: Clock, color: 'from-rose-500 to-pink-500', bgColor: 'from-rose-50 to-rose-100/50' },
-  { value: 300, suffix: '%', label: 'Average ROI', icon: TrendingUp, color: 'from-orange-500 to-violet-500', bgColor: 'from-orange-50 to-violet-50/50' },
+  { value: 300, suffix: '%', label: 'Average ROI', icon: TrendingUp, color: 'from-orange-500 to-orange-600', bgColor: 'from-orange-50 to-orange-50/50' },
 ]
 
 export default function AnimatedStats() {
@@ -87,7 +87,7 @@ export default function AnimatedStats() {
     <section className="py-20 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: 'radial-gradient(circle, #6366f1 1px, transparent 1px)',
+        backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)',
         backgroundSize: '32px 32px'
       }}></div>
 
@@ -103,7 +103,7 @@ export default function AnimatedStats() {
             Platform Performance
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Numbers That <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-violet-500">Speak for Themselves</span>
+            Numbers That <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">Speak for Themselves</span>
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Industry-leading performance metrics that power thousands of businesses worldwide

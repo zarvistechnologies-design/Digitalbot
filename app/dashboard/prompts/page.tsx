@@ -276,7 +276,7 @@ export default function PromptsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-purple-50/20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-orange-50/20">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="lg:pl-64">
@@ -285,7 +285,7 @@ export default function PromptsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <Bot className="w-8 h-8 text-purple-600" />
+                <Bot className="w-8 h-8 text-orange-600" />
                 AI Prompt Configuration
               </h1>
               <p className="text-gray-600 mt-1">Configure AI voice agent prompts for your hospitals</p>
@@ -307,7 +307,7 @@ export default function PromptsPage() {
                   setActiveTab("basic");
                   setShowModal(true);
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 Add Prompt
@@ -404,7 +404,7 @@ export default function PromptsPage() {
                       </span>
                     )}
                     {prompt.notifications.whatsappEnabled && (
-                      <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full flex items-center gap-1">
+                      <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full flex items-center gap-1">
                         <Check className="w-3 h-3" /> WhatsApp
                       </span>
                     )}
@@ -414,7 +414,7 @@ export default function PromptsPage() {
                   <div className="flex gap-2 pt-4 border-t border-gray-100">
                     <button
                       onClick={() => handleEdit(prompt)}
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-lg transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-orange-50 hover:bg-orange-100 text-orange-600 rounded-lg transition-colors"
                     >
                       <Edit className="w-4 h-4" />
                       Edit
@@ -469,7 +469,7 @@ export default function PromptsPage() {
                   onClick={() => setActiveTab(tab)}
                   className={`px-4 py-3 text-sm font-medium capitalize border-b-2 transition-colors ${
                     activeTab === tab
-                      ? "border-purple-600 text-purple-600"
+                      ? "border-orange-600 text-orange-600"
                       : "border-transparent text-gray-500 hover:text-gray-700"
                   }`}
                 >
@@ -596,7 +596,7 @@ export default function PromptsPage() {
                           onClick={() => toggleWorkingDay(day.value)}
                           className={`px-3 py-2 rounded-lg border transition-colors ${
                             formData.workingDays.includes(day.value)
-                              ? "bg-purple-600 text-white border-purple-600"
+                              ? "bg-orange-600 text-white border-orange-600"
                               : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
                           }`}
                         >
@@ -805,7 +805,7 @@ export default function PromptsPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
+                  className="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50"
                 >
                   {saving ? "Saving..." : editingPrompt ? "Update Prompt" : "Create Prompt"}
                 </button>

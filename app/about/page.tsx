@@ -71,15 +71,15 @@ const values = [
     icon: Target,
     title: "Customer-Centric",
     description: "Every feature we build solves real customer problems and drives measurable business value.",
-    gradient: "from-orange-500 to-violet-500",
+    gradient: "from-orange-500 to-orange-600",
     bgColor: "bg-orange-50"
   },
   {
     icon: Lightbulb,
     title: "Innovation First",
     description: "We push the boundaries of AI voice technology to deliver cutting-edge experiences.",
-    gradient: "from-violet-500 to-orange-500",
-    bgColor: "bg-violet-50"
+    gradient: "from-orange-500 to-orange-500",
+    bgColor: "bg-orange-50"
   },
   {
     icon: Award,
@@ -103,7 +103,7 @@ const milestones = [
     title: "Founded DigitalBot.ai",
     description: "Started with a vision to democratize AI voice technology",
     icon: Building2,
-    color: "bg-gradient-to-br from-orange-500 to-violet-500"
+    color: "bg-gradient-to-br from-orange-500 to-orange-600"
   },
   {
     year: "2024 Q2",
@@ -117,7 +117,7 @@ const milestones = [
     title: "Platform Launch",
     description: "Multi-language support with analytics dashboard",
     icon: Globe,
-    color: "bg-violet-500"
+    color: "bg-orange-500"
   },
   {
     year: "2024 Q4",
@@ -138,7 +138,7 @@ const milestones = [
 const teamStats = [
   { label: "Team Members", value: 50, suffix: "+", icon: Users, color: "text-orange-600", bgColor: "bg-orange-50" },
   { label: "Countries", value: 25, suffix: "+", icon: Globe, color: "text-emerald-600", bgColor: "bg-emerald-50" },
-  { label: "Years Experience", value: 100, suffix: "+", icon: Award, color: "text-violet-600", bgColor: "bg-violet-50" },
+  { label: "Years Experience", value: 100, suffix: "+", icon: Award, color: "text-orange-600", bgColor: "bg-orange-50" },
   { label: "Patents Filed", value: 12, suffix: "", icon: Lightbulb, color: "text-orange-600", bgColor: "bg-orange-50" },
 ]
 
@@ -153,15 +153,15 @@ export default function About() {
           {/* Animated Background */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/20 rounded-full blur-[100px] animate-pulse" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-200/15 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-200/15 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/10 rounded-full blur-[120px]" />
           </div>
 
           {/* Floating Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-32 left-[10%] w-4 h-4 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
-            <div className="absolute top-48 right-[15%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
-            <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-violet-300 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+            <div className="absolute top-48 right-[15%] w-3 h-3 bg-orange-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
+            <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-orange-300 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
             <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-orange-300 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
           </div>
 
@@ -186,7 +186,7 @@ export default function About() {
 
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-6 leading-tight">
                   Building the Future of
-                  <span className="block bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent mt-2">AI Voice Technology</span>
+                  <span className="block bg-gradient-to-r from-orange-600 via-orange-600 to-orange-600 bg-clip-text text-transparent mt-2">AI Voice Technology</span>
                 </h1>
 
                 <p className="text-lg text-slate-500 mb-8 leading-relaxed">
@@ -244,16 +244,16 @@ export default function About() {
                         <AnimatedCounter end={50} suffix="K" />
                       </p>
                     </div>
-                    <div className="bg-gradient-to-br from-violet-50 to-violet-100/50 rounded-2xl p-5">
+                    <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-5">
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center">
+                        <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
                           <Shield className="w-5 h-5 text-white" />
                         </div>
                         <span className="text-sm text-slate-500">Uptime</span>
                       </div>
                       <p className="text-3xl font-semibold text-slate-900">99.9%</p>
                     </div>
-                    <div className="bg-gradient-to-br from-violet-50 to-violet-100/50 rounded-2xl p-5">
+                    <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-5">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
                           <Globe className="w-5 h-5 text-white" />
@@ -289,7 +289,7 @@ export default function About() {
                 {/* Floating Badge */}
                 <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 border border-slate-200">
                   <div className="flex items-center gap-3">
-                    <div className={`w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-500 rounded-xl flex items-center justify-center`}>
+                    <div className={`w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center`}>
                       <Star className="w-6 h-6 text-white fill-white" />
                     </div>
                     <div>
@@ -340,9 +340,9 @@ export default function About() {
               <div className="grid grid-cols-2 gap-4">
                 {[
                   { label: 'Conversations', value: '10M+', icon: Phone, color: 'from-emerald-400 to-teal-500' },
-                  { label: 'Response Time', value: '<750ms', icon: Zap, color: 'from-orange-400 to-violet-500' },
+                  { label: 'Response Time', value: '<750ms', icon: Zap, color: 'from-orange-400 to-orange-600' },
                   { label: 'Satisfaction', value: '98%', icon: Heart, color: 'from-rose-400 to-pink-500' },
-                  { label: 'Cost Saved', value: '$5M+', icon: TrendingUp, color: 'from-violet-400 to-purple-500' },
+                  { label: 'Cost Saved', value: '$5M+', icon: TrendingUp, color: 'from-orange-400 to-orange-600' },
                 ].map((stat, i) => (
                   <div key={i} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4`}>
@@ -409,7 +409,7 @@ export default function About() {
             {/* Timeline */}
             <div className="relative">
               {/* Line */}
-              <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-500 via-violet-500 to-rose-500 -translate-x-1/2 hidden lg:block rounded-full" />
+              <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-500 via-orange-500 to-rose-500 -translate-x-1/2 hidden lg:block rounded-full" />
 
               <div className="space-y-8 lg:space-y-12">
                 {milestones.map((milestone, i) => (

@@ -1,7 +1,7 @@
 "use client"
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Star, ChevronLeft, ChevronRight, Play, Quote, Sparkles, TrendingUp, Users, Award, Zap } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Award, ChevronLeft, ChevronRight, Play, Quote, Sparkles, Star, TrendingUp, Users, Zap } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 const testimonials = [
   {
@@ -28,7 +28,7 @@ const testimonials = [
     stats: { metric: "4x", label: "More qualified leads" },
     video: true,
     industry: "Technology",
-    color: "from-orange-500 to-violet-500"
+    color: "from-orange-500 to-orange-600"
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ const testimonials = [
     stats: { metric: "94%", label: "Customer satisfaction" },
     video: false,
     industry: "SaaS",
-    color: "from-purple-500 to-pink-500"
+    color: "from-orange-500 to-pink-500"
   },
   {
     id: 4,
@@ -54,7 +54,7 @@ const testimonials = [
     stats: { metric: "1000+", label: "Daily calls handled" },
     video: true,
     industry: "Hospitality",
-    color: "from-orange-500 to-violet-500"
+    color: "from-orange-500 to-orange-600"
   },
   {
     id: 5,
@@ -67,7 +67,7 @@ const testimonials = [
     stats: { metric: "4hrs", label: "Saved per agent daily" },
     video: false,
     industry: "Real Estate",
-    color: "from-orange-500 to-violet-500"
+    color: "from-orange-500 to-orange-600"
   }
 ]
 
@@ -75,7 +75,7 @@ const stats = [
   { icon: Users, value: "500+", label: "Happy Clients", color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
   { icon: TrendingUp, value: "10M+", label: "Calls Handled", color: "text-emerald-600", bgColor: "bg-emerald-50", iconBg: "bg-emerald-500" },
   { icon: Award, value: "4.9/5", label: "Avg Rating", color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
-  { icon: Zap, value: "99.9%", label: "Uptime", color: "text-violet-600", bgColor: "bg-violet-50", iconBg: "bg-violet-500" }
+  { icon: Zap, value: "99.9%", label: "Uptime", color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" }
 ]
 
 export default function TestimonialCarousel() {
@@ -107,43 +107,42 @@ export default function TestimonialCarousel() {
   const currentTestimonial = testimonials[activeIndex]
 
   return (
-    <section className="py-24 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden">
+    <section className="py-10 sm:py-14 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Gradient Orbs */}
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-orange-100 to-violet-100 rounded-full blur-3xl opacity-60 -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-100 to-pink-100 rounded-full blur-3xl opacity-60 translate-x-1/2 translate-y-1/2" />
-        <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-br from-orange-50 to-violet-50 rounded-full blur-3xl opacity-40 -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-gradient-to-br from-orange-100 to-orange-100 rounded-full blur-3xl opacity-60 -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-orange-100 to-pink-100 rounded-full blur-3xl opacity-60 translate-x-1/2 translate-y-1/2" />
         
         {/* Dot Pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #6366f1 1px, transparent 0)`,
+          backgroundImage: `radial-gradient(circle at 1px 1px, #f97316 1px, transparent 0)`,
           backgroundSize: '32px 32px'
         }} />
       </div>
 
-      <div className="container mx-auto px-4 max-w-7xl relative z-10">
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50/60 border border-orange-200/40 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-50/60 border border-orange-200/40 rounded-full mb-3">
             <Sparkles className="w-4 h-4 text-orange-600" />
-            <span className="text-sm font-semibold text-orange-700">Trusted Worldwide</span>
+            <span className="text-xs font-semibold text-orange-700 uppercase tracking-wider">Trusted Worldwide</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
             Loved by <span className="text-orange-600">Industry Leaders</span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-500 text-sm max-w-xl mx-auto">
             Join 500+ companies transforming customer experience with AI-powered voice solutions
           </p>
         </motion.div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
           {stats.map((stat, idx) => (
             <motion.div
               key={idx}
@@ -151,23 +150,23 @@ export default function TestimonialCarousel() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className={`${stat.bgColor} rounded-2xl p-6 shadow-lg border border-gray-100 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-2`}
+              className={`${stat.bgColor} rounded-xl p-4 shadow-sm border border-gray-100 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1`}
             >
-              <div className={`w-12 h-12 ${stat.iconBg} rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg`}>
-                <stat.icon className="w-6 h-6 text-white" />
+              <div className={`w-9 h-9 ${stat.iconBg} rounded-lg flex items-center justify-center mx-auto mb-2 shadow-md`}>
+                <stat.icon className="w-4 h-4 text-white" />
               </div>
-              <div className={`text-2xl md:text-3xl font-bold text-gray-900`}>{stat.value}</div>
-              <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
+              <div className={`text-xl font-bold text-gray-900`}>{stat.value}</div>
+              <div className="text-xs text-gray-600 font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-12 gap-8 items-center">
+        <div className="grid lg:grid-cols-12 gap-5 items-center">
           
           {/* Left - Testimonial Cards Stack */}
           <div className="lg:col-span-5 relative">
-            <div className="relative h-[400px]">
+            <div className="relative h-[300px]">
               {testimonials.map((testimonial, idx) => {
                 const isActive = idx === activeIndex
                 const isPrev = idx === (activeIndex - 1 + testimonials.length) % testimonials.length
@@ -189,47 +188,47 @@ export default function TestimonialCarousel() {
                     className="absolute inset-0 cursor-pointer"
                     onClick={() => { setIsAutoPlay(false); setActiveIndex(idx); }}
                   >
-                    <div className={`h-full bg-gradient-to-br ${testimonial.color} rounded-3xl p-1`}>
-                      <div className="h-full bg-white rounded-[22px] p-6 flex flex-col">
+                    <div className={`h-full bg-gradient-to-br ${testimonial.color} rounded-2xl p-0.5`}>
+                      <div className="h-full bg-white rounded-[14px] p-4 flex flex-col">
                         {/* Industry Badge */}
-                        <div className={`inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r ${testimonial.color} text-white text-xs font-semibold rounded-full w-fit mb-4`}>
+                        <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-gradient-to-r ${testimonial.color} text-white text-[10px] font-semibold rounded-full w-fit mb-3`}>
                           {testimonial.industry}
                         </div>
                         
                         {/* Profile */}
-                        <div className="flex items-center gap-4 mb-4">
+                        <div className="flex items-center gap-3 mb-3">
                           <div className="relative">
                             <img
                               src={testimonial.image}
                               alt={testimonial.name}
-                              className="w-16 h-16 rounded-2xl object-cover shadow-lg"
+                              className="w-12 h-12 rounded-xl object-cover shadow-md"
                             />
                             {testimonial.video && (
-                              <button className={`absolute -bottom-1 -right-1 w-7 h-7 bg-gradient-to-r ${testimonial.color} rounded-full flex items-center justify-center shadow-md`}>
-                                <Play className="h-3 w-3 text-white fill-white ml-0.5" />
+                              <button className={`absolute -bottom-1 -right-1 w-5 h-5 bg-gradient-to-r ${testimonial.color} rounded-full flex items-center justify-center shadow-sm`}>
+                                <Play className="h-2 w-2 text-white fill-white ml-0.5" />
                               </button>
                             )}
                           </div>
                           <div>
-                            <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
-                            <p className="text-sm text-gray-500">{testimonial.role}</p>
-                            <p className="text-xs text-gray-400">{testimonial.company}</p>
+                            <h4 className="font-bold text-gray-900 text-sm">{testimonial.name}</h4>
+                            <p className="text-xs text-gray-500">{testimonial.role}</p>
+                            <p className="text-[10px] text-gray-400">{testimonial.company}</p>
                           </div>
                         </div>
                         
                         {/* Rating */}
-                        <div className="flex gap-1 mb-3">
+                        <div className="flex gap-0.5 mb-2">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="h-4 w-4 text-orange-400 fill-orange-400" />
+                            <Star key={i} className="h-3 w-3 text-orange-400 fill-orange-400" />
                           ))}
                         </div>
 
                         {/* Stat Badge */}
-                        <div className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${testimonial.color} bg-opacity-10 rounded-xl w-fit`}>
-                          <span className={`text-2xl font-bold bg-gradient-to-r ${testimonial.color} bg-clip-text text-transparent`}>
+                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r ${testimonial.color} bg-opacity-10 rounded-lg w-fit`}>
+                          <span className={`text-lg font-bold bg-gradient-to-r ${testimonial.color} bg-clip-text text-transparent`}>
                             {testimonial.stats.metric}
                           </span>
-                          <span className="text-gray-600 text-sm">{testimonial.stats.label}</span>
+                          <span className="text-gray-600 text-xs">{testimonial.stats.label}</span>
                         </div>
                       </div>
                     </div>
@@ -239,7 +238,7 @@ export default function TestimonialCarousel() {
             </div>
             
             {/* Navigation Dots - Below Cards */}
-            <div className="flex items-center justify-center gap-2 mt-6">
+            <div className="flex items-center justify-center gap-2 mt-4">
               {testimonials.map((t, i) => (
                 <button
                   key={i}
@@ -266,27 +265,27 @@ export default function TestimonialCarousel() {
                 className="relative"
               >
                 {/* Large Quote Card */}
-                <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 md:p-12 border border-gray-100 shadow-xl shadow-gray-100/50 relative overflow-hidden">
+                <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-5 md:p-7 border border-gray-100 shadow-lg shadow-gray-100/50 relative overflow-hidden">
                   {/* Background Quote Mark */}
-                  <div className="absolute top-4 right-4 opacity-5">
-                    <Quote className="w-32 h-32 text-gray-900" />
+                  <div className="absolute top-3 right-3 opacity-5">
+                    <Quote className="w-20 h-20 text-gray-900" />
                   </div>
                   
                   {/* Colored Accent */}
-                  <div className={`absolute top-0 left-0 w-2 h-full bg-gradient-to-b ${currentTestimonial.color} rounded-l-3xl`} />
+                  <div className={`absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b ${currentTestimonial.color} rounded-l-2xl`} />
                   
                   {/* Quote Icon */}
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${currentTestimonial.color} flex items-center justify-center mb-6 shadow-lg`}>
-                    <Quote className="w-6 h-6 text-white" />
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${currentTestimonial.color} flex items-center justify-center mb-4 shadow-md`}>
+                    <Quote className="w-4 h-4 text-white" />
                   </div>
                   
                   {/* Quote Text */}
-                  <blockquote className="text-xl md:text-2xl text-gray-800 font-medium leading-relaxed mb-8">
+                  <blockquote className="text-base md:text-lg text-gray-800 font-medium leading-relaxed mb-5">
                     "{currentTestimonial.quote}"
                   </blockquote>
                   
                   {/* Divider */}
-                  <div className={`h-1 w-20 bg-gradient-to-r ${currentTestimonial.color} rounded-full mb-6`} />
+                  <div className={`h-0.5 w-16 bg-gradient-to-r ${currentTestimonial.color} rounded-full mb-4`} />
                   
                   {/* Author Info */}
                   <div className="flex items-center justify-between">
@@ -294,37 +293,37 @@ export default function TestimonialCarousel() {
                       <img
                         src={currentTestimonial.image}
                         alt={currentTestimonial.name}
-                        className={`w-14 h-14 rounded-xl object-cover ring-2 ring-offset-2 ring-gradient-to-r ${currentTestimonial.color}`}
+                        className={`w-10 h-10 rounded-lg object-cover ring-2 ring-offset-1 ring-gradient-to-r ${currentTestimonial.color}`}
                         style={{ 
                           boxShadow: `0 4px 14px -2px ${currentTestimonial.color.includes('orange') ? 'rgba(99,102,241,0.3)' : currentTestimonial.color.includes('emerald') ? 'rgba(16,185,129,0.3)' : currentTestimonial.color.includes('purple') ? 'rgba(168,85,247,0.3)' : currentTestimonial.color.includes('violet') ? 'rgba(139,92,246,0.3)' : 'rgba(99,102,241,0.3)'}` 
                         }}
                       />
                       <div>
-                        <div className="font-bold text-gray-900">{currentTestimonial.name}</div>
-                        <div className="text-sm text-gray-500">{currentTestimonial.role} at {currentTestimonial.company}</div>
+                        <div className="font-bold text-gray-900 text-sm">{currentTestimonial.name}</div>
+                        <div className="text-xs text-gray-500">{currentTestimonial.role} at {currentTestimonial.company}</div>
                       </div>
                     </div>
                     
                     {/* Navigation Arrows */}
-                    <div className="flex gap-2">
+                    <div className="flex gap-1.5">
                       <button
                         onClick={handlePrev}
-                        className="w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+                        className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                       >
-                        <ChevronLeft className="h-5 w-5 text-gray-600" />
+                        <ChevronLeft className="h-4 w-4 text-gray-600" />
                       </button>
                       <button
                         onClick={handleNext}
-                        className="w-10 h-10 rounded-xl bg-gradient-to-r from-orange-600 to-violet-600 hover:from-orange-700 hover:to-violet-700 flex items-center justify-center transition-all hover:shadow-lg"
+                        className="w-8 h-8 rounded-lg bg-gradient-to-r from-orange-600 to-orange-600 hover:from-orange-700 hover:to-orange-700 flex items-center justify-center transition-all hover:shadow-lg"
                       >
-                        <ChevronRight className="h-5 w-5 text-white" />
+                        <ChevronRight className="h-4 w-4 text-white" />
                       </button>
                     </div>
                   </div>
                 </div>
 
                 {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 px-4 py-2 bg-gradient-to-r from-orange-600 to-violet-600 text-white text-sm font-bold rounded-xl shadow-lg">
+                <div className="absolute -top-3 -right-3 px-3 py-1.5 bg-gradient-to-r from-orange-600 to-orange-600 text-white text-xs font-bold rounded-lg shadow-md">
                   ⭐ {currentTestimonial.stats.metric}
                 </div>
               </motion.div>
@@ -337,15 +336,15 @@ export default function TestimonialCarousel() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-16"
+          className="text-center mt-8"
         >
-          <p className="text-gray-500 mb-4">Ready to transform your business?</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="/contact#contact-form" className="px-8 py-4 bg-gradient-to-r from-orange-600 to-violet-600 hover:from-orange-700 hover:to-violet-700 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 transition-all hover:scale-105 flex items-center gap-2 btn-glow">
+          <p className="text-gray-500 text-sm mb-3">Ready to transform your business?</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="/contact#contact-form" className="px-6 py-2.5 bg-gradient-to-r from-orange-600 to-orange-600 hover:from-orange-700 hover:to-orange-700 text-white text-sm font-bold rounded-xl shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/30 transition-all hover:scale-105 flex items-center gap-2 btn-glow">
               Start Free Trial
-              <Zap className="w-5 h-5" />
+              <Zap className="w-4 h-4" />
             </a>
-            <a href="/contact#contact-form" className="px-8 py-4 bg-white text-orange-600 font-semibold rounded-xl border border-orange-200/40 hover:border-orange-300/40 hover:shadow-lg transition-all">
+            <a href="/contact#contact-form" className="px-6 py-2.5 bg-white text-orange-600 text-sm font-semibold rounded-xl border border-orange-200/40 hover:border-orange-300/40 hover:shadow-md transition-all">
               Talk to Sales
             </a>
           </div>

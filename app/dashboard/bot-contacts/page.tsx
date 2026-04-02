@@ -57,7 +57,7 @@ const serviceLabels: Record<string, string> = {
 const serviceColors: Record<string, string> = {
   doctor_consultation: "bg-blue-100 text-blue-700",
   pharmacy: "bg-green-100 text-green-700",
-  lab_tests: "bg-purple-100 text-purple-700",
+  lab_tests: "bg-orange-100 text-orange-700",
   ecg: "bg-red-100 text-red-700",
   ultrasound: "bg-cyan-100 text-cyan-700",
   skin_clinic: "bg-pink-100 text-pink-700",
@@ -328,7 +328,7 @@ export default function BotContactsPage() {
                       )}
 
                       {/* Avatar */}
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-purple-500 flex items-center justify-center flex-shrink-0">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center flex-shrink-0">
                         <User className="w-4 h-4 text-white" />
                       </div>
 

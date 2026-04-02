@@ -1,7 +1,7 @@
 "use client"
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, BarChart3, Bot, Headphones, MessageSquare, Mic, PhoneCall, Sparkles } from 'lucide-react';
+import { ArrowRight, BarChart3, Bot, Headphones, MessageSquare, Mic, PhoneCall } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
@@ -118,7 +118,7 @@ const ProductShowcase = () => {
                         {/* Mini UI mockup */}
                         <div className="absolute top-4 right-4 bg-gray-900 rounded-xl p-3 w-36 shadow-lg">
                             <div className="flex items-center gap-2 mb-2">
-                                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
+                                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-400 to-orange-500 flex items-center justify-center">
                                     <span className="text-[8px] text-white">✓</span>
                                 </div>
                                 <span className="text-[10px] text-gray-300">Preparing call...</span>
@@ -148,22 +148,22 @@ const ProductShowcase = () => {
                         <div className="relative w-40 h-40">
                             {/* Animated circles */}
                             <svg className="w-full h-full" viewBox="0 0 160 160">
-                                <circle cx="80" cy="80" r="70" fill="none" stroke="#6366f1" strokeWidth="2" opacity="0.15" />
-                                <circle cx="80" cy="80" r="55" fill="none" stroke="#8b5cf6" strokeWidth="2" opacity="0.25" />
-                                <circle cx="80" cy="80" r="40" fill="none" stroke="#a855f7" strokeWidth="2" opacity="0.35" />
+                                <circle cx="80" cy="80" r="70" fill="none" stroke="#f97316" strokeWidth="2" opacity="0.15" />
+                                <circle cx="80" cy="80" r="55" fill="none" stroke="#ea580c" strokeWidth="2" opacity="0.25" />
+                                <circle cx="80" cy="80" r="40" fill="none" stroke="#f97316" strokeWidth="2" opacity="0.35" />
                                 {/* Central icon */}
                                 <circle cx="80" cy="80" r="25" fill="url(#centerGradient)" />
                                 <defs>
                                     <linearGradient id="centerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#6366f1" />
-                                        <stop offset="100%" stopColor="#8b5cf6" />
+                                        <stop offset="0%" stopColor="#f97316" />
+                                        <stop offset="100%" stopColor="#ea580c" />
                                     </linearGradient>
                                 </defs>
                             </svg>
                             {/* Labels around circle */}
                             <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 text-[11px] font-semibold text-gray-400 tracking-wide">Automate</span>
                             <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 text-[11px] font-semibold text-gray-400 tracking-wide">Optimize</span>
-                            <span className="absolute top-1/2 -right-4 -translate-y-1/2 text-[11px] font-semibold text-violet-500 tracking-wide rotate-90">Personalize</span>
+                            <span className="absolute top-1/2 -right-4 -translate-y-1/2 text-[11px] font-semibold text-orange-500 tracking-wide rotate-90">Personalize</span>
                             <span className="absolute top-1/2 -left-4 -translate-y-1/2 text-[11px] font-semibold text-orange-500 tracking-wide -rotate-90">Observe</span>
                         </div>
                         <div className="ml-8 text-left">
@@ -178,16 +178,16 @@ const ProductShowcase = () => {
                     {/* Card 4 - Stats Card (40%) */}
                     <div 
                         ref={(el) => setCardRef(el, 3)}
-                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[180px] flex flex-col justify-center"
+                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[180px] flex flex-col justify-center"
                     >
                         <div className="flex items-start justify-between">
                             <div>
-                                <span className="text-4xl font-bold text-emerald-500">40</span>
-                                <span className="text-2xl font-bold text-emerald-500">%</span>
+                                <span className="text-4xl font-bold text-orange-500">40</span>
+                                <span className="text-2xl font-bold text-orange-500">%</span>
                                 <p className="text-sm text-gray-600 mt-2">Higher Agent<br/>Productivity</p>
                             </div>
                             <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center shadow-sm">
-                                <BarChart3 className="h-6 w-6 text-emerald-500" />
+                                <BarChart3 className="h-6 w-6 text-orange-500" />
                             </div>
                         </div>
                     </div>
@@ -195,7 +195,7 @@ const ProductShowcase = () => {
                     {/* Card 5 - Platform (with person image) */}
                     <div 
                         ref={(el) => setCardRef(el, 4)}
-                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-orange-50 to-violet-50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
+                        className="col-span-6 lg:col-span-3 bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-5 relative overflow-hidden group cursor-pointer h-[340px] flex flex-col"
                     >
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             DigitalBot<br/>Platform
@@ -213,7 +213,7 @@ const ProductShowcase = () => {
                                 <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center">
                                     <MessageSquare className="h-4 w-4 text-orange-500" />
                                 </div>
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-violet-500 shadow-sm flex items-center justify-center">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 shadow-sm flex items-center justify-center">
                                     <Bot className="h-4 w-4 text-white" />
                                 </div>
                             </div>
@@ -253,12 +253,12 @@ const ProductShowcase = () => {
                         ref={(el) => setCardRef(el, 7)}
                         className="col-span-6 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-5 relative overflow-hidden group cursor-pointer hover:border-gray-200 transition-colors h-[160px] flex flex-col items-center justify-center gap-3"
                     >
-                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-400 to-violet-500 flex items-center justify-center shadow-lg flex-shrink-0">
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg flex-shrink-0">
                             <Headphones className="h-6 w-6 text-white" />
                         </div>
                         <div className="text-center">
                             <p className="text-lg font-bold text-gray-900">VoiceStream</p>
-                            <Link href="/services/voice-ai-business" className="inline-flex items-center gap-1 text-purple-500 font-medium text-sm hover:gap-2 transition-all">
+                            <Link href="/services/voice-ai-business" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
                                 Learn More <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                         </div>

@@ -33,7 +33,7 @@ const CopyIcon = () => (
 );
 
 const BotIcon = () => (
-  <svg className="h-16 w-16 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg className="h-16 w-16 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
   </svg>
 );
@@ -98,11 +98,11 @@ export default function AgentsPage() {
       {/* Main Content */}
       <div className="lg:ml-64 min-h-screen">
         {/* Mobile Header */}
-        <div className="lg:hidden flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm border-b border-purple-100">
-          <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-purple-100 transition-colors">
+        <div className="lg:hidden flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm border-b border-orange-100">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-orange-100 transition-colors">
             <MenuIcon />
           </button>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
             AI Agents
           </h1>
           <div className="w-10" />
@@ -118,7 +118,7 @@ export default function AgentsPage() {
               </div>
               <button
                 onClick={() => setShowAddModal(true)}
-                className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity shadow-lg"
+                className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-orange-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity shadow-lg"
               >
                 <PlusIcon />
                 Add Agent
@@ -127,9 +127,9 @@ export default function AgentsPage() {
           </div>
 
           {/* Info Card */}
-          <div className="bg-gradient-to-r from-purple-100 to-orange-100 rounded-2xl p-6 mb-8 border border-purple-200">
-            <h3 className="font-semibold text-purple-900 mb-2">🤖 What are AI Agents?</h3>
-            <p className="text-purple-800 text-sm">
+          <div className="bg-gradient-to-r from-orange-100 to-orange-100 rounded-2xl p-6 mb-8 border border-orange-200">
+            <h3 className="font-semibold text-orange-900 mb-2">🤖 What are AI Agents?</h3>
+            <p className="text-orange-800 text-sm">
               AI Agents are voice bots that handle your automated phone calls. Each agent can be configured with
               different personalities, scripts, and behaviors. Add their IDs here to use them in your campaigns.
             </p>
@@ -137,7 +137,7 @@ export default function AgentsPage() {
 
           {/* Agents Grid */}
           {agents.length === 0 ? (
-            <div className="bg-white rounded-2xl p-12 text-center shadow-sm border border-purple-100">
+            <div className="bg-white rounded-2xl p-12 text-center shadow-sm border border-orange-100">
               <BotIcon />
               <h3 className="text-xl font-semibold text-gray-900 mb-2 mt-4">No AI Agents Added</h3>
               <p className="text-gray-500 mb-6 max-w-md mx-auto">
@@ -145,7 +145,7 @@ export default function AgentsPage() {
               </p>
               <button
                 onClick={() => setShowAddModal(true)}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity"
+                className="px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity"
               >
                 Add Your First Agent
               </button>
@@ -155,12 +155,12 @@ export default function AgentsPage() {
               {agents.map((agent) => (
                 <div
                   key={agent.id}
-                  className="bg-white rounded-2xl p-6 shadow-sm border border-purple-100 hover:shadow-md transition-shadow"
+                  className="bg-white rounded-2xl p-6 shadow-sm border border-orange-100 hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-orange-500 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-500 flex items-center justify-center">
                           <span className="text-white text-lg">🤖</span>
                         </div>
                         <h3 className="font-semibold text-gray-900">{agent.name}</h3>
@@ -197,16 +197,16 @@ export default function AgentsPage() {
           )}
 
           {/* Tips */}
-          <div className="mt-8 bg-white rounded-2xl p-6 shadow-sm border border-purple-100">
+          <div className="mt-8 bg-white rounded-2xl p-6 shadow-sm border border-orange-100">
             <h3 className="font-semibold text-gray-900 mb-4">💡 Tips for Using AI Agents</h3>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start gap-2">
-                <span className="text-purple-500">•</span>
+                <span className="text-orange-500">•</span>
                 <span>Create different agents for different types of calls (rent reminders, surveys, notifications)</span>
               </li>
              
               <li className="flex items-start gap-2">
-                <span className="text-purple-500">•</span>
+                <span className="text-orange-500">•</span>
                 <span>You can use the same agent for multiple campaigns</span>
               </li>
             </ul>
@@ -256,7 +256,7 @@ export default function AgentsPage() {
               </button>
               <button
                 onClick={addAgent}
-                className="px-5 py-2 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity"
+                className="px-5 py-2 bg-gradient-to-r from-orange-600 to-orange-600 text-white rounded-xl hover:opacity-90 transition-opacity"
               >
                 Add Agent
               </button>

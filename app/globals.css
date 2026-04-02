@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Premium AI SaaS — Deep orange/violet glassmorphism palette */
+  /* Premium AI SaaS — Deep orange glassmorphism palette */
   --background: #fafbff;
   --foreground: #0f172a;
   --card: rgba(255, 255, 255, 0.7);
@@ -16,7 +16,7 @@
   --secondary-foreground: #7c2d12;
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
-  --accent: #8b5cf6; /* Violet-500 */
+  --accent: #ea580c; /* orange-600 */
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
@@ -24,16 +24,16 @@
   --input: rgba(255, 255, 255, 0.8);
   --ring: rgba(249, 115, 22, 0.4);
   --chart-1: #f97316;
-  --chart-2: #8b5cf6;
-  --chart-3: #a78bfa;
-  --chart-4: #c4b5fd;
+  --chart-2: #ea580c;
+  --chart-3: #fb923c;
+  --chart-4: #fdba74;
   --chart-5: #ffedd5;
   --radius: 0.75rem;
   --sidebar: rgba(255, 255, 255, 0.6);
   --sidebar-foreground: #0f172a;
   --sidebar-primary: #f97316;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #8b5cf6;
+  --sidebar-accent: #ea580c;
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: rgba(148, 163, 184, 0.15);
   --sidebar-ring: rgba(249, 115, 22, 0.4);
@@ -58,7 +58,7 @@
   --secondary-foreground: #ffedd5;
   --muted: #1e293b;
   --muted-foreground: #94a3b8;
-  --accent: #a78bfa;
+  --accent: #fb923c;
   --accent-foreground: #030712;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
@@ -66,8 +66,8 @@
   --input: rgba(30, 41, 59, 0.8);
   --ring: rgba(251, 146, 60, 0.4);
   --chart-1: #fb923c;
-  --chart-2: #a78bfa;
-  --chart-3: #c4b5fd;
+  --chart-2: #fb923c;
+  --chart-3: #fdba74;
   --chart-4: #1e293b;
   --chart-5: #0f172a;
   --sidebar: rgba(15, 23, 42, 0.6);
@@ -155,13 +155,13 @@
   }
   /* Gradient text helper */
   .text-gradient {
-    background: linear-gradient(135deg, #f97316, #8b5cf6, #a78bfa);
+    background: linear-gradient(135deg, #f97316, #ea580c, #fb923c);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .text-gradient-orange {
-    background: linear-gradient(135deg, #f97316, #f97316, #8b5cf6);
+    background: linear-gradient(135deg, #f97316, #ea580c, #fb923c);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -562,7 +562,7 @@
 }
 
 .premium-btn {
-  background: linear-gradient(135deg, #f97316 0%, #8b5cf6 50%, #f97316 100%);
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #f97316 100%);
   background-size: 200% 200%;
   box-shadow: 0 8px 24px rgba(249, 115, 22, 0.3), 0 2px 8px rgba(249, 115, 22, 0.15);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);

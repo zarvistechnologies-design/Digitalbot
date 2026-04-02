@@ -120,7 +120,7 @@ export default function PlatformCapabilitiesTimeline() {
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">AI-Powered Outreach</h3>
                 <p className="text-gray-500 text-sm">Bulk CSV upload, outbound calling, smart lead scoring. Get notified instantly for hot leads.</p>
                 <div className="flex gap-2 mt-3">
-                  <span className="px-2 py-0.5 bg-purple-50 text-purple-600 text-xs rounded">CSV Upload</span>
+                  <span className="px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">CSV Upload</span>
                   <span className="px-2 py-0.5 bg-orange-50 text-orange-600 text-xs rounded">Hot Alerts</span>
                 </div>
               </div>
@@ -189,7 +189,7 @@ export default function PlatformCapabilitiesTimeline() {
         {/* Bottom CTA */}
         <div className="text-center mt-8 pt-6 border-t border-gray-100">
           <div className="inline-flex flex-col sm:flex-row items-center gap-3">
-            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white text-sm font-medium rounded-lg hover:from-orange-700 hover:to-violet-700 transition-all btn-glow">
+            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white text-sm font-medium rounded-lg hover:from-orange-700 hover:to-orange-700 transition-all btn-glow">
               Start Free Trial
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

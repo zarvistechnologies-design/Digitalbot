@@ -1,11 +1,11 @@
 "use client"
-import AnimatedStats from "@/components/landing/AnimatedStats";
 import { Lead } from "@/components/lead";
+import PlatformFeatures from "@/components/platform-features";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, Mic, MicOff, Phone, PhoneCall, Shield, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, Mic, Phone, PhoneCall, Shield, TrendingUp, Users, Zap } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -17,7 +17,7 @@ const services = [
         subtitle: "24/7 AI-Powered Medical Scheduling",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/doctor_appointment_i73m9a",
         desc: "Never miss a patient again. Our AI voice agent handles appointment booking, rescheduling, and confirmations around the clock—with perfect accuracy and a warm, human touch.",
-        color: "from-orange-500 to-violet-500",
+        color: "from-blue-500 to-red-500",
         stat: "95%",
         statLabel: "Booking Success Rate",
         audio: "/audio/doctor-appointment-sample.mp3",          
@@ -34,7 +34,7 @@ const services = [
         subtitle: "Automated Outbound Sales Machine",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/lead_generation_qas7wm",
         desc: "Scale your sales pipeline effortlessly. Our AI makes thousands of outbound calls daily, qualifying leads and booking meetings while your team focuses on closing.",
-        color: "from-orange-500 to-violet-500",
+        color: "from-blue-500 to-purple-500",
         stat: "3x",
         statLabel: "More Qualified Leads",
         audio: "/audio/lead-generation-sample.mp3",
@@ -50,7 +50,7 @@ const services = [
         subtitle: "Empathetic Support That Never Sleeps",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/customercareagent_k6wqe8",
         desc: "Delight customers with instant, empathetic support. Our AI resolves issues on the first call, escalates complex cases smartly, and keeps your CSAT scores soaring.",
-        color: "from-orange-500 to-violet-500",
+        color: "from-teal-500 to-blue-500",
         stat: "90%",
         statLabel: "First Call Resolution",
         audio: "/audio/customer-care-sample.mp3",
@@ -66,7 +66,7 @@ const services = [
         subtitle: "Seamlessly Connect AI Voice to Your Systems",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/voicebot_integaration_pjlorx",
         desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
-        color: "from-violet-500 to-orange-600",
+        color: "from-cyan-500 to-blue-600",
         stat: "50+",
         statLabel: "Native Integrations",
         audio: "/audio/virtual-receptionist-sample.mp3",
@@ -82,7 +82,7 @@ const services = [
         subtitle: "Enterprise-Grade Communication Hub",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_bgremoval:rgb:ffffff/ai_call_center_kalt8q",
         desc: "Transform your entire call center operation. Handle unlimited concurrent calls with intelligent routing, real-time analytics, and seamless human handoff when needed.",
-        color: "from-purple-500 to-orange-500",
+        color: "from-purple-500 to-indigo-500",
         stat: "∞",
         statLabel: "Unlimited Capacity",
         audio: "/audio/call-center-sample.mp3",
@@ -202,38 +202,73 @@ export default function Hero() {
         }
     }
 
-    // GSAP stacking cards scroll animation
+    // GSAP pinned scroll showcase with ScrollTrigger
     useEffect(() => {
         if (!mounted || !storySectionRef.current) return;
 
         const ctx = gsap.context(() => {
-            const cards = gsap.utils.toArray<HTMLElement>('.stack-card');
+            const illustrations = gsap.utils.toArray<HTMLElement>('.exo-illustration');
+            const contents = gsap.utils.toArray<HTMLElement>('.exo-content');
 
-            cards.forEach((card, i) => {
-                gsap.set(card, {
-                    y: 60,
-                    opacity: 0,
-                    scale: 0.95,
+            // Initial states - all hidden except first
+            illustrations.forEach((el, i) => {
+                gsap.set(el, {
+                    opacity: i === 0 ? 1 : 0,
+                    zIndex: i === 0 ? 10 : 1
                 });
+            });
+            contents.forEach((el, i) => {
+                gsap.set(el, {
+                    opacity: i === 0 ? 1 : 0,
+                    zIndex: i === 0 ? 10 : 1
+                });
+            });
 
-                ScrollTrigger.create({
-                    trigger: card,
-                    start: 'top 85%',
-                    end: 'top 40%',
-                    scrub: 0.5,
-                    onUpdate: (self) => {
-                        const progress = self.progress;
-                        gsap.to(card, {
-                            y: 60 * (1 - progress),
-                            opacity: progress,
-                            scale: 0.95 + 0.05 * progress,
-                            duration: 0.1,
-                            overwrite: 'auto',
+            // Floating animation for images using GSAP
+            illustrations.forEach((el) => {
+                const img = el.querySelector('img');
+                if (img) {
+                    gsap.to(img, {
+                        y: -12,
+                        duration: 3 + Math.random() * 2,
+                        ease: "sine.inOut",
+                        repeat: -1,
+                        yoyo: true,
+                    });
+                }
+            });
+
+            // ScrollTrigger for pinned scroll showcase
+            ScrollTrigger.create({
+                trigger: storySectionRef.current,
+                start: "top top",
+                end: `+=${services.length * 100}%`,
+                pin: true,
+                scrub: true,
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    const currentIndex = Math.min(
+                        Math.floor(progress * services.length),
+                        services.length - 1
+                    );
+
+                    setActiveService(currentIndex);
+
+                    illustrations.forEach((el, i) => {
+                        gsap.to(el, {
+                            opacity: i === currentIndex ? 1 : 0,
+                            duration: 0.3,
+                            zIndex: i === currentIndex ? 10 : 1,
                         });
-                    },
-                    onEnter: () => setActiveService(i),
-                    onEnterBack: () => setActiveService(i),
-                });
+                    });
+                    contents.forEach((el, i) => {
+                        gsap.to(el, {
+                            opacity: i === currentIndex ? 1 : 0,
+                            duration: 0.3,
+                            zIndex: i === currentIndex ? 10 : 1,
+                        });
+                    });
+                }
             });
         }, storySectionRef);
 
@@ -872,7 +907,7 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]" role="region" aria-labelledby="hero-heading">
+            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-b from-orange-50/30 via-white to-orange-50/20" role="region" aria-labelledby="hero-heading">
 
                 {/* Animated Background Elements */}
                 {mounted && (
@@ -880,7 +915,7 @@ export default function Hero() {
                         {/* Floating Orbs */}
                         <div className="absolute inset-0 overflow-hidden pointer-events-none">
                             <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/15 rounded-full blur-3xl animate-float"></div>
-                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+                            <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-300/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/8 rounded-full blur-3xl animate-pulse-slow"></div>
                         </div>
                         
@@ -908,7 +943,7 @@ export default function Hero() {
 
                         {/* Animated Lines */}
                         <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/15 to-transparent animate-pulse-slow"></div>
-                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/10 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+                        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-300/10 to-transparent animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
 
                         {/* Wavy Sound Effect - Bottom Waves */}
                         <div className="absolute bottom-0 left-0 right-0 h-48 overflow-hidden pointer-events-none z-10 opacity-30">
@@ -916,9 +951,9 @@ export default function Hero() {
                                 <path d="M0,100 C150,140 350,60 500,100 C650,140 850,60 1000,100 C1150,140 1350,60 1500,100 L1500,200 L0,200 Z" fill="url(#waveGrad1)" />
                                 <defs>
                                     <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="rgb(59,130,246)" stopOpacity="0.15" />
-                                        <stop offset="50%" stopColor="rgb(37,99,235)" stopOpacity="0.25" />
-                                        <stop offset="100%" stopColor="rgb(59,130,246)" stopOpacity="0.15" />
+                                        <stop offset="0%" stopColor="rgb(249,115,22)" stopOpacity="0.15" />
+                                        <stop offset="50%" stopColor="rgb(234,88,12)" stopOpacity="0.25" />
+                                        <stop offset="100%" stopColor="rgb(249,115,22)" stopOpacity="0.15" />
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -926,9 +961,9 @@ export default function Hero() {
                                 <path d="M0,120 C200,160 400,80 600,120 C800,160 1000,80 1200,120 C1400,160 1500,100 1500,120 L1500,200 L0,200 Z" fill="url(#waveGrad2)" />
                                 <defs>
                                     <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="rgb(96,165,250)" stopOpacity="0.1" />
-                                        <stop offset="50%" stopColor="rgb(59,130,246)" stopOpacity="0.2" />
-                                        <stop offset="100%" stopColor="rgb(96,165,250)" stopOpacity="0.1" />
+                                        <stop offset="0%" stopColor="rgb(251,146,60)" stopOpacity="0.1" />
+                                        <stop offset="50%" stopColor="rgb(249,115,22)" stopOpacity="0.2" />
+                                        <stop offset="100%" stopColor="rgb(251,146,60)" stopOpacity="0.1" />
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -936,9 +971,9 @@ export default function Hero() {
                                 <path d="M0,140 C100,170 300,110 500,140 C700,170 900,110 1100,140 C1300,170 1500,130 1500,140 L1500,200 L0,200 Z" fill="url(#waveGrad3)" />
                                 <defs>
                                     <linearGradient id="waveGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="rgb(147,197,253)" stopOpacity="0.08" />
-                                        <stop offset="50%" stopColor="rgb(96,165,250)" stopOpacity="0.18" />
-                                        <stop offset="100%" stopColor="rgb(147,197,253)" stopOpacity="0.08" />
+                                        <stop offset="0%" stopColor="rgb(253,186,116)" stopOpacity="0.08" />
+                                        <stop offset="50%" stopColor="rgb(251,146,60)" stopOpacity="0.18" />
+                                        <stop offset="100%" stopColor="rgb(253,186,116)" stopOpacity="0.08" />
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -949,7 +984,7 @@ export default function Hero() {
                             {[...Array(5)].map((_, i) => (
                                 <div
                                     key={`left-bar-${i}`}
-                                    className="w-1 bg-gradient-to-t from-orange-400 to-violet-300 rounded-full"
+                                    className="w-1 bg-gradient-to-t from-orange-400 to-orange-200 rounded-full"
                                     style={{
                                         animation: `sound-wave-bar ${0.8 + i * 0.15}s ease-in-out infinite`,
                                         animationDelay: `${i * 0.12}s`,
@@ -964,7 +999,7 @@ export default function Hero() {
                             {[...Array(5)].map((_, i) => (
                                 <div
                                     key={`right-bar-${i}`}
-                                    className="w-1 bg-gradient-to-t from-orange-400 to-violet-300 rounded-full"
+                                    className="w-1 bg-gradient-to-t from-orange-400 to-orange-200 rounded-full"
                                     style={{
                                         animation: `sound-wave-bar ${0.9 + i * 0.12}s ease-in-out infinite`,
                                         animationDelay: `${i * 0.15 + 0.3}s`,
@@ -1047,13 +1082,13 @@ export default function Hero() {
                             {/* Arrowhead */}
                             <polygon
                                 points="473,32 490,42 475,50"
-                                fill="#818cf8"
+                                fill="#f97316"
                                 style={{ animation: 'arrow-head-fade 2.5s ease-out forwards' }}
                             />
                             <defs>
                                 <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor="#cbd5e1" />
-                                    <stop offset="100%" stopColor="#818cf8" />
+                                    <stop offset="0%" stopColor="#fed7aa" />
+                                    <stop offset="100%" stopColor="#f97316" />
                                 </linearGradient>
                             </defs>
                         </svg>
@@ -1073,13 +1108,13 @@ export default function Hero() {
                             />
                             <polygon
                                 points="483,92 498,106 480,108"
-                                fill="#818cf8"
+                                fill="#f97316"
                                 style={{ animation: 'arrow-head-fade 2.5s ease-out 0.5s forwards' }}
                             />
                             <defs>
                                 <linearGradient id="arrowGradientRight" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor="#818cf8" />
-                                    <stop offset="100%" stopColor="#cbd5e1" />
+                                    <stop offset="0%" stopColor="#f97316" />
+                                    <stop offset="100%" stopColor="#fed7aa" />
                                 </linearGradient>
                             </defs>
                         </svg>
@@ -1122,14 +1157,14 @@ export default function Hero() {
                         <div className="text-center space-y-8 max-w-4xl">
                             {/* Badge */}
                             <div className="inline-flex items-center gap-2 glass-card bg-white/70 border border-orange-100/40 px-4 py-2 rounded-full animate-fade-in-up-1 shadow-sm">
-                                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                                <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                                 <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">AI Voice Agents — Now Generally Available</span>
                             </div>
 
                             {/* Main Headline */}
                             <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 leading-[1.1] tracking-tight animate-fade-in-up-2">
                                 Your AI Voice Agent<br />
-                                <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">That Never Sleeps</span>
+                                <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-clip-text text-transparent">That Never Sleeps</span>
                             </h1>
 
                             {/* Tagline */}
@@ -1144,7 +1179,7 @@ export default function Hero() {
                                     className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
                                         isCallActive
                                             ? 'bg-gradient-to-br from-red-500 to-red-600 animate-mic-active hover:from-red-600 hover:to-red-700 scale-110'
-                                            : 'bg-gradient-to-br from-orange-500 to-violet-500 animate-mic-pulse hover:from-orange-600 hover:to-violet-600 hover:scale-110'
+                                            : 'bg-gradient-to-br from-orange-500 to-orange-600 animate-mic-pulse hover:from-orange-600 hover:to-orange-700 hover:scale-110'
                                     } shadow-xl shadow-orange-500/20`}
                                     aria-label={isCallActive ? 'End voice call' : 'Start voice call'}
                                 >
@@ -1181,7 +1216,7 @@ export default function Hero() {
                             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-in-up-3 pt-2">
                                 <Link
                                     href="/contact#contact-form"
-                                    className="group px-8 py-3.5 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-medium rounded-xl hover:from-orange-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-sm btn-glow"
+                                    className="group px-8 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-sm btn-glow"
                                 >
                                     Get Started Free
                                     <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
@@ -1197,15 +1232,15 @@ export default function Hero() {
                             {/* Trust Indicators */}
                             <div className="flex flex-wrap gap-6 justify-center items-center animate-fade-in-up-3 pt-4">
                                 <span className="flex items-center gap-1.5 text-sm text-slate-400">
-                                    <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                                    <CheckCircle className="h-4 w-4 text-orange-500 flex-shrink-0" />
                                     No credit card required
                                 </span>
                                 <span className="flex items-center gap-1.5 text-sm text-slate-400">
-                                    <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                                    <CheckCircle className="h-4 w-4 text-orange-500 flex-shrink-0" />
                                     5-minute setup
                                 </span>
                                 <span className="flex items-center gap-1.5 text-sm text-slate-400">
-                                    <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                                    <CheckCircle className="h-4 w-4 text-orange-500 flex-shrink-0" />
                                     50+ languages
                                 </span>
                             </div>
@@ -1226,7 +1261,7 @@ export default function Hero() {
                                 className="group glass-card rounded-xl p-6 hover:border-orange-200/40 hover:shadow-lg transition-all duration-400"
                                 style={{ animationDelay: `${i * 0.1}s` }}
                             >
-                                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-violet-500 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300 shadow-md shadow-orange-500/15">
+                                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300 shadow-md shadow-orange-500/15">
                                     <feature.icon className="h-5 w-5 text-white" />
                                 </div>
                                 <h3 className="text-base font-semibold text-slate-900 mb-1.5">{feature.title}</h3>
@@ -1238,116 +1273,118 @@ export default function Hero() {
 
             </section>
 
-            {/* Numbers That Speak for Themselves */}
-            <AnimatedStats />
+            
+       
 
             {/* Section Header - Fixed above the scrolling content */}
-            <section className="py-8 sm:py-08 lg:py-16 bg-gradient-to-b from-white to-[#fafbff]">
+            <section className="py-8 sm:py-08 lg:py-16 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <div className="inline-flex items-center space-x-2 glass-card bg-orange-50/60 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-orange-200/40 text-xs sm:text-sm text-orange-600 font-semibold mb-4 uppercase tracking-widest">
+                    <div className="inline-flex items-center space-x-2 bg-blue-500/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-blue-400/30 text-xs sm:text-sm text-blue-600 font-semibold mb-4 uppercase tracking-widest">
                         <MessageSquare className="h-4 w-4" />
                         <span>🎯 Our AI Voice Services</span>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 sm:mb-4">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
                         Choose Your AI Voice Solution
                     </h2>
-                    <p className="text-base sm:text-lg lg:text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed px-4">
+                    <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
                         Select from our comprehensive suite of AI voice services. Each solution is ready to deploy on our platform and can be customized for your business needs.
                     </p>
                 </div>
             </section>
 
-            {/* AI Voice Use Cases Section - Stacking Cards */}
-            <section ref={storySectionRef} className="bg-gradient-to-b from-[#fafbff] to-white">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-                    <div className="space-y-8">
-                        {services.map((s, i) => (
-                            <div
-                                key={i}
-                                className="stack-card glass-strong rounded-2xl border border-white/40 shadow-lg hover:shadow-xl transition-all duration-400 overflow-hidden"
-                                style={{ position: 'sticky', top: `${80 + i * 24}px`, zIndex: i + 1 }}
-                            >
-                                <div className="grid grid-cols-1 lg:grid-cols-5 gap-0">
+            {/* AI Voice Use Cases Section - Style Pinned Scroll */}
+            <section ref={storySectionRef} className="min-h-screen lg:h-1000 bg-gradient-to-br from-blue-50 via-blue-100/30 to-blue-50 overflow-hidden">
+                <div className="container mx-auto h-1000 px-4 sm:px-6 lg:px-8 flex items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 w-full items-stretch">
 
-                                    {/* LEFT: Image */}
-                                    <div className="lg:col-span-2 relative bg-gradient-to-br from-slate-50 to-white flex items-center justify-center p-6 sm:p-8 min-h-[240px] sm:min-h-[300px]">
-                                        <img
-                                            src={s.img}
-                                            alt={s.title}
-                                            className="h-[200px] sm:h-[260px] object-contain drop-shadow-xl"
-                                        />
-                                        {/* Stat badge overlay */}
-                                        <div className={`absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r ${s.color} text-white text-xs font-bold shadow-md`}>
-                                            <CheckCircle className="h-3.5 w-3.5" />
-                                            <span>{s.stat} {s.statLabel}</span>
-                                        </div>
-                                    </div>
-
-                                    {/* RIGHT: Content */}
-                                    <div className="lg:col-span-3 p-6 sm:p-8 flex flex-col justify-center">
-                                        <h3 className={`text-2xl sm:text-3xl font-bold mb-1 bg-gradient-to-r ${s.color} bg-clip-text text-transparent`}>
-                                            {s.title}
-                                        </h3>
-                                        <p className="text-base text-gray-500 mb-2 font-medium">{s.subtitle}</p>
-                                        <p className="text-sm text-gray-600 mb-5 leading-relaxed max-w-lg">
-                                            {s.desc}
-                                        </p>
-
-                                        {/* Audio Player */}
-                                        <div className="mb-5 bg-slate-50 rounded-xl p-3 border border-slate-100 max-w-md">
-                                            <p className="text-xs text-gray-500 mb-2 font-medium uppercase tracking-wide">🎧 Listen to Sample Call</p>
-                                            {activeService === i ? (
-                                                <audio
-                                                    controls
-                                                    className="w-full h-10"
-                                                    style={{ accentColor: '#f97316' }}
-                                                    preload="metadata"
-                                                >
-                                                    <source src={s.audio} type="audio/mpeg" />
-                                                    Your browser does not support audio.
-                                                </audio>
-                                            ) : (
-                                                <div className="w-full h-10 bg-gray-100 rounded-full flex items-center justify-center text-xs text-gray-400">
-                                                    Scroll to activate audio
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Feature Tags */}
-                                        <div className="grid grid-cols-2 gap-2">
-                                            {s.features.map((f, fi) => (
-                                                <div key={fi} className="flex items-center gap-2 bg-slate-50 rounded-lg px-3 py-2 border border-slate-100">
-                                                    <div className={`w-8 h-8 rounded-md bg-gradient-to-r ${s.color} flex items-center justify-center flex-shrink-0`}>
-                                                        {f.icon === 'Calendar' && <Calendar className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'Clock' && <Clock className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'Users' && <Users className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'Shield' && <Shield className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'PhoneCall' && <PhoneCall className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'MessageSquare' && <MessageSquare className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'Globe' && <Globe className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'TrendingUp' && <TrendingUp className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'BarChart3' && <BarChart3 className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'Zap' && <Zap className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'Headphones' && <Headphones className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'CheckCircle' && <CheckCircle className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'Award' && <Award className="h-4 w-4 text-white" />}
-                                                        {f.icon === 'LayoutDashboard' && <LayoutDashboard className="h-4 w-4 text-white" />}
-                                                    </div>
-                                                    <p className="text-xs text-gray-700 font-medium leading-tight">{f.text}</p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-
+                        {/* LEFT: Floating Illustrations */}
+                        <div className="relative h-[40vh] sm:h-[50vh] lg:h-[85vh] max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] flex items-center justify-center lg:justify-start">
+                            {services.map((s, i) => (
+                                <div key={i} className={`exo-illustration absolute inset-0 flex items-center justify-center lg:justify-start ${i === 0 ? '' : 'pointer-events-none'}`}>
+                                    <img
+                                        src={s.img}
+                                        alt={s.title}
+                                        className="exo-main-img h-[35vh] sm:h-[45vh] lg:h-[75vh] max-h-[350px] sm:max-h-[450px] lg:max-h-[550px] object-contain drop-shadow-2xl"
+                                    />
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+
+                        {/* RIGHT: Content */}
+                        <div className="relative h-[85vh] max-h-[600px] flex flex-col justify-center">
+                            {services.map((s, i) => (
+                                <div key={i} className={`exo-content flex flex-col justify-center ${i === 0 ? '' : 'absolute inset-0'}`}>
+                                    {/* Stat Badge */}
+                                    <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${s.color} text-white text-sm font-bold mb-4 w-fit`}>
+                                        <CheckCircle className="h-4 w-4" />
+                                        <span>{s.stat} {s.statLabel}</span>
+                                    </div>
+
+                                    <h2 className={`text-3xl lg:text-4xl font-bold mb-2 bg-gradient-to-r ${s.color} bg-clip-text text-transparent`}>
+                                        {s.title}
+                                    </h2>
+                                    <p className="text-lg text-gray-500 mb-3 font-medium">{s.subtitle}</p>
+                                    <p className="text-base text-gray-600 mb-5 leading-relaxed max-w-lg">
+                                        {s.desc}
+                                    </p>
+
+                                    {/* Audio Player - only interactive when active */}
+                                    <div className="mb-5 bg-white rounded-xl p-4 shadow-sm border border-gray-100 max-w-md">
+                                        <p className="text-xs text-gray-500 mb-2 font-medium uppercase tracking-wide">🎧 Listen to Sample Call</p>
+                                        {activeService === i ? (
+                                            <audio
+                                                controls
+                                                className="w-full h-10"
+                                                style={{ accentColor: '#f97316' }}
+                                                preload="metadata"
+                                            >
+                                                <source src={s.audio} type="audio/mpeg" />
+                                                Your browser does not support audio.
+                                            </audio>
+                                        ) : (
+                                            <div className="w-full h-10 bg-gray-100 rounded-full flex items-center justify-center text-xs text-gray-400">
+                                                Scroll to activate audio
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Feature Cards Grid */}
+                                    <div className="grid grid-cols-2 gap-3">
+                                        {s.features.map((f, fi) => (
+                                            <div key={fi} className="bg-white rounded-xl p-3 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all">
+                                                <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${s.color} flex items-center justify-center mb-2`}>
+                                                    {f.icon === 'Calendar' && <Calendar className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'Clock' && <Clock className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'Users' && <Users className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'Shield' && <Shield className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'PhoneCall' && <PhoneCall className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'MessageSquare' && <MessageSquare className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'Globe' && <Globe className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'TrendingUp' && <TrendingUp className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'BarChart3' && <BarChart3 className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'Zap' && <Zap className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'Headphones' && <Headphones className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'CheckCircle' && <CheckCircle className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'Award' && <Award className="h-5 w-5 text-white" />}
+                                                    {f.icon === 'LayoutDashboard' && <LayoutDashboard className="h-5 w-5 text-white" />}
+                                                </div>
+                                                <p className="text-xs text-gray-700 font-medium leading-tight">{f.text}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
                     </div>
                 </div>
             </section>
 
             {/* Demo Form */}
             <Lead />
+
+            {/* Platform Features Showcase */}
+            <PlatformFeatures />
 
             {/* Why Choose DigitalBot - Bento Grid Style */}
             <section className="py-8 px-4 bg-gradient-to-b from-white via-[#fafbff] to-white overflow-hidden">
@@ -1367,7 +1404,7 @@ export default function Hero() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                         {/* Feature 1 - Instant Setup */}
-                        <div className="bg-gradient-to-br from-orange-500 to-violet-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
+                        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                             <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
                             <div>
@@ -1418,24 +1455,24 @@ export default function Hero() {
                         </div>
 
                         {/* Feature 3 - 24/7 Operations */}
-                        <div className="bg-gradient-to-br from-violet-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-violet-500/15 transition-all duration-400 min-h-[280px]">
+                        <div className="bg-gradient-to-br from-orange-600 to-orange-500 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <Clock className="h-5 w-5 text-white" />
                                     <h3 className="text-lg font-bold text-white">24/7 Operations</h3>
                                 </div>
-                                <p className="text-sm text-purple-100 mb-4">
+                                <p className="text-sm text-orange-100 mb-4">
                                     Uninterrupted service with industry-leading uptime. Your AI assistants never sleep, ensuring constant availability for your customers.
                                 </p>
                             </div>
                             <div className="mt-auto">
                                 <div className="text-4xl font-bold text-white">99.9%</div>
-                                <div className="text-purple-200 text-sm">Uptime SLA Guarantee</div>
+                                <div className="text-orange-200 text-sm">Uptime SLA Guarantee</div>
                             </div>
                         </div>
 
                         {/* Feature 4 - Auto-Scaling */}
-                        <div className="bg-gradient-to-br from-orange-500 to-violet-500 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
+                        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <TrendingUp className="h-5 w-5 text-white" />
@@ -1469,10 +1506,10 @@ export default function Hero() {
                         </div>
 
                         {/* Feature 6 - Proven Results */}
-                        <div className="glass-card rounded-2xl p-6 flex flex-col justify-between border border-emerald-100/30 group hover:shadow-lg transition-all duration-400 min-h-[280px]">
+                        <div className="glass-card rounded-2xl p-6 flex flex-col justify-between border border-orange-100/30 group hover:shadow-lg transition-all duration-400 min-h-[280px]">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <CheckCircle className="h-5 w-5 text-emerald-500" />
+                                    <CheckCircle className="h-5 w-5 text-orange-500" />
                                     <h3 className="text-lg font-bold text-slate-800">Proven Results</h3>
                                 </div>
                                 <p className="text-sm text-slate-500 mb-4">
@@ -1480,7 +1517,7 @@ export default function Hero() {
                                 </p>
                             </div>
                             <div className="mt-auto">
-                                <div className="text-4xl font-bold text-emerald-500">90 Days</div>
+                                <div className="text-4xl font-bold text-orange-500">90 Days</div>
                                 <div className="text-slate-500 text-sm">Average ROI Payback</div>
                             </div>
                         </div>
@@ -1494,7 +1531,7 @@ export default function Hero() {
                             <p className="text-sm text-slate-500">14-day free trial • No credit card • Cancel anytime</p>
                         </div>
                         <div className="flex gap-3">
-                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-violet-500 text-white font-medium py-3 px-6 rounded-xl hover:from-orange-600 hover:to-violet-600 transition-all duration-300 shadow-lg shadow-orange-500/20 btn-glow">
+                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/20 btn-glow">
                                 Start Free <ArrowRight className="h-4 w-4" />
                             </Link>
                             <Link href="/contact#contact-form" className="inline-flex items-center gap-2 text-slate-600 font-medium py-3 px-6 rounded-xl border border-slate-200/60 glass-subtle hover:border-orange-200 hover:text-orange-600 transition-all duration-300">

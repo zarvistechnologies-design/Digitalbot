@@ -84,7 +84,7 @@ const serviceLabels: Record<string, string> = {
 const serviceColors: Record<string, string> = {
   doctor: "bg-blue-100 text-blue-700 border-blue-200",
   pharmacy: "bg-green-100 text-green-700 border-green-200",
-  lab: "bg-purple-100 text-purple-700 border-purple-200",
+  lab: "bg-orange-100 text-orange-700 border-orange-200",
   ecg: "bg-red-100 text-red-700 border-red-200",
   ultrasound: "bg-teal-100 text-teal-700 border-teal-200",
   skin: "bg-pink-100 text-pink-700 border-pink-200",
@@ -232,7 +232,7 @@ export default function BotDocumentsPage() {
           <header className="mb-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-orange-600 bg-clip-text text-transparent mb-2">
                   Bot Documents
                 </h1>
                 <p className="text-slate-600 text-sm sm:text-base">Prescriptions, reports & files uploaded by patients through the WhatsApp bot</p>
@@ -311,7 +311,7 @@ export default function BotDocumentsPage() {
                 <div key={session._id} className="bg-white rounded-2xl border border-slate-200 shadow-lg hover:shadow-xl transition-all p-5">
                   {/* Patient info header */}
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-purple-500 rounded-xl flex items-center justify-center shadow-md shrink-0">
+                    <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center shadow-md shrink-0">
                       <Phone className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">

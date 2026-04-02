@@ -43,7 +43,7 @@ export default function StickyCTA() {
               <div className="flex items-center gap-3">
                 <Link
                   href="/contact#contact-form"
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-bold rounded-xl hover:from-orange-700 hover:to-violet-700 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:scale-105 text-sm whitespace-nowrap btn-glow"
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-600 text-white font-bold rounded-xl hover:from-orange-700 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:scale-105 text-sm whitespace-nowrap btn-glow"
                 >
                   Start Free Trial
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />

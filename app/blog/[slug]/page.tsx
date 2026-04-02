@@ -1140,7 +1140,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
       <main className="flex-1">
         {/* Hero Section with Featured Image */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-purple-900 to-slate-900 py-20">
+        <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-orange-900 to-slate-900 py-20">
           <div className="absolute inset-0 opacity-10">
             <div
               className="absolute inset-0"
@@ -1164,7 +1164,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 Back to Blog
               </Link>
 
-              <Badge className="mb-4 bg-gradient-to-r from-orange-500 to-violet-500 text-white border-none">
+              <Badge className="mb-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white border-none">
                 {post.category}
               </Badge>
 
@@ -1217,10 +1217,10 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
         </section>
 
         {/* Article Content */}
-        <section className="relative py-20 bg-gradient-to-b from-white via-orange-50 to-violet-50 overflow-hidden">
+        <section className="relative py-20 bg-gradient-to-b from-white via-orange-50 to-orange-50 overflow-hidden">
           {/* Floating Gradient Orbs */}
           <div className="absolute top-20 right-10 w-96 h-96 bg-gradient-radial from-orange-200/20 to-transparent rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-40 left-10 w-80 h-80 bg-gradient-radial from-purple-200/20 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
+          <div className="absolute bottom-40 left-10 w-80 h-80 bg-gradient-radial from-orange-200/20 to-transparent rounded-full blur-3xl animate-pulse delay-700" />
           
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto">
@@ -1229,7 +1229,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 <article 
                   className="prose prose-lg max-w-none
                     prose-headings:font-bold
-                    prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-8 prose-h2:pb-4 prose-h2:border-b-2 prose-h2:border-orange-200 prose-h2:bg-gradient-to-r prose-h2:from-orange-500 prose-h2:via-orange-600 prose-h2:to-violet-600 prose-h2:text-transparent prose-h2:bg-clip-text
+                    prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-8 prose-h2:pb-4 prose-h2:border-b-2 prose-h2:border-orange-200 prose-h2:bg-gradient-to-r prose-h2:from-orange-500 prose-h2:via-orange-600 prose-h2:to-orange-600 prose-h2:text-transparent prose-h2:bg-clip-text
                     prose-h3:text-2xl prose-h3:mt-12 prose-h3:mb-6 prose-h3:text-white prose-h3:font-bold
                     prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-lg
                     prose-a:text-orange-400 prose-a:font-semibold prose-a:no-underline hover:prose-a:text-orange-300 prose-a:underline prose-a:decoration-2 prose-a:underline-offset-4 hover:prose-a:decoration-orange-500
@@ -1246,19 +1246,19 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
                 {/* Decorative Divider */}
                 <div className="my-16 flex items-center justify-center">
-                  <div className="h-1 w-32 bg-gradient-to-r from-orange-500 via-orange-600 to-violet-600 rounded-full"></div>
+                  <div className="h-1 w-32 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-600 rounded-full"></div>
                   <div className="mx-4 text-2xl text-orange-400">✦</div>
-                  <div className="h-1 w-32 bg-gradient-to-r from-violet-600 via-orange-600 to-orange-500 rounded-full"></div>
+                  <div className="h-1 w-32 bg-gradient-to-r from-orange-600 via-orange-600 to-orange-500 rounded-full"></div>
                 </div>
 
                 {/* Share Section */}
                 <div className="mt-16 pt-8 border-t-2 border-gradient-to-r from-orange-200 via-orange-300 to-orange-200">
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 bg-gradient-to-br from-orange-50 via-orange-100 to-orange-100 rounded-2xl border-2 border-orange-200">
                     <div>
-                      <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-500 via-orange-600 to-violet-600 text-transparent bg-clip-text mb-2">Share this article</h3>
+                      <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-500 via-orange-600 to-orange-600 text-transparent bg-clip-text mb-2">Share this article</h3>
                       <p className="text-gray-600">Help others discover valuable insights</p>
                     </div>
-                    <Button className="bg-gradient-to-r from-orange-500 via-orange-600 to-violet-600 hover:from-orange-600 hover:via-orange-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                    <Button className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-600 hover:from-orange-600 hover:via-orange-700 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">
                       <Share2 className="mr-2 h-4 w-4" />
                       Share
                     </Button>
@@ -1268,11 +1268,11 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                 {/* Author Bio */}
                 <div className="mt-12 p-8 bg-gradient-to-br from-orange-50 via-orange-100 to-orange-100 rounded-2xl border-2 border-orange-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-start gap-6">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-violet-600 flex items-center justify-center text-white text-2xl font-bold flex-shrink-0 shadow-lg">
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-orange-600 flex items-center justify-center text-white text-2xl font-bold flex-shrink-0 shadow-lg">
                       {post.author.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold bg-gradient-to-r from-orange-500 via-orange-600 to-violet-600 text-transparent bg-clip-text mb-2">About {post.author}</h4>
+                      <h4 className="text-xl font-bold bg-gradient-to-r from-orange-500 via-orange-600 to-orange-600 text-transparent bg-clip-text mb-2">About {post.author}</h4>
                       <p className="text-gray-700 leading-relaxed">
                         {post.author} is a thought leader in AI and conversational technologies, with years of experience helping businesses transform their customer service operations through innovative AI solutions.
                       </p>
@@ -1297,7 +1297,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                   />
                 </div>
                 <div className="relative text-center p-12 md:p-16">
-                  <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 via-orange-600 to-violet-600 text-white rounded-full px-5 py-2 mb-6 border-2 border-orange-300 shadow-lg">
+                  <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-600 text-white rounded-full px-5 py-2 mb-6 border-2 border-orange-300 shadow-lg">
                     <BookOpen className="w-4 h-4" />
                     <span className="text-sm font-semibold">Ready to Get Started?</span>
                   </div>
@@ -1309,7 +1309,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
                     Discover how AI voice agents can revolutionize your business communication and boost customer satisfaction
                   </p>
                   <Link href="/contact#contact-form">
-                    <Button size="lg" className="bg-gradient-to-r from-orange-500 via-orange-600 to-violet-600 hover:from-orange-600 hover:via-orange-700 hover:to-violet-700 text-white text-lg px-10 py-7 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
+                    <Button size="lg" className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-600 hover:from-orange-600 hover:via-orange-700 hover:to-orange-700 text-white text-lg px-10 py-7 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
                       Get Started Free
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>

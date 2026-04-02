@@ -31,7 +31,7 @@ export function CTA() {
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
             Powering Conversations for the
-            <span className="block bg-gradient-to-r from-orange-500 to-violet-500 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
               World's Leading Brands
             </span>
           </h2>
@@ -45,8 +45,8 @@ export function CTA() {
           
           {/* Left Side - Image */}
           <div className="relative flex items-center justify-center lg:justify-start">
-            {/* Purple background shape */}
-            <div className="absolute bottom-0 left-1/2 lg:left-[40%] -translate-x-1/2 w-[75%] h-[55%] bg-gradient-to-t from-purple-200/80 via-purple-100/60 to-purple-50/30 rounded-[50px]"></div>
+            {/* Orange background shape */}
+            <div className="absolute bottom-0 left-1/2 lg:left-[40%] -translate-x-1/2 w-[75%] h-[55%] bg-gradient-to-t from-orange-200/80 via-orange-100/60 to-orange-50/30 rounded-[50px]"></div>
             <div className="relative w-full max-w-md lg:max-w-none">
               <img
                 src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/stat_heubsl"
@@ -61,7 +61,7 @@ export function CTA() {
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl shadow-orange-100/20 p-8 w-full max-w-md border border-white/40 hover:shadow-2xl transition-shadow duration-500">
               {/* Card Header */}
               <div className="flex items-center gap-2 mb-8">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-violet-500 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
                   <Shield className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-lg font-bold text-orange-500">Trusted Platform</span>

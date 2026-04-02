@@ -65,8 +65,8 @@ export function Header() {
                     >
                         <Link href="/" className="flex items-center gap-12 relative ml-0 pl-0 mr-2" onClick={() => setIsMenuOpen(false)}>
                             {/* glow orbs */}
-                            <span className="absolute -top-6 -left-6 w-20 h-21 rounded-full bg-gradient-to-br from-orange-500/20 via-violet-400/10 to-transparent blur-3xl" />
-                            <span className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-tl from-violet-500/15 to-orange-300/10 blur-2xl" />
+                            <span className="absolute -top-6 -left-6 w-20 h-21 rounded-full bg-gradient-to-br from-orange-500/20 via-orange-300/10 to-transparent blur-3xl" />
+                            <span className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-tl from-orange-400/15 to-orange-300/10 blur-2xl" />
 
                             <div className="relative">
                                 <Image
@@ -80,7 +80,7 @@ export function Header() {
                                 />
                             </div>
                             {/* Enhanced AI Badge */}
-                            <div className="absolute -bottom-2 -right-8 px-3 py-1 bg-gradient-to-r from-orange-500 via-violet-400 to-orange-500 text-white text-[9px] font-bold shadow-lg shadow-orange-500/40 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-orange-400/30 backdrop-blur-sm"
+                            <div className="absolute -bottom-2 -right-8 px-3 py-1 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 text-white text-[9px] font-bold shadow-lg shadow-orange-500/40 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-orange-400/30 backdrop-blur-sm"
                                 style={{
                                     clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px))'
                                 }}>
@@ -106,7 +106,7 @@ export function Header() {
                                 {item.label}
                                 {/* Animated underline */}
                                 <span className={cn(
-                                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-orange-500 to-violet-500 rounded-full transition-all duration-300",
+                                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full transition-all duration-300",
                                     pathname === item.href ? "w-4/5" : "w-0 group-hover:w-4/5"
                                 )} />
                             </Link>
@@ -126,7 +126,7 @@ export function Header() {
                                     "w-4 h-4 transition-transform duration-200",
                                     servicesOpen && "rotate-180"
                                 )} />
-                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-orange-500 to-violet-500 rounded-full transition-all duration-300 w-0 group-hover:w-4/5" />
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full transition-all duration-300 w-0 group-hover:w-4/5" />
                             </button>
 
                             <AnimatePresence>
@@ -151,7 +151,7 @@ export function Header() {
                                                     </p>
                                                     <Link
                                                         href="/contact#contact-form"
-                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-orange-400 text-orange-600 hover:bg-gradient-to-r hover:from-orange-500 hover:to-violet-500 hover:text-white hover:border-transparent text-sm font-semibold rounded-full transition-all duration-300"
+                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-orange-400 text-orange-600 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white hover:border-transparent text-sm font-semibold rounded-full transition-all duration-300"
                                                     >
                                                         Request a Demo
                                                     </Link>
@@ -171,7 +171,7 @@ export function Header() {
                                                                     href={service.href}
                                                                     className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-slate-600 hover:bg-white/60 hover:shadow-sm transition-all group"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-orange-50 group-hover:bg-gradient-to-br group-hover:from-orange-500 group-hover:to-violet-500 flex items-center justify-center transition-all duration-300">
+                                                                    <div className="w-8 h-8 rounded-lg bg-orange-50 group-hover:bg-gradient-to-br group-hover:from-orange-500 group-hover:to-orange-600 flex items-center justify-center transition-all duration-300">
                                                                         <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
                                                                     </div>
                                                                     <span className="text-[15px] font-medium group-hover:text-orange-600 transition-colors">
@@ -197,7 +197,7 @@ export function Header() {
                                                                     href={service.href}
                                                                     className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-slate-600 hover:bg-white/60 hover:shadow-sm transition-all group"
                                                                 >
-                                                                    <div className="w-8 h-8 rounded-lg bg-orange-50 group-hover:bg-gradient-to-br group-hover:from-orange-500 group-hover:to-violet-500 flex items-center justify-center transition-all duration-300">
+                                                                    <div className="w-8 h-8 rounded-lg bg-orange-50 group-hover:bg-gradient-to-br group-hover:from-orange-500 group-hover:to-orange-600 flex items-center justify-center transition-all duration-300">
                                                                         <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
                                                                     </div>
                                                                     <span className="text-[15px] font-medium group-hover:text-orange-600 transition-colors">
@@ -215,7 +215,7 @@ export function Header() {
                                                     <div className="flex gap-2">
                                                         <Link
                                                             href="/services/leads"
-                                                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-violet-500 hover:from-orange-600 hover:to-violet-600 text-white text-sm font-medium rounded-lg transition-all duration-300 shadow-md shadow-orange-500/20"
+                                                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-sm font-medium rounded-lg transition-all duration-300 shadow-md shadow-orange-500/20"
                                                         >
                                                             <BarChart3 className="w-4 h-4" />
                                                             Lead Analysis
@@ -232,7 +232,7 @@ export function Header() {
 
                                                 {/* Right Section - Featured Card */}
                                                 <div className="w-[220px] p-4">
-                                                    <div className="h-full bg-gradient-to-br from-orange-50 to-violet-50/50 rounded-xl p-4 flex flex-col border border-orange-100/50">
+                                                    <div className="h-full bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-xl p-4 flex flex-col border border-orange-100/50">
                                                         <span className="text-[10px] font-bold text-orange-600 uppercase tracking-wider">
                                                             FEATURED
                                                         </span>
@@ -252,7 +252,7 @@ export function Header() {
                                                             </div>
                                                             <Link
                                                                 href="/services"
-                                                                className="inline-flex items-center justify-center w-full py-2 bg-white/80 hover:bg-gradient-to-r hover:from-orange-500 hover:to-violet-500 hover:text-white text-orange-600 text-sm font-semibold rounded-full border border-orange-200/50 hover:border-transparent transition-all duration-300"
+                                                                className="inline-flex items-center justify-center w-full py-2 bg-white/80 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white text-orange-600 text-sm font-semibold rounded-full border border-orange-200/50 hover:border-transparent transition-all duration-300"
                                                             >
                                                                 Learn More
                                                             </Link>
@@ -273,7 +273,7 @@ export function Header() {
                             href="https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-violet-500 hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-200 group"
+                            className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-orange-500 hover:shadow-lg hover:shadow-orange-500/50 transition-all duration-200 group"
                         >
                             <Instagram className="w-4 h-4 text-white" />
                         </a>
@@ -287,7 +287,7 @@ export function Header() {
                         </a>
                         <Link
                             href="/login"
-                            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-violet-500 hover:from-orange-600 hover:to-violet-600 text-white text-sm font-medium rounded-lg transition-all duration-300 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 btn-glow"
+                            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-sm font-medium rounded-lg transition-all duration-300 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 btn-glow"
                         >
                             <Sparkles className="w-4 h-4" />
                             Login
@@ -351,7 +351,7 @@ export function Header() {
                                         href="https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-violet-500 hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-200"
+                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-orange-500 hover:shadow-lg hover:shadow-orange-500/50 transition-all duration-200"
                                     >
                                         <Instagram className="w-5 h-5 text-white" />
                                     </a>
@@ -369,7 +369,7 @@ export function Header() {
                                 <div className="pt-3 px-4">
                                     <Link
                                         href="/login"
-                                        className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-gradient-to-r from-orange-500 to-violet-500 hover:from-orange-600 hover:to-violet-600 text-white text-sm font-medium rounded-xl transition-all duration-300 shadow-md shadow-orange-500/20"
+                                        className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-sm font-medium rounded-xl transition-all duration-300 shadow-md shadow-orange-500/20"
                                         onClick={() => setIsMenuOpen(false)}
                                     >
                                         <Sparkles className="w-4 h-4" />

@@ -61,7 +61,7 @@ interface Analytics {
   dailyStats: { date: string; sessions: number; completed: number; documents: number }[];
 }
 
-const chartColors = ["#f97316", "#10b981", "#8b5cf6", "#ef4444", "#06b6d4", "#f59e0b", "#ec4899", "#14b8a6"];
+const chartColors = ["#f97316", "#10b981", "#f97316", "#ef4444", "#06b6d4", "#f59e0b", "#ec4899", "#14b8a6"];
 
 const stateLabels: Record<string, string> = {
   INITIAL: "Started",
@@ -250,7 +250,7 @@ export default function BotSessionsPage() {
           <header className="mb-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-orange-600 bg-clip-text text-transparent mb-2">
                   WhatsApp Bot Sessions
                 </h1>
                 <p className="text-slate-600 text-sm sm:text-base">Monitor all HealthiQure WhatsApp bot conversations in real-time</p>
@@ -324,7 +324,7 @@ export default function BotSessionsPage() {
               {/* Location Pie */}
               <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-lg">
                 <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-purple-500" /> By Location
+                  <MapPin className="w-5 h-5 text-orange-500" /> By Location
                 </h3>
                 {locationPie.length > 0 ? (
                   <ResponsiveContainer width="100%" height={200}>
@@ -460,7 +460,7 @@ export default function BotSessionsPage() {
                             </span>
                           )}
                           {session.service && (
-                            <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-600">
+                            <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-orange-50 text-orange-600">
                               {serviceLabels[session.service] || session.service}
                             </span>
                           )}
@@ -545,7 +545,7 @@ export default function BotSessionsPage() {
                                 <button
                                   onClick={() => handleSendMessage(session.phone)}
                                   disabled={sendingMsg === session.phone && !customMsg.trim()}
-                                  className="px-3 py-2 bg-gradient-to-r from-orange-500 to-purple-600 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all disabled:opacity-50"
+                                  className="px-3 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all disabled:opacity-50"
                                 >
                                   <Send className="w-4 h-4" />
                                 </button>

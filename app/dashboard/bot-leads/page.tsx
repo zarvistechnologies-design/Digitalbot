@@ -82,7 +82,7 @@ const serviceLabels: Record<string, string> = {
 const serviceColors: Record<string, string> = {
   doctor_consultation: "bg-blue-100 text-blue-700 border-blue-200",
   pharmacy: "bg-green-100 text-green-700 border-green-200",
-  lab_tests: "bg-purple-100 text-purple-700 border-purple-200",
+  lab_tests: "bg-orange-100 text-orange-700 border-orange-200",
   ecg: "bg-red-100 text-red-700 border-red-200",
   ultrasound: "bg-cyan-100 text-cyan-700 border-cyan-200",
   skin_clinic: "bg-pink-100 text-pink-700 border-pink-200",
@@ -428,7 +428,7 @@ export default function BotLeadsPage() {
           <header className="mb-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-orange-600 bg-clip-text text-transparent mb-2">
                   Bot Leads
                 </h1>
                 <p className="text-slate-600 text-sm sm:text-base">
@@ -547,8 +547,8 @@ export default function BotLeadsPage() {
                     title: "Completed",
                     value: stats.completed,
                     icon: Clock,
-                    gradient: "from-purple-400 to-purple-600",
-                    bg: "bg-purple-50 border-purple-200",
+                    gradient: "from-orange-400 to-orange-600",
+                    bg: "bg-orange-50 border-orange-200",
                   },
                 ].map((card) => (
                   <div
@@ -1045,7 +1045,7 @@ export default function BotLeadsPage() {
                                 <button
                                   onClick={() => handleSendMessage(lead.phone)}
                                   disabled={sendingMsg === lead.phone && !customMsg.trim()}
-                                  className="px-3 py-2 bg-gradient-to-r from-orange-500 to-purple-600 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all disabled:opacity-50"
+                                  className="px-3 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all disabled:opacity-50"
                                 >
                                   <Send className="w-4 h-4" />
                                 </button>
@@ -1105,7 +1105,7 @@ export default function BotLeadsPage() {
                                         setConfirmResult(null);
                                       }
                                     }}
-                                    className="w-full flex items-center justify-between px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl text-sm font-semibold hover:shadow-lg transition-all"
+                                    className="w-full flex items-center justify-between px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-orange-600 text-white rounded-xl text-sm font-semibold hover:shadow-lg transition-all"
                                   >
                                     <span className="flex items-center gap-2">
                                       <Check className="w-4 h-4" />
@@ -1429,7 +1429,7 @@ export default function BotLeadsPage() {
                                     <button
                                       onClick={() => handleSendConfirmation(lead)}
                                       disabled={sendingConfirm}
-                                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-700 text-white rounded-xl text-sm font-semibold hover:shadow-lg transition-all disabled:opacity-50"
+                                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-orange-700 text-white rounded-xl text-sm font-semibold hover:shadow-lg transition-all disabled:opacity-50"
                                     >
                                       {sendingConfirm ? (
                                         <>

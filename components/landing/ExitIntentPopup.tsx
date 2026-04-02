@@ -59,8 +59,8 @@ export default function ExitIntentPopup() {
             onClick={e => e.stopPropagation()}
           >
             {/* Background decoration */}
-            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-orange-100 to-violet-100 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50"></div>
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-orange-100 to-violet-100 rounded-full translate-y-1/2 -translate-x-1/2 opacity-50"></div>
+            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-orange-100 to-orange-100 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-orange-100 to-orange-100 rounded-full translate-y-1/2 -translate-x-1/2 opacity-50"></div>
 
             {/* Close Button */}
             <button
@@ -73,7 +73,7 @@ export default function ExitIntentPopup() {
             {/* Content */}
             <div className="relative z-10 text-center">
               {/* Gift Icon */}
-              <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-violet-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-orange-500/30">
+              <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-orange-500/30">
                 <Gift className="h-10 w-10 text-white" />
               </div>
 
@@ -106,7 +106,7 @@ export default function ExitIntentPopup() {
               <div className="space-y-3">
                 <Link 
                   href="/contact#contact-form"
-                  className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-600 to-violet-600 text-white font-bold rounded-xl hover:from-orange-700 hover:to-violet-700 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:scale-[1.02] btn-glow"
+                  className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-600 text-white font-bold rounded-xl hover:from-orange-700 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/25 hover:shadow-xl hover:scale-[1.02] btn-glow"
                 >
                   Claim My 500 Free Credits
                   <ArrowRight className="h-5 w-5" />

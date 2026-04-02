@@ -83,7 +83,7 @@ export default function LiveCallFeed() {
             </span>
             
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Calls Happening <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-violet-300">Right Now</span>
+              Calls Happening <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-orange-300">Right Now</span>
             </h2>
             
             <p className="text-orange-100 text-lg mb-8">
@@ -188,7 +188,7 @@ export default function LiveCallFeed() {
 
             {/* Decorative Elements */}
             <div className="absolute -top-4 -right-4 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-violet-500/20 rounded-full blur-3xl"></div>
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-orange-500/20 rounded-full blur-3xl"></div>
           </motion.div>
         </div>
       </div>
