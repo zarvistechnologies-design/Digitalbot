@@ -2,17 +2,17 @@
 import Sidebar from "@/components/Sidebar";
 import { templateAPI } from "@/lib/api";
 import {
-    Check,
-    Copy,
-    Edit2,
-    FileText,
-    Loader2,
-    Menu,
-    Plus,
-    RefreshCw,
-    Search,
-    Trash2,
-    X,
+  Check,
+  Copy,
+  Edit2,
+  FileText,
+  Loader2,
+  Menu,
+  Plus,
+  RefreshCw,
+  Search,
+  Trash2,
+  X,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
