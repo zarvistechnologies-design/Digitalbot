@@ -53,11 +53,11 @@ export default function TemplatesPage() {
       if (searchQuery) params.search = searchQuery;
       if (categoryFilter) params.category = categoryFilter;
       const res = await templateAPI.getTemplates(params);
-      const data = res.data.templates || res.data || [];
+      const data = Array.isArray(res.data.data) ? res.data.data : Array.isArray(res.data) ? res.data : [];
       setTemplates(data);
 
-      // Extract unique categories
-      const cats = [...new Set(data.map((t: Template) => t.category).filter(Boolean))] as string[];
+      // Use categories from API response, or extract from data
+      const cats = Array.isArray(res.data.categories) ? res.data.categories : [...new Set(data.map((t: Template) => t.category).filter(Boolean))] as string[];
       setCategories(cats);
     } catch (err) {
       console.error("Failed to fetch templates:", err);
