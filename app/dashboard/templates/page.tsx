@@ -19,7 +19,7 @@ import { useCallback, useEffect, useState } from "react";
 interface Template {
   _id: string;
   name: string;
-  category: string;
+  language: string;
   message: string;
   createdAt: string;
   updatedAt: string;
@@ -36,7 +36,7 @@ export default function TemplatesPage() {
   // Modal state
   const [showModal, setShowModal] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<Template | null>(null);
-  const [formData, setFormData] = useState({ name: "", category: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", language: "en", message: "" });
   const [saving, setSaving] = useState(false);
 
   // Delete confirmation
@@ -51,13 +51,13 @@ export default function TemplatesPage() {
       setLoading(true);
       const params: Record<string, string> = {};
       if (searchQuery) params.search = searchQuery;
-      if (categoryFilter) params.category = categoryFilter;
+      if (categoryFilter) params.language = categoryFilter;
       const res = await templateAPI.getTemplates(params);
       const data = Array.isArray(res.data.data) ? res.data.data : Array.isArray(res.data) ? res.data : [];
       setTemplates(data);
 
-      // Use categories from API response, or extract from data
-      const cats = Array.isArray(res.data.categories) ? res.data.categories : [...new Set(data.map((t: Template) => t.category).filter(Boolean))] as string[];
+      // Use languages from API response, or extract from data
+      const cats = Array.isArray(res.data.languages) ? res.data.languages : [...new Set(data.map((t: Template) => t.language).filter(Boolean))] as string[];
       setCategories(cats);
     } catch (err) {
       console.error("Failed to fetch templates:", err);
@@ -72,13 +72,13 @@ export default function TemplatesPage() {
 
   const openCreate = () => {
     setEditingTemplate(null);
-    setFormData({ name: "", category: "", message: "" });
+    setFormData({ name: "", language: "en", message: "" });
     setShowModal(true);
   };
 
   const openEdit = (template: Template) => {
     setEditingTemplate(template);
-    setFormData({ name: template.name, category: template.category, message: template.message });
+    setFormData({ name: template.name, language: template.language, message: template.message });
     setShowModal(true);
   };
 
@@ -174,10 +174,10 @@ export default function TemplatesPage() {
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white"
           >
-            <option value="">All Categories</option>
+            <option value="">All Languages</option>
             {categories.map((cat) => (
               <option key={cat} value={cat}>
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                {cat === 'en' ? 'English' : cat === 'hi' ? 'Hindi' : cat === 'as' ? 'Assamese' : cat}
               </option>
             ))}
           </select>
@@ -215,9 +215,9 @@ export default function TemplatesPage() {
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-gray-900 truncate">{template.name}</h3>
-                      {template.category && (
+                      {template.language && (
                         <span className="inline-block mt-1 px-2 py-0.5 text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200 rounded-full">
-                          {template.category}
+                          {template.language === 'en' ? 'English' : template.language === 'hi' ? 'Hindi' : template.language === 'as' ? 'Assamese' : template.language}
                         </span>
                       )}
                     </div>
@@ -293,14 +293,16 @@ export default function TemplatesPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                <input
-                  type="text"
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  placeholder="e.g. greeting, follow-up, appointment"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                />
+                <label className="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                <select
+                  value={formData.language}
+                  onChange={(e) => setFormData({ ...formData, language: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+                >
+                  <option value="en">English</option>
+                  <option value="hi">Hindi</option>
+                  <option value="as">Assamese</option>
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Message *</label>
