@@ -464,4 +464,21 @@ export const healthiqureAPI = {
     api.put('/healthiqure/notification-numbers', { numbers }),
 };
 
+// ========================================
+// TEMPLATE API
+// ========================================
+export const templateAPI = {
+  getTemplates: (params?: { category?: string; search?: string }) =>
+    api.get('/templates', { params }),
+
+  createTemplate: (data: { name: string; category?: string; message: string }) =>
+    api.post('/templates', data),
+
+  updateTemplate: (id: string, data: { name?: string; category?: string; message?: string }) =>
+    api.put(`/templates/${id}`, data),
+
+  deleteTemplate: (id: string) =>
+    api.delete(`/templates/${id}`),
+};
+
 export default api;

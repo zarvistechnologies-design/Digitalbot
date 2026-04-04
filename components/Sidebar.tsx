@@ -62,7 +62,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/bot-sessions', icon: MessageSquare });
       serviceItems.push({ name: 'Bot Documents', href: '/dashboard/bot-documents', icon: FileText });
       serviceItems.push({ name: 'Bot Leads', href: '/dashboard/bot-leads', icon: Users });
+      serviceItems.push({ name: 'Templates', href: '/dashboard/templates', icon: FileText });
       serviceItems.push({ name: 'Patient Contacts', href: '/dashboard/bot-contacts', icon: Send });
+      
     }
     return serviceItems;
   };
