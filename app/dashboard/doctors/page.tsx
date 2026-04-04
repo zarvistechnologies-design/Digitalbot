@@ -2,22 +2,22 @@
 import Sidebar from "@/components/Sidebar";
 import { calendarAPI, doctorsAPI } from "@/lib/api";
 import {
-    AlertCircle,
-    Calendar,
-    Check,
-    Clock,
-    Edit,
-    ExternalLink,
-    Mail,
-    Menu,
-    Phone,
-    Plus,
-    RefreshCw,
-    Search,
-    Stethoscope,
-    Trash2,
-    User,
-    X,
+  AlertCircle,
+  Calendar,
+  Check,
+  Clock,
+  Edit,
+  ExternalLink,
+  Mail,
+  Menu,
+  Phone,
+  Plus,
+  RefreshCw,
+  Search,
+  Stethoscope,
+  Trash2,
+  User,
+  X,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -185,7 +185,8 @@ export default function DoctorsPage() {
       // Build payload — only include weeklySchedule if different timings are enabled
       const { useDifferentTimings, ...payload } = formData;
       if (!useDifferentTimings) {
-        payload.weeklySchedule = undefined;
+        // Send null (not undefined) so backend actually clears the weeklySchedule in DB
+        payload.weeklySchedule = null as unknown as WeeklySchedule;
       }
 
       if (editingDoctor) {
@@ -423,13 +424,15 @@ export default function DoctorsPage() {
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      {formatWorkingDays(doctor.workingDays)}
-                    </div>
-                    {hasDifferentTimings(doctor.weeklySchedule) && (
-                      <div className="text-xs text-purple-600 bg-purple-50 px-2 py-1 rounded-md">
+                    {hasDifferentTimings(doctor.weeklySchedule) ? (
+                      <div className="flex items-center gap-2 text-purple-600 font-medium">
+                        <Calendar className="w-4 h-4" />
                         Custom schedule per day
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        {formatWorkingDays(doctor.workingDays)} · {doctor.defaultWorkingHours.start} - {doctor.defaultWorkingHours.end}
                       </div>
                     )}
                     {/* Google Calendar Status */}
