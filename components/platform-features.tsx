@@ -373,12 +373,12 @@ export default function PlatformFeatures() {
         </div>
 
         {/* Feature navigation dots */}
-        <div className="flex items-center justify-center gap-3 mb-10">
+        <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3 mb-10 overflow-x-auto pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
           {features.map((feat, idx) => (
             <button
               key={feat.id}
               onClick={() => setActiveTab(idx)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
                 activeTab === idx
                   ? `bg-gradient-to-r ${feat.color} text-white shadow-lg scale-105`
                   : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
@@ -396,21 +396,21 @@ export default function PlatformFeatures() {
           {/* Arrow buttons */}
           <button
             onClick={prev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 lg:-translate-x-6 z-10 w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-50 hover:shadow-xl transition-all"
+            className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 lg:-translate-x-6 z-10 w-12 h-12 bg-white border border-gray-200 rounded-full items-center justify-center shadow-lg hover:bg-gray-50 hover:shadow-xl transition-all"
             aria-label="Previous feature"
           >
             <ChevronLeft className="w-5 h-5 text-gray-700" />
           </button>
           <button
             onClick={next}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 lg:translate-x-6 z-10 w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-50 hover:shadow-xl transition-all"
+            className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 lg:translate-x-6 z-10 w-12 h-12 bg-white border border-gray-200 rounded-full items-center justify-center shadow-lg hover:bg-gray-50 hover:shadow-xl transition-all"
             aria-label="Next feature"
           >
             <ChevronRight className="w-5 h-5 text-gray-700" />
           </button>
 
           {/* Main content card */}
-          <div className={`rounded-3xl border-2 border-gray-900 bg-gradient-to-br from-white to-gray-50 p-8 md:p-12 lg:p-14`}>
+          <div className={`rounded-3xl border-2 border-gray-900 bg-gradient-to-br from-white to-gray-50 p-5 sm:p-8 md:p-12 lg:p-14`}>
 
             {/* Top: badge + tagline + counter */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-10">

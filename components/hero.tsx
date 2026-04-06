@@ -277,13 +277,15 @@ function DashboardShowcase() {
 
                 {/* Dashboard mockup */}
                 <div className="dash-scale relative mx-auto max-w-6xl" key={tab.id}>
+                    {/* Horizontal scroll wrapper for mobile */}
+                    <div className="overflow-x-auto sm:overflow-x-visible -mx-4 px-4 sm:mx-0 sm:px-0 pb-4 sm:pb-0">
                     {/* Tablet frame */}
-                    <div className="rounded-[24px] sm:rounded-[32px] border-[6px] sm:border-[8px] border-slate-800 bg-white shadow-[0_40px_100px_rgba(0,0,0,0.12)] overflow-hidden">
+                    <div className="rounded-[24px] sm:rounded-[32px] border-[6px] sm:border-[8px] border-slate-800 bg-white shadow-[0_40px_100px_rgba(0,0,0,0.12)] overflow-hidden min-w-[700px] sm:min-w-0">
 
                         {/* Dashboard content */}
                         <div className="flex">
                             {/* Sidebar */}
-                            <div className="hidden sm:flex flex-col w-[200px] lg:w-[220px] border-r border-slate-100 bg-slate-50/60 py-5 px-3">
+                            <div className="flex flex-col w-[180px] sm:w-[200px] lg:w-[220px] border-r border-slate-100 bg-slate-50/60 py-5 px-3 flex-shrink-0">
                                 {/* Logo */}
                                 <div className="flex items-center gap-2 px-3 mb-5">
                                     <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
@@ -341,7 +343,7 @@ function DashboardShowcase() {
                                 </div>
 
                                 {/* Stat cards */}
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-5">
+                                <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-5">
                                     {tab.stats.map((stat, i) => (
                                         <div key={i} className="rounded-xl border border-slate-100 bg-white p-3 sm:p-4 hover:shadow-md transition-shadow">
                                             <div className="flex items-center gap-2 mb-1.5">
@@ -357,9 +359,9 @@ function DashboardShowcase() {
 
                                 {/* Chart + Donut row OR WhatsApp Chat */}
                                 {isWhatsApp ? (
-                                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                                    <div className="grid grid-cols-5 gap-4">
                                         {/* WhatsApp Chat */}
-                                        <div className="lg:col-span-3 rounded-xl border border-slate-100 bg-[#efeae2] overflow-hidden">
+                                        <div className="col-span-3 rounded-xl border border-slate-100 bg-[#efeae2] overflow-hidden">
                                             <div className="bg-[#075e54] px-4 py-3 flex items-center gap-3">
                                                 <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center">
                                                     <MessageSquare className="h-4 w-4 text-white" />
@@ -397,7 +399,7 @@ function DashboardShowcase() {
                                         </div>
 
                                         {/* Donut chart */}
-                                        <div className="lg:col-span-2 rounded-xl border border-slate-100 bg-white p-4">
+                                        <div className="col-span-2 rounded-xl border border-slate-100 bg-white p-4">
                                             <p className="text-xs font-semibold text-slate-700 mb-3">Chat Analytics</p>
                                             <div className="flex justify-center mb-3">
                                                 <div className="relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px]">
@@ -433,9 +435,9 @@ function DashboardShowcase() {
                                         </div>
                                     </div>
                                 ) : (
-                                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                                <div className="grid grid-cols-5 gap-4">
                                     {/* Chart */}
-                                    <div className="lg:col-span-3 rounded-xl border border-slate-100 bg-white p-4">
+                                    <div className="col-span-3 rounded-xl border border-slate-100 bg-white p-4">
                                         <div className="flex items-center justify-between mb-4">
                                             <div>
                                                 <p className="text-xs font-semibold text-slate-700">Total Call Analysis</p>
@@ -462,7 +464,7 @@ function DashboardShowcase() {
                                     </div>
 
                                     {/* Donut chart */}
-                                    <div className="lg:col-span-2 rounded-xl border border-slate-100 bg-white p-4">
+                                    <div className="col-span-2 rounded-xl border border-slate-100 bg-white p-4">
                                         <p className="text-xs font-semibold text-slate-700 mb-3">Total Calls</p>
                                         <div className="flex justify-center mb-3">
                                             <div className="relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px]">
@@ -501,6 +503,7 @@ function DashboardShowcase() {
                             </div>
                         </div>
                     </div>
+                    </div>{/* end scroll wrapper */}
                 </div>
             </div>
         </section>
@@ -1309,178 +1312,141 @@ export default function Hero() {
 
                         {/* Left Phone (secondary, tilted) - WhatsApp Chat */}
                         <div className="hero-phone-secondary relative z-10 mr-[-30px] sm:mr-[-50px] mb-4 sm:mb-8">
-                            <div className="w-[140px] sm:w-[220px] md:w-[260px] h-[280px] sm:h-[430px] md:h-[500px] rounded-[24px] sm:rounded-[38px] border-[4px] sm:border-[7px] border-slate-800 bg-[#ece5dd] shadow-[0_30px_80px_rgba(0,0,0,0.1)] rotate-[-6deg] overflow-hidden flex flex-col relative">
-                                {/* iPhone Dynamic Island / Notch */}
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-12 sm:w-20 h-3 sm:h-5 bg-slate-900 rounded-b-2xl" />
-                                {/* Status Bar */}
-                                <div className="bg-green-700 px-2 pt-1.5 pb-0.5 flex items-center justify-between text-[7px] sm:text-[8px] text-white relative z-0">
-                                    <span>9:41</span>
-                                    <div className="w-16 sm:w-20" />
-                                    <span>5G</span>
-                                </div>
-                                {/* WhatsApp Header */}
-                                <div className="bg-green-600 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 sm:gap-2">
+                            <div className="w-[140px] sm:w-[220px] md:w-[260px] h-[280px] sm:h-[430px] md:h-[500px] rounded-[28px] sm:rounded-[40px] border-[3px] sm:border-[5px] border-[#1d1d1f] bg-[#ece5dd] shadow-[0_30px_80px_rgba(0,0,0,0.12)] rotate-[-6deg] overflow-hidden flex flex-col relative">
+                                {/* Dynamic Island */}
+                                <div className="absolute top-[3px] sm:top-[6px] left-1/2 -translate-x-1/2 z-20 w-[40px] sm:w-[65px] h-[10px] sm:h-[18px] bg-[#1d1d1f] rounded-full" />
+                                {/* WhatsApp Header - right at top with space for Dynamic Island */}
+                                <div className="bg-[#075e54] px-2 sm:px-3 pt-[16px] sm:pt-[28px] pb-1 sm:pb-1.5 flex items-center gap-1.5 sm:gap-2">
                                     <span className="text-white text-[10px] sm:text-xs">←</span>
-                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-[9px] sm:text-xs">
-                                        D
-                                    </div>
+                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-[9px] sm:text-xs">D</div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-white text-[9px] sm:text-[11px] font-semibold truncate">DigitalBot AI</p>
-                                        <p className="text-green-200 text-[7px] sm:text-[9px]">● Verified Business</p>
+                                        <p className="text-green-200 text-[7px] sm:text-[9px]"><span className="text-orange-400">●</span> Verified Business</p>
                                     </div>
                                     <span className="text-white text-[10px] sm:text-xs">📞</span>
                                 </div>
-                                
                                 {/* Chat Messages */}
                                 <div className="flex-1 bg-[#ece5dd] px-1.5 sm:px-2 py-1.5 overflow-y-auto space-y-1.5">
                                     {/* Date Badge */}
                                     <div className="text-center">
-                                        <span className="text-[6px] sm:text-[7px] text-slate-600 bg-white/80 px-1.5 py-0.5 rounded shadow-sm">Today 10:00 AM</span>
+                                        <span className="text-[6px] sm:text-[7px] text-slate-600 bg-white/80 px-1.5 py-0.5 rounded shadow-sm">Today 8:30 AM</span>
                                     </div>
-                                    
-                                    {/* Bot - Event Promo */}
+                                    {/* Bot - Holiday Promo */}
                                     <div className="max-w-[88%]">
                                         <div className="bg-white rounded-lg rounded-tl-sm px-2 py-1.5 shadow-sm">
-                                            <p className="text-[8px] sm:text-[9px] text-slate-900 font-semibold leading-snug">🎉 New Year Bash 2027!</p>
-                                            <p className="text-[7px] sm:text-[8px] text-slate-700 mt-0.5 leading-snug">Join the biggest celebration in town</p>
+                                            <p className="text-[8px] sm:text-[9px] text-slate-900 font-semibold leading-snug">The holiday season is almost here!</p>
+                                            <p className="text-[7px] sm:text-[8px] text-slate-700 mt-0.5 leading-snug">Start planning your dream getaway with special <span className="font-bold">30% discount</span></p>
                                             <div className="flex gap-1 mt-1.5">
                                                 <div className="flex-1 rounded-lg overflow-hidden shadow-sm">
-                                                    <div className="bg-gradient-to-br from-green-500 to-green-600 p-1.5 text-center">
-                                                        <span className="text-[7px] sm:text-[8px] text-white font-semibold">🎆 VIP</span>
+                                                    <div className="bg-gradient-to-br from-orange-400 to-orange-500 p-1.5 sm:p-2 text-center">
+                                                        <span className="text-[7px] sm:text-[8px] text-white font-semibold">🏔 Manali</span>
                                                     </div>
                                                     <div className="bg-white px-1 py-0.5">
-                                                        <p className="text-[6px] sm:text-[7px] font-medium text-slate-800">₹2,999</p>
-                                                        <p className="text-[5px] sm:text-[6px] text-green-500">🎫 Book</p>
+                                                        <p className="text-[6px] sm:text-[7px] font-medium text-slate-800">Manali</p>
+                                                        <p className="text-[5px] sm:text-[6px] text-orange-500">📍 Book Now</p>
+                                                        <p className="text-[5px] sm:text-[6px] text-orange-500">📞 Call Agent</p>
                                                     </div>
                                                 </div>
                                                 <div className="flex-1 rounded-lg overflow-hidden shadow-sm">
-                                                    <div className="bg-gradient-to-br from-green-400 to-green-500 p-1.5 text-center">
-                                                        <span className="text-[7px] sm:text-[8px] text-white font-semibold">🎵 General</span>
+                                                    <div className="bg-gradient-to-br from-orange-400 to-orange-500 p-1.5 sm:p-2 text-center">
+                                                        <span className="text-[7px] sm:text-[8px] text-white font-semibold">🏖 Beach</span>
                                                     </div>
                                                     <div className="bg-white px-1 py-0.5">
-                                                        <p className="text-[6px] sm:text-[7px] font-medium text-slate-800">₹999</p>
-                                                        <p className="text-[5px] sm:text-[6px] text-green-500">🎫 Book</p>
+                                                        <p className="text-[6px] sm:text-[7px] font-medium text-slate-800">Lakshadweep</p>
+                                                        <p className="text-[5px] sm:text-[6px] text-orange-500">📍 Book Now</p>
+                                                        <p className="text-[5px] sm:text-[6px] text-orange-500">📞 Call Agent</p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="text-right mt-1">
-                                                <span className="text-[6px] text-slate-400">10:00 ✓✓</span>
-                                            </div>
+                                            <div className="text-right mt-1"><span className="text-[6px] text-slate-400">8:30 ✓✓</span></div>
                                         </div>
                                     </div>
-                                    
-                                    {/* User - VIP */}
+                                    {/* User - Book Manali */}
                                     <div className="flex justify-end">
                                         <div className="max-w-[78%] bg-[#d9fdd3] rounded-lg rounded-tr-sm px-2 py-1 shadow-sm">
-                                            <p className="text-[8px] sm:text-[9px] text-slate-800">I want 2 VIP tickets!</p>
-                                            <div className="text-right"><span className="text-[6px] text-slate-500">10:01 ✓✓</span></div>
+                                            <p className="text-[8px] sm:text-[9px] text-slate-800">I&apos;d love to book Manali! What dates are available?</p>
+                                            <div className="text-right"><span className="text-[6px] text-slate-500">8:31 ✓✓</span></div>
                                         </div>
                                     </div>
-                                    
-                                    {/* Bot - Summary */}
+                                    {/* Bot - Available Dates */}
                                     <div className="max-w-[88%]">
                                         <div className="bg-white rounded-lg rounded-tl-sm px-2 py-1.5 shadow-sm">
-                                            <p className="text-[8px] sm:text-[9px] text-slate-800 font-semibold">🧾 Booking Summary</p>
-                                            <div className="mt-0.5 space-y-0.5 text-[7px] sm:text-[8px] text-slate-700">
-                                                <p>🎫 2x VIP Pass</p>
-                                                <p>📅 Dec 31, 8 PM</p>
-                                                <p>📍 Grand Arena, Mumbai</p>
-                                                <p className="font-bold text-slate-900">💰 Total: ₹5,998</p>
+                                            <p className="text-[8px] sm:text-[9px] text-slate-800">Great choice! 🏕 Here are the available dates for Manali:</p>
+                                            <div className="mt-1 space-y-0.5 text-[7px] sm:text-[8px] text-slate-700">
+                                                <p>📅 Dec 20 - Dec 25</p>
+                                                <p>📅 Dec 27 - Jan 1</p>
+                                                <p>📅 Jan 5 - Jan 10</p>
                                             </div>
-                                            <div className="text-right mt-0.5"><span className="text-[6px] text-slate-400">10:01 ✓✓</span></div>
-                                        </div>
-                                    </div>
-                                    
-                                    {/* User - Confirm */}
-                                    <div className="flex justify-end">
-                                        <div className="max-w-[70%] bg-[#d9fdd3] rounded-lg rounded-tr-sm px-2 py-1 shadow-sm">
-                                            <p className="text-[8px] sm:text-[9px] text-slate-800">Confirm & pay 👍</p>
-                                            <div className="text-right"><span className="text-[6px] text-slate-500">10:02 ✓✓</span></div>
-                                        </div>
-                                    </div>
-                                    
-                                    {/* Bot - Payment Link */}
-                                    <div className="max-w-[88%]">
-                                        <div className="bg-white rounded-lg rounded-tl-sm px-2 py-1.5 shadow-sm">
-                                            <p className="text-[8px] sm:text-[9px] text-slate-800">✅ Payment received!</p>
-                                            <div className="mt-1 bg-green-50 border border-green-200 rounded-lg px-2 py-1">
-                                                <p className="text-[7px] sm:text-[8px] text-green-700 font-semibold">🎫 E-Ticket Confirmed</p>
-                                                <p className="text-[6px] sm:text-[7px] text-green-600">Order #NYB2027-4851</p>
-                                                <p className="text-[6px] sm:text-[7px] text-green-600">📩 Tickets sent to your email</p>
+                                            <div className="flex gap-1 mt-1.5">
+                                                <span className="px-1.5 py-0.5 rounded-full border border-orange-400 text-[6px] sm:text-[7px] text-orange-600 font-medium">Dec 20-25</span>
+                                                <span className="px-1.5 py-0.5 rounded-full border border-orange-400 text-[6px] sm:text-[7px] text-orange-600 font-medium">Dec 27-Jan 1</span>
                                             </div>
-                                            <div className="text-right mt-0.5"><span className="text-[6px] text-slate-400">10:02 ✓✓</span></div>
+                                            <div className="text-right mt-1"><span className="text-[6px] text-slate-400">8:31 ✓✓</span></div>
                                         </div>
                                     </div>
                                 </div>
-                                
                                 {/* Message Input Bar */}
                                 <div className="bg-white px-1.5 sm:px-2 py-1.5 flex items-center gap-1.5 border-t border-slate-200">
                                     <span className="text-[10px] sm:text-sm">😊</span>
                                     <div className="flex-1 bg-slate-100 rounded-full px-2 py-1">
                                         <p className="text-[7px] sm:text-[8px] text-slate-400">Type a message...</p>
                                     </div>
-                                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-green-500 flex items-center justify-center">
+                                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#25d366] flex items-center justify-center">
                                         <span className="text-white text-[8px] sm:text-[10px]">🎤</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Right Phone (main, straight) */}
+                        {/* Right Phone (main, straight) - Voice Agent Studio */}
                         <div className="hero-phone-main relative z-20">
-                            <div className="w-[160px] sm:w-[250px] md:w-[300px] h-[320px] sm:h-[490px] md:h-[580px] rounded-[28px] sm:rounded-[42px] border-[4px] sm:border-[7px] border-slate-800 bg-white p-2 sm:p-5 shadow-[0_40px_100px_rgba(0,0,0,0.12)]">
-                                <div className="mx-auto mb-2 sm:mb-5 h-4 sm:h-7 w-14 sm:w-24 rounded-full bg-slate-800" />
-                                <div className="flex flex-col items-center h-[calc(100%-50px)] space-y-3 sm:space-y-4">
+                            <div className="w-[160px] sm:w-[250px] md:w-[300px] h-[320px] sm:h-[490px] md:h-[580px] rounded-[30px] sm:rounded-[44px] border-[3px] sm:border-[5px] border-[#1d1d1f] bg-white shadow-[0_40px_100px_rgba(0,0,0,0.14)] overflow-hidden flex flex-col relative">
+                                {/* Dynamic Island */}
+                                <div className="absolute top-[4px] sm:top-[7px] left-1/2 -translate-x-1/2 z-20 w-[45px] sm:w-[75px] h-[11px] sm:h-[20px] bg-[#1d1d1f] rounded-full" />
+                                {/* Content area with top padding for Dynamic Island */}
+                                <div className="flex flex-col items-center flex-1 pt-5 sm:pt-10 px-1.5 sm:px-5 pb-1.5 sm:pb-4 space-y-1.5 sm:space-y-4">
                                     {/* Header badge */}
-                                    <div className="w-full flex items-center justify-between rounded-2xl bg-slate-50 border border-slate-100 px-3 sm:px-4 py-2 sm:py-2.5">
-                                        <span className="text-[11px] sm:text-sm font-semibold text-indigo-700">Voice Agent Studio</span>
-                                        <div className="flex items-center gap-1.5">
-                                            <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse" />
-                                            <span className="text-[9px] sm:text-[10px] text-indigo-600 font-medium">Ready</span>
+                                    <div className="w-full flex items-center justify-between rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 px-2 sm:px-4 py-1.5 sm:py-2.5">
+                                        <span className="text-[8px] sm:text-sm font-semibold text-indigo-700">Voice Agent Studio</span>
+                                        <div className="flex items-center gap-1">
+                                            <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-purple-500 rounded-full animate-pulse" />
+                                            <span className="text-[7px] sm:text-[10px] text-indigo-600 font-medium">Ready</span>
                                         </div>
                                     </div>
-
                                     {/* Main message */}
-                                    <div className="w-full rounded-2xl bg-white border border-slate-100 p-3 sm:p-4 text-center">
-                                        <p className="text-[10px] sm:text-xs text-indigo-600 font-semibold uppercase tracking-wider mb-1">Zero Effort</p>
-                                        <p className="text-lg sm:text-xl md:text-2xl font-bold leading-tight text-orange-600">Your voice bot, ready in hours.</p>
+                                    <div className="w-full rounded-xl sm:rounded-2xl bg-white border border-slate-100 p-2 sm:p-4 text-center">
+                                        <p className="text-[7px] sm:text-xs text-indigo-600 font-semibold uppercase tracking-wider mb-0.5 sm:mb-1">Zero Effort</p>
+                                        <p className="text-[13px] sm:text-xl md:text-2xl font-bold leading-tight text-orange-600">Your voice bot, ready in hours.</p>
                                     </div>
-
-                                    {/* Sound wave visualization - static multicolor */}
-                                    <div className="w-full flex items-end justify-center gap-[2px] h-12 sm:h-16">
-                                            {[
-                                                { h: 0.3, color: 'bg-indigo-400' }, { h: 0.5, color: 'bg-purple-400' }, { h: 0.8, color: 'bg-indigo-400' },
-                                                { h: 0.4, color: 'bg-purple-500' }, { h: 1, color: 'bg-indigo-500' }, { h: 0.6, color: 'bg-purple-400' },
-                                                { h: 0.9, color: 'bg-indigo-400' }, { h: 0.3, color: 'bg-purple-400' }, { h: 0.7, color: 'bg-indigo-500' },
-                                                { h: 1, color: 'bg-purple-500' }, { h: 0.5, color: 'bg-indigo-500' }, { h: 0.8, color: 'bg-purple-400' },
-                                                { h: 0.4, color: 'bg-indigo-400' }, { h: 0.9, color: 'bg-purple-400' }, { h: 0.6, color: 'bg-indigo-500' },
-                                                { h: 0.3, color: 'bg-purple-500' }, { h: 0.7, color: 'bg-indigo-400' }, { h: 0.5, color: 'bg-purple-400' },
-                                                { h: 1, color: 'bg-indigo-400' }, { h: 0.4, color: 'bg-purple-500' },
-                                            ].map((bar, i) => (
-                                                <div
-                                                    key={i}
-                                                    className={`w-[2px] sm:w-[3px] rounded-full ${bar.color}`}
-                                                    style={{ height: `${bar.h * 100}%`, opacity: 0.9 }}
-                                                />
-                                            ))}
+                                    {/* Sound wave - purple palette */}
+                                    <div className="w-full flex items-end justify-center gap-[2px] h-8 sm:h-16">
+                                        {[
+                                            { h: 0.3, c: 'bg-purple-300' }, { h: 0.5, c: 'bg-purple-400' }, { h: 0.8, c: 'bg-purple-500' },
+                                            { h: 0.4, c: 'bg-purple-300' }, { h: 1, c: 'bg-purple-500' }, { h: 0.6, c: 'bg-purple-400' },
+                                            { h: 0.9, c: 'bg-purple-500' }, { h: 0.3, c: 'bg-purple-300' }, { h: 0.7, c: 'bg-purple-400' },
+                                            { h: 1, c: 'bg-purple-500' }, { h: 0.5, c: 'bg-purple-400' }, { h: 0.8, c: 'bg-purple-500' },
+                                            { h: 0.4, c: 'bg-purple-300' }, { h: 0.9, c: 'bg-purple-500' }, { h: 0.6, c: 'bg-purple-400' },
+                                            { h: 0.3, c: 'bg-purple-300' }, { h: 0.7, c: 'bg-purple-400' }, { h: 0.5, c: 'bg-purple-300' },
+                                            { h: 1, c: 'bg-purple-500' }, { h: 0.4, c: 'bg-purple-400' },
+                                        ].map((bar, i) => (
+                                            <div key={i} className={`w-[2px] sm:w-[3px] rounded-full ${bar.c}`} style={{ height: `${bar.h * 100}%`, opacity: 0.85 }} />
+                                        ))}
                                     </div>
-
                                     {/* Steps */}
-                                    <div className="w-full grid grid-cols-2 gap-2 sm:gap-2.5">
-                                        <div className="rounded-2xl bg-slate-50 border border-slate-100 p-2.5 sm:p-3 text-center">
-                                            <p className="text-[9px] sm:text-[10px] text-indigo-600 uppercase font-bold tracking-wider">Step 1</p>
-                                            <p className="mt-1 text-[10px] sm:text-xs font-semibold text-purple-700">Share needs</p>
+                                    <div className="w-full grid grid-cols-2 gap-1.5 sm:gap-2.5">
+                                        <div className="rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 p-1.5 sm:p-3 text-center">
+                                            <p className="text-[7px] sm:text-[10px] text-indigo-600 uppercase font-bold tracking-wider">Step 1</p>
+                                            <p className="mt-0.5 text-[8px] sm:text-xs font-semibold text-purple-700">Share needs</p>
                                         </div>
-                                        <div className="rounded-2xl bg-slate-50 border border-slate-100 p-2.5 sm:p-3 text-center">
-                                            <p className="text-[9px] sm:text-[10px] text-indigo-600 uppercase font-bold tracking-wider">Step 2</p>
-                                            <p className="mt-1 text-[10px] sm:text-xs font-semibold text-purple-700">We build it</p>
+                                        <div className="rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 p-1.5 sm:p-3 text-center">
+                                            <p className="text-[7px] sm:text-[10px] text-indigo-600 uppercase font-bold tracking-wider">Step 2</p>
+                                            <p className="mt-0.5 text-[8px] sm:text-xs font-semibold text-purple-700">We build it</p>
                                         </div>
                                     </div>
-
                                     {/* Bottom CTA */}
-                                    <div className="w-full rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 p-3 sm:p-4 text-white text-center shadow-md shadow-orange-500/20">
-                                        <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.15em]">No Code Needed</p>
-                                        <p className="mt-1 text-sm sm:text-base font-bold">Just tell us & go live 🚀</p>
+                                    <div className="w-full rounded-xl sm:rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 p-2 sm:p-4 text-white text-center shadow-md shadow-orange-500/20">
+                                        <p className="text-[7px] sm:text-[10px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em]">No Code Needed</p>
+                                        <p className="mt-0.5 text-[11px] sm:text-base font-bold">Just tell us & go live 🚀</p>
                                     </div>
                                 </div>
                             </div>

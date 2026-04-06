@@ -37,6 +37,7 @@ export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+    const [mobileAccordion, setMobileAccordion] = useState<string | null>(null)
     const pathname = usePathname()
 
     useEffect(() => {
@@ -409,7 +410,7 @@ export function Header() {
 
                         {/* Mobile hamburger */}
                         <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            onClick={() => { setIsMenuOpen(!isMenuOpen); if (isMenuOpen) setMobileAccordion(null) }}
                             className="lg:hidden p-2 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
                         >
                             {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -441,35 +442,73 @@ export function Header() {
                                         Home
                                     </Link>
 
-                                    {/* Mobile Solutions */}
+                                    {/* Mobile Solutions (Accordion) */}
                                     <div className="pt-3 mt-2 border-t border-gray-100">
-                                        <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">WhatsApp Bot Services</div>
-                                        <div className="grid grid-cols-2 gap-0.5 max-h-[400px] overflow-y-auto">
-                                            {solutions.map((sol) => (
-                                                <Link
-                                                    key={sol.href} href={sol.href}
-                                                    className="block px-4 py-2.5 text-[13px] font-[500] text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
-                                                    onClick={() => setIsMenuOpen(false)}
+                                        <button
+                                            onClick={() => setMobileAccordion(mobileAccordion === "solutions" ? null : "solutions")}
+                                            className="w-full flex items-center justify-between px-4 py-3 text-sm font-[550] text-slate-600 hover:bg-orange-50/70 hover:text-orange-600 rounded-xl transition-colors"
+                                        >
+                                            WhatsApp Bot Services
+                                            <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", mobileAccordion === "solutions" && "rotate-180")} />
+                                        </button>
+                                        <AnimatePresence>
+                                            {mobileAccordion === "solutions" && (
+                                                <motion.div
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: "auto", opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className="overflow-hidden"
                                                 >
-                                                    {sol.label}
-                                                </Link>
-                                            ))}
-                                        </div>
+                                                    <div className="grid grid-cols-2 gap-0.5 max-h-[400px] overflow-y-auto pb-1">
+                                                        {solutions.map((sol) => (
+                                                            <Link
+                                                                key={sol.href} href={sol.href}
+                                                                className="block px-4 py-2.5 text-[13px] font-[500] text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
+                                                                onClick={() => setIsMenuOpen(false)}
+                                                            >
+                                                                {sol.label}
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
 
-                                    {/* Mobile Services */}
+                                    {/* Mobile Services (Accordion) */}
                                     <div className="pt-3 mt-2 border-t border-gray-100">
-                                        <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Voice Agent Service</div>
-                                        {[...voiceServices, ...aiServices].map((s) => (
-                                            <Link
-                                                key={s.href} href={s.href}
-                                                className="flex items-center gap-2 px-4 py-2.5 text-[13px] text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
-                                                onClick={() => setIsMenuOpen(false)}
-                                            >
-                                                {s.label}
-                                                {s.badge && <span className="wa-badge">{s.badge}</span>}
-                                            </Link>
-                                        ))}
+                                        <button
+                                            onClick={() => setMobileAccordion(mobileAccordion === "services" ? null : "services")}
+                                            className="w-full flex items-center justify-between px-4 py-3 text-sm font-[550] text-slate-600 hover:bg-orange-50/70 hover:text-orange-600 rounded-xl transition-colors"
+                                        >
+                                            Voice Agent Service
+                                            <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", mobileAccordion === "services" && "rotate-180")} />
+                                        </button>
+                                        <AnimatePresence>
+                                            {mobileAccordion === "services" && (
+                                                <motion.div
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: "auto", opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className="overflow-hidden"
+                                                >
+                                                    <div className="pb-1">
+                                                        {[...voiceServices, ...aiServices].map((s) => (
+                                                            <Link
+                                                                key={s.href} href={s.href}
+                                                                className="flex items-center gap-2 px-4 py-2.5 text-[13px] text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
+                                                                onClick={() => setIsMenuOpen(false)}
+                                                            >
+                                                                {s.label}
+                                                                {s.badge && <span className="wa-badge">{s.badge}</span>}
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
 
                                     {/* Other Nav Items */}
