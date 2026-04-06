@@ -3,28 +3,28 @@ import Sidebar from "@/components/Sidebar";
 import { useWebSocket } from "@/hooks/use-websocket";
 import { healthiqureAPI } from "@/lib/api";
 import {
-    AlertCircle,
-    Bell,
-    Check,
-    ChevronDown,
-    ChevronLeft,
-    ChevronRight,
-    ChevronUp,
-    Clock,
-    FileText,
-    Loader2,
-    MapPin,
-    Menu,
-    MessageSquare,
-    Phone,
-    RefreshCw,
-    Save,
-    Search,
-    Send,
-    User,
-    Users,
-    X,
-    Zap,
+  AlertCircle,
+  Bell,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  Clock,
+  FileText,
+  Loader2,
+  MapPin,
+  Menu,
+  MessageSquare,
+  Phone,
+  RefreshCw,
+  Save,
+  Search,
+  Send,
+  User,
+  Users,
+  X,
+  Zap,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -971,12 +971,18 @@ export default function BotLeadsPage() {
                               <div>
                                 <span className="text-slate-500 text-xs">Location</span>
                                 <p className="font-semibold text-slate-800">
-                                  {lead.partnerLocation || lead.otherLocationText ||
+                                  {lead.otherLocationText ||
                                     (lead.location
                                       ? lead.location.charAt(0).toUpperCase() + lead.location.slice(1)
                                       : "N/A")}
                                 </p>
                               </div>
+                              {lead.partnerLocation && (
+                                <div>
+                                  <span className="text-slate-500 text-xs">Partner Center</span>
+                                  <p className="font-semibold text-slate-800">{lead.partnerLocation}</p>
+                                </div>
+                              )}
                               {lead.subChoice && (
                                 <div>
                                   <span className="text-slate-500 text-xs">Sub-Choice</span>
