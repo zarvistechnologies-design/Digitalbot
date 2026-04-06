@@ -667,7 +667,7 @@ export default function CustomerSupportCampaignsPage() {
               {uploadedContacts.length > 0 && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Preview (first 5)</label>
-                  <div className="bg-gray-50 rounded-xl overflow-hidden">
+                  <div className="bg-gray-50 rounded-xl overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead className="bg-gray-100">
                         <tr>

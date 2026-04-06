@@ -1,21 +1,10 @@
 "use client"
 
-import { ArrowRight, Award, Bot, Building2, Clock, Facebook, Globe, HeadphonesIcon, Instagram, Linkedin, Mail, MessageSquare, Phone, Shield, Sparkles, TrendingUp, Twitter, Users, Zap } from "lucide-react"
+import { ArrowRight, Award, Clock, Linkedin, Mail, Phone, Shield, Sparkles, TrendingUp, Twitter } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
 export function Footer() {
-
-  const services = [
-    { name: "AI Voice Bot", href: "/services/ai-voice-bot", icon: Bot, gradient: "from-orange-500 to-orange-600", description: "24/7 automated voice assistance" },
-    { name: "Voice AI for Business", href: "/services/voice-ai-business", icon: Building2, gradient: "from-orange-500 to-orange-600", description: "Enterprise AI solutions" },
-    { name: "Voice Automation", href: "/services/voice-automation-software", icon: Zap, gradient: "from-orange-500 to-orange-600", description: "Streamline workflows" },
-    { name: "AI Customer Support", href: "/services/ai-customer-support", icon: HeadphonesIcon, gradient: "from-orange-500 to-orange-600", description: "Smart support system" },
-    { name: "Conversational AI", href: "/services/conversational-ai", icon: MessageSquare, gradient: "from-orange-500 to-orange-600", description: "Natural conversations" },
-    { name: "AI Call Center", href: "/services/ai-call-center", icon: Phone, gradient: "from-orange-500 to-orange-600", description: "Automated call handling" },
-    { name: "AI Sales Agent", href: "/services/ai-sales-agent", icon: Users, gradient: "from-orange-500 to-orange-600", description: "Boost sales conversions" },
-    { name: "Virtual Receptionist", href: "/services/ai-virtual-receptionist", icon: Sparkles, gradient: "from-orange-500 to-orange-600", description: "Professional front desk AI" },
-  ]
 
   const features = [
     { icon: Clock, text: "24/7 Availability", color: "orange" },
@@ -33,7 +22,7 @@ export function Footer() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Enhanced Premium Feature Banner - Orange theme */}
-        <div className="py-12 mb-8">
+        <div className="py-6 mb-4">
           <div className="relative glass-strong bg-gradient-to-r from-orange-500/90 via-orange-600/90 to-orange-600/90 rounded-3xl p-8 shadow-2xl shadow-orange-500/20 overflow-hidden group border border-orange-400/20">
             {/* Enhanced Animated shimmer effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -66,7 +55,7 @@ export function Footer() {
         </div>
 
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-8">
 
           {/* Brand Section - Enhanced */}
           <div className="lg:col-span-4 space-y-6">
@@ -91,134 +80,55 @@ export function Footer() {
               Transform customer interactions with intelligent automation.
             </p>
 
-            {/* Enhanced Trust Badges - Orange theme */}
-            <div className="grid grid-cols-2 gap-3">
-              {features.map((feature, idx) => {
-                const colors = [
-                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-orange-600', shadow: 'hover:shadow-orange-500/15' },
-                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-orange-500', shadow: 'hover:shadow-orange-500/15' },
-                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-orange-600', shadow: 'hover:shadow-orange-500/15' },
-                  { bg: 'from-white/80 via-white/90 to-white/80', border: 'border-orange-200/40 hover:border-orange-300', icon: 'from-orange-500 to-orange-500', shadow: 'hover:shadow-orange-500/15' },
-                ]
-                const colorSet = colors[idx]
-                return (
-                  <div key={idx} className={`flex items-center gap-2 p-3 glass-card rounded-xl border ${colorSet.border} ${colorSet.shadow} transition-all duration-300 group hover:scale-105`}>
-                    <div className={`p-2 bg-gradient-to-br ${colorSet.bg} rounded-lg group-hover:scale-110 transition-transform`}>
-                      <feature.icon className={`w-4 h-4 text-orange-600`} />
-                    </div>
-                    <span className="text-xs font-semibold text-slate-700 uppercase tracking-wide">{feature.text}</span>
-                  </div>
-                )
-              })}
-            </div>
 
-            {/* Enhanced Social Media - Orange theme */}
+
+            {/* Enhanced Social Media - Colorful */}
             <div>
-              <h4 className="text-sm font-bold text-gradient mb-4 flex items-center gap-2 uppercase tracking-widest">
-                <Globe className="w-4 h-4 text-orange-500" />
-                CONNECT WITH US
+              <h4 className="text-sm font-bold mb-5 flex items-center gap-2 uppercase tracking-widest">
+                <span className="text-orange-500">CONNECT WITH US</span>
               </h4>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 {[
-                  { icon: Twitter, link: "https://twitter.com/digitalbot_ai", label: "Twitter", color: "from-orange-500 to-orange-600" },
-                  { icon: Linkedin, link: "https://linkedin.com/company/digitalbot-ai", label: "LinkedIn", color: "from-orange-500 to-orange-600" },
-                  { icon: Instagram, link: "https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz", label: "Instagram", color: "from-pink-500 to-orange-600" },
-                  { icon: Facebook, link: "https://www.facebook.com/profile.php?id=61583885495540", label: "Facebook", color: "from-orange-500 to-orange-600" },
-                  { icon: Mail, link: "mailto:contact@digitalbot.ai", label: "Email", color: "from-orange-500 to-orange-500" }
+                  { icon: Twitter, link: "https://twitter.com/digitalbot_ai", label: "Twitter", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
+                  { icon: Linkedin, link: "https://linkedin.com/company/digitalbot-ai", label: "LinkedIn", bg: "bg-orange-600", hover: "hover:bg-orange-700", shadow: "shadow-orange-500/30" },
+                  { icon: Phone, link: "/contact", label: "Contact Us", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
+                  { icon: Mail, link: "mailto:contact@digitalbot.ai", label: "Email", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
                 ].map((social, idx) => (
                   <Link
                     key={idx}
                     href={social.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target={social.link.startsWith("http") || social.link.startsWith("mailto") ? "_blank" : undefined}
+                    rel={social.link.startsWith("http") ? "noopener noreferrer" : undefined}
                     aria-label={social.label}
                     className="group/social relative"
                   >
-                    <div className={`p-3 bg-gradient-to-br ${social.color} rounded-xl text-white shadow-lg hover:shadow-2xl hover:shadow-orange-500/25 transition-all duration-300 hover:scale-125 hover:rotate-12 border border-white/20`}>
+                    <div className={`p-3 ${social.bg} ${social.hover} rounded-2xl text-white shadow-lg ${social.shadow} hover:shadow-xl transition-all duration-300 hover:scale-110 hover:-translate-y-1`}>
                       <social.icon className="w-5 h-5" />
                     </div>
-                    {/* Enhanced Tooltip */}
-                    <span className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-orange-600 text-white text-xs rounded-lg opacity-0 group-hover/social:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none shadow-xl border border-orange-500 font-bold uppercase tracking-wide">
+                    <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-800 text-white text-[10px] rounded-lg opacity-0 group-hover/social:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none font-semibold tracking-wide">
                       {social.label}
-                      <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-orange-600 rotate-45" />
                     </span>
                   </Link>
                 ))}
+              </div>
+              {/* Quick Contact Info */}
+              <div className="mt-6 space-y-2.5">
+                <a href="mailto:contact@digitalbot.ai" className="flex items-center gap-2.5 text-sm text-slate-500 hover:text-orange-500 transition-colors group">
+                  <Mail className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
+                  contact@digitalbot.ai
+                </a>
+                <a href="tel:+918000000000" className="flex items-center gap-2.5 text-sm text-slate-500 hover:text-orange-500 transition-colors group">
+                  <Phone className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
+                  +91 80000 00000
+                </a>
               </div>
             </div>
           </div>
 
           {/* Enhanced AI Services Grid - Orange theme */}
           <div className="lg:col-span-8">
-            <div className="mb-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-gradient-to-br from-orange-500 via-violet-500 to-orange-600 rounded-xl shadow-lg shadow-orange-500/20 animate-pulse">
-                  <Sparkles className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gradient uppercase tracking-widest">
-                  AI-POWERED SOLUTIONS
-                </h3>
-              </div>
-              <p className="text-slate-500 text-sm font-medium">Explore our comprehensive suite of AI voice automation services</p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-fr">
-              {services.map((service, idx) => {
-                const Icon = service.icon
-                const colorSets = [
-                  { gradient: 'from-orange-500 via-violet-500 to-orange-600', border: 'border-orange-200/30', iconBg: 'from-orange-50/80 to-white/60' },
-                  { gradient: 'from-orange-500 via-orange-500 to-orange-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
-                  { gradient: 'from-orange-500 via-violet-500 to-orange-600', border: 'border-orange-200/30', iconBg: 'from-orange-50/80 to-white/60' },
-                  { gradient: 'from-orange-500 via-orange-500 to-orange-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
-                  { gradient: 'from-orange-500 via-violet-500 to-orange-600', border: 'border-orange-200/30', iconBg: 'from-orange-50/80 to-white/60' },
-                  { gradient: 'from-orange-500 via-orange-500 to-orange-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
-                  { gradient: 'from-orange-500 via-violet-500 to-orange-600', border: 'border-orange-200/30', iconBg: 'from-orange-50/80 to-white/60' },
-                  { gradient: 'from-orange-500 via-orange-500 to-orange-600', border: 'border-violet-200/30', iconBg: 'from-violet-50/80 to-white/60' },
-                ]
-                const colorSet = colorSets[idx % colorSets.length]
-                return (
-                  <Link
-                    key={idx}
-                    href={service.href}
-                    className="group/card relative"
-                  >
-                    <div className={`
-                      relative p-5 rounded-2xl border transition-all duration-500 overflow-hidden h-full
-                      glass-card ${colorSet.border} hover:border-transparent shadow-sm hover:shadow-xl hover:shadow-orange-500/15
-                      hover:bg-gradient-to-br hover:${colorSet.gradient} hover:scale-105 hover:-translate-y-2
-                    `}>
-                      {/* Icon with enhanced animation */}
-                      <div className={`
-                        mb-3 p-3 rounded-xl transition-all duration-500
-                        bg-gradient-to-br ${colorSet.iconBg}
-                        group-hover/card:bg-orange-500/20 group-hover/card:backdrop-blur-md group-hover/card:scale-110 group-hover/card:rotate-12
-                      `}>
-                        <Icon className="w-6 h-6 text-orange-600 transition-all duration-500 group-hover/card:text-white group-hover/card:scale-110" />
-                      </div>
-
-                      {/* Text */}
-                      <h4 className="font-bold text-sm mb-1 text-slate-700 transition-colors duration-500 group-hover/card:text-white uppercase tracking-wide">
-                        {service.name}
-                      </h4>
-                      <p className="text-xs text-slate-500 transition-colors duration-500 group-hover/card:text-white/90">
-                        {service.description}
-                      </p>
-
-                      {/* Enhanced Arrow indicator with pulse */}
-                      <div className="absolute top-4 right-4 opacity-0 -translate-x-2 transition-all duration-500 group-hover/card:opacity-100 group-hover/card:translate-x-0 group-hover/card:scale-110">
-                        <ArrowRight className="w-4 h-4 text-white animate-pulse" />
-                      </div>
-
-                      {/* Shimmer effect on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/20 to-transparent -translate-x-full group-hover/card:animate-shimmer" />
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-
             {/* Quick Links - orange */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 pt-8 border-t border-orange-100/30">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-orange-100/30">
               {[
                 { title: "Product", links: [
                   { name: "Features", href: "/services" },
@@ -246,7 +156,7 @@ export function Footer() {
               ].map((column, idx) => (
                 <div key={idx}>
                   <h4 className="font-bold text-slate-800 mb-4 text-sm flex items-center gap-2 uppercase tracking-widest">
-                    <div className="w-1 h-4 bg-gradient-to-b from-orange-500 via-violet-500 to-orange-600 rounded-full" />
+                    <div className="w-1 h-4 bg-gradient-to-b from-orange-500 via-orange-500 to-orange-600 rounded-full" />
                     {column.title}
                   </h4>
                   <ul className="space-y-2.5">
@@ -269,13 +179,13 @@ export function Footer() {
         </div>
 
         {/* Enhanced Bottom Bar - orange */}
-        <div className="border-t border-orange-100/30 pt-8 pb-6">
+        <div className="border-t border-orange-100/30 pt-5 pb-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Enhanced Copyright with Animation - Orange theme */}
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 via-violet-500 to-orange-600 animate-ping absolute" />
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 via-violet-500 to-orange-600 shadow-lg shadow-orange-500/20" />
+                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 animate-ping absolute" />
+                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 via-orange-500 to-orange-600 shadow-lg shadow-orange-500/20" />
               </div>
               <p className="text-slate-600 text-sm font-semibold">
                 © 2025 <span className="font-bold text-gradient">DIGITALBOT.AI</span> • ALL RIGHTS RESERVED
@@ -299,16 +209,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Enhanced Tagline - orange */}
-          <div className="mt-6 text-center">
-            <div className="text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 flex-wrap">
-              <span className="text-gray-900">🤖</span>
-              <p className="text-gradient">
-                POWERED BY ADVANCED AI • BUILT FOR ENTERPRISE • TRUSTED WORLDWIDE • NEVER SLEEPS, NEVER QUITS
-              </p>
-              <span className="text-gray-900">✨</span>
-            </div>
-          </div>
+
         </div>
       </div>
     </footer>

@@ -1,7 +1,33 @@
 "use client"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
-import { Activity, BarChart3, Bot, ChevronDown, Facebook, Instagram, Menu, Phone, Sparkles, TrendingUp, X, Zap } from "lucide-react"
+import {
+    Activity,
+    Award,
+    Banknote,
+    BarChart3,
+    Bot,
+    Briefcase,
+    Building2,
+    Calculator,
+    Car,
+    ChevronDown,
+    Globe,
+    GraduationCap,
+    Headphones,
+    HeartPulse,
+    Home as HomeIcon,
+    Laptop,
+    Menu,
+    MessageCircle,
+    Phone,
+    ShoppingCart,
+    Sparkles,
+    TrendingUp,
+    Users,
+    X,
+    Zap
+} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -10,6 +36,7 @@ import { useEffect, useState } from "react"
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
     const pathname = usePathname()
 
     useEffect(() => {
@@ -18,369 +45,481 @@ export function Header() {
         return () => window.removeEventListener("scroll", handleScroll)
     }, [])
 
+
+
     const navItems = [
         { href: "/", label: "Home" },
-        { href: "/about", label: "About" },
-        { href: "/services", label: "Solutions", icon: Zap },
         { href: "/how-it-works", label: "How It Works" },
         { href: "/pricing", label: "Pricing" },
         { href: "/contact", label: "Contact" },
     ]
 
+    // Solutions — WhatsApp Bot Services industry grid
+    const solutions = [
+        { href: "/solutions/education", label: "Education", icon: GraduationCap },
+        { href: "/solutions/car-dealership", label: "Car Dealership", icon: Car },
+        { href: "/solutions/real-estate", label: "Real Estate", icon: HomeIcon },
+        { href: "/solutions/coaching", label: "Coaching", icon: Award },
+        { href: "/solutions/automobile", label: "Automobile", icon: Car },
+        { href: "/solutions/marketing", label: "Marketing", icon: TrendingUp },
+        { href: "/solutions/insurance", label: "Insurance", icon: Briefcase },
+        { href: "/solutions/consulting", label: "Consulting", icon: Building2 },
+        { href: "/solutions/healthcare", label: "Healthcare", icon: HeartPulse },
+        { href: "/solutions/accounting-legal", label: "Accounting", icon: Calculator },
+        { href: "/solutions/saas", label: "SaaS", icon: Globe },
+        { href: "/solutions/financial-services", label: "Financial Services", icon: Banknote },
+        { href: "/solutions/ecommerce", label: "E-commerce", icon: ShoppingCart },
+        { href: "/solutions/it-services", label: "IT Services", icon: Laptop },
+        { href: "/solutions/bpo", label: "BPO", icon: Headphones },
+        { href: "/solutions/recruitment", label: "Recruitment", icon: Users },
+    ]
 
+    type ServiceItem = {
+        href: string
+        label: string
+        desc: string
+        icon: React.ElementType
+        badge?: string
+    }
 
-    const services = [
+    const voiceServices: ServiceItem[] = [
         { href: "/services/ai-voice-bot", label: "AI Voice Bot", desc: "Intelligent voice automation", icon: Bot },
         { href: "/services/voice-ai-business", label: "Voice AI for Business", desc: "Enterprise solutions", icon: TrendingUp },
         { href: "/services/voice-automation-software", label: "Voice Automation", desc: "Workflow automation", icon: Zap },
-        
         { href: "/services/conversational-ai", label: "Conversational AI", desc: "Natural conversations", icon: Activity },
+    ]
+
+    const aiServices: ServiceItem[] = [
         { href: "/services/ai-customer-support", label: "AI Customer Support", desc: "24/7 assistance", icon: Sparkles },
         { href: "/services/ai-call-center", label: "AI Call Center", desc: "Call automation", icon: Phone },
         { href: "/services/ai-sales-agent", label: "AI Sales Agent", desc: "Sales automation", icon: BarChart3 },
         { href: "/services/ai-virtual-receptionist", label: "Virtual Receptionist", desc: "Front desk AI", icon: Sparkles },
+        { href: "/services/whatsapp-bot", label: "WhatsApp Bot", desc: "Automated messaging 24/7", icon: MessageCircle, badge: "NEW" },
     ]
 
-
-    const [servicesOpen, setServicesOpen] = useState(false);
-
     return (
-        <header
-            className={cn(
-                "fixed top-0 w-full z-50 transition-all duration-500",
-                isScrolled
-                    ? "glass-nav-scrolled"
-                    : "glass-nav"
-            )}
-        >
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    {/* Logo */}
-                    {/* Enhanced Logo Section */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9, x: -20 }}
-                        animate={{ opacity: 1, scale: 1, x: 0 }}
-                        transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
-                        className="relative group"
-                    >
-                        <Link href="/" className="flex items-center gap-12 relative ml-0 pl-0 mr-2" onClick={() => setIsMenuOpen(false)}>
-                            {/* glow orbs */}
-                            <span className="absolute -top-6 -left-6 w-20 h-21 rounded-full bg-gradient-to-br from-orange-500/20 via-orange-300/10 to-transparent blur-3xl" />
-                            <span className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-tl from-orange-400/15 to-orange-300/10 blur-2xl" />
+        <>
+            <style suppressHydrationWarning>{`
+                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+                .hdr-root { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-                            <div className="relative">
+                .hdr-bar {
+                    background: rgba(255,255,255,0.82);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border-bottom: 1px solid rgba(0,0,0,0.07);
+                }
+                .hdr-bar-scrolled {
+                    background: rgba(255,255,255,0.97);
+                    backdrop-filter: blur(24px);
+                    -webkit-backdrop-filter: blur(24px);
+                    border-bottom: 1px solid rgba(234,88,12,0.15);
+                    box-shadow: 0 2px 30px rgba(0,0,0,0.08);
+                }
+                .hdr-mega {
+                    background: #ffffff;
+                    border: 1px solid rgba(0,0,0,0.08);
+                    border-radius: 18px;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.11), 0 4px 16px rgba(234,88,12,0.05);
+                }
+                .hdr-sol-item {
+                    display: flex; align-items: center; gap: 10px;
+                    padding: 10px 12px; border-radius: 10px;
+                    border: 1px solid transparent;
+                    transition: all 0.16s ease;
+                    text-decoration: none; color: #374151;
+                }
+                .hdr-sol-item:hover {
+                    background: #fff7ed;
+                    border-color: rgba(234,88,12,0.18);
+                    color: #ea580c;
+                }
+                .hdr-sol-item:hover .sol-icon {
+                    background: linear-gradient(135deg,#f97316,#ea580c);
+                    color: white;
+                }
+                .sol-icon {
+                    width:34px; height:34px; border-radius:8px;
+                    background:#fff7ed; display:flex; align-items:center; justify-content:center;
+                    color:#f97316; flex-shrink:0; transition:all 0.16s ease;
+                }
+                .hdr-svc-item {
+                    display:flex; align-items:center; gap:10px;
+                    padding:9px 10px; border-radius:10px;
+                    transition:all 0.15s ease;
+                    text-decoration:none; color:#374151;
+                }
+                .hdr-svc-item:hover { background:#fff7ed; color:#ea580c; }
+                .hdr-svc-item:hover .svc-icon {
+                    background: linear-gradient(135deg,#f97316,#ea580c);
+                    color:white;
+                }
+                .svc-icon {
+                    width:32px; height:32px; border-radius:8px;
+                    background:#f3f4f6; display:flex; align-items:center; justify-content:center;
+                    color:#f97316; flex-shrink:0; transition:all 0.15s ease;
+                }
+                .wa-item:hover { background:#f0fdf4 !important; color:#16a34a !important; }
+                .wa-item:hover .svc-icon { background:linear-gradient(135deg,#25D366,#128C7E) !important; color:white !important; }
+                .wa-icon-base { background:#f0fdf4 !important; color:#25D366 !important; }
+                .wa-badge {
+                    font-size:9px; font-weight:700; padding:1px 5px; border-radius:4px;
+                    background:linear-gradient(135deg,#25D366,#128C7E); color:white;
+                    letter-spacing:.05em; box-shadow:0 2px 8px rgba(37,211,102,.3);
+                }
+                .hdr-nav-link {
+                    position:relative; padding:8px 14px;
+                    font-size:14px; font-weight:550; color:#374151;
+                    text-decoration:none; transition:color 0.16s; border-radius:8px;
+                }
+                .hdr-nav-link:hover,.hdr-nav-link.active { color:#ea580c; }
+                .hdr-nav-link::after {
+                    content:''; position:absolute; bottom:2px; left:50%;
+                    transform:translateX(-50%); width:0; height:2px; border-radius:99px;
+                    background:linear-gradient(90deg,#f97316,#ea580c);
+                    transition:width 0.2s ease;
+                }
+                .hdr-nav-link:hover::after,.hdr-nav-link.active::after { width:70%; }
+                .hdr-trigger {
+                    display:flex; align-items:center; gap:4px; padding:8px 14px;
+                    font-size:14px; font-weight:550; color:#374151;
+                    background:none; border:none; cursor:pointer; border-radius:8px;
+                    position:relative; transition:color 0.16s;
+                    font-family: 'Plus Jakarta Sans', sans-serif;
+                }
+                .hdr-trigger:hover { color:#ea580c; }
+                .hdr-trigger::after {
+                    content:''; position:absolute; bottom:2px; left:50%;
+                    transform:translateX(-50%); width:0; height:2px; border-radius:99px;
+                    background:linear-gradient(90deg,#f97316,#ea580c);
+                    transition:width 0.2s ease;
+                }
+                .hdr-trigger:hover::after { width:70%; }
+                .hdr-cta {
+                    display:flex; align-items:center; gap:6px; padding:9px 20px;
+                    background:linear-gradient(135deg,#f97316,#ea580c); color:white;
+                    font-size:13.5px; font-weight:600; border-radius:10px;
+                    text-decoration:none; transition:all 0.2s ease;
+                    box-shadow:0 4px 14px rgba(234,88,12,.28);
+                }
+                .hdr-cta:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(234,88,12,.38); }
+                .hdr-social {
+                    width:36px; height:36px; border-radius:9px;
+                    display:flex; align-items:center; justify-content:center;
+                    transition:all 0.18s ease; text-decoration:none;
+                }
+                .hdr-social:hover { transform:translateY(-2px); }
+                .left-panel {
+                    background:linear-gradient(160deg,#fff7ed 0%,#ffedd5 100%);
+                    border-right:1px solid rgba(234,88,12,.1);
+                }
+                .sec-label {
+                    font-size:10px; font-weight:700; letter-spacing:.08em;
+                    color:#9ca3af; text-transform:uppercase; margin-bottom:8px;
+                }
+            `}</style>
+
+            <header className={cn("hdr-root fixed top-0 w-full z-50 transition-all duration-400", isScrolled ? "hdr-bar-scrolled" : "hdr-bar")}>
+                <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-[66px]">
+
+                        {/* Logo */}
+                        <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+                            <Link href="/" className="flex items-center group" onClick={() => setIsMenuOpen(false)}>
                                 <Image
                                     src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
-                                    alt="DigitalBot.AI - AI Voice Assistant Platform"
-                                    width={1450}
-                                    height={460}
-                                    priority
-                                    quality={125}
-                                    className="h-12 max-w-[200px] sm:h-13 sm:max-w-[240px] lg:h-14 lg:max-w-[280px] w-auto relative z-14 ml-0 pl-0 mr-10 transition-all duration-500 group-hover:scale-110"
+                                    alt="DigitalBot.AI"
+                                    width={1450} height={460} priority
+                                    className="h-11 w-auto transition-transform duration-300 group-hover:scale-105"
                                 />
-                            </div>
-                            {/* Enhanced AI Badge */}
-                            <div className="absolute -bottom-2 -right-8 px-3 py-1 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 text-white text-[9px] font-bold shadow-lg shadow-orange-500/40 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-orange-400/30 backdrop-blur-sm"
-                                style={{
-                                    clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px))'
-                                }}>
-                                ✨ AI POWERED
-                            </div>
-                        </Link>
-                    </motion.div>
-
-
-                    {/* Desktop Navigation */}
-                    <nav className="hidden lg:flex items-center gap-1">
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={cn(
-                                    "relative px-4 py-2 text-sm font-medium transition-all duration-200 group",
-                                    pathname === item.href
-                                        ? "text-orange-600"
-                                        : "text-slate-600 hover:text-orange-600"
-                                )}
-                            >
-                                {item.label}
-                                {/* Animated underline */}
-                                <span className={cn(
-                                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full transition-all duration-300",
-                                    pathname === item.href ? "w-4/5" : "w-0 group-hover:w-4/5"
-                                )} />
                             </Link>
-                        ))}
+                        </motion.div>
 
-                   
+                        {/* Desktop Nav */}
+                        <nav className="hidden lg:flex items-center gap-1">
+                            {/* Home Link */}
+                            <Link href="/" className={cn("hdr-nav-link", pathname === "/" && "active")}>
+                                Home
+                            </Link>
 
-                        {/* Services Dropdown */}
-                        <div
-                            className="relative"
-                            onMouseEnter={() => setServicesOpen(true)}
-                            onMouseLeave={() => setServicesOpen(false)}
-                        >
-                            <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-slate-600 hover:text-orange-600 transition-colors group">
-                                Services
-                                <ChevronDown className={cn(
-                                    "w-4 h-4 transition-transform duration-200",
-                                    servicesOpen && "rotate-180"
-                                )} />
-                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full transition-all duration-300 w-0 group-hover:w-4/5" />
-                            </button>
+                            {/* Solutions Dropdown */}
+                            <div className="relative" onMouseEnter={() => setActiveDropdown("solutions")} onMouseLeave={() => setActiveDropdown(null)}>
+                                <button className="hdr-trigger">
+                                    WhatsApp Bot Services
+                                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", activeDropdown === "solutions" && "rotate-180")} />
+                                </button>
+                                <AnimatePresence>
+                                    {activeDropdown === "solutions" && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.97 }}
+                                            transition={{ duration: 0.15 }}
+                                            className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[520px]"
+                                        >
+                                            <div className="hdr-mega overflow-hidden">
+                                                <div className="px-6 pt-5 pb-3 border-b border-gray-100">
+                                                    <p className="text-[13px] font-bold text-slate-800">WhatsApp Bot Services by Industry</p>
+                                                    <p className="text-[11.5px] text-slate-400 mt-0.5">AI-powered WhatsApp automation for every sector</p>
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-1 p-4">
+                                                    {solutions.map((sol) => {
+                                                        const Icon = sol.icon
+                                                        return (
+                                                            <Link key={sol.href} href={sol.href} className="hdr-sol-item">
+                                                                <span className="sol-icon"><Icon className="w-4 h-4" /></span>
+                                                                <span className="text-[13px] font-[550]">{sol.label}</span>
+                                                            </Link>
+                                                        )
+                                                    })}
+                                                </div>
+                                                <div className="px-4 pb-4">
+                                                    <Link href="/solutions" className="flex items-center justify-center w-full py-2.5 rounded-xl text-[12.5px] font-semibold text-orange-600 border border-orange-200 hover:bg-orange-50 transition-colors">
+                                                        View All Solutions →
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
 
-                            <AnimatePresence>
-                                {servicesOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 8 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: 8 }}
-                                        transition={{ duration: 0.15 }}
-                                        className="absolute right-0 top-full pt-2 w-[850px]"
-                                    >
-                                        <div className="glass-strong rounded-2xl shadow-2xl shadow-orange-500/8 border border-white/40 overflow-hidden">
-                                            <div className="flex">
-                                                {/* Left Section - Hero */}
-                                                <div className="w-[260px] p-6 border-r border-slate-100/40">
-                                                    <h3 className="text-xl font-bold text-slate-900 leading-tight">
+                            {/* Services Dropdown */}
+                            <div className="relative" onMouseEnter={() => setActiveDropdown("services")} onMouseLeave={() => setActiveDropdown(null)}>
+                                <button className="hdr-trigger">
+                                    Voice Agent Service
+                                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", activeDropdown === "services" && "rotate-180")} />
+                                </button>
+                                <AnimatePresence>
+                                    {activeDropdown === "services" && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.97 }}
+                                            transition={{ duration: 0.15 }}
+                                            className="absolute right-0 top-full pt-3 w-[760px]"
+                                        >
+                                            <div className="hdr-mega overflow-hidden flex">
+                                                {/* Left accent */}
+                                                <div className="left-panel w-[210px] p-6 flex-shrink-0">
+                                                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-500 uppercase tracking-widest">
+                                                        <Zap className="w-3 h-3" /> AI POWERED
+                                                    </span>
+                                                    <h3 className="mt-3 text-[16px] font-bold text-slate-900 leading-snug">
                                                         Solutions That Drive<br />
-                                                        <span className="text-gradient">Business Growth</span>
+                                                        <span className="text-orange-500">Business Growth</span>
                                                     </h3>
-                                                    <p className="mt-3 text-sm text-slate-500 leading-relaxed">
-                                                        Discover how DigitalBot helps enterprises deliver AI-powered voice automation, intelligent support, and measurable results.
+                                                    <p className="mt-2 text-[11.5px] text-slate-500 leading-relaxed">
+                                                        Voice AI, WhatsApp automation & intelligent support — all in one platform.
                                                     </p>
                                                     <Link
                                                         href="/contact#contact-form"
-                                                        className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 border-2 border-orange-400 text-orange-600 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white hover:border-transparent text-sm font-semibold rounded-full transition-all duration-300"
+                                                        className="inline-flex items-center gap-1.5 mt-5 px-4 py-2 text-white text-[12px] font-semibold rounded-lg transition-all"
+                                                        style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 12px rgba(234,88,12,.25)" }}
                                                     >
-                                                        Request a Demo
+                                                        <Sparkles className="w-3.5 h-3.5" /> Request a Demo
                                                     </Link>
                                                 </div>
 
-                                                {/* Middle Section - Voice Solutions */}
-                                                <div className="flex-1 p-6 border-r border-slate-100/30 bg-white/20">
-                                                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
-                                                        VOICE SOLUTIONS
-                                                    </div>
+                                                {/* Voice */}
+                                                <div className="flex-1 p-5 border-r border-gray-100">
+                                                    <div className="sec-label">Voice Solutions</div>
                                                     <div className="space-y-0.5">
-                                                        {services.slice(0, 4).map((service) => {
-                                                            const Icon = service.icon
+                                                        {voiceServices.map((s) => {
+                                                            const Icon = s.icon
                                                             return (
-                                                                <Link
-                                                                    key={service.href}
-                                                                    href={service.href}
-                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-slate-600 hover:bg-white/60 hover:shadow-sm transition-all group"
-                                                                >
-                                                                    <div className="w-8 h-8 rounded-lg bg-orange-50 group-hover:bg-gradient-to-br group-hover:from-orange-500 group-hover:to-orange-600 flex items-center justify-center transition-all duration-300">
-                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
+                                                                <Link key={s.href} href={s.href} className="hdr-svc-item">
+                                                                    <span className="svc-icon"><Icon className="w-3.5 h-3.5" /></span>
+                                                                    <div>
+                                                                        <div className="text-[13px] font-[550]">{s.label}</div>
+                                                                        <div className="text-[11px] text-slate-400">{s.desc}</div>
                                                                     </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-orange-600 transition-colors">
-                                                                        {service.label}
-                                                                    </span>
                                                                 </Link>
                                                             )
                                                         })}
                                                     </div>
                                                 </div>
 
-                                                {/* Middle Section - AI Services */}
-                                                <div className="flex-1 p-6 border-r border-slate-100/30 bg-white/20">
-                                                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
-                                                        AI SERVICES
-                                                    </div>
+                                                {/* AI + WhatsApp */}
+                                                <div className="flex-1 p-5">
+                                                    <div className="sec-label">AI Services</div>
                                                     <div className="space-y-0.5">
-                                                        {services.slice(4).map((service) => {
-                                                            const Icon = service.icon
+                                                        {aiServices.map((s) => {
+                                                            const Icon = s.icon
+                                                            const isWA = s.href.includes("whatsapp")
                                                             return (
-                                                                <Link
-                                                                    key={service.href}
-                                                                    href={service.href}
-                                                                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg text-slate-600 hover:bg-white/60 hover:shadow-sm transition-all group"
-                                                                >
-                                                                    <div className="w-8 h-8 rounded-lg bg-orange-50 group-hover:bg-gradient-to-br group-hover:from-orange-500 group-hover:to-orange-600 flex items-center justify-center transition-all duration-300">
-                                                                        <Icon className="w-4 h-4 text-orange-500 group-hover:text-white transition-colors" />
-                                                                    </div>
-                                                                    <span className="text-[15px] font-medium group-hover:text-orange-600 transition-colors">
-                                                                        {service.label}
+                                                                <Link key={s.href} href={s.href} className={cn("hdr-svc-item", isWA && "wa-item")}>
+                                                                    <span className={cn("svc-icon", isWA && "wa-icon-base")}>
+                                                                        <Icon className="w-3.5 h-3.5" />
                                                                     </span>
+                                                                    <div className="flex-1">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <span className="text-[13px] font-[550]">{s.label}</span>
+                                                                            {s.badge && <span className="wa-badge">{s.badge}</span>}
+                                                                        </div>
+                                                                        <div className="text-[11px] text-slate-400">{s.desc}</div>
+                                                                    </div>
                                                                 </Link>
                                                             )
                                                         })}
                                                     </div>
-
-                                                    {/* Premium Services */}
-                                                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-5 mb-3">
-                                                        PREMIUM
-                                                    </div>
-                                                    <div className="flex gap-2">
+                                                    <div className="mt-4 pt-3 border-t border-gray-100 flex gap-2">
                                                         <Link
                                                             href="/services/leads"
-                                                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-sm font-medium rounded-lg transition-all duration-300 shadow-md shadow-orange-500/20"
+                                                            className="flex items-center gap-1.5 px-3.5 py-2 text-white text-[12px] font-semibold rounded-lg transition-all"
+                                                            style={{ background: "linear-gradient(135deg,#f97316,#ea580c)" }}
                                                         >
-                                                            <BarChart3 className="w-4 h-4" />
-                                                            Lead Analysis
+                                                            <BarChart3 className="w-3.5 h-3.5" /> Lead Analysis
                                                         </Link>
                                                         <Link
                                                             href="/services/appointments"
-                                                            className="flex items-center gap-2 px-4 py-2 bg-slate-50 hover:bg-orange-50 text-slate-600 hover:text-orange-600 text-sm font-medium rounded-lg transition-all duration-300"
+                                                            className="flex items-center gap-1.5 px-3.5 py-2 bg-gray-50 hover:bg-orange-50 text-slate-600 hover:text-orange-600 text-[12px] font-semibold rounded-lg transition-all"
                                                         >
-                                                            <Phone className="w-4 h-4" />
-                                                            Appointments
+                                                            <Phone className="w-3.5 h-3.5" /> Appointments
                                                         </Link>
                                                     </div>
                                                 </div>
-
-                                                {/* Right Section - Featured Card */}
-                                                <div className="w-[220px] p-4">
-                                                    <div className="h-full bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-xl p-4 flex flex-col border border-orange-100/50">
-                                                        <span className="text-[10px] font-bold text-orange-600 uppercase tracking-wider">
-                                                            FEATURED
-                                                        </span>
-                                                        <h4 className="mt-2 text-lg font-bold text-slate-900 leading-snug">
-                                                            Delivering 360°<br />
-                                                            Customer<br />
-                                                            Experience
-                                                        </h4>
-                                                        <div className="mt-auto pt-4">
-                                                            <div className="relative h-24 rounded-lg overflow-hidden mb-3">
-                                                                <Image
-                                                                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=150&fit=crop"
-                                                                    alt="Customer Experience"
-                                                                    fill
-                                                                    className="object-cover"
-                                                                />
-                                                            </div>
-                                                            <Link
-                                                                href="/services"
-                                                                className="inline-flex items-center justify-center w-full py-2 bg-white/80 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white text-orange-600 text-sm font-semibold rounded-full border border-orange-200/50 hover:border-transparent transition-all duration-300"
-                                                            >
-                                                                Learn More
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    </nav>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
 
-                    {/* Social Icons & CTA Button */}
-                    <div className="hidden lg:flex items-center gap-3">
-                        <a
-                            href="https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-orange-500 hover:shadow-lg hover:shadow-orange-500/50 transition-all duration-200 group"
+                            {/* Other Nav Items */}
+                            {navItems.filter(item => item.href !== "/").map((item) => (
+                                <Link key={item.href} href={item.href} className={cn("hdr-nav-link", pathname === item.href && "active")}>
+                                    {item.label}
+                                </Link>
+                            ))}
+                        </nav>
+
+                        {/* Right: Contact Us + CTA */}
+                        <div className="hidden lg:flex items-center gap-2.5">
+                            <Link
+                                href="/contact"
+                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
+                                style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 2px 10px rgba(234,88,12,.3)" }}
+                            >
+                                <Phone className="w-3.5 h-3.5" /> Contact Us
+                            </Link>
+                            <Link href="/login" className="hdr-cta">
+                                <Sparkles className="w-3.5 h-3.5" /> Login
+                            </Link>
+                        </div>
+
+                        {/* Mobile hamburger */}
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="lg:hidden p-2 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
                         >
-                            <Instagram className="w-4 h-4 text-white" />
-                        </a>
-                        <a
-                            href="https://www.facebook.com/profile.php?id=61583885495540"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center w-9 h-9 rounded-full bg-orange-600 hover:bg-orange-700 hover:shadow-lg hover:shadow-orange-500/50 transition-all duration-200 group"
-                        >
-                            <Facebook className="w-4 h-4 text-white" />
-                        </a>
-                        <Link
-                            href="/login"
-                            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-sm font-medium rounded-lg transition-all duration-300 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 btn-glow"
-                        >
-                            <Sparkles className="w-4 h-4" />
-                            Login
-                        </Link>
+                            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                        </button>
                     </div>
 
-                    {/* Mobile Menu Button */}
-                    <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="lg:hidden p-2 text-slate-600 hover:text-orange-600 hover:bg-orange-50/50 rounded-lg transition-colors"
-                    >
-                        {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                    </button>
-                </div>
-
-                {/* Mobile Menu */}
-                <AnimatePresence>
-                    {isMenuOpen && (
-                        <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="lg:hidden overflow-hidden border-t border-slate-100/50 glass-strong rounded-b-2xl"
-                        >
-                            <nav className="py-4 space-y-1">
-                                {navItems.map((item) => (
+                    {/* Mobile Menu */}
+                    <AnimatePresence>
+                        {isMenuOpen && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.22 }}
+                                className="lg:hidden overflow-hidden bg-white border-t border-gray-100 rounded-b-2xl"
+                            >
+                                <nav className="py-4 space-y-0.5 px-2">
+                                    {/* Home Link */}
                                     <Link
-                                        key={item.href}
-                                        href={item.href}
+                                        href="/"
                                         className={cn(
-                                            "block px-4 py-3 text-sm font-medium rounded-lg transition-colors",
-                                            pathname === item.href
-                                                ? "bg-orange-50/60 text-orange-600"
-                                                : "text-slate-600 hover:bg-orange-50/40 hover:text-orange-600"
+                                            "block px-4 py-3 text-sm font-[550] rounded-xl transition-colors",
+                                            pathname === "/"
+                                                ? "bg-orange-50 text-orange-600"
+                                                : "text-slate-600 hover:bg-orange-50/70 hover:text-orange-600"
                                         )}
                                         onClick={() => setIsMenuOpen(false)}
                                     >
-                                        {item.label}
+                                        Home
                                     </Link>
-                                ))}
 
-                                {/* Mobile Services */}
-                                <div className="pt-3 mt-3 border-t border-slate-100/40">
-                                    <div className="px-4 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Services</div>
-                                    {services.slice(0, 6).map((service) => (
+                                    {/* Mobile Solutions */}
+                                    <div className="pt-3 mt-2 border-t border-gray-100">
+                                        <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">WhatsApp Bot Services</div>
+                                        <div className="grid grid-cols-2 gap-0.5 max-h-[400px] overflow-y-auto">
+                                            {solutions.map((sol) => (
+                                                <Link
+                                                    key={sol.href} href={sol.href}
+                                                    className="block px-4 py-2.5 text-[13px] font-[500] text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
+                                                    onClick={() => setIsMenuOpen(false)}
+                                                >
+                                                    {sol.label}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Mobile Services */}
+                                    <div className="pt-3 mt-2 border-t border-gray-100">
+                                        <div className="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Voice Agent Service</div>
+                                        {[...voiceServices, ...aiServices].map((s) => (
+                                            <Link
+                                                key={s.href} href={s.href}
+                                                className="flex items-center gap-2 px-4 py-2.5 text-[13px] text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
+                                                onClick={() => setIsMenuOpen(false)}
+                                            >
+                                                {s.label}
+                                                {s.badge && <span className="wa-badge">{s.badge}</span>}
+                                            </Link>
+                                        ))}
+                                    </div>
+
+                                    {/* Other Nav Items */}
+                                    <div className="pt-3 mt-2 border-t border-gray-100">
+                                        {navItems.filter(item => item.href !== "/").map((item) => (
+                                            <Link
+                                                key={item.href} href={item.href}
+                                                className={cn(
+                                                    "block px-4 py-3 text-sm font-[550] rounded-xl transition-colors",
+                                                    pathname === item.href
+                                                        ? "bg-orange-50 text-orange-600"
+                                                        : "text-slate-600 hover:bg-orange-50/70 hover:text-orange-600"
+                                                )}
+                                                onClick={() => setIsMenuOpen(false)}
+                                            >
+                                                {item.label}
+                                            </Link>
+                                        ))}
+                                    </div>
+
+                                    {/* Mobile Contact Us */}
+                                    <div className="pt-4 flex items-center justify-center">
                                         <Link
-                                            key={service.href}
-                                            href={service.href}
-                                            className="block px-4 py-2.5 text-sm text-slate-600 hover:bg-orange-50/40 hover:text-orange-600 rounded-lg transition-colors"
+                                            href="/contact"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white"
+                                            style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 14px rgba(234,88,12,.3)" }}
+                                        >
+                                            <Phone className="w-5 h-5" /> Contact Us
+                                        </Link>
+                                    </div>
+
+                                    {/* Mobile CTA */}
+                                    <div className="pt-2 px-2 pb-2">
+                                        <Link
+                                            href="/login"
+                                            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold text-white"
+                                            style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 14px rgba(234,88,12,.3)" }}
                                             onClick={() => setIsMenuOpen(false)}
                                         >
-                                            {service.label}
+                                            <Sparkles className="w-4 h-4" /> Get Started Free
                                         </Link>
-                                    ))}
-                                </div>
+                                    </div>
+                                </nav>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            </header>
 
-                                {/* Mobile Social Icons */}
-                                <div className="pt-4 px-4 flex items-center justify-center gap-3">
-                                    <a
-                                        href="https://www.instagram.com/digitalbot._ai?utm_source=qr&igsh=MTc3emoxbmdqdmVz"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-orange-500 via-orange-600 to-orange-500 hover:shadow-lg hover:shadow-orange-500/50 transition-all duration-200"
-                                    >
-                                        <Instagram className="w-5 h-5 text-white" />
-                                    </a>
-                                    <a
-                                        href="https://www.facebook.com/profile.php?id=61583885495540"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center justify-center w-11 h-11 rounded-full bg-orange-600 hover:bg-orange-700 hover:shadow-lg hover:shadow-orange-500/50 transition-all duration-200"
-                                    >
-                                        <Facebook className="w-5 h-5 text-white" />
-                                    </a>
-                                </div>
-
-                                {/* Mobile CTA */}
-                                <div className="pt-3 px-4">
-                                    <Link
-                                        href="/login"
-                                        className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-sm font-medium rounded-xl transition-all duration-300 shadow-md shadow-orange-500/20"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        <Sparkles className="w-4 h-4" />
-                                        Get Started Free
-                                    </Link>
-                                </div>
-                            </nav>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
-        </header>
+        </>
     )
 }

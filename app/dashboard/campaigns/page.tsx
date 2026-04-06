@@ -1199,7 +1199,7 @@ export default function CampaignsPage() {
                                     {/* Contacts Preview */}
                                     <div>
                                         <h4 className="font-bold text-gray-900 mb-3">Contact List Preview</h4>
-                                        <div className="max-h-60 overflow-y-auto border-2 border-gray-200 rounded-xl">
+                                        <div className="max-h-60 overflow-x-auto overflow-y-auto border-2 border-gray-200 rounded-xl">
                                             <table className="w-full">
                                                 <thead className="bg-gray-100 sticky top-0">
                                                     <tr>

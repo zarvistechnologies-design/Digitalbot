@@ -15,7 +15,7 @@ const services = [
         subtitle: "24/7 AI-Powered Medical Scheduling",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:16a34a/doctor_appointment_i73m9a",
         desc: "Never miss a patient again. Our AI voice agent handles appointment booking, rescheduling, and confirmations around the clock—with perfect accuracy and a warm, human touch.",
-        color: "from-blue-500 to-red-500",
+        color: "from-orange-500 to-orange-500",
         stat: "95%",
         statLabel: "Booking Success Rate",
         audio: "/audio/doctor-appointment-sample.mp3",          
@@ -32,7 +32,7 @@ const services = [
         subtitle: "Automated Outbound Sales Machine",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:2563eb/lead_generation_qas7wm",
         desc: "Scale your sales pipeline effortlessly. Our AI makes thousands of outbound calls daily, qualifying leads and booking meetings while your team focuses on closing.",
-        color: "from-blue-500 to-purple-500",
+        color: "from-orange-500 to-orange-500",
         stat: "3x",
         statLabel: "More Qualified Leads",
         audio: "/audio/lead-generation-sample.mp3",
@@ -48,7 +48,7 @@ const services = [
         subtitle: "Empathetic Support That Never Sleeps",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:38bdf8/customercareagent_k6wqe8",
         desc: "Delight customers with instant, empathetic support. Our AI resolves issues on the first call, escalates complex cases smartly, and keeps your CSAT scores soaring.",
-        color: "from-teal-500 to-blue-500",
+        color: "from-orange-500 to-orange-500",
         stat: "90%",
         statLabel: "First Call Resolution",
         audio: "/audio/customer-care-sample.mp3",
@@ -64,7 +64,7 @@ const services = [
         subtitle: "Seamlessly Connect AI Voice to Your Systems",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:94a3b8/voicebot_integaration_pjlorx",
         desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
-        color: "from-cyan-500 to-blue-600",
+        color: "from-orange-500 to-orange-600",
         stat: "50+",
         statLabel: "Native Integrations",
         audio: "/audio/virtual-receptionist-sample.mp3",
@@ -80,7 +80,7 @@ const services = [
         subtitle: "Enterprise-Grade Communication Hub",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:7c3aed/ai_call_center_kalt8q",
         desc: "Transform your entire call center operation. Handle unlimited concurrent calls with intelligent routing, real-time analytics, and seamless human handoff when needed.",
-        color: "from-purple-500 to-indigo-500",
+        color: "from-orange-500 to-orange-500",
         stat: "∞",
         statLabel: "Unlimited Capacity",
         audio: "/audio/call-center-sample.mp3",
@@ -104,15 +104,15 @@ const dashboardTabs = [
         mobNumber: '+1 470 504 3155',
         stats: [
             { label: 'Total Calls', value: '8,420', icon: PhoneCall, color: 'text-orange-500' },
-            { label: 'Avg. Call Duration', value: '3.2m', icon: Clock, color: 'text-blue-500' },
-            { label: 'Total Minute Use', value: '26,944m', icon: BarChart3, color: 'text-purple-500' },
+            { label: 'Avg. Call Duration', value: '3.2m', icon: Clock, color: 'text-orange-500' },
+            { label: 'Total Minute Use', value: '26,944m', icon: BarChart3, color: 'text-orange-500' },
         ],
         chartData: [45, 72, 58, 83, 67, 91, 76, 88, 95, 80],
         donutPercent: 91,
         donutStats: [
-            { label: 'Total Calls', value: '8,420 calls', color: 'bg-emerald-500' },
+            { label: 'Total Calls', value: '8,420 calls', color: 'bg-orange-500' },
             { label: 'Total minute use', value: '26,944 min', color: 'bg-orange-400' },
-            { label: 'Avg. call duration', value: '3.2 min', color: 'bg-blue-500' },
+            { label: 'Avg. call duration', value: '3.2 min', color: 'bg-orange-500' },
         ],
         sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Deployment', 'Calls'],
     },
@@ -124,16 +124,16 @@ const dashboardTabs = [
         assistantId: 'ID:23569842',
         mobNumber: '+1 470 504 3155',
         stats: [
-            { label: 'Appointments', value: '1,425', icon: Calendar, color: 'text-blue-500' },
-            { label: 'Avg. Call Duration', value: '3.1m', icon: Clock, color: 'text-emerald-500' },
-            { label: 'Total Minute Use', value: '4,856m', icon: BarChart3, color: 'text-purple-500' },
+            { label: 'Appointments', value: '1,425', icon: Calendar, color: 'text-orange-500' },
+            { label: 'Avg. Call Duration', value: '3.1m', icon: Clock, color: 'text-orange-500' },
+            { label: 'Total Minute Use', value: '4,856m', icon: BarChart3, color: 'text-orange-500' },
         ],
         chartData: [38, 62, 45, 78, 55, 85, 70, 60, 90, 73],
         donutPercent: 84,
         donutStats: [
-            { label: 'Total Calls', value: '1,425 calls', color: 'bg-emerald-500' },
+            { label: 'Total Calls', value: '1,425 calls', color: 'bg-orange-500' },
             { label: 'Total minute use', value: '4,856 min', color: 'bg-orange-400' },
-            { label: 'Avg. call duration', value: '3,145 min', color: 'bg-blue-500' },
+            { label: 'Avg. call duration', value: '3,145 min', color: 'bg-orange-500' },
         ],
         sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Deployment', 'Calls'],
     },
@@ -146,15 +146,15 @@ const dashboardTabs = [
         mobNumber: '+1 470 504 3155',
         stats: [
             { label: 'Leads Captured', value: '3,210', icon: Users, color: 'text-orange-500' },
-            { label: 'Conversion Rate', value: '34%', icon: TrendingUp, color: 'text-emerald-500' },
-            { label: 'Calls Made', value: '9,630m', icon: PhoneCall, color: 'text-blue-500' },
+            { label: 'Conversion Rate', value: '34%', icon: TrendingUp, color: 'text-orange-500' },
+            { label: 'Calls Made', value: '9,630m', icon: PhoneCall, color: 'text-orange-500' },
         ],
         chartData: [52, 40, 68, 55, 82, 63, 75, 90, 48, 86],
         donutPercent: 78,
         donutStats: [
-            { label: 'Qualified Leads', value: '2,504 leads', color: 'bg-emerald-500' },
+            { label: 'Qualified Leads', value: '2,504 leads', color: 'bg-orange-500' },
             { label: 'Follow ups', value: '706 pending', color: 'bg-orange-400' },
-            { label: 'Conversion rate', value: '34%', color: 'bg-blue-500' },
+            { label: 'Conversion rate', value: '34%', color: 'bg-orange-500' },
         ],
         sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Campaigns', 'Leads'],
     },
@@ -166,16 +166,16 @@ const dashboardTabs = [
         assistantId: 'ID:67891234',
         mobNumber: '+1 470 504 3155',
         stats: [
-            { label: 'Tickets Resolved', value: '5,840', icon: CheckCircle, color: 'text-emerald-500' },
-            { label: 'Avg. Resolution', value: '2.8m', icon: Clock, color: 'text-blue-500' },
+            { label: 'Tickets Resolved', value: '5,840', icon: CheckCircle, color: 'text-orange-500' },
+            { label: 'Avg. Resolution', value: '2.8m', icon: Clock, color: 'text-orange-500' },
             { label: 'Satisfaction', value: '96%', icon: Award, color: 'text-orange-500' },
         ],
         chartData: [60, 78, 52, 88, 70, 95, 65, 82, 73, 90],
         donutPercent: 96,
         donutStats: [
-            { label: 'Resolved', value: '5,840 tickets', color: 'bg-emerald-500' },
+            { label: 'Resolved', value: '5,840 tickets', color: 'bg-orange-500' },
             { label: 'Escalated', value: '243 tickets', color: 'bg-orange-400' },
-            { label: 'Avg. resolution', value: '2.8 min', color: 'bg-blue-500' },
+            { label: 'Avg. resolution', value: '2.8 min', color: 'bg-orange-500' },
         ],
         sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Tickets', 'Reports'],
     },
@@ -187,16 +187,16 @@ const dashboardTabs = [
         assistantId: 'ID:88901256',
         mobNumber: '+1 470 504 3155',
         stats: [
-            { label: 'Messages Sent', value: '24,300', icon: MessageSquare, color: 'text-emerald-500' },
-            { label: 'Active Chats', value: '1,840', icon: Users, color: 'text-blue-500' },
+            { label: 'Messages Sent', value: '24,300', icon: MessageSquare, color: 'text-orange-500' },
+            { label: 'Active Chats', value: '1,840', icon: Users, color: 'text-orange-500' },
             { label: 'Response Rate', value: '99.2%', icon: Zap, color: 'text-orange-500' },
         ],
         chartData: [55, 82, 68, 92, 75, 88, 60, 95, 78, 85],
         donutPercent: 94,
         donutStats: [
-            { label: 'Auto-resolved', value: '22,842 chats', color: 'bg-emerald-500' },
+            { label: 'Auto-resolved', value: '22,842 chats', color: 'bg-orange-500' },
             { label: 'Escalated', value: '1,458 chats', color: 'bg-orange-400' },
-            { label: 'Avg. response', value: '< 3 sec', color: 'bg-blue-500' },
+            { label: 'Avg. response', value: '< 3 sec', color: 'bg-orange-500' },
         ],
         sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Chats', 'Contacts'],
         whatsappChat: [
@@ -248,9 +248,9 @@ function DashboardShowcase() {
                         <LayoutDashboard className="h-4 w-4 text-orange-500" />
                         <span className="text-xs font-semibold tracking-wide text-slate-600 uppercase">See Our Dashboard</span>
                     </div>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
                         One Platform, Every{' '}
-                        <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">AI Service</span>
+                        <span className="text-orange-500">AI Service</span>
                     </h2>
                     <p className="text-lg text-slate-500 max-w-2xl mx-auto">
                         Manage doctor appointments, lead generation, customer support, and more — all from a single, powerful dashboard.
@@ -332,8 +332,8 @@ function DashboardShowcase() {
                                     <h3 className="text-base sm:text-lg font-bold text-slate-800">Dashboard</h3>
                                     <div className="flex items-center gap-2">
                                         <span className="px-2.5 py-1 rounded-md border border-slate-200 text-[10px] text-slate-500 font-medium">Type</span>
-                                        <span className="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
-                                            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                                        <span className="px-2.5 py-1 rounded-md bg-orange-50 border border-orange-200 text-[10px] text-orange-600 font-semibold flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
                                             Live
                                         </span>
                                         <span className="px-2.5 py-1 rounded-md border border-slate-200 text-[10px] text-slate-500 font-medium">Last Week</span>
@@ -341,7 +341,7 @@ function DashboardShowcase() {
                                 </div>
 
                                 {/* Stat cards */}
-                                <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-5">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-5">
                                     {tab.stats.map((stat, i) => (
                                         <div key={i} className="rounded-xl border border-slate-100 bg-white p-3 sm:p-4 hover:shadow-md transition-shadow">
                                             <div className="flex items-center gap-2 mb-1.5">
@@ -366,7 +366,7 @@ function DashboardShowcase() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-semibold text-white">DigitalBot AI</p>
-                                                    <p className="text-[10px] text-emerald-200">online</p>
+                                                    <p className="text-[10px] text-orange-200">online</p>
                                                 </div>
                                                 <div className="ml-auto flex items-center gap-3 text-white/80">
                                                     <PhoneCall className="h-4 w-4" />
@@ -516,6 +516,7 @@ export default function Hero() {
     const [isSpeaking, setIsSpeaking] = useState(false)
     const [callStatus, setCallStatus] = useState('')
     const [vapiLoaded, setVapiLoaded] = useState(false)
+
 
     // Ref for journey flowchart section
     const flowchartRef = useRef<HTMLDivElement>(null)
@@ -1291,9 +1292,9 @@ export default function Hero() {
                             <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">AI Voice Agents — Now Generally Available</span>
                         </div>
 
-                        <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 leading-[1.08] tracking-tight hero-slide-2">
-                            Your AI Voice Agent<br />
-                            <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-clip-text text-transparent">That Never Sleeps</span>
+                        <h1 id="hero-heading" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 leading-[1.08] tracking-tight hero-slide-2">
+                            Elevate Your Business With<br />
+                            <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-clip-text text-transparent">WhatsApp Bots & Voice Agents</span>
                         </h1>
 
                         <p className="text-lg sm:text-xl text-slate-500 font-normal leading-relaxed max-w-2xl mx-auto hero-slide-3">
@@ -1302,47 +1303,124 @@ export default function Hero() {
                     </div>
 
                     {/* Center: Two Large Phones */}
-                    <div className="relative flex justify-center items-end mt-12 sm:mt-16 hero-phones-in" style={{ minHeight: '520px' }}>
+                    <div className="relative flex justify-center items-end mt-8 sm:mt-16 hero-phones-in" style={{ minHeight: 'clamp(340px, 50vw, 520px)' }}>
                         {/* Subtle glow behind phones */}
-                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[420px] h-[320px] rounded-full bg-gradient-to-t from-slate-100/40 via-slate-50/20 to-transparent blur-3xl pointer-events-none" />
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[280px] sm:w-[420px] h-[220px] sm:h-[320px] rounded-full bg-gradient-to-t from-slate-100/40 via-slate-50/20 to-transparent blur-3xl pointer-events-none" />
 
-                        {/* Left Phone (secondary, tilted) */}
-                        <div className="hero-phone-secondary relative z-10 mr-[-40px] sm:mr-[-50px] mb-6 sm:mb-8">
-                            <div className="w-[180px] sm:w-[220px] md:w-[260px] h-[360px] sm:h-[430px] md:h-[500px] rounded-[32px] sm:rounded-[38px] border-[5px] sm:border-[7px] border-slate-800 bg-white p-3 sm:p-4 shadow-[0_30px_80px_rgba(0,0,0,0.1)] rotate-[-6deg]">
-                                <div className="mx-auto mb-3 sm:mb-4 h-5 sm:h-6 w-16 sm:w-20 rounded-full bg-slate-800" />
-                                <div className="flex flex-col items-center justify-center h-[calc(100%-40px)] text-center space-y-4 sm:space-y-5">
-                                    {/* Voice wave - static multicolor */}
-                                    <div className="flex items-end justify-center gap-[3px] h-14 sm:h-16">
-                                        {[
-                                            { h: 0.6, color: 'bg-emerald-500' }, { h: 1, color: 'bg-violet-500' }, { h: 0.4, color: 'bg-orange-400' },
-                                            { h: 0.9, color: 'bg-emerald-400' }, { h: 0.7, color: 'bg-violet-400' }, { h: 1, color: 'bg-orange-500' },
-                                            { h: 0.5, color: 'bg-emerald-500' }, { h: 0.8, color: 'bg-violet-500' }, { h: 0.6, color: 'bg-orange-400' },
-                                            { h: 1, color: 'bg-emerald-400' }, { h: 0.3, color: 'bg-violet-400' }, { h: 0.7, color: 'bg-orange-500' },
-                                        ].map((bar, i) => (
-                                            <div
-                                                key={i}
-                                                className={`w-[3px] sm:w-1 rounded-full ${bar.color}`}
-                                                style={{ height: `${bar.h * 100}%` }}
-                                            />
-                                        ))}
+                        {/* Left Phone (secondary, tilted) - WhatsApp Chat */}
+                        <div className="hero-phone-secondary relative z-10 mr-[-30px] sm:mr-[-50px] mb-4 sm:mb-8">
+                            <div className="w-[140px] sm:w-[220px] md:w-[260px] h-[280px] sm:h-[430px] md:h-[500px] rounded-[24px] sm:rounded-[38px] border-[4px] sm:border-[7px] border-slate-800 bg-[#ece5dd] shadow-[0_30px_80px_rgba(0,0,0,0.1)] rotate-[-6deg] overflow-hidden flex flex-col relative">
+                                {/* iPhone Dynamic Island / Notch */}
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-12 sm:w-20 h-3 sm:h-5 bg-slate-900 rounded-b-2xl" />
+                                {/* Status Bar */}
+                                <div className="bg-green-700 px-2 pt-1.5 pb-0.5 flex items-center justify-between text-[7px] sm:text-[8px] text-white relative z-0">
+                                    <span>9:41</span>
+                                    <div className="w-16 sm:w-20" />
+                                    <span>5G</span>
+                                </div>
+                                {/* WhatsApp Header */}
+                                <div className="bg-green-600 px-2 sm:px-3 py-1.5 sm:py-2 flex items-center gap-1.5 sm:gap-2">
+                                    <span className="text-white text-[10px] sm:text-xs">←</span>
+                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-[9px] sm:text-xs">
+                                        D
                                     </div>
-                                    <div className="space-y-2 px-1">
-                                        <p className="text-xs sm:text-sm font-bold text-emerald-700 leading-tight">Tell us your requirements</p>
-                                        <p className="text-[10px] sm:text-xs text-violet-500 leading-relaxed">Describe what you need — industry, use case, language, tone</p>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-white text-[9px] sm:text-[11px] font-semibold truncate">DigitalBot AI</p>
+                                        <p className="text-green-200 text-[7px] sm:text-[9px]">● Verified Business</p>
                                     </div>
-                                    <div className="w-full space-y-2">
-                                        <div className="flex items-center gap-2 rounded-xl bg-slate-50 border border-slate-100 px-2.5 sm:px-3 py-2">
-                                            <CheckCircle className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
-                                            <span className="text-[10px] sm:text-xs text-violet-600">Define your script</span>
+                                    <span className="text-white text-[10px] sm:text-xs">📞</span>
+                                </div>
+                                
+                                {/* Chat Messages */}
+                                <div className="flex-1 bg-[#ece5dd] px-1.5 sm:px-2 py-1.5 overflow-y-auto space-y-1.5">
+                                    {/* Date Badge */}
+                                    <div className="text-center">
+                                        <span className="text-[6px] sm:text-[7px] text-slate-600 bg-white/80 px-1.5 py-0.5 rounded shadow-sm">Today 10:00 AM</span>
+                                    </div>
+                                    
+                                    {/* Bot - Event Promo */}
+                                    <div className="max-w-[88%]">
+                                        <div className="bg-white rounded-lg rounded-tl-sm px-2 py-1.5 shadow-sm">
+                                            <p className="text-[8px] sm:text-[9px] text-slate-900 font-semibold leading-snug">🎉 New Year Bash 2027!</p>
+                                            <p className="text-[7px] sm:text-[8px] text-slate-700 mt-0.5 leading-snug">Join the biggest celebration in town</p>
+                                            <div className="flex gap-1 mt-1.5">
+                                                <div className="flex-1 rounded-lg overflow-hidden shadow-sm">
+                                                    <div className="bg-gradient-to-br from-green-500 to-green-600 p-1.5 text-center">
+                                                        <span className="text-[7px] sm:text-[8px] text-white font-semibold">🎆 VIP</span>
+                                                    </div>
+                                                    <div className="bg-white px-1 py-0.5">
+                                                        <p className="text-[6px] sm:text-[7px] font-medium text-slate-800">₹2,999</p>
+                                                        <p className="text-[5px] sm:text-[6px] text-green-500">🎫 Book</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex-1 rounded-lg overflow-hidden shadow-sm">
+                                                    <div className="bg-gradient-to-br from-green-400 to-green-500 p-1.5 text-center">
+                                                        <span className="text-[7px] sm:text-[8px] text-white font-semibold">🎵 General</span>
+                                                    </div>
+                                                    <div className="bg-white px-1 py-0.5">
+                                                        <p className="text-[6px] sm:text-[7px] font-medium text-slate-800">₹999</p>
+                                                        <p className="text-[5px] sm:text-[6px] text-green-500">🎫 Book</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="text-right mt-1">
+                                                <span className="text-[6px] text-slate-400">10:00 ✓✓</span>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center gap-2 rounded-xl bg-slate-50 border border-slate-100 px-2.5 sm:px-3 py-2">
-                                            <CheckCircle className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
-                                            <span className="text-[10px] sm:text-xs text-violet-600">Choose a voice</span>
+                                    </div>
+                                    
+                                    {/* User - VIP */}
+                                    <div className="flex justify-end">
+                                        <div className="max-w-[78%] bg-[#d9fdd3] rounded-lg rounded-tr-sm px-2 py-1 shadow-sm">
+                                            <p className="text-[8px] sm:text-[9px] text-slate-800">I want 2 VIP tickets!</p>
+                                            <div className="text-right"><span className="text-[6px] text-slate-500">10:01 ✓✓</span></div>
                                         </div>
-                                        <div className="flex items-center gap-2 rounded-xl bg-slate-50 border border-slate-100 px-2.5 sm:px-3 py-2">
-                                            <CheckCircle className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
-                                            <span className="text-[10px] sm:text-xs text-violet-600">Go live in hours</span>
+                                    </div>
+                                    
+                                    {/* Bot - Summary */}
+                                    <div className="max-w-[88%]">
+                                        <div className="bg-white rounded-lg rounded-tl-sm px-2 py-1.5 shadow-sm">
+                                            <p className="text-[8px] sm:text-[9px] text-slate-800 font-semibold">🧾 Booking Summary</p>
+                                            <div className="mt-0.5 space-y-0.5 text-[7px] sm:text-[8px] text-slate-700">
+                                                <p>🎫 2x VIP Pass</p>
+                                                <p>📅 Dec 31, 8 PM</p>
+                                                <p>📍 Grand Arena, Mumbai</p>
+                                                <p className="font-bold text-slate-900">💰 Total: ₹5,998</p>
+                                            </div>
+                                            <div className="text-right mt-0.5"><span className="text-[6px] text-slate-400">10:01 ✓✓</span></div>
                                         </div>
+                                    </div>
+                                    
+                                    {/* User - Confirm */}
+                                    <div className="flex justify-end">
+                                        <div className="max-w-[70%] bg-[#d9fdd3] rounded-lg rounded-tr-sm px-2 py-1 shadow-sm">
+                                            <p className="text-[8px] sm:text-[9px] text-slate-800">Confirm & pay 👍</p>
+                                            <div className="text-right"><span className="text-[6px] text-slate-500">10:02 ✓✓</span></div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Bot - Payment Link */}
+                                    <div className="max-w-[88%]">
+                                        <div className="bg-white rounded-lg rounded-tl-sm px-2 py-1.5 shadow-sm">
+                                            <p className="text-[8px] sm:text-[9px] text-slate-800">✅ Payment received!</p>
+                                            <div className="mt-1 bg-green-50 border border-green-200 rounded-lg px-2 py-1">
+                                                <p className="text-[7px] sm:text-[8px] text-green-700 font-semibold">🎫 E-Ticket Confirmed</p>
+                                                <p className="text-[6px] sm:text-[7px] text-green-600">Order #NYB2027-4851</p>
+                                                <p className="text-[6px] sm:text-[7px] text-green-600">📩 Tickets sent to your email</p>
+                                            </div>
+                                            <div className="text-right mt-0.5"><span className="text-[6px] text-slate-400">10:02 ✓✓</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {/* Message Input Bar */}
+                                <div className="bg-white px-1.5 sm:px-2 py-1.5 flex items-center gap-1.5 border-t border-slate-200">
+                                    <span className="text-[10px] sm:text-sm">😊</span>
+                                    <div className="flex-1 bg-slate-100 rounded-full px-2 py-1">
+                                        <p className="text-[7px] sm:text-[8px] text-slate-400">Type a message...</p>
+                                    </div>
+                                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-green-500 flex items-center justify-center">
+                                        <span className="text-white text-[8px] sm:text-[10px]">🎤</span>
                                     </div>
                                 </div>
                             </div>
@@ -1350,34 +1428,34 @@ export default function Hero() {
 
                         {/* Right Phone (main, straight) */}
                         <div className="hero-phone-main relative z-20">
-                            <div className="w-[200px] sm:w-[250px] md:w-[300px] h-[400px] sm:h-[490px] md:h-[580px] rounded-[36px] sm:rounded-[42px] border-[5px] sm:border-[7px] border-slate-800 bg-white p-3 sm:p-5 shadow-[0_40px_100px_rgba(0,0,0,0.12)]">
-                                <div className="mx-auto mb-4 sm:mb-5 h-5 sm:h-7 w-20 sm:w-24 rounded-full bg-slate-800" />
+                            <div className="w-[160px] sm:w-[250px] md:w-[300px] h-[320px] sm:h-[490px] md:h-[580px] rounded-[28px] sm:rounded-[42px] border-[4px] sm:border-[7px] border-slate-800 bg-white p-2 sm:p-5 shadow-[0_40px_100px_rgba(0,0,0,0.12)]">
+                                <div className="mx-auto mb-2 sm:mb-5 h-4 sm:h-7 w-14 sm:w-24 rounded-full bg-slate-800" />
                                 <div className="flex flex-col items-center h-[calc(100%-50px)] space-y-3 sm:space-y-4">
                                     {/* Header badge */}
                                     <div className="w-full flex items-center justify-between rounded-2xl bg-slate-50 border border-slate-100 px-3 sm:px-4 py-2 sm:py-2.5">
-                                        <span className="text-[11px] sm:text-sm font-semibold text-violet-700">Voice Agent Studio</span>
+                                        <span className="text-[11px] sm:text-sm font-semibold text-indigo-700">Voice Agent Studio</span>
                                         <div className="flex items-center gap-1.5">
-                                            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                                            <span className="text-[9px] sm:text-[10px] text-emerald-600 font-medium">Ready</span>
+                                            <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse" />
+                                            <span className="text-[9px] sm:text-[10px] text-indigo-600 font-medium">Ready</span>
                                         </div>
                                     </div>
 
                                     {/* Main message */}
                                     <div className="w-full rounded-2xl bg-white border border-slate-100 p-3 sm:p-4 text-center">
-                                        <p className="text-[10px] sm:text-xs text-emerald-600 font-semibold uppercase tracking-wider mb-1">Zero Effort</p>
-                                        <p className="text-lg sm:text-xl md:text-2xl font-bold leading-tight text-violet-800">Your voice bot, ready in hours.</p>
+                                        <p className="text-[10px] sm:text-xs text-indigo-600 font-semibold uppercase tracking-wider mb-1">Zero Effort</p>
+                                        <p className="text-lg sm:text-xl md:text-2xl font-bold leading-tight text-orange-600">Your voice bot, ready in hours.</p>
                                     </div>
 
                                     {/* Sound wave visualization - static multicolor */}
                                     <div className="w-full flex items-end justify-center gap-[2px] h-12 sm:h-16">
                                             {[
-                                                { h: 0.3, color: 'bg-emerald-400' }, { h: 0.5, color: 'bg-violet-400' }, { h: 0.8, color: 'bg-orange-400' },
-                                                { h: 0.4, color: 'bg-emerald-500' }, { h: 1, color: 'bg-violet-500' }, { h: 0.6, color: 'bg-orange-400' },
-                                                { h: 0.9, color: 'bg-emerald-400' }, { h: 0.3, color: 'bg-violet-400' }, { h: 0.7, color: 'bg-orange-500' },
-                                                { h: 1, color: 'bg-emerald-500' }, { h: 0.5, color: 'bg-violet-500' }, { h: 0.8, color: 'bg-orange-400' },
-                                                { h: 0.4, color: 'bg-emerald-400' }, { h: 0.9, color: 'bg-violet-400' }, { h: 0.6, color: 'bg-orange-500' },
-                                                { h: 0.3, color: 'bg-emerald-500' }, { h: 0.7, color: 'bg-violet-400' }, { h: 0.5, color: 'bg-orange-400' },
-                                                { h: 1, color: 'bg-emerald-400' }, { h: 0.4, color: 'bg-violet-500' },
+                                                { h: 0.3, color: 'bg-indigo-400' }, { h: 0.5, color: 'bg-purple-400' }, { h: 0.8, color: 'bg-indigo-400' },
+                                                { h: 0.4, color: 'bg-purple-500' }, { h: 1, color: 'bg-indigo-500' }, { h: 0.6, color: 'bg-purple-400' },
+                                                { h: 0.9, color: 'bg-indigo-400' }, { h: 0.3, color: 'bg-purple-400' }, { h: 0.7, color: 'bg-indigo-500' },
+                                                { h: 1, color: 'bg-purple-500' }, { h: 0.5, color: 'bg-indigo-500' }, { h: 0.8, color: 'bg-purple-400' },
+                                                { h: 0.4, color: 'bg-indigo-400' }, { h: 0.9, color: 'bg-purple-400' }, { h: 0.6, color: 'bg-indigo-500' },
+                                                { h: 0.3, color: 'bg-purple-500' }, { h: 0.7, color: 'bg-indigo-400' }, { h: 0.5, color: 'bg-purple-400' },
+                                                { h: 1, color: 'bg-indigo-400' }, { h: 0.4, color: 'bg-purple-500' },
                                             ].map((bar, i) => (
                                                 <div
                                                     key={i}
@@ -1390,12 +1468,12 @@ export default function Hero() {
                                     {/* Steps */}
                                     <div className="w-full grid grid-cols-2 gap-2 sm:gap-2.5">
                                         <div className="rounded-2xl bg-slate-50 border border-slate-100 p-2.5 sm:p-3 text-center">
-                                            <p className="text-[9px] sm:text-[10px] text-emerald-600 uppercase font-bold tracking-wider">Step 1</p>
-                                            <p className="mt-1 text-[10px] sm:text-xs font-semibold text-violet-700">Share needs</p>
+                                            <p className="text-[9px] sm:text-[10px] text-indigo-600 uppercase font-bold tracking-wider">Step 1</p>
+                                            <p className="mt-1 text-[10px] sm:text-xs font-semibold text-purple-700">Share needs</p>
                                         </div>
                                         <div className="rounded-2xl bg-slate-50 border border-slate-100 p-2.5 sm:p-3 text-center">
-                                            <p className="text-[9px] sm:text-[10px] text-emerald-600 uppercase font-bold tracking-wider">Step 2</p>
-                                            <p className="mt-1 text-[10px] sm:text-xs font-semibold text-violet-700">We build it</p>
+                                            <p className="text-[9px] sm:text-[10px] text-indigo-600 uppercase font-bold tracking-wider">Step 2</p>
+                                            <p className="mt-1 text-[10px] sm:text-xs font-semibold text-purple-700">We build it</p>
                                         </div>
                                     </div>
 
@@ -1426,9 +1504,9 @@ export default function Hero() {
                             </div>
                         </div>
                         <div className="hidden lg:block absolute right-[10%] bottom-28 hero-badge-float">
-                            <div className="rounded-2xl border border-emerald-100 bg-white px-4 py-2.5 shadow-lg shadow-emerald-100/30">
+                            <div className="rounded-2xl border border-orange-100 bg-white px-4 py-2.5 shadow-lg shadow-orange-100/30">
                                 <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                                    <CheckCircle className="h-4 w-4 text-emerald-500" />
+                                    <CheckCircle className="h-4 w-4 text-orange-500" />
                                     99.9% uptime
                                 </div>
                             </div>
@@ -1438,19 +1516,19 @@ export default function Hero() {
                     {/* Bottom: CTAs */}
                     <div className="text-center mt-10 sm:mt-14 space-y-6 hero-slide-4">
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-                            <Link
-                                href="/contact#contact-form"
+                            <a
+                                href="/contact"
                                 className="group px-8 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 flex items-center justify-center gap-2 text-sm btn-glow"
                             >
                                 Get Started Free
                                 <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-                            </Link>
-                            <Link
+                            </a>
+                            <a
                                 href="/contact"
-                                className="group px-8 py-3.5 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-medium rounded-xl hover:from-purple-600 hover:to-purple-700 transition-all duration-300 shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 flex items-center justify-center gap-2 text-sm"
+                                className="group px-8 py-3.5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-xl hover:from-purple-600 hover:to-indigo-700 transition-all duration-300 shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30 flex items-center justify-center gap-2 text-sm"
                             >
                                 Schedule a Demo
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1486,8 +1564,8 @@ export default function Hero() {
                                 <div className="hidden lg:block absolute -left-44 bottom-[15%] text-right">
                                     <p className="text-sm font-semibold text-slate-700">Suggested Actions</p>
                                     <div className="flex items-center justify-end gap-1 mt-1">
-                                        <span className="h-px w-16 bg-purple-300 inline-block" style={{ borderStyle: 'dashed' }} />
-                                        <span className="w-2 h-2 rounded-full bg-purple-400" />
+                                        <span className="h-px w-16 bg-orange-300 inline-block" style={{ borderStyle: 'dashed' }} />
+                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
                                     </div>
                                 </div>
                                 <div className="hidden lg:block absolute -right-44 top-[22%] text-left">
@@ -1524,8 +1602,8 @@ export default function Hero() {
                                         <div className="h-8 w-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-xs font-bold">D</div>
                                         <div className="flex-1">
                                             <p className="text-sm font-semibold text-white">DigitalBot AI</p>
-                                            <p className="text-[10px] text-emerald-200 flex items-center gap-1">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-300" />
+                                            <p className="text-[10px] text-orange-200 flex items-center gap-1">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-orange-300" />
                                                 Verified Business
                                             </p>
                                         </div>
@@ -1542,23 +1620,23 @@ export default function Hero() {
                                                 {/* Image carousel */}
                                                 <div className="grid grid-cols-2 gap-1.5 mt-2">
                                                     <div className="rounded-lg overflow-hidden bg-slate-100">
-                                                        <div className="h-16 bg-gradient-to-br from-emerald-300 to-emerald-500 flex items-end p-1.5">
+                                                        <div className="h-16 bg-gradient-to-br from-orange-300 to-orange-500 flex items-end p-1.5">
                                                             <span className="text-[9px] text-white font-bold bg-black/30 px-1.5 py-0.5 rounded">🏔️ Manali</span>
                                                         </div>
                                                         <div className="p-1.5 space-y-1">
                                                             <p className="text-[9px] font-bold text-slate-700">Manali</p>
-                                                            <p className="text-[8px] text-emerald-600 font-medium">📍 Book Now</p>
-                                                            <p className="text-[8px] text-blue-500 font-medium">📞 Call Agent</p>
+                                                            <p className="text-[8px] text-orange-600 font-medium">📍 Book Now</p>
+                                                            <p className="text-[8px] text-orange-500 font-medium">📞 Call Agent</p>
                                                         </div>
                                                     </div>
                                                     <div className="rounded-lg overflow-hidden bg-slate-100">
-                                                        <div className="h-16 bg-gradient-to-br from-cyan-300 to-blue-500 flex items-end p-1.5">
+                                                        <div className="h-16 bg-gradient-to-br from-orange-300 to-orange-500 flex items-end p-1.5">
                                                             <span className="text-[9px] text-white font-bold bg-black/30 px-1.5 py-0.5 rounded">🏖️ Beach</span>
                                                         </div>
                                                         <div className="p-1.5 space-y-1">
                                                             <p className="text-[9px] font-bold text-slate-700">Lakshadweep</p>
-                                                            <p className="text-[8px] text-emerald-600 font-medium">📍 Book Now</p>
-                                                            <p className="text-[8px] text-blue-500 font-medium">📞 Call Agent</p>
+                                                            <p className="text-[8px] text-orange-600 font-medium">📍 Book Now</p>
+                                                            <p className="text-[8px] text-orange-500 font-medium">📞 Call Agent</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1578,8 +1656,8 @@ export default function Hero() {
                                                 <p className="text-[11px] text-slate-800">Great choice! 🏔️ Here are the available dates for Manali:</p>
                                                 <p className="text-[11px] text-slate-600 mt-1">📅 Dec 20 - Dec 25<br/>📅 Dec 27 - Jan 1<br/>📅 Jan 5 - Jan 10</p>
                                                 <div className="flex gap-1.5 mt-2">
-                                                    <span className="text-[9px] bg-emerald-50 text-emerald-600 border border-emerald-200 px-2 py-1 rounded-full font-medium">Dec 20-25</span>
-                                                    <span className="text-[9px] bg-blue-50 text-blue-600 border border-blue-200 px-2 py-1 rounded-full font-medium">Dec 27-Jan 1</span>
+                                                    <span className="text-[9px] bg-orange-50 text-orange-600 border border-orange-200 px-2 py-1 rounded-full font-medium">Dec 20-25</span>
+                                                    <span className="text-[9px] bg-orange-50 text-orange-600 border border-orange-200 px-2 py-1 rounded-full font-medium">Dec 27-Jan 1</span>
                                                 </div>
                                                 <p className="text-[8px] text-slate-400 text-right mt-1">8:31 ✓✓</p>
                                             </div>
@@ -1601,13 +1679,13 @@ export default function Hero() {
 
                         {/* RIGHT: Get Customized Chatbot */}
                         <div className="space-y-6">
-                            <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-full">
-                                <MessageSquare className="h-4 w-4 text-emerald-600" />
-                                <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">WhatsApp Chatbot</span>
+                            <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
+                                <MessageSquare className="h-4 w-4 text-orange-600" />
+                                <span className="text-xs font-semibold text-orange-700 uppercase tracking-wide">WhatsApp Chatbot</span>
                             </div>
-                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight">
                                 Get Your{' '}
-                                <span className="bg-gradient-to-r from-emerald-500 to-emerald-600 bg-clip-text text-transparent">Customized Chatbot</span>
+                                <span className="text-orange-500">Customized Chatbot</span>
                             </h2>
                             <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
                                 Deliver interactive messages directly to your customer&apos;s WhatsApp. Rich media, carousels, quick replies, and verified sender — all automated with AI.
@@ -1621,17 +1699,17 @@ export default function Hero() {
                                     { icon: CheckCircle, text: 'Suggested quick actions & smart replies' },
                                 ].map((item, i) => (
                                     <div key={i} className="flex items-center gap-3">
-                                        <item.icon className="h-5 w-5 text-emerald-500 flex-shrink-0" />
+                                        <item.icon className="h-5 w-5 text-orange-500 flex-shrink-0" />
                                         <span className="text-sm text-slate-600">{item.text}</span>
                                     </div>
                                 ))}
                             </div>
                             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                                <Link href="/contact#contact-form" className="group px-7 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-medium rounded-xl hover:from-emerald-600 hover:to-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 text-sm">
+                                <Link href="/contact#contact-form" className="group px-7 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 text-sm">
                                     Get Started
                                     <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
-                                <Link href="/contact" className="px-7 py-3 text-slate-600 font-medium rounded-xl border border-slate-200 hover:border-emerald-200 hover:text-emerald-600 transition-all text-sm text-center">
+                                <Link href="/contact" className="px-7 py-3 text-slate-600 font-medium rounded-xl border border-slate-200 hover:border-orange-200 hover:text-orange-600 transition-all text-sm text-center">
                                     Book a Free Demo
                                 </Link>
                             </div>
@@ -1650,9 +1728,9 @@ export default function Hero() {
                                 <Mic className="h-4 w-4 text-orange-600" />
                                 <span className="text-xs font-semibold text-orange-700 uppercase tracking-wide">AI Voice Agent</span>
                             </div>
-                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight">
                                 How{' '}
-                                <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Voice AI</span>{' '}
+                                <span className="text-orange-500">Voice AI</span>{' '}
                                 Transforms Your Business
                             </h2>
                             <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
@@ -1708,7 +1786,7 @@ export default function Hero() {
                         <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-5 py-2 rounded-full mb-6">
                             <span className="text-sm font-semibold text-slate-700">Voice Garden</span>
                         </div>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-5 leading-tight">
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-5 leading-tight">
                             Leverage AI voice call agents who sound<br className="hidden sm:block" /> and act like real people
                         </h2>
                         <p className="text-lg text-slate-500 max-w-2xl mx-auto">
@@ -1739,7 +1817,7 @@ export default function Hero() {
                                     }}
                                     aria-label={`Play ${service.title} sample`}
                                 >
-                                    <div className="h-14 w-14 rounded-full bg-blue-400/80 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 group-hover:bg-blue-500/90 transition-all shadow-lg">
+                                    <div className="h-14 w-14 rounded-full bg-orange-400/80 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 group-hover:bg-orange-500/90 transition-all shadow-lg">
                                         <svg className="h-6 w-6 text-white ml-0.5" viewBox="0 0 24 24" fill="currentColor">
                                             <path d="M8 5v14l11-7z" />
                                         </svg>
@@ -1759,161 +1837,66 @@ export default function Hero() {
             {/* Platform Features Showcase */}
             <PlatformFeatures />
 
-            {/* Why Choose DigitalBot - Bento Grid Style */}
-            <section className="py-8 px-4 bg-white overflow-hidden">
-                <div className="container mx-auto max-w-6xl">
-                    {/* Section Header */}
-                    <div className="text-center mb-10">
-                        <p className="text-orange-500 font-semibold text-sm uppercase tracking-widest mb-2">Why Choose Us</p>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">
-                            The DigitalBot Advantage
-                        </h2>
-                        <p className="text-slate-500 max-w-xl mx-auto">
-                            Enterprise-grade AI voice solutions that scale with your business
-                        </p>
-                    </div>
 
-                    {/* Grid Layout - All cards equal size */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* DigitalBot Features Grid (updated for DigitalBot advantages) */}
+                        <section className="py-14 bg-[#f7f7fd]">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-12">
+                                    The DigitalBot <span className="text-orange-500">Advantage</span>
+                                </h2>
+                                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                    {/* Feature Card 1 */}
+                                    <div className="rounded-3xl bg-[#f3f0ff] p-8 flex flex-col justify-between min-h-[320px] shadow-sm">
+                                        <div>
+                                            <h3 className="text-3xl font-bold text-gray-900 mb-4">24/7 AI Customer Support</h3>
+                                            <div className="text-lg text-gray-600 mb-2">Never miss a call or message. DigitalBot works around the clock for your business.</div>
+                                        </div>
+                                        <div className="flex justify-center items-end mt-6">
+                                            <img src="/images/woman-laptop.avif" alt="24/7 Support" className="w-40 h-40 object-cover rounded-2xl" />
+                                        </div>
+                                    </div>
 
-                        {/* Feature 1 - Instant Setup */}
-                        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-                            <div>
-                                <div className="inline-flex items-center gap-1.5 bg-white/20 text-white px-2.5 py-1 rounded-full text-xs font-medium mb-3 backdrop-blur-sm">
-                                    <Zap className="h-3 w-3" /> Quick Start
+                                    {/* Feature Card 2 */}
+                                    <div className="rounded-3xl bg-white p-8 flex flex-col justify-between min-h-[320px] shadow-sm">
+                                        <div>
+                                            <h3 className="text-3xl font-bold text-gray-900 mb-4">Omnichannel Engagement</h3>
+                                            <div className="text-lg text-gray-600 mb-2">Voice, WhatsApp, SMS, and web — all handled simultaneously by one AI.</div>
+                                        </div>
+                                        <div className="flex justify-center items-end mt-6">
+                                            <div className="w-40 h-28 bg-gradient-to-br from-[#a259ff] to-[#00dbde] rounded-2xl flex items-center justify-center">
+                                                <span className="text-white text-xl font-bold">Voice + WhatsApp</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Feature Card 3 */}
+                                    <div className="rounded-3xl bg-white p-8 flex flex-col justify-between min-h-[320px] shadow-sm">
+                                        <div>
+                                            <h3 className="text-3xl font-bold text-gray-900 mb-4">Instant Deployment</h3>
+                                            <div className="text-lg text-gray-600 mb-2">Go live in minutes with zero-code onboarding and seamless integration.</div>
+                                        </div>
+                                        <div className="flex justify-center items-end mt-6">
+                                            <svg width="56" height="56" fill="none" stroke="#a259ff" strokeWidth="2.2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                                        </div>
+                                    </div>
+
+                                    {/* Feature Card 4 */}
+                                    <div className="rounded-3xl bg-[#e6fcf5] p-8 flex flex-col justify-between min-h-[320px] shadow-sm">
+                                        <div>
+                                            <h3 className="text-3xl font-bold text-gray-900 mb-4">Real-time Analytics</h3>
+                                            <div className="text-lg text-gray-600 mb-2">Track every conversation, call, and customer interaction with live dashboards.</div>
+                                        </div>
+                                        <div className="flex justify-center items-end mt-6">
+                                            <div className="w-28 h-28 bg-gradient-to-br from-[#00dbde] to-[#a259ff] rounded-full flex items-center justify-center">
+                                                <span className="text-white text-xl font-bold">Analytics</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <h3 className="text-xl font-bold text-white mb-2">Instant Setup</h3>
-                                <p className="text-sm text-orange-100 mb-3">
-                                    Deploy your AI voice assistant in under 5 minutes with zero-code integration. Connect to your existing systems seamlessly.
-                                </p>
-                                <ul className="text-xs text-orange-100 space-y-1">
-                                    <li className="flex items-center gap-1.5">
-                                        <CheckCircle className="h-3 w-3 text-orange-200" /> No technical expertise needed
-                                    </li>
-                                
-                                    <li className="flex items-center gap-1.5">
-                                        <CheckCircle className="h-3 w-3 text-orange-200" /> Instant API integration
-                                    </li>
-                                </ul>
                             </div>
-                            <div className="flex gap-8 mt-4">
-                                <div>
-                                    <div className="text-3xl font-bold text-white">5 min</div>
-                                    <div className="text-orange-200 text-xs">Setup Time</div>
-                                </div>
-                                <div>
-                                    <div className="text-3xl font-bold text-white">0</div>
-                                    <div className="text-orange-200 text-xs">Code Required</div>
-                                </div>
-                            </div>
-                        </div>
+                        </section>
 
-                        {/* Feature 2 - Enterprise Security */}
-                        <div className="glass-card rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl min-h-[280px] border border-orange-100/30">
-                            <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/8 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <Shield className="h-5 w-5 text-orange-500" />
-                                    <h3 className="text-lg font-bold text-slate-900">Enterprise Security</h3>
-                                </div>
-                                <p className="text-sm text-slate-500 mb-4">AES-256 encryption, SOC 2 certified, GDPR & HIPAA compliant for maximum data protection.</p>
-                            </div>
-                            <div className="flex flex-wrap gap-2 mt-auto">
-                                <span className="px-3 py-1.5 bg-orange-50/60 text-orange-600 text-xs font-medium rounded border border-orange-200/40">SOC 2</span>
-                                <span className="px-3 py-1.5 bg-orange-50/60 text-orange-600 text-xs font-medium rounded border border-orange-200/40">GDPR</span>
-                                <span className="px-3 py-1.5 bg-orange-50/60 text-orange-600 text-xs font-medium rounded border border-orange-200/40">HIPAA</span>
-                            </div>
-                        </div>
 
-                        {/* Feature 3 - 24/7 Operations */}
-                        <div className="bg-gradient-to-br from-orange-600 to-orange-500 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <Clock className="h-5 w-5 text-white" />
-                                    <h3 className="text-lg font-bold text-white">24/7 Operations</h3>
-                                </div>
-                                <p className="text-sm text-orange-100 mb-4">
-                                    Uninterrupted service with industry-leading uptime. Your AI assistants never sleep, ensuring constant availability for your customers.
-                                </p>
-                            </div>
-                            <div className="mt-auto">
-                                <div className="text-4xl font-bold text-white">99.9%</div>
-                                <div className="text-orange-200 text-sm">Uptime SLA Guarantee</div>
-                            </div>
-                        </div>
-
-                        {/* Feature 4 - Auto-Scaling */}
-                        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-400 min-h-[280px]">
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <TrendingUp className="h-5 w-5 text-white" />
-                                    <h3 className="text-lg font-bold text-white">Auto-Scaling</h3>
-                                </div>
-                                <p className="text-sm text-orange-100 mb-4">
-                                    Handle spikes effortlessly with intelligent auto-scaling. From 10 to 100,000+ simultaneous conversations without performance degradation.
-                                </p>
-                            </div>
-                            <div className="mt-auto">
-                                <div className="text-4xl font-bold text-white">100K+</div>
-                                <div className="text-orange-100 text-sm">Concurrent Conversations</div>
-                            </div>
-                        </div>
-
-                        {/* Feature 5 - Omnichannel */}
-                        <div className="glass-card rounded-2xl p-6 flex flex-col justify-between border border-orange-100/30 group hover:shadow-lg transition-all duration-400 min-h-[280px]">
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <MessageSquare className="h-5 w-5 text-orange-500" />
-                                    <h3 className="text-lg font-bold text-slate-800">Omnichannel Support</h3>
-                                </div>
-                                <p className="text-sm text-slate-500 mb-4">
-                                    Seamless integration across phone, web, mobile, SMS, WhatsApp, and social media platforms.
-                                </p>
-                            </div>
-                            <div className="mt-auto">
-                                <div className="text-4xl font-bold text-orange-500">6+</div>
-                                <div className="text-slate-500 text-sm">Integrated Channels</div>
-                            </div>
-                        </div>
-
-                        {/* Feature 6 - Proven Results */}
-                        <div className="glass-card rounded-2xl p-6 flex flex-col justify-between border border-orange-100/30 group hover:shadow-lg transition-all duration-400 min-h-[280px]">
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <CheckCircle className="h-5 w-5 text-orange-500" />
-                                    <h3 className="text-lg font-bold text-slate-800">Proven Results</h3>
-                                </div>
-                                <p className="text-sm text-slate-500 mb-4">
-                                    Industry-leading ROI with measurable impact. Most clients see positive returns within the first quarter of deployment.
-                                </p>
-                            </div>
-                            <div className="mt-auto">
-                                <div className="text-4xl font-bold text-orange-500">90 Days</div>
-                                <div className="text-slate-500 text-sm">Average ROI Payback</div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    {/* CTA Section */}
-                    <div className="mt-8 glass-strong rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between border border-orange-100/30 gap-4">
-                        <div>
-                            <h3 className="text-xl font-bold text-slate-900 mb-1">Ready to transform your business?</h3>
-                            <p className="text-sm text-slate-500">14-day free trial • No credit card • Cancel anytime</p>
-                        </div>
-                        <div className="flex gap-3">
-                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/20 btn-glow">
-                                Start Free <ArrowRight className="h-4 w-4" />
-                            </Link>
-                            <Link href="/contact#contact-form" className="inline-flex items-center gap-2 text-slate-600 font-medium py-3 px-6 rounded-xl border border-slate-200/60 glass-subtle hover:border-orange-200 hover:text-orange-600 transition-all duration-300">
-                                Book Demo
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </>
     )
 }

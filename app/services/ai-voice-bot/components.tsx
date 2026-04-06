@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, BarChart3, Bot, Brain, CheckCircle, Clock, Globe, Headphones, Mic, Phone, Play, Shield, TrendingUp, Users, Workflow, Zap, LucideIcon } from "lucide-react"
+import { ArrowRight, BarChart3, Bot, Brain, CheckCircle, Clock, Globe, Headphones, LucideIcon, Mic, Phone, Play, Shield, TrendingUp, Users, Workflow, Zap } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -176,7 +176,7 @@ export function VoiceConversationPlayer() {
 
 export function BenefitsGrid() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-10">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-10">
       {benefits.map((benefit, index) => {
         const IconComponent = iconMap[benefit.iconName]
         return (
