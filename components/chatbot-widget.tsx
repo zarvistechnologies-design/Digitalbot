@@ -75,9 +75,6 @@ export default function ChatbotWidget() {
   const [isTyping, setIsTyping] = useState(false);
   const [selectedServiceType, setSelectedServiceType] = useState("");
   const [selectedService, setSelectedService] = useState("");
-
-  // Hide chatbot on dashboard pages
-  if (pathname?.startsWith("/dashboard")) return null;
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -209,6 +206,9 @@ export default function ChatbotWidget() {
     await addBotMessage("Sure! What service are you interested in?");
     setStep("service-type");
   };
+
+  // Hide chatbot on dashboard pages
+  if (pathname?.startsWith("/dashboard")) return null;
 
   return (
     <>
