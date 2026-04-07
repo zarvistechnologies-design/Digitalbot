@@ -2,6 +2,7 @@
 
 import { Loader2, Phone, Send, User, X } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 function AryaAvatar({ size = 28 }: { size?: number }) {
@@ -67,12 +68,16 @@ function getTime() {
 }
 
 export default function ChatbotWidget() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [step, setStep] = useState<Step>("greeting");
   const [isTyping, setIsTyping] = useState(false);
   const [selectedServiceType, setSelectedServiceType] = useState("");
   const [selectedService, setSelectedService] = useState("");
+
+  // Hide chatbot on dashboard pages
+  if (pathname?.startsWith("/dashboard")) return null;
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
