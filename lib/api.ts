@@ -467,6 +467,8 @@ export const healthiqureAPI = {
     limit?: number;
     search?: string;
     type?: string;
+    hospitalName?: string;
+    doctorName?: string;
   }) => api.get('/healthiqure/message-history', { params }),
 
   // Delete message history entry
