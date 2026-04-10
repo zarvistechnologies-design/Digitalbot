@@ -350,20 +350,6 @@ function AppointmentModal({
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
               <button
-                onClick={() => onUpdate(apt._id, "scheduled")}
-                disabled={apt.status === "scheduled"}
-                className="px-4 py-3 text-sm font-bold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed bg-orange-500 text-white hover:bg-orange-600 shadow-md hover:shadow-lg transform hover:scale-105"
-              >
-                📅 Schedule
-              </button>
-              <button
-                onClick={() => onUpdate(apt._id, "confirmed")}
-                disabled={apt.status === "confirmed"}
-                className="px-4 py-3 text-sm font-bold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed bg-green-500 text-white hover:bg-green-600 shadow-md hover:shadow-lg transform hover:scale-105"
-              >
-                ✅ Confirm
-              </button>
-              <button
                 onClick={() => onUpdate(apt._id, "completed")}
                 disabled={apt.status === "completed"}
                 className="px-4 py-3 text-sm font-bold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed bg-orange-500 text-white hover:bg-orange-600 shadow-md hover:shadow-lg transform hover:scale-105"
@@ -376,13 +362,6 @@ function AppointmentModal({
                 className="px-4 py-3 text-sm font-bold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed bg-yellow-500 text-white hover:bg-yellow-600 shadow-md hover:shadow-lg transform hover:scale-105"
               >
                 🔄 Reschedule
-              </button>
-              <button
-                onClick={() => onUpdate(apt._id, "no-show")}
-                disabled={apt.status === "no-show"}
-                className="px-4 py-3 text-sm font-bold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed bg-gray-500 text-white hover:bg-gray-600 shadow-md hover:shadow-lg transform hover:scale-105"
-              >
-                ❌ No Show
               </button>
               <button
                 onClick={() => onUpdate(apt._id, "cancelled")}
