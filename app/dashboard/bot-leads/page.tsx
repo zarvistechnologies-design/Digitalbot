@@ -182,11 +182,6 @@ export default function BotLeadsPage() {
   const [notifSaved, setNotifSaved] = useState(false);
   const [sendingConfirm, setSendingConfirm] = useState(false);
   const [confirmResult, setConfirmResult] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
-  const [showQuickSend, setShowQuickSend] = useState(false);
-  const [quickPhone, setQuickPhone] = useState("");
-  const [quickMessage, setQuickMessage] = useState("");
-  const [quickSending, setQuickSending] = useState(false);
-  const [quickResult, setQuickResult] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
 
   const fetchLeads = useCallback(async (silent = false) => {
     if (!silent) setLoading(true);
@@ -294,24 +289,6 @@ export default function BotLeadsPage() {
     } catch (err) {
       console.error("Failed to send message:", err);
       setSendingMsg(null);
-    }
-  };
-
-  const handleQuickSend = async () => {
-    const phone = quickPhone.trim().replace(/\D/g, "");
-    if (!phone || !quickMessage.trim()) return;
-    const fullPhone = phone.startsWith("91") ? phone : `91${phone}`;
-    setQuickSending(true);
-    setQuickResult(null);
-    try {
-      await healthiqureAPI.sendMessage({ phone: fullPhone, message: quickMessage.trim() });
-      setQuickResult({ type: 'success', msg: `Message sent to +${fullPhone}` });
-      setQuickMessage("");
-    } catch (err) {
-      console.error("Quick send failed:", err);
-      setQuickResult({ type: 'error', msg: 'Failed to send message. Please try again.' });
-    } finally {
-      setQuickSending(false);
     }
   };
 
@@ -462,17 +439,7 @@ export default function BotLeadsPage() {
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => { setShowQuickSend(!showQuickSend); setShowNotifSettings(false); }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border shadow-md hover:bg-green-50 transition-colors text-sm font-medium ${
-                    showQuickSend ? "bg-green-100 border-green-400 text-green-700" : "bg-white border-slate-300 text-slate-700"
-                  }`}
-                  title="Send WhatsApp Message"
-                >
-                  <Send className="w-4 h-4" />
-                  <span className="hidden sm:inline">Quick Message</span>
-                </button>
-                <button
-                  onClick={() => { setShowNotifSettings(!showNotifSettings); setShowQuickSend(false); }}
+                  onClick={() => { setShowNotifSettings(!showNotifSettings); }}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl border shadow-md hover:bg-orange-50 transition-colors text-sm font-medium ${
                     showNotifSettings ? "bg-orange-100 border-orange-400 text-orange-700" : "bg-white border-slate-300 text-slate-700"
                   }`}
@@ -540,63 +507,6 @@ export default function BotLeadsPage() {
               {notifSaved && (
                 <p className="text-xs text-green-600 font-medium mt-2 flex items-center gap-1">
                   <Check className="w-3 h-3" /> Notification numbers saved successfully!
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Quick WhatsApp Message Panel */}
-          {showQuickSend && (
-            <div className="mb-6 bg-white rounded-2xl p-5 border border-green-200 shadow-lg">
-              <div className="flex items-center gap-2 mb-3">
-                <Send className="w-5 h-5 text-green-600" />
-                <h3 className="font-semibold text-slate-800">Send WhatsApp Message</h3>
-                <span className="text-xs text-slate-400 ml-1">to Doctor / Hospital / Any Number</span>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="sm:w-48">
-                  <label className="text-xs font-medium text-slate-600 mb-1 block">Phone Number</label>
-                  <input
-                    type="tel"
-                    placeholder="e.g. 9876543210"
-                    value={quickPhone}
-                    onChange={(e) => setQuickPhone(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all"
-                    maxLength={15}
-                  />
-                </div>
-                <div className="flex-1">
-                  <label className="text-xs font-medium text-slate-600 mb-1 block">Message</label>
-                  <textarea
-                    rows={2}
-                    placeholder="Type your message here..."
-                    value={quickMessage}
-                    onChange={(e) => setQuickMessage(e.target.value)}
-                    onInput={(e) => {
-                      const t = e.target as HTMLTextAreaElement;
-                      t.style.height = 'auto';
-                      t.style.height = t.scrollHeight + 'px';
-                    }}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:border-green-400 focus:ring-2 focus:ring-green-100 transition-all resize-none overflow-hidden"
-                  />
-                </div>
-                <div className="flex items-end">
-                  <button
-                    onClick={handleQuickSend}
-                    disabled={quickSending || !quickPhone.trim() || !quickMessage.trim()}
-                    className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-medium text-sm shadow-md hover:shadow-lg transition-all disabled:opacity-50 whitespace-nowrap"
-                  >
-                    {quickSending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                    Send
-                  </button>
-                </div>
-              </div>
-              {quickResult && (
-                <p className={`text-xs font-medium mt-2 flex items-center gap-1 ${
-                  quickResult.type === 'success' ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {quickResult.type === 'success' ? <Check className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-                  {quickResult.msg}
                 </p>
               )}
             </div>

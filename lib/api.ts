@@ -455,6 +455,24 @@ export const healthiqureAPI = {
     message: string;
   }) => api.post('/healthiqure/send-bulk-message', data),
 
+  // Send quick message with optional document
+  sendQuickMessage: (formData: FormData) =>
+    api.post('/healthiqure/send-quick-message', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+
+  // Get message history
+  getMessageHistory: (params?: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    type?: string;
+  }) => api.get('/healthiqure/message-history', { params }),
+
+  // Delete message history entry
+  deleteMessageHistory: (id: string) =>
+    api.delete(`/healthiqure/message-history/${id}`),
+
   // Get notification numbers
   getNotificationNumbers: () =>
     api.get('/healthiqure/notification-numbers'),

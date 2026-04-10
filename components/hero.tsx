@@ -2,7 +2,7 @@
 import PlatformFeatures from "@/components/platform-features";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Award, BarChart3, Calendar, CheckCircle, Clock, Globe, Headphones, LayoutDashboard, MessageSquare, Mic, PhoneCall, Shield, TrendingUp, Users, Zap } from "lucide-react";
+import { ArrowRight, Award, BarChart3, Bot, Calendar, CalendarCheck, CheckCircle, Clock, CreditCard, FileText, Headphones, LayoutDashboard, Megaphone, MessageSquare, Mic, Phone, PhoneCall, PlusCircle, Send, Shield, Stethoscope, TrendingUp, User, Users, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
 
@@ -114,7 +114,7 @@ const dashboardTabs = [
             { label: 'Total minute use', value: '26,944 min', color: 'bg-orange-400' },
             { label: 'Avg. call duration', value: '3.2 min', color: 'bg-orange-500' },
         ],
-        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Deployment', 'Calls'],
+        sidebarItems: ['Dashboard', 'Calls', 'Billing'],
     },
     {
         id: 'doctor',
@@ -124,9 +124,10 @@ const dashboardTabs = [
         assistantId: 'ID:23569842',
         mobNumber: '+1 470 504 3155',
         stats: [
-            { label: 'Appointments', value: '1,425', icon: Calendar, color: 'text-orange-500' },
-            { label: 'Avg. Call Duration', value: '3.1m', icon: Clock, color: 'text-orange-500' },
-            { label: 'Total Minute Use', value: '4,856m', icon: BarChart3, color: 'text-orange-500' },
+            { label: 'Total Appointments', value: '1,425', icon: Calendar, color: 'text-orange-500' },
+            { label: 'Active Doctors', value: '12', icon: Users, color: 'text-orange-500' },
+            { label: "Today's Schedule", value: '28', icon: Clock, color: 'text-orange-500' },
+            { label: 'AI Auto-Created', value: '847', icon: Zap, color: 'text-orange-500' },
         ],
         chartData: [38, 62, 45, 78, 55, 85, 70, 60, 90, 73],
         donutPercent: 84,
@@ -135,7 +136,13 @@ const dashboardTabs = [
             { label: 'Total minute use', value: '4,856 min', color: 'bg-orange-400' },
             { label: 'Avg. call duration', value: '3,145 min', color: 'bg-orange-500' },
         ],
-        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Deployment', 'Calls'],
+        sidebarItems: ['Dashboard', 'Calls', 'Billing', 'Appointments', 'Book Appointment', 'Doctors', 'Availability'],
+        appointments: [
+            { name: 'Rahul Sharma', phone: '+91 987-654-3210', doctor: 'Dr. Priya Patel', date: 'Jun 15, 2025', time: '10:30 AM', status: 'confirmed', purpose: 'Regular health checkup', source: 'ai', confidence: 92 },
+            { name: 'Anjali Verma', phone: '+91 876-543-2109', doctor: 'Dr. Amit Kumar', date: 'Jun 15, 2025', time: '11:00 AM', status: 'scheduled', purpose: 'Follow-up consultation', source: 'ai', confidence: 88 },
+            { name: 'Vikram Singh', phone: '+91 765-432-1098', doctor: 'Dr. Priya Patel', date: 'Jun 15, 2025', time: '2:00 PM', status: 'completed', purpose: 'Dental cleaning', source: 'manual', confidence: 0 },
+            { name: 'Meera Joshi', phone: '+91 654-321-0987', doctor: 'Dr. Sneha Rao', date: 'Jun 16, 2025', time: '9:30 AM', status: 'cancelled', purpose: 'Eye examination', source: 'ai', confidence: 95 },
+        ],
     },
     {
         id: 'leads',
@@ -145,9 +152,9 @@ const dashboardTabs = [
         assistantId: 'ID:45782310',
         mobNumber: '+1 470 504 3155',
         stats: [
+            { label: 'Total Calls', value: '9,630', icon: PhoneCall, color: 'text-orange-500' },
             { label: 'Leads Captured', value: '3,210', icon: Users, color: 'text-orange-500' },
             { label: 'Conversion Rate', value: '34%', icon: TrendingUp, color: 'text-orange-500' },
-            { label: 'Calls Made', value: '9,630m', icon: PhoneCall, color: 'text-orange-500' },
         ],
         chartData: [52, 40, 68, 55, 82, 63, 75, 90, 48, 86],
         donutPercent: 78,
@@ -156,7 +163,13 @@ const dashboardTabs = [
             { label: 'Follow ups', value: '706 pending', color: 'bg-orange-400' },
             { label: 'Conversion rate', value: '34%', color: 'bg-orange-500' },
         ],
-        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Campaigns', 'Leads'],
+        sidebarItems: ['Dashboard', 'Calls', 'Billing', 'Leads', 'Campaigns'],
+        leads: [
+            { id: 'a3f2c891', from: '+91 987-654-3210', to: '+91 470-504-3155', duration: '4:32', timeAgo: '2h ago', isLead: true, name: 'Priya Enterprises', interest: 'Voice AI Solution', confidence: 94, need: 'Automated customer support for 500+ daily calls' },
+            { id: 'b7d4e562', from: '+91 876-543-2109', to: '+91 470-504-3155', duration: '2:15', timeAgo: '3h ago', isLead: true, name: 'Medico Health', interest: 'Appointment Booking', confidence: 87, need: 'AI-powered scheduling for multi-location clinic' },
+            { id: 'c1e8f234', from: '+91 765-432-1098', to: '+91 470-504-3155', duration: '1:08', timeAgo: '5h ago', isLead: false, name: '', interest: '', confidence: 0, need: '' },
+            { id: 'd5g9h678', from: '+91 654-321-0987', to: '+91 470-504-3155', duration: '6:45', timeAgo: '6h ago', isLead: true, name: 'TechNova Solutions', interest: 'Lead Gen AI Agent', confidence: 91, need: 'Outbound sales automation for B2B pipeline' },
+        ],
     },
     {
         id: 'support',
@@ -166,9 +179,9 @@ const dashboardTabs = [
         assistantId: 'ID:67891234',
         mobNumber: '+1 470 504 3155',
         stats: [
-            { label: 'Tickets Resolved', value: '5,840', icon: CheckCircle, color: 'text-orange-500' },
-            { label: 'Avg. Resolution', value: '2.8m', icon: Clock, color: 'text-orange-500' },
-            { label: 'Satisfaction', value: '96%', icon: Award, color: 'text-orange-500' },
+            { label: 'Active Campaigns', value: '8', icon: Zap, color: 'text-orange-500' },
+            { label: 'Total Contacts', value: '5,840', icon: Users, color: 'text-orange-500' },
+            { label: 'Success Rate', value: '96%', icon: Award, color: 'text-orange-500' },
         ],
         chartData: [60, 78, 52, 88, 70, 95, 65, 82, 73, 90],
         donutPercent: 96,
@@ -177,7 +190,13 @@ const dashboardTabs = [
             { label: 'Escalated', value: '243 tickets', color: 'bg-orange-400' },
             { label: 'Avg. resolution', value: '2.8 min', color: 'bg-orange-500' },
         ],
-        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Tickets', 'Reports'],
+        sidebarItems: ['Dashboard', 'Calls', 'Billing', 'Support Campaigns', 'AI Agents'],
+        campaigns: [
+            { name: 'Rent Reminder - June', type: 'rent-reminder', status: 'active', total: 450, completed: 312, failed: 18, pending: 120, successRate: 94.5, avgDuration: '2:45' },
+            { name: 'Appointment Follow-up', type: 'appointment-reminder', status: 'active', total: 280, completed: 195, failed: 8, pending: 77, successRate: 96.1, avgDuration: '3:12' },
+            { name: 'Customer Survey Q2', type: 'survey', status: 'completed', total: 1200, completed: 1080, failed: 72, pending: 0, successRate: 93.8, avgDuration: '4:30' },
+            { name: 'Payment Reminder', type: 'payment-reminder', status: 'paused', total: 350, completed: 142, failed: 12, pending: 196, successRate: 92.2, avgDuration: '2:15' },
+        ],
     },
     {
         id: 'whatsapp',
@@ -198,7 +217,7 @@ const dashboardTabs = [
             { label: 'Escalated', value: '1,458 chats', color: 'bg-orange-400' },
             { label: 'Avg. response', value: '< 3 sec', color: 'bg-orange-500' },
         ],
-        sidebarItems: ['Dashboard', 'Configure', 'Prompt', 'Actions', 'Chats', 'Contacts'],
+        sidebarItems: ['Dashboard', 'Calls', 'Billing', 'Appointments', 'Book Appointment', 'Doctors', 'Availability', 'Bot Sessions', 'Templates', 'Patient Contacts'],
         whatsappChat: [
             { from: 'user', text: 'Hi, I want to book an appointment with Dr. Sharma for tomorrow.', time: '10:32 AM' },
             { from: 'bot', text: 'Hello! 👋 I\'d be happy to help you book an appointment with Dr. Sharma. Let me check tomorrow\'s availability for you.', time: '10:32 AM' },
@@ -213,17 +232,19 @@ const dashboardTabs = [
 
 const sidebarIcons: Record<string, any> = {
     Dashboard: LayoutDashboard,
-    Configure: Shield,
-    Prompt: MessageSquare,
-    Actions: Zap,
-    Deployment: Globe,
     Calls: PhoneCall,
-    Campaigns: TrendingUp,
+    Billing: CreditCard,
+    Appointments: Calendar,
+    'Book Appointment': PlusCircle,
+    Doctors: Stethoscope,
+    Availability: CalendarCheck,
     Leads: Users,
-    Tickets: Headphones,
-    Reports: BarChart3,
-    Chats: MessageSquare,
-    Contacts: Users,
+    Campaigns: Megaphone,
+    'Support Campaigns': Megaphone,
+    'AI Agents': Bot,
+    'Bot Sessions': MessageSquare,
+    Templates: FileText,
+    'Patient Contacts': Send,
 };
 
 function DashboardShowcase() {
@@ -343,7 +364,7 @@ function DashboardShowcase() {
                                 </div>
 
                                 {/* Stat cards */}
-                                <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-5">
+                                <div className={`grid gap-3 sm:gap-4 mb-5 ${tab.id === 'doctor' ? 'grid-cols-4' : 'grid-cols-3'}`}>
                                     {tab.stats.map((stat, i) => (
                                         <div key={i} className="rounded-xl border border-slate-100 bg-white p-3 sm:p-4 hover:shadow-md transition-shadow">
                                             <div className="flex items-center gap-2 mb-1.5">
@@ -357,8 +378,213 @@ function DashboardShowcase() {
                                     ))}
                                 </div>
 
-                                {/* Chart + Donut row OR WhatsApp Chat */}
-                                {isWhatsApp ? (
+                                {/* === DOCTOR APPOINTMENTS TAB === */}
+                                {tab.id === 'doctor' ? (
+                                    <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+                                        {/* Search & Filter Bar */}
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="flex-1 relative">
+                                                <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                                <div className="w-full pl-8 pr-3 py-2 border border-slate-200 rounded-lg text-[11px] text-slate-400 bg-white">Search patient name...</div>
+                                            </div>
+                                            <div className="px-3 py-2 border border-slate-200 rounded-lg text-[11px] text-slate-500 font-medium bg-white">All Status ▼</div>
+                                            <div className="px-3 py-2 border border-slate-200 rounded-lg text-[11px] text-slate-500 font-medium bg-white">All Months ▼</div>
+                                        </div>
+                                        {/* Appointment Cards */}
+                                        {(tab as any).appointments?.map((apt: any, i: number) => {
+                                            const statusStyles: Record<string, string> = {
+                                                confirmed: 'bg-green-100 text-green-700 border-green-300',
+                                                scheduled: 'bg-orange-100 text-orange-700 border-orange-300',
+                                                completed: 'bg-purple-100 text-purple-700 border-purple-300',
+                                                cancelled: 'bg-red-100 text-red-700 border-red-300',
+                                            };
+                                            return (
+                                                <div key={i} className="bg-gradient-to-br from-slate-50 to-white p-4 rounded-xl border-2 border-slate-200 hover:border-orange-300 hover:shadow-lg transition-all cursor-pointer">
+                                                    <div className="flex gap-3">
+                                                        <div className="flex-shrink-0">
+                                                            <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-3 rounded-xl shadow-md">
+                                                                <User className="w-5 h-5 text-white" />
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="flex items-start justify-between mb-2">
+                                                                <div>
+                                                                    <h4 className="text-sm font-bold text-slate-900">{apt.name}</h4>
+                                                                    <div className="flex items-center gap-3 text-[11px] text-slate-500 mt-0.5">
+                                                                        <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{apt.phone}</span>
+                                                                        <button className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded text-[9px] font-bold">
+                                                                            <Bot className="w-2.5 h-2.5" /> Follow-up
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold border capitalize ${statusStyles[apt.status] || 'bg-slate-100 text-slate-600'}`}>{apt.status}</span>
+                                                            </div>
+                                                            <div className="flex items-center gap-2 flex-wrap mb-2">
+                                                                {apt.source === 'ai' && (
+                                                                    <>
+                                                                        <span className="flex items-center gap-1 px-1.5 py-0.5 bg-orange-100 text-orange-700 rounded text-[9px] font-bold"><Zap className="w-2.5 h-2.5" /> AI Auto-Created</span>
+                                                                        <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-[9px] font-bold">{apt.confidence}% Confidence</span>
+                                                                    </>
+                                                                )}
+                                                                {apt.source === 'manual' && (
+                                                                    <span className="px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded text-[9px] font-bold">Manual</span>
+                                                                )}
+                                                            </div>
+                                                            <div className="flex gap-2 mb-2">
+                                                                <div className="flex items-center gap-1.5 bg-orange-50 px-2 py-1 rounded-md">
+                                                                    <Calendar className="w-3 h-3 text-orange-600" />
+                                                                    <span className="text-[10px] font-semibold text-slate-700">{apt.date}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-1.5 bg-orange-50 px-2 py-1 rounded-md">
+                                                                    <Clock className="w-3 h-3 text-orange-600" />
+                                                                    <span className="text-[10px] font-semibold text-slate-700">{apt.time}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-1.5 bg-blue-50 px-2 py-1 rounded-md">
+                                                                    <Stethoscope className="w-3 h-3 text-blue-600" />
+                                                                    <span className="text-[10px] font-semibold text-slate-700">{apt.doctor}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="bg-slate-50 px-3 py-2 rounded-md border border-slate-200">
+                                                                <div className="flex items-start gap-1.5">
+                                                                    <FileText className="w-3 h-3 text-slate-400 mt-0.5" />
+                                                                    <div>
+                                                                        <span className="text-[9px] text-slate-400 font-medium">Purpose</span>
+                                                                        <p className="text-[11px] text-slate-700 font-medium">{apt.purpose}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+
+                                /* === LEAD GENERATION TAB === */
+                                ) : tab.id === 'leads' ? (
+                                    <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+                                        {(tab as any).leads?.map((lead: any, i: number) => (
+                                            <div key={i} className={`bg-white rounded-xl shadow-sm border transition-all hover:shadow-md ${
+                                                lead.isLead ? 'border-l-4 border-l-green-400 bg-gradient-to-r from-green-50/40 to-white' : 'border-l-4 border-l-slate-300 border-slate-200'
+                                            }`}>
+                                                <div className="p-3.5">
+                                                    <div className="flex items-center gap-3 mb-2.5">
+                                                        <span className="text-[9px] font-mono text-white bg-slate-700 px-2 py-0.5 rounded">ID: {lead.id}</span>
+                                                        <span className="text-[10px] text-slate-600 font-medium">{lead.from} → {lead.to}</span>
+                                                        <span className="text-[10px] text-slate-400">{lead.timeAgo}</span>
+                                                        <span className="text-[10px] font-medium text-orange-700 bg-orange-50 px-1.5 py-0.5 rounded">{lead.duration}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        {lead.isLead ? (
+                                                            <div className="flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 rounded text-[10px] font-medium">
+                                                                <CheckCircle className="h-3 w-3" /> Analyzed
+                                                            </div>
+                                                        ) : (
+                                                            <div className="flex items-center gap-1 px-2 py-0.5 bg-sky-100 text-sky-700 rounded text-[10px] font-medium">
+                                                                <Clock className="h-3 w-3" /> Pending Analysis
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    {lead.isLead && (
+                                                        <div className="bg-gradient-to-r from-green-50 to-green-100/50 rounded-lg p-3 border border-green-200">
+                                                            <div className="flex items-center gap-2 mb-2">
+                                                                <CheckCircle className="h-3.5 w-3.5 text-green-600" />
+                                                                <span className="text-[11px] font-bold text-green-800">Lead Identified</span>
+                                                            </div>
+                                                            <div className="grid grid-cols-2 gap-2 text-[10px]">
+                                                                <div>
+                                                                    <span className="text-sky-600 font-medium">Customer:</span>
+                                                                    <p className="text-green-800 font-semibold">{lead.name}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <span className="text-sky-600 font-medium">Confidence:</span>
+                                                                    <p className="text-green-800 font-semibold">{lead.confidence}%</p>
+                                                                </div>
+                                                                <div>
+                                                                    <span className="text-sky-600 font-medium">Interest:</span>
+                                                                    <p className="text-green-800 font-semibold">{lead.interest}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <span className="text-sky-600 font-medium">Need:</span>
+                                                                    <p className="text-green-800 font-semibold truncate">{lead.need}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                /* === CUSTOMER SUPPORT TAB === */
+                                ) : tab.id === 'support' ? (
+                                    <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+                                        {(tab as any).campaigns?.map((camp: any, i: number) => {
+                                            const statusMap: Record<string, { bg: string; text: string; dot: string }> = {
+                                                active: { bg: 'bg-green-50 border-green-200', text: 'text-green-700', dot: 'bg-green-500' },
+                                                completed: { bg: 'bg-purple-50 border-purple-200', text: 'text-purple-700', dot: 'bg-purple-500' },
+                                                paused: { bg: 'bg-yellow-50 border-yellow-200', text: 'text-yellow-700', dot: 'bg-yellow-500' },
+                                            };
+                                            const st = statusMap[camp.status] || statusMap.active;
+                                            const progressPct = Math.round((camp.completed / camp.total) * 100);
+                                            return (
+                                                <div key={i} className="bg-white rounded-xl border-2 border-slate-200 hover:border-orange-300 hover:shadow-lg transition-all cursor-pointer p-4">
+                                                    <div className="flex items-start justify-between mb-3">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="p-2.5 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-md">
+                                                                <Headphones className="w-4 h-4 text-white" />
+                                                            </div>
+                                                            <div>
+                                                                <h4 className="text-sm font-bold text-slate-900">{camp.name}</h4>
+                                                                <span className="text-[10px] text-slate-400 capitalize">{camp.type.replace('-', ' ')}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className={`flex items-center gap-1.5 px-2 py-1 rounded-full border text-[9px] font-bold capitalize ${st.bg} ${st.text}`}>
+                                                            <span className={`w-1.5 h-1.5 rounded-full ${st.dot} ${camp.status === 'active' ? 'animate-pulse' : ''}`} />
+                                                            {camp.status}
+                                                        </div>
+                                                    </div>
+                                                    {/* Progress Bar */}
+                                                    <div className="mb-3">
+                                                        <div className="flex items-center justify-between text-[10px] mb-1">
+                                                            <span className="text-slate-500 font-medium">Progress</span>
+                                                            <span className="font-bold text-slate-700">{progressPct}%</span>
+                                                        </div>
+                                                        <div className="w-full bg-slate-100 rounded-full h-2">
+                                                            <div className="bg-gradient-to-r from-orange-500 to-orange-400 h-2 rounded-full transition-all" style={{ width: `${progressPct}%` }} />
+                                                        </div>
+                                                    </div>
+                                                    {/* Stats Row */}
+                                                    <div className="grid grid-cols-4 gap-2">
+                                                        <div className="bg-slate-50 rounded-lg p-2 text-center">
+                                                            <p className="text-[9px] text-slate-400 font-medium">Total</p>
+                                                            <p className="text-sm font-bold text-slate-800">{camp.total}</p>
+                                                        </div>
+                                                        <div className="bg-green-50 rounded-lg p-2 text-center">
+                                                            <p className="text-[9px] text-green-600 font-medium">Done</p>
+                                                            <p className="text-sm font-bold text-green-700">{camp.completed}</p>
+                                                        </div>
+                                                        <div className="bg-red-50 rounded-lg p-2 text-center">
+                                                            <p className="text-[9px] text-red-500 font-medium">Failed</p>
+                                                            <p className="text-sm font-bold text-red-600">{camp.failed}</p>
+                                                        </div>
+                                                        <div className="bg-orange-50 rounded-lg p-2 text-center">
+                                                            <p className="text-[9px] text-orange-500 font-medium">Pending</p>
+                                                            <p className="text-sm font-bold text-orange-600">{camp.pending}</p>
+                                                        </div>
+                                                    </div>
+                                                    {/* Footer Stats */}
+                                                    <div className="flex items-center gap-4 mt-2.5 pt-2.5 border-t border-slate-100">
+                                                        <span className="text-[10px] text-slate-500 flex items-center gap-1"><Award className="w-3 h-3 text-orange-500" /> Success: <strong className="text-slate-700">{camp.successRate}%</strong></span>
+                                                        <span className="text-[10px] text-slate-500 flex items-center gap-1"><Clock className="w-3 h-3 text-orange-500" /> Avg: <strong className="text-slate-700">{camp.avgDuration}</strong></span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+
+                                /* === WHATSAPP CHATBOT TAB === */
+                                ) : isWhatsApp ? (
                                     <div className="grid grid-cols-5 gap-4">
                                         {/* WhatsApp Chat */}
                                         <div className="col-span-3 rounded-xl border border-slate-100 bg-[#efeae2] overflow-hidden">
@@ -434,6 +660,8 @@ function DashboardShowcase() {
                                             </div>
                                         </div>
                                     </div>
+
+                                /* === GENERAL DASHBOARD TAB (default) === */
                                 ) : (
                                 <div className="grid grid-cols-5 gap-4">
                                     {/* Chart */}
