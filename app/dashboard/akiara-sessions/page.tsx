@@ -16,9 +16,8 @@ import {
     Send,
     Ticket,
     User,
-    Video,
     X,
-    Zap,
+    Zap
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import {

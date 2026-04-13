@@ -14,7 +14,6 @@ import {
     Search,
     Send,
     Ticket,
-    Video,
     X
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
