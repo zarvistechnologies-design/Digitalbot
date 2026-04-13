@@ -435,7 +435,7 @@ export default function AkiaraTicketsPage() {
                                     const url = akiaraAPI.getMediaUrl(v);
                                     return (
                                       <div key={i} className="rounded-xl overflow-hidden border border-green-200 bg-green-50">
-                                        <video src={url} controls className="max-w-[280px] max-h-[200px] rounded-t-xl" />
+                                        <video src={url} controls preload="metadata" crossOrigin="use-credentials" className="max-w-[280px] max-h-[200px] rounded-t-xl" />
                                         <a href={url} target="_blank" rel="noopener noreferrer" className="block text-center text-xs text-green-600 py-1 hover:bg-green-100 transition">
                                           Open Video {i + 1}
                                         </a>
