@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bot, Calendar, CalendarCheck, CreditCard, FileText, LayoutDashboard, LogOut, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Stethoscope, Users, X } from 'lucide-react';
+import { BookOpen, Bot, Calendar, CalendarCheck, CreditCard, FileText, LayoutDashboard, LogOut, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Stethoscope, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -67,10 +67,16 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Patient Contacts', href: '/dashboard/bot-contacts', icon: Send });
       
     }
+    if (user?.selectedService === 'akiara') {
+      serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/akiara-sessions', icon: MessageSquare });
+      serviceItems.push({ name: 'Tickets', href: '/dashboard/akiara-tickets', icon: Ticket });
+      serviceItems.push({ name: 'Knowledge Base', href: '/dashboard/akiara-knowledge', icon: BookOpen });
+    }
     return serviceItems;
   };
 
-  const navigation = [...baseNavigation, ...getServiceNavigation()];
+  const isAkiara = user?.selectedService === 'akiara';
+  const navigation = isAkiara ? getServiceNavigation() : [...baseNavigation, ...getServiceNavigation()];
 
   const handleLogout = () => {
     localStorage.removeItem('token');

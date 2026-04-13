@@ -501,4 +501,62 @@ export const templateAPI = {
     api.delete(`/templates/${id}`),
 };
 
+// ========================================
+// AKIARA BOT API (Devika WhatsApp Agent)
+// ========================================
+export const akiaraAPI = {
+  // Get all bot sessions
+  getSessions: (params?: {
+    state?: string;
+    product?: string;
+    serviceType?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }) => api.get('/akiara/sessions', { params }),
+
+  // Get single session by phone
+  getSession: (phone: string) => api.get(`/akiara/sessions/${phone}`),
+
+  // Get all tickets
+  getTickets: (params?: {
+    status?: string;
+    priority?: string;
+    product?: string;
+    serviceType?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }) => api.get('/akiara/tickets', { params }),
+
+  // Get single ticket
+  getTicket: (id: string) => api.get(`/akiara/tickets/${id}`),
+
+  // Update ticket (status, priority, assignedTo)
+  updateTicket: (id: string, data: {
+    status?: string;
+    priority?: string;
+    assignedTo?: string;
+  }) => api.patch(`/akiara/tickets/${id}`, data),
+
+  // Get analytics
+  getAnalytics: (params?: { days?: number }) =>
+    api.get('/akiara/analytics', { params }),
+
+  // Send message to customer
+  sendMessage: (data: { phone: string; message: string }) =>
+    api.post('/akiara/send-message', data),
+
+  // Resolve customer media URL — handles both proxy IDs and direct URLs
+  getMediaUrl: (url: string): string => {
+    if (url.startsWith('__media_id__:')) {
+      const mediaId = url.replace('__media_id__:', '');
+      const base = api.defaults.baseURL || '';
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+      return `${base}/akiara/media/${mediaId}?token=${token}`;
+    }
+    return url;
+  },
+};
+
 export default api;

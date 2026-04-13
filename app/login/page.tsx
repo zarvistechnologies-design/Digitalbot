@@ -22,7 +22,9 @@ export default function LoginPage(): JSX.Element {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      router.push('/dashboard');
+      const userData = localStorage.getItem('user');
+      const user = userData ? JSON.parse(userData) : null;
+      router.push(user?.selectedService === 'akiara' ? '/dashboard/akiara-sessions' : '/dashboard');
     }
   }, [router]);
 
@@ -73,7 +75,8 @@ export default function LoginPage(): JSX.Element {
             localStorage.setItem('userId', data.user.id);
           }
         }
-        router.push('/dashboard');
+        const dest = data.user?.selectedService === 'akiara' ? '/dashboard/akiara-sessions' : '/dashboard';
+        router.push(dest);
       } else {
         setError(data.error || 'Login failed');
       }

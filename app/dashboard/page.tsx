@@ -4,6 +4,7 @@ import { useCachedFetch } from "@/hooks/use-cached-fetch";
 import { useWebSocket } from "@/hooks/use-websocket";
 import { CACHE_KEYS, invalidateCache } from "@/lib/cache";
 import { Activity, AlertCircle, ArrowDown, ArrowUp, BarChart3, Brain, CheckCircle, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, TrendingUp, X, XCircle, Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
@@ -47,6 +48,7 @@ interface Analytics {
 }
 
 export default function AnalyticsOverview() {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [dateFilter, setDateFilter] = useState("7");
   const [toNumber, setToNumber] = useState("");
@@ -57,7 +59,16 @@ export default function AnalyticsOverview() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    // Redirect Akiara users to their dashboard
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      if (user.selectedService === 'akiara') {
+        router.replace('/dashboard/akiara-sessions');
+        return;
+      }
+    }
+  }, [router]);
 
   // Fetch raw calls once and cache — shared with Calls page
   const fetchCallsData = useCallback(async () => {
