@@ -433,23 +433,14 @@ export default function AkiaraTicketsPage() {
                                 <p className="text-xs text-slate-400 mb-1">Customer Videos</p>
                                 <div className="flex flex-wrap gap-3">
                                   {t.customerVideoUrls.map((v, i) => {
-                                    const available = akiaraAPI.isMediaAvailable(v);
                                     const url = akiaraAPI.getMediaUrl(v);
+                                    if (!url) return null;
                                     return (
                                       <div key={i} className="rounded-xl overflow-hidden border border-green-200 bg-green-50">
-                                        {available && url ? (
-                                          <>
-                                            <video src={url} controls preload="metadata" crossOrigin="use-credentials" className="max-w-[280px] max-h-[200px] rounded-t-xl" />
-                                            <a href={url} target="_blank" rel="noopener noreferrer" className="block text-center text-xs text-green-600 py-1 hover:bg-green-100 transition">
-                                              Open Video {i + 1}
-                                            </a>
-                                          </>
-                                        ) : (
-                                          <div className="max-w-[280px] h-[120px] flex flex-col items-center justify-center bg-slate-100 text-slate-400 px-4">
-                                            <Video className="w-8 h-8 mb-1 opacity-50" />
-                                            <span className="text-xs text-center">Video unavailable (uploaded before system update)</span>
-                                          </div>
-                                        )}
+                                        <video src={url} controls preload="metadata" crossOrigin="use-credentials" className="max-w-[280px] max-h-[200px] rounded-t-xl" />
+                                        <a href={url} target="_blank" rel="noopener noreferrer" className="block text-center text-xs text-green-600 py-1 hover:bg-green-100 transition">
+                                          Open Video {i + 1}
+                                        </a>
                                       </div>
                                     );
                                   })}

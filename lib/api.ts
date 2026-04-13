@@ -547,27 +547,26 @@ export const akiaraAPI = {
   sendMessage: (data: { phone: string; message: string }) =>
     api.post('/akiara/send-message', data),
 
-  // Resolve customer media URL — handles both proxy IDs and direct URLs
+  // Resolve customer media URL — handles proxy IDs and old Meta URLs
   getMediaUrl: (url: string): string => {
+    if (!url) return '';
+    const base = api.defaults.baseURL || '';
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+
     if (url.startsWith('__media_id__:')) {
       const mediaId = url.replace('__media_id__:', '');
-      const base = api.defaults.baseURL || '';
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
       return `${base}/akiara/media/${mediaId}?token=${token}`;
     }
-    // Old Meta URLs (lookaside.fbsbx.com) are expired/CORS-blocked — return empty
+    // Old Meta URLs contain mid=<mediaId> — extract and route through proxy (lazy recovery)
     if (url.includes('fbsbx.com') || url.includes('facebook.com')) {
+      try {
+        const u = new URL(url);
+        const mid = u.searchParams.get('mid');
+        if (mid) return `${base}/akiara/media/${mid}?token=${token}`;
+      } catch { /* invalid URL */ }
       return '';
     }
     return url;
-  },
-
-  // Check if a media URL is valid (not an expired Meta URL)
-  isMediaAvailable: (url: string): boolean => {
-    if (!url) return false;
-    if (url.startsWith('__media_id__:')) return true;
-    if (url.includes('fbsbx.com') || url.includes('facebook.com')) return false;
-    return true;
   },
 };
 
