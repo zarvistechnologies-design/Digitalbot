@@ -555,7 +555,19 @@ export const akiaraAPI = {
       const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
       return `${base}/akiara/media/${mediaId}?token=${token}`;
     }
+    // Old Meta URLs (lookaside.fbsbx.com) are expired/CORS-blocked — return empty
+    if (url.includes('fbsbx.com') || url.includes('facebook.com')) {
+      return '';
+    }
     return url;
+  },
+
+  // Check if a media URL is valid (not an expired Meta URL)
+  isMediaAvailable: (url: string): boolean => {
+    if (!url) return false;
+    if (url.startsWith('__media_id__:')) return true;
+    if (url.includes('fbsbx.com') || url.includes('facebook.com')) return false;
+    return true;
   },
 };
 
