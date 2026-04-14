@@ -123,7 +123,7 @@ export default function QuickMessagesPage() {
       name: "healthiqure_v1",
       label: "Patient Referral Letter",
       variables: ["{{1}}", "{{2}}"],
-      variableLabels: ["Patient Name", "Diagnosis"],
+      variableLabels: ["Name", "Diagnosis"],
       content: `Dear {{1}},
 
 Greetings from Life Care Clinic & Diagnostic Centre Bordumsa, a unit of HealthiQure Technologies Pvt. Ltd.
