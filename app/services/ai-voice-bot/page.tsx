@@ -98,8 +98,8 @@ export default function AIVoiceBot() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.1),transparent_50%)]"></div>
           
           {/* Decorative Blur Orbs */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-orange-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-200/20 rounded-full blur-3xl"></div>
+
+
           
           {/* Floating Decorative Icons */}
           <div className="absolute top-32 right-20 opacity-10">
@@ -179,8 +179,8 @@ export default function AIVoiceBot() {
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden" aria-labelledby="features-heading">
           {/* Background Elements */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.08),transparent_70%)]"></div>
-          <div className="absolute top-20 right-20 w-64 h-64 bg-orange-100/40 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-orange-100/30 rounded-full blur-3xl"></div>
+
+
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
@@ -208,7 +208,7 @@ export default function AIVoiceBot() {
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden" aria-labelledby="usecases-heading">
           {/* Background Elements */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.1),transparent_60%)]"></div>
-          <div className="absolute top-40 left-10 w-72 h-72 bg-orange-100/30 rounded-full blur-3xl"></div>
+
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}
@@ -236,7 +236,7 @@ export default function AIVoiceBot() {
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden">
           {/* Background Elements */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(99,102,241,0.1),transparent_60%)]"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-orange-100/30 rounded-full blur-3xl"></div>
+
 
           <div className="container mx-auto relative z-10 max-w-4xl">
             {/* Section Header */}
@@ -265,8 +265,8 @@ export default function AIVoiceBot() {
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden" aria-labelledby="faq-heading">
           {/* Background Elements */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.06),transparent_70%)]"></div>
-          <div className="absolute top-20 left-10 w-64 h-64 bg-orange-100/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-72 h-72 bg-orange-100/30 rounded-full blur-3xl"></div>
+
+
 
           <div className="container mx-auto relative z-10 max-w-7xl">
             {/* Section Header */}

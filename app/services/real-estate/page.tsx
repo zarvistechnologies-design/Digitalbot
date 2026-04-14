@@ -124,7 +124,7 @@ const [heroVisible, setHeroVisible] = useState(false)
             {/* Right — iPhone */}
             <div className={`flex justify-center transition-all duration-1000 delay-300 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
               <div className="relative">
-                <div className="absolute -inset-10 bg-orange-500/10 rounded-full blur-3xl" />
+
                 <div className="relative w-[280px] sm:w-[310px] animate-float">
                   <div className="bg-slate-900 rounded-[44px] border-[6px] border-slate-700 p-1 shadow-2xl">
                     <div className="mx-auto w-28 h-6 bg-slate-900 rounded-b-2xl relative z-10" />

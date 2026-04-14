@@ -236,9 +236,9 @@ export default function AppointmentsPage() {
           {/* Animated Background Elements - Leads Style */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
             {/* Floating Orbs */}
-            <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+
+
+
             
             {/* Animated Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -1076,9 +1076,9 @@ export default function AppointmentsPage() {
         >
           {/* Decorative Background Elements */}
           <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl" style={{ animation: 'float 8s ease-in-out infinite' }} />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-green-200/20 rounded-full blur-3xl" style={{ animation: 'float 8s ease-in-out infinite', animationDelay: '3s' }} />
-            <div className="absolute top-1/2 left-0 w-64 h-64 bg-orange-100/40 rounded-full blur-2xl" />
+
+
+
             <div className="absolute inset-0 opacity-[0.02]" style={{
               backgroundImage: 'radial-gradient(circle at 1px 1px, #f97316 1px, transparent 0)',
               backgroundSize: '32px 32px'

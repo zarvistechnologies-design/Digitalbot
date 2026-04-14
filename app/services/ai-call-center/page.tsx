@@ -5,26 +5,26 @@ import { Header } from "@/components/header";
 import { VoiceConversationPlayer } from "@/components/voice-conversation-player";
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
-  BarChart3,
-  Bot,
-  Brain,
-  Building2,
-  Check,
-  CheckCircle,
-  Clock,
-  HeadphonesIcon,
-  MessageCircle,
-  Mic,
-  Pause,
-  Phone,
-  Play,
-  Shield,
-  Sparkles,
-  Target,
-  TrendingUp,
-  Users,
-  Zap
+    ArrowRight,
+    BarChart3,
+    Bot,
+    Brain,
+    Building2,
+    Check,
+    CheckCircle,
+    Clock,
+    HeadphonesIcon,
+    MessageCircle,
+    Mic,
+    Pause,
+    Phone,
+    Play,
+    Shield,
+    Sparkles,
+    Target,
+    TrendingUp,
+    Users,
+    Zap
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -113,7 +113,7 @@ const useCases = [
     description: "Route and resolve high-volume support calls automatically. AI agents authenticate callers, surface knowledge articles, and complete account actions without human intervention.",
     result: "Reduce cost per call by 70%",
     icon: HeadphonesIcon,
-    color: "from-orange-500 to-violet-500",
+    color: "from-orange-400 to-orange-600",
     image: "https://images.unsplash.com/photo-1553775282-20af80779df7?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -129,7 +129,7 @@ const useCases = [
     description: "Automatically triage incident calls, schedule engineers, and confirm appointments while syncing updates to workforce management tools in real time.",
     result: "Cut dispatch delays by 55%",
     icon: Users,
-    color: "from-violet-500 to-purple-500",
+    color: "from-orange-400 to-orange-600",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -137,7 +137,7 @@ const useCases = [
     description: "Provide confidential hotlines with voice biometrics, call transcription, and automated routing to the right compliance teams within SLA windows.",
     result: "Achieve 100% policy adherence",
     icon: Shield,
-    color: "from-orange-400 to-violet-400",
+    color: "from-orange-400 to-orange-600",
     image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=800&q=80"
   }
 ];
@@ -313,11 +313,11 @@ export default function AICallCenter() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden">
+      <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
         {/* Hidden audio element */}
         <audio
           ref={audioRef}
-          src="/audio/call-center-demo.mp3"
+          src="/audio/call-center-sample.mp3"
           onEnded={handleAudioEnded}
           preload="metadata"
         />
@@ -330,13 +330,13 @@ export default function AICallCenter() {
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
 
           {/* HERO SECTION - Modern Two-Column Like Appointments */}
-          <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-br from-[#fafbff] via-white to-white flex items-center">
+          <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white flex items-center">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               {/* Floating Orbs */}
-              <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
-              <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-transparent rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
+
               
               {/* Animated Grid */}
               <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -346,7 +346,7 @@ export default function AICallCenter() {
               
               {/* Animated Lines */}
               <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
-              <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
+              <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-300/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
             </div>
 
             <div className="container mx-auto relative z-30 max-w-7xl">
@@ -363,7 +363,7 @@ export default function AICallCenter() {
                   {/* Main Headline */}
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
                     <span className="block text-black">Transform Your</span>
-                    <span className="block bg-gradient-to-r from-orange-500 via-orange-600 to-violet-600 bg-clip-text text-transparent">Call Center with AI</span>
+                    <span className="block text-orange-500">Call Center with AI</span>
                   </h1>
 
                   {/* Tagline Box */}
@@ -419,7 +419,7 @@ export default function AICallCenter() {
                           ))}
                         </svg>
                       </div>
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-600 text-white shadow-lg">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-orange-500 text-white shadow-lg">
                         {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
                       </div>
                     </button>
@@ -429,7 +429,7 @@ export default function AICallCenter() {
                   <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                     <Link
                       href="/contact?service=customer-support"
-                      className="group px-6 py-3 bg-gradient-to-r from-orange-500 to-violet-600 text-white font-bold rounded-xl hover:from-orange-600 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2"
+                      className="group px-6 py-3 bg-orange-500 text-white font-bold rounded-xl hover:from-orange-600 hover:to-orange-600 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2"
                     >
                       Start Free Trial
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -486,7 +486,7 @@ export default function AICallCenter() {
                     {/* Floating Badge - Bottom Right */}
                     <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
                           <Phone className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -499,7 +499,7 @@ export default function AICallCenter() {
                     {/* Floating Badge - Top Left */}
                     <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
                           <TrendingUp className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -518,7 +518,7 @@ export default function AICallCenter() {
           <section 
             id="benefits-section" 
             data-animate
-            className="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+            className="py-20 bg-white relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -552,7 +552,7 @@ export default function AICallCenter() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                       <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-600 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
                           <benefit.icon className="w-5 h-5 text-white" />
                         </div>
                         <div>
@@ -576,7 +576,7 @@ export default function AICallCenter() {
           <section 
             id="usecases-section" 
             data-animate
-            className="py-20 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden"
+            className="py-20 bg-white relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-6xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -669,7 +669,7 @@ export default function AICallCenter() {
           <section 
             id="features-section" 
             data-animate
-            className="py-20 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden"
+            className="py-20 bg-white relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('features-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -819,7 +819,7 @@ export default function AICallCenter() {
               </div>
 
               <div className={`bg-white rounded-2xl shadow-xl p-6 border border-gray-100 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
+                <VoiceConversationPlayer audioSrc="/audio/call-center-sample.mp3" />
               </div>
             </div>
           </section>
@@ -828,7 +828,7 @@ export default function AICallCenter() {
           <section 
             id="faq-section" 
             data-animate
-            className="py-20 bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden"
+            className="py-20 bg-white relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -871,7 +871,7 @@ export default function AICallCenter() {
           </section>
 
           {/* CTA SECTION */}
-          <section className="py-20 bg-gradient-to-br from-orange-600 via-violet-700 to-orange-800 relative overflow-hidden">
+          <section className="py-20 bg-orange-600 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />

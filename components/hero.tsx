@@ -1,5 +1,4 @@
 "use client"
-import PlatformFeatures from "@/components/platform-features";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Award, BarChart3, Bot, Calendar, CalendarCheck, CheckCircle, Clock, CreditCard, FileText, Headphones, LayoutDashboard, Megaphone, MessageSquare, Mic, Phone, PhoneCall, PlusCircle, Send, Shield, Stethoscope, TrendingUp, User, Users, Zap } from "lucide-react";
@@ -601,7 +600,7 @@ function DashboardShowcase() {
                                                     <span className="text-[10px]">⋮</span>
                                                 </div>
                                             </div>
-                                            <div className="p-3 space-y-2 max-h-[340px] sm:max-h-[400px] overflow-y-auto" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'200\' height=\'200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cdefs%3E%3Cpattern id=\'p\' width=\'20\' height=\'20\' patternUnits=\'userSpaceOnUse\'%3E%3Ccircle cx=\'10\' cy=\'10\' r=\'0.8\' fill=\'%23d5ccb9\' opacity=\'0.3\'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=\'200\' height=\'200\' fill=\'%23efeae2\'/%3E%3Crect width=\'200\' height=\'200\' fill=\'url(%23p)\'/%3E%3C/svg%3E")' }}>
+                                            <div className="p-3 space-y-2 max-h-[220px] sm:max-h-[250px] overflow-y-auto" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'200\' height=\'200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cdefs%3E%3Cpattern id=\'p\' width=\'20\' height=\'20\' patternUnits=\'userSpaceOnUse\'%3E%3Ccircle cx=\'10\' cy=\'10\' r=\'0.8\' fill=\'%23d5ccb9\' opacity=\'0.3\'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=\'200\' height=\'200\' fill=\'%23efeae2\'/%3E%3Crect width=\'200\' height=\'200\' fill=\'url(%23p)\'/%3E%3C/svg%3E")' }}>
                                                 {(tab as any).whatsappChat?.map((msg: any, i: number) => (
                                                     <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
                                                         <div className={`max-w-[80%] rounded-xl px-3 py-2 shadow-sm ${
@@ -738,8 +737,349 @@ function DashboardShowcase() {
     );
 }
 
+// Business chatbot showcase data
+const bizChats = {
+    travel: [
+        { from: 'bot', text: 'Welcome to TravelBot! 🌍 Where would you like to go?' },
+        { from: 'user', text: 'I want to plan a trip to Manali' },
+        { from: 'bot', text: 'Great choice! 🏔️ Manali packages start at ₹8,999. Dates?' },
+        { from: 'user', text: 'Dec 20 - Dec 25 for 2 people' },
+        { from: 'bot', text: '✅ Found 3 packages! Deluxe Resort with breakfast at ₹12,499/person. Shall I book?' },
+        { from: 'user', text: 'Yes, book it!' },
+        { from: 'bot', text: '🎉 Booking confirmed! Ref: TB-2847. Payment link sent.' },
+    ],
+    doctor: [
+        { from: 'bot', text: 'Hello! 👋 Welcome to MedCare. How can I help you today?' },
+        { from: 'user', text: 'I need an appointment with a dentist' },
+        { from: 'bot', text: 'Sure! Dr. Sharma is available tomorrow at 10 AM & 3 PM. Which works?' },
+        { from: 'user', text: '3 PM works' },
+        { from: 'bot', text: '✅ Appointment booked with Dr. Sharma at 3:00 PM, Clinic: Sector 15.' },
+        { from: 'user', text: 'Can you send me a reminder?' },
+        { from: 'bot', text: '📩 Reminder set! You\'ll get a WhatsApp alert 1 hour before.' },
+    ],
+    salon: [
+        { from: 'bot', text: 'Hey! 💇 Welcome to StyleHub. Book your next look!' },
+        { from: 'user', text: 'I want a haircut and beard trim' },
+        { from: 'bot', text: 'Haircut + Beard Trim combo: ₹399. Available slots today: 11 AM, 2 PM, 5 PM' },
+        { from: 'user', text: '5 PM please' },
+        { from: 'bot', text: '✅ Booked! Stylist: Raj at 5:00 PM. See you at StyleHub MG Road!' },
+        { from: 'user', text: 'Can I add a facial too?' },
+        { from: 'bot', text: 'Added! New total: ₹799. Updated booking confirmed. ✨' },
+    ],
+    event: [
+        { from: 'bot', text: 'Hi! 🎫 Welcome to EventHub. What event are you looking for?' },
+        { from: 'user', text: 'Any concerts this weekend?' },
+        { from: 'bot', text: '🎵 2 events found:\n1. Arijit Singh Live - Sat 7PM\n2. Sunburn Festival - Sun 4PM' },
+        { from: 'user', text: '2 tickets for Arijit Singh please' },
+        { from: 'bot', text: '🎟️ 2x VIP tickets reserved! Total: ₹2,998. Pay within 10 min to confirm.' },
+        { from: 'user', text: 'Done, paid!' },
+        { from: 'bot', text: '✅ Confirmed! E-tickets sent. Gate 3, Row B, Seats 14-15. Enjoy! 🎶' },
+    ],
+    support: [
+        { from: 'bot', text: 'Hello! 🎧 How can I assist you today?' },
+        { from: 'user', text: 'My order #4521 hasn\'t arrived yet' },
+        { from: 'bot', text: 'Let me check... 📦 Order #4521 is with the courier. ETA: Today by 6 PM.' },
+        { from: 'user', text: 'Can I change the delivery address?' },
+        { from: 'bot', text: 'Sure! Please share your new delivery address.' },
+        { from: 'user', text: '42, Park Street, Kolkata' },
+        { from: 'bot', text: '✅ Address updated! Delivery rescheduled to tomorrow by 12 PM.' },
+    ],
+    restaurant: [
+        { from: 'bot', text: 'Welcome to FoodieSpot! 🍽️ Reserve a table or order delivery?' },
+        { from: 'user', text: 'Table for 4 tonight at 8 PM' },
+        { from: 'bot', text: '✅ Table for 4 at 8:00 PM confirmed! Would you like to pre-order?' },
+        { from: 'user', text: 'Yes, show me the specials' },
+        { from: 'bot', text: '🔥 Today\'s specials:\n1. Butter Chicken - ₹349\n2. Paneer Tikka - ₹249' },
+        { from: 'user', text: '2 Butter Chicken and 1 Biryani' },
+        { from: 'bot', text: '🍛 Pre-order placed! Total: ₹997. Ready when you arrive at 8 PM!' },
+    ],
+    realestate: [
+        { from: 'bot', text: 'Hi! 🏠 Looking to buy, rent, or sell property?' },
+        { from: 'user', text: 'Looking for 2BHK apartments in Noida' },
+        { from: 'bot', text: '🔍 Found 12 listings! Budget range?' },
+        { from: 'user', text: '30-50 lakhs' },
+        { from: 'bot', text: '🏢 Top 3 matches:\n1. Sector 75 - ₹35L\n2. Sector 137 - ₹42L\n3. Sector 150 - ₹48L' },
+        { from: 'user', text: 'Schedule visit for Sector 137' },
+        { from: 'bot', text: '✅ Site visit booked for tomorrow 11 AM. Agent: Mr. Verma will meet you!' },
+    ],
+    ecommerce: [
+        { from: 'bot', text: 'Hey! 🛒 Welcome to ShopSmart. What are you looking for?' },
+        { from: 'user', text: 'Wireless earbuds under 2000' },
+        { from: 'bot', text: '🎧 Top picks:\n1. BoAt Airdopes - ₹1,299\n2. JBL Wave - ₹1,799' },
+        { from: 'user', text: 'I\'ll take the JBL Wave' },
+        { from: 'bot', text: '🛍️ Added to cart! Apply FIRST10 for 10% off. Proceed to pay?' },
+        { from: 'user', text: 'Yes' },
+        { from: 'bot', text: '✅ Order placed! ₹1,619 after discount. Delivery by Wed.' },
+    ],
+};
+
+const bizVoiceLabels = {
+    travel: 'Helping with trip booking...',
+    doctor: 'Scheduling appointment...',
+    salon: 'Booking your session...',
+    event: 'Reserving your tickets...',
+    support: 'Resolving your query...',
+    restaurant: 'Taking your reservation...',
+    realestate: 'Finding properties...',
+    ecommerce: 'Processing your order...',
+};
+
+const bizTitles = {
+    travel: 'AI Travel Agent on WhatsApp',
+    doctor: 'AI-Powered Doctor Appointments',
+    salon: 'Smart Salon & Barber Booking',
+    event: 'Automated Event Ticket Booking',
+    support: '24/7 AI Customer Support',
+    restaurant: 'Restaurant Reservations & Orders',
+    realestate: 'AI Real Estate Assistant',
+    ecommerce: 'E-Commerce Shopping Assistant',
+};
+
+const bizDescriptions = {
+    travel: 'Let customers browse destinations, compare packages, and book trips — all through WhatsApp and voice calls.',
+    doctor: 'Patients can find doctors, book appointments, get reminders, and receive follow-ups automatically.',
+    salon: 'Clients pick services, choose time slots, and confirm bookings instantly — no calls needed.',
+    event: 'From discovery to tickets in hand — AI handles search, selection, payment, and e-ticket delivery.',
+    support: 'Resolve queries instantly, track orders, process returns, and escalate complex cases to humans.',
+    restaurant: 'Tables, takeaway, and pre-orders — your AI handles the full dining experience via chat.',
+    realestate: 'AI matches buyers with properties, schedules site visits, and connects them with agents.',
+    ecommerce: 'Product search, recommendations, cart management, and order tracking — all conversational.',
+};
+
+const bizFeatures = {
+    travel: ['Instant package search & booking', 'Multi-destination itinerary planning', 'Payment collection via WhatsApp', 'Real-time flight & hotel updates', 'Post-trip feedback collection'],
+    doctor: ['Find doctors by specialty & location', 'Smart slot management', 'Automated reminders & follow-ups', 'Prescription & report sharing', 'Emergency escalation support'],
+    salon: ['Service menu with pricing', 'Stylist preference selection', 'Combo deals & offers', 'Loyalty points tracking', 'Review & rating collection'],
+    event: ['Event discovery & recommendations', 'Seat selection & pricing', 'Group booking support', 'E-ticket delivery', 'Event day reminders & updates'],
+    support: ['Order tracking & status updates', 'Return & refund processing', 'FAQ auto-resolution', 'Smart escalation to humans', 'CSAT survey after resolution'],
+    restaurant: ['Table reservation with preferences', 'Full menu browsing', 'Takeaway & delivery orders', 'Special dietary accommodations', 'Loyalty rewards management'],
+    realestate: ['Property search with filters', 'Virtual tour scheduling', 'EMI calculator integration', 'Document collection automation', 'Agent matching & scheduling'],
+    ecommerce: ['Product search & recommendations', 'Cart & wishlist management', 'Order placement & tracking', 'Return & exchange handling', 'Personalized deal alerts'],
+};
+
+// Rich phone chat data with cards & chips for the iPhone mockup
+const bizPhoneChats = {
+    travel: [
+        { from: 'bot', text: 'The holiday season is almost here! 🌍\nStart planning your dream getaway with special <b>30% discount</b>', cards: [
+            { emoji: '🏔️', title: 'Manali', color: 'bg-gradient-to-br from-orange-300 to-orange-500' },
+            { emoji: '🏖️', title: 'Beach', color: 'bg-gradient-to-br from-orange-300 to-orange-500' },
+        ]},
+        { from: 'user', text: "I'd love to book Manali! What dates are available?" },
+        { from: 'bot', text: 'Great choice! 🏔️ Here are the available dates for Manali:\n📅 Dec 20 - Dec 25\n📅 Dec 27 - Jan 1\n📅 Jan 5 - Jan 10', chips: ['Dec 20-25', 'Dec 27-Jan 1'] },
+        { from: 'user', text: 'Dec 20-25 works! How much for 2 adults?' },
+        { from: 'bot', text: '💰 Package for 2 Adults:\n✈️ Flight + Hotel: ₹24,999\n🏨 Snow Valley Resort (⭐4.7)\n🍽️ Breakfast included\n🎿 Free snow activities!' },
+        { from: 'user', text: 'Amazing! Book it please 🙌' },
+        { from: 'bot', text: '✅ <b>Booking Confirmed!</b>\n🎫 ID: TRV-20251220\n📩 Details sent to your email\nHave a wonderful trip! 🎉', chips: ['Download Itinerary', 'Add Traveler'] },
+    ],
+    doctor: [
+        { from: 'bot', text: 'Welcome to MedCare! 👋\nBook appointments with <b>top specialists</b> near you', cards: [
+            { emoji: '🦷', title: 'Dentist', color: 'bg-gradient-to-br from-blue-300 to-blue-500' },
+            { emoji: '❤️', title: 'Cardio', color: 'bg-gradient-to-br from-red-300 to-red-500' },
+        ]},
+        { from: 'user', text: 'I need a dentist appointment for tomorrow' },
+        { from: 'bot', text: 'Dr. Sharma is available tomorrow:\n🕐 10:00 AM - Sector 15\n🕐 3:00 PM - Sector 22\n🕐 5:30 PM - Sector 15', chips: ['10 AM', '3 PM', '5:30 PM'] },
+        { from: 'user', text: '10 AM works for me' },
+        { from: 'bot', text: '✅ Slot confirmed with <b>Dr. Sharma</b>\n📍 MedCare Clinic, Sector 15\n🕐 Tomorrow 10:00 AM\n💳 Consultation: ₹500' },
+        { from: 'user', text: 'Can I pay online?' },
+        { from: 'bot', text: '💳 Payment link sent!\n✅ ₹500 paid successfully\n📩 Confirmation SMS sent\n🔔 Reminder set for tomorrow 9 AM\nStay healthy! 😊', chips: ['Reschedule', 'Cancel'] },
+    ],
+    salon: [
+        { from: 'bot', text: 'Welcome to StyleHub! 💇\nPick your service and book <b>instantly</b>', cards: [
+            { emoji: '✂️', title: 'Haircut', color: 'bg-gradient-to-br from-pink-300 to-pink-500' },
+            { emoji: '🧔', title: 'Beard', color: 'bg-gradient-to-br from-purple-300 to-purple-500' },
+        ]},
+        { from: 'user', text: 'Haircut + Beard trim combo please' },
+        { from: 'bot', text: '✂️ Combo: ₹399 only!\nAvailable slots today:\n🕐 11 AM • 2 PM • 5 PM\nStylist: Raj (⭐ 4.8)', chips: ['11 AM', '2 PM', '5 PM'] },
+        { from: 'user', text: '2 PM with Raj, please!' },
+        { from: 'bot', text: '✅ <b>Booked!</b>\n💇 Haircut + Beard Trim\n🕐 Today 2:00 PM\n👦 Stylist: Raj\n💰 ₹399 (pay at salon)' },
+        { from: 'user', text: 'Can I add a head massage too?' },
+        { from: 'bot', text: '🧖 Head Massage added!\n📋 Updated bill:\n✂️ Haircut + Beard: ₹399\n💆 Head Massage: ₹199\n💰 <b>Total: ₹598</b>\nSee you at 2 PM! ✨', chips: ['Get Directions', 'Cancel'] },
+    ],
+    event: [
+        { from: 'bot', text: 'What\'s happening this weekend! 🎉\nBrowse <b>trending events</b> near you', cards: [
+            { emoji: '🎵', title: 'Concerts', color: 'bg-gradient-to-br from-purple-300 to-purple-500' },
+            { emoji: '🎭', title: 'Theatre', color: 'bg-gradient-to-br from-amber-300 to-amber-500' },
+        ]},
+        { from: 'user', text: 'Any concerts this Saturday?' },
+        { from: 'bot', text: '🎵 Found 2 events:\n1. Arijit Singh Live - 7 PM - ₹1,499\n2. Sunburn Fest - 4 PM - ₹999\nSelect to book:', chips: ['Arijit Singh', 'Sunburn Fest'] },
+        { from: 'user', text: 'Arijit Singh Live! 2 tickets please' },
+        { from: 'bot', text: '🎟️ 2x Arijit Singh Live\n📅 Saturday, 7:00 PM\n📍 Jawaharlal Nehru Stadium\n💰 Total: ₹2,998' },
+        { from: 'user', text: 'Booked! Will I get e-tickets?' },
+        { from: 'bot', text: '✅ <b>Tickets Confirmed!</b>\n📱 E-tickets sent via WhatsApp\n🎫 Booking ID: EVT-8821\n🚪 Gate opens at 5:30 PM\nEnjoy the show! 🎶', chips: ['Download Tickets', 'Share'] },
+    ],
+    support: [
+        { from: 'bot', text: 'Hello! 🎧 How can we help?\nChoose a <b>quick option</b> below', cards: [
+            { emoji: '📦', title: 'Track Order', color: 'bg-gradient-to-br from-teal-300 to-teal-500' },
+            { emoji: '🔄', title: 'Return', color: 'bg-gradient-to-br from-cyan-300 to-cyan-500' },
+        ]},
+        { from: 'user', text: 'My order #4521 hasn\'t arrived yet' },
+        { from: 'bot', text: '📦 Order #4521 Status:\n🚚 Out for delivery\n📍 Near your location\n⏰ ETA: Today by 6 PM', chips: ['Track Live', 'Change Address'] },
+        { from: 'user', text: 'It\'s 7 PM and still not delivered 😡' },
+        { from: 'bot', text: '😔 We sincerely apologize!\nI\'ve escalated your order.\n📞 Delivery partner will call in 10 mins\n🎁 <b>₹100 coupon</b> added to your account' },
+        { from: 'user', text: 'Okay, thanks for the quick response!' },
+        { from: 'bot', text: 'You\'re welcome! 🙏\n✅ Issue logged: #SUP-4521\n📩 Updates via WhatsApp\nAnything else I can help with?', chips: ['Rate Us', 'More Help'] },
+    ],
+    restaurant: [
+        { from: 'bot', text: 'Welcome to FoodieSpot! 🍽️\nReserve or order with <b>one tap</b>', cards: [
+            { emoji: '🪑', title: 'Reserve', color: 'bg-gradient-to-br from-red-300 to-red-500' },
+            { emoji: '🛵', title: 'Delivery', color: 'bg-gradient-to-br from-orange-300 to-orange-500' },
+        ]},
+        { from: 'user', text: 'Table for 4 tonight at 8 PM' },
+        { from: 'bot', text: '✅ Reserved! Table for 4 at 8 PM\n🔥 Today\'s specials:\n• Butter Chicken - ₹349\n• Paneer Tikka - ₹249', chips: ['Pre-order', 'View Menu'] },
+        { from: 'user', text: 'Pre-order 2x Butter Chicken & 1x Paneer Tikka' },
+        { from: 'bot', text: '🍽️ Pre-order confirmed!\n• 2x Butter Chicken: ₹698\n• 1x Paneer Tikka: ₹249\n💰 <b>Total: ₹947</b>\nReady when you arrive!' },
+        { from: 'user', text: 'Perfect! Can we get a window seat?' },
+        { from: 'bot', text: '🪟 Window seat reserved! 🎉\n📍 FoodieSpot, MG Road\n🕗 Tonight 8:00 PM\n👥 4 guests\n🍽️ Food pre-ordered\nBon appétit! ✨', chips: ['Get Directions', 'Modify'] },
+    ],
+    realestate: [
+        { from: 'bot', text: 'Find your dream home! 🏠\nSearch from <b>10,000+ listings</b>', cards: [
+            { emoji: '🏢', title: '2BHK', color: 'bg-gradient-to-br from-emerald-300 to-emerald-500' },
+            { emoji: '🏡', title: '3BHK', color: 'bg-gradient-to-br from-green-300 to-green-500' },
+        ]},
+        { from: 'user', text: '2BHK apartments in Noida, 30-50L budget' },
+        { from: 'bot', text: '🏢 Top matches:\n1. Sector 75 - ₹35L - 1050sqft\n2. Sector 137 - ₹42L - 1200sqft\n3. Sector 150 - ₹48L - 1350sqft', chips: ['Schedule Visit', 'EMI Calculator'] },
+        { from: 'user', text: 'Schedule visit for Sector 137 property' },
+        { from: 'bot', text: '🏢 <b>Gaur City, Sector 137</b>\n📍 1200 sqft, East-facing\n🅿️ Covered parking included\n📅 Visit available: Sat 11 AM, Sun 3 PM', chips: ['Sat 11 AM', 'Sun 3 PM'] },
+        { from: 'user', text: 'Saturday 11 AM please' },
+        { from: 'bot', text: '✅ <b>Visit Booked!</b>\n📅 Sat, 11:00 AM\n📍 Gaur City, Sector 137\n👤 Agent: Mr. Verma (📞 +91-98XXX)\n📋 Bring: ID proof\nSee you there! 🏠', chips: ['EMI Calculator', 'More Properties'] },
+    ],
+    ecommerce: [
+        { from: 'bot', text: 'Hey! 🛒 ShopSmart Deals\nGet <b>extra 15% off</b> today only!', cards: [
+            { emoji: '🎧', title: 'Earbuds', color: 'bg-gradient-to-br from-amber-300 to-amber-500' },
+            { emoji: '📱', title: 'Phones', color: 'bg-gradient-to-br from-slate-400 to-slate-600' },
+        ]},
+        { from: 'user', text: 'Wireless earbuds under ₹2,000' },
+        { from: 'bot', text: '🎧 Best picks:\n1. BoAt Airdopes - ₹1,299\n2. Noise Buds Pro - ₹1,499\n3. JBL Wave - ₹1,799', chips: ['Add to Cart', 'Compare'] },
+        { from: 'user', text: 'Add BoAt Airdopes to cart' },
+        { from: 'bot', text: '🛒 Added to cart!\n🎧 BoAt Airdopes 441: ₹1,299\n🏷️ 15% off applied: <b>-₹195</b>\n💰 You pay: <b>₹1,104</b>' },
+        { from: 'user', text: 'Checkout! COD available?' },
+        { from: 'bot', text: '✅ <b>Order Placed!</b>\n📦 BoAt Airdopes 441\n💰 ₹1,104 (COD)\n🚚 Delivery: Tomorrow by 7 PM\n📱 Track: #SS-77291\nHappy Shopping! 🎉', chips: ['Track Order', 'Shop More'] },
+    ],
+    education: [
+        { from: 'bot', text: 'Welcome to EduBot! 📚\nExplore <b>courses & admissions</b>', cards: [
+            { emoji: '🎓', title: 'MBA', color: 'bg-gradient-to-br from-indigo-300 to-indigo-500' },
+            { emoji: '💻', title: 'B.Tech', color: 'bg-gradient-to-br from-blue-300 to-blue-500' },
+        ]},
+        { from: 'user', text: 'MBA admission process and fees?' },
+        { from: 'bot', text: '🎓 MBA 2025 Intake:\n📋 Application: Open till Jan 15\n💰 Fees: ₹8.5L/year\n📊 CAT/GMAT accepted', chips: ['Apply Now', 'Download Brochure'] },
+        { from: 'user', text: 'I scored 92 percentile in CAT. Am I eligible?' },
+        { from: 'bot', text: '🎯 Great score! You qualify for:\n✅ General Management\n✅ Marketing\n✅ Finance\n🏆 Scholarship: Up to 30% merit-based!' },
+        { from: 'user', text: 'How do I apply for the scholarship?' },
+        { from: 'bot', text: '📝 <b>Scholarship Steps:</b>\n1️⃣ Fill online form\n2️⃣ Upload CAT scorecard\n3️⃣ PI round (virtual)\n⏰ Deadline: Jan 15\n📩 Form link sent!\nBest of luck! 🌟', chips: ['Apply Now', 'Talk to Advisor'] },
+    ],
+    fitness: [
+        { from: 'bot', text: 'Hey! 💪 FitLife Gym\nYour <b>fitness journey</b> starts here', cards: [
+            { emoji: '🏋️', title: 'Gym', color: 'bg-gradient-to-br from-lime-300 to-lime-500' },
+            { emoji: '🧘', title: 'Yoga', color: 'bg-gradient-to-br from-green-300 to-green-500' },
+        ]},
+        { from: 'user', text: 'Monthly membership plans?' },
+        { from: 'bot', text: '🏋️ Plans:\n1. Basic - ₹999/mo\n2. Premium - ₹1,999/mo (+ pool)\n3. Elite - ₹2,999/mo (+ trainer)', chips: ['Join Now', 'Free Trial'] },
+        { from: 'user', text: 'I want Elite plan with a personal trainer' },
+        { from: 'bot', text: '💪 Elite Plan - ₹2,999/mo\n👤 Trainer: Arjun (NSCA Certified)\n🏊 Pool + Steam + Sauna included\n📅 Starts from tomorrow!' },
+        { from: 'user', text: 'Sign me up! Can I start with a free trial?' },
+        { from: 'bot', text: '✅ <b>3-Day Free Trial Activated!</b>\n📍 FitLife, Sector 18\n🕐 Open: 5 AM - 11 PM\n👤 Trainer session @ 7 AM\n📱 Download our app for diet plan\nLet\'s crush it! 🔥', chips: ['Get Directions', 'Diet Plan'] },
+    ],
+    insurance: [
+        { from: 'bot', text: 'Hi! 🛡️ InsureBot\nGet <b>instant quotes</b> on all plans', cards: [
+            { emoji: '❤️', title: 'Health', color: 'bg-gradient-to-br from-sky-300 to-sky-500' },
+            { emoji: '🚗', title: 'Motor', color: 'bg-gradient-to-br from-blue-300 to-blue-500' },
+        ]},
+        { from: 'user', text: 'Health insurance for family of 4' },
+        { from: 'bot', text: '🛡️ Family Floater Plans:\n1. ₹5L cover - ₹8,400/yr\n2. ₹10L cover - ₹12,900/yr\n3. ₹25L cover - ₹18,500/yr', chips: ['Get Quote', 'Compare Plans'] },
+        { from: 'user', text: '₹10L cover looks good. What\'s included?' },
+        { from: 'bot', text: '📋 ₹10L Family Floater:\n✅ Cashless at 5000+ hospitals\n✅ Pre & post hospitalization\n✅ Day-care procedures\n✅ No co-pay\n👨‍👩‍👧‍👦 All 4 members covered' },
+        { from: 'user', text: 'Great, I want to buy this plan' },
+        { from: 'bot', text: '✅ <b>Policy Issued!</b>\n🛡️ ₹10L Family Health Plan\n📋 Policy #: INS-2025-8834\n💰 ₹12,900/yr (EMI available)\n📩 Documents sent to email\nYour family is protected! 💚', chips: ['Download Policy', 'Add Rider'] },
+    ],
+    banking: [
+        { from: 'bot', text: 'Welcome! 🏦 BankBot\nManage your <b>accounts securely</b>', cards: [
+            { emoji: '💳', title: 'Cards', color: 'bg-gradient-to-br from-violet-300 to-violet-500' },
+            { emoji: '💰', title: 'Loans', color: 'bg-gradient-to-br from-purple-300 to-purple-500' },
+        ]},
+        { from: 'user', text: 'Check my account balance' },
+        { from: 'bot', text: '🏦 Account: ****4521\n💰 Balance: ₹45,230.50\n📊 Last txn: -₹1,200 (Amazon)\n📅 Statement ready', chips: ['Mini Statement', 'Transfer'] },
+        { from: 'user', text: 'Transfer ₹5,000 to Rahul' },
+        { from: 'bot', text: '📤 Transfer Details:\n👤 To: Rahul Sharma (****7890)\n💰 Amount: ₹5,000\n🏦 IMPS Transfer\n\n⚠️ Please confirm:', chips: ['✅ Confirm', '❌ Cancel'] },
+        { from: 'user', text: '✅ Confirm' },
+        { from: 'bot', text: '✅ <b>Transfer Successful!</b>\n💰 ₹5,000 sent to Rahul\n📋 Ref: IMPS-928347561\n💳 New Balance: ₹40,230.50\n📩 SMS confirmation sent\nAnything else? 😊', chips: ['Another Transfer', 'Statement'] },
+    ],
+    logistics: [
+        { from: 'bot', text: 'Hi! 🚚 ShipFast Logistics\nTrack & manage <b>shipments easily</b>', cards: [
+            { emoji: '📦', title: 'Track', color: 'bg-gradient-to-br from-yellow-300 to-yellow-500' },
+            { emoji: '🚛', title: 'Ship', color: 'bg-gradient-to-br from-orange-300 to-orange-500' },
+        ]},
+        { from: 'user', text: 'Track shipment #SF-78234' },
+        { from: 'bot', text: '📦 Shipment #SF-78234:\n✅ Picked up - Delhi\n🚚 In transit - Jaipur Hub\n📍 ETA: Tomorrow 2 PM', chips: ['Live Track', 'Reschedule'] },
+        { from: 'user', text: 'Can I reschedule to next Monday?' },
+        { from: 'bot', text: '📅 Reschedule options:\n1. Monday 10 AM - 2 PM\n2. Monday 2 PM - 6 PM\n3. Monday 6 PM - 9 PM\n📍 Same address: Jaipur', chips: ['10AM-2PM', '2PM-6PM', '6PM-9PM'] },
+        { from: 'user', text: '2PM-6PM slot please' },
+        { from: 'bot', text: '✅ <b>Rescheduled!</b>\n📦 #SF-78234\n📅 Monday, 2 PM - 6 PM\n📍 Jaipur delivery address\n📱 Driver will call 30 min before\nPackage on its way! 📬', chips: ['Track Again', 'New Shipment'] },
+    ],
+    hotel: [
+        { from: 'bot', text: 'Welcome! 🏨 StayEasy Hotels\nBook <b>luxury stays</b> instantly', cards: [
+            { emoji: '🌟', title: 'Luxury', color: 'bg-gradient-to-br from-rose-300 to-rose-500' },
+            { emoji: '🏖️', title: 'Resort', color: 'bg-gradient-to-br from-pink-300 to-pink-500' },
+        ]},
+        { from: 'user', text: 'Rooms in Goa for Dec 25-28' },
+        { from: 'bot', text: '🏨 Goa Stays (Dec 25-28):\n1. Beach Resort - ₹4,999/night ⭐4.5\n2. Heritage Villa - ₹6,499/night ⭐4.8', chips: ['Book Now', 'View Photos'] },
+        { from: 'user', text: 'Book Heritage Villa for 3 nights' },
+        { from: 'bot', text: '🏡 Heritage Villa - Goa\n📅 Dec 25-28 (3 nights)\n💰 ₹6,499 × 3 = <b>₹19,497</b>\n🍳 Breakfast + 🏊 Pool included\n🅿️ Free parking' },
+        { from: 'user', text: 'Book it! Any late checkout option?' },
+        { from: 'bot', text: '✅ <b>Booking Confirmed!</b>\n🏨 Heritage Villa, Goa\n📋 Booking: #HTV-9928\n🕐 Late checkout till 2 PM: FREE!\n📩 Voucher sent via WhatsApp\nEnjoy your vacay! 🌴', chips: ['Download Voucher', 'Add Activity'] },
+    ],
+    automotive: [
+        { from: 'bot', text: 'Hi! 🚗 AutoCare\nBook <b>service & test drives</b>', cards: [
+            { emoji: '🔧', title: 'Service', color: 'bg-gradient-to-br from-slate-400 to-slate-600' },
+            { emoji: '🚘', title: 'Test Drive', color: 'bg-gradient-to-br from-gray-400 to-gray-600' },
+        ]},
+        { from: 'user', text: 'Book a test drive for Tata Nexon' },
+        { from: 'bot', text: '🚗 Tata Nexon Test Drive:\n📍 Showroom: MG Road\n📅 Available: Tomorrow 11 AM, 3 PM\n🎁 Bonus: Free accessories worth ₹15K', chips: ['11 AM', '3 PM'] },
+        { from: 'user', text: '11 AM tomorrow please' },
+        { from: 'bot', text: '✅ Test Drive Booked!\n🚗 Tata Nexon EV (Blue)\n📅 Tomorrow 11:00 AM\n📍 AutoCare, MG Road\n👤 Sales: Mr. Kapoor' },
+        { from: 'user', text: 'What about exchange offer for my old car?' },
+        { from: 'bot', text: '🔄 <b>Exchange Bonus!</b>\n🚗 Old car evaluation: FREE\n💰 Up to ₹75,000 exchange value\n📋 Bring: RC book + Insurance\n🎁 Extra ₹15K off on Nexon!\nDrive your dream! 🏎️', chips: ['Confirm Visit', 'EMI Options'] },
+    ],
+    legal: [
+        { from: 'bot', text: 'Hello! ⚖️ LegalBot\nGet <b>legal help</b> in minutes', cards: [
+            { emoji: '📄', title: 'Contracts', color: 'bg-gradient-to-br from-stone-400 to-stone-600' },
+            { emoji: '🏛️', title: 'Consult', color: 'bg-gradient-to-br from-amber-300 to-amber-500' },
+        ]},
+        { from: 'user', text: 'Need help with rental agreement' },
+        { from: 'bot', text: '📄 Rental Agreement:\n✅ E-stamp paper included\n✅ Lawyer verified\n💰 Starting ₹999\n⏰ Ready in 24 hours', chips: ['Start Now', 'Talk to Lawyer'] },
+        { from: 'user', text: 'Start now! It\'s for 11 months in Bangalore' },
+        { from: 'bot', text: '📋 Details noted:\n📍 Location: Bangalore\n📅 Duration: 11 months\n🏠 Please share:\n1. Landlord name\n2. Tenant name\n3. Monthly rent\n4. Security deposit' },
+        { from: 'user', text: 'Landlord: Mr. Rao, Tenant: Me, Rent: ₹25K, Deposit: ₹1L' },
+        { from: 'bot', text: '✅ <b>Agreement Ready!</b>\n📄 11-month rental agreement\n💰 ₹999 (e-stamp included)\n📋 Ref: #LEG-5567\n📩 Draft sent for review\n✍️ E-sign link shared!\nLegally sorted! ⚖️', chips: ['Review Draft', 'Make Changes'] },
+    ],
+    grocery: [
+        { from: 'bot', text: 'Hi! 🥬 FreshMart\nOrder <b>fresh groceries</b> on WhatsApp', cards: [
+            { emoji: '🍎', title: 'Fruits', color: 'bg-gradient-to-br from-green-300 to-green-500' },
+            { emoji: '🥛', title: 'Dairy', color: 'bg-gradient-to-br from-yellow-200 to-yellow-400' },
+        ]},
+        { from: 'user', text: 'Weekly grocery basket for family' },
+        { from: 'bot', text: '🛒 Family Weekly Basket:\n🥬 Veggies - ₹250\n🍎 Fruits - ₹350\n🥛 Dairy - ₹200\n📦 Total: ₹800', chips: ['Order Now', 'Customize'] },
+        { from: 'user', text: 'Customize - add 2kg rice and cooking oil' },
+        { from: 'bot', text: '🛒 Updated basket:\n🥬 Veggies: ₹250\n🍎 Fruits: ₹350\n🥛 Dairy: ₹200\n🍚 Rice 2kg: ₹140\n🫒 Oil 1L: ₹180\n💰 <b>Total: ₹1,120</b>' },
+        { from: 'user', text: 'Order! Deliver by 6 PM please' },
+        { from: 'bot', text: '✅ <b>Order Confirmed!</b>\n📦 Order #FM-3321\n💰 ₹1,120 (COD)\n🚴 Delivery by 6:00 PM\n📍 Your saved address\n🥬 Farm-fresh guaranteed!\nHappy cooking! 👨‍🍳', chips: ['Track Order', 'Reorder'] },
+    ],
+    telecom: [
+        { from: 'bot', text: 'Hey! 📱 TeleBot\nManage your <b>mobile plans</b> easily', cards: [
+            { emoji: '📶', title: 'Recharge', color: 'bg-gradient-to-br from-cyan-300 to-cyan-500' },
+            { emoji: '🌐', title: 'Broadband', color: 'bg-gradient-to-br from-teal-300 to-teal-500' },
+        ]},
+        { from: 'user', text: 'Best prepaid plans with 2GB/day' },
+        { from: 'bot', text: '📶 Prepaid Plans (2GB/day):\n1. ₹239 - 28 days\n2. ₹599 - 84 days ⭐Best Value\n3. ₹2,999 - 365 days', chips: ['Recharge Now', 'Compare'] },
+        { from: 'user', text: '₹599 plan for 84 days please' },
+        { from: 'bot', text: '📋 Plan Summary:\n📶 2GB/day + Unlimited calls\n📅 Valid: 84 days\n🎵 Free JioSaavn/Hotstar\n💰 ₹599\n\nProceed to pay?', chips: ['UPI', 'Card', 'Wallet'] },
+        { from: 'user', text: 'UPI payment' },
+        { from: 'bot', text: '✅ <b>Recharge Successful!</b>\n📱 +91-98XXX-XXXXX\n📶 2GB/day activated\n📅 Valid till: March 8, 2025\n💰 Paid: ₹599 via UPI\n📩 Receipt sent!\nStay connected! 📡', chips: ['Auto-Recharge ON', 'More Plans'] },
+    ],
+};
+
 export default function Hero() {
     const [counts, setCounts] = useState([0, 0, 0])
+    const [activeBiz, setActiveBiz] = useState('travel')
 
     // Vapi voice agent state
     const vapiRef = useRef<any>(null)
@@ -1540,7 +1880,9 @@ export default function Hero() {
 
                         {/* Left Phone (secondary, tilted) - WhatsApp Chat */}
                         <div className="hero-phone-secondary relative z-10 mr-[-30px] sm:mr-[-50px] mb-4 sm:mb-8">
-                            <div className="w-[140px] sm:w-[220px] md:w-[260px] h-[280px] sm:h-[430px] md:h-[500px] rounded-[28px] sm:rounded-[40px] border-[3px] sm:border-[5px] border-[#1d1d1f] bg-[#ece5dd] shadow-[0_30px_80px_rgba(0,0,0,0.12)] rotate-[-6deg] overflow-hidden flex flex-col relative">
+                            {/* Surface shadow */}
+                            <div className="absolute -bottom-4 sm:-bottom-6 left-1/2 -translate-x-1/2 w-[70%] h-[18px] sm:h-[28px] bg-black/15 rounded-[50%] blur-xl pointer-events-none rotate-[-6deg]" />
+                            <div className="w-[140px] sm:w-[220px] md:w-[260px] h-[280px] sm:h-[430px] md:h-[500px] rounded-[28px] sm:rounded-[40px] border-[3px] sm:border-[5px] border-[#1d1d1f] bg-[#ece5dd] shadow-[0_30px_80px_rgba(0,0,0,0.18)] rotate-[-6deg] overflow-hidden flex flex-col relative">
                                 {/* Dynamic Island */}
                                 <div className="absolute top-[3px] sm:top-[6px] left-1/2 -translate-x-1/2 z-20 w-[40px] sm:w-[65px] h-[10px] sm:h-[18px] bg-[#1d1d1f] rounded-full" />
                                 {/* WhatsApp Header - right at top with space for Dynamic Island */}
@@ -1628,7 +1970,9 @@ export default function Hero() {
 
                         {/* Right Phone (main, straight) - Voice Agent Studio */}
                         <div className="hero-phone-main relative z-20">
-                            <div className="w-[160px] sm:w-[250px] md:w-[300px] h-[320px] sm:h-[490px] md:h-[580px] rounded-[30px] sm:rounded-[44px] border-[3px] sm:border-[5px] border-[#1d1d1f] bg-white shadow-[0_40px_100px_rgba(0,0,0,0.14)] overflow-hidden flex flex-col relative">
+                            {/* Surface shadow */}
+                            <div className="absolute -bottom-5 sm:-bottom-8 left-1/2 -translate-x-1/2 w-[75%] h-[20px] sm:h-[32px] bg-black/18 rounded-[50%] blur-xl pointer-events-none" />
+                            <div className="w-[160px] sm:w-[250px] md:w-[300px] h-[320px] sm:h-[490px] md:h-[580px] rounded-[30px] sm:rounded-[44px] border-[3px] sm:border-[5px] border-[#1d1d1f] bg-white shadow-[0_40px_100px_rgba(0,0,0,0.22)] overflow-hidden flex flex-col relative">
                                 {/* Dynamic Island */}
                                 <div className="absolute top-[4px] sm:top-[7px] left-1/2 -translate-x-1/2 z-20 w-[45px] sm:w-[75px] h-[11px] sm:h-[20px] bg-[#1d1d1f] rounded-full" />
                                 {/* Content area with top padding for Dynamic Island */}
@@ -1729,55 +2073,154 @@ export default function Hero() {
 
             </section>
 
+            {/* Stop Losing Customers Section */}
+            <section className="py-16 sm:py-20 lg:py-24 bg-[#fafafa] relative overflow-hidden">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                        {/* Left Content */}
+                        <div className="space-y-8">
+                            <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
+                                <span className="text-orange-500 text-sm">✨</span>
+                                <span className="text-xs font-semibold tracking-wide text-orange-600 uppercase">AI That Never Sleeps</span>
+                            </div>
+
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                                Stop losing customers.<br />
+                                <span className="text-orange-500">Start converting 24/7.</span>
+                            </h2>
+
+                            <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
+                                Every missed call is a missed sale. Let AI handle your calls, WhatsApp, and bookings — while you focus on growing your business.
+                            </p>
+
+                            {/* Stats */}
+                            <div className="flex gap-8 sm:gap-12">
+                                <div>
+                                    <p className="text-3xl sm:text-4xl font-bold text-slate-900">10x</p>
+                                    <p className="text-sm text-slate-500 mt-1">Faster Response</p>
+                                </div>
+                                <div>
+                                    <p className="text-3xl sm:text-4xl font-bold text-slate-900">90%</p>
+                                    <p className="text-sm text-slate-500 mt-1">Cost Savings</p>
+                                </div>
+                                <div>
+                                    <p className="text-3xl sm:text-4xl font-bold text-slate-900">24/7</p>
+                                    <p className="text-sm text-slate-500 mt-1">Always Online</p>
+                                </div>
+                            </div>
+
+                            {/* CTA Buttons */}
+                            <div className="flex flex-wrap gap-4">
+                                <a
+                                    href="/signup"
+                                    className="inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 text-sm"
+                                >
+                                    Get Started Free
+                                    <ArrowRight className="h-4 w-4" />
+                                </a>
+                                <a
+                                    href="https://wa.me/917304aborad"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-7 py-3.5 bg-white border-2 border-slate-200 text-slate-700 font-semibold rounded-full hover:border-green-400 hover:text-green-600 transition-all duration-300 text-sm"
+                                >
+                                    <svg className="h-5 w-5 text-green-500" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                    WhatsApp Us
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Right Visual - Man with WhatsApp Phone */}
+                        <div className="relative flex justify-center items-center">
+                            {/* Concentric green circles */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+                                <div className="w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] lg:w-[500px] lg:h-[500px] rounded-full border border-green-200/40" />
+                                <div className="absolute w-[250px] h-[250px] sm:w-[330px] sm:h-[330px] lg:w-[400px] lg:h-[400px] rounded-full border border-green-200/50" />
+                                <div className="absolute w-[180px] h-[180px] sm:w-[240px] sm:h-[240px] lg:w-[300px] lg:h-[300px] rounded-full border border-green-300/40" />
+                            </div>
+
+                            {/* Chat bubble icon floating */}
+                            <div className="absolute top-4 right-8 sm:top-8 sm:right-12 w-12 h-12 bg-green-400 rounded-full flex items-center justify-center shadow-lg animate-bounce" style={{ animationDuration: '3s' }}>
+                                <MessageSquare className="h-6 w-6 text-white" />
+                            </div>
+
+                            {/* Main image */}
+                            <div className="relative z-10">
+                                <img
+                                    src="/images/bean-bag-man.png"
+                                    alt="Person using WhatsApp Business with DigitalBot AI"
+                                    className="w-[340px] sm:w-[440px] lg:w-[540px] h-auto object-contain drop-shadow-2xl"
+                                />
+                            </div>
+
+                            {/* Floating WhatsApp chat card */}
+                            <div className="absolute left-0 sm:left-[-20px] top-[15%] z-20 w-[200px] sm:w-[240px] bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
+                                {/* WhatsApp header */}
+                                <div className="bg-[#075e54] px-3 py-2 flex items-center gap-2">
+                                    <div className="w-6 h-6 rounded-full bg-orange-400 flex items-center justify-center">
+                                        <span className="text-white text-[8px] font-bold">DB</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-white text-[10px] font-semibold">ABC Jewellers ✅</p>
+                                        <p className="text-green-200 text-[8px]">Online</p>
+                                    </div>
+                                </div>
+                                {/* Chat messages */}
+                                <div className="bg-[#ece5dd] px-2 py-2 space-y-1.5">
+                                    <div className="bg-white rounded-lg px-2 py-1.5 shadow-sm max-w-[90%]">
+                                        <p className="text-[8px] text-slate-800">Hi Aadi, 👋</p>
+                                        <p className="text-[8px] text-slate-700 mt-0.5">Thank you for reaching out! ✨ Explore our latest jewelry collection:</p>
+                                        <p className="text-[7px] text-blue-500 mt-0.5">🔗 www.goldjewels.com</p>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm text-center">
+                                            <p className="text-[8px] text-blue-600 font-medium">View More Collections</p>
+                                        </div>
+                                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm text-center">
+                                            <p className="text-[8px] text-blue-600 font-medium">Get Price Details</p>
+                                        </div>
+                                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm text-center">
+                                            <p className="text-[8px] text-blue-600 font-medium">Talk to Support</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-end">
+                                        <div className="bg-[#d9fdd3] rounded-lg px-2 py-1 shadow-sm">
+                                            <p className="text-[8px] text-slate-800">View More Collection</p>
+                                            <p className="text-right text-[6px] text-slate-400">10:14 am ✓✓</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Bot emoji floating */}
+                            <div className="absolute top-[10%] left-[10%] z-20 w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center shadow-md" style={{ animation: 'badge-float 4s ease-in-out infinite' }}>
+                                <span className="text-lg">🤖</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Dashboard Showcase Section */}
             <DashboardShowcase />
 
             {/* WhatsApp Chatbot Section */}
             <section className="py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden">
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {/* Section Header */}
+                    <div className="text-center mb-10">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                            Get Your <span className="text-orange-500">Customized Chatbot</span>
+                        </h2>
+                        <p className="text-lg text-slate-500 mt-3 max-w-2xl mx-auto">
+                            Pick your industry — watch the AI chatbot in action
+                        </p>
+                    </div>
+
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
                         {/* LEFT: iPhone WhatsApp Mockup */}
-                        <div className="flex justify-center">
+                        <div className="flex justify-center order-2 lg:order-1">
                             <div className="relative">
-                                {/* Annotation labels */}
-                                <div className="hidden lg:block absolute -left-44 top-[22%] text-right">
-                                    <p className="text-sm font-semibold text-slate-700">Branding & Logo</p>
-                                    <div className="flex items-center justify-end gap-1 mt-1">
-                                        <span className="h-px w-16 bg-orange-300 inline-block" />
-                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
-                                    </div>
-                                </div>
-                                <div className="hidden lg:block absolute -left-48 top-[55%] text-right">
-                                    <p className="text-sm font-semibold text-slate-700">Rich Media, Chips</p>
-                                    <p className="text-sm font-semibold text-slate-700">& Carousels</p>
-                                    <div className="flex items-center justify-end gap-1 mt-1">
-                                        <span className="h-px w-16 bg-orange-300 inline-block" />
-                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
-                                    </div>
-                                </div>
-                                <div className="hidden lg:block absolute -left-44 bottom-[15%] text-right">
-                                    <p className="text-sm font-semibold text-slate-700">Suggested Actions</p>
-                                    <div className="flex items-center justify-end gap-1 mt-1">
-                                        <span className="h-px w-16 bg-orange-300 inline-block" style={{ borderStyle: 'dashed' }} />
-                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
-                                    </div>
-                                </div>
-                                <div className="hidden lg:block absolute -right-44 top-[22%] text-left">
-                                    <p className="text-sm font-semibold text-slate-700">Verified Sender</p>
-                                    <div className="flex items-center gap-1 mt-1">
-                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
-                                        <span className="h-px w-16 bg-orange-300 inline-block" />
-                                    </div>
-                                </div>
-                                <div className="hidden lg:block absolute -right-48 bottom-[18%] text-left">
-                                    <p className="text-sm font-semibold text-slate-700">Delivery and</p>
-                                    <p className="text-sm font-semibold text-slate-700">Read Receipts</p>
-                                    <div className="flex items-center gap-1 mt-1">
-                                        <span className="w-2 h-2 rounded-full bg-orange-400" />
-                                        <span className="h-px w-16 bg-orange-300 inline-block" />
-                                    </div>
-                                </div>
-
                                 {/* iPhone Frame */}
                                 <div className="w-[280px] sm:w-[300px] rounded-[40px] border-[6px] border-slate-800 bg-white shadow-[0_40px_100px_rgba(0,0,0,0.15)] overflow-hidden">
                                     {/* Status bar */}
@@ -1803,59 +2246,46 @@ export default function Hero() {
                                         </div>
                                         <PhoneCall className="h-4 w-4 text-white/80" />
                                     </div>
-                                    {/* Chat messages */}
-                                    <div className="bg-[#efeae2] p-3 space-y-2 min-h-[380px] sm:min-h-[420px]">
+                                    {/* Dynamic Chat messages */}
+                                    <div className="bg-[#efeae2] p-3 space-y-2 max-h-[360px] sm:max-h-[400px] overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
                                         <p className="text-center text-[9px] text-slate-500 bg-white/70 rounded-full px-3 py-0.5 mx-auto w-fit">Today 8:30 AM</p>
-                                        {/* Bot message with rich content */}
-                                        <div className="flex justify-start">
-                                            <div className="max-w-[85%] bg-white rounded-xl rounded-tl-none px-3 py-2 shadow-sm">
-                                                <p className="text-[11px] text-slate-800 font-medium">The holiday season is almost here!</p>
-                                                <p className="text-[11px] text-slate-600 mt-1">Start planning your dream getaway with special <span className="font-bold text-slate-800">30% discount</span></p>
-                                                {/* Image carousel */}
-                                                <div className="grid grid-cols-2 gap-1.5 mt-2">
-                                                    <div className="rounded-lg overflow-hidden bg-slate-100">
-                                                        <div className="h-16 bg-gradient-to-br from-orange-300 to-orange-500 flex items-end p-1.5">
-                                                            <span className="text-[9px] text-white font-bold bg-black/30 px-1.5 py-0.5 rounded">🏔️ Manali</span>
-                                                        </div>
-                                                        <div className="p-1.5 space-y-1">
-                                                            <p className="text-[9px] font-bold text-slate-700">Manali</p>
-                                                            <p className="text-[8px] text-orange-600 font-medium">📍 Book Now</p>
-                                                            <p className="text-[8px] text-orange-500 font-medium">📞 Call Agent</p>
+                                        {(bizPhoneChats[activeBiz as keyof typeof bizPhoneChats] || bizPhoneChats.travel).map((msg: { from: string; text: string; cards?: { emoji: string; title: string; color: string }[]; chips?: string[] }, idx: number) => (
+                                            <div key={`${activeBiz}-${idx}`}>
+                                                {msg.from === 'user' ? (
+                                                    <div className="flex justify-end">
+                                                        <div className="max-w-[75%] bg-[#dcf8c6] rounded-xl rounded-tr-none px-3 py-2 shadow-sm">
+                                                            <p className="text-[11px] text-slate-800">{msg.text}</p>
+                                                            <p className="text-[8px] text-slate-400 text-right mt-0.5">8:31 ✓✓</p>
                                                         </div>
                                                     </div>
-                                                    <div className="rounded-lg overflow-hidden bg-slate-100">
-                                                        <div className="h-16 bg-gradient-to-br from-orange-300 to-orange-500 flex items-end p-1.5">
-                                                            <span className="text-[9px] text-white font-bold bg-black/30 px-1.5 py-0.5 rounded">🏖️ Beach</span>
-                                                        </div>
-                                                        <div className="p-1.5 space-y-1">
-                                                            <p className="text-[9px] font-bold text-slate-700">Lakshadweep</p>
-                                                            <p className="text-[8px] text-orange-600 font-medium">📍 Book Now</p>
-                                                            <p className="text-[8px] text-orange-500 font-medium">📞 Call Agent</p>
+                                                ) : (
+                                                    <div className="flex justify-start">
+                                                        <div className="max-w-[85%] bg-white rounded-xl rounded-tl-none px-3 py-2 shadow-sm">
+                                                            <p className="text-[11px] text-slate-800" dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br/>') }} />
+                                                            {msg.cards && (
+                                                                <div className="grid grid-cols-2 gap-1.5 mt-2">
+                                                                    {msg.cards.map((card, ci) => (
+                                                                        <div key={ci} className="rounded-lg overflow-hidden bg-slate-100">
+                                                                            <div className={`h-14 ${card.color} flex items-end p-1.5`}>
+                                                                                <span className="text-[9px] text-white font-bold bg-black/30 px-1.5 py-0.5 rounded">{card.emoji} {card.title}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                            {msg.chips && (
+                                                                <div className="flex flex-wrap gap-1 mt-2">
+                                                                    {msg.chips.map((chip, ci) => (
+                                                                        <span key={ci} className="text-[9px] bg-orange-50 text-orange-600 border border-orange-200 px-2 py-0.5 rounded-full font-medium">{chip}</span>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                            <p className="text-[8px] text-slate-400 text-right mt-1">8:30 ✓✓</p>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <p className="text-[8px] text-slate-400 text-right mt-1">8:30 ✓✓</p>
+                                                )}
                                             </div>
-                                        </div>
-                                        {/* User reply */}
-                                        <div className="flex justify-end">
-                                            <div className="max-w-[75%] bg-[#dcf8c6] rounded-xl rounded-tr-none px-3 py-2 shadow-sm">
-                                                <p className="text-[11px] text-slate-800">I&apos;d love to book Manali! What dates are available?</p>
-                                                <p className="text-[8px] text-slate-400 text-right mt-0.5">8:31 ✓✓</p>
-                                            </div>
-                                        </div>
-                                        {/* Bot reply */}
-                                        <div className="flex justify-start">
-                                            <div className="max-w-[85%] bg-white rounded-xl rounded-tl-none px-3 py-2 shadow-sm">
-                                                <p className="text-[11px] text-slate-800">Great choice! 🏔️ Here are the available dates for Manali:</p>
-                                                <p className="text-[11px] text-slate-600 mt-1">📅 Dec 20 - Dec 25<br/>📅 Dec 27 - Jan 1<br/>📅 Jan 5 - Jan 10</p>
-                                                <div className="flex gap-1.5 mt-2">
-                                                    <span className="text-[9px] bg-orange-50 text-orange-600 border border-orange-200 px-2 py-1 rounded-full font-medium">Dec 20-25</span>
-                                                    <span className="text-[9px] bg-orange-50 text-orange-600 border border-orange-200 px-2 py-1 rounded-full font-medium">Dec 27-Jan 1</span>
-                                                </div>
-                                                <p className="text-[8px] text-slate-400 text-right mt-1">8:31 ✓✓</p>
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
                                     {/* Input bar */}
                                     <div className="bg-[#efeae2] px-2 pb-3">
@@ -1871,34 +2301,43 @@ export default function Hero() {
                             </div>
                         </div>
 
-                        {/* RIGHT: Get Customized Chatbot */}
-                        <div className="space-y-6">
-                            <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
-                                <MessageSquare className="h-4 w-4 text-orange-600" />
-                                <span className="text-xs font-semibold text-orange-700 uppercase tracking-wide">WhatsApp Chatbot</span>
-                            </div>
-                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight">
-                                Get Your{' '}
-                                <span className="text-orange-500">Customized Chatbot</span>
-                            </h2>
-                            <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
-                                Deliver interactive messages directly to your customer&apos;s WhatsApp. Rich media, carousels, quick replies, and verified sender — all automated with AI.
-                            </p>
-                            <div className="space-y-3">
+                        {/* RIGHT: Service Filter Buttons Grid */}
+                        <div className="order-1 lg:order-2">
+                            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-5 text-center lg:text-left">Select your business</p>
+                            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
                                 {[
-                                    { icon: CheckCircle, text: 'Rich media with images, carousels & buttons' },
-                                    { icon: CheckCircle, text: 'Verified business sender with branding' },
-                                    { icon: CheckCircle, text: 'Delivery & read receipts tracking' },
-                                    { icon: CheckCircle, text: 'Human-like AI conversations 24/7' },
-                                    { icon: CheckCircle, text: 'Suggested quick actions & smart replies' },
-                                ].map((item, i) => (
-                                    <div key={i} className="flex items-center gap-3">
-                                        <item.icon className="h-5 w-5 text-orange-500 flex-shrink-0" />
-                                        <span className="text-sm text-slate-600">{item.text}</span>
-                                    </div>
+                                    { id: 'travel', label: 'Travel', emoji: '✈️', color: 'bg-orange-100 text-orange-700 border-orange-200 hover:bg-orange-200', active: 'bg-orange-500 text-white border-orange-500 shadow-orange-500/30' },
+                                    { id: 'doctor', label: 'Doctor', emoji: '🏥', color: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200', active: 'bg-blue-500 text-white border-blue-500 shadow-blue-500/30' },
+                                    { id: 'salon', label: 'Salon', emoji: '💇', color: 'bg-pink-100 text-pink-700 border-pink-200 hover:bg-pink-200', active: 'bg-pink-500 text-white border-pink-500 shadow-pink-500/30' },
+                                    { id: 'event', label: 'Events', emoji: '🎫', color: 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200', active: 'bg-purple-500 text-white border-purple-500 shadow-purple-500/30' },
+                                    { id: 'support', label: 'Support', emoji: '🎧', color: 'bg-teal-100 text-teal-700 border-teal-200 hover:bg-teal-200', active: 'bg-teal-500 text-white border-teal-500 shadow-teal-500/30' },
+                                    { id: 'restaurant', label: 'Restaurant', emoji: '🍽️', color: 'bg-red-100 text-red-700 border-red-200 hover:bg-red-200', active: 'bg-red-500 text-white border-red-500 shadow-red-500/30' },
+                                    { id: 'realestate', label: 'Real Estate', emoji: '🏠', color: 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200', active: 'bg-emerald-500 text-white border-emerald-500 shadow-emerald-500/30' },
+                                    { id: 'ecommerce', label: 'E-Commerce', emoji: '🛒', color: 'bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-200', active: 'bg-amber-500 text-white border-amber-500 shadow-amber-500/30' },
+                                    { id: 'education', label: 'Education', emoji: '📚', color: 'bg-indigo-100 text-indigo-700 border-indigo-200 hover:bg-indigo-200', active: 'bg-indigo-500 text-white border-indigo-500 shadow-indigo-500/30' },
+                                    { id: 'fitness', label: 'Fitness', emoji: '💪', color: 'bg-lime-100 text-lime-700 border-lime-200 hover:bg-lime-200', active: 'bg-lime-600 text-white border-lime-600 shadow-lime-600/30' },
+                                    { id: 'insurance', label: 'Insurance', emoji: '🛡️', color: 'bg-sky-100 text-sky-700 border-sky-200 hover:bg-sky-200', active: 'bg-sky-500 text-white border-sky-500 shadow-sky-500/30' },
+                                    { id: 'banking', label: 'Banking', emoji: '🏦', color: 'bg-violet-100 text-violet-700 border-violet-200 hover:bg-violet-200', active: 'bg-violet-500 text-white border-violet-500 shadow-violet-500/30' },
+                                    { id: 'logistics', label: 'Logistics', emoji: '🚚', color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200', active: 'bg-yellow-500 text-white border-yellow-500 shadow-yellow-500/30' },
+                                    { id: 'hotel', label: 'Hotels', emoji: '🏨', color: 'bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200', active: 'bg-rose-500 text-white border-rose-500 shadow-rose-500/30' },
+                                    { id: 'automotive', label: 'Automotive', emoji: '🚗', color: 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200', active: 'bg-slate-600 text-white border-slate-600 shadow-slate-600/30' },
+                                    { id: 'legal', label: 'Legal', emoji: '⚖️', color: 'bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200', active: 'bg-stone-500 text-white border-stone-500 shadow-stone-500/30' },
+                                    { id: 'grocery', label: 'Grocery', emoji: '🥬', color: 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200', active: 'bg-green-500 text-white border-green-500 shadow-green-500/30' },
+                                    { id: 'telecom', label: 'Telecom', emoji: '📱', color: 'bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200', active: 'bg-cyan-500 text-white border-cyan-500 shadow-cyan-500/30' },
+                                ].map((biz) => (
+                                    <button
+                                        key={biz.id}
+                                        onClick={() => setActiveBiz(biz.id)}
+                                        className={`flex flex-col items-center gap-1.5 px-2 py-3 rounded-2xl border text-xs font-semibold transition-all duration-300 ${
+                                            activeBiz === biz.id ? biz.active + ' shadow-lg scale-105' : biz.color
+                                        }`}
+                                    >
+                                        <span className="text-xl">{biz.emoji}</span>
+                                        <span className="text-[11px] leading-tight">{biz.label}</span>
+                                    </button>
                                 ))}
                             </div>
-                            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                            <div className="flex flex-col sm:flex-row gap-3 mt-8 justify-center lg:justify-start">
                                 <Link href="/contact#contact-form" className="group px-7 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 text-sm">
                                     Get Started
                                     <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
@@ -1950,7 +2389,7 @@ export default function Hero() {
                                     Try Voice AI Free
                                     <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
-                                <Link href="/contact" className="px-7 py-3 text-slate-900 font-medium rounded-xl border border-slate-300 hover:border-orange-300 hover:text-orange-600 transition-all text-sm text-center">
+                                <Link href="/contact" className="px-7 py-3 text-slate-700 font-medium rounded-xl border border-slate-200 hover:border-orange-300 hover:text-orange-600 transition-all text-sm text-center bg-white">
                                     Book a Free Demo
                                 </Link>
                             </div>
@@ -1973,12 +2412,12 @@ export default function Hero() {
             </section>
 
             {/* Voice Garden - Service Samples */}
-            <section className="py-16 sm:py-20 bg-white relative overflow-hidden">
+            <section className="py-16 sm:py-20 bg-[#fafafa] relative overflow-hidden">
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Section Header */}
                     <div className="text-center mb-12 sm:mb-16">
-                        <div className="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-5 py-2 rounded-full mb-6">
-                            <span className="text-sm font-semibold text-slate-700">Voice Garden</span>
+                        <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-5 py-2 rounded-full mb-6">
+                            <span className="text-sm font-semibold text-orange-700">Voice Garden</span>
                         </div>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-5 leading-tight">
                             Leverage AI voice call agents who sound<br className="hidden sm:block" /> and act like real people
@@ -2027,68 +2466,6 @@ export default function Hero() {
                     </div>
                 </div>
             </section>
-
-            {/* Platform Features Showcase */}
-            <PlatformFeatures />
-
-
-                        {/* DigitalBot Features Grid (updated for DigitalBot advantages) */}
-                        <section className="py-14 bg-[#f7f7fd]">
-                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-12">
-                                    The DigitalBot <span className="text-orange-500">Advantage</span>
-                                </h2>
-                                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                    {/* Feature Card 1 */}
-                                    <div className="rounded-3xl bg-[#f3f0ff] p-8 flex flex-col justify-between min-h-[320px] shadow-sm">
-                                        <div>
-                                            <h3 className="text-3xl font-bold text-gray-900 mb-4">24/7 AI Customer Support</h3>
-                                            <div className="text-lg text-gray-600 mb-2">Never miss a call or message. DigitalBot works around the clock for your business.</div>
-                                        </div>
-                                        <div className="flex justify-center items-end mt-6">
-                                            <img src="/images/woman-laptop.avif" alt="24/7 Support" className="w-40 h-40 object-cover rounded-2xl" />
-                                        </div>
-                                    </div>
-
-                                    {/* Feature Card 2 */}
-                                    <div className="rounded-3xl bg-white p-8 flex flex-col justify-between min-h-[320px] shadow-sm">
-                                        <div>
-                                            <h3 className="text-3xl font-bold text-gray-900 mb-4">Omnichannel Engagement</h3>
-                                            <div className="text-lg text-gray-600 mb-2">Voice, WhatsApp, SMS, and web — all handled simultaneously by one AI.</div>
-                                        </div>
-                                        <div className="flex justify-center items-end mt-6">
-                                            <div className="w-40 h-28 bg-gradient-to-br from-[#a259ff] to-[#00dbde] rounded-2xl flex items-center justify-center">
-                                                <span className="text-white text-xl font-bold">Voice + WhatsApp</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Feature Card 3 */}
-                                    <div className="rounded-3xl bg-white p-8 flex flex-col justify-between min-h-[320px] shadow-sm">
-                                        <div>
-                                            <h3 className="text-3xl font-bold text-gray-900 mb-4">Instant Deployment</h3>
-                                            <div className="text-lg text-gray-600 mb-2">Go live in minutes with zero-code onboarding and seamless integration.</div>
-                                        </div>
-                                        <div className="flex justify-center items-end mt-6">
-                                            <svg width="56" height="56" fill="none" stroke="#a259ff" strokeWidth="2.2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-                                        </div>
-                                    </div>
-
-                                    {/* Feature Card 4 */}
-                                    <div className="rounded-3xl bg-[#e6fcf5] p-8 flex flex-col justify-between min-h-[320px] shadow-sm">
-                                        <div>
-                                            <h3 className="text-3xl font-bold text-gray-900 mb-4">Real-time Analytics</h3>
-                                            <div className="text-lg text-gray-600 mb-2">Track every conversation, call, and customer interaction with live dashboards.</div>
-                                        </div>
-                                        <div className="flex justify-center items-end mt-6">
-                                            <div className="w-28 h-28 bg-gradient-to-br from-[#00dbde] to-[#a259ff] rounded-full flex items-center justify-center">
-                                                <span className="text-white text-xl font-bold">Analytics</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
 
 
         </>

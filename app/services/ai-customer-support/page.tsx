@@ -5,27 +5,27 @@ import { Header } from "@/components/header";
 import { VoiceConversationPlayer } from "@/components/voice-conversation-player";
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
-  BarChart3,
-  Bot,
-  Check,
-  CheckCircle,
-  ClipboardCheck,
-  Clock,
-  Globe,
-  HeartHandshake,
-  MessageCircle,
-  Mic,
-  Pause,
-  Phone,
-  Play,
-  Shield,
-  Smile,
-  Sparkles,
-  Target,
-  TrendingUp,
-  Users,
-  Workflow
+    ArrowRight,
+    BarChart3,
+    Bot,
+    Check,
+    CheckCircle,
+    ClipboardCheck,
+    Clock,
+    Globe,
+    HeartHandshake,
+    MessageCircle,
+    Mic,
+    Pause,
+    Phone,
+    Play,
+    Shield,
+    Smile,
+    Sparkles,
+    Target,
+    TrendingUp,
+    Users,
+    Workflow
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -114,7 +114,7 @@ const useCases = [
     description: "Resolve up to 80% of repetitive questions across live chat, social media, and email with AI responses that access your knowledge base instantly.",
     result: "Cut ticket backlog by 65%",
     icon: MessageCircle,
-    color: "from-orange-500 to-violet-500",
+    color: "from-orange-400 to-orange-600",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -122,7 +122,7 @@ const useCases = [
     description: "Automatically detect churn signals and reach out with personalized retention offers before customers submit cancellations.",
     result: "Reduce churn by 35%",
     icon: HeartHandshake,
-    color: "from-orange-500 to-violet-500",
+    color: "from-orange-400 to-orange-600",
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -130,7 +130,7 @@ const useCases = [
     description: "Guide users through complex troubleshooting sequences with step-by-step instructions, multimedia explanations, and escalation to specialists when needed.",
     result: "92% first contact resolution",
     icon: ClipboardCheck,
-    color: "from-orange-500 to-violet-600",
+    color: "from-orange-400 to-orange-600",
     image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -138,7 +138,7 @@ const useCases = [
     description: "Handle refunds, order tracking, account updates, and subscription changes automatically while syncing changes to CRM, billing, and ERP systems.",
     result: "Save 3,000 agent hours/quarter",
     icon: BarChart3,
-    color: "from-orange-500 to-violet-600",
+    color: "from-orange-400 to-orange-600",
     image: "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&q=80"
   }
 ];
@@ -328,17 +328,17 @@ export default function AICustomerSupport() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden">
+      <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
         {/* Hidden audio elements */}
         <audio
           ref={audioRef}
-          src="/audio/customer-support-demo.mp3"
+          src="/audio/customer-care-sample.mp3"
           onEnded={handleAudioEnded}
           preload="metadata"
         />
         <audio
           ref={audioRefHindi}
-          src="/audio/customer-support-spanish.mp3"
+          src="/audio/customer-care-sample.mp3"
           onEnded={handleAudioEndedHindi}
           preload="metadata"
         />
@@ -351,23 +351,23 @@ export default function AICustomerSupport() {
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
 
           {/* HERO SECTION - Modern Two-Column Like Appointments */}
-          <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-white flex items-center">
+          <section className="pt-24 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white flex items-center">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               {/* Floating Orbs */}
-              <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
-              <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+
+
+
               
               {/* Animated Grid */}
               <div className="absolute inset-0 opacity-[0.03]" style={{
-                backgroundImage: 'linear-gradient(to right, #10b981 1px, transparent 1px), linear-gradient(to bottom, #10b981 1px, transparent 1px)',
+                backgroundImage: 'linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)',
                 backgroundSize: '60px 60px'
               }} />
               
               {/* Animated Lines */}
               <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-400/20 to-transparent animate-pulse" style={{ animationDuration: '5s' }} />
-              <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-violet-500/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
+              <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-orange-300/15 to-transparent animate-pulse" style={{ animationDuration: '5s', animationDelay: '1.5s' }} />
             </div>
 
             <div className="container mx-auto relative z-30 max-w-7xl">
@@ -384,7 +384,7 @@ export default function AICustomerSupport() {
                   {/* Main Headline */}
                   <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 mb-4 leading-tight animate-fade-in-up-2">
                     <span className="block text-black">AI Customer Support That</span>
-                    <span className="block bg-gradient-to-r from-orange-500 via-violet-500 to-violet-700 bg-clip-text text-transparent">Never Sleeps Always Helps</span>
+                    <span className="block text-orange-500">Never Sleeps Always Helps</span>
                   </h1>
 
                   {/* Tagline Box */}
@@ -411,7 +411,7 @@ export default function AICustomerSupport() {
                           <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                               <linearGradient id="pulseGradientSupport" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
-                                <stop stopColor="#8b5cf6" />
+                                <stop stopColor="#f97316" />
                                 <stop offset="1" stopColor="#ea580c" />
                               </linearGradient>
                             </defs>
@@ -442,7 +442,7 @@ export default function AICustomerSupport() {
                             ))}
                           </svg>
                         </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-500 text-white shadow-md">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-orange-500 text-white shadow-md">
                           {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                         </div>
                       </button>
@@ -459,7 +459,7 @@ export default function AICustomerSupport() {
                           <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                               <linearGradient id="pulseGradientSupportHindi" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse">
-                                <stop stopColor="#8b5cf6" />
+                                <stop stopColor="#f97316" />
                                 <stop offset="1" stopColor="#ea580c" />
                               </linearGradient>
                             </defs>
@@ -490,7 +490,7 @@ export default function AICustomerSupport() {
                             ))}
                           </svg>
                         </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-orange-500 to-violet-500 text-white shadow-md">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-orange-500 text-white shadow-md">
                           {isPlayingHindi ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
                         </div>
                       </button>
@@ -501,7 +501,7 @@ export default function AICustomerSupport() {
                   <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
                     <Link
                       href="/contact?service=customer-support"
-                      className="group px-6 py-3 bg-gradient-to-r from-orange-500 to-violet-500 text-white font-bold rounded-xl hover:from-orange-600 hover:to-violet-600 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2"
+                      className="group px-6 py-3 bg-orange-500 text-white font-bold rounded-xl hover:from-orange-600 hover:to-orange-600 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105 flex items-center justify-center gap-2"
                     >
                       Start Free Trial
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -537,10 +537,10 @@ export default function AICustomerSupport() {
                   <div className="relative">
                     {/* Animated Sound Waves */}
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
-                      <svg width="400" height="400" viewBox="0 0 400 400" fill="none" style={{ filter: 'drop-shadow(0 0 40px #10b981aa)' }}>
-                        <circle cx="200" cy="200" r="100" stroke="#34d399" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
-                        <circle cx="200" cy="200" r="130" stroke="#10b981" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
-                        <circle cx="200" cy="200" r="160" stroke="#059669" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
+                      <svg width="400" height="400" viewBox="0 0 400 400" fill="none" style={{ filter: 'drop-shadow(0 0 40px #f97316aa)' }}>
+                        <circle cx="200" cy="200" r="100" stroke="#fb923c" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite' }} />
+                        <circle cx="200" cy="200" r="130" stroke="#f97316" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '0.5s' }} />
+                        <circle cx="200" cy="200" r="160" stroke="#ea580c" strokeWidth="2" fill="none" style={{ animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite', animationDelay: '1s' }} />
                       </svg>
                     </div>
                     
@@ -558,7 +558,7 @@ export default function AICustomerSupport() {
                     {/* Floating Badge - Bottom Right */}
                     <div className="absolute -bottom-4 -right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-500 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
                           <MessageCircle className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -571,7 +571,7 @@ export default function AICustomerSupport() {
                     {/* Floating Badge - Top Left */}
                     <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-4 border border-orange-100/40 z-40" style={{ animation: 'float 3s ease-in-out infinite', animationDelay: '1s' }}>
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-500 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
                           <TrendingUp className="h-6 w-6 text-white" />
                         </div>
                         <div>
@@ -590,7 +590,7 @@ export default function AICustomerSupport() {
           <section 
             id="benefits-section" 
             data-animate
-            className="py-20 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden"
+            className="py-20 bg-white relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('benefits-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -624,7 +624,7 @@ export default function AICustomerSupport() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                       <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-500 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
                           <benefit.icon className="w-5 h-5 text-white" />
                         </div>
                         <div>
@@ -648,7 +648,7 @@ export default function AICustomerSupport() {
           <section 
             id="usecases-section" 
             data-animate
-            className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden"
+            className="py-20 bg-white relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-6xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('usecases-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -741,7 +741,7 @@ export default function AICustomerSupport() {
           <section 
             id="capabilities-section" 
             data-animate
-            className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden"
+            className="py-20 bg-white relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-7xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('capabilities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -874,7 +874,7 @@ export default function AICustomerSupport() {
           <section 
             id="demo-section" 
             data-animate
-            className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden"
+            className="py-20 bg-white relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-8 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -891,7 +891,7 @@ export default function AICustomerSupport() {
               </div>
 
               <div className={`bg-white rounded-2xl shadow-xl p-6 border border-gray-100 transition-all duration-700 ${visibleSections.has('demo-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <VoiceConversationPlayer audioSrc="/sample-conversation.mp3" />
+                <VoiceConversationPlayer audioSrc="/audio/customer-care-sample.mp3" />
               </div>
             </div>
           </section>
@@ -900,7 +900,7 @@ export default function AICustomerSupport() {
           <section 
             id="faq-section" 
             data-animate
-            className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden"
+            className="py-20 bg-white relative overflow-hidden"
           >
             <div className="container mx-auto px-4 max-w-4xl">
               <div className={`text-center mb-12 transition-all duration-700 ${visibleSections.has('faq-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -923,7 +923,7 @@ export default function AICustomerSupport() {
                     className="group bg-gray-50 rounded-xl overflow-hidden"
                   >
                     <summary className="flex items-center gap-4 p-5 cursor-pointer list-none hover:bg-gray-100 transition-colors">
-                      <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-violet-500 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                      <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                         {index + 1}
                       </div>
                       <span className="font-semibold text-gray-900 flex-1">{faq.name}</span>
@@ -939,7 +939,7 @@ export default function AICustomerSupport() {
           </section>
 
           {/* CTA SECTION */}
-          <section className="py-20 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
+          <section className="py-20 bg-orange-600 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />

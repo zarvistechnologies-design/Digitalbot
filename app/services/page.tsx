@@ -304,7 +304,7 @@ export default function Services() {
               {/* 3D Card Stack Effect */}
               <div className="relative h-[500px] sm:h-[550px]">
                 {/* Background Glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-200/15 to-violet-200/15 rounded-[40px] blur-3xl"></div>
+
                 
                 {/* Main Card */}
                 <div className="absolute inset-4 bg-white/90 backdrop-blur-xl rounded-[32px] shadow-2xl shadow-slate-200/50 border border-white/50 overflow-hidden">
@@ -444,8 +444,8 @@ export default function Services() {
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Gradient Mesh */}
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-slate-100/50 rounded-full filter blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-slate-100/40 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+
+
           
           {/* Floating Shapes */}
           <div className="absolute top-20 right-20 w-20 h-20 border-2 border-orange-200/30 rounded-2xl rotate-12 animate-bounce-slow opacity-40"></div>
@@ -625,8 +625,8 @@ export default function Services() {
       <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-slate-50/50 overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-slate-100/60 rounded-full filter blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-slate-100/50 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+
+
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-slate-100/30 to-slate-100/30 rounded-full filter blur-3xl"></div>
         </div>
         
@@ -761,7 +761,7 @@ export default function Services() {
       <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-10 w-72 h-72 bg-slate-100/50 rounded-full filter blur-3xl"></div>
+
           <div className="absolute bottom-20 left-10 w-80 h-80 bg-slate-50 rounded-full filter blur-3xl"></div>
         </div>
         
@@ -849,8 +849,8 @@ export default function Services() {
       {/* Testimonials Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-slate-50/50 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-10 w-64 h-64 bg-slate-100/50 rounded-full filter blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-slate-100/30 rounded-full filter blur-3xl"></div>
+
+
         </div>
         
         <div className="container mx-auto relative z-10 max-w-6xl">
@@ -957,7 +957,7 @@ export default function Services() {
       <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-80 h-80 bg-slate-100/60 rounded-full filter blur-3xl"></div>
+
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-slate-50 rounded-full filter blur-3xl"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-slate-100/20 to-slate-100/20 rounded-full filter blur-3xl"></div>
         </div>
@@ -1094,7 +1094,7 @@ export default function Services() {
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-slate-50/50 relative overflow-hidden" role="region" aria-labelledby="faq-section">
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-80 h-80 bg-slate-100/50 rounded-full filter blur-3xl"></div>
+
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-slate-50 rounded-full filter blur-3xl"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-slate-100/30 to-slate-100/30 rounded-full filter blur-3xl"></div>
         </div>
@@ -1234,8 +1234,8 @@ export default function Services() {
       <section className="py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-orange-950 via-slate-900 to-slate-950">
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-slate-700/30 rounded-full filter blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-slate-600/20 rounded-full filter blur-3xl"></div>
+
+
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-slate-700/20 to-slate-700/20 rounded-full filter blur-3xl"></div>
           {/* Grid Pattern */}
           <div className="absolute inset-0 opacity-[0.05]" style={{
