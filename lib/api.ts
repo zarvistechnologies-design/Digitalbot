@@ -461,6 +461,15 @@ export const healthiqureAPI = {
       headers: { 'Content-Type': 'multipart/form-data' },
     }),
 
+  // Send verified WhatsApp template message
+  sendTemplateMessage: (data: {
+    phone: string;
+    templateName: string;
+    parameters?: string[];
+    hospitalName?: string;
+    doctorName?: string;
+  }) => api.post('/healthiqure/send-template-message', data),
+
   // Get message history
   getMessageHistory: (params?: {
     page?: number;

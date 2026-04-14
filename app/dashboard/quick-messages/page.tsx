@@ -5,9 +5,11 @@ import {
   AlertCircle,
   Building2,
   Check,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Clock,
+  Eye,
   File,
   FileText,
   Filter,
@@ -21,7 +23,7 @@ import {
   Stethoscope,
   Trash2,
   Video,
-  X,
+  X
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -78,6 +80,8 @@ function typeIcon(type: string) {
       return <FileText className="w-4 h-4 text-yellow-600" />;
     case "document":
       return <File className="w-4 h-4 text-orange-500" />;
+    case "template":
+      return <FileText className="w-4 h-4 text-green-600" />;
     default:
       return <Send className="w-4 h-4 text-orange-500" />;
   }
@@ -86,6 +90,7 @@ function typeIcon(type: string) {
 export default function QuickMessagesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const [sendMessageOpen, setSendMessageOpen] = useState(false);
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [hospitalName, setHospitalName] = useState("");
@@ -111,6 +116,106 @@ export default function QuickMessagesPage() {
   const [total, setTotal] = useState(0);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [expandedMsg, setExpandedMsg] = useState<HistoryItem | null>(null);
+
+  // ===== Verified Templates =====
+  const VERIFIED_TEMPLATES = [
+    {
+      name: "healthiqure_v1",
+      label: "Patient Referral Letter",
+      variables: ["{{1}}", "{{2}}"],
+      variableLabels: ["Patient Name", "Diagnosis"],
+      content: `Dear {{1}},
+
+Greetings from Life Care Clinic & Diagnostic Centre Bordumsa, a unit of HealthiQure Technologies Pvt. Ltd.
+
+We are referring a patient diagnosed with{{2}} for your expert evaluation and retina opinion. We kindly request you to examine the patient and advise further management accordingly.
+
+We would be grateful if you could please confirm a suitable appointment for the same. Kindly share the appointment details with us at 7099093551.
+
+Looking forward to your support.
+
+Warm regards,
+Life Care Clinic & Diagnostic Centre 
+(A unit of HealthiQure Technologies Pvt. Ltd.)
+Bordumsa 792056, Arunachal Pradesh
+Email: lifecarebordumsa.in@gmail.com
+Phone: 7099093551`,
+    },
+    {
+      name: "healthiqure_v2",
+      label: "Welcome / Introduction Message",
+      variables: [],
+      variableLabels: [],
+      content: `Welcome to Life Care Clinic & Diagnostic Centre
+(A Unit of HealthiQure Technologies Pvt. Ltd.)
+
+"Right Healthcare, Simplified" — that's our promise.
+
+At HealthiQure, we make healthcare easy by supporting you at every step—from consultation and diagnostics to specialist care, hospital admissions, and referrals across India.
+
+With centres at Bordumsa and Miao, we offer multi-specialty consultations, ultrasonography, ECG, lab tests, health check-ups, medicines, and ambulance services—all under one trusted network.
+
+To know more or book services, simply send "Hi" to our Patient Navigation WhatsApp Bot – 08047360162.
+
+Through our partner hospitals across Namsai, Roing, Pasighat, Tinsukia, Dibrugarh, Guwahati and beyond, we ensure timely treatment with travel and stay support.
+
+Powered by technology, driven by care - we are making healthcare simpler, smarter, and closer to you.`,
+    },
+  ];
+
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [templateParams, setTemplateParams] = useState<string[]>([]);
+  const [templatePhone, setTemplatePhone] = useState("");
+  const [templateHospitalName, setTemplateHospitalName] = useState("");
+  const [templateDoctorName, setTemplateDoctorName] = useState("");
+  const [sendingTemplate, setSendingTemplate] = useState(false);
+  const [templateResult, setTemplateResult] = useState<{ type: "success" | "error"; msg: string } | null>(null);
+  const [templatePreviewOpen, setTemplatePreviewOpen] = useState(false);
+
+  const activeTemplate = VERIFIED_TEMPLATES.find((t) => t.name === selectedTemplate);
+
+  const getPreviewContent = () => {
+    if (!activeTemplate) return "";
+    let preview = activeTemplate.content;
+    activeTemplate.variables.forEach((v, i) => {
+      preview = preview.replace(v, templateParams[i] || `[${activeTemplate.variableLabels[i]}]`);
+    });
+    return preview;
+  };
+
+  const handleTemplateSend = async () => {
+    if (!activeTemplate) return;
+    const cleanPhone = templatePhone.trim().replace(/\D/g, "");
+    if (!cleanPhone) return;
+    // If template has variables, ensure all are filled
+    if (activeTemplate.variables.length > 0) {
+      const allFilled = templateParams.every((p) => p.trim() !== "");
+      if (!allFilled) return;
+    }
+    setSendingTemplate(true);
+    setTemplateResult(null);
+    try {
+      const fullPhone = cleanPhone.startsWith("91") ? cleanPhone : `91${cleanPhone}`;
+      await healthiqureAPI.sendTemplateMessage({
+        phone: fullPhone,
+        templateName: activeTemplate.name,
+        parameters: activeTemplate.variables.length > 0 ? templateParams : undefined,
+        hospitalName: templateHospitalName.trim() || undefined,
+        doctorName: templateDoctorName.trim() || undefined,
+      });
+      setTemplateResult({ type: "success", msg: `Template "${activeTemplate.label}" sent to +${fullPhone}` });
+      setTemplateParams(activeTemplate.variables.map(() => ""));
+      setTemplatePhone("");
+      setTemplateHospitalName("");
+      setTemplateDoctorName("");
+      fetchHistory();
+    } catch (err) {
+      console.error("Template send failed:", err);
+      setTemplateResult({ type: "error", msg: "Failed to send template. Please try again." });
+    } finally {
+      setSendingTemplate(false);
+    }
+  };
 
   const fetchHistory = useCallback(async () => {
     setHistoryLoading(true);
@@ -239,15 +344,211 @@ export default function QuickMessagesPage() {
             </p>
           </header>
 
+          {/* ===== Verified Templates Section ===== */}
+          <div className="rounded-2xl shadow-lg border-2 border-green-200 bg-white transition-all duration-300 hover:shadow-xl hover:border-green-300 overflow-hidden">
+            <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-3 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-white" />
+              <h3 className="font-bold text-white text-sm">
+                Send Verified Template
+              </h3>
+            </div>
+
+            <div className="p-6 space-y-4">
+              {/* Template selector */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {VERIFIED_TEMPLATES.map((tpl) => (
+                  <button
+                    key={tpl.name}
+                    onClick={() => {
+                      if (selectedTemplate === tpl.name) {
+                        setSelectedTemplate(null);
+                        setTemplateParams([]);
+                        setTemplateResult(null);
+                      } else {
+                        setSelectedTemplate(tpl.name);
+                        setTemplateParams(tpl.variables.map(() => ""));
+                        setTemplateResult(null);
+                        setTemplatePreviewOpen(false);
+                      }
+                    }}
+                    className={`text-left p-4 rounded-xl border-2 transition-all duration-200 ${
+                      selectedTemplate === tpl.name
+                        ? "border-green-500 bg-green-50 shadow-md"
+                        : "border-gray-200 bg-gray-50 hover:border-green-300 hover:bg-green-50/50"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="font-semibold text-sm text-gray-900">{tpl.label}</p>
+                      {selectedTemplate === tpl.name && (
+                        <Check className="w-4 h-4 text-green-600" />
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Template: <span className="font-mono text-green-700">{tpl.name}</span>
+                    </p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {tpl.variables.length > 0
+                        ? `${tpl.variables.length} variable(s): ${tpl.variableLabels.join(", ")}`
+                        : "No variables — sends as-is"}
+                    </p>
+                  </button>
+                ))}
+              </div>
+
+              {/* Active template details */}
+              {activeTemplate && (
+                <div className="space-y-4 pt-2 border-t border-gray-100">
+                  {/* Preview toggle */}
+                  <button
+                    onClick={() => setTemplatePreviewOpen(!templatePreviewOpen)}
+                    className="flex items-center gap-2 text-sm font-medium text-green-700 hover:text-green-800 transition-colors"
+                  >
+                    <Eye className="w-4 h-4" />
+                    {templatePreviewOpen ? "Hide" : "Show"} Template Preview
+                    <ChevronDown className={`w-4 h-4 transition-transform ${templatePreviewOpen ? "rotate-180" : ""}`} />
+                  </button>
+
+                  {templatePreviewOpen && (
+                    <div className="bg-green-50 rounded-xl p-4 border border-green-200 max-h-64 overflow-y-auto">
+                      <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+                        {getPreviewContent()}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Phone + Hospital + Doctor */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="text-xs font-semibold text-gray-600 mb-1.5 block uppercase tracking-wide">
+                        Phone Number
+                      </label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                          type="tel"
+                          placeholder="e.g. 9876543210"
+                          value={templatePhone}
+                          onChange={(e) => setTemplatePhone(e.target.value)}
+                          className="w-full pl-10 pr-3 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:border-green-400 focus:ring-2 focus:ring-green-100 focus:bg-white transition-all"
+                          maxLength={15}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold text-gray-600 mb-1.5 block uppercase tracking-wide">
+                        Hospital Name
+                      </label>
+                      <div className="relative">
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder="e.g. Apollo Hospital"
+                          value={templateHospitalName}
+                          onChange={(e) => setTemplateHospitalName(e.target.value)}
+                          className="w-full pl-10 pr-3 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:border-green-400 focus:ring-2 focus:ring-green-100 focus:bg-white transition-all"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold text-gray-600 mb-1.5 block uppercase tracking-wide">
+                        Doctor Name
+                      </label>
+                      <div className="relative">
+                        <Stethoscope className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder="e.g. Dr. Sharma"
+                          value={templateDoctorName}
+                          onChange={(e) => setTemplateDoctorName(e.target.value)}
+                          className="w-full pl-10 pr-3 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:border-green-400 focus:ring-2 focus:ring-green-100 focus:bg-white transition-all"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Variable inputs */}
+                  {activeTemplate.variables.length > 0 && (
+                    <div className="space-y-3">
+                      <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                        Fill Template Variables
+                      </p>
+                      {activeTemplate.variables.map((v, i) => (
+                        <div key={v}>
+                          <label className="text-xs font-medium text-gray-500 mb-1 block">
+                            {v} — {activeTemplate.variableLabels[i]}
+                          </label>
+                          <input
+                            type="text"
+                            placeholder={`Enter ${activeTemplate.variableLabels[i]}`}
+                            value={templateParams[i] || ""}
+                            onChange={(e) => {
+                              const updated = [...templateParams];
+                              updated[i] = e.target.value;
+                              setTemplateParams(updated);
+                            }}
+                            className="w-full max-w-md px-3 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:border-green-400 focus:ring-2 focus:ring-green-100 focus:bg-white transition-all"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Send template button */}
+                  <button
+                    onClick={handleTemplateSend}
+                    disabled={
+                      sendingTemplate ||
+                      !templatePhone.trim() ||
+                      (activeTemplate.variables.length > 0 &&
+                        !templateParams.every((p) => p.trim() !== ""))
+                    }
+                    className="flex items-center gap-2 px-8 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-bold text-sm shadow-md hover:shadow-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap transform hover:-translate-y-0.5"
+                  >
+                    {sendingTemplate ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Send className="w-4 h-4" />
+                    )}
+                    Send Template
+                  </button>
+                </div>
+              )}
+
+              {/* Template send result */}
+              {templateResult && (
+                <div
+                  className={`px-4 py-2.5 rounded-lg flex items-center gap-2 text-sm font-medium ${
+                    templateResult.type === "success"
+                      ? "bg-green-50 text-green-700 border border-green-200"
+                      : "bg-red-50 text-red-700 border border-red-200"
+                  }`}
+                >
+                  {templateResult.type === "success" ? (
+                    <Check className="w-4 h-4" />
+                  ) : (
+                    <AlertCircle className="w-4 h-4" />
+                  )}
+                  {templateResult.msg}
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Send Message Card */}
           <div className="rounded-2xl shadow-lg border-2 border-orange-200 bg-white transition-all duration-300 hover:shadow-xl hover:border-orange-300 overflow-hidden">
-            <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 flex items-center gap-2">
+            <button
+              onClick={() => setSendMessageOpen(!sendMessageOpen)}
+              className="w-full bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 flex items-center gap-2 cursor-pointer"
+            >
               <Send className="w-5 h-5 text-white" />
               <h3 className="font-bold text-white text-sm">
                 Send WhatsApp Message
               </h3>
-            </div>
+              <ChevronDown className={`w-5 h-5 text-white ml-auto transition-transform duration-200 ${sendMessageOpen ? 'rotate-180' : ''}`} />
+            </button>
 
+            {sendMessageOpen && (
+            <>
             <div className="p-6 space-y-4">
               {/* Row 1: Phone + Hospital + Doctor */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -384,6 +685,8 @@ export default function QuickMessagesPage() {
                 {sendResult.msg}
               </div>
             )}
+            </>
+            )}
           </div>
 
           {/* History Section */}
@@ -429,6 +732,7 @@ export default function QuickMessagesPage() {
                 >
                   <option value="all">All Types</option>
                   <option value="text">Text</option>
+                  <option value="template">Template</option>
                   <option value="document">Document</option>
                   <option value="image">Image</option>
                   <option value="video">Video</option>
@@ -523,7 +827,21 @@ export default function QuickMessagesPage() {
 
                         {/* Message */}
                         <div className="col-span-4 min-w-0">
-                          {item.message ? (
+                          {item.type === "template" ? (
+                            <div
+                              onClick={() => setExpandedMsg(item)}
+                              className="cursor-pointer hover:opacity-80 transition-opacity"
+                              title="Click to read full message"
+                            >
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-100 text-green-700 border border-green-200 text-[11px] font-bold mb-1">
+                                <FileText className="w-3 h-3" />
+                                Template
+                              </span>
+                              <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                                {item.message}
+                              </p>
+                            </div>
+                          ) : item.message ? (
                             <p
                               onClick={() => setExpandedMsg(item)}
                               className="text-sm text-gray-600 line-clamp-2 leading-relaxed cursor-pointer hover:text-gray-900 transition-colors"
@@ -653,12 +971,17 @@ export default function QuickMessagesPage() {
                         </div>
 
                         {item.message && (
-                          <p
-                            onClick={() => setExpandedMsg(item)}
-                            className="text-sm text-gray-600 line-clamp-2 cursor-pointer hover:text-gray-900 transition-colors"
-                          >
-                            {item.message}
-                          </p>
+                          <div onClick={() => setExpandedMsg(item)} className="cursor-pointer">
+                            {item.type === "template" && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-green-100 text-green-700 border border-green-200 text-[11px] font-bold mb-1">
+                                <FileText className="w-3 h-3" />
+                                Template
+                              </span>
+                            )}
+                            <p className="text-sm text-gray-600 line-clamp-2 hover:text-gray-900 transition-colors">
+                              {item.message}
+                            </p>
+                          </div>
                         )}
 
                         <div className="flex items-center gap-2 flex-wrap">
