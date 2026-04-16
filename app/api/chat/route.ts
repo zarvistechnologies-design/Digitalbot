@@ -123,8 +123,9 @@ interface ChatMessage {
 export async function POST(req: NextRequest) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
+    console.error("OPENAI_API_KEY is missing. Available env keys:", Object.keys(process.env).filter(k => k.includes("OPENAI") || k.includes("openai")));
     return NextResponse.json(
-      { error: "OpenAI API key not configured" },
+      { error: "Our AI assistant is temporarily unavailable. Please email us at contact@digitalbot.ai" },
       { status: 500 }
     );
   }
