@@ -114,9 +114,9 @@ export function Footer() {
                   <Mail className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
                   contact@digitalbot.ai
                 </a>
-                <a href="tel:+918000000000" className="flex items-center gap-2.5 text-sm text-slate-500 hover:text-orange-500 transition-colors group">
+                <a href="tel:+919880774053" className="flex items-center gap-2.5 text-sm text-slate-500 hover:text-orange-500 transition-colors group">
                   <Phone className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
-                  +91 80000 00000
+                  +91 98807 74053
                 </a>
               </div>
             </div>
