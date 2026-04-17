@@ -156,7 +156,7 @@ export default function ChatbotWidget() {
                 <h3 className="text-white font-bold text-sm">Arya — AI Assistant</h3>
                 <div className="flex items-center gap-1.5">
                   <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  <span className="text-white/80 text-xs">Powered by GPT</span>
+                  <span className="text-white/80 text-xs">Live</span>
                 </div>
               </div>
             </div>
