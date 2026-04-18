@@ -486,7 +486,7 @@ const Dashboard = () => {
                     </svg>
                     <div>
                       <p className="font-semibold text-sky-900">Demo Mode Active</p>
-                      <p className="text-sm text-sky-800 mt-1">Unable to connect to Millis AI API. Showing sample data with recordings. Configure your API key in server/.env to see real data.</p>
+                      <p className="text-sm text-sky-800 mt-1">Unable to connect to  API. Showing sample data with recordings. Configure your API key in server/.env to see real data.</p>
                     </div>
                   </div>
                 </div>
@@ -717,14 +717,6 @@ const Dashboard = () => {
 
                               {call.recording_url || (call.recording && (call.recording.url || call.recording.recording_url)) ? (
                                 <div className="bg-white rounded-xl border-2 border-gray-200 p-5 shadow-sm">
-                                  <div className="flex items-start gap-2 mb-3">
-                                    <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                    <p className="text-xs text-gray-600 font-mono break-all bg-gray-50 p-2 rounded-lg flex-1">
-                                      {call.recording_url || call.recording.url || call.recording.recording_url}
-                                    </p>
-                                  </div>
                                   <audio
                                     controls
                                     className="w-full"
@@ -745,7 +737,7 @@ const Dashboard = () => {
                                       <p className="text-sm text-orange-800">
                                         Recording is enabled for this call. It may still be processing. Check your{' '}
                                         <a href="https://dashboard.millis.ai" target="_blank" rel="noopener noreferrer" className="text-orange-600 font-bold underline hover:text-orange-700">
-                                          Millis Dashboard
+                                           Dashboard
                                         </a>{' '}
                                         for the recording.
                                       </p>
@@ -878,7 +870,7 @@ const Dashboard = () => {
                     <p className="text-gray-600">
                       {isUsingMockData
                         ? "Try adjusting your search criteria"
-                        : "Configure your Millis AI API key to load call data"
+                        : "Configure your  API key to load call data"
                       }
                     </p>
                   </div>
