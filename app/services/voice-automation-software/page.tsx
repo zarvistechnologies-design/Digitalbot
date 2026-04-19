@@ -3,27 +3,27 @@
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import {
-  ArrowRight,
-  BarChart3,
-  Bot,
-  Brain,
-  Briefcase,
-  Building2,
-  Calendar,
-  CheckCircle,
-  Cpu,
-  Globe,
-  Headphones,
-  Heart,
-  Mic,
-  Pause,
-  Phone,
-  Play,
-  Settings,
-  Shield,
-  ShoppingCart,
-  Users,
-  Zap
+    ArrowRight,
+    BarChart3,
+    Bot,
+    Brain,
+    Briefcase,
+    Building2,
+    Calendar,
+    CheckCircle,
+    Cpu,
+    Globe,
+    Headphones,
+    Heart,
+    Mic,
+    Pause,
+    Phone,
+    Play,
+    Settings,
+    Shield,
+    ShoppingCart,
+    Users,
+    Zap
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -221,19 +221,19 @@ export default function VoiceAutomationSoftwarePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
 
-      <div className="min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]">
+      <div className="min-h-screen bg-white">
         <Header />
         <main className="min-h-screen">
           {/* Hero Section - Premium Light Theme */}
           <section className="relative min-h-screen flex items-center overflow-hidden">
             {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(99,102,241,0.15),transparent_50%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(165,148,249,0.15),transparent_50%)]" />
+            <div className="absolute inset-0 bg-white" />
+            <div className="absolute inset-0 bg-transparent" />
+            <div className="absolute inset-0 bg-transparent" />
             
             {/* Decorative Blur Orbs */}
-            <div className="absolute top-20 right-10 w-72 h-72 bg-orange-200/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 left-10 w-96 h-96 bg-orange-100/40 rounded-full blur-3xl" />
+
+
 
             {/* Floating Icons */}
             <div className="absolute top-32 left-[15%] hidden lg:block">
@@ -264,7 +264,7 @@ export default function VoiceAutomationSoftwarePage() {
 
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
                     <span className="text-gray-900">Automate Every </span>
-                    <span className="bg-gradient-to-r from-orange-600 via-violet-500 to-violet-700 text-transparent bg-clip-text">
+                    <span className="text-orange-500">
                       Voice Interaction
                     </span>
                     <span className="text-gray-900"> with AI</span>
@@ -279,7 +279,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                     <Link 
                       href="/contact#contact-form"
-                      className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-600 to-violet-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-orange-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-200/50 hover:shadow-xl hover:shadow-orange-300/50 hover:-translate-y-0.5"
+                      className="inline-flex items-center justify-center gap-2 bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-orange-700 hover:to-orange-600 transition-all duration-300 shadow-lg shadow-orange-200/50 hover:shadow-xl hover:shadow-orange-300/50 hover:-translate-y-0.5"
                     >
                       Start Free Trial
                       <ArrowRight className="w-5 h-5" />
@@ -327,7 +327,7 @@ export default function VoiceAutomationSoftwarePage() {
                   {/* Floating Stats Card */}
                   <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl shadow-orange-100/40 border border-orange-100/40">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-violet-500 rounded-xl flex items-center justify-center">
+                      <div className="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center">
                         <BarChart3 className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -350,7 +350,7 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Stats Section */}
-          <section className="py-12 bg-gradient-to-r from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
+          <section className="py-12 bg-orange-600 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.1),transparent_70%)]" />
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -375,15 +375,15 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Intelligent Conversation Flow Section */}
-          <section className="py-20 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-80 h-80 bg-orange-100/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-orange-50/40 rounded-full blur-3xl" />
+          <section className="py-20 bg-white relative overflow-hidden">
+
+
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 {/* Left Image */}
                 <div className="relative order-2 lg:order-1">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-violet-100/50 to-orange-200/50 rounded-3xl blur-2xl" />
+
                   <div className="relative h-[350px] sm:h-[400px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-orange-200/40">
                     <Image
                       src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=500&fit=crop"
@@ -428,9 +428,9 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Real-Time Performance Analytics Section */}
-          <section className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-72 h-72 bg-orange-100/40 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-orange-50/50 rounded-full blur-3xl" />
+          <section className="py-20 bg-white relative overflow-hidden">
+
+
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -465,7 +465,7 @@ export default function VoiceAutomationSoftwarePage() {
 
                 {/* Right Image */}
                 <div className="relative">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-orange-200/50 via-violet-100/50 to-orange-200/50 rounded-3xl blur-2xl" />
+
                   <div className="relative h-[350px] sm:h-[400px] rounded-3xl overflow-hidden border-2 border-white shadow-2xl shadow-orange-200/40">
                     <Image
                       src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=500&fit=crop"
@@ -481,9 +481,9 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Features Section */}
-          <section className="py-20 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-orange-100/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-72 h-72 bg-orange-50/50 rounded-full blur-3xl" />
+          <section className="py-20 bg-white relative overflow-hidden">
+
+
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="text-center mb-16">
@@ -509,7 +509,7 @@ export default function VoiceAutomationSoftwarePage() {
                     <div className="absolute inset-0 bg-gradient-to-br from-orange-50/0 via-orange-100/0 to-orange-50/0 group-hover:from-orange-50/50 group-hover:via-orange-100/30 group-hover:to-orange-50/50 transition-all duration-500 rounded-2xl" />
                     
                     <div className="relative z-10">
-                      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-violet-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-orange-200/50">
+                      <div className="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-orange-200/50">
                         <feature.icon className="w-7 h-7 text-white" />
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-orange-700 transition-colors">
@@ -526,9 +526,9 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Use Cases Section */}
-          <section className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden">
-            <div className="absolute top-20 left-10 w-64 h-64 bg-orange-100/40 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-10 w-80 h-80 bg-orange-50/60 rounded-full blur-3xl" />
+          <section className="py-20 bg-white relative overflow-hidden">
+
+
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="text-center mb-16">
@@ -550,7 +550,7 @@ export default function VoiceAutomationSoftwarePage() {
                     key={index}
                     className="group bg-white rounded-2xl p-6 border border-orange-100/40 shadow-lg shadow-orange-50/50 hover:shadow-xl hover:shadow-orange-100/50 hover:-translate-y-1 transition-all duration-300 text-center"
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:from-orange-500 group-hover:to-violet-500 transition-all duration-300">
+                    <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:from-orange-500 group-hover:to-orange-600 transition-all duration-300">
                       <useCase.icon className="w-8 h-8 text-orange-600 group-hover:text-white transition-colors" />
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-700 transition-colors">
@@ -566,8 +566,8 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* Demo Section */}
-          <section className="py-20 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.08),transparent_70%)]" />
+          <section className="py-20 bg-white relative overflow-hidden">
+            <div className="absolute inset-0 bg-transparent" />
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="text-center mb-12">
@@ -598,7 +598,7 @@ export default function VoiceAutomationSoftwarePage() {
                           className={`max-w-[80%] p-4 rounded-2xl ${
                             msg.speaker === "Customer"
                               ? "bg-gray-100 text-gray-900 rounded-bl-md"
-                              : "bg-gradient-to-r from-orange-500 to-violet-500 text-white rounded-br-md"
+                              : "bg-orange-500 text-white rounded-br-md"
                           }`}
                         >
                           <p className={`text-xs font-semibold mb-1 ${
@@ -616,7 +616,7 @@ export default function VoiceAutomationSoftwarePage() {
                   <div className="flex justify-center">
                     <button
                       onClick={playConversation}
-                      className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-600 to-violet-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-orange-700 hover:to-violet-700 transition-all duration-300 shadow-lg shadow-orange-200/50"
+                      className="inline-flex items-center gap-3 bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-orange-700 hover:to-orange-600 transition-all duration-300 shadow-lg shadow-orange-200/50"
                     >
                       {isPlaying ? (
                         <>
@@ -638,7 +638,7 @@ export default function VoiceAutomationSoftwarePage() {
                       {Array.from({ length: 30 }).map((_, i) => (
                         <div
                           key={i}
-                          className="w-1 bg-gradient-to-t from-orange-600 to-violet-400 rounded-full animate-pulse"
+                          className="w-1 bg-gradient-to-t from-orange-600 to-orange-600 rounded-full animate-pulse"
                           style={{
                             height: `${Math.random() * 24 + 8}px`,
                             animationDelay: `${i * 0.05}s`,
@@ -654,9 +654,9 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* FAQ Section */}
-          <section className="py-20 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden">
-            <div className="absolute top-0 left-1/4 w-72 h-72 bg-orange-100/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-50/50 rounded-full blur-3xl" />
+          <section className="py-20 bg-white relative overflow-hidden">
+
+
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="text-center mb-16">
@@ -680,7 +680,7 @@ export default function VoiceAutomationSoftwarePage() {
                   >
                     <div className="flex gap-4">
                       <div className="flex-shrink-0">
-                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-violet-500 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-orange-200/50">
+                        <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-orange-200/50">
                           {index + 1}
                         </div>
                       </div>
@@ -700,9 +700,9 @@ export default function VoiceAutomationSoftwarePage() {
           </section>
 
           {/* CTA Section */}
-          <section className="py-20 bg-gradient-to-r from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
+          <section className="py-20 bg-orange-600 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.15),transparent_60%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(99,102,241,0.3),transparent_60%)]" />
+            <div className="absolute inset-0 bg-transparent" />
             
             {/* Floating Elements */}
             <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl" />

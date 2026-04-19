@@ -56,7 +56,7 @@ export function VoiceConversationPlayer({ audioSrc }: VoiceConversationPlayerPro
                       ? `sound-wave ${0.5 + (index % 3) * 0.2}s ease-in-out infinite`
                       : undefined,
                     animationDelay: isPlaying ? `${index * 0.05}s` : undefined,
-                    boxShadow: isPlaying ? '0 0 4px rgba(99, 102, 241, 0.3)' : undefined
+                    boxShadow: isPlaying ? '0 0 4px rgba(249, 115, 22, 0.3)' : undefined
                   }}
                 />
               )

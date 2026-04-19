@@ -93,7 +93,10 @@ const [heroVisible, setHeroVisible] = useState(false)
       <main className="bg-white text-gray-900 min-h-screen overflow-hidden">
 
         {/* HERO */}
-        <section className="relative min-h-screen flex items-center">
+        <section className="relative min-h-screen flex items-center bg-white">
+          {/* Decorative gradient orbs */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%)' }} />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full" style={{ background: 'radial-gradient(circle, transparent 0%, transparent 70%)' }} />
           {/* Waveform Background */}
           <div className="absolute inset-0 flex items-center justify-center overflow-hidden opacity-20">
             {Array.from({ length: 60 }).map((_, i) => (
@@ -114,12 +117,12 @@ const [heroVisible, setHeroVisible] = useState(false)
             <div className={`space-y-8 transition-all duration-1000 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
               <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 px-4 py-2 rounded-full">
                 <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
-                <span className="text-sm text-orange-400 font-medium">Voice AI Agent</span>
+                <span className="text-sm text-orange-500 font-medium">Voice AI Agent</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-black">
                 AI That Speaks.<br />
-                <span className="text-orange-400">Listens.</span><br />
+                <span className="text-orange-500">Listens.</span><br />
                 And Converts.
               </h1>
 
@@ -136,7 +139,7 @@ const [heroVisible, setHeroVisible] = useState(false)
                 </button>
                 <button
                   onClick={() => window.location.href = "/contact"}
-                  className="inline-flex items-center gap-2 px-8 py-4 border border-gray-300 hover:border-orange-500/50 text-gray-900 font-semibold rounded-xl transition-all hover:bg-gray-50"
+                  className="inline-flex items-center gap-2 px-8 py-4 border border-gray-300 hover:border-gray-200 text-gray-900 font-semibold rounded-xl transition-all hover:bg-gray-50"
                 >
                   Hear a Sample Call
                 </button>
@@ -146,7 +149,7 @@ const [heroVisible, setHeroVisible] = useState(false)
             {/* Right — iPhone with Call Screen */}
             <div className={`flex justify-center transition-all duration-1000 delay-300 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
               <div className="relative">
-                <div className="absolute -inset-10 bg-orange-500/10 rounded-full blur-3xl" />
+
 
                 <div className="relative w-[280px] sm:w-[310px] animate-float">
                   <div className="bg-slate-900 rounded-[44px] border-[6px] border-slate-700 p-1 shadow-2xl">
@@ -235,7 +238,7 @@ const [heroVisible, setHeroVisible] = useState(false)
         {/* VOICE FEATURES */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">Voice AI That Feels Human</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">Voice AI That <span className="text-orange-500">Feels Human</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto">Not another IVR. A real conversational AI that handles complex discussions.</p>
           </div>
 
@@ -253,13 +256,13 @@ const [heroVisible, setHeroVisible] = useState(false)
         </section>
 
         {/* USE CASES */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-white">
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-12">Use Cases</h2>
           <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
             {useCases.map((u, i) => (
               <div key={i} className="min-w-[260px] snap-start bg-white shadow-sm border border-gray-200 rounded-2xl p-6 hover:border-orange-500/30 transition-all flex-shrink-0">
-                <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center mb-3">
-                  <Phone className="w-5 h-5 text-orange-400" />
+                <div className="w-10 h-10 rounded-lg bg-orange-500 flex items-center justify-center mb-3">
+                  <Phone className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="text-lg font-semibold mb-1">{u.title}</h3>
                 <p className="text-gray-600 text-sm">{u.desc}</p>
@@ -269,8 +272,8 @@ const [heroVisible, setHeroVisible] = useState(false)
         </section>
 
         {/* COMPARISON TABLE */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">Human Agent vs Voice AI Agent</h2>
+        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto bg-white">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">Human Agent vs <span className="text-orange-500">Voice AI Agent</span></h2>
           <p className="text-gray-600 text-center mb-12">See why businesses are switching to AI</p>
 
           <div className="bg-white shadow-sm border border-gray-200 rounded-2xl overflow-hidden">
@@ -291,7 +294,7 @@ const [heroVisible, setHeroVisible] = useState(false)
         </section>
 
         {/* STATS */}
-        <section className="py-16 bg-gradient-to-r from-orange-50 via-orange-100/50 to-orange-50 border-y border-orange-200">
+        <section className="py-16 bg-white border-y border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { end: 500, suffix: "+", label: "Agents Deployed" },
@@ -300,7 +303,7 @@ const [heroVisible, setHeroVisible] = useState(false)
               { end: 24, suffix: "/7", label: "Always Active" },
             ].map((s, i) => (
               <div key={i} className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-orange-400">
+                <p className="text-2xl sm:text-3xl font-bold text-orange-500">
                   <AnimatedCounter end={s.end} suffix={s.suffix} />
                 </p>
                 <p className="text-gray-600 mt-1 text-sm">{s.label}</p>
@@ -311,7 +314,7 @@ const [heroVisible, setHeroVisible] = useState(false)
 
         {/* CTA */}
         <section className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center bg-gradient-to-br from-orange-50 to-white border border-orange-200 rounded-3xl p-10 sm:p-14">
+          <div className="max-w-3xl mx-auto text-center bg-white border border-gray-200 rounded-3xl p-10 sm:p-14">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">Ready to let AI handle your calls?</h2>
             <p className="text-gray-600 mb-8 max-w-xl mx-auto">
               Book a free demo — hear exactly how your AI voice agent will sound.

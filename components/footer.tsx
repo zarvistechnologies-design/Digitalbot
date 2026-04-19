@@ -14,15 +14,12 @@ export function Footer() {
   ]
 
   return (
-    <footer className="relative bg-gradient-to-b from-white to-[#fafbff] border-t border-orange-100/30 overflow-hidden">
-      {/* Subtle background glow */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-400/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-400/5 rounded-full blur-3xl pointer-events-none"></div>
+    <footer className="relative bg-white border-t border-gray-200 overflow-hidden">
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Enhanced Premium Feature Banner - Orange theme */}
-        <div className="py-6 mb-4">
+        <div className="py-3 mb-2">
           <div className="relative glass-strong bg-gradient-to-r from-orange-500/90 via-orange-600/90 to-orange-600/90 rounded-3xl p-8 shadow-2xl shadow-orange-500/20 overflow-hidden group border border-orange-400/20">
             {/* Enhanced Animated shimmer effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -117,9 +114,9 @@ export function Footer() {
                   <Mail className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
                   contact@digitalbot.ai
                 </a>
-                <a href="tel:+918000000000" className="flex items-center gap-2.5 text-sm text-slate-500 hover:text-orange-500 transition-colors group">
+                <a href="tel:+919880774053" className="flex items-center gap-2.5 text-sm text-slate-500 hover:text-orange-500 transition-colors group">
                   <Phone className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
-                  +91 80000 00000
+                  +91 98807 74053
                 </a>
               </div>
             </div>

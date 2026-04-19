@@ -1,98 +1,79 @@
 "use client"
 
-import { Award, Building2, CheckCircle2, CreditCard, Shield } from "lucide-react"
+import { ArrowRight, Globe, HeadphonesIcon, Sparkles, Zap } from "lucide-react"
+import Link from "next/link"
 
 export function CTA() {
-  const stats = [
-    { number: "10K+", label: "Businesses" },
-    { number: "99.9%", label: "Uptime" },
-    { number: "24/7", label: "Available" },
-    { number: "5M+", label: "Calls" }
-  ]
-
-  const trustItems = [
-    { icon: CheckCircle2, text: "SOC 2 Certified • GDPR Compliant" },
-    { icon: Building2, text: "Trusted by Fortune 500 Companies" },
-    { icon: CreditCard, text: "No credit card required • Cancel anytime" }
-  ]
-
   return (
-    <section className="relative py-20 overflow-hidden bg-white">
-      <div className="absolute inset-0 bg-white" aria-hidden="true"></div>
-      
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
-        
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 glass-card bg-orange-50/60 border-orange-200/40 px-4 py-2 rounded-full mb-6">
-            <Award className="w-4 h-4 text-orange-600" />
-            <span className="text-sm font-semibold text-orange-600">Trusted Worldwide</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-            Powering Conversations for the
-            <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-              World's Leading Brands
-            </span>
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Our AI-first, telco-grade platform ensures unmatched reliability, security, and performance at scale.
-          </p>
-        </div>
+    <section className="relative py-12 sm:py-16 overflow-hidden bg-white">
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          
-          {/* Left Side - Image */}
-          <div className="relative flex items-center justify-center lg:justify-start">
-            <div className="absolute bottom-0 left-1/2 lg:left-[40%] -translate-x-1/2 w-[75%] h-[55%] bg-white rounded-[50px]"></div>
-            <div className="relative w-full max-w-md lg:max-w-none">
+      <div className="mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+          {/* Left — Image */}
+          <div className="relative flex justify-center lg:justify-start order-2 lg:order-1">
+            <div className="relative">
               <img
-                src="https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/stat_heubsl"
-                alt="Global AI Platform Statistics"
-                className="w-full h-full object-contain relative z-10"
+                src="https://www.chatbot.com/images/solutions/single/ai-subscription-chat.3963efd0f35593846e6c0d5d7306142a40210baa8804913d24cd4b293b915285.webp"
+                alt="AI-powered business communication platform"
+                className="relative w-full h-auto"
+                loading="lazy"
               />
             </div>
           </div>
 
-          {/* Right Side - Stats Card */}
-          <div className="flex justify-center lg:justify-start">
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl shadow-orange-100/20 p-8 w-full max-w-md border border-white/40 hover:shadow-2xl transition-shadow duration-500">
-              {/* Card Header */}
-              <div className="flex items-center gap-2 mb-8">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
-                  <Shield className="w-4 h-4 text-white" />
+          {/* Right — Content */}
+          <div className="space-y-8 order-1 lg:order-2">
+            <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
+              <Sparkles className="w-4 h-4 text-orange-600" />
+              <span className="text-xs font-semibold text-orange-700 uppercase tracking-wide">The Future of Customer Engagement</span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+              One Platform.{" "}
+              <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                Every Conversation.
+              </span>
+              <br />
+              Zero Missed Opportunities.
+            </h2>
+
+            <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
+              From AI voice calls to WhatsApp automation and smart dashboards — DigitalBot unifies every customer touchpoint into one intelligent, always-on platform.
+            </p>
+
+            {/* Feature pills */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {[
+                { icon: Zap, label: "Voice AI Agents" },
+                { icon: Globe, label: "WhatsApp Bots" },
+                { icon: HeadphonesIcon, label: "24/7 Support" },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-sm">
+                  <item.icon className="w-4 h-4 text-orange-500 flex-shrink-0" />
+                  <span className="text-sm font-medium text-slate-700">{item.label}</span>
                 </div>
-                <span className="text-lg font-bold text-orange-500">Trusted Platform</span>
-              </div>
+              ))}
+            </div>
 
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                {stats.map((stat, idx) => (
-                  <div 
-                    key={idx}
-                    className="group p-5 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-orange-100/30 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100/50 transition-all duration-300 text-center cursor-default"
-                  >
-                    <div className="text-2xl sm:text-3xl font-bold text-orange-500 group-hover:scale-110 transition-transform duration-300">
-                      {stat.number}
-                    </div>
-                    <div className="text-sm text-gray-500 font-medium mt-1">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Trust Items */}
-              <div className="space-y-3">
-                {trustItems.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-3 group">
-                    <item.icon className="w-4 h-4 text-orange-500 flex-shrink-0" />
-                    <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">{item.text}</span>
-                  </div>
-                ))}
-              </div>
+            {/* CTA buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <Link
+                href="/contact#contact-form"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/25 text-sm"
+              >
+                Start Free Trial
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center px-8 py-3.5 text-slate-900 font-semibold rounded-xl border border-slate-300 hover:border-orange-300 hover:text-orange-600 transition-all text-sm"
+              >
+                Book a Demo
+              </Link>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   )

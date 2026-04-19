@@ -486,7 +486,7 @@ const Dashboard = () => {
                     </svg>
                     <div>
                       <p className="font-semibold text-sky-900">Demo Mode Active</p>
-                      <p className="text-sm text-sky-800 mt-1">Unable to connect to Millis AI API. Showing sample data with recordings. Configure your API key in server/.env to see real data.</p>
+                      <p className="text-sm text-sky-800 mt-1">Unable to connect to  API. Showing sample data with recordings. Configure your API key in server/.env to see real data.</p>
                     </div>
                   </div>
                 </div>
@@ -737,7 +737,7 @@ const Dashboard = () => {
                                       <p className="text-sm text-orange-800">
                                         Recording is enabled for this call. It may still be processing. Check your{' '}
                                         <a href="https://dashboard.millis.ai" target="_blank" rel="noopener noreferrer" className="text-orange-600 font-bold underline hover:text-orange-700">
-                                          Millis Dashboard
+                                           Dashboard
                                         </a>{' '}
                                         for the recording.
                                       </p>
@@ -870,7 +870,7 @@ const Dashboard = () => {
                     <p className="text-gray-600">
                       {isUsingMockData
                         ? "Try adjusting your search criteria"
-                        : "Configure your Millis AI API key to load call data"
+                        : "Configure your  API key to load call data"
                       }
                     </p>
                   </div>

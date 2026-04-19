@@ -152,9 +152,9 @@ export default function LeadsPage() {
           {/* Animated Background Elements - Hero Style */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {/* Floating Orbs */}
-            <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+
+
+
             
             {/* Animated Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{

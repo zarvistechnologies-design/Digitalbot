@@ -211,9 +211,9 @@ export default function AIVirtualReceptionist() {
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
             {/* Floating Orbs */}
-            <div className="absolute top-20 left-10 w-72 h-72 bg-orange-400/20 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite' }} />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/15 rounded-full blur-3xl" style={{ animation: 'float 6s ease-in-out infinite', animationDelay: '2s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-300/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
+
+
+
             
             {/* Animated Grid Pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -361,7 +361,7 @@ export default function AIVirtualReceptionist() {
               </p>
             </div>
             <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100">
-              <VoiceConversationPlayer audioSrc="/sample-receptionist-conversation.mp3" />
+              <VoiceConversationPlayer audioSrc="/audio/virtual-receptionist-sample.mp3" />
             </div>
           </div>
         </section>
@@ -728,7 +728,7 @@ export default function AIVirtualReceptionist() {
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-600 via-violet-600 to-orange-700 relative overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-20 left-20 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-20 w-96 h-96 bg-orange-300/10 rounded-full blur-3xl" />
+
           </div>
 
           <div className="container mx-auto max-w-4xl text-center relative z-10">
