@@ -198,7 +198,8 @@ export default function AkiaraTicketsPage() {
         !t.customerName?.toLowerCase().includes(q) &&
         !t.orderId?.toLowerCase().includes(q) &&
         !t.issueDescription?.toLowerCase().includes(q) &&
-        !t.escalationReason?.toLowerCase().includes(q)
+        !t.escalationReason?.toLowerCase().includes(q) &&
+        !t._id.toLowerCase().includes(q)
       ) return false;
     }
     if (filterStatus !== "all" && t.status !== filterStatus) return false;
@@ -304,7 +305,7 @@ export default function AkiaraTicketsPage() {
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search by phone, name, order ID..."
+                  placeholder="Search by phone, name, order ID, ticket #..."
                   className="w-full h-10 pl-10 pr-4 bg-slate-50 rounded-lg border border-slate-200 text-sm placeholder:text-slate-400 focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none transition-all"
                 />
               </div>
@@ -376,6 +377,7 @@ export default function AkiaraTicketsPage() {
                       {/* Main info */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[10px] font-mono font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded select-all">#{t._id.slice(-6).toUpperCase()}</span>
                           <span className="font-semibold text-sm text-slate-800">{formatPhone(t.phone)}</span>
                           {t.customerName && <span className="text-sm text-slate-400">· {t.customerName}</span>}
                           {t.orderId && <span className="text-xs font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">#{t.orderId}</span>}
@@ -449,8 +451,9 @@ export default function AkiaraTicketsPage() {
                             </select>
                           </div>
                           {updatingId === t._id && <Loader2 className="w-3.5 h-3.5 text-orange-500 animate-spin" />}
-                          <span className="text-[11px] text-slate-400 ml-auto hidden sm:block">
-                            Created {new Date(t.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                          <span className="text-[11px] text-slate-400 ml-auto hidden sm:flex items-center gap-2">
+                            <span className="font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded select-all">TKT-{t._id.slice(-6).toUpperCase()}</span>
+                            · Created {new Date(t.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
                           </span>
                         </div>
 
