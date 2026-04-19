@@ -579,4 +579,19 @@ export const akiaraAPI = {
   },
 };
 
+// ========================================
+// TENANT CONFIG API
+// ========================================
+export const tenantAPI = {
+  // Get all tenants
+  getTenants: () => api.get('/tenants'),
+
+  // Get single tenant
+  getTenant: (tenantId: string) => api.get(`/tenants/${tenantId}`),
+
+  // Update tenant config (including TeleCRM settings)
+  updateTenant: (tenantId: string, data: Record<string, unknown>) =>
+    api.put(`/tenants/${tenantId}`, data),
+};
+
 export default api;

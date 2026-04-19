@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { BookOpen, Bot, Calendar, CalendarCheck, CreditCard, FileText, LayoutDashboard, LogOut, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Stethoscope, Ticket, Users, X } from 'lucide-react';
+import { BookOpen, Bot, Calendar, CalendarCheck, CreditCard, FileText, LayoutDashboard, LogOut, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -71,6 +71,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/akiara-sessions', icon: MessageSquare });
       serviceItems.push({ name: 'Tickets', href: '/dashboard/akiara-tickets', icon: Ticket });
       serviceItems.push({ name: 'Knowledge Base', href: '/dashboard/akiara-knowledge', icon: BookOpen });
+      serviceItems.push({ name: 'Settings', href: '/dashboard/akiara-settings', icon: Settings });
     }
     return serviceItems;
   };
