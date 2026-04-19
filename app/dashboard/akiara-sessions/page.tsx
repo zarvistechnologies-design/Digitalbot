@@ -108,8 +108,13 @@ const serviceLabels: Record<string, string> = {
   live_demo: "Live Demo",
   home_service: "Home Service",
   home_demo: "Home Demo",
+  repair: "Repair",
+  return_refund: "Return/Refund",
   return_replacement: "Return/Replacement",
+  service_center: "Service Center",
+  troubleshooting: "Troubleshooting",
   general_query: "General Query",
+  support: "Support",
 };
 
 const langLabels: Record<string, string> = { en: "English", hi: "Hindi", ta: "Tamil", te: "Telugu" };
@@ -221,13 +226,13 @@ export default function AkiaraSessionsPage() {
   });
 
   // Pie chart data
-  const productPie = analytics
+  const productPie = analytics?.productBreakdown
     ? Object.entries(analytics.productBreakdown)
         .filter(([, v]) => v > 0)
         .map(([k, v]) => ({ name: productLabels[k] || k, value: v }))
     : [];
 
-  const servicePie = analytics
+  const servicePie = analytics?.serviceBreakdown
     ? Object.entries(analytics.serviceBreakdown)
         .filter(([, v]) => v > 0)
         .map(([k, v]) => ({ name: serviceLabels[k] || k, value: v }))
@@ -331,7 +336,7 @@ export default function AkiaraSessionsPage() {
                   <MessageSquare className="w-4 h-4 text-orange-500" /> Daily Trend
                 </h3>
                 <ResponsiveContainer width="100%" height={220}>
-                  <AreaChart data={analytics.dailyStats}>
+                  <AreaChart data={analytics.dailyStats || []}>
                     <defs>
                       <linearGradient id="akSessGrad" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#f97316" stopOpacity={0.4} />
@@ -367,7 +372,7 @@ export default function AkiaraSessionsPage() {
                 <div className="mt-4 pt-4 border-t border-slate-100">
                   <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Languages</p>
                   <div className="flex gap-1.5 flex-wrap">
-                    {Object.entries(analytics.languageBreakdown).filter(([, v]) => v > 0).map(([k, v]) => (
+                    {Object.entries(analytics.languageBreakdown || {}).filter(([, v]) => v > 0).map(([k, v]) => (
                       <span key={k} className="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-medium text-slate-600">{langLabels[k] || k}: {v}</span>
                     ))}
                   </div>

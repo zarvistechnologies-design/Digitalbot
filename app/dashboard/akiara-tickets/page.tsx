@@ -3,23 +3,23 @@ import Sidebar from "@/components/Sidebar";
 import { useWebSocket } from "@/hooks/use-websocket";
 import { akiaraAPI } from "@/lib/api";
 import {
-    AlertTriangle,
-    CheckCircle,
-    ChevronDown,
-    ChevronUp,
-    Clock,
-    ExternalLink,
-    Loader2,
-    MapPin,
-    Menu,
-    MessageCircle,
-    Package,
-    RefreshCw,
-    Search,
-    Send,
-    Ticket,
-    User,
-    X
+  AlertTriangle,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  ExternalLink,
+  Loader2,
+  MapPin,
+  Menu,
+  MessageCircle,
+  Package,
+  RefreshCw,
+  Search,
+  Send,
+  Ticket,
+  User,
+  X
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -69,8 +69,13 @@ const serviceLabels: Record<string, string> = {
   live_demo: "Live Demo",
   home_service: "Home Service",
   home_demo: "Home Demo",
+  repair: "Repair",
+  return_refund: "Return/Refund",
   return_replacement: "Return/Replacement",
+  service_center: "Service Center",
+  troubleshooting: "Troubleshooting",
   general_query: "General Query",
+  support: "Support",
 };
 
 const langLabels: Record<string, string> = { en: "English", hi: "Hindi", ta: "Tamil", te: "Telugu" };
