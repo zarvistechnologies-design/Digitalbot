@@ -103,18 +103,14 @@ const productLabels: Record<string, string> = {
 };
 
 const serviceLabels: Record<string, string> = {
-  machine_not_working: "Machine Not Working",
   warranty_registration: "Warranty Registration",
-  live_demo: "Live Demo",
   home_service: "Home Service",
   home_demo: "Home Demo",
   repair: "Repair",
-  return_refund: "Return/Refund",
-  return_replacement: "Return/Replacement",
+  return_refund: "Return / Refund",
+  live_demo: "Live Demo",
   service_center: "Service Center",
   troubleshooting: "Troubleshooting",
-  general_query: "General Query",
-  support: "Support",
 };
 
 const langLabels: Record<string, string> = { en: "English", hi: "Hindi", ta: "Tamil", te: "Telugu" };
