@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, Send, User, X } from "lucide-react";
+import { Loader2, Phone, Send, User, X } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -31,16 +31,37 @@ interface Message {
   time: string;
 }
 
-interface ChatHistoryItem {
-  role: "user" | "assistant";
-  content: string;
-}
+type Step = "greeting" | "service-type" | "voice-services" | "whatsapp-services" | "collect-name" | "collect-phone" | "submitting" | "done";
 
-const SUGGESTED_QUESTIONS = [
-  "What services do you offer?",
-  "How does pricing work?",
-  "Which industries do you serve?",
-  "How quickly can I get started?",
+const voiceServices = [
+  "AI Voice Bot",
+  "Voice AI for Business",
+  "Voice Automation",
+  "Conversational AI",
+  "AI Customer Support",
+  "AI Call Center",
+  "AI Sales Agent",
+  "Virtual Receptionist",
+];
+
+const whatsappServices = [
+  "Education",
+  "Car Dealership",
+  "Real Estate",
+  "Coaching",
+  "Automobile",
+  "Marketing",
+  "Insurance",
+  "Consulting",
+  "Healthcare",
+  "Accounting & Legal",
+  "SaaS",
+  "Financial Services",
+  "E-commerce",
+  "IT Services",
+  "BPO",
+  "Recruitment",
+  "Others",
 ];
 
 function getTime() {
@@ -51,85 +72,140 @@ export default function ChatbotWidget() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [chatHistory, setChatHistory] = useState<ChatHistoryItem[]>([]);
-  const [input, setInput] = useState("");
+  const [step, setStep] = useState<Step>("greeting");
   const [isTyping, setIsTyping] = useState(false);
+  const [selectedServiceType, setSelectedServiceType] = useState("");
+  const [selectedService, setSelectedService] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setMessages([
       {
         id: 1,
-        text: "Hi there! 👋 I'm Arya, your AI assistant at DigitalBot. Ask me anything about our AI voice agents, WhatsApp bots, pricing, integrations, or how we can help your business!",
+        text: "Hi there! \ud83d\udc4b I'm Arya, your AI assistant at DigitalBot. I help businesses automate conversations with AI.\n\nWhat service are you interested in?",
         sender: "bot",
         time: getTime(),
       },
     ]);
+    setStep("service-type");
   }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
+  }, [messages, isTyping, step]);
 
   useEffect(() => {
-    if (isOpen && inputRef.current) inputRef.current.focus();
-  }, [isOpen]);
+    if (step === "collect-name" && nameRef.current) nameRef.current.focus();
+    if (step === "collect-phone" && phoneRef.current) phoneRef.current.focus();
+  }, [step]);
 
-  const sendMessage = async (text: string) => {
-    if (!text.trim() || isTyping) return;
+  const addBotMessage = (text: string) => {
+    return new Promise<void>((resolve) => {
+      setIsTyping(true);
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          { id: Date.now() + Math.random(), text, sender: "bot", time: getTime() },
+        ]);
+        setIsTyping(false);
+        resolve();
+      }, 800);
+    });
+  };
 
-    const userMsg: Message = {
-      id: Date.now(),
-      text: text.trim(),
-      sender: "user",
-      time: getTime(),
-    };
-    setMessages((prev) => [...prev, userMsg]);
-    setInput("");
-    setIsTyping(true);
+  const addUserMessage = (text: string) => {
+    setMessages((prev) => [
+      ...prev,
+      { id: Date.now(), text, sender: "user", time: getTime() },
+    ]);
+  };
 
-    const newHistory: ChatHistoryItem[] = [
-      ...chatHistory,
-      { role: "user", content: text.trim() },
-    ];
+  const handleServiceTypeSelect = async (type: string) => {
+    const label = type === "voice" ? "\ud83c\udf99\ufe0f Voice AI Agent" : "\ud83d\udcac WhatsApp Bot Agent";
+    addUserMessage(label);
+    setSelectedServiceType(type);
+
+    const services = type === "voice" ? voiceServices : whatsappServices;
+    const serviceList = services.map((s, i) => `${i + 1}. ${s}`).join("\n");
+    await addBotMessage(
+      `Great choice! Here are our ${type === "voice" ? "Voice AI" : "WhatsApp Bot"} services:\n\n${serviceList}\n\nWhich service interests you?`
+    );
+    setStep(type === "voice" ? "voice-services" : "whatsapp-services");
+  };
+
+  const handleServiceSelect = async (service: string) => {
+    addUserMessage(service);
+    setSelectedService(service);
+    await addBotMessage(
+      `Excellent! "${service}" is one of our most popular solutions. \ud83d\ude80\n\nLet me connect you with our team. Could you share your name?`
+    );
+    setStep("collect-name");
+  };
+
+  const handleNameSubmit = async () => {
+    if (!userName.trim()) return;
+    const name = userName.trim();
+    addUserMessage(name);
+    setUserName(name);
+    await addBotMessage(`Nice to meet you, ${name}! \ud83d\ude4f\n\nPlease share your phone number so our team can reach you.`);
+    setStep("collect-phone");
+  };
+
+  const handlePhoneSubmit = async () => {
+    if (!userPhone.trim() || userPhone.trim().length < 7) return;
+    const phone = userPhone.trim();
+    addUserMessage(phone);
+    setStep("submitting");
 
     try {
-      const res = await fetch("/api/chat", {
+      setIsSubmitting(true);
+      const submitData = new FormData();
+      submitData.append("access_key", "8f0556d8-66c3-4e2d-810e-5de948aff5ce");
+      submitData.append("subject", `Chatbot Lead: ${userName} - ${selectedServiceType === "voice" ? "Voice AI" : "WhatsApp Bot"} - ${selectedService}`);
+      submitData.append("from_name", "DigitalBot Chatbot");
+      submitData.append("name", userName);
+      submitData.append("phone", phone);
+      submitData.append("message", `Service Type: ${selectedServiceType === "voice" ? "Voice AI Agent" : "WhatsApp Bot Agent"}\nService: ${selectedService}\nSource: Website Chatbot`);
+      submitData.append("redirect", "false");
+      submitData.append("to", "hello@metic.ai");
+
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newHistory }),
+        body: submitData,
       });
+      const data = await response.json();
 
-      const data = await res.json();
-      const reply = data.reply || data.error || "Sorry, something went wrong. Please try again.";
-
-      const botMsg: Message = {
-        id: Date.now() + 1,
-        text: reply,
-        sender: "bot",
-        time: getTime(),
-      };
-      setMessages((prev) => [...prev, botMsg]);
-      setChatHistory([...newHistory, { role: "assistant", content: reply }]);
+      if (data.success) {
+        await addBotMessage(
+          `Thank you, ${userName}! \u2705\n\nWe've received your request for "${selectedService}". Our team will contact you shortly at ${phone}.\n\nIs there anything else I can help you with?`
+        );
+        setStep("done");
+      } else {
+        throw new Error("Submission failed");
+      }
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          text: "Sorry, I'm having trouble connecting right now. Please try again or email us at contact@digitalbot.ai",
-          sender: "bot",
-          time: getTime(),
-        },
-      ]);
+      await addBotMessage(
+        "Sorry, something went wrong. Please try again or email us directly at hello@metic.ai"
+      );
+      setStep("collect-phone");
     } finally {
-      setIsTyping(false);
+      setIsSubmitting(false);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    sendMessage(input);
+  const handleRestart = async () => {
+    addUserMessage("Start over");
+    setSelectedServiceType("");
+    setSelectedService("");
+    setUserName("");
+    setUserPhone("");
+    await addBotMessage("Sure! What service are you interested in?");
+    setStep("service-type");
   };
 
   // Hide chatbot on dashboard pages
@@ -153,7 +229,7 @@ export default function ChatbotWidget() {
                 <AryaAvatar size={40} />
               </div>
               <div>
-                <h3 className="text-white font-bold text-sm">Arya — AI Assistant</h3>
+                <h3 className="text-white font-bold text-sm">Arya</h3>
                 <div className="flex items-center gap-1.5">
                   <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                   <span className="text-white/80 text-xs">Live</span>
@@ -225,47 +301,143 @@ export default function ChatbotWidget() {
 
           {/* Action Area */}
           <div className="border-t border-gray-100 bg-white">
-            {/* Suggested questions — only show if no user messages yet */}
-            {messages.length === 1 && !isTyping && (
-              <div className="px-4 pt-3 space-y-1.5">
-                <p className="text-xs text-gray-400 font-medium px-1">Try asking:</p>
-                {SUGGESTED_QUESTIONS.map((q) => (
-                  <button
-                    key={q}
-                    onClick={() => sendMessage(q)}
-                    className="block w-full text-left text-xs px-3 py-2 bg-orange-50 border border-orange-200 text-orange-700 rounded-xl hover:bg-orange-100 hover:border-orange-300 transition-all"
-                  >
-                    {q}
-                  </button>
-                ))}
+            {/* Service Type Selection */}
+            {step === "service-type" && !isTyping && (
+              <div className="px-4 py-3 space-y-2">
+                <button
+                  onClick={() => handleServiceTypeSelect("voice")}
+                  className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-xl hover:from-orange-100 hover:to-orange-200 transition-all text-left"
+                >
+                  <span className="text-2xl">{"\ud83c\udf99\ufe0f"}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-orange-800">Voice AI Agent</p>
+                    <p className="text-xs text-orange-600">AI-powered phone calls & IVR</p>
+                  </div>
+                </button>
+                <button
+                  onClick={() => handleServiceTypeSelect("whatsapp")}
+                  className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-xl hover:from-orange-100 hover:to-orange-200 transition-all text-left"
+                >
+                  <span className="text-2xl">{"\ud83d\udcac"}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-orange-800">WhatsApp Bot Agent</p>
+                    <p className="text-xs text-orange-600">Automated WhatsApp messaging</p>
+                  </div>
+                </button>
               </div>
             )}
 
-            {/* Chat Input */}
-            <form onSubmit={handleSubmit} className="px-4 py-3 flex items-center gap-2">
-              <div className="flex-1 relative">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask me anything..."
-                  disabled={isTyping}
-                  className="w-full pl-4 pr-4 py-2.5 bg-gray-100 rounded-full text-sm text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-300 focus:bg-white transition-all disabled:opacity-50"
-                />
+            {/* Voice Services Selection */}
+            {step === "voice-services" && !isTyping && (
+              <div className="px-4 py-3 max-h-[220px] overflow-y-auto">
+                <div className="grid grid-cols-2 gap-1.5">
+                  {voiceServices.map((service) => (
+                    <button
+                      key={service}
+                      onClick={() => handleServiceSelect(service)}
+                      className="text-xs px-3 py-2 bg-orange-50 border border-orange-200 text-orange-700 rounded-lg hover:bg-orange-100 hover:border-orange-300 transition-all text-left"
+                    >
+                      {service}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <button
-                type="submit"
-                disabled={!input.trim() || isTyping}
-                className="w-10 h-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-orange-300/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-              >
-                {isTyping ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Send className="w-4 h-4" />
-                )}
-              </button>
-            </form>
+            )}
+
+            {/* WhatsApp Services Selection */}
+            {step === "whatsapp-services" && !isTyping && (
+              <div className="px-4 py-3 max-h-[220px] overflow-y-auto">
+                <div className="grid grid-cols-2 gap-1.5">
+                  {whatsappServices.map((service) => (
+                    <button
+                      key={service}
+                      onClick={() => handleServiceSelect(service)}
+                      className="text-xs px-3 py-2 bg-orange-50 border border-orange-200 text-orange-700 rounded-lg hover:bg-orange-100 hover:border-orange-300 transition-all text-left"
+                    >
+                      {service}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Name Input */}
+            {step === "collect-name" && !isTyping && (
+              <div className="px-4 py-3">
+                <form
+                  onSubmit={(e) => { e.preventDefault(); handleNameSubmit(); }}
+                  className="flex items-center gap-2"
+                >
+                  <div className="flex-1 relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      ref={nameRef}
+                      type="text"
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                      placeholder="Enter your name..."
+                      className="w-full pl-9 pr-4 py-2.5 bg-gray-100 rounded-full text-sm text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-300 focus:bg-white transition-all"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={!userName.trim()}
+                    className="w-10 h-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-orange-300/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  >
+                    <Send className="w-4 h-4" />
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* Phone Input */}
+            {step === "collect-phone" && !isTyping && (
+              <div className="px-4 py-3">
+                <form
+                  onSubmit={(e) => { e.preventDefault(); handlePhoneSubmit(); }}
+                  className="flex items-center gap-2"
+                >
+                  <div className="flex-1 relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      ref={phoneRef}
+                      type="tel"
+                      value={userPhone}
+                      onChange={(e) => setUserPhone(e.target.value)}
+                      placeholder="Enter your phone number..."
+                      className="w-full pl-9 pr-4 py-2.5 bg-gray-100 rounded-full text-sm text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-300 focus:bg-white transition-all"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={!userPhone.trim() || userPhone.trim().length < 7}
+                    className="w-10 h-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white hover:shadow-lg hover:shadow-orange-300/40 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  >
+                    <Send className="w-4 h-4" />
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* Submitting */}
+            {step === "submitting" && (
+              <div className="px-4 py-4 flex items-center justify-center gap-2 text-sm text-gray-500">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Submitting your details...
+              </div>
+            )}
+
+            {/* Done - Restart option */}
+            {step === "done" && !isTyping && (
+              <div className="px-4 py-3">
+                <button
+                  onClick={handleRestart}
+                  className="w-full text-xs px-4 py-2.5 bg-orange-50 border border-orange-200 text-orange-600 rounded-full hover:bg-orange-100 hover:border-orange-300 transition-all font-medium"
+                >
+                  Explore another service
+                </button>
+              </div>
+            )}
 
             <p className="text-[10px] text-gray-400 text-center pb-2">
               Powered by DigitalBot.ai
@@ -278,7 +450,7 @@ export default function ChatbotWidget() {
       <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-2">
         {!isOpen && (
           <div className="bg-white rounded-full px-4 py-2 shadow-lg border border-gray-200 animate-bounce-slow">
-            <p className="text-xs font-semibold text-gray-700">Ask <span className="text-orange-500">Arya</span> anything 💬</p>
+            <p className="text-xs font-semibold text-gray-700">Chat with <span className="text-orange-500">Arya</span> 👋</p>
           </div>
         )}
         <button
