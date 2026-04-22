@@ -556,10 +556,6 @@ export const akiaraAPI = {
   sendMessage: (data: { phone: string; message: string }) =>
     api.post('/akiara/send-message', data),
 
-  // Send message to customer (for any tenant)
-  sendMessageToAkiara: (data: { phone: string; message: string }) =>
-    api.post('/akiara/send-message', data),
-
   // Resolve customer media URL — handles proxy IDs and old Meta URLs
   getMediaUrl: (url: string): string => {
     if (!url) return '';
