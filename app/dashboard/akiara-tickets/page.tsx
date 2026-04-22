@@ -129,6 +129,16 @@ const statusDots: Record<string, string> = {
   closed: "bg-slate-400",
 };
 
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  assignedPhoneNumber: string;
+  role: string;
+  tenantId: string;
+  selectedService: string;
+}
+
 export default function AkiaraTicketsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [tickets, setTickets] = useState<AkiaraTicket[]>([]);
@@ -141,6 +151,12 @@ export default function AkiaraTicketsPage() {
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [sendingMsg, setSendingMsg] = useState<string | null>(null);
   const [customMsg, setCustomMsg] = useState("");
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) setUser(JSON.parse(userData));
+  }, []);
 
   const fetchTickets = useCallback(async () => {
     setLoading(true);
@@ -178,10 +194,10 @@ export default function AkiaraTicketsPage() {
   };
 
   const handleSendMessage = async (phone: string) => {
-    if (!customMsg.trim()) return;
+    if (!customMsg.trim() || !user?.tenantId) return;
     setSendingMsg(phone);
     try {
-      await akiaraAPI.sendMessage({ phone, message: customMsg });
+      await akiaraAPI.sendMessage({ phone, message: customMsg, tenantId: user.tenantId });
       setCustomMsg("");
       setSendingMsg(null);
     } catch (err) {

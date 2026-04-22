@@ -147,6 +147,16 @@ function getStateColor(state: string) {
   }
 }
 
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  assignedPhoneNumber: string;
+  role: string;
+  tenantId: string;
+  selectedService: string;
+}
+
 export default function AkiaraSessionsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sessions, setSessions] = useState<AkiaraSession[]>([]);
@@ -161,8 +171,13 @@ export default function AkiaraSessionsPage() {
   const [sendingMsg, setSendingMsg] = useState<string | null>(null);
   const [customMsg, setCustomMsg] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { 
+    setMounted(true);
+    const userData = localStorage.getItem('user');
+    if (userData) setUser(JSON.parse(userData));
+  }, []);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -192,10 +207,10 @@ export default function AkiaraSessionsPage() {
   });
 
   const handleSendMessage = async (phone: string) => {
-    if (!customMsg.trim()) return;
+    if (!customMsg.trim() || !user?.tenantId) return;
     setSendingMsg(phone);
     try {
-      await akiaraAPI.sendMessage({ phone, message: customMsg });
+      await akiaraAPI.sendMessage({ phone, message: customMsg, tenantId: user.tenantId });
       setCustomMsg("");
       setSendingMsg(null);
     } catch (err) {

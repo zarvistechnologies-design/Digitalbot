@@ -553,7 +553,7 @@ export const akiaraAPI = {
     api.get('/akiara/analytics', { params }),
 
   // Send message to customer
-  sendMessage: (data: { phone: string; message: string }) =>
+  sendMessage: (data: { phone: string; message: string; tenantId: string }) =>
     api.post('/akiara/send-message', data),
 
   // Resolve customer media URL — handles proxy IDs and old Meta URLs
