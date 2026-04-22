@@ -3,36 +3,36 @@ import Sidebar from "@/components/Sidebar";
 import { useWebSocket } from "@/hooks/use-websocket";
 import { akiaraAPI } from "@/lib/api";
 import {
-    AlertTriangle,
-    ChevronDown,
-    ChevronUp,
-    Clock,
-    Loader2,
-    Menu,
-    MessageSquare,
-    Package,
-    RefreshCw,
-    Search,
-    Send,
-    Ticket,
-    User,
-    X,
-    Zap
+  AlertTriangle,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  Loader2,
+  Menu,
+  MessageSquare,
+  Package,
+  RefreshCw,
+  Search,
+  Send,
+  Ticket,
+  User,
+  X,
+  Zap
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import {
-    Area,
-    AreaChart,
-    Bar,
-    BarChart,
-    CartesianGrid,
-    Cell,
-    Pie,
-    PieChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 
 interface AkiaraSession {
