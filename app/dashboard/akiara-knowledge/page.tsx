@@ -504,7 +504,7 @@ export default function AkiaraKnowledgePage() {
             <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 flex items-center justify-center">
               <div className="bg-white rounded-xl p-5 shadow-2xl border border-slate-200/80 flex items-center gap-3">
                 <Loader2 className="w-5 h-5 text-orange-500 animate-spin" />
-                <span className="text-sm text-slate-600 font-medium">Saving changes...</span>
+                <span className="text-sm text-slate-600 font-medium">Saving changes..</span>
               </div>
             </div>
           )}
