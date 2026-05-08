@@ -161,8 +161,29 @@ export default function AkiaraTicketsPage() {
   const fetchTickets = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await akiaraAPI.getTickets({ limit: 200 });
-      setTickets(res.data?.data || []);
+      const allTickets: AkiaraTicket[] = [];
+      let page = 1;
+      const limit = 100;
+      let hasMore = true;
+
+      while (hasMore) {
+        const res = await akiaraAPI.getTickets({ page, limit });
+        const ticketsData = res.data?.data || [];
+        
+        if (ticketsData.length === 0) {
+          hasMore = false;
+        } else {
+          allTickets.push(...ticketsData);
+          page++;
+          
+          // Safety check to prevent infinite loops
+          if (ticketsData.length < limit) {
+            hasMore = false;
+          }
+        }
+      }
+      
+      setTickets(allTickets);
     } catch (err) {
       console.error("Failed to fetch tickets:", err);
     } finally {
