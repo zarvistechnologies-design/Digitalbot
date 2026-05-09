@@ -556,6 +556,32 @@ export const akiaraAPI = {
   sendMessage: (data: { phone: string; message: string; tenantId: string }) =>
     api.post('/akiara/send-message', data),
 
+  // Get tenant message templates
+  getMessageTemplates: (params: { tenantId: string }) =>
+    api.get('/akiara/message-templates', { params }),
+
+  // Send a rendered tenant template to a customer
+  sendTemplateMessage: (data: {
+    phone: string;
+    tenantId: string;
+    templateId: string;
+    variables?: Record<string, string>;
+  }) => api.post('/akiara/send-template-message', data),
+
+  // Get dashboard message history
+  getMessageHistory: (params: {
+    tenantId: string;
+    page?: number;
+    limit?: number;
+    search?: string;
+    type?: string;
+    templateId?: string;
+  }) => api.get('/akiara/message-history', { params }),
+
+  // Delete message history entry
+  deleteMessageHistory: (id: string) =>
+    api.delete(`/akiara/message-history/${id}`),
+
   // Resolve customer media URL — handles proxy IDs and old Meta URLs
   getMediaUrl: (url: string): string => {
     if (!url) return '';

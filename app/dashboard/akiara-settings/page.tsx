@@ -11,6 +11,7 @@ import {
   ExternalLink,
   Eye,
   EyeOff,
+  FileText,
   Globe,
   IndianRupee,
   Key,
@@ -19,11 +20,13 @@ import {
   Menu,
   MessageSquare,
   Plug,
+  Plus,
   RefreshCw,
   Save,
   Settings,
   Shield,
   Sparkles,
+  Trash2,
   X,
   Zap,
 } from "lucide-react";
@@ -39,6 +42,22 @@ interface CalendlyConfig {
   apiToken: string;
   eventTypeUri: string;
   webhookSigningKey: string;
+}
+
+interface MessageTemplateVariable {
+  key: string;
+  label: string;
+  required?: boolean;
+  defaultValue?: string;
+}
+
+interface MessageTemplate {
+  id: string;
+  name: string;
+  language?: string;
+  body: string;
+  variables: MessageTemplateVariable[];
+  active?: boolean;
 }
 
 interface TenantData {
@@ -60,16 +79,46 @@ interface TenantData {
     withinWarranty: string;
     outsideWarranty: string;
   };
+  messageTemplates?: MessageTemplate[];
 }
 
-type TabKey = "general" | "integrations" | "links" | "advanced";
+type TabKey = "general" | "integrations" | "links" | "templates" | "advanced";
 
 const TABS: { key: TabKey; label: string; icon: React.ReactNode; desc: string }[] = [
   { key: "general", label: "General", icon: <Bot className="w-4 h-4" />, desc: "Brand & bot identity" },
   { key: "integrations", label: "Integrations", icon: <Plug className="w-4 h-4" />, desc: "TeleCRM & Calendly" },
   { key: "links", label: "Links & Pricing", icon: <Link2 className="w-4 h-4" />, desc: "URLs & service pricing" },
+  { key: "templates", label: "Templates", icon: <FileText className="w-4 h-4" />, desc: "Dashboard messages" },
   { key: "advanced", label: "Advanced", icon: <Sparkles className="w-4 h-4" />, desc: "Prompts & escalation" },
 ];
+
+function makeTemplateId(name: string) {
+  const id = name.toLowerCase().trim().replace(/[^a-z0-9_]+/g, "_").replace(/_+$/g, "");
+  return id || `template_${Date.now()}`;
+}
+
+function variablesToText(variables: MessageTemplateVariable[] = []) {
+  return variables
+    .map((variable) => `${variable.key}|${variable.label || variable.key}|${variable.required === false ? "optional" : "required"}`)
+    .join("\n");
+}
+
+function textToVariables(value: string): MessageTemplateVariable[] {
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [key, label, required] = line.split("|").map((part) => part?.trim());
+      return {
+        key,
+        label: label || key,
+        required: required !== "optional",
+        defaultValue: "",
+      };
+    })
+    .filter((variable) => variable.key);
+}
 
 export default function AkiaraSettingsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -101,6 +150,7 @@ export default function AkiaraSettingsPage() {
   const [calendlyLink, setCalendlyLink] = useState("");
   const [websiteLink, setWebsiteLink] = useState("");
   const [withinWarranty, setWithinWarranty] = useState("FREE");
+  const [messageTemplates, setMessageTemplates] = useState<MessageTemplate[]>([]);
   const [outsideWarranty, setOutsideWarranty] = useState("₹500 per visit");
 
   const fetchTenant = useCallback(async () => {
@@ -108,7 +158,10 @@ export default function AkiaraSettingsPage() {
     try {
       const res = await tenantAPI.getTenants();
       const tenants = res.data?.data || [];
-      const t = tenants.find((x: TenantData) => x.tenantId === "akiara") || tenants[0];
+      const t = tenants.find((x: TenantData) => (
+        x.tenantId === "akiara" || x.brandName?.toLowerCase() === "akiara"
+      ));
+      if (!t) throw new Error("Akiara tenant not found");
       if (t) {
         setTenant(t);
         setTeleCrmEnabled(t.teleCrm?.enabled || false);
@@ -122,6 +175,7 @@ export default function AkiaraSettingsPage() {
         setCalendlyLink(t.links?.calendly || "");
         setWebsiteLink(t.links?.website || "");
         setWithinWarranty(t.homeServicePricing?.withinWarranty || "FREE");
+        setMessageTemplates(t.messageTemplates || []);
         setOutsideWarranty(t.homeServicePricing?.outsideWarranty || "₹500 per visit");
         setCalendlyApiToken(t.calendly?.apiToken || "");
         setCalendlyEventTypeUri(t.calendly?.eventTypeUri || "");
@@ -155,6 +209,17 @@ export default function AkiaraSettingsPage() {
           website: websiteLink,
         },
         homeServicePricing: { withinWarranty, outsideWarranty },
+        messageTemplates: messageTemplates
+          .map((template) => ({
+            ...template,
+            id: template.id || makeTemplateId(template.name),
+            name: template.name.trim(),
+            body: template.body.trim(),
+            language: template.language || "en",
+            variables: template.variables || [],
+            active: template.active !== false,
+          }))
+          .filter((template) => template.id && template.name && template.body),
         teleCrm: {
           enabled: teleCrmEnabled,
           apiKey: teleCrmApiKey,
@@ -175,6 +240,32 @@ export default function AkiaraSettingsPage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const addTemplate = () => {
+    const id = `template_${Date.now()}`;
+    setMessageTemplates((prev) => [
+      ...prev,
+      {
+        id,
+        name: "New template",
+        language: "en",
+        body: "Hi {{customerName}}, thank you for contacting Akiara support.",
+        variables: [{ key: "customerName", label: "Customer name", required: true, defaultValue: "" }],
+        active: true,
+      },
+    ]);
+    setActiveTab("templates");
+  };
+
+  const updateTemplate = (index: number, updates: Partial<MessageTemplate>) => {
+    setMessageTemplates((prev) => prev.map((template, itemIndex) => (
+      itemIndex === index ? { ...template, ...updates } : template
+    )));
+  };
+
+  const removeTemplate = (index: number) => {
+    setMessageTemplates((prev) => prev.filter((_, itemIndex) => itemIndex !== index));
   };
 
   // ---- Loading State ----
@@ -612,6 +703,118 @@ export default function AkiaraSettingsPage() {
             )}
 
             {/* ────── ADVANCED TAB ────── */}
+            {/* Templates Tab */}
+            {activeTab === "templates" && (
+              <div className="space-y-5 animate-in fade-in duration-300">
+                <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                  <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center">
+                        <FileText className="w-4 h-4 text-orange-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-slate-800">Message Templates</h3>
+                        <p className="text-xs text-slate-400">Used by the Akiara Messages dashboard</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={addTemplate}
+                      className="h-9 px-3 rounded-lg bg-orange-500 text-white text-xs font-semibold flex items-center gap-1.5 hover:bg-orange-600 transition-colors"
+                    >
+                      <Plus className="w-3.5 h-3.5" /> Add
+                    </button>
+                  </div>
+
+                  <div className="p-6 space-y-4">
+                    {messageTemplates.length === 0 ? (
+                      <div className="py-12 text-center border border-dashed border-slate-200 rounded-xl bg-slate-50">
+                        <FileText className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                        <p className="text-sm font-medium text-slate-500">No templates yet</p>
+                        <button onClick={addTemplate} className="mt-3 text-sm font-semibold text-orange-600 hover:text-orange-700">
+                          Add your first template
+                        </button>
+                      </div>
+                    ) : (
+                      messageTemplates.map((template, index) => (
+                        <div key={`${template.id}-${index}`} className="border border-slate-200 rounded-xl overflow-hidden">
+                          <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-3">
+                            <div>
+                              <p className="text-sm font-semibold text-slate-700">{template.name || "Untitled template"}</p>
+                              <p className="text-[11px] text-slate-400 font-mono">{template.id || "missing-id"}</p>
+                            </div>
+                            <button
+                              onClick={() => removeTemplate(index)}
+                              className="p-2 rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors"
+                              title="Delete template"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          <div className="p-4 space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Name</label>
+                                <input
+                                  value={template.name}
+                                  onChange={(e) => updateTemplate(index, {
+                                    name: e.target.value,
+                                    id: template.id || makeTemplateId(e.target.value),
+                                  })}
+                                  className="w-full h-10 px-3 bg-slate-50 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none"
+                                />
+                              </div>
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Template ID</label>
+                                <input
+                                  value={template.id}
+                                  onChange={(e) => updateTemplate(index, { id: makeTemplateId(e.target.value) })}
+                                  className="w-full h-10 px-3 bg-slate-50 rounded-lg border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none"
+                                />
+                              </div>
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Language</label>
+                                <input
+                                  value={template.language || "en"}
+                                  onChange={(e) => updateTemplate(index, { language: e.target.value || "en" })}
+                                  className="w-full h-10 px-3 bg-slate-50 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="space-y-1.5">
+                              <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Message Body</label>
+                              <textarea
+                                value={template.body}
+                                onChange={(e) => updateTemplate(index, { body: e.target.value })}
+                                rows={5}
+                                placeholder="Hi {{customerName}}, your ticket {{ticketId}} is resolved."
+                                className="w-full px-3 py-3 bg-slate-50 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none resize-none leading-relaxed"
+                              />
+                            </div>
+
+                            <div className="space-y-1.5">
+                              <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Variables</label>
+                              <textarea
+                                value={variablesToText(template.variables)}
+                                onChange={(e) => updateTemplate(index, { variables: textToVariables(e.target.value) })}
+                                rows={3}
+                                placeholder="customerName|Customer name|required"
+                                className="w-full px-3 py-3 bg-slate-50 rounded-lg border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none resize-none"
+                              />
+                              <p className="text-[11px] text-slate-400">
+                                One per line: key|label|required. Use the same key in the body like {"{{customerName}}"}.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeTab === "advanced" && (
               <div className="space-y-5 animate-in fade-in duration-300">
                 {/* Custom Prompt */}

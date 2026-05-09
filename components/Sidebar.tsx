@@ -70,6 +70,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     if (user?.selectedService === 'akiara') {
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/akiara-sessions', icon: MessageSquare });
       serviceItems.push({ name: 'Tickets', href: '/dashboard/akiara-tickets', icon: Ticket });
+      serviceItems.push({ name: 'Messages', href: '/dashboard/akiara-messages', icon: Send });
       serviceItems.push({ name: 'Knowledge Base', href: '/dashboard/akiara-knowledge', icon: BookOpen });
       serviceItems.push({ name: 'Settings', href: '/dashboard/akiara-settings', icon: Settings });
     }
