@@ -39,13 +39,21 @@ function AnimatedCounter({ end, suffix = "", duration = 2000 }: { end: number; s
   return <span ref={ref}>{count}{suffix}</span>
 }
 
+function WhatsAppLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden="true" className={className} fill="currentColor">
+      <path d="M16.04 3C8.9 3 3.1 8.73 3.1 15.8c0 2.27.6 4.48 1.75 6.42L3 29l6.98-1.82a13.1 13.1 0 0 0 6.06 1.5c7.14 0 12.95-5.74 12.95-12.8C29 8.73 23.18 3 16.04 3Zm0 23.5c-1.9 0-3.76-.5-5.39-1.45l-.39-.23-4.14 1.08 1.1-4.01-.26-.41a10.52 10.52 0 0 1-1.65-5.68c0-5.85 4.82-10.61 10.73-10.61 5.92 0 10.74 4.76 10.74 10.61S21.96 26.5 16.04 26.5Zm5.88-7.95c-.32-.16-1.9-.93-2.2-1.03-.3-.11-.52-.16-.74.16-.21.31-.84 1.03-1.03 1.24-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.6-1.6-.96-.84-1.6-1.89-1.8-2.21-.18-.31-.02-.48.14-.64.15-.14.32-.37.48-.56.16-.18.21-.31.32-.52.1-.21.05-.39-.03-.55-.08-.16-.74-1.76-1.01-2.42-.27-.63-.54-.55-.74-.56h-.63c-.21 0-.55.08-.84.4-.3.31-1.1 1.06-1.1 2.6 0 1.53 1.13 3.01 1.29 3.22.16.21 2.22 3.36 5.38 4.71.75.32 1.34.52 1.8.66.75.24 1.44.2 1.98.12.6-.09 1.9-.77 2.16-1.5.27-.75.27-1.38.19-1.51-.08-.13-.3-.21-.62-.37Z" />
+    </svg>
+  )
+}
+
 const plans = [
   {
     name: "Case-based Chatbot",
     icon: MessageCircle,
+    useWhatsAppIcon: true,
     description: "Structured WhatsApp automation for teams that need reliable lead handling.",
-    price: "₹799",
-    billing: "/month",
+    monthlyPrice: 799,
     crm: "1 CRM integration",
     tags: ["WhatsApp", "Flows", "Lead routing"],
     features: [
@@ -57,14 +65,14 @@ const plans = [
     ],
     popular: false,
     cta: "Start with Chatbot",
-    gradient: "from-orange-500 to-orange-600",
+    gradient: "from-emerald-500 to-teal-600",
   },
   {
     name: "AI Chatbot",
     icon: Bot,
+    useWhatsAppIcon: true,
     description: "AI-powered WhatsApp growth suite for campaigns, segmentation, and insights.",
-    price: "₹1,999",
-    billing: "/month",
+    monthlyPrice: 1999,
     crm: "3 CRM integrations",
     tags: ["NLU", "Broadcasts", "AI insights"],
     features: [
@@ -84,8 +92,7 @@ const plans = [
     name: "Voice AI",
     icon: Mic,
     description: "Natural AI voice calls with free minutes, multilingual support, and call intelligence.",
-    price: "₹1,400",
-    billing: "/month",
+    monthlyPrice: 1400,
     crm: "200 free minutes, then ₹7/min",
     tags: ["Voice calls", "10+ languages", "Sentiment"],
     features: [
@@ -134,6 +141,15 @@ const faqs = [
 ]
 
 export default function Pricing() {
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly")
+  const isYearly = billingCycle === "yearly"
+  const formatPrice = (amount: number) =>
+    new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(amount)
+
   return (
     <>
       <Header />
@@ -153,6 +169,27 @@ export default function Pricing() {
               <p className="text-lg text-slate-500 max-w-2xl mx-auto mb-8">
                 Clean pricing for chat automation, AI messaging, and voice conversations.
               </p>
+
+              <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+                {[
+                  { value: "monthly", label: "Monthly" },
+                  { value: "yearly", label: "Yearly" },
+                ].map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => setBillingCycle(option.value as "monthly" | "yearly")}
+                    className={`min-w-24 rounded-lg px-5 py-2 text-sm font-semibold transition-all ${
+                      billingCycle === option.value
+                        ? "bg-slate-950 text-white shadow-sm"
+                        : "text-slate-500 hover:text-slate-900"
+                    }`}
+                    aria-pressed={billingCycle === option.value}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
@@ -179,7 +216,11 @@ export default function Pricing() {
                   <div className="flex h-full flex-col p-6 lg:p-8">
                     <div className="mb-6 flex items-start gap-4 pr-24 md:pr-0 lg:pr-20">
                       <div className={`w-14 h-14 bg-gradient-to-br ${plan.gradient} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform shrink-0`}>
-                        <plan.icon className="w-7 h-7 text-white" />
+                        {plan.useWhatsAppIcon ? (
+                          <WhatsAppLogo className="w-8 h-8 text-white" />
+                        ) : (
+                          <plan.icon className="w-7 h-7 text-white" />
+                        )}
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold text-slate-900">{plan.name}</h3>
@@ -189,12 +230,23 @@ export default function Pricing() {
 
                     <div className="mb-5">
                       <div className="flex items-end gap-1">
-                        <span className="text-4xl lg:text-5xl font-semibold tracking-tight text-slate-950">{plan.price}</span>
-                        <span className="pb-1.5 text-sm font-medium text-slate-400">{plan.billing}</span>
+                        <span className="text-4xl lg:text-5xl font-semibold tracking-tight text-slate-950">
+                          {formatPrice(isYearly ? plan.monthlyPrice * 12 : plan.monthlyPrice)}
+                        </span>
+                        <span className="pb-1.5 text-sm font-medium text-slate-400">
+                          /{isYearly ? "year" : "month"}
+                        </span>
                       </div>
-                      <p className="mt-2 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-                        {plan.crm}
+                      <p className="mt-2 text-xs font-medium text-slate-400">
+                        {isYearly
+                          ? `${formatPrice(plan.monthlyPrice)} per month, billed yearly`
+                          : "Switch to yearly to see annual charges"}
                       </p>
+                      {plan.name !== "Voice AI" && plan.crm && (
+                        <p className="mt-2 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                          {plan.crm}
+                        </p>
+                      )}
                     </div>
 
                     <div className="mb-7 flex flex-wrap gap-2">
@@ -202,7 +254,7 @@ export default function Pricing() {
                         <span
                           key={tag}
                           className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                            plan.popular
+                            plan.popular || plan.useWhatsAppIcon
                               ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
                               : 'border-orange-100 bg-orange-50 text-orange-700'
                           }`}
