@@ -147,6 +147,10 @@ export default function AkiaraTicketsPage() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPriority, setFilterPriority] = useState("all");
   const [filterProduct, setFilterProduct] = useState("all");
+  const [filterDateRange, setFilterDateRange] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalTickets, setTotalTickets] = useState(0);
   const [expandedTicket, setExpandedTicket] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [sendingMsg, setSendingMsg] = useState<string | null>(null);
@@ -158,48 +162,52 @@ export default function AkiaraTicketsPage() {
     if (userData) setUser(JSON.parse(userData));
   }, []);
 
-  const fetchTickets = useCallback(async () => {
+  const fetchTickets = useCallback(async (page: number = 1) => {
     setLoading(true);
     try {
-      const allTickets: AkiaraTicket[] = [];
-      let page = 1;
       const limit = 100;
-      let hasMore = true;
+      const params: any = {
+        page,
+        limit,
+      };
 
-      while (hasMore) {
-        const res = await akiaraAPI.getTickets({ page, limit });
-        const ticketsData = res.data?.data || [];
-        
-        if (ticketsData.length === 0) {
-          hasMore = false;
-        } else {
-          allTickets.push(...ticketsData);
-          page++;
-          
-          // Safety check to prevent infinite loops
-          if (ticketsData.length < limit) {
-            hasMore = false;
-          }
-        }
+      if (filterStatus !== "all") params.status = filterStatus;
+      if (filterPriority !== "all") params.priority = filterPriority;
+      if (filterProduct !== "all") params.product = filterProduct;
+      if (search.trim()) params.search = search.trim();
+      if (filterDateRange !== "all") {
+        const hours = parseInt(filterDateRange, 10);
+        const since = new Date();
+        since.setHours(since.getHours() - hours);
+        params.createdAfter = since.toISOString();
       }
-      
-      setTickets(allTickets);
+
+      const res = await akiaraAPI.getTickets(params);
+      const ticketsData = res.data?.data || [];
+      const total = res.data?.total || 0;
+
+      setTickets(ticketsData);
+      setTotalTickets(total);
+      setTotalPages(Math.max(1, Math.ceil(total / limit)));
+      setCurrentPage(page);
     } catch (err) {
       console.error("Failed to fetch tickets:", err);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [filterStatus, filterPriority, filterProduct, filterDateRange, search]);
 
-  useEffect(() => { fetchTickets(); }, [fetchTickets]);
+  useEffect(() => {
+    fetchTickets(1);
+  }, [fetchTickets]);
 
   // Real-time updates via WebSocket
   const { connected } = useWebSocket({
     onMessage: useCallback((data: any) => {
       if (data.type === 'akiara_ticket_created' || data.type === 'akiara_ticket_update') {
-        fetchTickets();
+        fetchTickets(currentPage);
       }
-    }, [fetchTickets]),
+    }, [fetchTickets, currentPage]),
   });
 
   const handleUpdateTicket = async (id: string, field: string, value: string) => {
@@ -355,6 +363,13 @@ export default function AkiaraTicketsPage() {
               <select value={filterProduct} onChange={(e) => setFilterProduct(e.target.value)} className="h-10 px-3 bg-slate-50 rounded-lg border border-slate-200 text-sm text-slate-600 focus:ring-2 focus:ring-orange-200 focus:outline-none">
                 <option value="all">All Products</option>
                 {Object.entries(productLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+              </select>
+              <select value={filterDateRange} onChange={(e) => setFilterDateRange(e.target.value)} className="h-10 px-3 bg-slate-50 rounded-lg border border-slate-200 text-sm text-slate-600 focus:ring-2 focus:ring-orange-200 focus:outline-none">
+                <option value="all">All Time</option>
+                <option value="24">Last 24 Hours</option>
+                <option value="72">Last 3 Days</option>
+                <option value="168">Last 7 Days</option>
+                <option value="720">Last 30 Days</option>
               </select>
               <span className="text-xs font-medium text-slate-400 tabular-nums">{filtered.length} results</span>
             </div>

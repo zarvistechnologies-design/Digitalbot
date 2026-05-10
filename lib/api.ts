@@ -536,6 +536,7 @@ export const akiaraAPI = {
     search?: string;
     page?: number;
     limit?: number;
+    createdAfter?: string;
   }) => api.get('/akiara/tickets', { params }),
 
   // Get single ticket
