@@ -148,9 +148,6 @@ export default function AkiaraTicketsPage() {
   const [filterPriority, setFilterPriority] = useState("all");
   const [filterProduct, setFilterProduct] = useState("all");
   const [filterDateRange, setFilterDateRange] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalTickets, setTotalTickets] = useState(0);
   const [expandedTicket, setExpandedTicket] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [sendingMsg, setSendingMsg] = useState<string | null>(null);
@@ -162,52 +159,58 @@ export default function AkiaraTicketsPage() {
     if (userData) setUser(JSON.parse(userData));
   }, []);
 
-  const fetchTickets = useCallback(async (page: number = 1) => {
+  const fetchTickets = useCallback(async () => {
     setLoading(true);
     try {
+      const allTickets: AkiaraTicket[] = [];
+      let page = 1;
       const limit = 100;
-      const params: any = {
-        page,
-        limit,
-      };
+      let hasMore = true;
 
-      if (filterStatus !== "all") params.status = filterStatus;
-      if (filterPriority !== "all") params.priority = filterPriority;
-      if (filterProduct !== "all") params.product = filterProduct;
-      if (search.trim()) params.search = search.trim();
-      if (filterDateRange !== "all") {
-        const hours = parseInt(filterDateRange, 10);
-        const since = new Date();
-        since.setHours(since.getHours() - hours);
-        params.createdAfter = since.toISOString();
+      while (hasMore) {
+        const params: any = { page, limit };
+        
+        // Add date range filter
+        if (filterDateRange !== "all") {
+          const hours = parseInt(filterDateRange);
+          const since = new Date();
+          since.setHours(since.getHours() - hours);
+          params.createdAfter = since.toISOString();
+        }
+
+        const res = await akiaraAPI.getTickets(params);
+        const ticketsData = res.data?.data || [];
+        
+        if (ticketsData.length === 0) {
+          hasMore = false;
+        } else {
+          allTickets.push(...ticketsData);
+          page++;
+          
+          // Safety check to prevent infinite loops
+          if (ticketsData.length < limit) {
+            hasMore = false;
+          }
+        }
       }
-
-      const res = await akiaraAPI.getTickets(params);
-      const ticketsData = res.data?.data || [];
-      const total = res.data?.total || 0;
-
-      setTickets(ticketsData);
-      setTotalTickets(total);
-      setTotalPages(Math.max(1, Math.ceil(total / limit)));
-      setCurrentPage(page);
+      
+      setTickets(allTickets);
     } catch (err) {
       console.error("Failed to fetch tickets:", err);
     } finally {
       setLoading(false);
     }
-  }, [filterStatus, filterPriority, filterProduct, filterDateRange, search]);
+  }, [filterDateRange]);
 
-  useEffect(() => {
-    fetchTickets(1);
-  }, [fetchTickets]);
+  useEffect(() => { fetchTickets(); }, [fetchTickets]);
 
   // Real-time updates via WebSocket
   const { connected } = useWebSocket({
     onMessage: useCallback((data: any) => {
       if (data.type === 'akiara_ticket_created' || data.type === 'akiara_ticket_update') {
-        fetchTickets(currentPage);
+        fetchTickets();
       }
-    }, [fetchTickets, currentPage]),
+    }, [fetchTickets]),
   });
 
   const handleUpdateTicket = async (id: string, field: string, value: string) => {
