@@ -2,10 +2,8 @@
 
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
-import { LeadFormMini } from "@/components/lead-form-mini"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Switch } from "@/components/ui/switch"
-import { ArrowRight, Check, HelpCircle, Rocket, Shield, Sparkles, Star, TrendingUp, Zap } from "lucide-react"
+import { ArrowRight, Bot, Check, HelpCircle, MessageCircle, Mic, Shield, Star, Zap } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 
@@ -41,75 +39,74 @@ function AnimatedCounter({ end, suffix = "", duration = 2000 }: { end: number; s
   return <span ref={ref}>{count}{suffix}</span>
 }
 
+function WhatsAppLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden="true" className={className} fill="currentColor">
+      <path d="M16.04 3C8.9 3 3.1 8.73 3.1 15.8c0 2.27.6 4.48 1.75 6.42L3 29l6.98-1.82a13.1 13.1 0 0 0 6.06 1.5c7.14 0 12.95-5.74 12.95-12.8C29 8.73 23.18 3 16.04 3Zm0 23.5c-1.9 0-3.76-.5-5.39-1.45l-.39-.23-4.14 1.08 1.1-4.01-.26-.41a10.52 10.52 0 0 1-1.65-5.68c0-5.85 4.82-10.61 10.73-10.61 5.92 0 10.74 4.76 10.74 10.61S21.96 26.5 16.04 26.5Zm5.88-7.95c-.32-.16-1.9-.93-2.2-1.03-.3-.11-.52-.16-.74.16-.21.31-.84 1.03-1.03 1.24-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.6-1.6-.96-.84-1.6-1.89-1.8-2.21-.18-.31-.02-.48.14-.64.15-.14.32-.37.48-.56.16-.18.21-.31.32-.52.1-.21.05-.39-.03-.55-.08-.16-.74-1.76-1.01-2.42-.27-.63-.54-.55-.74-.56h-.63c-.21 0-.55.08-.84.4-.3.31-1.1 1.06-1.1 2.6 0 1.53 1.13 3.01 1.29 3.22.16.21 2.22 3.36 5.38 4.71.75.32 1.34.52 1.8.66.75.24 1.44.2 1.98.12.6-.09 1.9-.77 2.16-1.5.27-.75.27-1.38.19-1.51-.08-.13-.3-.21-.62-.37Z" />
+    </svg>
+  )
+}
+
 const plans = [
   {
-    name: "Launch",
-    icon: Rocket,
-    description: "Ideal for startups, freelancers, and early adopters",
-    usdPrice: 9,
-    inrPrice: 800,
-    minutes: 100,
+    name: "Case-based Chatbot",
+    icon: MessageCircle,
+    useWhatsAppIcon: true,
+    description: "Structured WhatsApp automation for teams that need reliable lead handling.",
+    monthlyPrice: 799,
+    crm: "1 CRM integration",
+    tags: ["WhatsApp", "Flows", "Lead routing"],
     features: [
-      "100 AI voice minutes",
-      "2 voice agents, simultaneous channels (Any Language)",
-      "Call summary",
-      "AI analytics dashboard and leads",
-      "Incoming/Outgoing telephone calls",
-      "Website voice bot integration",
-      "Dedicated support",
-      "Valid for two months",
+      "WhatsApp automation",
+      "Predefined conversation flows",
+      "Lead capture & routing",
+      "Basic analytics dashboard",
+      "Chatbot-triggered responses",
     ],
     popular: false,
-    cta: "Get Started",
-    gradient: "from-orange-500 to-violet-500",
-    bgColor: "bg-orange-50/50",
-    borderHover: "hover:border-orange-400",
+    cta: "Start with Chatbot",
+    gradient: "from-emerald-500 to-teal-600",
   },
   {
-    name: "Scale",
-    icon: TrendingUp,
-    description: "Perfect for growing businesses with higher conversation volumes",
-    usdPrice: 45,
-    inrPrice: 4000,
-    minutes: 600,
+    name: "AI Chatbot",
+    icon: Bot,
+    useWhatsAppIcon: true,
+    description: "AI-powered WhatsApp growth suite for campaigns, segmentation, and insights.",
+    monthlyPrice: 1999,
+    crm: "3 CRM integrations",
+    tags: ["NLU", "Broadcasts", "AI insights"],
     features: [
-      "600 AI voice minutes",
-      "5 voice agents, simultaneous channels (Any Language)",
-      "Call summary",
-      "AI based analytics dashboard and leads",
-      "Incoming/Outgoing telephone calls",
-      "Website voice bot integration",
-      "Dedicated support",
-      "Valid for three months",
+      "Everything in Case-based",
+      "Natural language understanding",
+      "Multi-intent AI responses",
+      "Bulk WhatsApp messaging dashboard",
+      "Campaign broadcasts & scheduling",
+      "AI analytics & insights",
+      "Audience segmentation",
     ],
     popular: true,
-    cta: "Get Started",
-    gradient: "from-violet-500 to-orange-500",
-    bgColor: "bg-violet-50/50",
-    borderHover: "hover:border-violet-400",
+    cta: "Choose AI Chatbot",
+    gradient: "from-emerald-500 to-teal-600",
   },
   {
-    name: "Custom",
-    icon: Sparkles,
-    description: "Tailored solutions based on your specific requirements",
-    usdPrice: null,
-    inrPrice: null,
-    minutes: null,
+    name: "Voice AI",
+    icon: Mic,
+    description: "Natural AI voice calls with free minutes, multilingual support, and call intelligence.",
+    monthlyPrice: 1400,
+    crm: "200 free minutes, then ₹7/min",
+    tags: ["Voice calls", "10+ languages", "Sentiment"],
     features: [
-      "Custom AI voice minutes",
-      "Unlimited voice agents",
-      "Advanced call analytics",
-      "Custom integrations",
-      "Priority support",
-      "Flexible validity period",
-      "White-label options",
-      "Dedicated account manager",
+      "AI voice conversations",
+      "Works on Zonara & all platforms",
+      "Multilingual support (10+ languages)",
+      "Advanced analytics dashboard",
+      "AI call sentiment analysis",
+      "Real-time transcription & summaries",
+      "Call performance reports",
     ],
     popular: false,
-    cta: "Contact Sales",
-    gradient: "from-violet-500 to-purple-500",
-    bgColor: "bg-violet-50",
-    borderHover: "hover:border-violet-400",
+    cta: "Start Voice AI",
+    gradient: "from-violet-500 to-indigo-600",
   },
 ]
 
@@ -117,21 +114,21 @@ const faqs = [
   {
     question: "Can I change my plan at any time?",
     answer:
-      "Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately and we'll prorate any billing differences.",
+      "Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately and our team helps with the transition.",
   },
   {
-    question: "What happens if I exceed my voice minute limit?",
+    question: "What happens after the 200 free Voice AI minutes?",
     answer:
-      "We'll notify you when you're approaching your limit. You can either upgrade your plan or purchase additional voice minutes as add-ons.",
+      "Voice AI includes 200 free minutes every month. After that, usage is billed at ₹7 per minute.",
   },
   {
-    question: "Do you offer custom enterprise solutions?",
+    question: "How many CRM integrations are included?",
     answer:
-      "Our Custom plan includes tailored solutions, dedicated support, and can be configured to your specific requirements. Contact our sales team for more details.",
+      "The Case-based Chatbot plan includes 1 CRM integration, while the AI Chatbot plan includes 3 CRM integrations.",
   },
   {
     question: "What languages are supported?",
-    answer: "Our AI voice agents support any language, allowing you to serve customers globally without language barriers.",
+    answer: "Voice AI supports 10+ languages, so you can handle customer calls across multiple regions and audiences.",
   },
   {
     question: "Is there a free trial available?",
@@ -139,98 +136,27 @@ const faqs = [
   },
   {
     question: "What kind of support do you provide?",
-    answer: "All plans include dedicated support. Our Scale and Custom plans come with priority assistance and a dedicated account manager.",
+    answer: "All plans include onboarding support, and our team helps you set up the right workflows, dashboards, and integrations.",
   },
 ]
 
 export default function Pricing() {
-  const [isINR, setIsINR] = useState(false)
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly")
+  const isYearly = billingCycle === "yearly"
+  const formatPrice = (amount: number) =>
+    new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(amount)
 
   return (
     <>
       <Header />
 
       <main className="min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]">
-        {/* Hero Section */}
-        <section className="pt-28 pb-16 px-4 relative overflow-hidden">
-          {/* Animated Background */}
-          <div className="absolute inset-0">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/15 rounded-full blur-[100px] animate-pulse" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-300/15 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-200/10 rounded-full blur-[120px]" />
-          </div>
-
-          {/* Floating Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-32 left-[10%] w-4 h-4 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
-            <div className="absolute top-48 right-[15%] w-3 h-3 bg-violet-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
-            <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-violet-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-            <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-orange-300 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
-          </div>
-
-          <div className="container mx-auto max-w-6xl relative z-10">
-            {/* Breadcrumb */}
-            <nav className="mb-8 text-sm" aria-label="Breadcrumb">
-              <ol className="flex items-center gap-2">
-                <li><Link href="/" className="text-slate-400 hover:text-orange-600 transition-colors">Home</Link></li>
-                <li className="text-slate-300">/</li>
-                <li className="text-orange-600 font-medium">Pricing</li>
-              </ol>
-            </nav>
-
-            <div className="text-center max-w-4xl mx-auto">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
-                <Zap className="w-4 h-4 text-slate-500" />
-                <span className="text-sm font-medium text-slate-600 tracking-wide uppercase">Simple, Transparent Pricing</span>
-              </div>
-
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-6 leading-tight">
-                AI Voice Agent Plans
-                <span className="block bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent mt-2">Built for Every Business</span>
-              </h1>
-
-              <p className="text-lg text-slate-500 mb-8 leading-relaxed max-w-2xl mx-auto">
-                Choose the perfect plan for your business. All plans include our powerful AI voice technology, analytics dashboard, and dedicated support.
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 justify-center">
-                <Link href="/contact#contact-form" className="group px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl transition-all shadow-sm flex items-center gap-2">
-                  Request a Demo
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link href="#plans" className="px-6 py-3 text-slate-600 font-medium border border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-xl transition-all">
-                  View Plans
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Bar */}
-        <section className="py-12 px-4 bg-gradient-to-r from-orange-600 to-violet-600">
-          <div className="container mx-auto max-w-6xl">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {[
-                { value: 500, suffix: "+", label: "Businesses Trust Us" },
-                { value: 10, suffix: "M+", label: "Calls Handled" },
-                { value: 99, suffix: ".9%", label: "Uptime Guarantee" },
-                { value: 50, suffix: "+", label: "Languages Supported" },
-              ].map((stat, i) => (
-                <div key={i} className="text-center">
-                  <p className="text-3xl md:text-4xl font-semibold text-white mb-1">
-                    <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-                  </p>
-                  <p className="text-orange-200 text-sm font-medium">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Pricing Plans Section */}
-        <section id="plans" className="py-20 px-4 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+        <section id="plans" className="pt-28 pb-20 px-4 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
           <div className="container mx-auto max-w-7xl relative z-10">
             <div className="text-center mb-16">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
@@ -238,90 +164,113 @@ export default function Pricing() {
                 <span className="text-sm font-medium text-slate-600 tracking-wide uppercase">Choose Your Plan</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-semibold text-slate-900 mb-4">
-                AI Voice Agent Plans
+                Pick the right automation plan
               </h2>
               <p className="text-lg text-slate-500 max-w-2xl mx-auto mb-8">
-                Flexible plans designed to grow with your business
+                Clean pricing for chat automation, AI messaging, and voice conversations.
               </p>
 
-              {/* Currency Toggle */}
-              <div className="flex items-center justify-center gap-4">
-                <span className={`text-sm font-semibold transition-colors ${!isINR ? 'text-orange-600' : 'text-slate-300'}`}>USD ($)</span>
-                <Switch
-                  checked={isINR}
-                  onCheckedChange={setIsINR}
-                  className="data-[state=checked]:bg-slate-900"
-                />
-                <span className={`text-sm font-semibold transition-colors ${isINR ? 'text-orange-600' : 'text-slate-300'}`}>INR (₹)</span>
+              <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+                {[
+                  { value: "monthly", label: "Monthly" },
+                  { value: "yearly", label: "Yearly" },
+                ].map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => setBillingCycle(option.value as "monthly" | "yearly")}
+                    className={`min-w-24 rounded-lg px-5 py-2 text-sm font-semibold transition-all ${
+                      billingCycle === option.value
+                        ? "bg-slate-950 text-white shadow-sm"
+                        : "text-slate-500 hover:text-slate-900"
+                    }`}
+                    aria-pressed={billingCycle === option.value}
+                  >
+                    {option.label}
+                  </button>
+                ))}
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
               {plans.map((plan) => (
                 <div
                   key={plan.name}
                   className={`
-                    relative bg-white/80 backdrop-blur-sm rounded-3xl border transition-all duration-300 overflow-hidden group
-                    hover:shadow-2xl hover:-translate-y-2
+                    relative flex h-full flex-col bg-white rounded-2xl border transition-all duration-300 overflow-hidden group
+                    hover:shadow-2xl hover:-translate-y-1
                     ${plan.popular
-                      ? 'border-orange-300 shadow-xl scale-[1.02]'
-                      : `border-slate-200 shadow-lg ${plan.borderHover}`
+                      ? 'border-emerald-400 shadow-2xl shadow-emerald-100 lg:scale-[1.03]'
+                      : 'border-slate-200 shadow-lg hover:border-orange-200'
                     }
                   `}
                 >
-                  {/* Popular Badge */}
                   {plan.popular && (
-                    <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-orange-500 to-violet-500" />
+                    <div className="absolute right-5 top-5 z-10 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-white shadow-lg shadow-emerald-200">
+                      Most Popular
+                    </div>
                   )}
 
-                  <div className="p-8">
-                    {/* Header */}
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className={`w-14 h-14 bg-gradient-to-br ${plan.gradient} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
-                        <plan.icon className="w-7 h-7 text-white" />
+                  <div className={`h-1.5 bg-gradient-to-r ${plan.gradient}`} />
+
+                  <div className="flex h-full flex-col p-6 lg:p-8">
+                    <div className="mb-6 flex items-start gap-4 pr-24 md:pr-0 lg:pr-20">
+                      <div className={`w-14 h-14 bg-gradient-to-br ${plan.gradient} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform shrink-0`}>
+                        {plan.useWhatsAppIcon ? (
+                          <WhatsAppLogo className="w-8 h-8 text-white" />
+                        ) : (
+                          <plan.icon className="w-7 h-7 text-white" />
+                        )}
                       </div>
                       <div>
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-xl font-semibold text-slate-900">{plan.name}</h3>
-                          {plan.popular && (
-                            <span className="px-2.5 py-0.5 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
-                              Most Popular
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-slate-400">{plan.description}</p>
+                        <h3 className="text-xl font-semibold text-slate-900">{plan.name}</h3>
+                        <p className="mt-1 text-sm leading-relaxed text-slate-500">{plan.description}</p>
                       </div>
                     </div>
 
-                    {/* Price */}
-                    <div className="mb-8">
-                      {plan.usdPrice ? (
-                        <div>
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-5xl font-semibold text-slate-900">
-                              {isINR ? `₹${plan.inrPrice}` : `$${plan.usdPrice}`}
-                            </span>
-                          </div>
-                          <p className="text-sm text-slate-400 mt-1">
-                            {plan.minutes} AI voice minutes included
-                          </p>
-                        </div>
-                      ) : (
-                        <div>
-                          <span className="text-5xl font-semibold text-slate-900">Custom</span>
-                          <p className="text-sm text-slate-400 mt-1">Tailored to your needs</p>
-                        </div>
+                    <div className="mb-5">
+                      <div className="flex items-end gap-1">
+                        <span className="text-4xl lg:text-5xl font-semibold tracking-tight text-slate-950">
+                          {formatPrice(isYearly ? plan.monthlyPrice * 12 : plan.monthlyPrice)}
+                        </span>
+                        <span className="pb-1.5 text-sm font-medium text-slate-400">
+                          /{isYearly ? "year" : "month"}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-xs font-medium text-slate-400">
+                        {isYearly
+                          ? `${formatPrice(plan.monthlyPrice)} per month, billed yearly`
+                          : "Switch to yearly to see annual charges"}
+                      </p>
+                      {plan.name !== "Voice AI" && plan.crm && (
+                        <p className="mt-2 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                          {plan.crm}
+                        </p>
                       )}
                     </div>
 
-                    {/* CTA Button */}
+                    <div className="mb-7 flex flex-wrap gap-2">
+                      {plan.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                            plan.popular || plan.useWhatsAppIcon
+                              ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                              : 'border-orange-100 bg-orange-50 text-orange-700'
+                          }`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
                     <Link
                       href="/contact#contact-form"
                       className={`
-                        flex items-center justify-center gap-2 w-full py-3.5 font-medium rounded-xl transition-all duration-200 mb-8 group/btn
+                        flex items-center justify-center gap-2 w-full py-3.5 font-semibold rounded-xl transition-all duration-200 mb-8 group/btn
                         ${plan.popular
-                          ? 'bg-slate-900 hover:bg-slate-800 text-white shadow-sm'
-                          : 'bg-white border border-slate-200 text-slate-900 hover:border-slate-300 hover:bg-slate-50'
+                          ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-100'
+                          : 'bg-slate-950 hover:bg-slate-800 text-white'
                         }
                       `}
                     >
@@ -329,9 +278,8 @@ export default function Pricing() {
                       <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                     </Link>
 
-                    {/* Features */}
-                    <div className="space-y-3">
-                      <p className="text-xs font-medium text-slate-300 uppercase tracking-wider mb-4">What&apos;s included</p>
+                    <div className="mt-auto space-y-3">
+                      <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-4">What&apos;s included</p>
                       {plan.features.map((feature, featureIndex) => (
                         <div key={featureIndex} className="flex items-start gap-3">
                           <div className={`w-5 h-5 bg-gradient-to-br ${plan.gradient} rounded-full flex items-center justify-center shrink-0 mt-0.5`}>
@@ -345,6 +293,10 @@ export default function Pricing() {
                 </div>
               ))}
             </div>
+
+            <p className="mt-10 text-center text-sm font-medium text-slate-500">
+              All plans include onboarding support &middot; Cancel anytime &middot; GST applicable.
+            </p>
           </div>
         </section>
 
@@ -367,27 +319,6 @@ export default function Pricing() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Form Section */}
-        <section className="py-16 px-4 bg-gradient-to-b from-white to-slate-50">
-          <div className="container mx-auto max-w-2xl">
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
-                <Sparkles className="w-4 h-4 text-slate-500" />
-                <span className="text-sm font-medium text-slate-600 tracking-wide uppercase">Get In Touch</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-semibold text-slate-900 mb-4">
-                Request a Personalized Demo
-              </h2>
-              <p className="text-lg text-slate-500">
-                See how DigitalBot can transform your customer interactions
-              </p>
-            </div>
-            <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8">
-              <LeadFormMini />
             </div>
           </div>
         </section>
@@ -459,7 +390,7 @@ export default function Pricing() {
 
             {/* Trust items */}
             <div className="flex flex-wrap justify-center gap-6 mt-10">
-              {["🎯 No Credit Card", "⚡ 5-Min Setup", "💎 Cancel Anytime", "🔒 Enterprise Security"].map((item, i) => (
+              {["No Credit Card", "5-Min Setup", "Cancel Anytime", "Enterprise Security"].map((item, i) => (
                 <span key={i} className="text-orange-200 text-sm font-medium">{item}</span>
               ))}
             </div>
@@ -471,13 +402,3 @@ export default function Pricing() {
     </>
   )
 }
-
-
-
-
-
-
-
-
-
-
