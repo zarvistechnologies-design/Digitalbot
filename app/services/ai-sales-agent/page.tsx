@@ -136,7 +136,7 @@ const useCases = [
     description: "Track every conversation, update CRM records automatically, and get real-time insights into your sales pipeline performance.",
     result: "100% CRM accuracy",
     icon: BarChart3,
-    color: "from-pink-500 to-rose-600",
+    color: "from-orange-500 to-orange-600",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
   }
 ];

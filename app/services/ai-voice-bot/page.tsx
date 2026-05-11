@@ -82,7 +82,7 @@ export default function AIVoiceBot() {
       {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-gradient-to-r from-orange-500 to-violet-500 text-white px-4 py-2 rounded-lg z-50"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-lg z-50"
       >
         Skip to main content
       </a>
@@ -92,10 +92,10 @@ export default function AIVoiceBot() {
       <main id="main-content" className="min-h-screen" role="main" suppressHydrationWarning>
 
         {/* Hero Section - Premium Redesign */}
-        <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]" aria-labelledby="hero-heading">
+        <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-[#fff7ed] via-white to-[#ffedd5]" aria-labelledby="hero-heading">
           {/* Background Elements */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(99,102,241,0.15),transparent_50%)]"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.1),transparent_50%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(249,115,22,0.14),transparent_50%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(234,88,12,0.1),transparent_50%)]"></div>
           
           {/* Decorative Blur Orbs */}
 
@@ -145,7 +145,7 @@ export default function AIVoiceBot() {
               {/* Main Headline */}
               <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 <span className="text-gray-900">Intelligent </span>
-                <span className="bg-gradient-to-r from-orange-600 via-violet-500 to-orange-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-orange-700 via-orange-500 to-orange-600 bg-clip-text text-transparent">
                   AI Voice Bot
                 </span>
                 <br />
@@ -176,9 +176,9 @@ export default function AIVoiceBot() {
         <TrustIndicators />
 
         {/* Features Section - Premium */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden" aria-labelledby="features-heading">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#ffedd5] via-white to-[#fff7ed] relative overflow-hidden" aria-labelledby="features-heading">
           {/* Background Elements */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.08),transparent_70%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.08),transparent_70%)]"></div>
 
 
 
@@ -190,7 +190,7 @@ export default function AIVoiceBot() {
               </div>
               <h2 id="features-heading" className="text-3xl sm:text-4xl font-bold mb-4">
                 <span className="text-gray-900">Powerful </span>
-                <span className="bg-gradient-to-r from-orange-600 to-violet-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-orange-700 to-orange-500 bg-clip-text text-transparent">
                   AI Voice Bot Features
                 </span>
               </h2>
@@ -205,9 +205,9 @@ export default function AIVoiceBot() {
         </section>
 
         {/* Use Cases Section - Premium */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden" aria-labelledby="usecases-heading">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fff7ed] via-white to-white relative overflow-hidden" aria-labelledby="usecases-heading">
           {/* Background Elements */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.1),transparent_60%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.1),transparent_60%)]"></div>
 
 
           <div className="container mx-auto relative z-10 max-w-7xl">
@@ -217,7 +217,7 @@ export default function AIVoiceBot() {
                 <span className="text-sm font-semibold text-orange-700">Real-World Applications</span>
               </div>
               <h2 id="usecases-heading" className="text-3xl sm:text-4xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-orange-600 to-violet-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-orange-700 to-orange-500 bg-clip-text text-transparent">
                   AI Voice Bot
                 </span>
                 <span className="text-gray-900"> Use Cases</span>
@@ -233,9 +233,9 @@ export default function AIVoiceBot() {
         </section>
 
         {/* Voice Demo Section - Premium */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#f0f0ff] via-white to-[#fafbff] relative overflow-hidden">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#ffedd5] via-white to-[#fff7ed] relative overflow-hidden">
           {/* Background Elements */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(99,102,241,0.1),transparent_60%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(249,115,22,0.1),transparent_60%)]"></div>
 
 
           <div className="container mx-auto relative z-10 max-w-4xl">
@@ -246,7 +246,7 @@ export default function AIVoiceBot() {
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                 <span className="text-gray-900">Hear </span>
-                <span className="bg-gradient-to-r from-orange-600 to-violet-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-orange-700 to-orange-500 bg-clip-text text-transparent">
                   AI Voice Bot
                 </span>
                 <span className="text-gray-900"> in Action</span>
@@ -262,9 +262,9 @@ export default function AIVoiceBot() {
         </section>
 
         {/* FAQ Section - Premium */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fafbff] via-white to-white relative overflow-hidden" aria-labelledby="faq-heading">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#fff7ed] via-white to-white relative overflow-hidden" aria-labelledby="faq-heading">
           {/* Background Elements */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.06),transparent_70%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.06),transparent_70%)]"></div>
 
 
 
@@ -275,7 +275,7 @@ export default function AIVoiceBot() {
                 <span className="text-sm font-semibold text-orange-700">Frequently Asked Questions</span>
               </div>
               <h2 id="faq-heading" className="text-3xl sm:text-4xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-orange-600 to-violet-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-orange-700 to-orange-500 bg-clip-text text-transparent">
                   AI Voice Bot
                 </span>
                 <span className="text-gray-900"> FAQ</span>

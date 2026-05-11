@@ -184,7 +184,7 @@ export default function Services() {
         
         {/* Floating Orbs */}
         <div className="absolute top-20 left-[10%] w-72 h-72 bg-orange-200/15 rounded-full blur-[100px] animate-pulse"></div>
-        <div className="absolute bottom-20 right-[10%] w-96 h-96 bg-violet-200/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-20 right-[10%] w-96 h-96 bg-orange-200/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-slate-100/30 to-slate-100/30 rounded-full blur-[100px]"></div>
         
         {/* Animated Lines */}
@@ -225,7 +225,7 @@ export default function Services() {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold leading-[1.05] mb-8">
                 <span className="text-slate-900 block">Revolutionize Your</span>
                 <span className="relative inline-block mt-2">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500">
                     Customer Experience
                   </span>
                   <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
@@ -233,7 +233,7 @@ export default function Services() {
                     <defs>
                       <linearGradient id="gradient" x1="0" y1="0" x2="300" y2="0">
                         <stop offset="0%" stopColor="#4f46e5"/>
-                        <stop offset="100%" stopColor="#7c3aed"/>
+                        <stop offset="100%" stopColor="#fb923c"/>
                       </linearGradient>
                     </defs>
                   </svg>
@@ -449,7 +449,7 @@ export default function Services() {
           
           {/* Floating Shapes */}
           <div className="absolute top-20 right-20 w-20 h-20 border-2 border-orange-200/30 rounded-2xl rotate-12 animate-bounce-slow opacity-40"></div>
-          <div className="absolute bottom-32 left-16 w-16 h-16 bg-gradient-to-br from-orange-200/15 to-violet-200/10 rounded-full animate-bounce-slow" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute bottom-32 left-16 w-16 h-16 bg-gradient-to-br from-orange-200/15 to-orange-300/10 rounded-full animate-bounce-slow" style={{ animationDelay: '0.5s' }}></div>
           <div className="absolute top-1/2 right-10 w-8 h-8 bg-slate-300/30 rounded-lg rotate-45 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
         </div>
         
@@ -463,7 +463,7 @@ export default function Services() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">AI Voice Solutions</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 bg-clip-text text-transparent">
                 Built for Scale
               </span>
             </h2>
@@ -590,7 +590,7 @@ export default function Services() {
                     
                     {/* Bottom Gradient Line for Non-Featured */}
                     {!isFeatured && (
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-violet-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                     )}
                   </div>
                 </Link>
@@ -641,7 +641,7 @@ export default function Services() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Industries We</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 bg-clip-text text-transparent">
                 Serve & Transform
               </span>
             </h2>
@@ -720,7 +720,7 @@ export default function Services() {
                       </div>
                       
                       {/* Bottom Accent Line */}
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-violet-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                     </div>
                   </div>
                 );
@@ -774,7 +774,7 @@ export default function Services() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Everything You Need to</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 bg-clip-text text-transparent">
                 Automate Communication
               </span>
             </h2>
@@ -862,7 +862,7 @@ export default function Services() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Trusted by Leading</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 bg-clip-text text-transparent">
                 Businesses Worldwide
               </span>
             </h2>
@@ -972,7 +972,7 @@ export default function Services() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Get Started in</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 bg-clip-text text-transparent">
                 Three Easy Steps
               </span>
             </h2>
@@ -1109,7 +1109,7 @@ export default function Services() {
             <h2 id="faq-section" className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
               <span className="text-slate-900">Frequently Asked</span>
               <br />
-              <span className="bg-gradient-to-r from-orange-600 via-orange-600 to-violet-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 bg-clip-text text-transparent">
                 Questions
               </span>
             </h2>
