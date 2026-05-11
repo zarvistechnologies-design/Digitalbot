@@ -549,6 +549,26 @@ export const akiaraAPI = {
     assignedTo?: string;
   }) => api.patch(`/akiara/tickets/${id}`, data),
 
+  // Create a new ticket manually from dashboard
+  createTicket: (data: {
+    phone: string;
+    orderId?: string;
+    product?: string;
+    issueCategory?: string;
+    issueDescription: string;
+    priority?: string;
+    customerName?: string;
+    customerPhone?: string;
+    customerAddress?: string;
+    customerCity?: string;
+    customerState?: string;
+    customerPincode?: string;
+    purchaseDate?: string;
+    purchasePlatform?: string;
+    serviceType?: string;
+    tags?: string[];
+  }) => api.post('/akiara/tickets', data),
+
   // Get analytics
   getAnalytics: (params?: { days?: number }) =>
     api.get('/akiara/analytics', { params }),

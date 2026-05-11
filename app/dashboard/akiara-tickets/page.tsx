@@ -47,6 +47,7 @@ interface AkiaraTicket {
   purchaseDate: string | null;
   purchasePlatform: string | null;
   assignedTo: string | null;
+  tags: string[];
   teleCrmPushed: boolean;
   teleCrmId: string | null;
   createdAt: string;
@@ -152,6 +153,23 @@ export default function AkiaraTicketsPage() {
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [sendingMsg, setSendingMsg] = useState<string | null>(null);
   const [customMsg, setCustomMsg] = useState("");
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [creatingTicket, setCreatingTicket] = useState(false);
+  const [createForm, setCreateForm] = useState({
+    phone: "",
+    orderId: "",
+    product: "",
+    issueCategory: "",
+    issueDescription: "",
+    priority: "normal",
+    serviceType: "",
+    customerName: "",
+    customerPhone: "",
+    customerAddress: "",
+    customerCity: "",
+    customerState: "",
+    customerPincode: "",
+  });
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -222,6 +240,40 @@ export default function AkiaraTicketsPage() {
       console.error("Failed to update ticket:", err);
     } finally {
       setUpdatingId(null);
+    }
+  };
+
+  const handleCreateTicket = async () => {
+    if (!createForm.phone || !createForm.issueDescription) {
+      alert("Phone and issue description are required");
+      return;
+    }
+
+    setCreatingTicket(true);
+    try {
+      const res = await akiaraAPI.createTicket(createForm);
+      if (res.data?.success) {
+        setShowCreateModal(false);
+        setCreateForm({
+          phone: "",
+          orderId: "",
+          product: "",
+          issueCategory: "",
+          issueDescription: "",
+          priority: "normal",
+          serviceType: "",
+          customerName: "",
+          customerPhone: "",
+          customerAddress: "",
+          customerCity: "",
+        });
+        fetchTickets();
+      }
+    } catch (err) {
+      console.error("Failed to create ticket:", err);
+      alert("Failed to create ticket");
+    } finally {
+      setCreatingTicket(false);
     }
   };
 
@@ -320,6 +372,9 @@ export default function AkiaraTicketsPage() {
                 )}
                 <button onClick={fetchTickets} className="h-10 w-10 flex items-center justify-center bg-white rounded-xl border border-slate-200 shadow-sm hover:bg-slate-50 hover:border-slate-300 transition-all">
                   <RefreshCw className={`w-4 h-4 text-slate-500 ${loading ? "animate-spin" : ""}`} />
+                </button>
+                <button onClick={() => setShowCreateModal(true)} className="h-10 px-4 bg-orange-500 text-white rounded-xl border border-orange-500 shadow-sm hover:bg-orange-600 transition-all">
+                  Create Ticket
                 </button>
               </div>
             </div>
@@ -444,6 +499,11 @@ export default function AkiaraTicketsPage() {
                           <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${priorityColors[t.priority]}`}>
                             {t.priority}
                           </span>
+                          {t.tags?.includes('admin') && (
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-purple-100 text-purple-700">
+                              ADMIN
+                            </span>
+                          )}
                           {t.product && (
                             <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-orange-50 text-orange-600">
                               {productLabels[t.product] || t.product}
@@ -666,6 +726,176 @@ export default function AkiaraTicketsPage() {
           </div>
         </div>
       </main>
+
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">Create Akiara Ticket</h2>
+                <p className="text-sm text-slate-500">Manual ticket creation for the dashboard</p>
+              </div>
+              <button onClick={() => setShowCreateModal(false)} className="text-slate-500 hover:text-slate-800">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label className="space-y-2 text-sm text-slate-700">
+                  Phone
+                  <input
+                    value={createForm.phone}
+                    onChange={(e) => setCreateForm({ ...createForm, phone: e.target.value })}
+                    placeholder="Enter customer phone"
+                    className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  />
+                </label>
+                <label className="space-y-2 text-sm text-slate-700">
+                  Order ID
+                  <input
+                    value={createForm.orderId}
+                    onChange={(e) => setCreateForm({ ...createForm, orderId: e.target.value })}
+                    placeholder="Order or request ID"
+                    className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  />
+                </label>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label className="space-y-2 text-sm text-slate-700">
+                  Product
+                  <select
+                    value={createForm.product}
+                    onChange={(e) => setCreateForm({ ...createForm, product: e.target.value })}
+                    className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  >
+                    <option value="">Select product</option>
+                    {Object.entries(productLabels).map(([key, label]) => (
+                      <option key={key} value={key}>{label}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="space-y-2 text-sm text-slate-700">
+                  Service type
+                  <select
+                    value={createForm.serviceType}
+                    onChange={(e) => setCreateForm({ ...createForm, serviceType: e.target.value })}
+                    className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  >
+                    <option value="">Select service</option>
+                    {Object.entries(serviceLabels).map(([key, label]) => (
+                      <option key={key} value={key}>{label}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label className="space-y-2 text-sm text-slate-700">
+                  Customer name
+                  <input
+                    value={createForm.customerName}
+                    onChange={(e) => setCreateForm({ ...createForm, customerName: e.target.value })}
+                    placeholder="Customer name"
+                    className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  />
+                </label>
+                <label className="space-y-2 text-sm text-slate-700">
+                  Customer phone
+                  <input
+                    value={createForm.customerPhone}
+                    onChange={(e) => setCreateForm({ ...createForm, customerPhone: e.target.value })}
+                    placeholder="Customer WhatsApp phone"
+                    className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  />
+                </label>
+              </div>
+
+              <label className="space-y-2 text-sm text-slate-700">
+                Address
+                <input
+                  value={createForm.customerAddress}
+                  onChange={(e) => setCreateForm({ ...createForm, customerAddress: e.target.value })}
+                  placeholder="Street address"
+                  className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                />
+              </label>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <label className="space-y-2 text-sm text-slate-700">
+                  City
+                  <input
+                    value={createForm.customerCity}
+                    onChange={(e) => setCreateForm({ ...createForm, customerCity: e.target.value })}
+                    placeholder="City"
+                    className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  />
+                </label>
+                <label className="space-y-2 text-sm text-slate-700">
+                  State
+                  <input
+                    value={createForm.customerState}
+                    onChange={(e) => setCreateForm({ ...createForm, customerState: e.target.value })}
+                    placeholder="State"
+                    className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  />
+                </label>
+                <label className="space-y-2 text-sm text-slate-700">
+                  PIN code
+                  <input
+                    value={createForm.customerPincode}
+                    onChange={(e) => setCreateForm({ ...createForm, customerPincode: e.target.value })}
+                    placeholder="PIN code"
+                    className="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  />
+                </label>
+              </div>
+
+              <label className="space-y-2 text-sm text-slate-700">
+                Issue description
+                <textarea
+                  value={createForm.issueDescription}
+                  onChange={(e) => setCreateForm({ ...createForm, issueDescription: e.target.value })}
+                  placeholder="Describe the issue"
+                  rows={4}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                />
+              </label>
+
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <label className="text-sm text-slate-700">Priority</label>
+                  <select
+                    value={createForm.priority}
+                    onChange={(e) => setCreateForm({ ...createForm, priority: e.target.value })}
+                    className="h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none"
+                  >
+                    <option value="normal">Normal</option>
+                    <option value="high">High</option>
+                    <option value="urgent">Urgent</option>
+                  </select>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowCreateModal(false)}
+                    className="h-11 px-5 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleCreateTicket}
+                    disabled={creatingTicket}
+                    className="h-11 px-5 rounded-xl bg-orange-500 text-white hover:bg-orange-600 transition-all disabled:opacity-50"
+                  >
+                    {creatingTicket ? 'Creating...' : 'Create Ticket'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
