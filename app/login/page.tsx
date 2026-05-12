@@ -24,7 +24,13 @@ export default function LoginPage(): JSX.Element {
     if (token) {
       const userData = localStorage.getItem('user');
       const user = userData ? JSON.parse(userData) : null;
-      router.push(user?.selectedService === 'akiara' ? '/dashboard/akiara-sessions' : '/dashboard');
+      router.push(
+        user?.selectedService === 'akiara'
+          ? '/dashboard/akiara-sessions'
+          : user?.selectedService === 'healthiQure patient navigation'
+            ? '/dashboard/bot-sessions'
+            : '/dashboard'
+      );
     }
   }, [router]);
 
@@ -75,7 +81,12 @@ export default function LoginPage(): JSX.Element {
             localStorage.setItem('userId', data.user.id);
           }
         }
-        const dest = data.user?.selectedService === 'akiara' ? '/dashboard/akiara-sessions' : '/dashboard';
+        const dest =
+          data.user?.selectedService === 'akiara'
+            ? '/dashboard/akiara-sessions'
+            : data.user?.selectedService === 'healthiQure patient navigation'
+              ? '/dashboard/bot-sessions'
+              : '/dashboard/bot-session';
         router.push(dest);
       } else {
         setError(data.error || 'Login failed');
