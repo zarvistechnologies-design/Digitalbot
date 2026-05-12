@@ -8,7 +8,7 @@ const keywords = [
   "voice AI customer service",
   "AI helpdesk platform",
   "DigitalBot customer support",
-  "AI ticket deflection",z
+  "AI ticket deflection",
   "AI call center software",
   "AI chatbot for support",
   "customer experience automation"

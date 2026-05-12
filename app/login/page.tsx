@@ -7,6 +7,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 interface User {
   id: string; // example user property
   email: string; // example user property
+  selectedService?: string;
   // ... other user properties
 }
 

@@ -465,6 +465,7 @@ export const healthiqureAPI = {
   sendTemplateMessage: (data: {
     phone: string;
     templateName: string;
+    language?: string;
     parameters?: string[];
     hospitalName?: string;
     doctorName?: string;
@@ -497,13 +498,13 @@ export const healthiqureAPI = {
 // TEMPLATE API
 // ========================================
 export const templateAPI = {
-  getTemplates: (params?: { language?: string; search?: string }) =>
+  getTemplates: (params?: { language?: string; search?: string; type?: string }) =>
     api.get('/templates', { params }),
 
-  createTemplate: (data: { name: string; language?: string; message: string }) =>
+  createTemplate: (data: { name: string; language?: string; type?: string; message: string }) =>
     api.post('/templates', data),
 
-  updateTemplate: (id: string, data: { name?: string; language?: string; message?: string }) =>
+  updateTemplate: (id: string, data: { name?: string; language?: string; type?: string; message?: string }) =>
     api.put(`/templates/${id}`, data),
 
   deleteTemplate: (id: string) =>

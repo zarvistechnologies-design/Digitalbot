@@ -1,6 +1,6 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
-import { healthiqureAPI } from "@/lib/api";
+import { healthiqureAPI, templateAPI } from "@/lib/api";
 import {
   AlertCircle,
   Building2,
@@ -41,6 +41,39 @@ interface HistoryItem {
   status: string;
   error: string | null;
   createdAt: string;
+}
+
+interface Template {
+  _id: string;
+  name: string;
+  language?: string;
+  type?: string;
+  message: string;
+}
+
+interface TemplateVariable {
+  key: string;
+  label: string;
+}
+
+function extractTemplateVariables(message: string): TemplateVariable[] {
+  const matches = message.match(/{{\s*[\w.-]+\s*}}/g) || [];
+  const keys = Array.from(
+    new Set(matches.map((match) => match.replace(/[{}]/g, "").trim()))
+  );
+  return keys.map((key) => ({ key, label: key }));
+}
+
+function renderTemplatePreview(template: Template | undefined, values: string[]) {
+  if (!template) return "";
+  return extractTemplateVariables(template.message).reduce((preview, variable, index) => {
+    const value = values[index] || `[${variable.label}]`;
+    const variablePattern = new RegExp(
+      `{{\\s*${variable.key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*}}`,
+      "g"
+    );
+    return preview.replace(variablePattern, value);
+  }, template.message);
 }
 
 function formatPhone(phone: string) {
@@ -117,78 +150,38 @@ export default function QuickMessagesPage() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [expandedMsg, setExpandedMsg] = useState<HistoryItem | null>(null);
 
-  // ===== Verified Templates =====
-  const VERIFIED_TEMPLATES = [
-    {
-      name: "healthiqure_v1",
-      label: "Patient Referral Letter",
-      variables: ["{{1}}", "{{2}}"],
-      variableLabels: ["Name", "Diagnosis"],
-      content: `Dear {{1}},
-
-Greetings from Life Care Clinic & Diagnostic Centre Bordumsa, a unit of HealthiQure Technologies Pvt. Ltd.
-
-We are referring a patient diagnosed with{{2}} for your expert evaluation and retina opinion. We kindly request you to examine the patient and advise further management accordingly.
-
-We would be grateful if you could please confirm a suitable appointment for the same. Kindly share the appointment details with us at 7099093551.
-
-Looking forward to your support.
-
-Warm regards,
-Life Care Clinic & Diagnostic Centre 
-(A unit of HealthiQure Technologies Pvt. Ltd.)
-Bordumsa 792056, Arunachal Pradesh
-Email: lifecarebordumsa.in@gmail.com
-Phone: 7099093551`,
-    },
-    {
-      name: "healthiqure_v2",
-      label: "Welcome / Introduction Message",
-      variables: [],
-      variableLabels: [],
-      content: `Welcome to Life Care Clinic & Diagnostic Centre
-(A Unit of HealthiQure Technologies Pvt. Ltd.)
-
-"Right Healthcare, Simplified" — that's our promise.
-
-At HealthiQure, we make healthcare easy by supporting you at every step—from consultation and diagnostics to specialist care, hospital admissions, and referrals across India.
-
-With centres at Bordumsa and Miao, we offer multi-specialty consultations, ultrasonography, ECG, lab tests, health check-ups, medicines, and ambulance services—all under one trusted network.
-
-To know more or book services, simply send "Hi" to our Patient Navigation WhatsApp Bot – 08047360162.
-
-Through our partner hospitals across Namsai, Roing, Pasighat, Tinsukia, Dibrugarh, Guwahati and beyond, we ensure timely treatment with travel and stay support.
-
-Powered by technology, driven by care - we are making healthcare simpler, smarter, and closer to you.`,
-    },
-  ];
-
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [templatesLoading, setTemplatesLoading] = useState(true);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [templateParams, setTemplateParams] = useState<string[]>([]);
   const [templatePhone, setTemplatePhone] = useState("");
   const [templateHospitalName, setTemplateHospitalName] = useState("");
   const [templateDoctorName, setTemplateDoctorName] = useState("");
+  const [templateSearch, setTemplateSearch] = useState("");
   const [sendingTemplate, setSendingTemplate] = useState(false);
   const [templateResult, setTemplateResult] = useState<{ type: "success" | "error"; msg: string } | null>(null);
   const [templatePreviewOpen, setTemplatePreviewOpen] = useState(false);
 
-  const activeTemplate = VERIFIED_TEMPLATES.find((t) => t.name === selectedTemplate);
+  const activeTemplate = templates.find((t) => t._id === selectedTemplate);
+  const activeTemplateVariables = activeTemplate ? extractTemplateVariables(activeTemplate.message) : [];
+  const filteredTemplates = templates.filter((template) => {
+    const query = templateSearch.trim().toLowerCase();
+    if (!query) return true;
+    return (
+      template.name.toLowerCase().includes(query) ||
+      template.message.toLowerCase().includes(query)
+    );
+  });
 
   const getPreviewContent = () => {
-    if (!activeTemplate) return "";
-    let preview = activeTemplate.content;
-    activeTemplate.variables.forEach((v, i) => {
-      preview = preview.replace(v, templateParams[i] || `[${activeTemplate.variableLabels[i]}]`);
-    });
-    return preview;
+    return renderTemplatePreview(activeTemplate, templateParams);
   };
 
   const handleTemplateSend = async () => {
     if (!activeTemplate) return;
     const cleanPhone = templatePhone.trim().replace(/\D/g, "");
     if (!cleanPhone) return;
-    // If template has variables, ensure all are filled
-    if (activeTemplate.variables.length > 0) {
+    if (activeTemplateVariables.length > 0) {
       const allFilled = templateParams.every((p) => p.trim() !== "");
       if (!allFilled) return;
     }
@@ -199,12 +192,13 @@ Powered by technology, driven by care - we are making healthcare simpler, smarte
       await healthiqureAPI.sendTemplateMessage({
         phone: fullPhone,
         templateName: activeTemplate.name,
-        parameters: activeTemplate.variables.length > 0 ? templateParams : undefined,
+        language: activeTemplate.language || "en",
+        parameters: activeTemplateVariables.length > 0 ? templateParams : undefined,
         hospitalName: templateHospitalName.trim() || undefined,
         doctorName: templateDoctorName.trim() || undefined,
       });
-      setTemplateResult({ type: "success", msg: `Template "${activeTemplate.label}" sent to +${fullPhone}` });
-      setTemplateParams(activeTemplate.variables.map(() => ""));
+      setTemplateResult({ type: "success", msg: `Template "${activeTemplate.name}" sent to +${fullPhone}` });
+      setTemplateParams(activeTemplateVariables.map(() => ""));
       setTemplatePhone("");
       setTemplateHospitalName("");
       setTemplateDoctorName("");
@@ -216,6 +210,28 @@ Powered by technology, driven by care - we are making healthcare simpler, smarte
       setSendingTemplate(false);
     }
   };
+
+  const fetchTemplates = useCallback(async () => {
+    setTemplatesLoading(true);
+    try {
+      const res = await templateAPI.getTemplates({ type: "meta" });
+      const data = Array.isArray(res.data?.data)
+        ? res.data.data
+        : Array.isArray(res.data)
+          ? res.data
+          : [];
+      setTemplates(data);
+      if (!selectedTemplate && data.length > 0) {
+        const firstTemplate = data[0];
+        setSelectedTemplate(firstTemplate._id);
+        setTemplateParams(extractTemplateVariables(firstTemplate.message).map(() => ""));
+      }
+    } catch (err) {
+      console.error("Failed to fetch templates:", err);
+    } finally {
+      setTemplatesLoading(false);
+    }
+  }, [selectedTemplate]);
 
   const fetchHistory = useCallback(async () => {
     setHistoryLoading(true);
@@ -241,6 +257,9 @@ Powered by technology, driven by care - we are making healthcare simpler, smarte
     }
   }, [page, search, filterType, filterHospital, filterDoctor]);
 
+  useEffect(() => {
+    fetchTemplates();
+  }, [fetchTemplates]);
   useEffect(() => {
     fetchHistory();
   }, [fetchHistory]);
@@ -355,45 +374,66 @@ Powered by technology, driven by care - we are making healthcare simpler, smarte
 
             <div className="p-6 space-y-4">
               {/* Template selector */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {VERIFIED_TEMPLATES.map((tpl) => (
-                  <button
-                    key={tpl.name}
-                    onClick={() => {
-                      if (selectedTemplate === tpl.name) {
-                        setSelectedTemplate(null);
-                        setTemplateParams([]);
-                        setTemplateResult(null);
-                      } else {
-                        setSelectedTemplate(tpl.name);
-                        setTemplateParams(tpl.variables.map(() => ""));
+              {templatesLoading ? (
+                <div className="h-24 rounded-xl bg-gray-100 animate-pulse" />
+              ) : templates.length === 0 ? (
+                <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+                  No Meta verified templates found. Create a Meta template from the Templates page.
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-[1fr_2fr] gap-3">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <input
+                        type="text"
+                        placeholder="Search Meta templates..."
+                        value={templateSearch}
+                        onChange={(e) => setTemplateSearch(e.target.value)}
+                        className="w-full pl-10 pr-3 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:border-green-400 focus:ring-2 focus:ring-green-100 focus:bg-white transition-all"
+                      />
+                    </div>
+                    <select
+                      value={selectedTemplate || ""}
+                      onChange={(e) => {
+                        const template = templates.find((tpl) => tpl._id === e.target.value);
+                        setSelectedTemplate(template?._id || null);
+                        setTemplateParams(template ? extractTemplateVariables(template.message).map(() => "") : []);
                         setTemplateResult(null);
                         setTemplatePreviewOpen(false);
-                      }
-                    }}
-                    className={`text-left p-4 rounded-xl border-2 transition-all duration-200 ${
-                      selectedTemplate === tpl.name
-                        ? "border-green-500 bg-green-50 shadow-md"
-                        : "border-gray-200 bg-gray-50 hover:border-green-300 hover:bg-green-50/50"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <p className="font-semibold text-sm text-gray-900">{tpl.label}</p>
-                      {selectedTemplate === tpl.name && (
-                        <Check className="w-4 h-4 text-green-600" />
-                      )}
+                      }}
+                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:border-green-400 focus:ring-2 focus:ring-green-100 focus:bg-white transition-all"
+                    >
+                      <option value="">Select a Meta verified template</option>
+                      {filteredTemplates.map((template) => (
+                        <option key={template._id} value={template._id}>
+                          {template.name} ({template.language || "en"})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {filteredTemplates.length === 0 && (
+                    <div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-500">
+                      No templates match your search.
                     </div>
-                    <p className="text-xs text-gray-500">
-                      Template: <span className="font-mono text-green-700">{tpl.name}</span>
-                    </p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {tpl.variables.length > 0
-                        ? `${tpl.variables.length} variable(s): ${tpl.variableLabels.join(", ")}`
-                        : "No variables — sends as-is"}
-                    </p>
-                  </button>
-                ))}
-              </div>
+                  )}
+
+                  {activeTemplate && (
+                    <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p className="font-semibold text-sm text-gray-900">{activeTemplate.name}</p>
+                        <span className="text-xs font-mono text-green-700">{activeTemplate.language || "en"}</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {activeTemplateVariables.length > 0
+                          ? `${activeTemplateVariables.length} variable(s): ${activeTemplateVariables.map((v) => v.label).join(", ")}`
+                          : "No variables - sends as-is"}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Active template details */}
               {activeTemplate && (
@@ -467,19 +507,19 @@ Powered by technology, driven by care - we are making healthcare simpler, smarte
                   </div>
 
                   {/* Variable inputs */}
-                  {activeTemplate.variables.length > 0 && (
+                  {activeTemplateVariables.length > 0 && (
                     <div className="space-y-3">
                       <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                         Fill Template Variables
                       </p>
-                      {activeTemplate.variables.map((v, i) => (
-                        <div key={v}>
+                      {activeTemplateVariables.map((variable, i) => (
+                        <div key={variable.key}>
                           <label className="text-xs font-medium text-gray-500 mb-1 block">
-                            {v} — {activeTemplate.variableLabels[i]}
+                            {`{{${variable.key}}}`} - {variable.label}
                           </label>
                           <input
                             type="text"
-                            placeholder={`Enter ${activeTemplate.variableLabels[i]}`}
+                            placeholder={`Enter ${variable.label}`}
                             value={templateParams[i] || ""}
                             onChange={(e) => {
                               const updated = [...templateParams];
@@ -499,7 +539,7 @@ Powered by technology, driven by care - we are making healthcare simpler, smarte
                     disabled={
                       sendingTemplate ||
                       !templatePhone.trim() ||
-                      (activeTemplate.variables.length > 0 &&
+                      (activeTemplateVariables.length > 0 &&
                         !templateParams.every((p) => p.trim() !== ""))
                     }
                     className="flex items-center gap-2 px-8 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-bold text-sm shadow-md hover:shadow-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap transform hover:-translate-y-0.5"
@@ -851,10 +891,10 @@ Powered by technology, driven by care - we are making healthcare simpler, smarte
                             </p>
                           ) : item.documentName ? (
                             <p className="text-sm text-gray-400 italic">
-                              File only — no message
+                              File only - no message
                             </p>
                           ) : (
-                            <p className="text-sm text-gray-300">—</p>
+                            <p className="text-sm text-gray-300">-</p>
                           )}
                           {item.error && (
                             <p className="text-xs text-red-500 mt-0.5 flex items-center gap-1">
@@ -888,7 +928,7 @@ Powered by technology, driven by care - we are making healthcare simpler, smarte
                               </span>
                             </div>
                           ) : (
-                            <span className="text-gray-300">—</span>
+                            <span className="text-gray-300">-</span>
                           )}
                         </div>
 
@@ -911,7 +951,7 @@ Powered by technology, driven by care - we are making healthcare simpler, smarte
                             </span>
                           )}
                           {!item.hospitalName && !item.doctorName && (
-                            <span className="text-gray-300 text-xs">—</span>
+                            <span className="text-gray-300 text-xs">-</span>
                           )}
                         </div>
 

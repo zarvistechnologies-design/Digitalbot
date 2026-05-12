@@ -20,6 +20,7 @@ interface Template {
   _id: string;
   name: string;
   language: string;
+  type?: "user" | "meta";
   message: string;
   createdAt: string;
   updatedAt: string;
@@ -31,12 +32,13 @@ export default function TemplatesPage() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
   const [categories, setCategories] = useState<string[]>([]);
 
   // Modal state
   const [showModal, setShowModal] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<Template | null>(null);
-  const [formData, setFormData] = useState({ name: "", language: "en", message: "" });
+  const [formData, setFormData] = useState({ name: "", language: "en", type: "user", message: "" });
   const [saving, setSaving] = useState(false);
 
   // Delete confirmation
@@ -52,6 +54,7 @@ export default function TemplatesPage() {
       const params: Record<string, string> = {};
       if (searchQuery) params.search = searchQuery;
       if (categoryFilter) params.language = categoryFilter;
+      if (typeFilter !== "all") params.type = typeFilter;
       const res = await templateAPI.getTemplates(params);
       const data = Array.isArray(res.data.data) ? res.data.data : Array.isArray(res.data) ? res.data : [];
       setTemplates(data);
@@ -64,7 +67,7 @@ export default function TemplatesPage() {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, categoryFilter]);
+  }, [searchQuery, categoryFilter, typeFilter]);
 
   useEffect(() => {
     fetchTemplates();
@@ -72,13 +75,13 @@ export default function TemplatesPage() {
 
   const openCreate = () => {
     setEditingTemplate(null);
-    setFormData({ name: "", language: "en", message: "" });
+    setFormData({ name: "", language: "en", type: "user", message: "" });
     setShowModal(true);
   };
 
   const openEdit = (template: Template) => {
     setEditingTemplate(template);
-    setFormData({ name: template.name, language: template.language, message: template.message });
+    setFormData({ name: template.name, language: template.language, type: template.type || "user", message: template.message });
     setShowModal(true);
   };
 
@@ -181,6 +184,15 @@ export default function TemplatesPage() {
               </option>
             ))}
           </select>
+          <select
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white"
+          >
+            <option value="all">All Types</option>
+            <option value="user">User Templates</option>
+            <option value="meta">Meta Verified</option>
+          </select>
           <span className="text-sm text-gray-500">
             {templates.length} template{templates.length !== 1 ? "s" : ""}
           </span>
@@ -220,6 +232,13 @@ export default function TemplatesPage() {
                           {template.language === 'en' ? 'English' : template.language === 'hi' ? 'Hindi' : template.language === 'as' ? 'Assamese' : template.language}
                         </span>
                       )}
+                      <span className={`inline-block mt-1 ml-1 px-2 py-0.5 text-xs font-medium border rounded-full ${
+                        template.type === "meta"
+                          ? "bg-green-50 text-green-700 border-green-200"
+                          : "bg-slate-50 text-slate-600 border-slate-200"
+                      }`}>
+                        {template.type === "meta" ? "Meta Verified" : "User Template"}
+                      </span>
                     </div>
                   </div>
 
@@ -303,6 +322,22 @@ export default function TemplatesPage() {
                   <option value="hi">Hindi</option>
                   <option value="as">Assamese</option>
                 </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Template Type</label>
+                <select
+                  value={formData.type}
+                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+                >
+                  <option value="user">User Template</option>
+                  <option value="meta">Meta Verified Template</option>
+                </select>
+                {formData.type === "meta" && (
+                  <p className="mt-1 text-xs text-gray-500">
+                    Use the exact Meta-approved WhatsApp template name.
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Message *</label>
