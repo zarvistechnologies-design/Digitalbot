@@ -87,7 +87,7 @@ export default function LoginPage(): JSX.Element {
             ? '/dashboard/akiara-sessions'
             : data.user?.selectedService === 'healthiQure patient navigation'
               ? '/dashboard/bot-sessions'
-              : '/dashboard/bot-session';
+              : '/dashboard';
         router.push(dest);
       } else {
         setError(data.error || 'Login failed');
