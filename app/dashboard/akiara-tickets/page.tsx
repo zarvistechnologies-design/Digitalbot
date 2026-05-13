@@ -31,7 +31,7 @@ interface AkiaraTicket {
   issueCategory: string | null;
   issueDescription: string | null;
   priority: "normal" | "high" | "urgent";
-  status: "open" | "in_progress" | "resolved" | "closed";
+  status: "open" | "in_progress" | "not_contacted" | "order_id_pending" | "resolved" | "closed";
   customerVideoUrls: string[];
   videosSentToCustomer: string[];
   conversationSummary: string;
@@ -106,6 +106,8 @@ const priorityColors: Record<string, string> = {
 const statusColors: Record<string, string> = {
   open: "bg-blue-100 text-blue-700",
   in_progress: "bg-yellow-100 text-yellow-700",
+  not_contacted: "bg-violet-100 text-violet-700",
+  order_id_pending: "bg-cyan-100 text-cyan-700",
   resolved: "bg-green-100 text-green-700",
   closed: "bg-slate-100 text-slate-500",
 };
@@ -113,6 +115,8 @@ const statusColors: Record<string, string> = {
 const statusIcons: Record<string, React.ReactNode> = {
   open: <Clock className="w-3 h-3" />,
   in_progress: <Loader2 className="w-3 h-3" />,
+  not_contacted: <MessageCircle className="w-3 h-3" />,
+  order_id_pending: <Package className="w-3 h-3" />,
   resolved: <CheckCircle className="w-3 h-3" />,
   closed: <X className="w-3 h-3" />,
 };
@@ -126,8 +130,19 @@ const priorityBorders: Record<string, string> = {
 const statusDots: Record<string, string> = {
   open: "bg-blue-500",
   in_progress: "bg-amber-500",
+  not_contacted: "bg-violet-500",
+  order_id_pending: "bg-cyan-500",
   resolved: "bg-emerald-500",
   closed: "bg-slate-400",
+};
+
+const statusLabels: Record<string, string> = {
+  open: "Open",
+  in_progress: "In Progress",
+  not_contacted: "Not Contacted",
+  order_id_pending: "Order ID Pending",
+  resolved: "Resolved",
+  closed: "Closed",
 };
 
 interface User {
@@ -266,6 +281,8 @@ export default function AkiaraTicketsPage() {
           customerPhone: "",
           customerAddress: "",
           customerCity: "",
+          customerState: "",
+          customerPincode: "",
         });
         fetchTickets();
       }
@@ -313,6 +330,8 @@ export default function AkiaraTicketsPage() {
     total: tickets.length,
     open: tickets.filter((t) => t.status === "open").length,
     inProgress: tickets.filter((t) => t.status === "in_progress").length,
+    notContacted: tickets.filter((t) => t.status === "not_contacted").length,
+    orderIdPending: tickets.filter((t) => t.status === "order_id_pending").length,
     resolved: tickets.filter((t) => t.status === "resolved").length,
     urgent: tickets.filter((t) => t.priority === "urgent" && t.status !== "closed").length,
   };
@@ -437,6 +456,8 @@ export default function AkiaraTicketsPage() {
                 { key: "all", label: "All", count: stats.total },
                 { key: "open", label: "Open", count: stats.open },
                 { key: "in_progress", label: "In Progress", count: stats.inProgress },
+                { key: "not_contacted", label: "Not Contacted", count: stats.notContacted },
+                { key: "order_id_pending", label: "Order ID Pending", count: stats.orderIdPending },
                 { key: "resolved", label: "Resolved", count: stats.resolved },
                 { key: "closed", label: "Closed", count: tickets.filter(t => t.status === "closed").length },
               ].map((s) => (
@@ -482,7 +503,7 @@ export default function AkiaraTicketsPage() {
                     >
                       {/* Status dot */}
                       <div className="flex-shrink-0">
-                        <div className={`w-2.5 h-2.5 rounded-full ${statusDots[t.status]}`} title={t.status} />
+                        <div className={`w-2.5 h-2.5 rounded-full ${statusDots[t.status]}`} title={statusLabels[t.status] || t.status} />
                       </div>
                       {/* Main info */}
                       <div className="flex-1 min-w-0">
@@ -494,7 +515,7 @@ export default function AkiaraTicketsPage() {
                         </div>
                         <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${statusColors[t.status]}`}>
-                            {statusIcons[t.status]} {t.status.replace("_", " ")}
+                            {statusIcons[t.status]} {statusLabels[t.status] || t.status}
                           </span>
                           <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${priorityColors[t.priority]}`}>
                             {t.priority}
@@ -548,6 +569,8 @@ export default function AkiaraTicketsPage() {
                             >
                               <option value="open">Open</option>
                               <option value="in_progress">In Progress</option>
+                              <option value="not_contacted">Not Contacted</option>
+                              <option value="order_id_pending">Order ID Pending</option>
                               <option value="resolved">Resolved</option>
                               <option value="closed">Closed</option>
                             </select>
