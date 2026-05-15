@@ -32,7 +32,7 @@ interface AkiaraTicket {
   issueCategory: string | null;
   issueDescription: string | null;
   priority: "normal" | "high" | "urgent";
-  status: "open" | "in_progress" | "not_contacted" | "order_id_pending" | "home_visit" | "customer_couriering" | "resolved" | "closed";
+  status: "open" | "in_progress" | "not_contacted" | "order_id_pending" | "home_visit" | "Couriering" | "resolved" | "closed";
   customerVideoUrls: string[];
   videosSentToCustomer: string[];
   conversationSummary: string;
@@ -110,7 +110,7 @@ const statusColors: Record<string, string> = {
   not_contacted: "bg-violet-100 text-violet-700",
   order_id_pending: "bg-cyan-100 text-cyan-700",
   home_visit: "bg-pink-100 text-pink-700",
-  customer_couriering: "bg-indigo-100 text-indigo-700",
+  Couriering: "bg-indigo-100 text-indigo-700",
   resolved: "bg-green-100 text-green-700",
   closed: "bg-slate-100 text-slate-500",
 };
@@ -121,7 +121,7 @@ const statusIcons: Record<string, React.ReactNode> = {
   not_contacted: <MessageCircle className="w-3 h-3" />,
   order_id_pending: <Package className="w-3 h-3" />,
   home_visit: <MapPin className="w-3 h-3" />,
-  customer_couriering: <Truck className="w-3 h-3" />,
+  Couriering: <Truck className="w-3 h-3" />,
   resolved: <CheckCircle className="w-3 h-3" />,
   closed: <X className="w-3 h-3" />,
 };
@@ -138,7 +138,7 @@ const statusDots: Record<string, string> = {
   not_contacted: "bg-violet-500",
   order_id_pending: "bg-cyan-500",
   home_visit: "bg-pink-500",
-  customer_couriering: "bg-indigo-500",
+  Couriering: "bg-indigo-500",
   resolved: "bg-emerald-500",
   closed: "bg-slate-400",
 };
@@ -149,7 +149,7 @@ const statusLabels: Record<string, string> = {
   not_contacted: "Not Contacted",
   order_id_pending: "Order ID Pending",
   home_visit: "Home Visit",
-  customer_couriering: "Customer Couriering",
+  Couriering: "Customer Couriering",
   resolved: "Resolved",
   closed: "Closed",
 };
@@ -585,7 +585,7 @@ export default function AkiaraTicketsPage() {
                               <option value="not_contacted">Not Contacted</option>
                               <option value="order_id_pending">Order ID Pending</option>
                               <option value="home_visit">Home Visit</option>
-                              <option value="customer_couriering">Customer Couriering</option>
+                              <option value="customer_couriering">Couriering</option>
                               <option value="resolved">Resolved</option>
                               <option value="closed">Closed</option>
                             </select>
