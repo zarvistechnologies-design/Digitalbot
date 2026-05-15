@@ -97,27 +97,8 @@ function makeTemplateId(name: string) {
   return id || `template_${Date.now()}`;
 }
 
-function variablesToText(variables: MessageTemplateVariable[] = []) {
-  return variables
-    .map((variable) => `${variable.key}|${variable.label || variable.key}|${variable.required === false ? "optional" : "required"}`)
-    .join("\n");
-}
-
-function textToVariables(value: string): MessageTemplateVariable[] {
-  return value
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const [key, label, required] = line.split("|").map((part) => part?.trim());
-      return {
-        key,
-        label: label || key,
-        required: required !== "optional",
-        defaultValue: "",
-      };
-    })
-    .filter((variable) => variable.key);
+function sanitizeVariableKey(value: string) {
+  return value.replace(/[^a-zA-Z0-9_]/g, "");
 }
 
 export default function AkiaraSettingsPage() {
@@ -216,7 +197,14 @@ export default function AkiaraSettingsPage() {
             name: template.name.trim(),
             body: template.body.trim(),
             language: template.language || "en",
-            variables: template.variables || [],
+            variables: (template.variables || [])
+              .map((variable) => ({
+                key: (variable.key || "").trim(),
+                label: (variable.label || "").trim() || (variable.key || "").trim(),
+                required: variable.required !== false,
+                defaultValue: variable.defaultValue || "",
+              }))
+              .filter((variable) => variable.key),
             active: template.active !== false,
           }))
           .filter((template) => template.id && template.name && template.body),
@@ -266,6 +254,36 @@ export default function AkiaraSettingsPage() {
 
   const removeTemplate = (index: number) => {
     setMessageTemplates((prev) => prev.filter((_, itemIndex) => itemIndex !== index));
+  };
+
+  const addVariable = (templateIndex: number) => {
+    setMessageTemplates((prev) => prev.map((template, itemIndex) => (
+      itemIndex === templateIndex
+        ? { ...template, variables: [...(template.variables || []), { key: "", label: "", required: true, defaultValue: "" }] }
+        : template
+    )));
+  };
+
+  const updateVariable = (templateIndex: number, variableIndex: number, updates: Partial<MessageTemplateVariable>) => {
+    setMessageTemplates((prev) => prev.map((template, itemIndex) => {
+      if (itemIndex !== templateIndex) return template;
+      return {
+        ...template,
+        variables: (template.variables || []).map((variable, varIdx) => (
+          varIdx === variableIndex ? { ...variable, ...updates } : variable
+        )),
+      };
+    }));
+  };
+
+  const removeVariable = (templateIndex: number, variableIndex: number) => {
+    setMessageTemplates((prev) => prev.map((template, itemIndex) => {
+      if (itemIndex !== templateIndex) return template;
+      return {
+        ...template,
+        variables: (template.variables || []).filter((_, varIdx) => varIdx !== variableIndex),
+      };
+    }));
   };
 
   // ---- Loading State ----
@@ -793,17 +811,60 @@ export default function AkiaraSettingsPage() {
                               />
                             </div>
 
-                            <div className="space-y-1.5">
-                              <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Variables</label>
-                              <textarea
-                                value={variablesToText(template.variables)}
-                                onChange={(e) => updateTemplate(index, { variables: textToVariables(e.target.value) })}
-                                rows={3}
-                                placeholder="customerName|Customer name|required"
-                                className="w-full px-3 py-3 bg-slate-50 rounded-lg border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none resize-none"
-                              />
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between">
+                                <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Variables</label>
+                                <button
+                                  type="button"
+                                  onClick={() => addVariable(index)}
+                                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-orange-50 text-orange-600 text-xs font-semibold hover:bg-orange-100 transition-colors"
+                                >
+                                  <Plus className="w-3.5 h-3.5" /> Add variable
+                                </button>
+                              </div>
+
+                              {(template.variables || []).length === 0 ? (
+                                <div className="py-6 text-center border border-dashed border-slate-200 rounded-lg bg-slate-50">
+                                  <p className="text-xs text-slate-400">No variables yet. Add one to use {"{{key}}"} placeholders in the body.</p>
+                                </div>
+                              ) : (
+                                <div className="space-y-2">
+                                  {(template.variables || []).map((variable, varIdx) => (
+                                    <div key={varIdx} className="grid grid-cols-12 gap-2 items-center">
+                                      <input
+                                        value={variable.key}
+                                        onChange={(e) => updateVariable(index, varIdx, { key: sanitizeVariableKey(e.target.value) })}
+                                        placeholder="key"
+                                        className="col-span-3 h-9 px-2.5 bg-slate-50 rounded-lg border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none"
+                                      />
+                                      <input
+                                        value={variable.label}
+                                        onChange={(e) => updateVariable(index, varIdx, { label: e.target.value })}
+                                        placeholder="Label shown to sender"
+                                        className="col-span-5 h-9 px-2.5 bg-slate-50 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none"
+                                      />
+                                      <select
+                                        value={variable.required === false ? "optional" : "required"}
+                                        onChange={(e) => updateVariable(index, varIdx, { required: e.target.value !== "optional" })}
+                                        className="col-span-3 h-9 px-2 bg-slate-50 rounded-lg border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-orange-200 focus:outline-none"
+                                      >
+                                        <option value="required">Required</option>
+                                        <option value="optional">Optional</option>
+                                      </select>
+                                      <button
+                                        type="button"
+                                        onClick={() => removeVariable(index, varIdx)}
+                                        className="col-span-1 h-9 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors"
+                                        title="Remove variable"
+                                      >
+                                        <Trash2 className="w-4 h-4" />
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                               <p className="text-[11px] text-slate-400">
-                                One per line: key|label|required. Use the same key in the body like {"{{customerName}}"}.
+                                Reference each key in the body with {"{{key}}"} (e.g. {"{{customerName}}"}).
                               </p>
                             </div>
                           </div>
