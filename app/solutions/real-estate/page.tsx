@@ -2,58 +2,177 @@
 
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
-import { ArrowRight, Building, Calendar, DollarSign, MapPin, MessageSquare } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import {
+  ArrowRight,
+  Bot,
+  Building2,
+  CalendarCheck,
+  ClipboardCheck,
+  Handshake,
+  Home,
+  IndianRupee,
+  KeyRound,
+  Languages,
+  MapPin,
+  MessageCircle,
+  PhoneCall,
+  Sparkles,
+  Users,
+} from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
-function AnimatedCounter({ end, suffix = "", duration = 2000 }: { end: number; suffix?: string; duration?: number }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef<HTMLSpanElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setIsVisible(true) }, { threshold: 0.1 })
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [])
-  useEffect(() => {
-    if (!isVisible) return
-    let startTime: number
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime
-      const progress = Math.min((currentTime - startTime) / duration, 1)
-      setCount(Math.floor(progress * end))
-      if (progress < 1) requestAnimationFrame(animate)
-    }
-    requestAnimationFrame(animate)
-  }, [isVisible, end, duration])
-  return <span ref={ref}>{count}{suffix}</span>
-}
+const realEstateImage = "/images/real_estate_1.png"
+const whatsappImage = "/images/real_estate_2.png"
+
+const stats = [
+  { value: "95%", label: "WhatsApp open rate", note: "Property details are seen fast" },
+  { value: "3 sec", label: "First response", note: "Every buyer inquiry gets attention" },
+  { value: "24/7", label: "Lead coverage", note: "Works after office hours and weekends" },
+  { value: "47%", label: "More site visits", note: "Automated follow-ups confirm visits" },
+]
+
+const services = [
+  {
+    icon: MessageCircle,
+    title: "Property Inquiry Bot",
+    body: "Answers price, location, amenities, floor plan, possession, RERA, and availability questions instantly on WhatsApp.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Buyer Qualification",
+    body: "Captures budget, preferred area, BHK, buying timeline, loan status, and contact details before your sales team calls.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Site Visit Booking",
+    body: "Lets prospects choose visit slots, confirms the appointment, and sends reminders to reduce no-shows.",
+  },
+  {
+    icon: IndianRupee,
+    title: "Budget and EMI Guidance",
+    body: "Shares price ranges, payment plans, booking amounts, and EMI-friendly next steps inside the same chat.",
+  },
+  {
+    icon: Languages,
+    title: "Regional Language Support",
+    body: "Supports buyer conversations in Hindi, English, and local-language flows for smoother trust-building.",
+  },
+  {
+    icon: Bot,
+    title: "Sales Handoff",
+    body: "Routes hot buyers to the right sales executive with full chat history and a clear next-best action.",
+  },
+]
+
+const audiences = [
+  { icon: Building2, title: "Builders and Developers", text: "Project inquiries, price sheets, floor plans, site visits, and launch campaigns." },
+  { icon: Home, title: "Real Estate Agencies", text: "Buyer matching, rental inquiries, resale leads, and owner follow-ups from one inbox." },
+  { icon: KeyRound, title: "Property Consultants", text: "Lead qualification, area preferences, budgets, and appointment scheduling." },
+  { icon: Users, title: "Channel Partner Teams", text: "Campaign responses, buyer routing, broker coordination, and CRM-ready updates." },
+]
+
+const journey = [
+  { step: "01", title: "Buyer asks on WhatsApp", text: "The AI welcomes them, understands property intent, and answers the first question instantly." },
+  { step: "02", title: "AI captures requirements", text: "Budget, location, BHK, timeline, loan status, and visit preference are recorded cleanly." },
+  { step: "03", title: "Matching properties are shared", text: "Photos, floor plans, price sheets, amenities, and location details are sent in the same chat." },
+  { step: "04", title: "Site visit gets confirmed", text: "Qualified buyers pick a slot and your sales team receives a ready visit schedule." },
+]
+
+const comparison = [
+  ["Response speed", "Instant, 24/7", "Delayed callbacks and missed portal leads"],
+  ["Property details", "Sent inside WhatsApp", "Website links and PDFs get ignored"],
+  ["Sales workload", "Only qualified buyers reach staff", "Agents chase every casual inquiry"],
+  ["Follow-up", "Automated visit reminders", "Manual calls and spreadsheet tracking"],
+  ["Lead ownership", "Direct buyer engagement", "Broker dependency and lost context"],
+]
 
 const chatMessages = [
-  { from: "user", text: "Hi, I saw your ad for 3BHK in Baner" },
-  { from: "bot", text: "Welcome to DreamHomes! 🏠 Yes, we have multiple 3BHK options in Baner. Are you looking to Buy or Rent?" },
+  { from: "user", text: "Hi, I saw your ad for a 3BHK in Baner" },
+  { from: "bot", text: "Welcome to DreamHomes! I can help you with available 3BHK options. Are you looking to buy or rent?\n- Buy\n- Rent\n- Investment" },
   { from: "user", text: "Buy" },
-  { from: "bot", text: "Great! What's your budget range?\n• Under ₹50L\n• ₹50-80L\n• ₹80L-1.5Cr\n• Above ₹1.5Cr" },
-  { from: "user", text: "50-80 lakhs" },
-  { from: "bot", text: "Perfect! I have 3 matching properties:\n🏢 Sunrise Heights — ₹68L, 1250sqft\n🏢 Green Valley — ₹72L, 1380sqft\n🏢 Park View — ₹62L, 1200sqft\nWant to schedule a site visit?" },
+  { from: "bot", text: "Great. What is your budget range?\n1. Under Rs. 50L\n2. Rs. 50L-80L\n3. Rs. 80L-1.5Cr\n4. Above Rs. 1.5Cr" },
+  { from: "user", text: "50 to 80 lakhs" },
+  { from: "bot", text: "Perfect. I found 3 matching properties in Baner:\nSunrise Heights - Rs. 68L, 1250 sqft\nGreen Valley - Rs. 72L, 1380 sqft\nPark View - Rs. 62L, 1200 sqft\nWould you like to book a site visit?" },
   { from: "user", text: "Sunrise Heights, Saturday" },
-  { from: "bot", text: "✅ Site visit confirmed!\n📅 Saturday, 11:00 AM\n📍 Sunrise Heights, Baner\nOur executive Rahul will meet you. See you! 🎉" },
+  { from: "bot", text: "Site visit confirmed.\nSaturday, 11:00 AM\nSunrise Heights, Baner\nExecutive Rahul will meet you at the sales office." },
 ]
 
-const features = [
-  { icon: MessageSquare, title: "Instant Property Matching", desc: "AI matches buyers to properties based on budget, location, and configuration — instantly." },
-  { icon: Calendar, title: "Automated Site Visits", desc: "Prospects book site visits directly via WhatsApp. Your team gets a ready schedule every morning." },
-  { icon: DollarSign, title: "Budget Qualification", desc: "AI qualifies leads by budget, timeline, and preferences before your agents spend time on them." },
-  { icon: MapPin, title: "Location-Based Suggestions", desc: "Send property options, photos, and floor plans based on preferred areas and requirements." },
-]
+function HeroPhone({ visibleMessages }: { visibleMessages: number }) {
+  return (
+    <div className="relative w-[240px] sm:w-[280px] md:w-[310px]">
+      <div className="rounded-[44px] border-[6px] border-slate-700 bg-slate-900 p-1 shadow-2xl">
+        <div className="relative z-10 mx-auto h-6 w-28 rounded-b-2xl bg-slate-900" />
+        <div className="-mt-3 overflow-hidden rounded-[36px] bg-[#ece5dd]">
+          <div className="flex items-center justify-between bg-[#075e54] px-5 py-1.5">
+            <span className="text-[11px] font-semibold text-white">9:41</span>
+            <div className="flex items-center gap-1">
+              <span className="text-[10px] font-semibold text-white">5G</span>
+              <div className="flex items-end gap-[1px]">
+                {[4, 6, 8, 10].map((h) => (
+                  <div key={h} className="w-[3px] rounded-[0.5px] bg-white" style={{ height: h }} />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 bg-[#128c7e] px-3 py-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">
+              DH
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white">DreamHomes Realty</p>
+              <p className="text-xs text-emerald-100">Verified Business</p>
+            </div>
+          </div>
+
+          <div className="h-[400px] space-y-1.5 overflow-y-auto p-2">
+            {chatMessages.slice(0, visibleMessages).map((msg, i) => (
+              <div key={i} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"} animate-slideUp`}>
+                <div className={`max-w-[82%] rounded-lg px-2.5 py-1.5 text-[11px] leading-relaxed text-slate-800 shadow-sm ${msg.from === "user" ? "rounded-tr-sm bg-[#d9fdd3]" : "rounded-tl-sm bg-white"}`}>
+                  <p className="whitespace-pre-line">{msg.text}</p>
+                </div>
+              </div>
+            ))}
+            {visibleMessages < chatMessages.length && (
+              <div className="flex gap-1 px-2 py-1">
+                {[0, 0.15, 0.3].map((delay) => (
+                  <span key={delay} className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-400" style={{ animationDelay: `${delay}s` }} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 bg-[#f0f0f0] px-2 py-2">
+            <span className="text-xl">+</span>
+            <div className="flex-1 rounded-full bg-white px-4 py-2">
+              <span className="text-xs text-gray-400">Type a message...</span>
+            </div>
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#075e54]">
+              <MessageCircle className="h-4 w-4 text-white" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function RealEstateSolutionPage() {
   const [visibleMessages, setVisibleMessages] = useState(0)
-const [heroVisible, setHeroVisible] = useState(false)
+  const [heroVisible, setHeroVisible] = useState(false)
 
   useEffect(() => {
     setHeroVisible(true)
     const interval = setInterval(() => {
-      setVisibleMessages((prev) => { if (prev >= chatMessages.length) { clearInterval(interval); return prev } return prev + 1 })
+      setVisibleMessages((prev) => {
+        if (prev >= chatMessages.length) {
+          clearInterval(interval)
+          return prev
+        }
+        return prev + 1
+      })
     }, 1000)
     return () => clearInterval(interval)
   }, [])
@@ -61,72 +180,369 @@ const [heroVisible, setHeroVisible] = useState(false)
   return (
     <>
       <Header />
-      <main className="bg-white text-gray-900 min-h-screen overflow-hidden">
-        <section className="relative min-h-screen flex items-center">
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-12 items-center">
-            <div className={`space-y-8 transition-all duration-1000 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-              <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-2 rounded-full">
-                <Building className="w-4 h-4 text-green-400" />
-                <span className="text-sm text-green-400 font-medium">Built For Real Estate</span>
+      <main className="bg-white text-slate-950">
+        <section className="relative overflow-hidden pt-28 sm:pt-32">
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,#f0fdf4_0%,#ffffff_45%,#eff6ff_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-white" />
+          <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 pb-16 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8 lg:pb-24">
+            <div className={`transition-all duration-1000 ${heroVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-2 text-sm font-bold text-emerald-700 shadow-sm">
+                <Sparkles className="h-4 w-4" />
+                WhatsApp automation for real estate
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-                Turn Every Inquiry Into a<br />
-                <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">Site Visit — Automatically</span>
+              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+                Convert every property inquiry into a confirmed site visit.
               </h1>
-              <p className="text-lg text-gray-600 max-w-xl">Our WhatsApp AI follows up every lead instantly, qualifies budgets, and books site visits — even at 2AM.</p>
-              <div className="flex flex-wrap gap-4">
-                <button onClick={() => window.location.href = "/contact"} className="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#1fb855] text-white font-semibold rounded-xl transition-all hover:scale-105 shadow-lg shadow-green-500/25">See It In Action <ArrowRight className="w-5 h-5" /></button>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+                DigitalBot answers buyer questions, shares property details, qualifies budgets, books site visits,
+                and follows up with prospects directly inside WhatsApp.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#128c7e] px-6 py-4 text-sm font-bold text-white shadow-lg shadow-emerald-900/20 transition hover:bg-[#075e54]">
+                  Book free demo <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/services/whatsapp-bot" className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-6 py-4 text-sm font-bold text-slate-800 transition hover:border-emerald-200 hover:text-emerald-700">
+                  See WhatsApp bot service
+                </Link>
+              </div>
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {stats.map((item) => (
+                  <div key={item.label} className="rounded-lg border border-emerald-100 bg-white/85 p-4 shadow-sm">
+                    <p className="text-2xl font-black text-[#128c7e]">{item.value}</p>
+                    <p className="mt-1 text-sm font-bold text-slate-900">{item.label}</p>
+                    <p className="mt-1 text-xs leading-5 text-slate-500">{item.note}</p>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className={`flex justify-center transition-all duration-1000 delay-300 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-              <div className="relative">
-                <div className="absolute -inset-10 bg-green-500/10 rounded-full blur-3xl" />
-                <div className="relative w-[240px] sm:w-[280px] md:w-[310px] animate-float">
-                  <div className="bg-slate-900 rounded-[44px] border-[6px] border-slate-700 p-1 shadow-2xl">
-                    <div className="mx-auto w-28 h-6 bg-slate-900 rounded-b-2xl relative z-10" />
-                                        <div className="bg-[#ece5dd] rounded-[36px] overflow-hidden -mt-3">
-                      {/* Status Bar */}
-                      <div className="bg-[#075e54] px-5 py-1.5 flex items-center justify-between">
-                        <span className="text-white text-[11px] font-semibold">9:41</span>
-                        <div className="flex items-center gap-1">
-                          <span className="text-white text-[10px] font-semibold">5G</span>
-                          <div className="flex items-end gap-[1px]">
-                            <div className="w-[3px] h-[4px] bg-white rounded-[0.5px]" />
-                            <div className="w-[3px] h-[6px] bg-white rounded-[0.5px]" />
-                            <div className="w-[3px] h-[8px] bg-white rounded-[0.5px]" />
-                            <div className="w-[3px] h-[10px] bg-white rounded-[0.5px]" />
-                          </div>
-                          <svg className="w-[18px] h-[10px] text-white ml-0.5" fill="currentColor" viewBox="0 0 24 14"><rect x="0" y="0" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none"/><rect x="21" y="4" width="3" height="6" rx="1" fill="currentColor"/><rect x="2" y="2" width="14" height="10" rx="1" fill="currentColor"/></svg>
+
+            <div className={`relative flex justify-center transition-all delay-300 duration-1000 lg:justify-end ${heroVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
+              <div className="absolute -inset-10 rounded-full bg-[#25d366]/15 blur-3xl" />
+              <div className="relative z-10 lg:mr-20">
+                <HeroPhone visibleMessages={visibleMessages} />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+              <div>
+                <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-700">Designed for property sales</p>
+                <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                  More than a chatbot. A complete WhatsApp sales desk.
+                </h2>
+              </div>
+              <p className="text-lg leading-8 text-slate-600">
+                Built for builders, agencies, and consultants who need quick replies, qualified buyers,
+                site visit scheduling, and sales handoffs without losing leads in calls or spreadsheets.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {services.map((service) => {
+                const Icon = service.icon
+                return (
+                  <div key={service.title} className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:border-emerald-200 hover:shadow-lg">
+                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-[#128c7e]">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-lg font-black text-slate-950">{service.title}</h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{service.body}</p>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-slate-950 px-4 py-20 text-white sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+            <div className="grid gap-4">
+              <div className="overflow-hidden rounded-lg border border-white/10 bg-white/5 p-3">
+                <Image
+                  src={realEstateImage}
+                  alt="Real estate consultant using WhatsApp automation"
+                  width={1200}
+                  height={900}
+                  className="h-auto w-full rounded-md object-cover"
+                />
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-300">Who it helps</p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+                One WhatsApp system for developers, agencies, consultants, and channel partners.
+              </h2>
+              <div className="mt-8 grid gap-4">
+                {audiences.map((audience) => {
+                  const Icon = audience.icon
+                  return (
+                    <div key={audience.title} className="rounded-lg border border-white/10 bg-white/5 p-5">
+                      <div className="flex gap-4">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#25d366] text-slate-950">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h3 className="font-black">{audience.title}</h3>
+                          <p className="mt-1 text-sm leading-6 text-slate-300">{audience.text}</p>
                         </div>
                       </div>
-                      <div className="bg-green-600 px-3 py-3 flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white text-[10px] font-bold">DH</div>
-                        <div><p className="text-white text-sm font-semibold">DreamHomes AI</p><p className="text-green-200 text-xs">● Verified Business</p></div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div className="order-2 overflow-hidden rounded-lg border border-emerald-100 bg-white p-3 shadow-xl">
+              <Image
+                src={whatsappImage}
+                alt="WhatsApp property inquiry automation preview"
+                width={1024}
+                height={768}
+                className="h-auto w-full rounded-md object-contain"
+              />
+            </div>
+            <div className="order-1">
+              <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-700">Buyer journey</p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                From first message to confirmed site visit.
+              </h2>
+              <div className="mt-8 space-y-4">
+                {journey.map((item) => (
+                  <div key={item.step} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <div className="flex gap-4">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-50 font-black text-[#128c7e]">
+                        {item.step}
                       </div>
-                      <div className="p-2 space-y-1.5 h-[400px] overflow-y-auto">
-                        {chatMessages.slice(0, visibleMessages).map((msg, i) => (
-                          <div key={i} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"} animate-slideUp`}>
-                            <div className={`max-w-[82%] px-2.5 py-1.5 rounded-lg text-[11px] leading-relaxed shadow-sm ${msg.from === "user" ? "bg-[#d9fdd3] text-slate-800 rounded-tr-sm" : "bg-white text-slate-800 rounded-tl-sm"}`}>
-                              <p className="whitespace-pre-line">{msg.text}</p>
+                      <div>
+                        <h3 className="font-black text-slate-950">{item.title}</h3>
+                        <p className="mt-1 text-sm leading-6 text-slate-600">{item.text}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10 text-center">
+              <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-700">What you get</p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                Everything in one powerful WhatsApp dashboard.
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-slate-500">
+                Manage property leads, site visits, campaigns, CRM updates, and team handoffs from one clean interface.
+              </p>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-2xl" style={{ height: 620 }}>
+              <div className="flex h-full">
+                <div className="flex w-14 shrink-0 flex-col bg-[#1a1f36] md:w-48">
+                  <div className="flex items-center gap-2 border-b border-white/10 px-3 py-3.5">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#25d366]">
+                      <MessageCircle className="h-3.5 w-3.5 text-white" />
+                    </div>
+                    <span className="hidden text-[11px] font-black tracking-wide text-white md:block">DigitalBot</span>
+                  </div>
+
+                  <nav className="flex flex-col gap-0.5 p-2 pt-3">
+                    {[
+                      { icon: Home, label: "Dashboard", active: true },
+                      { icon: MessageCircle, label: "Live Chat", active: false },
+                      { icon: Users, label: "Leads", active: false },
+                      { icon: Building2, label: "Properties", active: false },
+                      { icon: CalendarCheck, label: "Site Visits", active: false },
+                      { icon: Bot, label: "ChatBot", active: false },
+                      { icon: Handshake, label: "Sales Team", active: false },
+                      { icon: MapPin, label: "Locations", active: false },
+                    ].map((item) => {
+                      const Icon = item.icon
+                      return (
+                        <div
+                          key={item.label}
+                          className={`flex cursor-default items-center gap-2.5 rounded-md px-2 py-1.5 ${
+                            item.active ? "bg-[#25d366] text-white" : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+                          }`}
+                        >
+                          <Icon className="h-3.5 w-3.5" />
+                          <span className="hidden text-[10px] font-semibold md:block">{item.label}</span>
+                        </div>
+                      )
+                    })}
+                  </nav>
+                </div>
+
+                <div className="flex flex-1 flex-col overflow-hidden bg-[#f1f5f9]">
+                  <div className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-2.5">
+                    <p className="text-xs font-black text-slate-800">Real Estate Dashboard</p>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1.5">
+                        <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                        <span className="text-[10px] font-bold text-emerald-600">Bot Active</span>
+                      </div>
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#25d366] text-[9px] font-black text-white">R</div>
+                    </div>
+                  </div>
+
+                  <div className="flex-1 overflow-auto p-3">
+                    <div className="grid grid-cols-4 gap-2.5">
+                      {[
+                        { label: "New Leads", value: "1,250", sub: "+18% this month", icon: Users },
+                        { label: "Site Visits", value: "386", sub: "+47% confirmed", icon: CalendarCheck },
+                        { label: "Messages Sent", value: "58,420", sub: "+22% delivered", icon: MessageCircle },
+                        { label: "Hot Buyers", value: "142", sub: "Ready for sales", icon: KeyRound },
+                      ].map((s) => {
+                        const Icon = s.icon
+                        return (
+                          <div key={s.label} className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <p className="text-[9px] font-semibold text-slate-500">{s.label}</p>
+                              <Icon className="h-3.5 w-3.5 text-[#128c7e]" />
                             </div>
+                            <p className="mt-1 text-base font-black text-slate-900">{s.value}</p>
+                            <p className="mt-0.5 text-[8px] text-emerald-600">{s.sub}</p>
                           </div>
-                        ))}
-                        {visibleMessages < chatMessages.length && (
-                          <div className="flex gap-1 px-2 py-1">
-                            <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0s" }} />
-                            <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0.15s" }} />
-                            <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0.3s" }} />
+                        )
+                      })}
+                    </div>
+
+                    <div className="mt-2.5 grid grid-cols-3 gap-2.5">
+                      <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                        <p className="mb-2 text-[10px] font-black text-slate-800">Lead Sources</p>
+                        <div className="flex items-end justify-around gap-1" style={{ height: 64 }}>
+                          {[
+                            { label: "WhatsApp", h: "h-16", color: "bg-[#25d366]", val: "12,540" },
+                            { label: "Portals", h: "h-11", color: "bg-orange-400", val: "7,250" },
+                            { label: "Social", h: "h-8", color: "bg-sky-500", val: "5,120" },
+                          ].map((c) => (
+                            <div key={c.label} className="flex flex-col items-center gap-1">
+                              <span className="text-[7px] font-bold text-slate-600">{c.val}</span>
+                              <div className={`w-6 rounded-t-sm ${c.h} ${c.color}`} />
+                              <span className="text-[7px] text-slate-400">{c.label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                        <p className="mb-2 text-[10px] font-black text-slate-800">Visit Status</p>
+                        <div className="flex items-center gap-3">
+                          <svg viewBox="0 0 36 36" className="h-16 w-16 shrink-0">
+                            <circle cx="18" cy="18" r="14" fill="none" stroke="#e2e8f0" strokeWidth="5" />
+                            <circle cx="18" cy="18" r="14" fill="none" stroke="#25d366" strokeWidth="5" strokeDasharray="64 36" strokeDashoffset="25" strokeLinecap="round" />
+                            <circle cx="18" cy="18" r="14" fill="none" stroke="#f59e0b" strokeWidth="5" strokeDasharray="24 76" strokeDashoffset="-39" strokeLinecap="round" />
+                            <circle cx="18" cy="18" r="14" fill="none" stroke="#ef4444" strokeWidth="5" strokeDasharray="12 88" strokeDashoffset="-63" strokeLinecap="round" />
+                            <text x="18" y="19" textAnchor="middle" fontSize="5" fontWeight="bold" fill="#0f172a">386</text>
+                            <text x="18" y="24" textAnchor="middle" fontSize="3.5" fill="#94a3b8">Visits</text>
+                          </svg>
+                          <div className="space-y-1.5">
+                            {[
+                              { label: "Confirmed", color: "bg-[#25d366]", pct: "64%" },
+                              { label: "Pending", color: "bg-[#f59e0b]", pct: "24%" },
+                              { label: "Rescheduled", color: "bg-[#ef4444]", pct: "12%" },
+                            ].map((l) => (
+                              <div key={l.label} className="flex items-center gap-1.5">
+                                <div className={`h-2 w-2 shrink-0 rounded-full ${l.color}`} />
+                                <span className="text-[8px] text-slate-600">{l.label}</span>
+                                <span className="ml-auto text-[8px] font-bold text-slate-800">{l.pct}</span>
+                              </div>
+                            ))}
                           </div>
-                        )}
-                      </div>
-                      {/* Input Bar */}
-                      <div className="bg-[#f0f0f0] px-2 py-2 flex items-center gap-2">
-                        <span className="text-xl">😊</span>
-                        <div className="flex-1 bg-white rounded-full px-4 py-2">
-                          <span className="text-gray-400 text-xs">Type a message...</span>
                         </div>
-                        <div className="w-9 h-9 bg-[#075e54] rounded-full flex items-center justify-center">
-                          <span className="text-white text-sm">🎤</span>
+                      </div>
+
+                      <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                        <p className="mb-2 text-[10px] font-black text-slate-800">Message Statistics</p>
+                        <div className="flex items-end gap-1" style={{ height: 56 }}>
+                          {[
+                            { d: "M", sent: "h-10", deliv: "h-8" },
+                            { d: "T", sent: "h-8", deliv: "h-6" },
+                            { d: "W", sent: "h-12", deliv: "h-10" },
+                            { d: "T", sent: "h-6", deliv: "h-5" },
+                            { d: "F", sent: "h-14", deliv: "h-12" },
+                            { d: "S", sent: "h-9", deliv: "h-7" },
+                            { d: "S", sent: "h-11", deliv: "h-9" },
+                          ].map((b, i) => (
+                            <div key={i} className="flex flex-1 flex-col items-center gap-0.5">
+                              <div className="flex w-full items-end justify-center gap-0.5">
+                                <div className={`w-2 rounded-t-sm bg-[#25d366] ${b.sent}`} />
+                                <div className={`w-2 rounded-t-sm bg-[#93c5fd] ${b.deliv}`} />
+                              </div>
+                              <span className="text-[7px] text-slate-400">{b.d}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-2.5 grid grid-cols-2 gap-2.5">
+                      <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                        <p className="mb-2 text-[10px] font-black text-slate-800">Recent Chats</p>
+                        <div className="space-y-1.5">
+                          {[
+                            { name: "Anjali S.", msg: "Looking for 3BHK in Baner", time: "2m ago", avatar: "A", color: "bg-violet-500" },
+                            { name: "Rohan M.", msg: "Need EMI details for Park View", time: "5m ago", avatar: "R", color: "bg-orange-500" },
+                            { name: "Priya K.", msg: "Can I visit this Sunday?", time: "12m ago", avatar: "P", color: "bg-sky-500" },
+                            { name: "Arjun T.", msg: "Share floor plan and price sheet", time: "18m ago", avatar: "A", color: "bg-rose-500" },
+                          ].map((chat) => (
+                            <div key={chat.name} className="flex items-center gap-2 rounded-md bg-slate-50 px-2 py-1.5">
+                              <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${chat.color} text-[8px] font-black text-white`}>{chat.avatar}</div>
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center justify-between">
+                                  <p className="text-[9px] font-bold text-slate-800">{chat.name}</p>
+                                  <span className="text-[8px] text-slate-400">{chat.time}</span>
+                                </div>
+                                <p className="truncate text-[8px] text-slate-400">{chat.msg}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                        <p className="mb-2 text-[10px] font-black text-slate-800">Top Campaigns</p>
+                        <div className="space-y-1.5">
+                          {[
+                            { name: "New Launch", sent: "12,549", bar: "w-full", color: "bg-[#25d366]" },
+                            { name: "Ready Possession", sent: "3,360", bar: "w-3/4", color: "bg-violet-400" },
+                            { name: "Weekend Visits", sent: "6,780", bar: "w-4/5", color: "bg-orange-400" },
+                            { name: "Price Update", sent: "2,100", bar: "w-2/5", color: "bg-sky-400" },
+                          ].map((c) => (
+                            <div key={c.name} className="rounded-md bg-slate-50 px-2 py-1.5">
+                              <div className="flex items-center justify-between">
+                                <p className="text-[9px] font-bold text-slate-800">{c.name}</p>
+                                <span className="text-[8px] font-bold text-slate-600">{c.sent}</span>
+                              </div>
+                              <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
+                                <div className={`h-full rounded-full ${c.bar} ${c.color}`} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="mt-3 border-t border-slate-100 pt-2">
+                          <p className="mb-1.5 text-[9px] font-black text-slate-600">Connected CRMs</p>
+                          <div className="flex gap-1.5">
+                            {[
+                              { name: "HubSpot", bg: "bg-orange-500" },
+                              { name: "Salesforce", bg: "bg-blue-600" },
+                              { name: "Zoho", bg: "bg-red-500" },
+                              { name: "LeadSq", bg: "bg-violet-600" },
+                            ].map((crm) => (
+                              <div key={crm.name} className={`flex items-center gap-1 rounded-full ${crm.bg} px-2 py-0.5`}>
+                                <div className="h-1 w-1 rounded-full bg-white/60" />
+                                <span className="text-[7px] font-bold text-white">{crm.name}</span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -137,402 +553,91 @@ const [heroVisible, setHeroVisible] = useState(false)
           </div>
         </section>
 
-        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-12">What Our AI Does For Your Agency</h2>
-          <div className="grid sm:grid-cols-2 gap-6">
-            {features.map((f, i) => (
-              <div key={i} className="bg-white shadow-sm border border-gray-200 rounded-2xl p-6 hover:border-green-500/30 transition-all">
-                <div className="w-11 h-11 rounded-xl bg-green-500/10 flex items-center justify-center mb-4"><f.icon className="w-5 h-5 text-green-400" /></div>
-                <h3 className="text-lg font-semibold mb-2">{f.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="py-16 bg-gradient-to-r from-green-50 via-green-100/50 to-green-50 border-y border-green-200">
-          <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
-            {[{ end: 47, suffix: "%", label: "More Site Visits" }, { end: 3, suffix: "x", label: "Faster Response" }, { end: 68, suffix: "%", label: "Less Unqualified Calls" }, { end: 24, suffix: "/7", label: "Lead Coverage" }].map((s, i) => (
-              <div key={i} className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-green-400"><AnimatedCounter end={s.end} suffix={s.suffix} /></p>
-                <p className="text-gray-600 mt-1 text-sm">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-        {/* ===== ADVANTAGES SECTION ===== */}
-        <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-          {/* Decorative Background */}
-          <div className="absolute inset-0 bg-gradient-to-b from-green-50/60 via-white to-white" />
-          <div className="absolute top-20 left-10 w-72 h-72 bg-green-200/30 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-green-200/20 rounded-full blur-3xl" />
-          <div className="absolute top-40 right-1/4 w-40 h-40 bg-green-100/40 rounded-full blur-2xl" />
-          
-          <div className="relative max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2.5 bg-white border border-green-200 px-5 py-2.5 rounded-full shadow-sm mb-6">
-                <span className="text-lg">🏠</span>
-                <span className="text-sm font-bold text-green-600 uppercase tracking-widest">Why Choose This</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Advantages of Using <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">Our AI</span></h2>
-              <p className="text-gray-500 max-w-xl mx-auto">Here is what changes when you switch from manual processes to AI-powered WhatsApp automation.</p>
+        <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-14 text-center">
+              <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-700">Why it converts</p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                Real results for Indian real estate teams.
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-500">
+                The numbers below show what changes when every property inquiry is handled instantly on WhatsApp.
+              </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Card 1 */}
-              <div className="group relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-green-400 to-emerald-400 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                <div className="relative bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 h-full">
-                  {/* Large Visual Emoji */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-400 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    <span className="text-3xl">🏠</span>
-                  </div>
-                  {/* Floating Number */}
-                  <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-green-50 border border-green-200 flex items-center justify-center">
-                    <span className="text-sm font-bold text-green-500">1</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">Instant Property Matching</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">AI matches buyers to properties based on budget, location, BHK preference, and amenities — showing relevant options within seconds, not days.</p>
+            <div className="mb-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-100 bg-slate-100 shadow-sm lg:grid-cols-4">
+              {[
+                { value: "95%", label: "WhatsApp open rate", sub: "vs ignored email follow-ups", color: "text-[#128c7e]" },
+                { value: "3 sec", label: "First response time", sub: "Every portal and ad lead", color: "text-violet-600" },
+                { value: "47%", label: "More site visits", sub: "With automated reminders", color: "text-orange-500" },
+                { value: "24/7", label: "Buyer support uptime", sub: "No missed weekend leads", color: "text-sky-600" },
+              ].map((s) => (
+                <div key={s.label} className="flex flex-col items-center bg-white px-6 py-10 text-center">
+                  <p className={`text-5xl font-black ${s.color}`}>{s.value}</p>
+                  <p className="mt-3 text-sm font-bold text-slate-900">{s.label}</p>
+                  <p className="mt-1 text-xs text-slate-400">{s.sub}</p>
                 </div>
-              </div>
-              {/* Card 2 */}
-              <div className="group relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-green-400 to-emerald-400 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                <div className="relative bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 h-full">
-                  {/* Large Visual Emoji */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-400 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    <span className="text-3xl">📍</span>
-                  </div>
-                  {/* Floating Number */}
-                  <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-green-50 border border-green-200 flex items-center justify-center">
-                    <span className="text-sm font-bold text-green-500">2</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">Automated Site Visit Scheduling</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">Prospects book site visits directly via WhatsApp. Your team gets a ready schedule with visitor details. No more chasing leads for confirmations.</p>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="group relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-green-400 to-emerald-400 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                <div className="relative bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 h-full">
-                  {/* Large Visual Emoji */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-400 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    <span className="text-3xl">🔑</span>
-                  </div>
-                  {/* Floating Number */}
-                  <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-green-50 border border-green-200 flex items-center justify-center">
-                    <span className="text-sm font-bold text-green-500">3</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">24/7 Lead Qualification</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">Every inquiry is qualified by budget, timeline, and intent before reaching your sales team. No more wasting time on casual browsers.</p>
-                </div>
-              </div>
+              ))}
             </div>
 
-            {/* Visual Bot Illustration */}
-            <div className="mt-16 relative">
-              <div className="bg-gradient-to-r from-green-400 to-emerald-400 rounded-3xl p-8 sm:p-12 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2" />
-                <div className="absolute top-10 left-1/3 w-20 h-20 bg-white/5 rounded-full" />
-                <div className="relative flex flex-col md:flex-row items-center gap-8">
-                  <div className="flex-shrink-0">
-                    <div className="w-24 h-24 bg-white/20 backdrop-blur rounded-3xl flex items-center justify-center border border-white/30 shadow-xl">
-                      <span className="text-5xl">🤖</span>
-                    </div>
+            <div className="overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
+              <div className="grid grid-cols-2">
+                <div className="bg-slate-900 px-8 py-4">
+                  <p className="text-sm font-black text-white">Without DigitalBot</p>
+                </div>
+                <div className="bg-[#128c7e] px-8 py-4">
+                  <p className="text-sm font-black text-white">With DigitalBot</p>
+                </div>
+              </div>
+              {comparison.map(([label, good, bad], i) => (
+                <div key={label} className={`grid grid-cols-2 divide-x divide-slate-100 ${i % 2 === 0 ? "bg-white" : "bg-slate-50"}`}>
+                  <div className="flex items-start gap-3 px-8 py-5">
+                    <span className="mt-0.5 shrink-0 text-base text-red-400">❌</span>
+                    <p className="text-sm text-slate-600">{bad}</p>
                   </div>
-                  <div className="text-white text-center md:text-left">
-                    <h3 className="text-2xl font-bold mb-2">Your 24/7 WhatsApp AI Assistant</h3>
-                    <p className="text-white/80 text-sm leading-relaxed max-w-md">Handles inquiries, qualifies leads, books meetings, and follows up — even while your team sleeps. Like having 10 employees who never take a break.</p>
-                  </div>
-                  <div className="flex-shrink-0 hidden md:flex gap-4">
-                    <div className="bg-white/15 backdrop-blur rounded-2xl p-4 border border-white/20 text-center">
-                      <p className="text-3xl font-bold text-white">24/7</p>
-                      <p className="text-white/70 text-xs font-medium mt-1">Always On</p>
-                    </div>
-                    <div className="bg-white/15 backdrop-blur rounded-2xl p-4 border border-white/20 text-center">
-                      <p className="text-3xl font-bold text-white">3s</p>
-                      <p className="text-white/70 text-xs font-medium mt-1">Response</p>
-                    </div>
-                    <div className="bg-white/15 backdrop-blur rounded-2xl p-4 border border-white/20 text-center">
-                      <p className="text-3xl font-bold text-white">95%</p>
-                      <p className="text-white/70 text-xs font-medium mt-1">Open Rate</p>
+                  <div className="flex items-start gap-3 px-8 py-5">
+                    <span className="mt-0.5 shrink-0 text-base text-[#128c7e]">✅</span>
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">{label}</p>
+                      <p className="mt-1 text-sm font-medium text-slate-800">{good}</p>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ===== PROBLEMS / SAVE MONEY SECTION ===== */}
-        <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-green-300 to-emerald-400" />
-          <div className="absolute top-20 right-0 w-96 h-96 bg-green-200/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-green-200/20 rounded-full blur-3xl" />
-          
-          <div className="relative max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2.5 bg-white border border-green-200 px-5 py-2.5 rounded-full shadow-sm mb-6">
-                <span className="text-lg">💰</span>
-                <span className="text-sm font-bold text-green-600 uppercase tracking-widest">Money You Are Losing</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Without AI, You Are <span className="text-green-500">Bleeding Money</span></h2>
-              <p className="text-gray-500 max-w-2xl mx-auto">Every missed lead, slow response, and wasted work hour costs you real revenue. Here is where the money goes.</p>
+        <section className="px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl rounded-lg bg-slate-950 p-8 text-center text-white shadow-2xl sm:p-12">
+            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-[#25d366] text-slate-950">
+              <PhoneCall className="h-7 w-7" />
             </div>
-
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="p-7">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-green-100 transition-colors">
-                      <span className="text-2xl">📊</span>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900 mb-3">Leads From Multiple Portals</h3>
-                      <div className="space-y-2.5">
-                        <div className="flex items-start gap-2">
-                          <span className="w-5 h-5 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg className="w-3 h-3 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                          </span>
-                          <p className="text-sm text-gray-500 leading-relaxed"><span className="font-medium text-gray-700">Without AI:</span> Leads from 99acres, MagicBricks, Facebook — half never get callbacks</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                          </span>
-                          <p className="text-sm text-gray-500 leading-relaxed"><span className="font-medium text-green-700">With AI:</span> AI captures and responds to EVERY lead in 3 seconds</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="h-1 bg-gradient-to-r from-green-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              </div>
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="p-7">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-green-100 transition-colors">
-                      <span className="text-2xl">🚫</span>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900 mb-3">Site Visit No-Shows</h3>
-                      <div className="space-y-2.5">
-                        <div className="flex items-start gap-2">
-                          <span className="w-5 h-5 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg className="w-3 h-3 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                          </span>
-                          <p className="text-sm text-gray-500 leading-relaxed"><span className="font-medium text-gray-700">Without AI:</span> 40% scheduled visits are no-shows — wasted team trips</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                          </span>
-                          <p className="text-sm text-gray-500 leading-relaxed"><span className="font-medium text-green-700">With AI:</span> Smart reminders, confirmations, auto-rescheduling</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="h-1 bg-gradient-to-r from-green-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              </div>
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="p-7">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-green-100 transition-colors">
-                      <span className="text-2xl">💰</span>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900 mb-3">Broker Dependency</h3>
-                      <div className="space-y-2.5">
-                        <div className="flex items-start gap-2">
-                          <span className="w-5 h-5 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg className="w-3 h-3 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                          </span>
-                          <p className="text-sm text-gray-500 leading-relaxed"><span className="font-medium text-gray-700">Without AI:</span> 1-2% commission, losing brand control, delayed follow-ups</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                          </span>
-                          <p className="text-sm text-gray-500 leading-relaxed"><span className="font-medium text-green-700">With AI:</span> Direct buyer engagement at a fraction of the cost</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="h-1 bg-gradient-to-r from-green-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              </div>
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="p-7">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-green-100 transition-colors">
-                      <span className="text-2xl">⏰</span>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900 mb-3">Slow Follow-Up Kills Deals</h3>
-                      <div className="space-y-2.5">
-                        <div className="flex items-start gap-2">
-                          <span className="w-5 h-5 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg className="w-3 h-3 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                          </span>
-                          <p className="text-sm text-gray-500 leading-relaxed"><span className="font-medium text-gray-700">Without AI:</span> Buyer inquires at 10 PM — called at 11 AM, already visited 3 others</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                          </span>
-                          <p className="text-sm text-gray-500 leading-relaxed"><span className="font-medium text-green-700">With AI:</span> Instant engagement wins the deal</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="h-1 bg-gradient-to-r from-green-400 to-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              </div>
+            <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Ready to book more site visits?</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-slate-300">
+              See a live WhatsApp property flow for your project type, inventory, locations, pricing, and sales process.
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#25d366] px-7 py-4 text-sm font-black text-slate-950 transition hover:bg-emerald-300">
+                Get free demo <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/pricing" className="inline-flex items-center justify-center rounded-lg border border-white/15 px-7 py-4 text-sm font-black text-white transition hover:bg-white/10">
+                View pricing
+              </Link>
             </div>
-          </div>
-        </section>
-
-        {/* ===== COMPETITIVE EDGE SECTION ===== */}
-        <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-white via-green-50/20 to-white" />
-          <div className="absolute top-1/2 left-0 w-96 h-96 bg-green-200/20 rounded-full blur-3xl -translate-y-1/2" />
-          
-          <div className="relative max-w-5xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2.5 bg-white border border-green-200 px-5 py-2.5 rounded-full shadow-sm mb-6">
-                <span className="text-lg">🏆</span>
-                <span className="text-sm font-bold text-green-600 uppercase tracking-widest">Your Competitive Edge</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">You With AI <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">vs</span> Competitors Without</h2>
-              <p className="text-gray-500 max-w-2xl mx-auto">See why businesses using DigitalBot close more deals and grow faster than competitors stuck on manual processes.</p>
-            </div>
-
-            {/* Comparison Table */}
-            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-x-auto">
-              {/* Header */}
-              <div className="grid grid-cols-12 min-w-[600px] border-b border-gray-100">
-                <div className="col-span-1" />
-                <div className="col-span-5 p-5 bg-gradient-to-r from-green-400 to-emerald-400 text-center">
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-lg">🤖</span>
-                    <p className="text-white font-bold text-sm uppercase tracking-wider">With DigitalBot</p>
-                  </div>
-                </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <span className="text-xs font-bold text-gray-400">VS</span>
-                </div>
-                <div className="col-span-5 p-5 bg-gray-100 text-center">
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-lg">🐌</span>
-                    <p className="text-gray-600 font-bold text-sm uppercase tracking-wider">Without AI</p>
-                  </div>
-                </div>
-              </div>
-              {/* Rows */}
-              <div className="grid grid-cols-12 min-w-[600px] border-b border-gray-50 last:border-0 group hover:bg-green-50/10 transition-colors">
-                <div className="col-span-1 flex items-center justify-center p-4">
-                  <span className="w-7 h-7 bg-gradient-to-br from-green-400 to-emerald-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm">1</span>
-                </div>
-                <div className="col-span-5 p-5 flex items-start gap-3">
-                  <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                  </span>
-                  <p className="text-sm text-gray-700 font-medium leading-relaxed">Send floor plans, virtual tours, price sheets in chat</p>
-                </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <div className="w-px h-8 bg-gray-200" />
-                </div>
-                <div className="col-span-5 p-5 flex items-start gap-3">
-                  <span className="w-5 h-5 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-3 h-3 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                  </span>
-                  <p className="text-sm text-gray-500 leading-relaxed">Redirect to website that customer bounces from</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-12 min-w-[600px] border-b border-gray-50 last:border-0 group hover:bg-green-50/10 transition-colors">
-                <div className="col-span-1 flex items-center justify-center p-4">
-                  <span className="w-7 h-7 bg-gradient-to-br from-green-400 to-emerald-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm">2</span>
-                </div>
-                <div className="col-span-5 p-5 flex items-start gap-3">
-                  <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                  </span>
-                  <p className="text-sm text-gray-700 font-medium leading-relaxed">AI knows carpet area, RERA, EMI calculations</p>
-                </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <div className="w-px h-8 bg-gray-200" />
-                </div>
-                <div className="col-span-5 p-5 flex items-start gap-3">
-                  <span className="w-5 h-5 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-3 h-3 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                  </span>
-                  <p className="text-sm text-gray-500 leading-relaxed">Bot says "An agent will contact you"</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-12 min-w-[600px] border-b border-gray-50 last:border-0 group hover:bg-green-50/10 transition-colors">
-                <div className="col-span-1 flex items-center justify-center p-4">
-                  <span className="w-7 h-7 bg-gradient-to-br from-green-400 to-emerald-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm">3</span>
-                </div>
-                <div className="col-span-5 p-5 flex items-start gap-3">
-                  <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                  </span>
-                  <p className="text-sm text-gray-700 font-medium leading-relaxed">Full journey: inquiry → site visit → booking on WhatsApp</p>
-                </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <div className="w-px h-8 bg-gray-200" />
-                </div>
-                <div className="col-span-5 p-5 flex items-start gap-3">
-                  <span className="w-5 h-5 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-3 h-3 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                  </span>
-                  <p className="text-sm text-gray-500 leading-relaxed">Handle first message only, then manual</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-12 min-w-[600px] border-b border-gray-50 last:border-0 group hover:bg-green-50/10 transition-colors">
-                <div className="col-span-1 flex items-center justify-center p-4">
-                  <span className="w-7 h-7 bg-gradient-to-br from-green-400 to-emerald-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm">4</span>
-                </div>
-                <div className="col-span-5 p-5 flex items-start gap-3">
-                  <span className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                  </span>
-                  <p className="text-sm text-gray-700 font-medium leading-relaxed">Night & weekend inquiry handling (peak real estate time)</p>
-                </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <div className="w-px h-8 bg-gray-200" />
-                </div>
-                <div className="col-span-5 p-5 flex items-start gap-3">
-                  <span className="w-5 h-5 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-3 h-3 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                  </span>
-                  <p className="text-sm text-gray-500 leading-relaxed">Office hours only — miss 40% of leads</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom CTA inside competitive */}
-            <div className="mt-10 text-center">
-              <p className="text-gray-500 text-sm mb-4">Still running things the old way? Your competitors might already be switching to AI.</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center bg-gradient-to-br from-green-50 to-white border border-green-200 rounded-3xl p-10 sm:p-14">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">Ready to never miss a lead again?</h2>
-            <p className="text-gray-600 mb-8">See how our AI agent works for your real estate business.</p>
-            <button onClick={() => window.location.href = "/contact"} className="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#1fb855] text-white font-semibold rounded-xl transition-all hover:scale-105 shadow-lg shadow-green-500/25">Get Demo <ArrowRight className="w-5 h-5" /></button>
           </div>
         </section>
       </main>
-      <Footer /><style jsx global>{`
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-slideUp { animation: slideUp 0.4s ease-out forwards; }
+      <Footer />
+
+      <style jsx global>{`
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slideUp {
+          animation: slideUp 0.4s ease-out forwards;
+        }
       `}</style>
     </>
   )

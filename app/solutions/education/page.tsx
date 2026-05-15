@@ -311,7 +311,7 @@ export default function EducationPage() {
         {/* ── Student journey ──────────────────────────────────────────────── */}
         <section className="px-4 py-20 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div className="overflow-hidden rounded-lg border border-emerald-100 bg-white p-3 shadow-xl">
+            <div className="order-2 overflow-hidden rounded-lg border border-emerald-100 bg-white p-3 shadow-xl">
               <Image
                 src={mbaWhatsappFormImage}
                 alt="MBA WhatsApp form automation and lead qualification"
@@ -320,7 +320,7 @@ export default function EducationPage() {
                 className="h-auto w-full rounded-md object-contain"
               />
             </div>
-            <div>
+            <div className="order-1">
               <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-700">Student journey</p>
               <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
                 From first message to confirmed campus visit.
