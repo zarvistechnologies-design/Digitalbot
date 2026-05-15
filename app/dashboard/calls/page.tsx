@@ -1,7 +1,7 @@
 'use client';
 
 import Sidebar from '@/components/Sidebar';
-import { useWebSocket } from '@/hooks/use-websocket';
+import { useWebSocket } from '@/components/hooks/use-websocket';
 import { callsAPI } from '@/lib/api';
 import { CACHE_KEYS, cachedFetch, getStaleCache, invalidateCache, setCache } from '@/lib/cache';
 import { Call, CallStats } from '@/types';
