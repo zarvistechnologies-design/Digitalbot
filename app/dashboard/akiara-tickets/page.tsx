@@ -18,6 +18,7 @@ import {
     Search,
     Send,
     Ticket,
+    Truck,
     User,
     X
 } from "lucide-react";
@@ -31,7 +32,7 @@ interface AkiaraTicket {
   issueCategory: string | null;
   issueDescription: string | null;
   priority: "normal" | "high" | "urgent";
-  status: "open" | "in_progress" | "not_contacted" | "order_id_pending" | "home_visit" | "resolved" | "closed";
+  status: "open" | "in_progress" | "not_contacted" | "order_id_pending" | "home_visit" | "customer_couriering" | "resolved" | "closed";
   customerVideoUrls: string[];
   videosSentToCustomer: string[];
   conversationSummary: string;
@@ -109,6 +110,7 @@ const statusColors: Record<string, string> = {
   not_contacted: "bg-violet-100 text-violet-700",
   order_id_pending: "bg-cyan-100 text-cyan-700",
   home_visit: "bg-pink-100 text-pink-700",
+  customer_couriering: "bg-indigo-100 text-indigo-700",
   resolved: "bg-green-100 text-green-700",
   closed: "bg-slate-100 text-slate-500",
 };
@@ -119,6 +121,7 @@ const statusIcons: Record<string, React.ReactNode> = {
   not_contacted: <MessageCircle className="w-3 h-3" />,
   order_id_pending: <Package className="w-3 h-3" />,
   home_visit: <MapPin className="w-3 h-3" />,
+  customer_couriering: <Truck className="w-3 h-3" />,
   resolved: <CheckCircle className="w-3 h-3" />,
   closed: <X className="w-3 h-3" />,
 };
@@ -135,6 +138,7 @@ const statusDots: Record<string, string> = {
   not_contacted: "bg-violet-500",
   order_id_pending: "bg-cyan-500",
   home_visit: "bg-pink-500",
+  customer_couriering: "bg-indigo-500",
   resolved: "bg-emerald-500",
   closed: "bg-slate-400",
 };
@@ -145,6 +149,7 @@ const statusLabels: Record<string, string> = {
   not_contacted: "Not Contacted",
   order_id_pending: "Order ID Pending",
   home_visit: "Home Visit",
+  customer_couriering: "Customer Couriering",
   resolved: "Resolved",
   closed: "Closed",
 };
@@ -337,6 +342,7 @@ export default function AkiaraTicketsPage() {
     notContacted: tickets.filter((t) => t.status === "not_contacted").length,
     orderIdPending: tickets.filter((t) => t.status === "order_id_pending").length,
     homeVisit: tickets.filter((t) => t.status === "home_visit").length,
+    customerCouriering: tickets.filter((t) => t.status === "customer_couriering").length,
     resolved: tickets.filter((t) => t.status === "resolved").length,
     urgent: tickets.filter((t) => t.priority === "urgent" && t.status !== "closed").length,
   };
@@ -464,6 +470,7 @@ export default function AkiaraTicketsPage() {
                 { key: "not_contacted", label: "Not Contacted", count: stats.notContacted },
                 { key: "order_id_pending", label: "Order ID Pending", count: stats.orderIdPending },
                 { key: "home_visit", label: "Home Visit", count: stats.homeVisit },
+                { key: "customer_couriering", label: "Customer Couriering", count: stats.customerCouriering },
                 { key: "resolved", label: "Resolved", count: stats.resolved },
                 { key: "closed", label: "Closed", count: tickets.filter(t => t.status === "closed").length },
               ].map((s) => (
@@ -578,6 +585,7 @@ export default function AkiaraTicketsPage() {
                               <option value="not_contacted">Not Contacted</option>
                               <option value="order_id_pending">Order ID Pending</option>
                               <option value="home_visit">Home Visit</option>
+                              <option value="customer_couriering">Customer Couriering</option>
                               <option value="resolved">Resolved</option>
                               <option value="closed">Closed</option>
                             </select>
