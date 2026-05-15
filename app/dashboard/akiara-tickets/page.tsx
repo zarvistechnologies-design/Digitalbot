@@ -149,7 +149,7 @@ const statusLabels: Record<string, string> = {
   not_contacted: "Not Contacted",
   order_id_pending: "Order ID Pending",
   home_visit: "Home Visit",
-  Couriering: "Customer Couriering",
+  Couriering: "Couriering",
   resolved: "Resolved",
   closed: "Closed",
 };
