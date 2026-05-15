@@ -342,7 +342,7 @@ export default function AkiaraTicketsPage() {
     notContacted: tickets.filter((t) => t.status === "not_contacted").length,
     orderIdPending: tickets.filter((t) => t.status === "order_id_pending").length,
     homeVisit: tickets.filter((t) => t.status === "home_visit").length,
-    customerCouriering: tickets.filter((t) => t.status === "customer_couriering").length,
+    customerCouriering: tickets.filter((t) => t.status === "Couriering").length,
     resolved: tickets.filter((t) => t.status === "resolved").length,
     urgent: tickets.filter((t) => t.priority === "urgent" && t.status !== "closed").length,
   };
@@ -470,7 +470,7 @@ export default function AkiaraTicketsPage() {
                 { key: "not_contacted", label: "Not Contacted", count: stats.notContacted },
                 { key: "order_id_pending", label: "Order ID Pending", count: stats.orderIdPending },
                 { key: "home_visit", label: "Home Visit", count: stats.homeVisit },
-                { key: "customer_couriering", label: "Customer Couriering", count: stats.customerCouriering },
+                { key: "Couriering", label: "Customer Couriering", count: stats.customerCouriering },
                 { key: "resolved", label: "Resolved", count: stats.resolved },
                 { key: "closed", label: "Closed", count: tickets.filter(t => t.status === "closed").length },
               ].map((s) => (
@@ -585,7 +585,7 @@ export default function AkiaraTicketsPage() {
                               <option value="not_contacted">Not Contacted</option>
                               <option value="order_id_pending">Order ID Pending</option>
                               <option value="home_visit">Home Visit</option>
-                              <option value="customer_couriering">Couriering</option>
+                              <option value="Couriering">Customer Couriering</option>
                               <option value="resolved">Resolved</option>
                               <option value="closed">Closed</option>
                             </select>
