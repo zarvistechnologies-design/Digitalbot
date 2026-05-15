@@ -470,7 +470,7 @@ export default function AkiaraTicketsPage() {
                 { key: "not_contacted", label: "Not Contacted", count: stats.notContacted },
                 { key: "order_id_pending", label: "Order ID Pending", count: stats.orderIdPending },
                 { key: "home_visit", label: "Home Visit", count: stats.homeVisit },
-                { key: "Couriering", label: "Customer Couriering", count: stats.customerCouriering },
+                { key: "Couriering", label: "Couriering", count: stats.customerCouriering },
                 { key: "resolved", label: "Resolved", count: stats.resolved },
                 { key: "closed", label: "Closed", count: tickets.filter(t => t.status === "closed").length },
               ].map((s) => (
