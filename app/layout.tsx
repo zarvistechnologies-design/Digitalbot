@@ -22,7 +22,6 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: '32x32' }
     ],
     apple: '/apple-touch-icon.png',
     shortcut: '/favicon.svg',
@@ -278,7 +277,7 @@ export default function RootLayout({
         
         {children}
         <ChatbotWidget />
-        <Analytics />
+        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
   )

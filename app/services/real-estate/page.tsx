@@ -375,7 +375,7 @@ export default function RealEstatePage() {
               </div>
 
               <h1 className="max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-[64px]">
-                Turn property calls into <span className="bg-gradient-to-r from-orange-500 to-orange-700 bg-clip-text text-transparent">qualified site visits.</span>
+                Turn property calls into <span className="text-slate-950">qualified site visits.</span>
               </h1>
 
               <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
@@ -584,7 +584,8 @@ export default function RealEstatePage() {
                   width={760}
                   height={520}
                   sizes="(min-width: 1024px) 48vw, 100vw"
-                  className="h-[430px] w-full scale-105 object-cover object-center opacity-95 mix-blend-multiply [mask-image:linear-gradient(90deg,transparent_0%,#000_10%,#000_90%,transparent_100%)] [mask-size:100%_100%] [mask-repeat:no-repeat] sm:h-[520px] lg:[mask-image:radial-gradient(ellipse_at_center,#000_56%,rgba(0,0,0,0.75)_74%,transparent_94%)]"
+                  className="w-full scale-105 object-cover object-center opacity-95 mix-blend-multiply [mask-image:linear-gradient(90deg,transparent_0%,#000_10%,#000_90%,transparent_100%)] [mask-size:100%_100%] [mask-repeat:no-repeat] lg:[mask-image:radial-gradient(ellipse_at_center,#000_56%,rgba(0,0,0,0.75)_74%,transparent_94%)]"
+                  style={{ height: "auto" }}
                 />
               </div>
             </div>

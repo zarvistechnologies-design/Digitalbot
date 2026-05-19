@@ -14,13 +14,14 @@ export function Footer() {
   ]
 
   return (
-    <footer className="relative bg-white overflow-hidden">
+    <footer className="relative isolate overflow-hidden bg-white">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-white" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Enhanced Premium Feature Banner - Orange theme */}
         <div className="py-3 mb-2">
-          <div className="relative glass-strong bg-gradient-to-r from-orange-500/90 via-orange-600/90 to-orange-600/90 rounded-3xl p-8 shadow-2xl shadow-orange-500/20 overflow-hidden group border border-orange-400/20">
+          <div className="relative glass-strong bg-gradient-to-r from-orange-500/90 via-orange-600/90 to-orange-600/90 rounded-3xl p-8 shadow-2xl shadow-slate-200/60 overflow-hidden group border border-orange-400/20">
             {/* Enhanced Animated shimmer effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
@@ -40,7 +41,7 @@ export function Footer() {
               </div>
               <Link
                 href="/contact#contact-form"
-                className="group/btn px-8 py-4 bg-white text-orange-600 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 flex items-center gap-3 whitespace-nowrap border border-orange-200/30 uppercase tracking-widest"
+                className="group/btn px-8 py-4 bg-white text-orange-600 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:shadow-slate-300/70 transition-all duration-300 hover:scale-105 flex items-center gap-3 whitespace-nowrap border border-orange-200/30 uppercase tracking-widest"
               >
                 <span className="text-orange-600">
                   GET STARTED FREE
@@ -59,7 +60,7 @@ export function Footer() {
             <div className="group relative inline-block">
               <Link href="/" className="block">
                 {/* Glow effect - orange */}
-                <div className="absolute -inset-6 bg-gradient-to-r from-orange-500/40 via-orange-600/40 to-orange-600/40 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                <div className="absolute -inset-6 bg-slate-100 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
                 <Image
                   src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
                   alt="DigitalBot.AI - AI Voice Assistant Platform"
@@ -212,5 +213,3 @@ export function Footer() {
     </footer>
   )
 }
-
-

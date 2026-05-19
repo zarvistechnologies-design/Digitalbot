@@ -12,6 +12,7 @@ import {
   Headphones,
   MessageSquare,
   Phone,
+  PhoneCall,
   Shield,
   Smartphone,
   Star,
@@ -65,88 +66,46 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    icon: Phone,
-    title: "AI Call Center",
+    icon: BarChart3,
+    title: "Lead Analysis",
     description:
-      "24/7 automated call handling with intelligent routing, real-time analytics, and seamless CRM integration.",
-    features: [
-      "Unlimited concurrent calls",
-      "Smart call routing",
-      "Real-time transcriptions",
-      "Multi-language support",
-    ],
-    popular: true,
-    href: "/services/ai-call-center",
-  },
-  {
-    icon: Headphones,
-    title: "AI Customer Support",
-    description:
-      "Instant, personalized customer service that resolves issues 24/7 with human-like conversations.",
-    features: [
-      "Instant issue resolution",
-      "Knowledge base integration",
-      "Sentiment analysis",
-      "Escalation protocols",
-    ],
-    popular: true,
-    href: "/services/ai-customer-support",
-  },
-  {
-    icon: Users,
-    title: "AI Sales Agent",
-    description:
-      "Intelligent sales conversations that qualify leads, book appointments, and close deals automatically.",
+      "Capture, qualify, score, and summarize every lead conversation so your team can focus on the best opportunities.",
     features: [
       "Lead qualification",
-      "Product recommendations",
-      "Objection handling",
-      "Follow-up automation",
+      "Intent scoring",
+      "Conversation summaries",
+      "Sales handoff context",
     ],
-    popular: false,
-    href: "/services/ai-sales-agent",
+    popular: true,
+    href: "/services/leads",
+  },
+  {
+    icon: PhoneCall,
+    title: "Appointments",
+    description:
+      "Book, confirm, reschedule, and follow up on appointments with reliable AI voice workflows.",
+    features: [
+      "Appointment booking",
+      "Calendar workflows",
+      "Reminder calls",
+      "Reschedule handling",
+    ],
+    popular: true,
+    href: "/services/appointments",
   },
   {
     icon: MessageSquare,
-    title: "AI Virtual Receptionist",
+    title: "Collections",
     description:
-      "Professional call answering and appointment scheduling that never misses a call or opportunity.",
+      "Run polite payment reminders, capture promises to pay, and route urgent cases to your collections team.",
     features: [
-      "Call screening",
-      "Appointment booking",
-      "Message taking",
-      "Calendar integration",
+      "Payment reminders",
+      "Promise-to-pay capture",
+      "Dispute escalation",
+      "Outcome summaries",
     ],
     popular: false,
-    href: "/services/ai-virtual-receptionist",
-  },
-  {
-    icon: Bot,
-    title: "AI Voice Bot",
-    description:
-      "Custom voice bots for specific business workflows with natural conversations and smart integrations.",
-    features: [
-      "Custom workflows",
-      "API integrations",
-      "Voice customization",
-      "Analytics dashboard",
-    ],
-    popular: false,
-    href: "/services/ai-voice-bot",
-  },
-  {
-    icon: Zap,
-    title: "Voice Automation Software",
-    description:
-      "Enterprise-grade voice automation platform with advanced features and unlimited scalability.",
-    features: [
-      "No-code builder",
-      "Enterprise security",
-      "Custom integrations",
-      "Dedicated support",
-    ],
-    popular: false,
-    href: "/services/voice-automation-software",
+    href: "/services/collections",
   },
 ];
 
@@ -380,6 +339,26 @@ export default function Services() {
                         </div>
                       </div>
                       <div className="text-2xl font-bold text-green-600">847</div>
+                    </div>
+
+                    {/* Quick Service Buttons */}
+                    <div className="flex items-center justify-center gap-8 pt-1">
+                      <Link
+                        href="/services/leads"
+                        className="flex h-[62px] w-[116px] items-center justify-center gap-1.5 rounded-[18px] bg-orange-600 px-3 text-white shadow-md shadow-orange-500/20 transition-all hover:bg-orange-700 hover:-translate-y-0.5"
+                      >
+                        <BarChart3 className="h-3.5 w-3.5 shrink-0" />
+                        <span className="text-center text-sm font-bold leading-tight">
+                          Lead<br />Analysis
+                        </span>
+                      </Link>
+                      <Link
+                        href="/services/appointments"
+                        className="flex h-[62px] items-center justify-center gap-1.5 rounded-[18px] px-1 text-slate-600 transition-all hover:text-orange-600"
+                      >
+                        <PhoneCall className="h-5 w-5 shrink-0" />
+                        <span className="text-base font-bold">Appointments</span>
+                      </Link>
                     </div>
                   </div>
                 </div>
