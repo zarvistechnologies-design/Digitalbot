@@ -47,6 +47,7 @@ interface AkiaraSession {
   issueCategory: string | null;
   videosSent: string[];
   customerVideoUrls: string[];
+  customerImageUrls?: string[];
   conversationHistory: { role: string; content: string; timestamp: string }[];
   customerName: string | null;
   customerPhone: string | null;
@@ -145,6 +146,15 @@ function getStateColor(state: string) {
     case "COLLECTING_DETAILS": return "bg-purple-100 text-purple-700";
     default: return "bg-slate-100 text-slate-700";
   }
+}
+
+function extractCustomerImageUrls(session: AkiaraSession) {
+  const urls = new Set(session.customerImageUrls || []);
+  (session.conversationHistory || []).forEach((msg) => {
+    const matches = msg.content.matchAll(/\[Customer sent a[n]? image: ([^\]\s]+)/g);
+    for (const match of matches) urls.add(match[1]);
+  });
+  return Array.from(urls);
 }
 
 interface User {
@@ -464,6 +474,7 @@ export default function AkiaraSessionsPage() {
                 const isEscalated = s.state === "ESCALATED";
                 const isResolved = s.state === "RESOLVED";
                 const isActive = !isEscalated && !isResolved && s.state !== "WELCOME";
+                const customerImages = extractCustomerImageUrls(s);
                 return (
                   <div
                     key={s._id}
@@ -589,6 +600,28 @@ export default function AkiaraSessionsPage() {
                                     Video {i + 1}
                                   </a>
                                 ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Customer Images */}
+                          {customerImages.length > 0 && (
+                            <div>
+                              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Customer Images ({customerImages.length})</p>
+                              <div className="flex flex-wrap gap-3">
+                                {customerImages.map((imageUrl, i) => {
+                                  const url = akiaraAPI.getMediaUrl(imageUrl);
+                                  if (!url) return null;
+                                  return (
+                                    <a key={imageUrl || i} href={url} target="_blank" rel="noopener noreferrer" className="block rounded-xl overflow-hidden border border-orange-200 bg-white hover:border-orange-300 transition">
+                                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                                      <img src={url} alt={`Customer image ${i + 1}`} className="w-[280px] h-[200px] object-contain bg-slate-50" />
+                                      <span className="block text-center text-xs text-orange-600 py-1.5 hover:bg-orange-50 transition border-t border-orange-100">
+                                        Open Image {i + 1}
+                                      </span>
+                                    </a>
+                                  );
+                                })}
                               </div>
                             </div>
                           )}

@@ -32,8 +32,9 @@ interface AkiaraTicket {
   issueCategory: string | null;
   issueDescription: string | null;
   priority: "normal" | "high" | "urgent";
-  status: "open" | "in_progress" | "not_contacted" | "order_id_pending" | "home_visit" | "Couriering" | "resolved" | "closed";
+  status: "open" | "in_progress" | "not_contacted" | "order_id_pending" | "home_visit" | "Couriering" | "refund" | "resolved" | "closed";
   customerVideoUrls: string[];
+  customerImageUrls?: string[];
   videosSentToCustomer: string[];
   conversationSummary: string;
   escalationReason: string;
@@ -111,6 +112,7 @@ const statusColors: Record<string, string> = {
   order_id_pending: "bg-cyan-100 text-cyan-700",
   home_visit: "bg-pink-100 text-pink-700",
   Couriering: "bg-indigo-100 text-indigo-700",
+  refund: "bg-rose-100 text-rose-700",
   resolved: "bg-green-100 text-green-700",
   closed: "bg-slate-100 text-slate-500",
 };
@@ -122,6 +124,7 @@ const statusIcons: Record<string, React.ReactNode> = {
   order_id_pending: <Package className="w-3 h-3" />,
   home_visit: <MapPin className="w-3 h-3" />,
   Couriering: <Truck className="w-3 h-3" />,
+  refund: <RefreshCw className="w-3 h-3" />,
   resolved: <CheckCircle className="w-3 h-3" />,
   closed: <X className="w-3 h-3" />,
 };
@@ -139,6 +142,7 @@ const statusDots: Record<string, string> = {
   order_id_pending: "bg-cyan-500",
   home_visit: "bg-pink-500",
   Couriering: "bg-indigo-500",
+  refund: "bg-rose-500",
   resolved: "bg-emerald-500",
   closed: "bg-slate-400",
 };
@@ -150,9 +154,17 @@ const statusLabels: Record<string, string> = {
   order_id_pending: "Order ID Pending",
   home_visit: "Home Visit",
   Couriering: "Couriering",
+  refund: "Refund",
   resolved: "Resolved",
   closed: "Closed",
 };
+
+function extractTicketImageUrls(ticket: AkiaraTicket) {
+  const urls = new Set(ticket.customerImageUrls || []);
+  const matches = (ticket.conversationSummary || "").matchAll(/\[Customer sent a[n]? image: ([^\]\s]+)/g);
+  for (const match of matches) urls.add(match[1]);
+  return Array.from(urls);
+}
 
 interface User {
   id: string;
@@ -343,6 +355,7 @@ export default function AkiaraTicketsPage() {
     orderIdPending: tickets.filter((t) => t.status === "order_id_pending").length,
     homeVisit: tickets.filter((t) => t.status === "home_visit").length,
     customerCouriering: tickets.filter((t) => t.status === "Couriering").length,
+    refund: tickets.filter((t) => t.status === "refund").length,
     resolved: tickets.filter((t) => t.status === "resolved").length,
     urgent: tickets.filter((t) => t.priority === "urgent" && t.status !== "closed").length,
   };
@@ -462,7 +475,7 @@ export default function AkiaraTicketsPage() {
               <span className="text-xs font-medium text-slate-400 tabular-nums">{filtered.length} results</span>
             </div>
             {/* Status chip filters */}
-            <div className="flex gap-1.5">
+            <div className="flex flex-wrap gap-1.5">
               {[
                 { key: "all", label: "All", count: stats.total },
                 { key: "open", label: "Open", count: stats.open },
@@ -471,6 +484,7 @@ export default function AkiaraTicketsPage() {
                 { key: "order_id_pending", label: "Order ID Pending", count: stats.orderIdPending },
                 { key: "home_visit", label: "Home Visit", count: stats.homeVisit },
                 { key: "Couriering", label: "Couriering", count: stats.customerCouriering },
+                { key: "refund", label: "Refund", count: stats.refund },
                 { key: "resolved", label: "Resolved", count: stats.resolved },
                 { key: "closed", label: "Closed", count: tickets.filter(t => t.status === "closed").length },
               ].map((s) => (
@@ -502,6 +516,7 @@ export default function AkiaraTicketsPage() {
             ) : (
               filtered.map((t) => {
                 const isExpanded = expandedTicket === t._id;
+                const customerImages = extractTicketImageUrls(t);
                 return (
                   <div
                     key={t._id}
@@ -586,6 +601,7 @@ export default function AkiaraTicketsPage() {
                               <option value="order_id_pending">Order ID Pending</option>
                               <option value="home_visit">Home Visit</option>
                               <option value="Couriering">Customer Couriering</option>
+                              <option value="refund">Refund</option>
                               <option value="resolved">Resolved</option>
                               <option value="closed">Closed</option>
                             </select>
@@ -699,8 +715,8 @@ export default function AkiaraTicketsPage() {
                             </div>
                           )}
 
-                          {/* Videos */}
-                          {(t.customerVideoUrls.length > 0 || t.videosSentToCustomer.length > 0) && (
+                          {/* Media */}
+                          {(customerImages.length > 0 || t.customerVideoUrls.length > 0 || t.videosSentToCustomer.length > 0) && (
                             <div className="flex flex-wrap gap-4">
                               {t.videosSentToCustomer.length > 0 && (
                                 <div>
@@ -711,6 +727,26 @@ export default function AkiaraTicketsPage() {
                                         <ExternalLink className="w-3 h-3" /> Video {i + 1}
                                       </a>
                                     ))}
+                                  </div>
+                                </div>
+                              )}
+                              {customerImages.length > 0 && (
+                                <div>
+                                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Customer Images</p>
+                                  <div className="flex flex-wrap gap-3">
+                                    {customerImages.map((imageUrl, i) => {
+                                      const url = akiaraAPI.getMediaUrl(imageUrl);
+                                      if (!url) return null;
+                                      return (
+                                        <a key={imageUrl || i} href={url} target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden border border-orange-200 bg-white hover:border-orange-300 transition">
+                                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                                          <img src={url} alt={`Customer image ${i + 1}`} className="w-[260px] h-[180px] object-contain bg-slate-50" />
+                                          <span className="flex items-center justify-center gap-1 text-xs text-orange-600 py-1.5 hover:bg-orange-50 transition border-t border-orange-100">
+                                            <ExternalLink className="w-3 h-3" /> Open Image
+                                          </span>
+                                        </a>
+                                      );
+                                    })}
                                   </div>
                                 </div>
                               )}
