@@ -1,5 +1,3 @@
-import { CTA } from "@/components/cta"
-
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import Hero from "@/components/hero"
@@ -27,8 +25,7 @@ export default function Home() {
       <main id="main-content" className="min-h-screen" role="main" suppressHydrationWarning>
         <Hero />
 
-        {/* Modern CTA Component */}
-        <CTA />
+        <PreFooterCTA />
 
         {/* Testimonials Section */}
         <TestimonialCarousel />
@@ -348,7 +345,6 @@ export default function Home() {
 
       </main>
 
-      <PreFooterCTA />
       <Footer />
     </>
   )

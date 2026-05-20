@@ -1,11 +1,23 @@
 "use client"
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Award, BarChart3, Bot, Calendar, CalendarCheck, CheckCircle, Clock, CreditCard, FileText, Headphones, LayoutDashboard, Megaphone, MessageSquare, Mic, Phone, PhoneCall, PlusCircle, Send, Shield, Stethoscope, TrendingUp, User, Users, Zap } from "lucide-react";
+import { ArrowRight, Award, BarChart3, Bot, Calendar, CalendarCheck, CheckCircle, Clock, CreditCard, FileText, Headphones, LayoutDashboard, Megaphone, MessageSquare, Mic, Phone, PhoneCall, PlusCircle, Send, Shield, Stethoscope, TrendingUp, Users, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
+import TrustedBrands from "./TrustedBrands";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const VAPI_PUBLIC_KEY = '00119fad-8530-413f-9699-e47cada57939'
+const VAPI_ASSISTANT_ID = '9ca19724-1f6c-48d1-8c62-a6107d585592'
+
+type VoiceCallControls = {
+    isCallActive: boolean
+    isSpeaking: boolean
+    callStatus: string
+    vapiLoaded: boolean
+    onToggleCall: () => void
+}
 
 // Services data for attractive-style scroll showcase
 const services = [
@@ -245,497 +257,6 @@ const sidebarIcons: Record<string, any> = {
     Templates: FileText,
     'Patient Contacts': Send,
 };
-
-function DashboardShowcase() {
-    const [activeTab, setActiveTab] = useState(0);
-    const tab = dashboardTabs[activeTab];
-    const maxChart = Math.max(...tab.chartData);
-    const isWhatsApp = tab.id === 'whatsapp';
-
-    return (
-        <section className="pt-0 pb-16 sm:pb-20 bg-white relative overflow-hidden">
-            <style dangerouslySetInnerHTML={{ __html: `
-                @keyframes dash-fade-in { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-                @keyframes dash-scale { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
-                .dash-animate { animation: dash-fade-in 0.6s ease-out both; }
-                .dash-scale { animation: dash-scale 0.7s ease-out 0.2s both; }
-            `}} />
-
-            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* Section header */}
-                <div className="text-center mb-10 sm:mb-14 dash-animate">
-                    <div className="inline-flex items-center gap-2 bg-white border border-orange-100 px-4 py-2 rounded-full shadow-sm mb-5">
-                        <LayoutDashboard className="h-4 w-4 text-orange-500" />
-                        <span className="text-xs font-semibold tracking-wide text-slate-600 uppercase">See Our Dashboard</span>
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
-                        One Platform, Every{' '}
-                        <span className="text-orange-500">AI Service</span>
-                    </h2>
-                    <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-                        Manage doctor appointments, lead generation, customer support, and more — all from a single, powerful dashboard.
-                    </p>
-                </div>
-
-                {/* Tab buttons */}
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 dash-animate" style={{ animationDelay: '0.15s' }}>
-                    {dashboardTabs.map((t, i) => (
-                        <button
-                            key={t.id}
-                            onClick={() => setActiveTab(i)}
-                            className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
-                                activeTab === i
-                                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/20'
-                                    : 'bg-white text-slate-600 border border-slate-200 hover:border-orange-200 hover:text-orange-600'
-                            }`}
-                        >
-                            <t.icon className="h-4 w-4" />
-                            <span className="hidden sm:inline">{t.label}</span>
-                        </button>
-                    ))}
-                </div>
-
-                {/* Dashboard mockup */}
-                <div className="dash-scale relative mx-auto max-w-6xl" key={tab.id}>
-                    {/* Horizontal scroll wrapper for mobile */}
-                    <div className="overflow-x-auto sm:overflow-x-visible -mx-4 px-4 sm:mx-0 sm:px-0 pb-4 sm:pb-0">
-                    {/* Tablet frame */}
-                    <div className="rounded-[24px] sm:rounded-[32px] border-[6px] sm:border-[8px] border-slate-800 bg-white shadow-[0_40px_100px_rgba(0,0,0,0.12)] overflow-hidden min-w-[700px] sm:min-w-0">
-
-                        {/* Dashboard content */}
-                        <div className="flex">
-                            {/* Sidebar */}
-                            <div className="flex flex-col w-[180px] sm:w-[200px] lg:w-[220px] border-r border-slate-100 bg-slate-50/60 py-5 px-3 flex-shrink-0">
-                                {/* Logo */}
-                                <div className="flex items-center gap-2 px-3 mb-5">
-                                    <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
-                                        <Zap className="h-4 w-4 text-white" />
-                                    </div>
-                                </div>
-
-                                {/* Assistant info */}
-                                <div className="bg-white rounded-xl border border-slate-100 p-3 mb-4">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <div className="h-6 w-6 rounded-lg bg-slate-100 flex items-center justify-center">
-                                            <tab.icon className="h-3.5 w-3.5 text-slate-500" />
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-bold text-slate-800 leading-tight">{tab.assistantName}</p>
-                                            <p className="text-[9px] text-slate-400">{tab.assistantId}</p>
-                                        </div>
-                                    </div>
-                                    <p className="text-[10px] text-slate-400 mt-1.5">Mob: {tab.mobNumber}</p>
-                                    <button className="mt-2 w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[10px] font-semibold py-1.5 rounded-lg">
-                                        <PhoneCall className="h-3 w-3" />
-                                        Test Assistant
-                                    </button>
-                                </div>
-
-                                {/* Nav items */}
-                                <nav className="space-y-0.5">
-                                    {tab.sidebarItems.map((item, i) => {
-                                        const Icon = sidebarIcons[item] || LayoutDashboard;
-                                        return (
-                                            <div key={item} className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                                                i === 0 ? 'bg-orange-50 text-orange-600' : 'text-slate-500 hover:bg-slate-100'
-                                            }`}>
-                                                <Icon className="h-3.5 w-3.5" />
-                                                {item}
-                                            </div>
-                                        );
-                                    })}
-                                </nav>
-                            </div>
-
-                            {/* Main content */}
-                            <div className="flex-1 p-4 sm:p-5 lg:p-6 overflow-hidden">
-                                {/* Header */}
-                                <div className="flex items-center justify-between mb-5">
-                                    <h3 className="text-base sm:text-lg font-bold text-slate-800">Dashboard</h3>
-                                    <div className="flex items-center gap-2">
-                                        <span className="px-2.5 py-1 rounded-md border border-slate-200 text-[10px] text-slate-500 font-medium">Type</span>
-                                        <span className="px-2.5 py-1 rounded-md bg-orange-50 border border-orange-200 text-[10px] text-orange-600 font-semibold flex items-center gap-1">
-                                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
-                                            Live
-                                        </span>
-                                        <span className="px-2.5 py-1 rounded-md border border-slate-200 text-[10px] text-slate-500 font-medium">Last Week</span>
-                                    </div>
-                                </div>
-
-                                {/* Stat cards */}
-                                <div className={`grid gap-3 sm:gap-4 mb-5 ${tab.id === 'doctor' ? 'grid-cols-4' : 'grid-cols-3'}`}>
-                                    {tab.stats.map((stat, i) => (
-                                        <div key={i} className="rounded-xl border border-slate-100 bg-white p-3 sm:p-4 hover:shadow-md transition-shadow">
-                                            <div className="flex items-center gap-2 mb-1.5">
-                                                <div className={`h-7 w-7 rounded-lg bg-slate-50 flex items-center justify-center`}>
-                                                    <stat.icon className={`h-3.5 w-3.5 ${stat.color}`} />
-                                                </div>
-                                                <span className="text-[10px] sm:text-xs text-slate-400 font-medium">{stat.label}</span>
-                                            </div>
-                                            <p className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-800">{stat.value}</p>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* === DOCTOR APPOINTMENTS TAB === */}
-                                {tab.id === 'doctor' ? (
-                                    <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
-                                        {/* Search & Filter Bar */}
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <div className="flex-1 relative">
-                                                <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                                                <div className="w-full pl-8 pr-3 py-2 border border-slate-200 rounded-lg text-[11px] text-slate-400 bg-white">Search patient name...</div>
-                                            </div>
-                                            <div className="px-3 py-2 border border-slate-200 rounded-lg text-[11px] text-slate-500 font-medium bg-white">All Status ▼</div>
-                                            <div className="px-3 py-2 border border-slate-200 rounded-lg text-[11px] text-slate-500 font-medium bg-white">All Months ▼</div>
-                                        </div>
-                                        {/* Appointment Cards */}
-                                        {(tab as any).appointments?.map((apt: any, i: number) => {
-                                            const statusStyles: Record<string, string> = {
-                                                confirmed: 'bg-green-100 text-green-700 border-green-300',
-                                                scheduled: 'bg-orange-100 text-orange-700 border-orange-300',
-                                                completed: 'bg-purple-100 text-purple-700 border-purple-300',
-                                                cancelled: 'bg-red-100 text-red-700 border-red-300',
-                                            };
-                                            return (
-                                                <div key={i} className="bg-gradient-to-br from-slate-50 to-white p-4 rounded-xl border-2 border-slate-200 hover:border-orange-300 hover:shadow-lg transition-all cursor-pointer">
-                                                    <div className="flex gap-3">
-                                                        <div className="flex-shrink-0">
-                                                            <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-3 rounded-xl shadow-md">
-                                                                <User className="w-5 h-5 text-white" />
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex-1 min-w-0">
-                                                            <div className="flex items-start justify-between mb-2">
-                                                                <div>
-                                                                    <h4 className="text-sm font-bold text-slate-900">{apt.name}</h4>
-                                                                    <div className="flex items-center gap-3 text-[11px] text-slate-500 mt-0.5">
-                                                                        <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{apt.phone}</span>
-                                                                        <button className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded text-[9px] font-bold">
-                                                                            <Bot className="w-2.5 h-2.5" /> Follow-up
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold border capitalize ${statusStyles[apt.status] || 'bg-slate-100 text-slate-600'}`}>{apt.status}</span>
-                                                            </div>
-                                                            <div className="flex items-center gap-2 flex-wrap mb-2">
-                                                                {apt.source === 'ai' && (
-                                                                    <>
-                                                                        <span className="flex items-center gap-1 px-1.5 py-0.5 bg-orange-100 text-orange-700 rounded text-[9px] font-bold"><Zap className="w-2.5 h-2.5" /> AI Auto-Created</span>
-                                                                        <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-[9px] font-bold">{apt.confidence}% Confidence</span>
-                                                                    </>
-                                                                )}
-                                                                {apt.source === 'manual' && (
-                                                                    <span className="px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded text-[9px] font-bold">Manual</span>
-                                                                )}
-                                                            </div>
-                                                            <div className="flex gap-2 mb-2">
-                                                                <div className="flex items-center gap-1.5 bg-orange-50 px-2 py-1 rounded-md">
-                                                                    <Calendar className="w-3 h-3 text-orange-600" />
-                                                                    <span className="text-[10px] font-semibold text-slate-700">{apt.date}</span>
-                                                                </div>
-                                                                <div className="flex items-center gap-1.5 bg-orange-50 px-2 py-1 rounded-md">
-                                                                    <Clock className="w-3 h-3 text-orange-600" />
-                                                                    <span className="text-[10px] font-semibold text-slate-700">{apt.time}</span>
-                                                                </div>
-                                                                <div className="flex items-center gap-1.5 bg-blue-50 px-2 py-1 rounded-md">
-                                                                    <Stethoscope className="w-3 h-3 text-blue-600" />
-                                                                    <span className="text-[10px] font-semibold text-slate-700">{apt.doctor}</span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="bg-slate-50 px-3 py-2 rounded-md border border-slate-200">
-                                                                <div className="flex items-start gap-1.5">
-                                                                    <FileText className="w-3 h-3 text-slate-400 mt-0.5" />
-                                                                    <div>
-                                                                        <span className="text-[9px] text-slate-400 font-medium">Purpose</span>
-                                                                        <p className="text-[11px] text-slate-700 font-medium">{apt.purpose}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-
-                                /* === LEAD GENERATION TAB === */
-                                ) : tab.id === 'leads' ? (
-                                    <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
-                                        {(tab as any).leads?.map((lead: any, i: number) => (
-                                            <div key={i} className={`bg-white rounded-xl shadow-sm border transition-all hover:shadow-md ${
-                                                lead.isLead ? 'border-l-4 border-l-green-400 bg-gradient-to-r from-green-50/40 to-white' : 'border-l-4 border-l-slate-300 border-slate-200'
-                                            }`}>
-                                                <div className="p-3.5">
-                                                    <div className="flex items-center gap-3 mb-2.5">
-                                                        <span className="text-[9px] font-mono text-white bg-slate-700 px-2 py-0.5 rounded">ID: {lead.id}</span>
-                                                        <span className="text-[10px] text-slate-600 font-medium">{lead.from} → {lead.to}</span>
-                                                        <span className="text-[10px] text-slate-400">{lead.timeAgo}</span>
-                                                        <span className="text-[10px] font-medium text-orange-700 bg-orange-50 px-1.5 py-0.5 rounded">{lead.duration}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 mb-2">
-                                                        {lead.isLead ? (
-                                                            <div className="flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 rounded text-[10px] font-medium">
-                                                                <CheckCircle className="h-3 w-3" /> Analyzed
-                                                            </div>
-                                                        ) : (
-                                                            <div className="flex items-center gap-1 px-2 py-0.5 bg-sky-100 text-sky-700 rounded text-[10px] font-medium">
-                                                                <Clock className="h-3 w-3" /> Pending Analysis
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    {lead.isLead && (
-                                                        <div className="bg-gradient-to-r from-green-50 to-green-100/50 rounded-lg p-3 border border-green-200">
-                                                            <div className="flex items-center gap-2 mb-2">
-                                                                <CheckCircle className="h-3.5 w-3.5 text-green-600" />
-                                                                <span className="text-[11px] font-bold text-green-800">Lead Identified</span>
-                                                            </div>
-                                                            <div className="grid grid-cols-2 gap-2 text-[10px]">
-                                                                <div>
-                                                                    <span className="text-sky-600 font-medium">Customer:</span>
-                                                                    <p className="text-green-800 font-semibold">{lead.name}</p>
-                                                                </div>
-                                                                <div>
-                                                                    <span className="text-sky-600 font-medium">Confidence:</span>
-                                                                    <p className="text-green-800 font-semibold">{lead.confidence}%</p>
-                                                                </div>
-                                                                <div>
-                                                                    <span className="text-sky-600 font-medium">Interest:</span>
-                                                                    <p className="text-green-800 font-semibold">{lead.interest}</p>
-                                                                </div>
-                                                                <div>
-                                                                    <span className="text-sky-600 font-medium">Need:</span>
-                                                                    <p className="text-green-800 font-semibold truncate">{lead.need}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                /* === CUSTOMER SUPPORT TAB === */
-                                ) : tab.id === 'support' ? (
-                                    <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
-                                        {(tab as any).campaigns?.map((camp: any, i: number) => {
-                                            const statusMap: Record<string, { bg: string; text: string; dot: string }> = {
-                                                active: { bg: 'bg-green-50 border-green-200', text: 'text-green-700', dot: 'bg-green-500' },
-                                                completed: { bg: 'bg-purple-50 border-purple-200', text: 'text-purple-700', dot: 'bg-purple-500' },
-                                                paused: { bg: 'bg-yellow-50 border-yellow-200', text: 'text-yellow-700', dot: 'bg-yellow-500' },
-                                            };
-                                            const st = statusMap[camp.status] || statusMap.active;
-                                            const progressPct = Math.round((camp.completed / camp.total) * 100);
-                                            return (
-                                                <div key={i} className="bg-white rounded-xl border-2 border-slate-200 hover:border-orange-300 hover:shadow-lg transition-all cursor-pointer p-4">
-                                                    <div className="flex items-start justify-between mb-3">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="p-2.5 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-md">
-                                                                <Headphones className="w-4 h-4 text-white" />
-                                                            </div>
-                                                            <div>
-                                                                <h4 className="text-sm font-bold text-slate-900">{camp.name}</h4>
-                                                                <span className="text-[10px] text-slate-400 capitalize">{camp.type.replace('-', ' ')}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className={`flex items-center gap-1.5 px-2 py-1 rounded-full border text-[9px] font-bold capitalize ${st.bg} ${st.text}`}>
-                                                            <span className={`w-1.5 h-1.5 rounded-full ${st.dot} ${camp.status === 'active' ? 'animate-pulse' : ''}`} />
-                                                            {camp.status}
-                                                        </div>
-                                                    </div>
-                                                    {/* Progress Bar */}
-                                                    <div className="mb-3">
-                                                        <div className="flex items-center justify-between text-[10px] mb-1">
-                                                            <span className="text-slate-500 font-medium">Progress</span>
-                                                            <span className="font-bold text-slate-700">{progressPct}%</span>
-                                                        </div>
-                                                        <div className="w-full bg-slate-100 rounded-full h-2">
-                                                            <div className="bg-gradient-to-r from-orange-500 to-orange-400 h-2 rounded-full transition-all" style={{ width: `${progressPct}%` }} />
-                                                        </div>
-                                                    </div>
-                                                    {/* Stats Row */}
-                                                    <div className="grid grid-cols-4 gap-2">
-                                                        <div className="bg-slate-50 rounded-lg p-2 text-center">
-                                                            <p className="text-[9px] text-slate-400 font-medium">Total</p>
-                                                            <p className="text-sm font-bold text-slate-800">{camp.total}</p>
-                                                        </div>
-                                                        <div className="bg-green-50 rounded-lg p-2 text-center">
-                                                            <p className="text-[9px] text-green-600 font-medium">Done</p>
-                                                            <p className="text-sm font-bold text-green-700">{camp.completed}</p>
-                                                        </div>
-                                                        <div className="bg-red-50 rounded-lg p-2 text-center">
-                                                            <p className="text-[9px] text-red-500 font-medium">Failed</p>
-                                                            <p className="text-sm font-bold text-red-600">{camp.failed}</p>
-                                                        </div>
-                                                        <div className="bg-orange-50 rounded-lg p-2 text-center">
-                                                            <p className="text-[9px] text-orange-500 font-medium">Pending</p>
-                                                            <p className="text-sm font-bold text-orange-600">{camp.pending}</p>
-                                                        </div>
-                                                    </div>
-                                                    {/* Footer Stats */}
-                                                    <div className="flex items-center gap-4 mt-2.5 pt-2.5 border-t border-slate-100">
-                                                        <span className="text-[10px] text-slate-500 flex items-center gap-1"><Award className="w-3 h-3 text-orange-500" /> Success: <strong className="text-slate-700">{camp.successRate}%</strong></span>
-                                                        <span className="text-[10px] text-slate-500 flex items-center gap-1"><Clock className="w-3 h-3 text-orange-500" /> Avg: <strong className="text-slate-700">{camp.avgDuration}</strong></span>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-
-                                /* === WHATSAPP CHATBOT TAB === */
-                                ) : isWhatsApp ? (
-                                    <div className="grid grid-cols-5 gap-4">
-                                        {/* WhatsApp Chat */}
-                                        <div className="col-span-3 rounded-xl border border-slate-100 bg-[#efeae2] overflow-hidden">
-                                            <div className="bg-[#075e54] px-4 py-3 flex items-center gap-3">
-                                                <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center">
-                                                    <MessageSquare className="h-4 w-4 text-white" />
-                                                </div>
-                                                <div>
-                                                    <p className="text-sm font-semibold text-white">DigitalBot AI</p>
-                                                    <p className="text-[10px] text-orange-200">online</p>
-                                                </div>
-                                                <div className="ml-auto flex items-center gap-3 text-white/80">
-                                                    <PhoneCall className="h-4 w-4" />
-                                                    <span className="text-[10px]">⋮</span>
-                                                </div>
-                                            </div>
-                                            <div className="p-3 space-y-2 max-h-[220px] sm:max-h-[250px] overflow-y-auto" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'200\' height=\'200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cdefs%3E%3Cpattern id=\'p\' width=\'20\' height=\'20\' patternUnits=\'userSpaceOnUse\'%3E%3Ccircle cx=\'10\' cy=\'10\' r=\'0.8\' fill=\'%23d5ccb9\' opacity=\'0.3\'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=\'200\' height=\'200\' fill=\'%23efeae2\'/%3E%3Crect width=\'200\' height=\'200\' fill=\'url(%23p)\'/%3E%3C/svg%3E")' }}>
-                                                {(tab as any).whatsappChat?.map((msg: any, i: number) => (
-                                                    <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                                        <div className={`max-w-[80%] rounded-xl px-3 py-2 shadow-sm ${
-                                                            msg.from === 'user'
-                                                                ? 'bg-[#dcf8c6] rounded-tr-none'
-                                                                : 'bg-white rounded-tl-none'
-                                                        }`}>
-                                                            <p className="text-[11px] sm:text-xs text-slate-800 whitespace-pre-line leading-relaxed">{msg.text}</p>
-                                                            <p className="text-[8px] sm:text-[9px] text-slate-400 text-right mt-0.5">{msg.time} {msg.from === 'user' ? '✓✓' : ''}</p>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                            <div className="bg-white px-3 py-2 flex items-center gap-2 border-t border-slate-100">
-                                                <span className="text-slate-400 text-lg">😊</span>
-                                                <div className="flex-1 rounded-full bg-slate-50 border border-slate-100 px-3 py-1.5 text-[11px] text-slate-400">Type a message...</div>
-                                                <div className="h-7 w-7 rounded-full bg-[#075e54] flex items-center justify-center">
-                                                    <Mic className="h-3.5 w-3.5 text-white" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Donut chart */}
-                                        <div className="col-span-2 rounded-xl border border-slate-100 bg-white p-4">
-                                            <p className="text-xs font-semibold text-slate-700 mb-3">Chat Analytics</p>
-                                            <div className="flex justify-center mb-3">
-                                                <div className="relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px]">
-                                                    <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                                                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f1f5f9" strokeWidth="3" />
-                                                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="#25d366" strokeWidth="3"
-                                                            strokeDasharray={`${tab.donutPercent} ${100 - tab.donutPercent}`} strokeLinecap="round" />
-                                                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="#075e54" strokeWidth="3"
-                                                            strokeDasharray={`${Math.round(tab.donutPercent * 0.35)} ${100 - Math.round(tab.donutPercent * 0.35)}`}
-                                                            strokeDashoffset={`-${tab.donutPercent}`} strokeLinecap="round" />
-                                                    </svg>
-                                                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                                        <span className="text-[8px] text-slate-400">Auto-resolved</span>
-                                                        <span className="text-lg font-bold text-slate-800">{tab.donutPercent}%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="space-y-2">
-                                                <div className="flex items-center justify-between text-[10px]">
-                                                    <span className="text-slate-500 font-medium">Status</span>
-                                                    <span className="text-slate-500 font-medium">Result</span>
-                                                </div>
-                                                {tab.donutStats.map((s, i) => (
-                                                    <div key={i} className="flex items-center justify-between text-[10px]">
-                                                        <span className="flex items-center gap-1.5">
-                                                            <span className={`w-2 h-2 rounded-full ${s.color}`} />
-                                                            <span className="text-slate-600">{s.label}</span>
-                                                        </span>
-                                                        <span className="font-semibold text-slate-700">{s.value}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                /* === GENERAL DASHBOARD TAB (default) === */
-                                ) : (
-                                <div className="grid grid-cols-5 gap-4">
-                                    {/* Chart */}
-                                    <div className="col-span-3 rounded-xl border border-slate-100 bg-white p-4">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <div>
-                                                <p className="text-xs font-semibold text-slate-700">Total Call Analysis</p>
-                                                <p className="text-[10px] text-slate-400">{tab.stats[0].value}</p>
-                                            </div>
-                                            <span className="px-2.5 py-1 rounded-md border border-slate-200 text-[10px] text-slate-500 font-medium flex items-center gap-1">
-                                                Total Calls <span className="text-[8px]">▼</span>
-                                            </span>
-                                        </div>
-                                        {/* Bar chart */}
-                                        <div className="flex items-end gap-2 sm:gap-3 px-2" style={{ height: '200px' }}>
-                                            {tab.chartData.map((val, i) => {
-                                                return (
-                                                <div key={i} className="flex-1 flex flex-col items-stretch justify-end">
-                                                    <div
-                                                        className="rounded-t-xl bg-gradient-to-t from-orange-500 to-orange-400 shadow-sm"
-                                                        style={{ height: `${Math.round((val / maxChart) * 170)}px`, minWidth: '24px' }}
-                                                    />
-                                                    <span className="text-[7px] sm:text-[8px] text-slate-400 text-center mt-1.5">{9 + i}am</span>
-                                                </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-
-                                    {/* Donut chart */}
-                                    <div className="col-span-2 rounded-xl border border-slate-100 bg-white p-4">
-                                        <p className="text-xs font-semibold text-slate-700 mb-3">Total Calls</p>
-                                        <div className="flex justify-center mb-3">
-                                            <div className="relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px]">
-                                                <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                                                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f1f5f9" strokeWidth="3" />
-                                                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f59e0b" strokeWidth="3"
-                                                        strokeDasharray={`${tab.donutPercent} ${100 - tab.donutPercent}`} strokeLinecap="round" />
-                                                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#3b82f6" strokeWidth="3"
-                                                        strokeDasharray={`${Math.round(tab.donutPercent * 0.35)} ${100 - Math.round(tab.donutPercent * 0.35)}`}
-                                                        strokeDashoffset={`-${tab.donutPercent}`} strokeLinecap="round" />
-                                                </svg>
-                                                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                                    <span className="text-[8px] text-slate-400">Summary</span>
-                                                    <span className="text-lg font-bold text-slate-800">{tab.donutPercent}%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <div className="flex items-center justify-between text-[10px]">
-                                                <span className="text-slate-500 font-medium">Status</span>
-                                                <span className="text-slate-500 font-medium">Result</span>
-                                            </div>
-                                            {tab.donutStats.map((s, i) => (
-                                                <div key={i} className="flex items-center justify-between text-[10px]">
-                                                    <span className="flex items-center gap-1.5">
-                                                        <span className={`w-2 h-2 rounded-full ${s.color}`} />
-                                                        <span className="text-slate-600">{s.label}</span>
-                                                    </span>
-                                                    <span className="font-semibold text-slate-700">{s.value}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    </div>{/* end scroll wrapper */}
-                </div>
-            </div>
-        </section>
-    );
-}
 
 // Business chatbot showcase data
 const bizChats = {
@@ -1077,9 +598,390 @@ const bizPhoneChats = {
     ],
 };
 
+const businessOptions = [
+    { id: 'travel', label: 'Travel', emoji: '✈️', color: 'bg-orange-100 text-orange-700 border-orange-200 hover:bg-orange-200', active: 'bg-orange-500 text-white border-orange-500 shadow-orange-500/30' },
+    { id: 'doctor', label: 'Doctor', emoji: '🏥', color: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200', active: 'bg-blue-500 text-white border-blue-500 shadow-blue-500/30' },
+    { id: 'salon', label: 'Salon', emoji: '💇', color: 'bg-pink-100 text-pink-700 border-pink-200 hover:bg-pink-200', active: 'bg-pink-500 text-white border-pink-500 shadow-pink-500/30' },
+    { id: 'event', label: 'Events', emoji: '🎫', color: 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200', active: 'bg-purple-500 text-white border-purple-500 shadow-purple-500/30' },
+    { id: 'support', label: 'Support', emoji: '🎧', color: 'bg-teal-100 text-teal-700 border-teal-200 hover:bg-teal-200', active: 'bg-teal-500 text-white border-teal-500 shadow-teal-500/30' },
+    { id: 'restaurant', label: 'Restaurant', emoji: '🍽️', color: 'bg-red-100 text-red-700 border-red-200 hover:bg-red-200', active: 'bg-red-500 text-white border-red-500 shadow-red-500/30' },
+    { id: 'realestate', label: 'Real Estate', emoji: '🏠', color: 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200', active: 'bg-emerald-500 text-white border-emerald-500 shadow-emerald-500/30' },
+    { id: 'ecommerce', label: 'E-Commerce', emoji: '🛒', color: 'bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-200', active: 'bg-amber-500 text-white border-amber-500 shadow-amber-500/30' },
+    { id: 'education', label: 'Education', emoji: '📚', color: 'bg-indigo-100 text-indigo-700 border-indigo-200 hover:bg-indigo-200', active: 'bg-indigo-500 text-white border-indigo-500 shadow-indigo-500/30' },
+    { id: 'fitness', label: 'Fitness', emoji: '💪', color: 'bg-lime-100 text-lime-700 border-lime-200 hover:bg-lime-200', active: 'bg-lime-600 text-white border-lime-600 shadow-lime-600/30' },
+    { id: 'insurance', label: 'Insurance', emoji: '🛡️', color: 'bg-sky-100 text-sky-700 border-sky-200 hover:bg-sky-200', active: 'bg-sky-500 text-white border-sky-500 shadow-sky-500/30' },
+    { id: 'banking', label: 'Banking', emoji: '🏦', color: 'bg-violet-100 text-violet-700 border-violet-200 hover:bg-violet-200', active: 'bg-violet-500 text-white border-violet-500 shadow-violet-500/30' },
+    { id: 'logistics', label: 'Logistics', emoji: '🚚', color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200', active: 'bg-yellow-500 text-white border-yellow-500 shadow-yellow-500/30' },
+    { id: 'hotel', label: 'Hotels', emoji: '🏨', color: 'bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200', active: 'bg-rose-500 text-white border-rose-500 shadow-rose-500/30' },
+    { id: 'automotive', label: 'Automotive', emoji: '🚗', color: 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200', active: 'bg-slate-600 text-white border-slate-600 shadow-slate-600/30' },
+    { id: 'legal', label: 'Legal', emoji: '⚖️', color: 'bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200', active: 'bg-stone-500 text-white border-stone-500 shadow-stone-500/30' },
+    { id: 'grocery', label: 'Grocery', emoji: '🥬', color: 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200', active: 'bg-green-500 text-white border-green-500 shadow-green-500/30' },
+    { id: 'telecom', label: 'Telecom', emoji: '📱', color: 'bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200', active: 'bg-cyan-500 text-white border-cyan-500 shadow-cyan-500/30' },
+] as const;
+
+type BusinessId = typeof businessOptions[number]['id'];
+
+function ConnectedPhonesShowcase() {
+    return (
+        <div className="relative flex min-h-[430px] items-center justify-center overflow-visible sm:min-h-[500px] lg:min-h-[560px]">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                <div className="h-[280px] w-[280px] rounded-full bg-orange-100/45 blur-3xl sm:h-[390px] sm:w-[390px]" />
+                <div className="absolute h-[240px] w-[240px] rounded-full border border-green-200/50 sm:h-[340px] sm:w-[340px]" />
+            </div>
+            <img
+                src="/images/whatsapp-business-api-whautomate.png"
+                alt="WhatsApp Business API automation with AI chatbot reminders payments and invoices"
+                className="relative z-10 h-auto w-full max-w-[560px] object-contain drop-shadow-2xl sm:max-w-[640px] lg:max-w-[680px]"
+                loading="lazy"
+            />
+        </div>
+    )
+
+}
+
+function HeroWhatsAppPhone() {
+    return (
+        <div className="w-[260px] sm:w-[285px] lg:w-[290px] ml-0 sm:ml-0 lg:ml-2">
+            <div className="flex aspect-[9/17.4] flex-col overflow-hidden rounded-[40px] border-[6px] border-slate-900 bg-white shadow-[0_40px_100px_rgba(15,23,42,0.16)]">
+                <div className="bg-[#075e54] px-4 pb-0 pt-2">
+                    <div className="mb-2 flex items-center justify-between text-[10px] font-semibold text-white">
+                        <span>9:41</span>
+                        <div className="h-5 w-20 rounded-full bg-slate-950" />
+                        <span>5G</span>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 bg-[#075e54] px-3 py-3 text-white">
+                    <ArrowRight className="h-4 w-4 rotate-180 text-white" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-500 text-sm font-bold text-white">D</div>
+                    <div className="min-w-0 flex-1">
+                        <p className="truncate text-base font-bold leading-tight text-white">DigitalBot AI</p>
+                        <p className="flex items-center gap-1 text-[10px] font-semibold text-orange-100">
+                            <span className="h-1.5 w-1.5 rounded-full bg-orange-300" />
+                            Verified Business
+                        </p>
+                    </div>
+                    <PhoneCall className="h-4 w-4 text-white/75" />
+                </div>
+
+                <div className="flex-1 space-y-3 overflow-hidden bg-[#efeae2] px-4 py-4">
+                    <p className="mx-auto w-fit rounded-full bg-white/80 px-4 py-1.5 text-[10px] text-slate-500">Today 8:30 AM</p>
+
+                    <div className="w-[88%] rounded-xl rounded-tl-sm bg-white px-3.5 py-3 shadow-sm">
+                        <p className="text-[12px] leading-relaxed text-slate-800">
+                            The holiday season is almost here! 🌍<br />
+                            Start planning your dream getaway with special <span className="font-bold">30% discount</span>
+                        </p>
+                        <div className="mt-3 grid grid-cols-2 gap-2">
+                            {[
+                                { label: '🏔️ Manali', key: 'manali' },
+                                { label: '🏖️ Beach', key: 'beach' },
+                            ].map((place) => (
+                                <div key={place.key} className="flex h-[70px] items-end rounded-xl bg-gradient-to-br from-orange-300 to-orange-500 p-2">
+                                    <span className="rounded-md bg-black/30 px-2 py-1 text-[9px] font-bold text-white">{place.label}</span>
+                                </div>
+                            ))}
+                        </div>
+                        <p className="mt-1 text-right text-[8px] text-slate-400">8:30 ✓✓</p>
+                    </div>
+
+                    <div className="ml-auto w-[82%] rounded-xl rounded-tr-sm bg-[#dcf8c6] px-3.5 py-3 shadow-sm">
+                        <p className="text-[12px] leading-relaxed text-slate-800">I'd love to book Manali! What dates are available?</p>
+                        <p className="mt-1 text-right text-[8px] text-slate-400">8:31 ✓✓</p>
+                    </div>
+
+                    <div className="w-[88%] rounded-xl rounded-tl-sm bg-white px-3.5 py-3 shadow-sm">
+                        <p className="text-[12px] leading-relaxed text-slate-800">
+                            Great choice! 🏔️ Here are the available dates for Manali:<br />
+                            🗓️ Dec 20 - Dec 25<br />
+                            🗓️ Dec 27 - Jan 1<br />
+                            🗓️ Jan 5 - Jan 10
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                            <span className="rounded-full border border-orange-200 px-2.5 py-1 text-[9px] font-medium text-orange-600">Dec 20-25</span>
+                            <span className="rounded-full border border-orange-200 px-2.5 py-1 text-[9px] font-medium text-orange-600">Dec 27-Jan 1</span>
+                        </div>
+                        <p className="mt-1 text-right text-[8px] text-slate-400">8:30 ✓✓</p>
+                    </div>
+                </div>
+
+                <div className="bg-[#efeae2] px-3 pb-3">
+                    <div className="flex items-center gap-2 rounded-full bg-white px-3 py-2">
+                        <span className="text-lg">😊</span>
+                        <span className="flex-1 truncate text-[11px] text-slate-400">Type a message...</span>
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#075e54]">
+                            <Mic className="h-4 w-4 text-white" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function HeroVoicePhone({ isCallActive, isSpeaking, callStatus, vapiLoaded, onToggleCall }: VoiceCallControls) {
+    const controls = [
+        { icon: Mic, label: 'Mute' },
+        { icon: PhoneCall, label: 'Speaker' },
+        { icon: MessageSquare, label: 'Message' },
+        { icon: Phone, label: 'Video' },
+        { icon: Bot, label: 'Keypad' },
+        { icon: Clock, label: 'Record' },
+    ]
+    const isConnecting = callStatus === 'Connecting...' || callStatus === 'Initializing...'
+    const voiceStatus = isCallActive ? (isSpeaking ? 'Assistant Speaking' : 'Listening Now') : 'Voice AI Ready'
+    const voiceDescription = callStatus || 'Tap Start Call and talk to the DigitalBot voice agent live.'
+
+    return (
+        <div className="relative mx-0 sm:mx-0 lg:mx-auto w-[260px] sm:w-[280px] lg:w-[290px]">
+            <div className="aspect-[9/17.4] rounded-[38px] border-[5px] border-slate-900 bg-slate-900 p-1.5 shadow-[0_28px_70px_rgba(15,23,42,0.2)]">
+                <div className="relative flex h-full flex-col overflow-hidden rounded-[31px] bg-slate-950">
+                    <div className="absolute left-1/2 top-4 z-20 h-4 w-20 -translate-x-1/2 rounded-full bg-slate-900" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(124,58,237,0.55),transparent_32%),linear-gradient(135deg,#0f172a_0%,#21173e_46%,#111827_100%)]" />
+                    <div className="relative z-10 flex h-full flex-col px-5 pb-6 pt-8 text-white">
+                        <div className="flex items-center justify-between text-[11px] font-semibold text-white">
+                            <span>9:41</span>
+                            <span>5G</span>
+                        </div>
+
+                        <div className="mt-10 text-center">
+                            <p className="text-sm font-bold tracking-wide text-white/85">AI Voice Agent</p>
+                            <p className="mt-1 text-2xl font-light text-white">{isCallActive ? 'Live Call' : 'Ready'}</p>
+                        </div>
+
+                        <div className="mt-6 rounded-2xl border border-white/10 bg-white/10 p-3 text-left shadow-[0_14px_40px_rgba(0,0,0,0.18)] backdrop-blur">
+                            <div className="flex items-start gap-3">
+                                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white ${isCallActive ? 'bg-emerald-500' : 'bg-orange-500'}`}>
+                                    <Bot className="h-4 w-4" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-semibold uppercase tracking-wide text-orange-200">{voiceStatus}</p>
+                                    <p className="mt-1 text-[11px] font-medium leading-snug text-white">
+                                        {voiceDescription}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-7 grid grid-cols-3 gap-3">
+                            {controls.map((control) => {
+                                const Icon = control.icon
+                                return (
+                                    <div key={control.label} className="text-center">
+                                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/18 text-white backdrop-blur">
+                                            <Icon className="h-5 w-5" />
+                                        </div>
+                                        <p className="mt-2 text-[9px] font-medium text-white/70">{control.label}</p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+
+                        <div className="mt-auto flex justify-center">
+                            <button
+                                type="button"
+                                onClick={onToggleCall}
+                                disabled={isConnecting || (!vapiLoaded && !isCallActive)}
+                                className={`flex min-w-[136px] items-center justify-center gap-2 rounded-full px-4 py-3 text-[12px] font-bold text-white shadow-lg transition-all disabled:cursor-not-allowed disabled:opacity-70 ${
+                                    isCallActive
+                                        ? 'bg-red-500 shadow-red-500/30 hover:bg-red-600'
+                                        : 'bg-orange-500 shadow-orange-500/30 hover:bg-orange-600'
+                                }`}
+                            >
+                                <PhoneCall className={`h-4 w-4 ${isCallActive ? 'rotate-[135deg]' : ''}`} />
+                                {isConnecting ? 'Connecting' : isCallActive ? 'End Call' : vapiLoaded ? 'Start Call' : 'Loading'}
+                            </button>
+                        </div>
+                        <p className="mt-2 text-center text-[9px] font-medium text-white/45">
+                            {isCallActive ? 'Voice agent is live' : 'Uses your microphone'}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function HeroPeopleShowcase() {
+    return (
+        <div className="relative mx-auto flex min-h-[360px] w-full max-w-[660px] items-end justify-center overflow-visible px-2 pt-6 sm:min-h-[430px] lg:min-h-[500px]">
+            <img
+                src="/images/voice-whatsapp-team.png"
+                alt="Digitalbot team pointing to voice AI and WhatsApp automation"
+                className="relative z-10 h-auto w-[min(660px,112%)] max-w-none object-contain drop-shadow-2xl"
+                loading="eager"
+            />
+        </div>
+    )
+}
+
+function FlowBuilderDiagram() {
+    const nodes = [
+        { title: 'WhatsApp Trigger', label: 'New message received', x: 170, y: 118, w: 190, accent: 'border-emerald-200', tone: 'green' },
+        { title: 'Intent Check', label: 'Pricing, booking or support?', x: 390, y: 76, w: 150, accent: 'border-orange-200', tone: 'orange' },
+        { title: 'Lead Score', label: 'Hot lead or nurture?', x: 390, y: 212, w: 150, accent: 'border-blue-200', tone: 'blue' },
+        { title: 'n8n Workflow', label: 'Run backend automation', x: 390, y: 318, w: 150, accent: 'border-violet-200', tone: 'purple' },
+        { title: 'Auto Reply', label: 'Send smart WhatsApp reply', x: 590, y: 42, w: 170, accent: 'border-emerald-200', tone: 'green' },
+        { title: 'Zapier Sync', label: 'Push data to tools', x: 720, y: 142, w: 170, accent: 'border-orange-200', tone: 'orange' },
+        { title: 'Google Sheets', label: 'Save inquiry row', x: 590, y: 252, w: 170, accent: 'border-blue-200', tone: 'blue' },
+        { title: 'CRM Route', label: 'Choose the right CRM', x: 590, y: 332, w: 170, accent: 'border-violet-200', tone: 'purple' },
+        { title: 'HubSpot / Zoho', label: 'Create contact and deal', x: 820, y: 248, w: 170, accent: 'border-emerald-200', tone: 'green' },
+        { title: 'Salesforce CRM', label: 'Assign owner and stage', x: 820, y: 356, w: 170, accent: 'border-blue-200', tone: 'blue' },
+    ];
+    const sidebarTools = [
+        { icon: Bot, label: 'AI agent' },
+        { icon: MessageSquare, label: 'WhatsApp' },
+        { icon: Users, label: 'CRM' },
+        { icon: Send, label: 'API' },
+        { icon: LayoutDashboard, label: 'Workflow' },
+        { icon: Zap, label: 'Zapier' },
+        { icon: PhoneCall, label: 'Voice bot' },
+        { icon: Clock, label: 'Sync' },
+    ];
+
+    return (
+        <div className="w-full overflow-x-auto pb-3">
+            <div className="relative mx-auto h-[520px] min-w-[1120px] overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+                <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(236,253,245,0.9)_0%,rgba(255,247,237,0.72)_36%,rgba(239,246,255,0.74)_68%,rgba(245,243,255,0.9)_100%)]" />
+                <div className="absolute inset-0 left-12" style={{
+                    backgroundImage: 'radial-gradient(circle, rgba(100,116,139,0.28) 1px, transparent 1px)',
+                    backgroundSize: '18px 18px',
+                }} />
+
+                <aside className="absolute inset-y-0 left-0 z-30 flex w-12 flex-col items-center bg-gradient-to-b from-slate-950 via-indigo-950 to-emerald-950 py-3 text-white">
+                    <div className="mb-8 flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-400/15 text-emerald-300">
+                        <Bot className="h-4 w-4" />
+                    </div>
+                    {sidebarTools.map((tool) => {
+                        const Icon = tool.icon;
+                        return (
+                            <div key={tool.label} title={tool.label} className="mb-5 flex h-7 w-7 items-center justify-center rounded-lg text-white/85 transition-colors hover:bg-white/10 hover:text-white">
+                                <Icon className="h-4 w-4" />
+                            </div>
+                        );
+                    })}
+                    <div className="absolute left-0 top-[150px] rounded-r bg-red-500 px-1.5 py-1 text-[10px] font-bold">Beta</div>
+                    <div className="absolute left-0 top-[198px] rounded-r bg-orange-500 px-1.5 py-1 text-[10px] font-bold">New</div>
+                </aside>
+
+                <div className="absolute left-12 right-0 top-0 z-20 h-10 bg-white/85 backdrop-blur">
+                    <div className="absolute left-10 top-1.5 rounded border border-slate-200 bg-white px-4 py-1 text-[10px] font-medium text-slate-500">
+                        WhatsApp Flow + CRM Automation
+                    </div>
+                    <div className="absolute right-20 top-1.5 flex items-center gap-2">
+                        {['SAVE', 'ARRANGE', 'SEND TEST'].map((label) => (
+                            <button key={label} className="rounded bg-gradient-to-r from-violet-500 to-indigo-500 px-4 py-1.5 text-[9px] font-bold text-white shadow-sm">
+                                {label}
+                            </button>
+                        ))}
+                        <button className="flex h-7 w-8 items-center justify-center rounded bg-gradient-to-r from-emerald-500 to-teal-500 text-sm font-bold text-white">+</button>
+                    </div>
+                    <button className="absolute right-4 top-14 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-violet-500 text-xl font-semibold text-white shadow-lg">+</button>
+                </div>
+
+                <svg className="absolute left-12 top-10 z-0 h-[480px] w-[1072px]" viewBox="0 0 1072 480" fill="none" aria-hidden="true">
+                    <path d="M134 74 C160 74 150 160 170 160" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M134 92 C170 116 118 226 148 226" stroke="#f97316" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M148 226 C265 226 270 360 390 360" stroke="#8b5cf6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M360 160 C383 160 368 118 390 118" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M360 160 C385 160 368 254 390 254" stroke="#3b82f6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M540 118 C570 118 560 84 590 84" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M540 254 C625 254 620 184 720 184" stroke="#f97316" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M540 360 C575 360 560 294 590 294" stroke="#3b82f6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M540 360 C575 360 560 374 590 374" stroke="#8b5cf6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M760 294 C790 294 790 290 820 290" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M760 374 C790 374 790 398 820 398" stroke="#3b82f6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+
+                <div className="absolute left-[102px] top-[74px] z-10 text-center">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-yellow-300 shadow-lg ring-4 ring-white">
+                        <Zap className="h-10 w-10 text-slate-950" />
+                    </div>
+                    <div className="mt-2 text-[10px] font-semibold text-slate-700">Start Flow</div>
+                </div>
+
+                <div className="absolute left-[100px] top-[218px] z-10 text-center">
+                    <div className="flex h-24 w-24 items-center justify-center bg-green-500 text-white shadow-lg">
+                        <MessageSquare className="h-10 w-10" />
+                    </div>
+                    <div className="mt-2 text-[10px] font-semibold text-slate-700">WhatsApp API</div>
+                </div>
+
+                {nodes.map((node) => (
+                    <div
+                        key={node.title}
+                        className={`absolute z-10 rounded-md border ${node.accent} bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.08)]`}
+                        style={{ left: node.x + 48, top: node.y + 40, width: node.w }}
+                    >
+                        <div className="mb-2 flex items-center justify-between">
+                            <span className="text-[9px] font-bold text-slate-500">{node.title}</span>
+                            <span className="text-[9px] text-slate-300">...</span>
+                        </div>
+                        <div className={`${node.tone === 'purple' ? 'bg-violet-500 text-white border-violet-500' : node.tone === 'orange' ? 'bg-orange-500 text-white border-orange-500' : node.tone === 'blue' ? 'bg-blue-500 text-white border-blue-500' : node.tone === 'green' ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-white text-slate-500 border-slate-100'} rounded border px-2 py-2 text-[9px] font-semibold`}>
+                            {node.label}
+                        </div>
+                        <div className="mt-2 flex items-center justify-between text-[8px] text-slate-400">
+                            <span>{node.title.includes('Text') ? 'Text' : node.title.includes('Action') ? 'Action' : 'Button'}</span>
+                            <span className="text-[#6c5ce7]">o</span>
+                        </div>
+                    </div>
+                ))}
+
+                {[{ l: 942, t: 430 }, { l: 1060, t: 430 }].map((dot, index) => (
+                    <div key={index} className="absolute z-20 flex h-12 w-12 items-center justify-center rounded-full bg-[#6c5ce7] text-white shadow-lg" style={{ left: dot.l, top: dot.t }}>
+                        {index === 0 ? '?' : '+'}
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+function AutomationFeatureShowcase(voiceControls: VoiceCallControls) {
+    return (
+        <section className="relative overflow-hidden bg-white pb-14 pt-10 sm:pb-16 sm:pt-12 lg:pb-20 lg:pt-14">
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto mb-20 max-w-3xl text-center lg:mb-24">
+                    <h2 className="text-2xl font-bold leading-tight text-slate-950 sm:text-3xl lg:text-4xl">
+                        Automate calls and WhatsApp with DigitalBot.
+                    </h2>
+                    <p className="mx-auto mt-4 max-w-xl text-sm font-medium leading-6 text-slate-600 sm:text-base">
+                        Voice AI and WhatsApp API workflows for bookings, leads, support, and follow-ups.
+                    </p>
+                </div>
+
+                <div className="mb-28 grid items-end gap-12 lg:mb-36 lg:grid-cols-[minmax(260px,300px)_minmax(360px,1fr)_minmax(260px,300px)] lg:gap-14">
+                    <div className="order-2 flex justify-center lg:order-1">
+                        <HeroWhatsAppPhone />
+                    </div>
+                    <div className="order-1 lg:order-2">
+                        <HeroPeopleShowcase />
+                    </div>
+                    <div className="order-3 flex justify-center">
+                        <HeroVoicePhone {...voiceControls} />
+                    </div>
+                </div>
+
+                <div className="mb-14 text-center">
+                    <h3 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+                        WhatsApp Automation Flows
+                    </h3>
+                    <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
+                        Build simple WhatsApp reply, booking, reminder, and lead flows, then connect them with n8n, Zapier, HubSpot, Zoho, Salesforce, Google Sheets, and custom CRMs.
+                    </p>
+                </div>
+
+                <div className="flex justify-center overflow-visible">
+                    <FlowBuilderDiagram />
+                </div>
+            </div>
+        </section>
+    )
+}
+
 export default function Hero() {
     const [counts, setCounts] = useState([0, 0, 0])
-    const [activeBiz, setActiveBiz] = useState('travel')
+    const [activeBiz, setActiveBiz] = useState<BusinessId>('travel')
 
     // Vapi voice agent state
     const vapiRef = useRef<any>(null)
@@ -1109,7 +1011,7 @@ export default function Hero() {
         const initVapi = async () => {
             try {
                 const VapiModule = await import('@vapi-ai/web')
-                vapiInstance = new VapiModule.default('00119fad-8530-413f-9699-e47cada57939')
+                vapiInstance = new VapiModule.default(VAPI_PUBLIC_KEY)
                 vapiRef.current = vapiInstance
                 setVapiLoaded(true)
 
@@ -1169,7 +1071,13 @@ export default function Hero() {
             try {
                 await navigator.mediaDevices.getUserMedia({ audio: true })
                 setCallStatus('Connecting...')
-                await vapiRef.current.start('9ca19724-1f6c-48d1-8c62-a6107d585592')
+                await vapiRef.current.start(VAPI_ASSISTANT_ID, {
+                    transcriber: {
+                        provider: 'deepgram',
+                        model: 'nova-2',
+                        language: 'en'
+                    }
+                })
             } catch (error) {
                 console.error('Error starting call:', error)
                 if (error instanceof DOMException && error.name === 'NotAllowedError') {
@@ -1302,6 +1210,9 @@ export default function Hero() {
             description: "85% automation rate, 60% cost reduction, 40% better satisfaction. ROI in 90 days."
         }
     ]
+    const isVapiConnecting = callStatus === 'Connecting...' || callStatus === 'Initializing...'
+    const selectedBusiness = businessOptions.find((biz) => biz.id === activeBiz) ?? businessOptions[0]
+    const selectedBusinessChat = bizPhoneChats[activeBiz] ?? bizPhoneChats.travel
 
     return (
         <>
@@ -1812,7 +1723,7 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white" role="region" aria-labelledby="hero-heading">
+            <section className="pt-8 pb-6 px-4 sm:px-8 lg:px-16 relative overflow-hidden bg-white" role="region" aria-labelledby="hero-heading">
 
                 <div className="absolute inset-0 bg-white pointer-events-none" aria-hidden="true"></div>
 
@@ -1856,14 +1767,86 @@ export default function Hero() {
 
                 <div className="container mx-auto relative z-30 max-w-7xl px-4 sm:px-6 lg:px-8">
 
+                    <div className="flex items-center justify-between py-12 sm:py-16 lg:py-20 gap-8 lg:gap-12 lg:flex-row-reverse">
+                        {/* Right: Image */}
+                        <div className="hidden lg:flex flex-1 justify-center hero-slide-1">
+                            <img 
+                                src="/images/landing-hero-assistant-laptop.png"
+                                alt="DigitalBot assistant using laptop"
+                                className="w-full max-w-[680px] h-auto object-contain"
+                                loading="eager"
+                            />
+                        </div>
+
+                        {/* Left: Content */}
+                        <div className="flex-1 max-w-[600px] space-y-6">
+                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-50 to-orange-100/50 border border-orange-200 px-4 py-2 rounded-full shadow-sm hero-slide-1">
+                                <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                                <span className="text-xs font-semibold tracking-wide text-orange-700 uppercase">AI voice + WhatsApp automation</span>
+                            </div>
+
+                            <h1 id="hero-heading" className="text-4xl font-bold leading-tight tracking-tight text-slate-900 hero-slide-2 sm:text-5xl lg:text-6xl">
+                                Everything Connected.<br />
+                                <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-clip-text text-transparent">Business Simplified.</span>
+                            </h1>
+
+                            <p className="text-lg font-medium leading-relaxed text-slate-600 hero-slide-3">
+                                From chat to calls, bookings to analytics — manage every customer interaction in one powerful ERP platform. <span className="text-slate-900 font-semibold">Never miss an opportunity again.</span>
+                            </p>
+
+                            <ul className="space-y-3 text-slate-700 hero-slide-3">
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle className="h-5 w-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                    <span className="text-sm">24/7 AI-powered responses across WhatsApp, calls & chat</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle className="h-5 w-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                    <span className="text-sm">Automatic booking, scheduling & appointment management</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle className="h-5 w-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                    <span className="text-sm">Real-time analytics & customer insights on one dashboard</span>
+                                </li>
+                            </ul>
+
+                            <div className="flex flex-col items-start justify-start gap-3 sm:flex-row pt-4 hero-slide-4">
+                                <a
+                                    href="/contact"
+                                    className="group inline-flex min-w-[180px] items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-500/30 transition-all duration-300 hover:from-orange-600 hover:to-orange-700 hover:shadow-xl hover:shadow-orange-500/40"
+                                >
+                                    Get Started Free
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                </a>
+                                <a
+                                    href="/contact"
+                                    className="group inline-flex min-w-[180px] items-center justify-center rounded-lg border-2 border-slate-200 bg-white px-7 py-3.5 text-sm font-semibold text-slate-900 shadow-sm transition-all duration-300 hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600"
+                                >
+                                    Schedule a Demo
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {/* Mobile Image */}
+                    <div className="lg:hidden -mx-4 sm:-mx-6 px-4 sm:px-6 py-8 bg-gradient-to-b from-slate-50 to-white">
+                        <img 
+                            src="/images/landing-hero-assistant-laptop.png"
+                            alt="DigitalBot assistant using laptop"
+                            className="w-full h-auto object-contain"
+                            loading="eager"
+                        />
+                    </div>
+
                     {/* Top: Badge + Headline */}
-                    <div className="text-center pt-10 sm:pt-14 lg:pt-16 space-y-5">
+                    <div className="hidden">
                         <div className="inline-flex items-center gap-2 bg-white border border-orange-100 px-4 py-2 rounded-full shadow-sm hero-slide-1">
                             <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                             <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">AI Voice Agents — Now Generally Available</span>
                         </div>
 
-                        <h1 id="hero-heading" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 leading-[1.08] tracking-tight hero-slide-2">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 leading-[1.08] tracking-tight hero-slide-2">
                             Elevate Your Business With<br />
                             <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-clip-text text-transparent">WhatsApp Bots & Voice Agents</span>
                         </h1>
@@ -1874,7 +1857,7 @@ export default function Hero() {
                     </div>
 
                     {/* Center: Two Large Phones */}
-                    <div className="relative flex justify-center items-end mt-8 sm:mt-16 hero-phones-in" style={{ minHeight: 'clamp(340px, 50vw, 520px)' }}>
+                    <div className="hidden">
                         {/* Subtle glow behind phones */}
                         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[280px] sm:w-[420px] h-[220px] sm:h-[320px] rounded-full bg-gradient-to-t from-slate-100/40 via-slate-50/20 to-transparent blur-3xl pointer-events-none" />
 
@@ -2052,7 +2035,7 @@ export default function Hero() {
                     </div>
 
                     {/* Bottom: CTAs */}
-                    <div className="text-center mt-10 sm:mt-14 space-y-6 hero-slide-4">
+                    <div className="hidden">
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
                             <a
                                 href="/contact"
@@ -2073,28 +2056,40 @@ export default function Hero() {
 
             </section>
 
-            {/* Stop Losing Customers Section */}
-            <section className="py-16 sm:py-20 lg:py-24 bg-[#fafafa] relative overflow-hidden">
+            <TrustedBrands />
+
+            <AutomationFeatureShowcase
+                isCallActive={isCallActive}
+                isSpeaking={isSpeaking}
+                callStatus={callStatus}
+                vapiLoaded={vapiLoaded}
+                onToggleCall={toggleCall}
+            />
+
+            {/* Leverage AI Voice Calls Section */}
+            <section className="bg-white py-8 sm:py-10 lg:py-12 relative overflow-hidden">
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                    <div>
                         {/* Left Content */}
-                        <div className="space-y-8">
-                            <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
+                        <div className="mx-auto mb-7 max-w-2xl text-center sm:mb-9">
+                            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5">
                                 <span className="text-orange-500 text-sm">✨</span>
-                                <span className="text-xs font-semibold tracking-wide text-orange-600 uppercase">AI That Never Sleeps</span>
+                                <span className="text-xs font-semibold tracking-wide text-orange-600 uppercase">Voice Garden</span>
                             </div>
 
-                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
-                                Stop losing customers.<br />
-                                <span className="text-orange-500">Start converting 24/7.</span>
+                            <h2 className="text-2xl font-bold leading-tight text-slate-900 sm:text-3xl lg:text-4xl">
+                                AI voice agents that sound human
                             </h2>
 
-                            <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
+                            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
+                                Handle calls, bookings, leads, and support 24/7.
+                            </p>
+                            <p className="hidden">
                                 Every missed call is a missed sale. Let AI handle your calls, WhatsApp, and bookings — while you focus on growing your business.
                             </p>
 
                             {/* Stats */}
-                            <div className="flex gap-8 sm:gap-12">
+                            <div className="hidden">
                                 <div>
                                     <p className="text-3xl sm:text-4xl font-bold text-slate-900">10x</p>
                                     <p className="text-sm text-slate-500 mt-1">Faster Response</p>
@@ -2110,7 +2105,7 @@ export default function Hero() {
                             </div>
 
                             {/* CTA Buttons */}
-                            <div className="flex flex-wrap gap-4">
+                            <div className="hidden">
                                 <a
                                     href="/signup"
                                     className="inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 text-sm"
@@ -2130,85 +2125,47 @@ export default function Hero() {
                             </div>
                         </div>
 
-                        {/* Right Visual - Man with WhatsApp Phone */}
-                        <div className="relative flex justify-center items-center">
-                            {/* Concentric green circles */}
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
-                                <div className="w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] lg:w-[500px] lg:h-[500px] rounded-full border border-green-200/40" />
-                                <div className="absolute w-[250px] h-[250px] sm:w-[330px] sm:h-[330px] lg:w-[400px] lg:h-[400px] rounded-full border border-green-200/50" />
-                                <div className="absolute w-[180px] h-[180px] sm:w-[240px] sm:h-[240px] lg:w-[300px] lg:h-[300px] rounded-full border border-green-300/40" />
-                            </div>
-
-                            {/* Chat bubble icon floating */}
-                            <div className="absolute top-4 right-8 sm:top-8 sm:right-12 w-12 h-12 bg-green-400 rounded-full flex items-center justify-center shadow-lg animate-bounce" style={{ animationDuration: '3s' }}>
-                                <MessageSquare className="h-6 w-6 text-white" />
-                            </div>
-
-                            {/* Main image */}
-                            <div className="relative z-10">
-                                <img
-                                    src="/images/bean-bag-man.png"
-                                    alt="Person using WhatsApp Business with DigitalBot AI"
-                                    className="w-[340px] sm:w-[440px] lg:w-[540px] h-auto object-contain drop-shadow-2xl"
-                                />
-                            </div>
-
-                            {/* Floating WhatsApp chat card */}
-                            <div className="absolute left-0 sm:left-[-20px] top-[15%] z-20 w-[200px] sm:w-[240px] bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
-                                {/* WhatsApp header */}
-                                <div className="bg-[#075e54] px-3 py-2 flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-orange-400 flex items-center justify-center">
-                                        <span className="text-white text-[8px] font-bold">DB</span>
-                                    </div>
-                                    <div>
-                                        <p className="text-white text-[10px] font-semibold">ABC Jewellers ✅</p>
-                                        <p className="text-green-200 text-[8px]">Online</p>
+                        <div className="grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
+                            {services.slice(0, 4).map((service) => (
+                                <div key={service.title} className="group relative aspect-[3/4] overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                                    <img
+                                        src={service.img}
+                                        alt={service.title}
+                                        className="absolute inset-0 h-full w-full object-cover object-top"
+                                        loading="lazy"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                                    <button
+                                        type="button"
+                                        className="absolute inset-0 flex cursor-pointer items-center justify-center"
+                                        onClick={() => {
+                                            const audio = new Audio(service.audio);
+                                            audio.play();
+                                        }}
+                                        aria-label={`Play ${service.title} sample`}
+                                    >
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500/85 shadow-lg backdrop-blur-sm transition-all group-hover:scale-110 group-hover:bg-orange-600">
+                                            <svg className="ml-0.5 h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M8 5v14l11-7z" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                    <div className="absolute bottom-0 left-0 right-0 p-3">
+                                        <h3 className="text-sm font-bold text-white drop-shadow-lg">{service.title}</h3>
                                     </div>
                                 </div>
-                                {/* Chat messages */}
-                                <div className="bg-[#ece5dd] px-2 py-2 space-y-1.5">
-                                    <div className="bg-white rounded-lg px-2 py-1.5 shadow-sm max-w-[90%]">
-                                        <p className="text-[8px] text-slate-800">Hi Aadi, 👋</p>
-                                        <p className="text-[8px] text-slate-700 mt-0.5">Thank you for reaching out! ✨ Explore our latest jewelry collection:</p>
-                                        <p className="text-[7px] text-blue-500 mt-0.5">🔗 www.goldjewels.com</p>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm text-center">
-                                            <p className="text-[8px] text-blue-600 font-medium">View More Collections</p>
-                                        </div>
-                                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm text-center">
-                                            <p className="text-[8px] text-blue-600 font-medium">Get Price Details</p>
-                                        </div>
-                                        <div className="bg-white rounded-lg px-2 py-1 shadow-sm text-center">
-                                            <p className="text-[8px] text-blue-600 font-medium">Talk to Support</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-end">
-                                        <div className="bg-[#d9fdd3] rounded-lg px-2 py-1 shadow-sm">
-                                            <p className="text-[8px] text-slate-800">View More Collection</p>
-                                            <p className="text-right text-[6px] text-slate-400">10:14 am ✓✓</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Bot emoji floating */}
-                            <div className="absolute top-[10%] left-[10%] z-20 w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center shadow-md" style={{ animation: 'badge-float 4s ease-in-out infinite' }}>
-                                <span className="text-lg">🤖</span>
-                            </div>
+                            ))}
                         </div>
+
                     </div>
                 </div>
             </section>
-
-            {/* Dashboard Showcase Section */}
-            <DashboardShowcase />
 
             {/* WhatsApp Chatbot Section */}
             <section className="py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden">
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Section Header */}
-                    <div className="text-center mb-10">
+                    <div className="mx-auto mb-10 max-w-4xl text-center">
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
                             Get Your <span className="text-orange-500">Customized Chatbot</span>
                         </h2>
@@ -2217,7 +2174,7 @@ export default function Hero() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                    <div className="mx-auto grid max-w-6xl grid-cols-1 items-center justify-center gap-8 lg:grid-cols-[320px_minmax(0,760px)] lg:gap-28 xl:gap-32">
                         {/* LEFT: iPhone WhatsApp Mockup */}
                         <div className="flex justify-center order-2 lg:order-1">
                             <div className="relative">
@@ -2236,9 +2193,9 @@ export default function Hero() {
                                     {/* WhatsApp header */}
                                     <div className="bg-[#075e54] px-3 py-2 flex items-center gap-2">
                                         <ArrowRight className="h-4 w-4 text-white rotate-180" />
-                                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-xs font-bold">D</div>
+                                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-xs font-bold">{selectedBusiness.emoji}</div>
                                         <div className="flex-1">
-                                            <p className="text-sm font-semibold text-white">DigitalBot AI</p>
+                                            <p className="text-sm font-semibold text-white">{selectedBusiness.label} Bot</p>
                                             <p className="text-[10px] text-orange-200 flex items-center gap-1">
                                                 <span className="w-1.5 h-1.5 rounded-full bg-orange-300" />
                                                 Verified Business
@@ -2247,9 +2204,9 @@ export default function Hero() {
                                         <PhoneCall className="h-4 w-4 text-white/80" />
                                     </div>
                                     {/* Dynamic Chat messages */}
-                                    <div className="bg-[#efeae2] p-3 space-y-2 max-h-[360px] sm:max-h-[400px] overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+                                    <div key={activeBiz} className="bg-[#efeae2] p-3 space-y-2 max-h-[360px] sm:max-h-[400px] overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
                                         <p className="text-center text-[9px] text-slate-500 bg-white/70 rounded-full px-3 py-0.5 mx-auto w-fit">Today 8:30 AM</p>
-                                        {(bizPhoneChats[activeBiz as keyof typeof bizPhoneChats] || bizPhoneChats.travel).map((msg: { from: string; text: string; cards?: { emoji: string; title: string; color: string }[]; chips?: string[] }, idx: number) => (
+                                        {selectedBusinessChat.map((msg: { from: string; text: string; cards?: { emoji: string; title: string; color: string }[]; chips?: string[] }, idx: number) => (
                                             <div key={`${activeBiz}-${idx}`}>
                                                 {msg.from === 'user' ? (
                                                     <div className="flex justify-end">
@@ -2302,33 +2259,17 @@ export default function Hero() {
                         </div>
 
                         {/* RIGHT: Service Filter Buttons Grid */}
-                        <div className="order-1 lg:order-2">
-                            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-5 text-center lg:text-left">Select your business</p>
-                            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
-                                {[
-                                    { id: 'travel', label: 'Travel', emoji: '✈️', color: 'bg-orange-100 text-orange-700 border-orange-200 hover:bg-orange-200', active: 'bg-orange-500 text-white border-orange-500 shadow-orange-500/30' },
-                                    { id: 'doctor', label: 'Doctor', emoji: '🏥', color: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200', active: 'bg-blue-500 text-white border-blue-500 shadow-blue-500/30' },
-                                    { id: 'salon', label: 'Salon', emoji: '💇', color: 'bg-pink-100 text-pink-700 border-pink-200 hover:bg-pink-200', active: 'bg-pink-500 text-white border-pink-500 shadow-pink-500/30' },
-                                    { id: 'event', label: 'Events', emoji: '🎫', color: 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200', active: 'bg-purple-500 text-white border-purple-500 shadow-purple-500/30' },
-                                    { id: 'support', label: 'Support', emoji: '🎧', color: 'bg-teal-100 text-teal-700 border-teal-200 hover:bg-teal-200', active: 'bg-teal-500 text-white border-teal-500 shadow-teal-500/30' },
-                                    { id: 'restaurant', label: 'Restaurant', emoji: '🍽️', color: 'bg-red-100 text-red-700 border-red-200 hover:bg-red-200', active: 'bg-red-500 text-white border-red-500 shadow-red-500/30' },
-                                    { id: 'realestate', label: 'Real Estate', emoji: '🏠', color: 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200', active: 'bg-emerald-500 text-white border-emerald-500 shadow-emerald-500/30' },
-                                    { id: 'ecommerce', label: 'E-Commerce', emoji: '🛒', color: 'bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-200', active: 'bg-amber-500 text-white border-amber-500 shadow-amber-500/30' },
-                                    { id: 'education', label: 'Education', emoji: '📚', color: 'bg-indigo-100 text-indigo-700 border-indigo-200 hover:bg-indigo-200', active: 'bg-indigo-500 text-white border-indigo-500 shadow-indigo-500/30' },
-                                    { id: 'fitness', label: 'Fitness', emoji: '💪', color: 'bg-lime-100 text-lime-700 border-lime-200 hover:bg-lime-200', active: 'bg-lime-600 text-white border-lime-600 shadow-lime-600/30' },
-                                    { id: 'insurance', label: 'Insurance', emoji: '🛡️', color: 'bg-sky-100 text-sky-700 border-sky-200 hover:bg-sky-200', active: 'bg-sky-500 text-white border-sky-500 shadow-sky-500/30' },
-                                    { id: 'banking', label: 'Banking', emoji: '🏦', color: 'bg-violet-100 text-violet-700 border-violet-200 hover:bg-violet-200', active: 'bg-violet-500 text-white border-violet-500 shadow-violet-500/30' },
-                                    { id: 'logistics', label: 'Logistics', emoji: '🚚', color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200', active: 'bg-yellow-500 text-white border-yellow-500 shadow-yellow-500/30' },
-                                    { id: 'hotel', label: 'Hotels', emoji: '🏨', color: 'bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200', active: 'bg-rose-500 text-white border-rose-500 shadow-rose-500/30' },
-                                    { id: 'automotive', label: 'Automotive', emoji: '🚗', color: 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200', active: 'bg-slate-600 text-white border-slate-600 shadow-slate-600/30' },
-                                    { id: 'legal', label: 'Legal', emoji: '⚖️', color: 'bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200', active: 'bg-stone-500 text-white border-stone-500 shadow-stone-500/30' },
-                                    { id: 'grocery', label: 'Grocery', emoji: '🥬', color: 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200', active: 'bg-green-500 text-white border-green-500 shadow-green-500/30' },
-                                    { id: 'telecom', label: 'Telecom', emoji: '📱', color: 'bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200', active: 'bg-cyan-500 text-white border-cyan-500 shadow-cyan-500/30' },
-                                ].map((biz) => (
+                        <div className="relative z-50 order-1 mx-auto w-full max-w-[760px] lg:order-2">
+                            <p className="mb-5 text-center text-sm font-semibold uppercase tracking-wider text-slate-500 lg:text-left">Select your business</p>
+                            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-4">
+                                {businessOptions.map((biz) => (
                                     <button
+                                        type="button"
                                         key={biz.id}
+                                        onPointerDown={() => setActiveBiz(biz.id)}
                                         onClick={() => setActiveBiz(biz.id)}
-                                        className={`flex flex-col items-center gap-1.5 px-2 py-3 rounded-2xl border text-xs font-semibold transition-all duration-300 ${
+                                        aria-pressed={activeBiz === biz.id}
+                                        className={`relative z-50 flex cursor-pointer flex-col items-center gap-1.5 rounded-2xl border px-2 py-3 text-xs font-semibold transition-all duration-300 ${
                                             activeBiz === biz.id ? biz.active + ' shadow-lg scale-105' : biz.color
                                         }`}
                                     >
@@ -2353,8 +2294,8 @@ export default function Hero() {
 
             {/* Voice AI Section */}
             <section className="py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                <div className="container mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+                    <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-8 xl:gap-10">
                         {/* LEFT: Voice AI Content */}
                         <div className="space-y-6">
                             <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-4 py-2 rounded-full">
@@ -2385,24 +2326,35 @@ export default function Hero() {
                                 ))}
                             </div>
                             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                                <Link href="/contact#contact-form" className="group px-7 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 text-sm">
-                                    Try Voice AI Free
-                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-                                </Link>
+                                <button
+                                    type="button"
+                                    onClick={toggleCall}
+                                    disabled={isVapiConnecting || (!vapiLoaded && !isCallActive)}
+                                    className={`group px-7 py-3 text-white font-medium rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 text-sm disabled:cursor-not-allowed disabled:opacity-70 ${
+                                        isCallActive
+                                            ? 'bg-red-500 hover:bg-red-600 shadow-red-500/20'
+                                            : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-orange-500/20'
+                                    }`}
+                                >
+                                    <PhoneCall className={`h-4 w-4 ${isCallActive ? 'rotate-[135deg]' : ''}`} />
+                                    {isVapiConnecting ? 'Connecting...' : isCallActive ? 'End Call' : vapiLoaded ? 'Start Call' : 'Loading Voice AI'}
+                                </button>
                                 <Link href="/contact" className="px-7 py-3 text-slate-700 font-medium rounded-xl border border-slate-200 hover:border-orange-300 hover:text-orange-600 transition-all text-sm text-center bg-white">
                                     Book a Free Demo
                                 </Link>
                             </div>
+                            {callStatus && (
+                                <p className="text-sm font-medium text-orange-600">{callStatus}</p>
+                            )}
                         </div>
 
                         {/* RIGHT: Voice Agent Image */}
-                        <div className="flex justify-center lg:justify-end">
-                            <div className="relative w-full max-w-[680px]">
-                                <div className="absolute -inset-6 bg-gradient-to-r from-orange-100/60 to-orange-50/40 rounded-3xl blur-3xl" />
+                        <div className="flex min-w-0 justify-center bg-white">
+                            <div className="relative w-full max-w-[1020px] bg-white lg:max-w-[1080px] xl:max-w-[1160px]">
                                 <img
-                                    src="/images/telecom_i98unj.webp"
-                                    alt="AI Voice Agent - Call Handling"
-                                    className="relative w-full h-auto rounded-2xl drop-shadow-2xl"
+                                    src="/images/voice-ai-section-custom.png"
+                                    alt="AI voice agent workflow for calls, appointments, lead qualification, support, and analytics"
+                                    className="relative h-auto w-full max-w-full origin-center object-contain lg:scale-[1.12]"
                                     loading="lazy"
                                 />
                             </div>
@@ -2410,63 +2362,6 @@ export default function Hero() {
                     </div>
                 </div>
             </section>
-
-            {/* Voice Garden - Service Samples */}
-            <section className="py-16 sm:py-20 bg-[#fafafa] relative overflow-hidden">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    {/* Section Header */}
-                    <div className="text-center mb-12 sm:mb-16">
-                        <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-5 py-2 rounded-full mb-6">
-                            <span className="text-sm font-semibold text-orange-700">Voice Garden</span>
-                        </div>
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-5 leading-tight">
-                            Leverage AI voice call agents who sound<br className="hidden sm:block" /> and act like real people
-                        </h2>
-                        <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-                            Handle your phone calls 24/7 with human-like voices and intelligent speech detection for realistic customer interactions.
-                        </p>
-                    </div>
-
-                    {/* Service Sample Cards */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-                        {services.slice(0, 4).map((service, i) => (
-                            <div key={i} className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 aspect-[3/4]">
-                                {/* Person image as background */}
-                                <img
-                                    src={service.img}
-                                    alt={service.title}
-                                    className="absolute inset-0 w-full h-full object-cover object-top"
-                                    loading="lazy"
-                                />
-                                {/* Bottom gradient overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-
-                                {/* Play button centered */}
-                                <button
-                                    className="absolute inset-0 flex items-center justify-center cursor-pointer"
-                                    onClick={() => {
-                                        const audio = new Audio(service.audio);
-                                        audio.play();
-                                    }}
-                                    aria-label={`Play ${service.title} sample`}
-                                >
-                                    <div className="h-14 w-14 rounded-full bg-orange-400/80 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 group-hover:bg-orange-500/90 transition-all shadow-lg">
-                                        <svg className="h-6 w-6 text-white ml-0.5" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                    </div>
-                                </button>
-
-                                {/* Title at bottom */}
-                                <div className="absolute bottom-0 left-0 right-0 p-4">
-                                    <h3 className="text-base font-bold text-white drop-shadow-lg">{service.title}</h3>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
- 
 
         </>
     )

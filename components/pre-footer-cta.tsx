@@ -7,7 +7,7 @@ export function PreFooterCTA() {
   return (
     <section className="pt-4 pb-2 sm:pt-6 sm:pb-3 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="container mx-auto max-w-7xl">
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+        <div className="flex flex-col lg:flex-row-reverse items-center gap-10 lg:gap-16">
 
           {/* Left — Text Only */}
           <div className="flex-1 w-full">
@@ -60,7 +60,7 @@ export function PreFooterCTA() {
           </div>
 
           {/* Right — Image */}
-          <div className="flex-1 w-full flex justify-center lg:justify-end">
+          <div className="flex-1 w-full flex justify-center lg:justify-start">
             <img
               src="/jewellery-automated-chat.png"
               alt="Automated Client Communication"
