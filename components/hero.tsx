@@ -24,7 +24,7 @@ const services = [
     {
         title: "Doctor Appointments",
         subtitle: "24/7 AI-Powered Medical Scheduling",
-        img: "/images/healthcare_1.png",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:16a34a/doctor_appointment_i73m9a",
         desc: "Never miss a patient again. Our AI voice agent handles appointment booking, rescheduling, and confirmations around the clock—with perfect accuracy and a warm, human touch.",
         color: "from-orange-500 to-orange-500",
         stat: "95%",
@@ -41,7 +41,7 @@ const services = [
     {
         title: "Lead Generation",
         subtitle: "Automated Outbound Sales Machine",
-        img: "/images/marketing_1.png",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:2563eb/lead_generation_qas7wm",
         desc: "Scale your sales pipeline effortlessly. Our AI makes thousands of outbound calls daily, qualifying leads and booking meetings while your team focuses on closing.",
         color: "from-orange-500 to-orange-500",
         stat: "3x",
@@ -57,7 +57,7 @@ const services = [
     {
         title: "Customer Care Agent",
         subtitle: "Empathetic Support That Never Sleeps",
-        img: "/images/woman-talking-phone.jpg",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:38bdf8/customercareagent_k6wqe8",
         desc: "Delight customers with instant, empathetic support. Our AI resolves issues on the first call, escalates complex cases smartly, and keeps your CSAT scores soaring.",
         color: "from-orange-500 to-orange-500",
         stat: "90%",
@@ -73,7 +73,7 @@ const services = [
     {
         title: "Voicebot Integration",
         subtitle: "Seamlessly Connect AI Voice to Your Systems",
-        img: "/images/ai-voice-agent.png",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:94a3b8/voicebot_integaration_pjlorx",
         desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
         color: "from-orange-500 to-orange-600",
         stat: "50+",
@@ -89,7 +89,7 @@ const services = [
     {
         title: "AI Call Center",
         subtitle: "Enterprise-Grade Communication Hub",
-        img: "/images/hero-features-diagram.png",
+        img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:7c3aed/ai_call_center_kalt8q",
         desc: "Transform your entire call center operation. Handle unlimited concurrent calls with intelligent routing, real-time analytics, and seamless human handoff when needed.",
         color: "from-orange-500 to-orange-500",
         stat: "∞",
