@@ -1,341 +1,268 @@
 "use client"
-import { AnimatePresence, motion } from 'framer-motion'
-import { Award, ChevronLeft, ChevronRight, Play, Quote, Sparkles, Star, TrendingUp, Users, Zap } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+
+import { AnimatePresence, motion } from "framer-motion"
+import { Award, ChevronLeft, ChevronRight, Quote, Star, TrendingUp, Users, Zap } from "lucide-react"
+import { useEffect, useState } from "react"
 
 const testimonials = [
   {
     id: 1,
-    name: "Dr. Sarah Chen",
-    role: "Chief Medical Officer",
-    company: "HealthFirst Clinic",
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&h=150&fit=crop&crop=face",
-    quote: "DigitalBot reduced our no-show rate by 67% and freed up our staff to focus on patient care. The AI handles appointment scheduling flawlessly in multiple languages.",
-    rating: 5,
-    stats: { metric: "67%", label: "Reduction in no-shows" },
-    video: false,
+    name: "Dr. Shish Verma",
+    role: "Doctor",
+    company: "Ashish Nursing Home & E-Clinic",
+    quote:
+      "DigitalBot helps us manage patient calls, appointment enquiries, and follow-ups without keeping people waiting. It has made our daily clinic communication much smoother.",
     industry: "Healthcare",
-    color: "from-emerald-500 to-teal-500"
+    result: "Faster patient response",
+    metric: "24/7",
+    metricLabel: "Call support",
+    gradient: "from-orange-500 via-rose-500 to-pink-500",
+    soft: "bg-orange-50 text-orange-700 border-orange-100",
   },
   {
     id: 2,
-    name: "Michael Torres",
-    role: "VP of Sales",
-    company: "TechScale Inc.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    quote: "We went from 50 qualified leads per month to over 200. The AI qualification is incredibly accurate, and our sales team now only talks to hot prospects.",
-    rating: 5,
-    stats: { metric: "4x", label: "More qualified leads" },
-    video: true,
-    industry: "Technology",
-    color: "from-orange-500 to-orange-600"
+    name: "Amit Gupta",
+    role: "Owner",
+    company: "Akira Sewing Machine",
+    quote:
+      "Customers now get quick answers about machines, service, availability, and booking support. DigitalBot saves our team time and keeps every enquiry properly followed up.",
+    industry: "Retail",
+    result: "Better enquiry handling",
+    metric: "2x",
+    metricLabel: "Faster replies",
+    gradient: "from-sky-500 via-cyan-500 to-emerald-500",
+    soft: "bg-cyan-50 text-cyan-700 border-cyan-100",
   },
   {
     id: 3,
-    name: "Emily Rodriguez",
-    role: "Customer Success Director",
-    company: "CloudServe Solutions",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face",
-    quote: "Our CSAT scores jumped from 72% to 94% within 3 months. Customers love getting instant responses 24/7, and complex issues are seamlessly escalated to our team.",
-    rating: 5,
-    stats: { metric: "94%", label: "Customer satisfaction" },
-    video: false,
-    industry: "SaaS",
-    color: "from-orange-500 to-pink-500"
+    name: "Priya Sharma",
+    role: "Founder",
+    company: "Urban Glow Salon",
+    quote:
+      "Our bookings, reminders, and customer questions are handled automatically. The system feels simple, reliable, and useful for a busy service business.",
+    industry: "Salon",
+    result: "More confirmed bookings",
+    metric: "35%",
+    metricLabel: "More bookings",
+    gradient: "from-violet-500 via-fuchsia-500 to-orange-500",
+    soft: "bg-violet-50 text-violet-700 border-violet-100",
   },
   {
     id: 4,
-    name: "James Park",
-    role: "Operations Manager",
-    company: "FastFood Chain",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    quote: "Handling 1000+ daily calls across 50 locations was impossible. DigitalBot now manages all reservations, orders, and inquiries with 99.9% accuracy.",
-    rating: 5,
-    stats: { metric: "1000+", label: "Daily calls handled" },
-    video: true,
-    industry: "Hospitality",
-    color: "from-orange-500 to-orange-600"
-  },
-  {
-    id: 5,
-    name: "Lisa Wang",
-    role: "CEO",
-    company: "PropTech Realty",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face",
-    quote: "Our agents save 4 hours daily on phone calls. The AI pre-qualifies buyers, schedules showings, and follows up automatically. Game-changing technology.",
-    rating: 5,
-    stats: { metric: "4hrs", label: "Saved per agent daily" },
-    video: false,
+    name: "Rahul Mehta",
+    role: "Managing Partner",
+    company: "Metro Property Advisors",
+    quote:
+      "DigitalBot qualifies property enquiries, captures requirements, and schedules calls with serious leads. It helps our team focus on the right customers.",
     industry: "Real Estate",
-    color: "from-orange-500 to-orange-600"
-  }
+    result: "Cleaner lead follow-up",
+    metric: "4x",
+    metricLabel: "Lead clarity",
+    gradient: "from-emerald-500 via-teal-500 to-blue-500",
+    soft: "bg-emerald-50 text-emerald-700 border-emerald-100",
+  },
 ]
 
 const stats = [
-  { icon: Users, value: "500+", label: "Happy Clients", color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
-  { icon: TrendingUp, value: "10M+", label: "Calls Handled", color: "text-emerald-600", bgColor: "bg-emerald-50", iconBg: "bg-emerald-500" },
-  { icon: Award, value: "4.9/5", label: "Avg Rating", color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" },
-  { icon: Zap, value: "99.9%", label: "Uptime", color: "text-orange-600", bgColor: "bg-orange-50", iconBg: "bg-orange-500" }
+  { icon: Users, value: "500+", label: "Happy Clients", gradient: "from-orange-500 to-rose-500" },
+  { icon: TrendingUp, value: "10M+", label: "Calls Handled", gradient: "from-emerald-500 to-teal-500" },
+  { icon: Award, value: "4.9/5", label: "Avg Rating", gradient: "from-violet-500 to-fuchsia-500" },
+  { icon: Zap, value: "99.9%", label: "Uptime", gradient: "from-sky-500 to-blue-500" },
 ]
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 90 : -90,
+    opacity: 0,
+    scale: 0.98,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -90 : 90,
+    opacity: 0,
+    scale: 0.98,
+  }),
+}
+
 export default function TestimonialCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [isAutoPlay, setIsAutoPlay] = useState(true)
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null)
+  const [[activeIndex, direction], setSlide] = useState([0, 1])
+  const activeTestimonial = testimonials[activeIndex]
 
   useEffect(() => {
-    if (isAutoPlay) {
-      autoPlayRef.current = setInterval(() => {
-        setActiveIndex(prev => (prev + 1) % testimonials.length)
-      }, 5000)
-    }
-    return () => {
-      if (autoPlayRef.current) clearInterval(autoPlayRef.current)
-    }
-  }, [isAutoPlay])
+    const timer = window.setInterval(() => {
+      setSlide(([current]) => [(current + 1) % testimonials.length, 1])
+    }, 4500)
 
-  const handlePrev = () => {
-    setIsAutoPlay(false)
-    setActiveIndex(prev => (prev - 1 + testimonials.length) % testimonials.length)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  const goToSlide = (nextIndex: number) => {
+    setSlide(([current]) => [nextIndex, nextIndex > current ? 1 : -1])
   }
 
-  const handleNext = () => {
-    setIsAutoPlay(false)
-    setActiveIndex(prev => (prev + 1) % testimonials.length)
+  const goToPrevious = () => {
+    setSlide(([current]) => [(current - 1 + testimonials.length) % testimonials.length, -1])
   }
 
-  const currentTestimonial = testimonials[activeIndex]
+  const goToNext = () => {
+    setSlide(([current]) => [(current + 1) % testimonials.length, 1])
+  }
 
   return (
-    <section className="py-10 sm:py-14 bg-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-white" aria-hidden="true" />
-
-      <div className="container mx-auto px-4 max-w-6xl relative z-10">
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+    <section className="relative overflow-hidden bg-white py-12 sm:py-16" aria-labelledby="testimonial-heading">
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-8"
+          transition={{ duration: 0.45 }}
+          className="mx-auto max-w-3xl text-center"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-50/60 border border-orange-200/40 rounded-full mb-3">
-            <Sparkles className="w-4 h-4 text-orange-600" />
-            <span className="text-xs font-semibold text-orange-700 uppercase tracking-wider">Trusted Worldwide</span>
+          <div className="mb-4 inline-flex items-center gap-2">
+            <Star className="h-4 w-4 fill-slate-950 text-slate-950" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-slate-950">Client Reviews</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
-            Loved by <span className="text-orange-600">Industry Leaders</span>
+          <h2 id="testimonial-heading" className="text-3xl font-bold leading-tight text-slate-950 sm:text-4xl">
+            Trusted by Growing Businesses
           </h2>
-          <p className="text-gray-500 text-sm max-w-xl mx-auto">
-            Join 500+ companies transforming customer experience with AI-powered voice solutions
+          <p className="mt-3 text-base font-medium leading-relaxed text-slate-950">
+            One simple view, sliding through real business feedback from teams using DigitalBot every day.
           </p>
         </motion.div>
 
-        {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
           {stats.map((stat, idx) => (
             <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              key={stat.label}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className={`${stat.bgColor} rounded-xl p-4 shadow-sm border border-gray-100 text-center hover:shadow-md transition-all duration-300 hover:-translate-y-1`}
+              transition={{ delay: idx * 0.06, duration: 0.4 }}
+              className="rounded-lg border border-white/70 bg-white/85 p-4 text-center shadow-sm backdrop-blur"
             >
-              <div className={`w-9 h-9 ${stat.iconBg} rounded-lg flex items-center justify-center mx-auto mb-2 shadow-md`}>
-                <stat.icon className="w-4 h-4 text-white" />
+              <div className={`mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-r ${stat.gradient} text-white shadow-sm`}>
+                <stat.icon className="h-4 w-4" />
               </div>
-              <div className={`text-xl font-bold text-gray-900`}>{stat.value}</div>
-              <div className="text-xs text-gray-600 font-medium">{stat.label}</div>
+              <div className="text-xl font-bold text-slate-950">{stat.value}</div>
+              <div className="text-xs font-medium text-slate-500">{stat.label}</div>
             </motion.div>
           ))}
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-12 gap-5 items-center">
-          
-          {/* Left - Testimonial Cards Stack */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative h-[300px]">
-              {testimonials.map((testimonial, idx) => {
-                const isActive = idx === activeIndex
-                const isPrev = idx === (activeIndex - 1 + testimonials.length) % testimonials.length
-                const isNext = idx === (activeIndex + 1) % testimonials.length
-                
-                return (
-                  <motion.div
-                    key={testimonial.id}
-                    initial={false}
-                    animate={{
-                      scale: isActive ? 1 : 0.85,
-                      y: isActive ? 0 : isPrev ? -40 : isNext ? 40 : 0,
-                      x: isActive ? 0 : isPrev ? -20 : isNext ? 20 : 0,
-                      opacity: isActive ? 1 : (isPrev || isNext) ? 0.5 : 0,
-                      zIndex: isActive ? 30 : (isPrev || isNext) ? 20 : 10,
-                      rotateY: isActive ? 0 : isPrev ? -5 : isNext ? 5 : 0,
-                    }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className="absolute inset-0 cursor-pointer"
-                    onClick={() => { setIsAutoPlay(false); setActiveIndex(idx); }}
-                  >
-                    <div className={`h-full bg-gradient-to-br ${testimonial.color} rounded-2xl p-0.5`}>
-                      <div className="h-full bg-white rounded-[14px] p-4 flex flex-col">
-                        {/* Industry Badge */}
-                        <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-gradient-to-r ${testimonial.color} text-white text-[10px] font-semibold rounded-full w-fit mb-3`}>
-                          {testimonial.industry}
-                        </div>
-                        
-                        {/* Profile */}
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="relative">
-                            <img
-                              src={testimonial.image}
-                              alt={testimonial.name}
-                              className="w-12 h-12 rounded-xl object-cover shadow-md"
-                            />
-                            {testimonial.video && (
-                              <button className={`absolute -bottom-1 -right-1 w-5 h-5 bg-gradient-to-r ${testimonial.color} rounded-full flex items-center justify-center shadow-sm`}>
-                                <Play className="h-2 w-2 text-white fill-white ml-0.5" />
-                              </button>
-                            )}
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-gray-900 text-sm">{testimonial.name}</h4>
-                            <p className="text-xs text-gray-500">{testimonial.role}</p>
-                            <p className="text-[10px] text-gray-400">{testimonial.company}</p>
-                          </div>
-                        </div>
-                        
-                        {/* Rating */}
-                        <div className="flex gap-0.5 mb-2">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="h-3 w-3 text-orange-400 fill-orange-400" />
-                          ))}
-                        </div>
-
-                        {/* Stat Badge */}
-                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r ${testimonial.color} bg-opacity-10 rounded-lg w-fit`}>
-                          <span className={`text-lg font-bold bg-gradient-to-r ${testimonial.color} bg-clip-text text-transparent`}>
-                            {testimonial.stats.metric}
-                          </span>
-                          <span className="text-gray-600 text-xs">{testimonial.stats.label}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )
-              })}
-            </div>
-            
-            {/* Navigation Dots - Below Cards */}
-            <div className="flex items-center justify-center gap-2 mt-4">
-              {testimonials.map((t, i) => (
-                <button
-                  key={i}
-                  onClick={() => { setIsAutoPlay(false); setActiveIndex(i); }}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    i === activeIndex 
-                      ? `w-8 bg-gradient-to-r ${t.color}` 
-                      : 'w-2 bg-gray-300 hover:bg-gray-400'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Right - Quote Display */}
-          <div className="lg:col-span-7">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.4 }}
-                className="relative"
-              >
-                {/* Large Quote Card */}
-                <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-5 md:p-7 border border-gray-100 shadow-lg shadow-gray-100/50 relative overflow-hidden">
-                  {/* Background Quote Mark */}
-                  <div className="absolute top-3 right-3 opacity-5">
-                    <Quote className="w-20 h-20 text-gray-900" />
-                  </div>
-                  
-                  {/* Colored Accent */}
-                  <div className={`absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b ${currentTestimonial.color} rounded-l-2xl`} />
-                  
-                  {/* Quote Icon */}
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${currentTestimonial.color} flex items-center justify-center mb-4 shadow-md`}>
-                    <Quote className="w-4 h-4 text-white" />
-                  </div>
-                  
-                  {/* Quote Text */}
-                  <blockquote className="text-base md:text-lg text-gray-800 font-medium leading-relaxed mb-5">
-                    "{currentTestimonial.quote}"
-                  </blockquote>
-                  
-                  {/* Divider */}
-                  <div className={`h-0.5 w-16 bg-gradient-to-r ${currentTestimonial.color} rounded-full mb-4`} />
-                  
-                  {/* Author Info */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={currentTestimonial.image}
-                        alt={currentTestimonial.name}
-                        className={`w-10 h-10 rounded-lg object-cover ring-2 ring-offset-1 ring-gradient-to-r ${currentTestimonial.color}`}
-                        style={{ 
-                          boxShadow: `0 4px 14px -2px ${currentTestimonial.color.includes('orange') ? 'rgba(99,102,241,0.3)' : currentTestimonial.color.includes('emerald') ? 'rgba(16,185,129,0.3)' : currentTestimonial.color.includes('purple') ? 'rgba(168,85,247,0.3)' : currentTestimonial.color.includes('violet') ? 'rgba(139,92,246,0.3)' : 'rgba(99,102,241,0.3)'}` 
-                        }}
-                      />
-                      <div>
-                        <div className="font-bold text-gray-900 text-sm">{currentTestimonial.name}</div>
-                        <div className="text-xs text-gray-500">{currentTestimonial.role} at {currentTestimonial.company}</div>
-                      </div>
-                    </div>
-                    
-                    {/* Navigation Arrows */}
-                    <div className="flex gap-1.5">
-                      <button
-                        onClick={handlePrev}
-                        className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-                      >
-                        <ChevronLeft className="h-4 w-4 text-gray-600" />
-                      </button>
-                      <button
-                        onClick={handleNext}
-                        className="w-8 h-8 rounded-lg bg-gradient-to-r from-orange-600 to-orange-600 hover:from-orange-700 hover:to-orange-700 flex items-center justify-center transition-all hover:shadow-lg"
-                      >
-                        <ChevronRight className="h-4 w-4 text-white" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating Elements */}
-                <div className="absolute -top-3 -right-3 px-3 py-1.5 bg-gradient-to-r from-orange-600 to-orange-600 text-white text-xs font-bold rounded-lg shadow-md">
-                  ⭐ {currentTestimonial.stats.metric}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Bottom CTA */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-8"
+          transition={{ duration: 0.5 }}
+          className="mx-auto mt-9 max-w-6xl"
         >
-          <p className="text-gray-500 text-sm mb-3">Ready to transform your business?</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a href="/contact#contact-form" className="px-6 py-2.5 bg-gradient-to-r from-orange-600 to-orange-600 hover:from-orange-700 hover:to-orange-700 text-white text-sm font-bold rounded-xl shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/30 transition-all hover:scale-105 flex items-center gap-2 btn-glow">
-              Start Free Trial
-              <Zap className="w-4 h-4" />
-            </a>
-            <a href="/contact#contact-form" className="px-6 py-2.5 bg-white text-orange-600 text-sm font-semibold rounded-xl border border-orange-200/40 hover:border-orange-300/40 hover:shadow-md transition-all">
-              Talk to Sales
-            </a>
+          <div className={`rounded-lg bg-gradient-to-r ${activeTestimonial.gradient} p-[2px] shadow-2xl shadow-slate-200/80`}>
+            <div className="relative overflow-hidden rounded-lg bg-white">
+              <div className={`h-2 bg-gradient-to-r ${activeTestimonial.gradient}`} />
+
+              <div className="relative min-h-[360px] p-5 sm:p-7 lg:min-h-[300px] lg:p-8" aria-live="polite">
+                <AnimatePresence initial={false} custom={direction} mode="wait">
+                  <motion.article
+                    key={activeTestimonial.id}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="grid h-full gap-7 lg:grid-cols-[0.72fr_1.28fr] lg:items-center"
+                  >
+                    <div className="border-b border-slate-100 pb-6 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
+                      <div className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${activeTestimonial.soft}`}>
+                        {activeTestimonial.industry}
+                      </div>
+
+                      <div className="mt-7">
+                        <div className={`bg-gradient-to-r ${activeTestimonial.gradient} bg-clip-text text-5xl font-black text-transparent sm:text-6xl`}>
+                          {activeTestimonial.metric}
+                        </div>
+                        <div className="mt-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                          {activeTestimonial.metricLabel}
+                        </div>
+                      </div>
+
+                      <div className="mt-7 flex gap-1" aria-label="5 star review">
+                        {[...Array(5)].map((_, starIndex) => (
+                          <Star key={starIndex} className="h-5 w-5 fill-amber-400 text-amber-400" />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="relative">
+                      <Quote className="mb-4 h-10 w-10 text-slate-200" />
+                      <blockquote className="text-xl font-semibold leading-relaxed text-slate-900 sm:text-2xl">
+                        "{activeTestimonial.quote}"
+                      </blockquote>
+
+                      <div className="mt-7 flex flex-col gap-4 border-t border-slate-100 pt-5 sm:flex-row sm:items-end sm:justify-between">
+                        <div>
+                          <div className="text-lg font-bold text-slate-950">{activeTestimonial.name}</div>
+                          <div className="mt-1 text-sm text-slate-500">
+                            {activeTestimonial.role}, {activeTestimonial.company}
+                          </div>
+                        </div>
+                        <div className={`w-fit rounded-lg bg-gradient-to-r ${activeTestimonial.gradient} px-4 py-2 text-sm font-bold text-white shadow-sm`}>
+                          {activeTestimonial.result}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.article>
+                </AnimatePresence>
+              </div>
+
+              <div className="flex flex-col gap-4 border-t border-slate-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+                <div className="flex items-center gap-2">
+                  {testimonials.map((testimonial, index) => (
+                    <button
+                      key={testimonial.id}
+                      type="button"
+                      onClick={() => goToSlide(index)}
+                      aria-label={`Show review ${index + 1}`}
+                      className={`h-2.5 rounded-full transition-all duration-300 ${
+                        index === activeIndex ? `w-9 bg-gradient-to-r ${testimonial.gradient}` : "w-2.5 bg-slate-300 hover:bg-slate-400"
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="h-1.5 w-28 overflow-hidden rounded-full bg-slate-100">
+                    <motion.div
+                      key={activeIndex}
+                      className={`h-full rounded-full bg-gradient-to-r ${activeTestimonial.gradient}`}
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 4.5, ease: "linear" }}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={goToPrevious}
+                    aria-label="Previous review"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors hover:bg-slate-200"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goToNext}
+                    aria-label="Next review"
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-r ${activeTestimonial.gradient} text-white shadow-sm transition-transform hover:scale-105`}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

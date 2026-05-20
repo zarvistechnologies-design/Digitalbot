@@ -29,16 +29,13 @@ export function CTA() {
               <span className="text-xs font-semibold text-orange-700 uppercase tracking-wide">The Future of Customer Engagement</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
-              One Platform.{" "}
-              <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-                Every Conversation.
-              </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-950 leading-tight">
+              One Platform. Every Conversation.
               <br />
               Zero Missed Opportunities.
             </h2>
 
-            <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
+            <p className="text-lg text-slate-900 leading-relaxed max-w-lg">
               From AI voice calls to WhatsApp automation and smart dashboards — DigitalBot unifies every customer touchpoint into one intelligent, always-on platform.
             </p>
 
