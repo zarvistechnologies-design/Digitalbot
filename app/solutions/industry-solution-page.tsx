@@ -326,7 +326,14 @@ export function IndustrySolutionPage({ config }: { config: IndustrySolutionConfi
         <section className="bg-slate-950 px-4 py-20 text-white sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_0.9fr] lg:items-center">
             <div className="overflow-hidden rounded-lg border border-white/10 bg-white/5 p-3">
-              <Image src={config.imageOne.src} alt={config.imageOne.alt} width={1200} height={900} className="h-auto w-full rounded-md object-cover" />
+              <Image
+                src={config.imageOne.src}
+                alt={config.imageOne.alt}
+                width={config.imageOne.width ?? 1200}
+                height={config.imageOne.height ?? 900}
+                unoptimized={config.imageOne.unoptimized}
+                className="h-auto w-full rounded-md object-contain"
+              />
             </div>
             <div>
               <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-300">{config.audiencesLabel}</p>

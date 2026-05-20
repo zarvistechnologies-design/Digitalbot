@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.services-route h1 {
+  font-family: Georgia, "Times New Roman", Times, serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
 :root {
   /* Premium AI SaaS — Deep orange glassmorphism palette */
   --background: #ffffff;

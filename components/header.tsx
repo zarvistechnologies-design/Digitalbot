@@ -2,7 +2,6 @@
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import {
-    Activity,
     Award,
     Banknote,
     BarChart3,
@@ -24,14 +23,22 @@ import {
     ShoppingCart,
     Sparkles,
     TrendingUp,
+    UtensilsCrossed,
     Users,
     X,
     Zap
 } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
+import NextLink from "next/link"
 import { usePathname } from "next/navigation"
+import type { ComponentProps } from "react"
 import { useEffect, useState } from "react"
+
+type HeaderLinkProps = ComponentProps<typeof NextLink>
+
+function Link({ scroll = false, ...props }: HeaderLinkProps) {
+    return <NextLink scroll={scroll} {...props} />
+}
 
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -50,7 +57,6 @@ export function Header() {
 
     const navItems = [
         { href: "/", label: "Home" },
-        { href: "/how-it-works", label: "How It Works" },
         { href: "/pricing", label: "Pricing" },
         { href: "/contact", label: "Contact" },
     ]
@@ -83,25 +89,25 @@ export function Header() {
         badge?: string
     }
 
-    const voiceServices: ServiceItem[] = [
-        { href: "/services/ai-voice-bot", label: "AI Voice Bot", desc: "Intelligent voice automation", icon: Bot },
-        { href: "/services/voice-ai-business", label: "Voice AI for Business", desc: "Enterprise solutions", icon: TrendingUp },
-        { href: "/services/voice-automation-software", label: "Voice Automation", desc: "Workflow automation", icon: Zap },
-        { href: "/services/conversational-ai", label: "Conversational AI", desc: "Natural conversations", icon: Activity },
+    const industryServices: ServiceItem[] = [
+        { href: "/services/real-estate", label: "Real Estate", desc: "Property inquiries and site visits", icon: HomeIcon },
+        { href: "/services/insurance", label: "Insurance", desc: "Policy inquiries and renewals", icon: Briefcase },
+        { href: "/services/healthcare", label: "Healthcare", desc: "Patient calls and appointments", icon: HeartPulse },
+        { href: "/services/restaurants", label: "Restaurants", desc: "Reservations and order calls", icon: UtensilsCrossed },
+        { href: "/services/finance", label: "Finance", desc: "Loan and advisory leads", icon: Banknote },
+        { href: "/services/education", label: "Education", desc: "Admissions and counseling", icon: GraduationCap },
+        { href: "/services/e-commerce", label: "E-commerce", desc: "Orders and support calls", icon: ShoppingCart },
     ]
 
     const aiServices: ServiceItem[] = [
-        { href: "/services/ai-customer-support", label: "AI Customer Support", desc: "24/7 assistance", icon: Sparkles },
-        { href: "/services/ai-call-center", label: "AI Call Center", desc: "Call automation", icon: Phone },
-        { href: "/services/ai-sales-agent", label: "AI Sales Agent", desc: "Sales automation", icon: BarChart3 },
-        { href: "/services/ai-virtual-receptionist", label: "Virtual Receptionist", desc: "Front desk AI", icon: Sparkles },
-        { href: "/services/whatsapp-bot", label: "WhatsApp Bot", desc: "Automated messaging 24/7", icon: MessageCircle, badge: "NEW" },
+        { href: "/services/leads", label: "Lead Analysis", desc: "Capture and qualify leads", icon: BarChart3 },
+        { href: "/services/appointments", label: "Appointments", desc: "Book and manage appointments", icon: Phone },
+        { href: "/services/collections", label: "Collections", desc: "Payment reminders and follow-ups", icon: Banknote },
     ]
 
     return (
         <>
             <style suppressHydrationWarning>{`
-                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
                 .hdr-root { font-family: 'Plus Jakarta Sans', sans-serif; }
 
                 .hdr-bar {
@@ -125,7 +131,7 @@ export function Header() {
                 }
                 .hdr-sol-item {
                     display: flex; align-items: center; gap: 10px;
-                    padding: 10px 12px; border-radius: 10px;
+                    padding: 11px 12px; border-radius: 10px;
                     border: 1px solid transparent;
                     transition: all 0.16s ease;
                     text-decoration: none; color: #374151;
@@ -134,6 +140,8 @@ export function Header() {
                     background: #fff7ed;
                     border-color: rgba(234,88,12,0.18);
                     color: #ea580c;
+                    transform: translateY(-1px);
+                    box-shadow: 0 8px 18px rgba(234,88,12,0.08);
                 }
                 .hdr-sol-item:hover .sol-icon {
                     background: linear-gradient(135deg,#f97316,#ea580c);
@@ -146,11 +154,15 @@ export function Header() {
                 }
                 .hdr-svc-item {
                     display:flex; align-items:center; gap:10px;
-                    padding:9px 10px; border-radius:10px;
+                    padding:10px 11px; border-radius:10px;
                     transition:all 0.15s ease;
                     text-decoration:none; color:#374151;
                 }
-                .hdr-svc-item:hover { background:#fff7ed; color:#ea580c; }
+                .hdr-svc-item:hover {
+                    background:#fff7ed; color:#ea580c;
+                    transform: translateY(-1px);
+                    box-shadow: 0 8px 18px rgba(234,88,12,0.08);
+                }
                 .hdr-svc-item:hover .svc-icon {
                     background: linear-gradient(135deg,#f97316,#ea580c);
                     color:white;
@@ -256,28 +268,34 @@ export function Header() {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.97 }}
                                             transition={{ duration: 0.15 }}
-                                            className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[520px]"
+                                            className="fixed right-4 top-[66px] w-[min(860px,calc(100vw-2rem))] pt-3"
                                         >
-                                            <div className="hdr-mega overflow-hidden">
-                                                <div className="px-6 pt-5 pb-3 border-b border-gray-100">
-                                                    <p className="text-[13px] font-bold text-slate-800">WhatsApp Bot Services by Industry</p>
-                                                    <p className="text-[11.5px] text-slate-400 mt-0.5">AI-powered WhatsApp automation for every sector</p>
+                                            <div className="hdr-mega flex max-h-[calc(100vh-88px)] overflow-auto">
+                                                <div className="left-panel w-[220px] p-5 flex-shrink-0">
+                                                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-500 uppercase tracking-widest">
+                                                        <MessageCircle className="w-3 h-3" /> WhatsApp
+                                                    </span>
+                                                    <h3 className="mt-3 text-[16px] font-bold text-slate-900 leading-snug">
+                                                        Bot Services<br />
+                                                        <span className="text-orange-500">By Industry</span>
+                                                    </h3>
+                                                    <p className="mt-2 text-[11.5px] text-slate-500 leading-relaxed">
+                                                        AI-powered WhatsApp automation for every sector.
+                                                    </p>
                                                 </div>
-                                                <div className="grid grid-cols-2 gap-1 p-4">
-                                                    {solutions.map((sol) => {
-                                                        const Icon = sol.icon
-                                                        return (
-                                                            <Link key={sol.href} href={sol.href} className="hdr-sol-item">
-                                                                <span className="sol-icon"><Icon className="w-4 h-4" /></span>
-                                                                <span className="text-[13px] font-[550]">{sol.label}</span>
-                                                            </Link>
-                                                        )
-                                                    })}
-                                                </div>
-                                                <div className="px-4 pb-4">
-                                                    <Link href="/solutions" className="flex items-center justify-center w-full py-2.5 rounded-xl text-[12.5px] font-semibold text-orange-600 border border-orange-200 hover:bg-orange-50 transition-colors">
-                                                        View All Solutions →
-                                                    </Link>
+                                                <div className="flex-1 p-5">
+                                                    <div className="sec-label">Industry Solutions</div>
+                                                    <div className="grid grid-cols-4 gap-2">
+                                                        {solutions.map((sol) => {
+                                                            const Icon = sol.icon
+                                                            return (
+                                                                <Link key={sol.href} href={sol.href} className="hdr-sol-item">
+                                                                    <span className="sol-icon"><Icon className="w-4 h-4" /></span>
+                                                                    <span className="text-[14px] font-semibold leading-tight tracking-[0.01em]">{sol.label}</span>
+                                                                </Link>
+                                                            )
+                                                        })}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </motion.div>
@@ -298,41 +316,41 @@ export function Header() {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.97 }}
                                             transition={{ duration: 0.15 }}
-                                            className="absolute right-0 top-full pt-3 w-[760px]"
+                                            className="fixed right-4 top-[66px] w-[min(820px,calc(100vw-2rem))] pt-3"
                                         >
-                                            <div className="hdr-mega overflow-hidden flex">
+                                            <div className="hdr-mega flex max-h-[calc(100vh-88px)] overflow-auto">
                                                 {/* Left accent */}
-                                                <div className="left-panel w-[210px] p-6 flex-shrink-0">
+                                                <div className="left-panel w-[200px] p-5 flex-shrink-0">
                                                     <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-500 uppercase tracking-widest">
                                                         <Zap className="w-3 h-3" /> AI POWERED
                                                     </span>
-                                                    <h3 className="mt-3 text-[16px] font-bold text-slate-900 leading-snug">
-                                                        Solutions That Drive<br />
-                                                        <span className="text-orange-500">Business Growth</span>
+                                                    <h3 className="mt-3 text-[15px] font-bold text-slate-900 leading-snug">
+                                                        Voice Agent<br />
+                                                        <span className="text-orange-500">Services</span>
                                                     </h3>
                                                     <p className="mt-2 text-[11.5px] text-slate-500 leading-relaxed">
-                                                        Voice AI, WhatsApp automation & intelligent support — all in one platform.
+                                                        AI voice automation for calls, leads, bookings, and support.
                                                     </p>
                                                     <Link
                                                         href="/contact#contact-form"
-                                                        className="inline-flex items-center gap-1.5 mt-5 px-4 py-2 text-white text-[12px] font-semibold rounded-lg transition-all"
-                                                        style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 12px rgba(234,88,12,.25)" }}
+                                                        className="inline-flex items-center gap-1.5 mt-4 px-3.5 py-2 text-white text-[11.5px] font-semibold rounded-lg transition-all"
+                                                        style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 12px rgba(234,88,12,.22)" }}
                                                     >
                                                         <Sparkles className="w-3.5 h-3.5" /> Request a Demo
                                                     </Link>
                                                 </div>
 
                                                 {/* Voice */}
-                                                <div className="flex-1 p-5 border-r border-gray-100">
-                                                    <div className="sec-label">Voice Solutions</div>
-                                                    <div className="space-y-0.5">
-                                                        {voiceServices.map((s) => {
+                                                <div className="flex-[1.55] p-5 border-r border-gray-100">
+                                                    <div className="sec-label">Industry Verticals</div>
+                                                    <div className="grid grid-cols-2 gap-2">
+                                                        {industryServices.map((s) => {
                                                             const Icon = s.icon
                                                             return (
                                                                 <Link key={s.href} href={s.href} className="hdr-svc-item">
                                                                     <span className="svc-icon"><Icon className="w-3.5 h-3.5" /></span>
                                                                     <div>
-                                                                        <div className="text-[13px] font-[550]">{s.label}</div>
+                                                                        <div className="text-[13.5px] font-semibold tracking-[0.01em]">{s.label}</div>
                                                                         <div className="text-[11px] text-slate-400">{s.desc}</div>
                                                                     </div>
                                                                 </Link>
@@ -342,9 +360,9 @@ export function Header() {
                                                 </div>
 
                                                 {/* AI + WhatsApp */}
-                                                <div className="flex-1 p-5">
-                                                    <div className="sec-label">AI Services</div>
-                                                    <div className="space-y-0.5">
+                                                <div className="flex-[0.95] p-5">
+                                                    <div className="sec-label">Use Cases</div>
+                                                    <div className="space-y-2">
                                                         {aiServices.map((s) => {
                                                             const Icon = s.icon
                                                             const isWA = s.href.includes("whatsapp")
@@ -355,7 +373,7 @@ export function Header() {
                                                                     </span>
                                                                     <div className="flex-1">
                                                                         <div className="flex items-center gap-2">
-                                                                            <span className="text-[13px] font-[550]">{s.label}</span>
+                                                                            <span className="text-[13.5px] font-semibold tracking-[0.01em]">{s.label}</span>
                                                                             {s.badge && <span className="wa-badge">{s.badge}</span>}
                                                                         </div>
                                                                         <div className="text-[11px] text-slate-400">{s.desc}</div>
@@ -363,21 +381,6 @@ export function Header() {
                                                                 </Link>
                                                             )
                                                         })}
-                                                    </div>
-                                                    <div className="mt-4 pt-3 border-t border-gray-100 flex gap-2">
-                                                        <Link
-                                                            href="/services/leads"
-                                                            className="flex items-center gap-1.5 px-3.5 py-2 text-white text-[12px] font-semibold rounded-lg transition-all"
-                                                            style={{ background: "linear-gradient(135deg,#f97316,#ea580c)" }}
-                                                        >
-                                                            <BarChart3 className="w-3.5 h-3.5" /> Lead Analysis
-                                                        </Link>
-                                                        <Link
-                                                            href="/services/appointments"
-                                                            className="flex items-center gap-1.5 px-3.5 py-2 bg-gray-50 hover:bg-orange-50 text-slate-600 hover:text-orange-600 text-[12px] font-semibold rounded-lg transition-all"
-                                                        >
-                                                            <Phone className="w-3.5 h-3.5" /> Appointments
-                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -394,15 +397,8 @@ export function Header() {
                             ))}
                         </nav>
 
-                        {/* Right: Contact Us + CTA */}
+                        {/* Right: CTA */}
                         <div className="hidden lg:flex items-center gap-2.5">
-                            <Link
-                                href="/contact"
-                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
-                                style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 2px 10px rgba(234,88,12,.3)" }}
-                            >
-                                <Phone className="w-3.5 h-3.5" /> Contact Us
-                            </Link>
                             <Link href="/login" className="hdr-cta">
                                 <Sparkles className="w-3.5 h-3.5" /> Login
                             </Link>
@@ -464,7 +460,7 @@ export function Header() {
                                                         {solutions.map((sol) => (
                                                             <Link
                                                                 key={sol.href} href={sol.href}
-                                                                className="block px-4 py-2.5 text-[13px] font-[500] text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
+                                                                className="block px-4 py-2.5 text-[14px] font-semibold text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
                                                                 onClick={() => setIsMenuOpen(false)}
                                                             >
                                                                 {sol.label}
@@ -495,10 +491,26 @@ export function Header() {
                                                     className="overflow-hidden"
                                                 >
                                                     <div className="pb-1">
-                                                        {[...voiceServices, ...aiServices].map((s) => (
+                                                        <div className="px-4 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-400">
+                                                            Industry Verticals
+                                                        </div>
+                                                        {industryServices.map((s) => (
                                                             <Link
                                                                 key={s.href} href={s.href}
-                                                                className="flex items-center gap-2 px-4 py-2.5 text-[13px] text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
+                                                                className="flex items-center gap-2 px-4 py-2.5 text-[14px] font-semibold text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
+                                                                onClick={() => setIsMenuOpen(false)}
+                                                            >
+                                                                {s.label}
+                                                                {s.badge && <span className="wa-badge">{s.badge}</span>}
+                                                            </Link>
+                                                        ))}
+                                                        <div className="px-4 pb-1 pt-3 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-400">
+                                                            Use Cases
+                                                        </div>
+                                                        {aiServices.map((s) => (
+                                                            <Link
+                                                                key={s.href} href={s.href}
+                                                                className="flex items-center gap-2 px-4 py-2.5 text-[14px] font-semibold text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
                                                                 onClick={() => setIsMenuOpen(false)}
                                                             >
                                                                 {s.label}
@@ -527,18 +539,6 @@ export function Header() {
                                                 {item.label}
                                             </Link>
                                         ))}
-                                    </div>
-
-                                    {/* Mobile Contact Us */}
-                                    <div className="pt-4 flex items-center justify-center">
-                                        <Link
-                                            href="/contact"
-                                            onClick={() => setIsMenuOpen(false)}
-                                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white"
-                                            style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 14px rgba(234,88,12,.3)" }}
-                                        >
-                                            <Phone className="w-5 h-5" /> Contact Us
-                                        </Link>
                                     </div>
 
                                     {/* Mobile CTA */}

@@ -609,17 +609,29 @@ export const akiaraAPI = {
     if (!url) return '';
     const base = api.defaults.baseURL || '';
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+    let tenantId = '';
+    if (typeof window !== 'undefined') {
+      try {
+        tenantId = JSON.parse(localStorage.getItem('user') || '{}')?.tenantId || '';
+      } catch {
+        tenantId = '';
+      }
+    }
+    const params = new URLSearchParams();
+    if (token) params.set('token', token);
+    if (tenantId) params.set('tenantId', tenantId);
+    const query = params.toString();
 
     if (url.startsWith('__media_id__:')) {
       const mediaId = url.replace('__media_id__:', '');
-      return `${base}/akiara/media/${mediaId}?token=${token}`;
+      return `${base}/akiara/media/${encodeURIComponent(mediaId)}${query ? `?${query}` : ''}`;
     }
     // Old Meta URLs contain mid=<mediaId> — extract and route through proxy (lazy recovery)
     if (url.includes('fbsbx.com') || url.includes('facebook.com')) {
       try {
         const u = new URL(url);
         const mid = u.searchParams.get('mid');
-        if (mid) return `${base}/akiara/media/${mid}?token=${token}`;
+        if (mid) return `${base}/akiara/media/${encodeURIComponent(mid)}${query ? `?${query}` : ''}`;
       } catch { /* invalid URL */ }
       return '';
     }

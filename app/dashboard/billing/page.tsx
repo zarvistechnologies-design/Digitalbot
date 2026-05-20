@@ -641,7 +641,6 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 <meta charset="utf-8">
 <title>Invoice ${invoiceNumber}</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; }
   body { font-family: 'Plus Jakarta Sans', sans-serif; color: #0f172a; background: #e2e8f0; padding: 0; -webkit-font-smoothing: antialiased; }

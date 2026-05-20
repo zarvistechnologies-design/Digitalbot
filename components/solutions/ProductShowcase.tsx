@@ -86,7 +86,7 @@ const ProductShowcase = () => {
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             AI-Powered<br/>Voice Agent
                         </h3>
-                        <Link href="/services/ai-voice-bot" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all mb-4">
+                        <Link href="/services/leads" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all mb-4">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                         <div className="mt-auto relative flex-1">
@@ -112,7 +112,7 @@ const ProductShowcase = () => {
                         <h3 className="text-xl font-bold text-gray-900 mb-1">
                             DigitalBot Call<br/>Center
                         </h3>
-                        <Link href="/services/ai-call-center" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/appointments" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                         {/* Mini UI mockup */}
@@ -228,7 +228,7 @@ const ProductShowcase = () => {
                         <h3 className="text-xl font-bold text-gray-900 mb-2">
                             AI-Powered Conversational<br/>Quality Analysis
                         </h3>
-                        <Link href="/services/conversational-ai" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/collections" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>
@@ -243,7 +243,7 @@ const ProductShowcase = () => {
                         <h3 className="text-xl font-bold text-gray-900 mb-2">
                             AI Customer<br/>Support
                         </h3>
-                        <Link href="/services/ai-customer-support" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
+                        <Link href="/services/healthcare" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
                             Learn More <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>
@@ -258,7 +258,7 @@ const ProductShowcase = () => {
                         </div>
                         <div className="text-center">
                             <p className="text-lg font-bold text-gray-900">VoiceStream</p>
-                            <Link href="/services/voice-ai-business" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
+                            <Link href="/services/finance" className="inline-flex items-center gap-1 text-orange-500 font-medium text-sm hover:gap-2 transition-all">
                                 Learn More <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                         </div>

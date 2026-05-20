@@ -47,7 +47,7 @@ export type IndustrySolutionConfig = {
   servicesTitle: string
   servicesBody: string
   services: Array<{ icon: LucideIcon; title: string; body: string }>
-  imageOne: { src: string; alt: string }
+  imageOne: { src: string; alt: string; width?: number; height?: number; unoptimized?: boolean }
   imageTwo: { src: string; alt: string }
   audiencesLabel: string
   audiencesTitle: string
@@ -360,8 +360,8 @@ export const solutionPages: Record<string, IndustrySolutionConfig> = {
       { icon: Megaphone, title: "Campaign Broadcasts", body: "Runs launch, sale, restock, and repeat-purchase campaigns on WhatsApp." },
       { icon: Bot, title: "Agent Handoff", body: "Escalates high-value shoppers or complex return cases with full context." },
     ],
-    imageOne: { src: "/images/e_commerce_2.png", alt: "E-commerce customer automation" },
-    imageTwo: { src: "/images/e_commerce_1.png", alt: "E-commerce customer automation" },
+    imageOne: { src: "/images/e_commerce_1.png", alt: "E-commerce customer automation" },
+    imageTwo: { src: "/images/e_commerce_2.png", alt: "E-commerce customer automation" },
     audiencesLabel: "Who it helps",
     audiencesTitle: "One WhatsApp system for D2C, retail, marketplace, and support teams.",
     audiences: [
@@ -555,7 +555,7 @@ export const solutionPages: Record<string, IndustrySolutionConfig> = {
       { icon: Megaphone, title: "Batch Campaigns", body: "Promotes new batches, crash courses, webinars, and exam-alert campaigns." },
       { icon: Bot, title: "Counselor Handoff", body: "Routes hot leads to the right counselor with student context." },
     ],
-    imageOne: { src: "/images/coaching_1.png", alt: "Coaching student automation" },
+    imageOne: { src: "/images/coaching_1.png", alt: "Coaching student automation", width: 1600, height: 800, unoptimized: true },
     imageTwo: { src: "/images/coaching_2.png", alt: "Coaching WhatsApp admission form" },
     audiencesLabel: "Who it helps",
     audiencesTitle: "One WhatsApp system for test prep, skill training, tutors, and online academies.",
