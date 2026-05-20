@@ -87,9 +87,9 @@ const contactMethods = [
   {
     icon: MessageSquare,
     title: "Live Chat",
-    description: "Chat with our AI assistant",
-    value: "Available 24/7",
-    action: "#chat",
+    description: "Chat with us on WhatsApp",
+    value: "Available on WhatsApp",
+    action: "https://api.whatsapp.com/send?phone=919082393950&text=Hi%20DigitalBot.ai%2C%20I%20want%20to%20know%20more%20about%20your%20AI%20services.",
     gradient: "from-orange-600 to-orange-600",
     bgColor: "from-orange-50/50 to-orange-100/30",
     borderColor: "border-orange-200/30",
@@ -195,9 +195,9 @@ export default function ContactPage() {
     <>
       <Header />
 
-      <main className="min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]">
+      <main className="grid min-h-screen grid-cols-1 bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] lg:grid-cols-2">
         {/* Hero Section */}
-        <section className="pt-28 pb-20 px-4 relative overflow-hidden">
+        <section className="pt-28 pb-12 px-4 relative overflow-hidden lg:pb-20">
           {/* Animated Background */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/15 rounded-full blur-[100px] animate-pulse" />
@@ -206,17 +206,7 @@ export default function ContactPage() {
             <div className="absolute top-1/4 right-1/3 w-72 h-72 bg-orange-100/10 rounded-full blur-[100px]" />
           </div>
 
-          {/* Colorful Floating Dots */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-32 left-[10%] w-4 h-4 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
-            <div className="absolute top-48 right-[15%] w-3 h-3 bg-orange-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
-            <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-orange-300 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-            <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-orange-300 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
-            <div className="absolute bottom-1/4 right-[25%] w-3 h-3 bg-orange-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.8s' }} />
-            <div className="absolute top-2/3 left-[8%] w-4 h-4 bg-orange-400 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '2.8s', animationDelay: '1.2s' }} />
-          </div>
-
-          <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="container mx-auto max-w-xl relative z-10">
             {/* Breadcrumb */}
             <nav className="mb-8 text-sm" aria-label="Breadcrumb">
               <ol className="flex items-center gap-2">
@@ -226,7 +216,7 @@ export default function ContactPage() {
               </ol>
             </nav>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid gap-12 items-center">
               {/* Left Content */}
               <div>
                 {/* Badge */}
@@ -274,7 +264,7 @@ export default function ContactPage() {
               </div>
 
               {/* Right - Stats Dashboard */}
-              <div className="relative mt-8 lg:mt-0">
+              <div className="hidden">
                 <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 border border-slate-200">
                   {/* Header */}
                   <div className="flex items-center justify-between mb-8">
@@ -324,7 +314,7 @@ export default function ContactPage() {
         </section>
 
         {/* Main Contact Form Section */}
-        <section id="contact-form" className="py-20 px-4 bg-slate-50/50 relative overflow-hidden">
+        <section id="contact-form" className="px-4 pb-20 pt-8 bg-slate-50/50 relative overflow-hidden lg:pt-28">
           {/* Background Elements */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-100/40 rounded-full blur-3xl"></div>
@@ -492,25 +482,17 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Methods - orange Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
-          {/* Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '24px 24px'
-            }} />
-          </div>
-
+        <section className="py-20 px-4 bg-white relative overflow-hidden lg:col-span-2">
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
-                <MessageSquare className="w-4 h-4 text-white" />
-                <span className="text-sm font-medium text-white">Multiple Ways to Reach Us</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
+                <MessageSquare className="w-4 h-4 text-slate-600" />
+                <span className="text-sm font-medium text-slate-600">Multiple Ways to Reach Us</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 mb-4">
                 Choose Your Preferred Channel
               </h2>
-              <p className="text-base sm:text-lg text-orange-100 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto">
                 We're available across multiple channels to ensure you can reach us in the way that works best for you.
               </p>
             </div>
@@ -522,14 +504,14 @@ export default function ContactPage() {
                   href={method.action}
                   target={method.action.startsWith('http') ? '_blank' : undefined}
                   rel={method.action.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className={`group bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2 ${i >= 3 ? 'lg:last:col-start-2' : ''}`}
+                  className={`group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 ${i >= 3 ? 'lg:last:col-start-2' : ''}`}
                 >
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${method.gradient} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
                     <method.icon className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-2">{method.title}</h3>
-                  <p className="text-orange-200 text-sm mb-3">{method.description}</p>
-                  <div className="text-white font-semibold text-sm space-y-1">
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2">{method.title}</h3>
+                  <p className="text-slate-500 text-sm mb-3">{method.description}</p>
+                  <div className="text-slate-700 font-semibold text-sm space-y-1">
                     {method.value.split('\n').map((line: string, idx: number) => (
                       <p key={idx}>{line}</p>
                     ))}
@@ -541,7 +523,7 @@ export default function ContactPage() {
         </section>
 
         {/* Benefits Section - White */}
-        <section className="py-20 px-4 bg-gradient-to-b from-slate-50 to-white">
+        <section className="py-20 px-4 bg-gradient-to-b from-slate-50 to-white lg:col-span-2">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
@@ -574,33 +556,25 @@ export default function ContactPage() {
         </section>
 
         {/* CTA Section - orange */}
-        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 via-orange-700 to-violet-800 relative overflow-hidden">
-          {/* Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '24px 24px'
-            }} />
-          </div>
-
+        <section className="py-20 px-4 bg-white relative overflow-hidden lg:col-span-2">
           <div className="container mx-auto max-w-4xl text-center relative z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
-              <Zap className="w-4 h-4 text-white" />
-              <span className="text-sm font-medium text-white">Start Today</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
+              <Zap className="w-4 h-4 text-slate-600" />
+              <span className="text-sm font-medium text-slate-600">Start Today</span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 mb-6">
               Ready to Get Started?
             </h2>
-            <p className="text-base sm:text-lg text-orange-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-slate-500 mb-8 max-w-2xl mx-auto">
               Start your free trial today and experience the power of AI voice agents. No credit card required.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="#contact-form" className="group px-8 py-4 bg-white text-slate-900 font-medium rounded-xl hover:bg-slate-50 transition-all shadow-lg flex items-center gap-2">
+              <Link href="#contact-form" className="group px-8 py-4 bg-slate-900 text-white font-medium rounded-xl hover:bg-slate-800 transition-all shadow-lg flex items-center gap-2">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="#contact-form" className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-medium rounded-xl hover:bg-white/20 transition-all border border-white/30 flex items-center gap-2">
+              <Link href="#contact-form" className="px-8 py-4 bg-white text-slate-700 font-medium rounded-xl hover:bg-slate-50 transition-all border border-slate-200 flex items-center gap-2">
                 Contact Us
               </Link>
             </div>

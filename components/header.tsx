@@ -57,7 +57,6 @@ export function Header() {
 
     const navItems = [
         { href: "/", label: "Home" },
-        { href: "/how-it-works", label: "How It Works" },
         { href: "/pricing", label: "Pricing" },
         { href: "/contact", label: "Contact" },
     ]
@@ -269,10 +268,10 @@ export function Header() {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.97 }}
                                             transition={{ duration: 0.15 }}
-                                            className="absolute left-0 top-full pt-3 w-[780px]"
+                                            className="fixed right-4 top-[66px] w-[min(860px,calc(100vw-2rem))] pt-3"
                                         >
-                                            <div className="hdr-mega overflow-hidden flex">
-                                                <div className="left-panel w-[210px] p-6 flex-shrink-0">
+                                            <div className="hdr-mega flex max-h-[calc(100vh-88px)] overflow-auto">
+                                                <div className="left-panel w-[220px] p-5 flex-shrink-0">
                                                     <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-500 uppercase tracking-widest">
                                                         <MessageCircle className="w-3 h-3" /> WhatsApp
                                                     </span>
@@ -286,7 +285,7 @@ export function Header() {
                                                 </div>
                                                 <div className="flex-1 p-5">
                                                     <div className="sec-label">Industry Solutions</div>
-                                                    <div className="grid grid-cols-4 gap-1">
+                                                    <div className="grid grid-cols-4 gap-2">
                                                         {solutions.map((sol) => {
                                                             const Icon = sol.icon
                                                             return (
@@ -317,41 +316,41 @@ export function Header() {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.97 }}
                                             transition={{ duration: 0.15 }}
-                                            className="absolute right-0 top-full pt-3 w-[980px]"
+                                            className="fixed right-4 top-[66px] w-[min(820px,calc(100vw-2rem))] pt-3"
                                         >
-                                            <div className="hdr-mega overflow-hidden flex">
+                                            <div className="hdr-mega flex max-h-[calc(100vh-88px)] overflow-auto">
                                                 {/* Left accent */}
-                                                <div className="left-panel w-[230px] p-6 flex-shrink-0">
+                                                <div className="left-panel w-[200px] p-5 flex-shrink-0">
                                                     <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-500 uppercase tracking-widest">
                                                         <Zap className="w-3 h-3" /> AI POWERED
                                                     </span>
-                                                    <h3 className="mt-3 text-[16px] font-bold text-slate-900 leading-snug">
-                                                        Solutions That Drive<br />
-                                                        <span className="text-orange-500">Business Growth</span>
+                                                    <h3 className="mt-3 text-[15px] font-bold text-slate-900 leading-snug">
+                                                        Voice Agent<br />
+                                                        <span className="text-orange-500">Services</span>
                                                     </h3>
                                                     <p className="mt-2 text-[11.5px] text-slate-500 leading-relaxed">
-                                                        Voice AI, WhatsApp automation & intelligent support — all in one platform.
+                                                        AI voice automation for calls, leads, bookings, and support.
                                                     </p>
                                                     <Link
                                                         href="/contact#contact-form"
-                                                        className="inline-flex items-center gap-1.5 mt-5 px-4 py-2 text-white text-[12px] font-semibold rounded-lg transition-all"
-                                                        style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 12px rgba(234,88,12,.25)" }}
+                                                        className="inline-flex items-center gap-1.5 mt-4 px-3.5 py-2 text-white text-[11.5px] font-semibold rounded-lg transition-all"
+                                                        style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 12px rgba(234,88,12,.22)" }}
                                                     >
                                                         <Sparkles className="w-3.5 h-3.5" /> Request a Demo
                                                     </Link>
                                                 </div>
 
                                                 {/* Voice */}
-                                                <div className="flex-[1.7] p-5 border-r border-gray-100">
+                                                <div className="flex-[1.55] p-5 border-r border-gray-100">
                                                     <div className="sec-label">Industry Verticals</div>
-                                                    <div className="grid grid-cols-2 gap-1">
+                                                    <div className="grid grid-cols-2 gap-2">
                                                         {industryServices.map((s) => {
                                                             const Icon = s.icon
                                                             return (
                                                                 <Link key={s.href} href={s.href} className="hdr-svc-item">
                                                                     <span className="svc-icon"><Icon className="w-3.5 h-3.5" /></span>
                                                                     <div>
-                                                                        <div className="text-[14px] font-semibold tracking-[0.01em]">{s.label}</div>
+                                                                        <div className="text-[13.5px] font-semibold tracking-[0.01em]">{s.label}</div>
                                                                         <div className="text-[11px] text-slate-400">{s.desc}</div>
                                                                     </div>
                                                                 </Link>
@@ -361,9 +360,9 @@ export function Header() {
                                                 </div>
 
                                                 {/* AI + WhatsApp */}
-                                                <div className="flex-[1.15] p-5">
+                                                <div className="flex-[0.95] p-5">
                                                     <div className="sec-label">Use Cases</div>
-                                                    <div className="space-y-0.5">
+                                                    <div className="space-y-2">
                                                         {aiServices.map((s) => {
                                                             const Icon = s.icon
                                                             const isWA = s.href.includes("whatsapp")
@@ -374,7 +373,7 @@ export function Header() {
                                                                     </span>
                                                                     <div className="flex-1">
                                                                         <div className="flex items-center gap-2">
-                                                                            <span className="text-[14px] font-semibold tracking-[0.01em]">{s.label}</span>
+                                                                            <span className="text-[13.5px] font-semibold tracking-[0.01em]">{s.label}</span>
                                                                             {s.badge && <span className="wa-badge">{s.badge}</span>}
                                                                         </div>
                                                                         <div className="text-[11px] text-slate-400">{s.desc}</div>
@@ -398,15 +397,8 @@ export function Header() {
                             ))}
                         </nav>
 
-                        {/* Right: Contact Us + CTA */}
+                        {/* Right: CTA */}
                         <div className="hidden lg:flex items-center gap-2.5">
-                            <Link
-                                href="/contact"
-                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white transition-all hover:scale-105"
-                                style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 2px 10px rgba(234,88,12,.3)" }}
-                            >
-                                <Phone className="w-3.5 h-3.5" /> Contact Us
-                            </Link>
                             <Link href="/login" className="hdr-cta">
                                 <Sparkles className="w-3.5 h-3.5" /> Login
                             </Link>
@@ -547,18 +539,6 @@ export function Header() {
                                                 {item.label}
                                             </Link>
                                         ))}
-                                    </div>
-
-                                    {/* Mobile Contact Us */}
-                                    <div className="pt-4 flex items-center justify-center">
-                                        <Link
-                                            href="/contact"
-                                            onClick={() => setIsMenuOpen(false)}
-                                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white"
-                                            style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 14px rgba(234,88,12,.3)" }}
-                                        >
-                                            <Phone className="w-5 h-5" /> Contact Us
-                                        </Link>
                                     </div>
 
                                     {/* Mobile CTA */}
