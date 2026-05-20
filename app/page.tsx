@@ -47,21 +47,23 @@ export default function Home() {
             </div>
 
             {/* 3-Column Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 items-stretch">
 
               {/* LEFT - Have Questions? */}
-              <div className="bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-5 shadow-lg text-center">
-                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&h=200&fit=crop&crop=face" alt="Have Questions" className="w-24 h-24 mx-auto mb-4 object-cover rounded-full border-3 border-white/40 shadow-lg" />
-                <h3 className="text-lg font-bold text-white mb-3">Have Questions?</h3>
-                <div className="space-y-2 text-left mb-4">
-                  {['How can we help you?', '24/7 Support', 'Contact us anytime.'].map((t, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <svg className="w-4 h-4 text-green-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
-                      <span className="text-xs font-medium text-white/90">{t}</span>
-                    </div>
-                  ))}
+              <div className="h-full bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-5 shadow-lg text-center flex flex-col">
+                <div>
+                  <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&h=200&fit=crop&crop=face" alt="Have Questions" className="w-24 h-24 mx-auto mb-4 object-cover rounded-full border-3 border-white/40 shadow-lg" />
+                  <h3 className="text-lg font-bold text-white mb-3">Have Questions?</h3>
+                  <div className="space-y-2 text-left mb-4">
+                    {['How can we help you?', '24/7 Support', 'Contact us anytime.'].map((t, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <svg className="w-4 h-4 text-green-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                        <span className="text-xs font-medium text-white/90">{t}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <Link href="/contact#contact-form" className="block w-full py-2.5 text-sm font-bold text-emerald-600 bg-white rounded-full shadow-md hover:shadow-lg transition-all">
+                <Link href="/contact#contact-form" className="mt-auto block w-full py-2.5 text-sm font-bold text-emerald-600 bg-white rounded-full shadow-md hover:shadow-lg transition-all">
                   Contact Us
                 </Link>
               </div>
@@ -100,10 +102,10 @@ export default function Home() {
               </div>
 
               {/* RIGHT - Need Help? */}
-              <div className="bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl p-5 shadow-lg text-center">
+              <div className="h-full bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl p-5 shadow-lg text-center flex flex-col">
                 <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face" alt="Need Help" className="w-24 h-24 mx-auto mb-4 object-cover rounded-full border-3 border-white/40 shadow-lg" />
                 <h3 className="text-lg font-bold text-white mb-4">Need Help?</h3>
-                <div className="space-y-2">
+                <div className="mt-auto space-y-2">
                   {[
                     { label: 'Help Center', href: '/docs', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
                     { label: 'Live Chat', href: '#', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' },
