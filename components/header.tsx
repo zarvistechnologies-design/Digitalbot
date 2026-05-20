@@ -2,7 +2,6 @@
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import {
-    Activity,
     Award,
     Banknote,
     BarChart3,
@@ -24,14 +23,22 @@ import {
     ShoppingCart,
     Sparkles,
     TrendingUp,
+    UtensilsCrossed,
     Users,
     X,
     Zap
 } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
+import NextLink from "next/link"
 import { usePathname } from "next/navigation"
+import type { ComponentProps } from "react"
 import { useEffect, useState } from "react"
+
+type HeaderLinkProps = ComponentProps<typeof NextLink>
+
+function Link({ scroll = false, ...props }: HeaderLinkProps) {
+    return <NextLink scroll={scroll} {...props} />
+}
 
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -83,25 +90,25 @@ export function Header() {
         badge?: string
     }
 
-    const voiceServices: ServiceItem[] = [
+    const industryServices: ServiceItem[] = [
         { href: "/services/real-estate", label: "Real Estate", desc: "Property inquiries and site visits", icon: HomeIcon },
-        { href: "/services/voice-ai-business", label: "Voice AI for Business", desc: "Enterprise solutions", icon: TrendingUp },
-        { href: "/services/voice-automation-software", label: "Voice Automation", desc: "Workflow automation", icon: Zap },
-        { href: "/services/conversational-ai", label: "Conversational AI", desc: "Natural conversations", icon: Activity },
+        { href: "/services/insurance", label: "Insurance", desc: "Policy inquiries and renewals", icon: Briefcase },
+        { href: "/services/healthcare", label: "Healthcare", desc: "Patient calls and appointments", icon: HeartPulse },
+        { href: "/services/restaurants", label: "Restaurants", desc: "Reservations and order calls", icon: UtensilsCrossed },
+        { href: "/services/finance", label: "Finance", desc: "Loan and advisory leads", icon: Banknote },
+        { href: "/services/education", label: "Education", desc: "Admissions and counseling", icon: GraduationCap },
+        { href: "/services/e-commerce", label: "E-commerce", desc: "Orders and support calls", icon: ShoppingCart },
     ]
 
     const aiServices: ServiceItem[] = [
-        { href: "/services/ai-customer-support", label: "AI Customer Support", desc: "24/7 assistance", icon: Sparkles },
-        { href: "/services/ai-call-center", label: "AI Call Center", desc: "Call automation", icon: Phone },
-        { href: "/services/ai-sales-agent", label: "AI Sales Agent", desc: "Sales automation", icon: BarChart3 },
-        { href: "/services/ai-virtual-receptionist", label: "Virtual Receptionist", desc: "Front desk AI", icon: Sparkles },
-       
+        { href: "/services/leads", label: "Lead Analysis", desc: "Capture and qualify leads", icon: BarChart3 },
+        { href: "/services/appointments", label: "Appointments", desc: "Book and manage appointments", icon: Phone },
+        { href: "/services/collections", label: "Collections", desc: "Payment reminders and follow-ups", icon: Banknote },
     ]
 
     return (
         <>
             <style suppressHydrationWarning>{`
-                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
                 .hdr-root { font-family: 'Plus Jakarta Sans', sans-serif; }
 
                 .hdr-bar {
@@ -310,11 +317,11 @@ export function Header() {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.97 }}
                                             transition={{ duration: 0.15 }}
-                                            className="absolute right-0 top-full pt-3 w-[760px]"
+                                            className="absolute right-0 top-full pt-3 w-[980px]"
                                         >
                                             <div className="hdr-mega overflow-hidden flex">
                                                 {/* Left accent */}
-                                                <div className="left-panel w-[210px] p-6 flex-shrink-0">
+                                                <div className="left-panel w-[230px] p-6 flex-shrink-0">
                                                     <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-500 uppercase tracking-widest">
                                                         <Zap className="w-3 h-3" /> AI POWERED
                                                     </span>
@@ -335,10 +342,10 @@ export function Header() {
                                                 </div>
 
                                                 {/* Voice */}
-                                                <div className="flex-1 p-5 border-r border-gray-100">
+                                                <div className="flex-[1.7] p-5 border-r border-gray-100">
                                                     <div className="sec-label">Industry Verticals</div>
-                                                    <div className="space-y-0.5">
-                                                        {voiceServices.map((s) => {
+                                                    <div className="grid grid-cols-2 gap-1">
+                                                        {industryServices.map((s) => {
                                                             const Icon = s.icon
                                                             return (
                                                                 <Link key={s.href} href={s.href} className="hdr-svc-item">
@@ -354,7 +361,7 @@ export function Header() {
                                                 </div>
 
                                                 {/* AI + WhatsApp */}
-                                                <div className="flex-1 p-5">
+                                                <div className="flex-[1.15] p-5">
                                                     <div className="sec-label">Use Cases</div>
                                                     <div className="space-y-0.5">
                                                         {aiServices.map((s) => {
@@ -376,7 +383,6 @@ export function Header() {
                                                             )
                                                         })}
                                                     </div>
-                                                    
                                                 </div>
                                             </div>
                                         </motion.div>
@@ -493,7 +499,23 @@ export function Header() {
                                                     className="overflow-hidden"
                                                 >
                                                     <div className="pb-1">
-                                                        {[...voiceServices, ...aiServices].map((s) => (
+                                                        <div className="px-4 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-400">
+                                                            Industry Verticals
+                                                        </div>
+                                                        {industryServices.map((s) => (
+                                                            <Link
+                                                                key={s.href} href={s.href}
+                                                                className="flex items-center gap-2 px-4 py-2.5 text-[14px] font-semibold text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"
+                                                                onClick={() => setIsMenuOpen(false)}
+                                                            >
+                                                                {s.label}
+                                                                {s.badge && <span className="wa-badge">{s.badge}</span>}
+                                                            </Link>
+                                                        ))}
+                                                        <div className="px-4 pb-1 pt-3 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-400">
+                                                            Use Cases
+                                                        </div>
+                                                        {aiServices.map((s) => (
                                                             <Link
                                                                 key={s.href} href={s.href}
                                                                 className="flex items-center gap-2 px-4 py-2.5 text-[14px] font-semibold text-slate-600 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors"

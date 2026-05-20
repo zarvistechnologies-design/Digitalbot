@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, Bell, BotMessageSquare, Calendar, ChevronLeft, ChevronRight, Headphones, LayoutDashboard, MessageCircle, Palette, Phone, Settings2, Smartphone, Zap } from "lucide-react"
+import { ArrowRight, BarChart3, Bell, BotMessageSquare, Calendar, ChevronLeft, ChevronRight, Headphones, LayoutDashboard, MessageCircle, Palette, Phone, PhoneCall, Settings2, Smartphone, Zap } from "lucide-react"
 import { useState } from "react"
 
 const features = [
@@ -18,6 +18,10 @@ const features = [
       { label: "Sub-400ms response", icon: Zap },
       { label: "50+ languages", icon: MessageCircle },
       { label: "Unlimited calls", icon: Phone },
+    ],
+    ctas: [
+      { label: "Lead Analysis", href: "/services/leads", icon: BarChart3 },
+      { label: "Appointments", href: "/services/appointments", icon: PhoneCall },
     ],
     mockup: (
       <div className="relative">
@@ -71,6 +75,7 @@ const features = [
       { label: "Rich media support", icon: Smartphone },
       { label: "Bulk broadcasts", icon: Bell },
     ],
+    ctas: [],
     mockup: (
       <div className="relative">
         <div className="bg-[#e5ddd5] rounded-2xl border border-gray-200 shadow-xl overflow-hidden max-w-xs mx-auto">
@@ -120,6 +125,7 @@ const features = [
       { label: "Call recordings", icon: Headphones },
       { label: "Export reports", icon: Settings2 },
     ],
+    ctas: [],
     mockup: (
       <div className="relative">
         <div className="bg-white rounded-2xl border border-gray-200 shadow-xl p-5 max-w-sm mx-auto">
@@ -191,6 +197,7 @@ const features = [
       { label: "Smart reminders", icon: Bell },
       { label: "Conflict detection", icon: Settings2 },
     ],
+    ctas: [],
     mockup: (
       <div className="relative">
         <div className="bg-white rounded-2xl border border-gray-200 shadow-xl p-5 max-w-xs mx-auto">
@@ -256,6 +263,7 @@ const features = [
       { label: "Template messages", icon: BotMessageSquare },
       { label: "Scheduled sends", icon: Calendar },
     ],
+    ctas: [],
     mockup: (
       <div className="relative">
         <div className="bg-white rounded-2xl border border-gray-200 shadow-xl p-5 max-w-xs mx-auto">
@@ -299,6 +307,7 @@ const features = [
       { label: "Brand voice", icon: Palette },
       { label: "Workflow rules", icon: Zap },
     ],
+    ctas: [],
     mockup: (
       <div className="relative">
         <div className="bg-white rounded-2xl border border-gray-200 shadow-xl p-5 max-w-xs mx-auto">
@@ -448,9 +457,30 @@ export default function PlatformFeatures() {
                   ))}
                 </div>
 
-                <a href="/contact#contact-form" className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${active.color} text-white text-sm font-bold rounded-xl hover:shadow-lg transition-all`}>
-                  Get Started <ArrowRight className="w-4 h-4" />
-                </a>
+                {active.ctas.length > 0 ? (
+                  <div className="flex flex-wrap items-center gap-8">
+                    <a
+                      href={active.ctas[0].href}
+                      className="flex h-[62px] w-[116px] items-center justify-center gap-1.5 rounded-[18px] bg-orange-600 px-3 text-white shadow-md shadow-orange-500/20 transition-all hover:bg-orange-700 hover:-translate-y-0.5"
+                    >
+                      <BarChart3 className="h-3.5 w-3.5 shrink-0" />
+                      <span className="text-center text-sm font-bold leading-tight">
+                        Lead<br />Analysis
+                      </span>
+                    </a>
+                    <a
+                      href={active.ctas[1].href}
+                      className="flex h-[62px] items-center justify-center gap-1.5 rounded-[18px] px-1 text-slate-600 transition-all hover:text-orange-600"
+                    >
+                      <PhoneCall className="h-5 w-5 shrink-0" />
+                      <span className="text-base font-bold">Appointments</span>
+                    </a>
+                  </div>
+                ) : (
+                  <a href="/contact#contact-form" className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${active.color} text-white text-sm font-bold rounded-xl hover:shadow-lg transition-all`}>
+                    Get Started <ArrowRight className="w-4 h-4" />
+                  </a>
+                )}
               </div>
 
               {/* Right: mockup */}
