@@ -2162,7 +2162,7 @@ export default function Hero() {
             </section>
 
             {/* WhatsApp Chatbot Section */}
-            <section className="py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden">
+            <section className="isolate py-12 sm:py-16 lg:py-20 bg-white relative overflow-hidden">
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Section Header */}
                     <div className="mx-auto mb-10 max-w-4xl text-center">
@@ -2259,7 +2259,7 @@ export default function Hero() {
                         </div>
 
                         {/* RIGHT: Service Filter Buttons Grid */}
-                        <div className="relative z-50 order-1 mx-auto w-full max-w-[760px] lg:order-2">
+                        <div className="relative z-10 order-1 mx-auto w-full max-w-[760px] lg:order-2">
                             <p className="mb-5 text-center text-sm font-semibold uppercase tracking-wider text-slate-500 lg:text-left">Select your business</p>
                             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-4">
                                 {businessOptions.map((biz) => (
@@ -2269,7 +2269,7 @@ export default function Hero() {
                                         onPointerDown={() => setActiveBiz(biz.id)}
                                         onClick={() => setActiveBiz(biz.id)}
                                         aria-pressed={activeBiz === biz.id}
-                                        className={`relative z-50 flex cursor-pointer flex-col items-center gap-1.5 rounded-2xl border px-2 py-3 text-xs font-semibold transition-all duration-300 ${
+                                        className={`relative z-10 flex cursor-pointer flex-col items-center gap-1.5 rounded-2xl border px-2 py-3 text-xs font-semibold transition-all duration-300 ${
                                             activeBiz === biz.id ? biz.active + ' shadow-lg scale-105' : biz.color
                                         }`}
                                     >

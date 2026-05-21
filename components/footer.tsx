@@ -69,7 +69,7 @@ export function Footer() {
                   { icon: Twitter, link: "https://twitter.com/digitalbot_ai", label: "Twitter", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
                   { icon: Linkedin, link: "https://linkedin.com/company/digitalbot-ai", label: "LinkedIn", bg: "bg-orange-600", hover: "hover:bg-orange-700", shadow: "shadow-orange-500/30" },
                   { icon: Phone, link: "/contact", label: "Contact Us", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
-                  { icon: Mail, link: "mailto:contact@digitalbot.ai", label: "Email", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
+                  { icon: Mail, link: "mailto:Hello@digitalbot.ai", label: "Email", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
                 ].map((social, idx) => (
                   <Link
                     key={idx}
@@ -90,13 +90,13 @@ export function Footer() {
               </div>
               {/* Quick Contact Info */}
               <div className="mt-6 space-y-2.5">
-                <a href="mailto:contact@digitalbot.ai" className="flex items-center gap-2.5 text-sm text-zinc-400 hover:text-orange-400 transition-colors group">
+                <a href="mailto:Hello@digitalbot.ai" className="flex items-center gap-2.5 text-sm text-zinc-400 hover:text-orange-400 transition-colors group">
                   <Mail className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
-                  contact@digitalbot.ai
+                  Hello@digitalbot.ai
                 </a>
                 <a href="tel:+919880774053" className="flex items-center gap-2.5 text-sm text-zinc-400 hover:text-orange-400 transition-colors group">
                   <Phone className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
-                  +91 98807 74053
+                  +91 7892518414
                 </a>
               </div>
             </div>

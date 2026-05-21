@@ -305,8 +305,8 @@ export default function Pricing() {
           <div className="container mx-auto max-w-5xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { icon: Shield, title: "Secure & Compliant", desc: "SOC 2, GDPR & HIPAA compliant", color: "from-orange-500 to-violet-500", bgColor: "bg-slate-50" },
-                { icon: Zap, title: "5-Minute Setup", desc: "No code required, instant deployment", color: "from-violet-500 to-orange-500", bgColor: "bg-slate-50" },
+                { icon: Shield, title: "Secure & Compliant", desc: "SOC 2, GDPR & HIPAA compliant", color: "from-emerald-500 to-teal-500", bgColor: "bg-slate-50" },
+                { icon: Zap, title: "5-Minute Setup", desc: "No code required, instant deployment", color: "from-emerald-500 to-teal-500", bgColor: "bg-slate-50" },
                 { icon: Star, title: "Cancel Anytime", desc: "No long-term contracts or commitments", color: "from-emerald-500 to-teal-500", bgColor: "bg-slate-50" },
               ].map((badge, i) => (
                 <div key={i} className={`${badge.bgColor} rounded-2xl p-6 flex items-center gap-4 hover:shadow-lg transition-all hover:-translate-y-1`}>
@@ -370,20 +370,20 @@ export default function Pricing() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 to-violet-700">
+        <section className="py-20 px-4 bg-white">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-950 mb-6">
               Ready to Transform Your Business?
             </h2>
-              <p className="text-lg text-orange-100 mb-8 max-w-2xl mx-auto">
+              <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
               Join 500+ companies already using DigitalBot to automate their customer communications with AI voice agents.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/contact#contact-form" className="group px-8 py-4 bg-white text-slate-900 font-medium rounded-xl hover:bg-slate-50 transition-all shadow-lg flex items-center gap-2">
+              <Link href="/contact#contact-form" className="group px-8 py-4 bg-slate-950 text-white font-medium rounded-xl hover:bg-slate-800 transition-all shadow-lg flex items-center gap-2">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/contact#contact-form" className="px-8 py-4 bg-orange-500/30 text-white font-medium rounded-xl hover:bg-orange-500/50 transition-all border border-white/30">
+              <Link href="/contact#contact-form" className="px-8 py-4 bg-white text-slate-900 font-medium rounded-xl hover:bg-slate-50 transition-all border border-slate-200 shadow-sm">
                 Contact Sales
               </Link>
             </div>
@@ -391,7 +391,7 @@ export default function Pricing() {
             {/* Trust items */}
             <div className="flex flex-wrap justify-center gap-6 mt-10">
               {["No Credit Card", "5-Min Setup", "Cancel Anytime", "Enterprise Security"].map((item, i) => (
-                <span key={i} className="text-orange-200 text-sm font-medium">{item}</span>
+                <span key={i} className="text-slate-500 text-sm font-medium">{item}</span>
               ))}
             </div>
           </div>
