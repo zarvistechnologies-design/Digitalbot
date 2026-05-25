@@ -55,6 +55,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'AI Agents', href: '/dashboard/agents', icon: Bot });
     }
     if (user?.selectedService === 'healthiQure patient navigation') {
+      serviceItems.push({ name: 'Leads', href: '/dashboard/leads', icon: Users });
+      serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/bot-sessions', icon: MessageSquare });
       serviceItems.push({ name: 'Bot Documents', href: '/dashboard/bot-documents', icon: FileText });
       serviceItems.push({ name: 'Bot Leads', href: '/dashboard/bot-leads', icon: Users });
@@ -64,6 +66,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       
     }
     if (user?.selectedService === 'akiara') {
+       \serviceItems.push({ name: 'Support Campaigns', href: '/dashboard/customer-support-campaigns', icon: Megaphone });
+      serviceItems.push({ name: 'AI Agents', href: '/dashboard/agents', icon: Bot });
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/akiara-sessions', icon: MessageSquare });
       serviceItems.push({ name: 'Tickets', href: '/dashboard/akiara-tickets', icon: Ticket });
       serviceItems.push({ name: 'Messages', href: '/dashboard/akiara-messages', icon: Send });
