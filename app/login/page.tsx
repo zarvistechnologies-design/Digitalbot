@@ -86,7 +86,7 @@ export default function LoginPage(): JSX.Element {
           data.user?.selectedService === 'akiara'
             ? '/dashboard/akiara-sessions'
             : data.user?.selectedService === 'healthiQure patient navigation'
-              ? '/dashboard/bot-sessions'
+              ? '/dashboard'
               : '/dashboard';
         router.push(dest);
       } else {
