@@ -74,8 +74,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   };
 
   const isAkiara = user?.selectedService === 'akiara';
-  const ishealthiQurepatientnavigation = user?.selectedService === 'healthiQure patient navigation';
-  const navigation = isAkiara || ishealthiQurepatientnavigation ? getServiceNavigation() : [...baseNavigation, ...getServiceNavigation()];
+  const navigation = isAkiara ? getServiceNavigation() : [...baseNavigation, ...getServiceNavigation()];
 
   const handleLogout = () => {
     localStorage.removeItem('token');
