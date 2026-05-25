@@ -1769,11 +1769,11 @@ export default function Hero() {
 
                     <div className="flex items-center justify-between py-12 sm:py-16 lg:py-20 gap-8 lg:gap-12 lg:flex-row-reverse">
                         {/* Right: Image */}
-                        <div className="hidden lg:flex flex-1 justify-center hero-slide-1">
+                        <div className="hidden lg:flex flex-[1.18] justify-center hero-slide-1">
                             <img 
-                                src="/images/landing-hero-assistant-laptop.png"
+                                src="/images/home_landingphoto.png"
                                 alt="DigitalBot assistant using laptop"
-                                className="w-full max-w-[680px] h-auto object-contain"
+                                className="w-full max-w-[960px] translate-x-8 scale-x-[1.08] scale-y-[1.14] h-auto object-contain xl:translate-x-12"
                                 loading="eager"
                             />
                         </div>
@@ -1830,11 +1830,11 @@ export default function Hero() {
                     </div>
 
                     {/* Mobile Image */}
-                    <div className="lg:hidden -mx-4 sm:-mx-6 px-4 sm:px-6 py-8 bg-gradient-to-b from-slate-50 to-white">
+                    <div className="lg:hidden -mx-5 sm:-mx-8 px-3 sm:px-5 py-8 bg-gradient-to-b from-slate-50 to-white">
                         <img 
                             src="/images/landing-hero-assistant-laptop.png"
                             alt="DigitalBot assistant using laptop"
-                            className="w-full h-auto object-contain"
+                            className="w-full scale-x-[1.14] scale-y-[1.2] h-auto object-contain"
                             loading="eager"
                         />
                     </div>
@@ -2287,6 +2287,86 @@ export default function Hero() {
                                     Book a Free Demo
                                 </Link>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Why Digitalbot Section */}
+            <section className="py-12 sm:py-14 bg-white relative overflow-hidden font-sans">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="mb-9 text-center">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                            Why <span className="text-orange-500">Digitalbot</span>
+                        </h2>
+                        <p className="mx-auto mt-3 max-w-3xl text-sm sm:text-base text-slate-500">
+                            Digitalbot gives your business AI agents for WhatsApp, voice calls, customer support, lead follow-up, appointments, campaigns, and dashboard management.
+                        </p>
+                    </div>
+
+                    <div>
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            {[
+                                {
+                                    icon: Bot,
+                                    title: 'WhatsApp AI Assistant',
+                                    desc: 'Automate WhatsApp replies for enquiries, pricing, FAQs, reminders, customer details, order updates, and service requests with a natural chat flow.',
+                                    style: 'from-orange-50 to-amber-100 border-orange-200 text-orange-600',
+                                },
+                                {
+                                    icon: PhoneCall,
+                                    title: 'AI Voice Agent',
+                                    desc: 'Answer calls, qualify callers, book appointments, route urgent requests, handle repeated questions, and follow up even after office hours.',
+                                    style: 'from-sky-50 to-cyan-100 border-cyan-200 text-cyan-600',
+                                },
+                                {
+                                    icon: Headphones,
+                                    title: 'Customer Support',
+                                    desc: 'Resolve common questions, create tickets for complex issues, share helpful answers, track complaints, and hand over important conversations to your team.',
+                                    style: 'from-rose-50 to-pink-100 border-rose-200 text-rose-600',
+                                },
+                                {
+                                    icon: CalendarCheck,
+                                    title: 'Leads & Appointments',
+                                    desc: 'Capture leads from chats and calls, qualify serious prospects, schedule demos or appointments, send reminders, and keep your sales team updated.',
+                                    style: 'from-emerald-50 to-green-100 border-emerald-200 text-emerald-600',
+                                },
+                                {
+                                    icon: Megaphone,
+                                    title: 'Campaign Automation',
+                                    desc: 'Run follow-ups, reminders, promotions, payment nudges, offer messages, and re-engagement campaigns across WhatsApp and voice without manual work.',
+                                    style: 'from-indigo-50 to-blue-100 border-indigo-200 text-indigo-600',
+                                },
+                                {
+                                    icon: Shield,
+                                    title: 'Secure Integrations',
+                                    desc: 'Connect CRM, calendars, forms, spreadsheets, documents, APIs, and business tools while keeping customer data organized, synced, and protected.',
+                                    style: 'from-teal-50 to-cyan-100 border-teal-200 text-teal-600',
+                                },
+                                {
+                                    icon: FileText,
+                                    title: 'Knowledge & Documents',
+                                    desc: 'Upload FAQs, service details, policies, documents, product information, and business rules so your AI gives accurate answers every time.',
+                                    style: 'from-yellow-50 to-lime-100 border-yellow-200 text-yellow-600',
+                                },
+                                {
+                                    icon: BarChart3,
+                                    title: 'Business Dashboard',
+                                    desc: 'Manage chats, calls, transcripts, leads, tickets, contacts, documents, campaign activity, and performance reports in one dashboard.',
+                                    style: 'from-violet-50 to-fuchsia-100 border-violet-200 text-violet-600',
+                                },
+                            ].map((item) => (
+                                <div
+                                    key={item.title}
+                                    className={`flex h-[260px] flex-col rounded-2xl border bg-gradient-to-br ${item.style} p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
+                                >
+                                    <div className="mb-5 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-white/85 shadow-sm">
+                                        <item.icon className="h-6 w-6" />
+                                    </div>
+                                    <h3 className="mb-2.5 min-h-[28px] text-lg font-bold text-slate-900">{item.title}</h3>
+                                    <p className="line-clamp-4 text-sm leading-6 text-slate-600">{item.desc}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
