@@ -36,7 +36,7 @@ import { useEffect, useState } from "react"
 
 type HeaderLinkProps = ComponentProps<typeof NextLink>
 
-function Link({ scroll = false, ...props }: HeaderLinkProps) {
+function Link({ scroll = true, ...props }: HeaderLinkProps) {
     return <NextLink scroll={scroll} {...props} />
 }
 

@@ -297,9 +297,9 @@ export const educationVoiceAgentConfig: IndustryVoiceAgentConfig = {
   ],
   intelligenceImage: "/images/voice_education_2.png",
   intelligenceImageAlt: "Education admissions team reviewing voice lead summaries",
-  intelligenceImageFrameClassName: "overflow-visible",
+  intelligenceImageFrameClassName: "mx-auto max-w-[660px] rounded-[2rem]",
   intelligenceImageClassName:
-    "!w-[118%] !max-w-none [mask-image:none] [-webkit-mask-image:none] lg:[mask-image:none]",
+    "scale-[1.04] object-contain [mask-image:none] [-webkit-mask-image:none] lg:[mask-image:none]",
   highlights: [
     { title: "Student profile", text: "Name, qualification, course interest, location, and timeline." },
     { title: "Counseling readiness", text: "Captures preferred callback time and admission urgency." },
@@ -322,7 +322,7 @@ export const educationVoiceAgentConfig: IndustryVoiceAgentConfig = {
   integrationsImageAlt: "Education voice agent integrations",
   integrationsImageFrameClassName: "overflow-visible",
   integrationsImageClassName:
-    "!w-[118%] !max-w-none [mask-image:none] [-webkit-mask-image:none] lg:[mask-image:none]",
+    "!w-[118%] !max-w-none -translate-x-6 [mask-image:none] [-webkit-mask-image:none] sm:-translate-x-8 lg:-translate-x-16 lg:[mask-image:none]",
   integrations: [
     { title: "Phone calls", text: "Capture inbound admission calls and campaign responses." },
     { title: "WhatsApp updates", text: "Send brochure links, form reminders, and counseling confirmations." },

@@ -93,10 +93,11 @@ const plans = [
     icon: Mic,
     description: "Natural AI voice calls with free minutes, multilingual support, and call intelligence.",
     monthlyPrice: 1400,
-    crm: "200 free minutes, then ₹7/min",
+    crm: "200 min call free with the plan",
     tags: ["Voice calls", "10+ languages", "Sentiment"],
     features: [
       "AI voice conversations",
+      "200 min call free with the plan",
       "Works on Zonara & all platforms",
       "Multilingual support (10+ languages)",
       "Advanced analytics dashboard",
@@ -242,7 +243,7 @@ export default function Pricing() {
                           ? `${formatPrice(plan.monthlyPrice)} per month, billed yearly`
                           : "Switch to yearly to see annual charges"}
                       </p>
-                      {plan.name !== "Voice AI" && plan.crm && (
+                      {plan.crm && (
                         <p className="mt-2 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
                           {plan.crm}
                         </p>
