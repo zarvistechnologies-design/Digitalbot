@@ -29,7 +29,7 @@ export default function LoginPage(): JSX.Element {
         user?.selectedService === 'akiara'
           ? '/dashboard/akiara-sessions'
           : user?.selectedService === 'healthiQure patient navigation'
-            ? '/dashboard/bot-sessions'
+            ? '/dashboard'
             : '/dashboard'
       );
     }
