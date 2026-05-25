@@ -29,7 +29,7 @@ export default function LoginPage(): JSX.Element {
         user?.selectedService === 'akiara'
           ? '/dashboard/akiara-sessions'
           : user?.selectedService === 'healthiQure patient navigation'
-            ? '/dashboard'
+            ? '/dashboard/bot-sessions'
             : '/dashboard'
       );
     }
@@ -86,7 +86,7 @@ export default function LoginPage(): JSX.Element {
           data.user?.selectedService === 'akiara'
             ? '/dashboard/akiara-sessions'
             : data.user?.selectedService === 'healthiQure patient navigation'
-              ? '/dashboard'
+              ? '/dashboard/bot-sessions'
               : '/dashboard';
         router.push(dest);
       } else {
@@ -176,9 +176,3 @@ export default function LoginPage(): JSX.Element {
     </div>
   );
 }
-
-
-
-
-
-
