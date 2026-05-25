@@ -1765,10 +1765,11 @@ export default function Hero() {
                     }
                 `}} />
 
-                <div className="container mx-auto relative z-30 max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto relative z-30 max-w-[1500px] px-5 sm:px-8 lg:px-10 xl:px-12">
 
-                    <div className="flex items-center justify-between py-12 sm:py-16 lg:py-20 gap-8 lg:gap-12 lg:flex-row-reverse">
+                    <div className="grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:gap-10 lg:py-16 xl:gap-12">
                         {/* Right: Image */}
+<<<<<<< Updated upstream
                         <div className="hidden lg:flex flex-[1.18] justify-center hero-slide-1">
                             <img 
                                 src="/images/home_landingphoto.png"
@@ -1776,16 +1777,27 @@ export default function Hero() {
                                 className="w-full max-w-[960px] translate-x-8 scale-x-[1.08] scale-y-[1.14] h-auto object-contain xl:translate-x-12"
                                 loading="eager"
                             />
+=======
+                        <div className="order-2 hidden min-w-0 justify-end bg-white hero-slide-1 lg:flex">
+                            <div className="relative aspect-[1.34/1] w-full max-w-[880px] overflow-hidden bg-white xl:max-w-[980px]">
+                                <img
+                                    src="/images/landing-hero-ai-chat.png"
+                                    alt="DigitalBot AI voice and WhatsApp automation dashboard"
+                                    className="absolute right-0 top-1/2 h-[108%] w-auto max-w-none -translate-y-1/2 bg-white object-contain"
+                                    loading="eager"
+                                />
+                            </div>
+>>>>>>> Stashed changes
                         </div>
 
                         {/* Left: Content */}
-                        <div className="flex-1 max-w-[600px] space-y-6">
+                        <div className="order-1 min-w-0 max-w-[620px] space-y-6">
                             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-50 to-orange-100/50 border border-orange-200 px-4 py-2 rounded-full shadow-sm hero-slide-1">
                                 <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
                                 <span className="text-xs font-semibold tracking-wide text-orange-700 uppercase">AI voice + WhatsApp automation</span>
                             </div>
 
-                            <h1 id="hero-heading" className="text-4xl font-bold leading-tight tracking-tight text-slate-900 hero-slide-2 sm:text-5xl lg:text-6xl">
+                            <h1 id="hero-heading" className="text-4xl font-bold leading-tight tracking-tight text-slate-900 hero-slide-2 sm:text-5xl lg:text-[54px] xl:text-[58px]">
                                 Everything Connected.<br />
                                 <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-clip-text text-transparent">Business Simplified.</span>
                             </h1>
@@ -1830,11 +1842,19 @@ export default function Hero() {
                     </div>
 
                     {/* Mobile Image */}
+<<<<<<< Updated upstream
                     <div className="lg:hidden -mx-5 sm:-mx-8 px-3 sm:px-5 py-8 bg-gradient-to-b from-slate-50 to-white">
                         <img 
                             src="/images/landing-hero-assistant-laptop.png"
                             alt="DigitalBot assistant using laptop"
                             className="w-full scale-x-[1.14] scale-y-[1.2] h-auto object-contain"
+=======
+                    <div className="lg:hidden -mx-4 bg-white px-4 py-8 sm:-mx-6 sm:px-6">
+                        <img 
+                            src="/images/landing-hero-ai-chat.png"
+                            alt="DigitalBot AI voice and WhatsApp automation dashboard"
+                            className="block h-auto w-full bg-white object-contain"
+>>>>>>> Stashed changes
                             loading="eager"
                         />
                     </div>
