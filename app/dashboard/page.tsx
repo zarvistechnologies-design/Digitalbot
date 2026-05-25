@@ -67,10 +67,6 @@ export default function AnalyticsOverview() {
         router.replace('/dashboard/akiara-sessions');
         return;
       }
-      if (user.selectedService === 'healthiQure patient navigation') {
-        router.replace('/dashboard/bot-sessions');
-        return;
-      }
     }
   }, [router]);
 
