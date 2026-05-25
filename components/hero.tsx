@@ -1769,15 +1769,6 @@ export default function Hero() {
 
                     <div className="grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:gap-10 lg:py-16 xl:gap-12">
                         {/* Right: Image */}
-<<<<<<< Updated upstream
-                        <div className="hidden lg:flex flex-[1.18] justify-center hero-slide-1">
-                            <img 
-                                src="/images/home_landingphoto.png"
-                                alt="DigitalBot assistant using laptop"
-                                className="w-full max-w-[960px] translate-x-8 scale-x-[1.08] scale-y-[1.14] h-auto object-contain xl:translate-x-12"
-                                loading="eager"
-                            />
-=======
                         <div className="order-2 hidden min-w-0 justify-end bg-white hero-slide-1 lg:flex">
                             <div className="relative aspect-[1.34/1] w-full max-w-[880px] overflow-hidden bg-white xl:max-w-[980px]">
                                 <img
@@ -1787,7 +1778,6 @@ export default function Hero() {
                                     loading="eager"
                                 />
                             </div>
->>>>>>> Stashed changes
                         </div>
 
                         {/* Left: Content */}
@@ -1842,19 +1832,11 @@ export default function Hero() {
                     </div>
 
                     {/* Mobile Image */}
-<<<<<<< Updated upstream
-                    <div className="lg:hidden -mx-5 sm:-mx-8 px-3 sm:px-5 py-8 bg-gradient-to-b from-slate-50 to-white">
-                        <img 
-                            src="/images/landing-hero-assistant-laptop.png"
-                            alt="DigitalBot assistant using laptop"
-                            className="w-full scale-x-[1.14] scale-y-[1.2] h-auto object-contain"
-=======
                     <div className="lg:hidden -mx-4 bg-white px-4 py-8 sm:-mx-6 sm:px-6">
                         <img 
                             src="/images/landing-hero-ai-chat.png"
                             alt="DigitalBot AI voice and WhatsApp automation dashboard"
                             className="block h-auto w-full bg-white object-contain"
->>>>>>> Stashed changes
                             loading="eager"
                         />
                     </div>
