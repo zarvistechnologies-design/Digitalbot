@@ -147,7 +147,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                   </p>
                 )}
                 <p className="text-xs text-orange-600 mt-1 capitalize">
-                  {user.selectedService?.replace('_', ' ')} Service
+                  {user.email === 'a@e10.in' && user.selectedService === 'healthiQure patient navigation'
+  ? 'Arogya Medical Tourism Support'
+  : user.selectedService?.replace('_', ' ') + ' Service'}
                 </p>
               </div>
             </div>
@@ -226,7 +228,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                       Assigned Number:{user.assignedPhoneNumber}
                     </p>
                     <p className="text-xs text-orange-600 mt-1 capitalize">
-                      {user.selectedService?.replace('_', ' ')} Service
+                      {user.email === 'a@e10.in' && user.selectedService === 'healthiQure patient navigation'
+                      ? 'Arogya Medical Tourism Support'
+                      : user.selectedService?.replace('_', ' ') + ' Service'}
                     </p>
                   </div>
                 </div>
