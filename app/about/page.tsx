@@ -157,14 +157,6 @@ export default function About() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/10 rounded-full blur-[120px]" />
           </div>
 
-          {/* Floating Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-32 left-[10%] w-4 h-4 bg-orange-400 rounded-full opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
-            <div className="absolute top-48 right-[15%] w-3 h-3 bg-orange-400 rounded-full opacity-50 animate-bounce" style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
-            <div className="absolute bottom-32 left-[20%] w-5 h-5 bg-orange-300 rounded-full opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-            <div className="absolute top-1/3 right-[10%] w-2 h-2 bg-orange-300 rounded-full opacity-60 animate-ping" style={{ animationDuration: '2s' }} />
-          </div>
-
           <div className="container mx-auto max-w-6xl relative z-10">
             {/* Breadcrumb */}
             <nav className="mb-8 text-sm" aria-label="Breadcrumb">
@@ -304,33 +296,25 @@ export default function About() {
         </section>
 
         {/* Mission Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 relative overflow-hidden">
-          {/* Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '24px 24px'
-            }} />
-          </div>
-
+        <section className="py-20 px-4 bg-white relative overflow-hidden">
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6">
-                  <Rocket className="w-4 h-4 text-white" />
-                  <span className="text-sm font-medium tracking-wide uppercase text-white">Our Mission</span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
+                  <Rocket className="w-4 h-4 text-slate-600" />
+                  <span className="text-sm font-medium tracking-wide uppercase text-slate-600">Our Mission</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-6 leading-tight">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 mb-6 leading-tight">
                   Transforming Business Communication with AI
                 </h2>
-                <p className="text-lg text-orange-100 mb-8 leading-relaxed">
+                <p className="text-lg text-slate-500 mb-8 leading-relaxed">
                   We envision a world where every business, regardless of size, has access to intelligent AI voice technology. Our platform empowers companies to deliver exceptional customer experiences 24/7.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   {['Human-like Conversations', 'Instant Responses', 'Always Available'].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg">
-                      <CheckCircle className="w-4 h-4 text-emerald-400" />
-                      <span className="text-sm text-white font-medium">{item}</span>
+                    <div key={i} className="flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-100 rounded-lg">
+                      <CheckCircle className="w-4 h-4 text-orange-600" />
+                      <span className="text-sm text-slate-700 font-medium">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -344,12 +328,12 @@ export default function About() {
                   { label: 'Satisfaction', value: '98%', icon: Heart, color: 'from-rose-400 to-pink-500' },
                   { label: 'Cost Saved', value: '$5M+', icon: TrendingUp, color: 'from-orange-400 to-orange-600' },
                 ].map((stat, i) => (
-                  <div key={i} className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                  <div key={i} className="bg-slate-50 rounded-2xl p-6 border border-slate-200 hover:bg-white hover:shadow-xl transition-all">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4`}>
                       <stat.icon className="w-6 h-6 text-white" />
                     </div>
-                    <p className="text-3xl font-semibold text-white mb-1">{stat.value}</p>
-                    <p className="text-sm text-orange-200">{stat.label}</p>
+                    <p className="text-3xl font-semibold text-slate-900 mb-1">{stat.value}</p>
+                    <p className="text-sm text-slate-500">{stat.label}</p>
                   </div>
                 ))}
               </div>
@@ -472,20 +456,20 @@ export default function About() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-4 bg-gradient-to-br from-orange-600 to-orange-800">
+        <section className="py-20 px-4 bg-white">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 mb-6">
               Ready to Transform Your Business?
             </h2>
-            <p className="text-lg text-orange-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-500 mb-8 max-w-2xl mx-auto">
               Join 500+ companies already using DigitalBot to automate their customer communications.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/contact#contact-form" className="group px-8 py-4 bg-white text-slate-900 font-medium rounded-xl hover:bg-orange-50 transition-all shadow-sm flex items-center gap-2">
+              <Link href="/contact#contact-form" className="group px-8 py-4 bg-slate-900 text-white font-medium rounded-xl hover:bg-slate-800 transition-all shadow-sm flex items-center gap-2">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/contact#contact-form" className="px-8 py-4 bg-white/10 text-white font-medium rounded-xl hover:bg-white/20 transition-all border border-white/20">
+              <Link href="/contact#contact-form" className="px-8 py-4 bg-white text-slate-600 font-medium rounded-xl hover:bg-slate-50 transition-all border border-slate-200">
                 Contact Sales
               </Link>
             </div>

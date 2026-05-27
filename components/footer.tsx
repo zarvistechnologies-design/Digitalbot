@@ -1,5 +1,3 @@
-"use client"
-
 import { ArrowRight, Award, Clock, Linkedin, Mail, Phone, Shield, TrendingUp, Twitter } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -110,8 +108,7 @@ export function Footer() {
                 { title: "Product", links: [
                   { name: "Features", href: "/services" },
                   { name: "Pricing", href: "/pricing" },
-                  { name: "API Docs", href: "/docs" },
-                  { name: "Integration", href: "/services#api" }
+                  { name: "Integration", href: "/integrations" }
                 ]},
                 { title: "Company", links: [
                   { name: "About Us", href: "/about" },
@@ -120,9 +117,9 @@ export function Footer() {
                   { name: "Contact", href: "/contact" }
                 ]},
                 { title: "Resources", links: [
-                  { name: "Tutorials", href: "/docs" },
-                  { name: "Case Studies", href: "/blog" },
-                  { name: "Webinars", href: "/blog" }
+                  { name: "Tutorials", href: "/tutorials" },
+                  { name: "Case Studies", href: "/case-studies" },
+                  { name: "Webinars", href: "/webinars" }
                 ]},
                 { title: "Legal", links: [
                   { name: "Privacy policy", href: "/privacy" },
