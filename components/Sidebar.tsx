@@ -55,8 +55,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'AI Agents', href: '/dashboard/agents', icon: Bot });
     }
     if (user?.selectedService === 'healthiQure patient navigation') {
-      serviceItems.push({ name: 'Leads', href: '/dashboard/leads', icon: Users });
-      serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/bot-sessions', icon: MessageSquare });
       serviceItems.push({ name: 'Bot Documents', href: '/dashboard/bot-documents', icon: FileText });
       serviceItems.push({ name: 'Bot Leads', href: '/dashboard/bot-leads', icon: Users });
@@ -76,7 +74,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   };
 
   const isAkiara = user?.selectedService === 'akiara';
-  const navigation = isAkiara ? getServiceNavigation() : [...baseNavigation, ...getServiceNavigation()];
+  const ishealthiQurepatientnavigation = user?.selectedService === 'healthiQure patient navigation';
+  const navigation = isAkiara || ishealthiQurepatientnavigation ? getServiceNavigation() : [...baseNavigation, ...getServiceNavigation()];
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -147,9 +146,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                   </p>
                 )}
                 <p className="text-xs text-orange-600 mt-1 capitalize">
-                  {user.email === 'a@e10.in' && user.selectedService === 'healthiQure patient navigation'
-  ? 'Arogya Medical Tourism Support'
-  : user.selectedService?.replace('_', ' ') + ' Service'}
+                  {user.selectedService?.replace('_', ' ')} Service
                 </p>
               </div>
             </div>
@@ -228,9 +225,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                       Assigned Number:{user.assignedPhoneNumber}
                     </p>
                     <p className="text-xs text-orange-600 mt-1 capitalize">
-                      {user.email === 'a@e10.in' && user.selectedService === 'healthiQure patient navigation'
-                      ? 'Arogya Medical Tourism Support'
-                      : user.selectedService?.replace('_', ' ') + ' Service'}
+                      {user.selectedService?.replace('_', ' ')} Service
                     </p>
                   </div>
                 </div>
