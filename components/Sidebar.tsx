@@ -70,6 +70,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Knowledge Base', href: '/dashboard/akiara-knowledge', icon: BookOpen });
       serviceItems.push({ name: 'Settings', href: '/dashboard/akiara-settings', icon: Settings });
     }
+    if (user?.selectedService === 'visiva-bot' || user?.selectedService === 'visiva bot') {
+      serviceItems.push({ name: 'Leads', href: '/dashboard/leads', icon: Users });
+      serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
+      serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/visiva-bot/sessions', icon: MessageSquare });
+      serviceItems.push({ name: 'Bot Leads', href: '/dashboard/visiva-bot/leads', icon: Users });
+      serviceItems.push({ name: 'Quick Messages', href: '/dashboard/visiva-bot/messages', icon: Send });
+      serviceItems.push({ name: 'Templates', href: '/dashboard/visiva-bot/templates', icon: FileText });
+    }
     return serviceItems;
   };
 
