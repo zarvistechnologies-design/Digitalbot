@@ -192,7 +192,7 @@ export default function VisivaSessionsPage() {
 
   return (
     <VisivaPageShell
-      title="Visiva Bot Sessions"
+      title="Bot Sessions"
       description="Valeria admissions conversations"
       icon={<MessageSquare className="w-5 h-5 text-white" />}
       actions={
