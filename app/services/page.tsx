@@ -130,6 +130,317 @@ export default function Services() {
     <main className="min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] text-slate-900 relative overflow-hidden">
       <Header />
 
+      {/* Redesigned Feature Page Flow */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-orange-50/60 px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
+
+        <div className="container relative z-10 mx-auto max-w-7xl">
+          <nav className="mb-8 flex" aria-label="Breadcrumb">
+            <ol className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm shadow-sm">
+              <li>
+                <Link href="/" className="text-slate-500 transition-colors hover:text-orange-600">
+                  Home
+                </Link>
+              </li>
+              <li><ChevronRight className="h-4 w-4 text-slate-300" /></li>
+              <li className="font-medium text-orange-600">Services</li>
+            </ol>
+          </nav>
+
+          <div className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+            <div>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/80 px-4 py-2 shadow-sm backdrop-blur">
+                <Bot className="h-4 w-4 text-orange-600" />
+                <span className="text-xs font-semibold uppercase tracking-wide text-orange-700">AI voice assistant platform</span>
+              </div>
+
+              <h1 className="max-w-4xl text-4xl font-semibold leading-[1.02] text-slate-950 sm:text-5xl lg:text-6xl">
+                Revolutionize your customer experience with AI agents that answer, qualify, and book.
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+                DigitalBot handles inbound and outbound voice workflows for leads, appointments, collections, and support. Your team gets the summary, the next step, and the customer context without chasing every call.
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                {["60+ languages", "CRM-ready", "24/7 coverage", "Human handoff"].map((item) => (
+                  <span key={item} className="rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm">
+                    {item}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link href="/contact#contact-form">
+                  <Button size="lg" className="h-12 rounded-lg bg-slate-950 px-6 text-base font-semibold text-white hover:bg-slate-800">
+                    Start Free Trial
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link href="/pricing">
+                  <Button size="lg" variant="outline" className="h-12 rounded-lg border-slate-300 bg-white px-6 text-base font-semibold text-slate-700 hover:bg-slate-50">
+                    View Pricing
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="mt-10 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4">
+                {stats.map((stat) => (
+                  <div key={stat.label} className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm transition-all hover:-translate-y-1 hover:border-orange-200 hover:shadow-lg">
+                    <stat.icon className="mb-3 h-5 w-5 text-orange-600" />
+                    <p className="text-2xl font-semibold text-slate-950">{stat.value}</p>
+                    <p className="mt-1 text-xs font-medium leading-5 text-slate-500">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute -inset-3 rounded-[32px] border border-orange-200/70 bg-orange-100/30"></div>
+              <div className="relative rounded-[28px] border border-slate-200 bg-slate-950 p-4 shadow-2xl shadow-slate-300/70">
+              <div className="rounded-2xl bg-white p-5">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-600 text-white">
+                      <PhoneCall className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-950">Live AI call desk</p>
+                      <p className="text-sm text-slate-500">Handling customer conversations</p>
+                    </div>
+                  </div>
+                  <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">Live</span>
+                </div>
+
+                <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-950 p-4">
+                  <div className="mb-3 flex items-center justify-between">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">Voice activity</span>
+                    <span className="text-xs font-semibold text-orange-300">Real time</span>
+                  </div>
+                  <div className="flex h-14 items-end justify-between gap-1">
+                    {[36, 62, 44, 78, 54, 88, 48, 72, 40, 84, 58, 68, 46, 76, 52, 90, 42, 64].map((height, idx) => (
+                      <span
+                        key={idx}
+                        className="w-full rounded-full bg-gradient-to-t from-orange-600 to-orange-300"
+                        style={{ height: `${height}%` }}
+                      ></span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-5 grid grid-cols-3 gap-3">
+                  {[
+                    { value: "847", label: "Active" },
+                    { value: "92%", label: "Resolved" },
+                    { value: "<1s", label: "Answer" },
+                  ].map((metric) => (
+                    <div key={metric.label} className="rounded-2xl bg-gradient-to-b from-slate-50 to-white p-4 text-center ring-1 ring-slate-200">
+                      <p className="text-2xl font-semibold text-slate-950">{metric.value}</p>
+                      <p className="mt-1 text-xs font-medium text-slate-500">{metric.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-5 space-y-3">
+                  {[
+                    { icon: MessageSquare, title: "Caller intent", text: "Book appointment with sales" },
+                    { icon: BarChart3, title: "Lead score", text: "High intent, ready for handoff" },
+                    { icon: Check, title: "Action completed", text: "CRM updated and SMS confirmation sent" },
+                  ].map((item) => (
+                    <div key={item.title} className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-orange-600">
+                        <item.icon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-slate-950">{item.title}</p>
+                        <p className="text-sm text-slate-500">{item.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
+        <div className="container mx-auto max-w-7xl">
+          <div className="mb-8 rounded-[28px] border border-slate-200 bg-slate-50 p-6 sm:p-8">
+            <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-orange-600">Core services</p>
+              <h2 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Choose the workflow you want automated first.</h2>
+            </div>
+            <p className="max-w-xl text-base leading-7 text-slate-600">
+              Start with one use case, then expand across your phone operations as the AI learns your process and team preferences.
+            </p>
+            </div>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {services.map((service, idx) => (
+              <Link key={service.title} href={service.href} className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-slate-200/70">
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-orange-500 via-orange-400 to-slate-900 opacity-80"></div>
+                <div className="mb-6 flex items-center justify-between">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-white transition-colors group-hover:bg-orange-600">
+                    <service.icon className="h-6 w-6" />
+                  </div>
+                  <span className="rounded-full bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-500 ring-1 ring-slate-200">
+                    0{idx + 1}
+                  </span>
+                </div>
+                {service.popular && (
+                  <span className="mb-4 inline-flex rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-700 ring-1 ring-orange-100">Popular workflow</span>
+                )}
+                <h3 className="text-xl font-semibold text-slate-950">{service.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{service.description}</p>
+                <div className="mt-6 space-y-3">
+                  {service.features.map((feature) => (
+                    <div key={feature} className="flex items-center gap-2 text-sm font-medium text-slate-600">
+                      <Check className="h-4 w-4 text-orange-600" />
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-7 inline-flex items-center text-sm font-semibold text-orange-600">
+                  Explore service
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
+        <div className="container mx-auto max-w-7xl">
+          <div className="rounded-[32px] border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/60 sm:p-8 lg:p-10">
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <div className="rounded-3xl bg-slate-950 p-6 text-white">
+              <p className="text-sm font-semibold uppercase tracking-wide text-orange-300">Platform features</p>
+              <h2 className="mt-3 text-3xl font-semibold leading-tight text-white sm:text-4xl">A complete operating layer for business calls.</h2>
+              <p className="mt-4 text-base leading-7 text-slate-300">
+                The AI does more than talk. It detects intent, follows your scripts, updates systems, escalates edge cases, and gives managers a clear performance view.
+              </p>
+              <div className="mt-8 space-y-3">
+                {["Listen", "Understand", "Act", "Report"].map((step, idx) => (
+                  <div key={step} className="flex items-center gap-3 rounded-2xl bg-white/[0.04] p-3 ring-1 ring-white/10">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500 text-sm font-semibold text-white">{idx + 1}</span>
+                    <span className="text-sm font-medium text-slate-200">{step}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                { icon: MessageSquare, title: "Natural conversations", text: "Understands context, handles interruptions, and keeps multi-turn calls on track." },
+                { icon: BarChart3, title: "Real-time analytics", text: "Monitor sentiment, outcomes, conversion rates, transcripts, and call trends." },
+                { icon: Code, title: "Easy integrations", text: "Connect CRM, calendars, support desks, phone systems, and custom APIs." },
+                { icon: Shield, title: "Secure workflows", text: "Protect conversations with encryption, access control, and audit-ready records." },
+                { icon: Globe, title: "Multilingual reach", text: "Serve customers across regions with language-aware voice automation." },
+                { icon: Users, title: "Human handoff", text: "Route priority conversations with summary, caller details, and next action." },
+              ].map((feature) => (
+                <div key={feature.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-all hover:-translate-y-1 hover:border-orange-200 hover:bg-white hover:shadow-lg hover:shadow-slate-200/70">
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white text-orange-600 ring-1 ring-slate-200">
+                    <feature.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-950">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{feature.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-slate-950 px-4 py-16 text-white sm:px-6 lg:px-8">
+        <div className="absolute inset-0 opacity-[0.05]" style={{
+          backgroundImage: `linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)`,
+          backgroundSize: "42px 42px"
+        }}></div>
+        <div className="container relative z-10 mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-orange-300">Industry-ready</p>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Built for teams that live on the phone.</h2>
+            </div>
+            <Link href="/contact#contact-form" className="inline-flex items-center text-sm font-semibold text-orange-300 hover:text-orange-200">
+              Talk to an expert
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {industries.map((industry) => (
+              <div key={industry.name} className="group rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition-all hover:-translate-y-1 hover:border-orange-400/40 hover:bg-white/[0.07]">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-orange-500/15 text-orange-300 ring-1 ring-orange-300/20">
+                  <industry.icon className="h-5 w-5" />
+                </div>
+                <h3 className="font-semibold text-white">{industry.name}</h3>
+                <p className="mt-2 text-sm text-slate-400">{industry.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
+        <div className="container mx-auto max-w-7xl">
+          <div className="mb-10 text-center">
+            <p className="text-sm font-semibold uppercase tracking-wide text-orange-600">How it works</p>
+            <h2 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Go live without rebuilding your operations.</h2>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {[
+              { step: "01", icon: Phone, title: "Map the calls", text: "We define the call types, qualification rules, escalation paths, and integrations." },
+              { step: "02", icon: Code, title: "Train the agent", text: "Your AI learns scripts, FAQs, brand tone, calendar logic, and CRM fields." },
+              { step: "03", icon: Zap, title: "Launch and improve", text: "Go live, review outcomes, and optimize the workflow from real conversation data." },
+            ].map((item) => (
+              <div key={item.step} className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-6 transition-all hover:-translate-y-1 hover:bg-white hover:shadow-lg hover:shadow-slate-200/70">
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-orange-500 to-slate-900"></div>
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="text-sm font-semibold text-orange-600">{item.step}</span>
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-orange-600 ring-1 ring-slate-200">
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold text-slate-950">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 px-4 py-14 sm:px-6 lg:px-8" role="region" aria-labelledby="faq-section">
+        <div className="container mx-auto max-w-6xl">
+          <div className="mb-10 text-center">
+            <p className="text-sm font-semibold uppercase tracking-wide text-orange-600">FAQ</p>
+            <h2 id="faq-section" className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Questions before you start?</h2>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            {[
+              ["How quickly can we launch?", "Most businesses can launch a focused workflow in 5-10 days once call goals, scripts, and integrations are confirmed."],
+              ["Can it work with our CRM?", "Yes. DigitalBot can sync summaries, outcomes, lead details, appointments, and tags with CRMs and custom APIs."],
+              ["What happens when AI should not continue?", "You define escalation rules, and the AI transfers or alerts your team with the full context."],
+              ["Can we customize the voice and flow?", "Yes. You can tune tone, scripts, qualification rules, FAQs, objection handling, and handoff behavior."],
+            ].map(([question, answer]) => (
+              <div key={question} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="font-semibold text-slate-950">{question}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {false && (
+        <>
       {/* Hero Section - Unique Premium Design */}
       <section className="pt-4 pb-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex items-center">
         {/* Dynamic Animated Background */}
@@ -737,90 +1048,122 @@ export default function Services() {
 
 
       {/* Features Showcase Section */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 relative bg-white overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+        <div className="container mx-auto relative z-10 max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+            <div className="lg:sticky lg:top-24">
+              <div className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-2 mb-6">
+                <Zap className="h-4 w-4 text-orange-600" />
+                <span className="text-xs font-semibold uppercase tracking-wide text-orange-700">Powerful Features</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-slate-950">
+                Built for every customer call your team should not have to chase.
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-slate-500">
+                DigitalBot keeps conversations natural, routes every outcome into your tools, and gives managers a live view of what is happening across leads, appointments, and collections.
+              </p>
 
-          <div className="absolute bottom-20 left-10 w-80 h-80 bg-slate-50 rounded-full filter blur-3xl"></div>
-        </div>
-        
-        <div className="container mx-auto relative z-10 max-w-6xl">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full mb-6">
-              <Zap className="w-4 h-4 text-orange-600" />
-              <span className="text-slate-600 font-medium text-sm tracking-wide uppercase">Powerful Features</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-6">
-              <span className="text-slate-900">Everything You Need to</span>
-              <br />
-              <span className="bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 bg-clip-text text-transparent">
-                Automate Communication
-              </span>
-            </h2>
-          </div>
-
-          {/* Feature Cards - Alternating Layout */}
-          <div className="space-y-12">
-            {[
-              {
-                icon: MessageSquare,
-                title: 'Natural Conversations',
-                desc: 'Our AI understands context, handles interruptions, and responds naturally just like a human agent. Powered by advanced NLP for seamless customer interactions.',
-                features: ['Context awareness', 'Multi-turn dialogue', 'Emotion detection', 'Smart interruptions'],
-                image: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?q=80&w=600&auto=format&fit=crop',
-                reverse: false
-              },
-              {
-                icon: BarChart3,
-                title: 'Real-Time Analytics',
-                desc: 'Get instant insights into call performance, customer sentiment, and conversion rates. Make data-driven decisions to optimize your voice AI.',
-                features: ['Live dashboards', 'Call transcripts', 'Sentiment analysis', 'ROI tracking'],
-                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop',
-                reverse: true
-              },
-              {
-                icon: Code,
-                title: 'Easy Integration',
-                desc: 'Connect with your existing tools in minutes. Our platform integrates with 100+ popular CRMs, helpdesks, and business applications.',
-                features: ['Salesforce', 'HubSpot', 'Zendesk', 'Custom APIs'],
-                image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=600&auto=format&fit=crop',
-                reverse: false
-              }
-            ].map((feature, idx) => (
-              <div key={idx} className={`flex flex-col ${feature.reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 lg:gap-12 items-center`}>
-                {/* Image */}
-                <div className="w-full lg:w-1/2">
-                  <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-200/50 group">
-                    <img 
-                      src={feature.image} 
-                      alt={feature.title}
-                      className="w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4 w-14 h-14 rounded-2xl bg-white/70 backdrop-blur-sm shadow-xl flex items-center justify-center">
-                      <feature.icon className="h-7 w-7 text-orange-600" />
+              <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-950 p-5 text-white shadow-xl shadow-slate-200/70">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500">
+                      <Bot className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">Voice operations</p>
+                      <p className="text-xs text-slate-400">Live workspace</p>
                     </div>
                   </div>
+                  <div className="flex items-center gap-2 rounded-full bg-green-400/10 px-3 py-1 text-xs font-medium text-green-300">
+                    <span className="h-2 w-2 rounded-full bg-green-400"></span>
+                    Online
+                  </div>
                 </div>
-                
-                {/* Content */}
-                <div className="w-full lg:w-1/2">
-                  <h3 className="text-2xl lg:text-3xl font-semibold text-slate-900 mb-4">
-                    {feature.title}
-                  </h3>
-                  <p className="text-slate-500 text-lg leading-relaxed mb-6">
-                    {feature.desc}
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    {feature.features.map((f, i) => (
-                      <span key={i} className="px-4 py-2 bg-slate-50 text-orange-600 rounded-full text-sm font-medium border border-slate-200">
-                        {f}
+
+                <div className="grid grid-cols-3 gap-3 py-5">
+                  {[
+                    { value: "847", label: "Active calls" },
+                    { value: "92%", label: "Resolved" },
+                    { value: "4.8", label: "CSAT" },
+                  ].map((metric) => (
+                    <div key={metric.label} className="rounded-xl bg-white/5 p-3 ring-1 ring-white/10">
+                      <p className="text-xl font-semibold">{metric.value}</p>
+                      <p className="mt-1 text-[11px] text-slate-400">{metric.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="space-y-3">
+                  {[
+                    { label: "Intent detected", value: "Book appointment" },
+                    { label: "CRM update", value: "HubSpot lead enriched" },
+                    { label: "Next action", value: "SMS confirmation sent" },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center justify-between gap-4 rounded-xl bg-white/[0.03] px-4 py-3 ring-1 ring-white/10">
+                      <span className="text-sm text-slate-400">{item.label}</span>
+                      <span className="text-right text-sm font-medium text-white">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                {
+                  icon: MessageSquare,
+                  title: "Human-like call handling",
+                  desc: "Handles pauses, interruptions, objections, follow-up questions, and multi-turn conversations without losing context.",
+                  points: ["Context memory", "Intent detection", "Smart transfers"],
+                },
+                {
+                  icon: BarChart3,
+                  title: "Outcome analytics",
+                  desc: "Track call volume, sentiment, conversions, missed opportunities, and team handoffs from one clean dashboard.",
+                  points: ["Live dashboards", "Transcripts", "ROI reports"],
+                },
+                {
+                  icon: Code,
+                  title: "CRM and workflow sync",
+                  desc: "Push qualified leads, appointments, notes, tags, and summaries into the systems your team already uses.",
+                  points: ["HubSpot", "Salesforce", "Custom APIs"],
+                },
+                {
+                  icon: Shield,
+                  title: "Secure by design",
+                  desc: "Keep business conversations protected with role-based access, encrypted data flows, and auditable activity history.",
+                  points: ["Encryption", "Access control", "Audit logs"],
+                },
+                {
+                  icon: PhoneCall,
+                  title: "Appointment automation",
+                  desc: "Book, confirm, reschedule, and follow up without manual back-and-forth or lost calendar context.",
+                  points: ["Calendar sync", "Reminders", "No-show reduction"],
+                },
+                {
+                  icon: Users,
+                  title: "Clean human handoff",
+                  desc: "Escalate urgent or high-value conversations with the summary, caller details, and recommended next step included.",
+                  points: ["Priority routing", "Call summaries", "Team alerts"],
+                },
+              ].map((feature) => (
+                <div key={feature.title} className="group rounded-2xl border border-slate-200 bg-slate-50/60 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:bg-white hover:shadow-lg hover:shadow-slate-200/70">
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-white text-orange-600 ring-1 ring-slate-200 transition-all group-hover:bg-orange-600 group-hover:text-white group-hover:ring-orange-600">
+                    <feature.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-950">{feature.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-500">{feature.desc}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {feature.points.map((point) => (
+                      <span key={point} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600">
+                        {point}
                       </span>
                     ))}
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -1209,82 +1552,102 @@ export default function Services() {
         </div>
       </section>
 
-      {/* CTA Section - Clean Modern Design */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-orange-950 via-slate-900 to-slate-950">
-        {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        </>
+      )}
 
+      {/* CTA Section - Redesigned */}
+      <section className="relative overflow-hidden bg-white px-4 py-16 sm:px-6 lg:px-8">
+        <div className="container relative z-10 mx-auto max-w-7xl">
+          <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
+            <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8 lg:p-10">
+              <div className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-2">
+                <Zap className="h-4 w-4 text-orange-600" />
+                <span className="text-sm font-semibold text-orange-700">Launch your AI voice team</span>
+              </div>
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-slate-700/20 to-slate-700/20 rounded-full filter blur-3xl"></div>
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 opacity-[0.05]" style={{
-            backgroundImage: `linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)`,
-            backgroundSize: '40px 40px'
-          }}></div>
-        </div>
-        
-        <div className="container mx-auto relative z-10 max-w-4xl">
-          {/* Main CTA Card */}
-          <div className="text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-8">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-white/90 font-semibold text-sm">Limited Time Offer</span>
-            </div>
-            
-            {/* Heading */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-6 leading-tight">
-              Ready to Transform Your
-              <br />
-              <span className="bg-gradient-to-r from-orange-300 via-slate-200 to-white bg-clip-text text-transparent">
-                Business Communication?
-              </span>
-            </h2>
-            
-            {/* Description */}
-            <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Join <span className="font-semibold text-white">500+ businesses</span> already using DigitalBot.ai to handle <span className="font-semibold text-white">millions of customer conversations</span> with AI voice technology.
-            </p>
-            
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12">
-              <Link href="/contact#contact-form">
-                <Button className="bg-white text-slate-900 hover:bg-slate-100 px-8 py-4 text-base font-medium rounded-lg shadow-sm hover:-translate-y-1 transition-all">
-                  Start Free Trial Now
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-          
-            </div>
-            
-            {/* Trust Badges */}
-            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
-              {[
-                { icon: Check, text: 'No Credit Card Required' },
-                { icon: Check, text: '14-Day Free Trial' },
-                { icon: Check, text: '5-Minute Setup' },
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-green-400/20 flex items-center justify-center">
-                    <item.icon className="w-3 h-3 text-green-400" />
-                  </div>
-                  <span className="text-white/80 text-sm font-medium">{item.text}</span>
-                </div>
-              ))}
-            </div>
-            
-            {/* Stats Row */}
-            <div className="mt-16 pt-10 border-t border-white/10">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <h2 className="mt-7 max-w-3xl text-3xl font-semibold leading-tight text-slate-950 sm:text-4xl lg:text-5xl">
+                Ready to transform your business communication?
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+                Start with one high-value workflow and let DigitalBot answer calls, qualify leads, schedule follow-ups, and sync every outcome back to your team.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link href="/contact#contact-form">
+                  <Button className="h-12 rounded-lg bg-orange-500 px-6 text-base font-semibold text-white shadow-lg shadow-orange-950/40 hover:bg-orange-600">
+                    Start Free Trial
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link href="/pricing">
+                  <Button variant="outline" className="h-12 rounded-lg border-slate-300 bg-white px-6 text-base font-semibold text-slate-700 hover:bg-slate-50">
+                    View Pricing
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="mt-9 grid gap-3 sm:grid-cols-3">
                 {[
-                  { value: '500+', label: 'Happy Customers' },
-                  { value: '10M+', label: 'Calls Handled' },
-                  { value: '99.9%', label: 'Uptime SLA' },
-                  { value: '4.9/5', label: 'Customer Rating' },
-                ].map((stat, idx) => (
-                  <div key={idx} className="text-center">
-                    <div className="text-3xl sm:text-4xl font-semibold text-white mb-1">{stat.value}</div>
-                    <div className="text-sm text-slate-400">{stat.label}</div>
+                  { icon: Check, text: "No credit card required" },
+                  { icon: Shield, text: "Secure by design" },
+                  { icon: Headphones, text: "Hands-on launch support" },
+                ].map((item) => (
+                  <div key={item.text} className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-orange-600">
+                      <item.icon className="h-4 w-4" />
+                    </div>
+                    <span className="text-sm font-medium leading-5 text-slate-600">{item.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-xl shadow-slate-200/70">
+              <div className="rounded-2xl bg-slate-950 p-5 text-white">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-500">
+                      <Bot className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">Launch plan</p>
+                      <p className="text-xs text-slate-400">From first call to live automation</p>
+                    </div>
+                  </div>
+                  <span className="rounded-full bg-green-400/10 px-3 py-1 text-xs font-semibold text-green-300">Ready</span>
+                </div>
+
+                <div className="mt-5 space-y-3">
+                  {[
+                    { icon: PhoneCall, title: "Map your calls", text: "Lead, support, booking, or collections flow" },
+                    { icon: MessageSquare, title: "Train the agent", text: "Scripts, FAQs, tone, and escalation rules" },
+                    { icon: BarChart3, title: "Measure outcomes", text: "Calls, conversions, sentiment, and ROI" },
+                  ].map((step, idx) => (
+                    <div key={step.title} className="flex gap-3 rounded-2xl bg-white/[0.04] p-4 ring-1 ring-white/10">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-500 text-white">
+                        <step.icon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-semibold text-orange-300">0{idx + 1}</span>
+                          <p className="text-sm font-semibold text-white">{step.title}</p>
+                        </div>
+                        <p className="mt-1 text-sm text-slate-400">{step.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4 grid grid-cols-3 gap-3">
+                {[
+                  { value: "500+", label: "Customers" },
+                  { value: "10M+", label: "Calls" },
+                  { value: "4.9/5", label: "Rating" },
+                ].map((stat) => (
+                  <div key={stat.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center">
+                    <p className="text-xl font-semibold text-slate-950">{stat.value}</p>
+                    <p className="mt-1 text-xs font-medium text-slate-500">{stat.label}</p>
                   </div>
                 ))}
               </div>
