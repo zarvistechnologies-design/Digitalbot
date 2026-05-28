@@ -188,7 +188,7 @@ export default function VisivaMessagesPage() {
 
   return (
     <VisivaPageShell
-      title="Visiva Quick Messages"
+      title="Quick Messages"
       description="Send WhatsApp messages and template follow-ups"
       icon={<Send className="w-5 h-5 text-white" />}
       actions={

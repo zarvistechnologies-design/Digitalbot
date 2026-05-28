@@ -203,7 +203,7 @@ export default function VisivaLeadsPage() {
 
   return (
     <VisivaPageShell
-      title="Visiva Bot Leads"
+      title="Bot Leads"
       description="Admissions prospects captured by Valeria"
       icon={<Users className="w-5 h-5 text-white" />}
       actions={

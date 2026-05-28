@@ -179,7 +179,7 @@ export default function VisivaTemplatesPage() {
 
   return (
     <VisivaPageShell
-      title="Visiva Templates"
+      title="Templates"
       description="Reusable Spanish admissions follow-ups"
       icon={<FileText className="w-5 h-5 text-white" />}
       maxWidth="max-w-6xl"
