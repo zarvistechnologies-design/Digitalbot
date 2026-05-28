@@ -78,6 +78,49 @@ interface Analytics {
   dailyStats?: { date: string; sessions: number; leads: number; appointments: number }[];
 }
 
+function cleanMessageContent(content: string) {
+  return String(content || "")
+    .replace(/\n?\[Archivo recibido:\s*__visiva_media_id__:[^\]]+\]/g, "")
+    .replace(/^\[(image|video|document|audio)\]\s*$/i, "")
+    .trim();
+}
+
+function messageMedia(content: string, mediaUrls: VisivaMedia[] = []) {
+  return mediaUrls.filter((media) => media.marker && String(content || "").includes(media.marker));
+}
+
+function MediaPreview({ media }: { media: VisivaMedia }) {
+  const url = visivaBotAPI.getMediaUrl(media.marker);
+  const label = media.type || "media";
+  const mimeType = media.mimeType || "";
+
+  if (media.type === "image" || mimeType.startsWith("image/")) {
+    return (
+      <a href={url} target="_blank" rel="noopener noreferrer" className="block group">
+        <img
+          src={url}
+          alt="WhatsApp image"
+          className="max-h-64 w-auto max-w-full rounded-lg border border-slate-200 object-contain bg-white group-hover:opacity-90 transition-opacity"
+        />
+      </a>
+    );
+  }
+
+  if (media.type === "video" || mimeType.startsWith("video/")) {
+    return <video src={url} controls className="max-h-64 max-w-full rounded-lg border border-slate-200 bg-black" />;
+  }
+
+  if (media.type === "audio" || mimeType.startsWith("audio/")) {
+    return <audio src={url} controls className="w-full max-w-sm" />;
+  }
+
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
+      Open {label}
+    </a>
+  );
+}
+
 export default function VisivaSessionsPage() {
   const [sessions, setSessions] = useState<VisivaSession[]>([]);
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
@@ -407,11 +450,12 @@ export default function VisivaSessionsPage() {
                     {session.mediaUrls?.length > 0 && (
                       <div className="bg-white rounded-lg border border-slate-200 p-3">
                         <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Media</p>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                           {session.mediaUrls.map((media) => (
-                            <a key={media.mediaId} href={visivaBotAPI.getMediaUrl(media.marker)} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
-                              {media.type || "media"}
-                            </a>
+                            <div key={media.mediaId} className="rounded-lg bg-slate-50 border border-slate-200 p-2">
+                              <MediaPreview media={media} />
+                              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-2">{media.type || "media"}</p>
+                            </div>
                           ))}
                         </div>
                       </div>
@@ -420,14 +464,23 @@ export default function VisivaSessionsPage() {
                     <div>
                       <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1"><User className="w-3 h-3" /> Conversation</p>
                       <div className="max-h-72 overflow-y-auto bg-white rounded-lg border border-slate-200 p-3 space-y-2">
-                        {session.conversationHistory?.length ? session.conversationHistory.map((message, index) => (
-                          <div key={`${message.timestamp}-${index}`} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                            <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm border ${message.role === "user" ? "bg-sky-50 border-sky-100 text-slate-800" : "bg-emerald-50 border-emerald-100 text-slate-800"}`}>
-                              <p className="whitespace-pre-wrap break-words">{message.content}</p>
-                              <p className="text-[10px] text-slate-400 mt-1">{new Date(message.timestamp).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}</p>
+                        {session.conversationHistory?.length ? session.conversationHistory.map((message, index) => {
+                          const cleanContent = cleanMessageContent(message.content);
+                          const attachedMedia = messageMedia(message.content, session.mediaUrls);
+                          return (
+                            <div key={`${message.timestamp}-${index}`} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
+                              <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm border ${message.role === "user" ? "bg-sky-50 border-sky-100 text-slate-800" : "bg-emerald-50 border-emerald-100 text-slate-800"}`}>
+                                {attachedMedia.length > 0 && (
+                                  <div className="space-y-2 mb-2">
+                                    {attachedMedia.map((media) => <MediaPreview key={media.mediaId} media={media} />)}
+                                  </div>
+                                )}
+                                {cleanContent && <p className="whitespace-pre-wrap break-words">{cleanContent}</p>}
+                                <p className="text-[10px] text-slate-400 mt-1">{new Date(message.timestamp).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}</p>
+                              </div>
                             </div>
-                          </div>
-                        )) : <p className="text-sm text-slate-400">No conversation yet</p>}
+                          );
+                        }) : <p className="text-sm text-slate-400">No conversation yet</p>}
                       </div>
                     </div>
 
