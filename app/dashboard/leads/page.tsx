@@ -96,6 +96,37 @@ const formatPhone = (phone: string) => {
   return phone.replace(/(\d{3})(\d{3})(\d{4})/, "+91 $1-$2-$3");
 };
 
+const normalizeTranscriptionText = (value: unknown): string => {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => {
+        if (!item) return "";
+        if (typeof item === "string") return item;
+        if (typeof item === "object") {
+          const msg = item as Record<string, unknown>;
+          const role = msg.role || msg.speaker || "Speaker";
+          const content = msg.content || msg.text || msg.message || "";
+          return content ? `${String(role)}: ${String(content)}` : JSON.stringify(item);
+        }
+        return String(item);
+      })
+      .filter(Boolean)
+      .join("\n");
+  }
+
+  if (typeof value === "object") {
+    const obj = value as Record<string, unknown>;
+    if (Array.isArray(obj.chat)) return normalizeTranscriptionText(obj.chat);
+    if (Array.isArray(obj.messages)) return normalizeTranscriptionText(obj.messages);
+    return Object.values(obj).map((item) => normalizeTranscriptionText(item)).filter(Boolean).join("\n");
+  }
+
+  return String(value);
+};
+
 // Get auth token helper - FORCE DEMO TOKEN
 const getAuthToken = () => {
   if (typeof window === 'undefined') return null;
@@ -671,7 +702,7 @@ export default function LeadsPage() {
       return;
     }
 
-    const transcriptionText = call.transcription || call.transcript || '';
+    const transcriptionText = normalizeTranscriptionText(call.transcription || call.transcript);
     if (!transcriptionText || transcriptionText.trim().length === 0) {
       console.log(`Call ${callId} has empty transcription`);
       return;
