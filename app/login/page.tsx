@@ -28,7 +28,9 @@ export default function LoginPage(): JSX.Element {
       router.push(
         user?.selectedService === 'akiara'
           ? '/dashboard/akiara-sessions'
-          : '/dashboard'
+          : user?.selectedService === 'healthiQure patient navigation'
+            ? '/dashboard/bot-sessions'
+            : '/dashboard'
       );
     }
   }, [router]);
@@ -83,7 +85,9 @@ export default function LoginPage(): JSX.Element {
         const dest =
           data.user?.selectedService === 'akiara'
             ? '/dashboard/akiara-sessions'
-            : '/dashboard';
+            : data.user?.selectedService === 'healthiQure patient navigation'
+              ? '/dashboard/bot-sessions'
+              : '/dashboard';
         router.push(dest);
       } else {
         setError(data.error || 'Login failed');
