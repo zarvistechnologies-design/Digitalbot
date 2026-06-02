@@ -30,6 +30,9 @@ interface Appointment {
   name: string;
   phone: string;
   email?: string;
+  location?: string;
+  age?: number | string | null;
+  patientAge?: number | string | null;
   purpose: string;
   status: "scheduled" | "confirmed" | "completed" | "cancelled" | "no-show" | "rescheduled";
   date: string;
@@ -83,6 +86,20 @@ function getAuthHeaders() {
     }
   }
   return headers;
+}
+
+function getPatientAge(apt: Pick<Appointment, "age" | "patientAge">) {
+  const rawAge = apt.age ?? apt.patientAge;
+  const age = typeof rawAge === "string" ? Number(rawAge.trim()) : rawAge;
+  return typeof age === "number" && Number.isFinite(age) && age > 0 ? age : null;
+}
+
+function hasPatientAge(apt: Pick<Appointment, "age" | "patientAge">) {
+  return getPatientAge(apt) !== null;
+}
+
+function hasPatientLocation(location: Appointment["location"]) {
+  return Boolean(location?.trim());
 }
 
 // ==================== BADGE COMPONENTS ====================
@@ -217,6 +234,18 @@ function AppointmentModal({
                 <p className="text-sm text-gray-600 font-semibold mb-1">Phone Number</p>
                 <p className="text-lg sm:text-xl font-bold text-gray-900">{apt.phone}</p>
               </div>
+              {hasPatientAge(apt) && (
+                <div>
+                  <p className="text-sm text-gray-600 font-semibold mb-1">Age</p>
+                  <p className="text-lg sm:text-xl font-bold text-gray-900">{getPatientAge(apt)}</p>
+                </div>
+              )}
+              {hasPatientLocation(apt.location) && (
+                <div>
+                  <p className="text-sm text-gray-600 font-semibold mb-1">Location</p>
+                  <p className="text-lg sm:text-xl font-bold text-gray-900">{apt.location}</p>
+                </div>
+              )}
               {apt.email && (
                 <div className="col-span-2">
                   <p className="text-sm text-gray-600 font-semibold mb-1">Email Address</p>
@@ -1220,6 +1249,18 @@ export default function AppointmentsPage() {
                                 <Clock className="w-4 h-4 text-orange-600" />
                                 <span className="text-sm font-semibold text-gray-700">{apt.time}</span>
                               </div>
+                              {hasPatientAge(apt) && (
+                                <div className="flex items-center gap-2 bg-orange-50 px-3 py-2 rounded-lg">
+                                  <HeartPulse className="w-4 h-4 text-orange-600" />
+                                  <span className="text-sm font-semibold text-gray-700">Age {getPatientAge(apt)}</span>
+                                </div>
+                              )}
+                              {hasPatientLocation(apt.location) && (
+                                <div className="flex items-center gap-2 bg-orange-50 px-3 py-2 rounded-lg">
+                                  <Building2 className="w-4 h-4 text-orange-600" />
+                                  <span className="text-sm font-semibold text-gray-700">{apt.location}</span>
+                                </div>
+                              )}
                             </div>
 
                             {/* Purpose */}

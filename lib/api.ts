@@ -640,6 +640,98 @@ export const akiaraAPI = {
 };
 
 // ========================================
+// VISIVA BOT API (Valeria Admissions WhatsApp Agent)
+// ========================================
+export const visivaBotAPI = {
+  getSessions: (params?: {
+    state?: string;
+    interestLevel?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }) => api.get('/visiva-bot/sessions', { params }),
+
+  getSession: (phone: string) => api.get(`/visiva-bot/sessions/${phone}`),
+
+  resetSession: (phone: string) => api.post(`/visiva-bot/sessions/${phone}/reset`),
+
+  getLeads: (params?: {
+    status?: string;
+    interestLevel?: string;
+    program?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }) => api.get('/visiva-bot/leads', { params }),
+
+  updateLead: (id: string, data: {
+    status?: string;
+    interestLevel?: string;
+    assignedTo?: string;
+    adminContacted?: boolean;
+    tags?: string[];
+  }) => api.patch(`/visiva-bot/leads/${id}`, data),
+
+  markLeadContacted: (id: string) => api.patch(`/visiva-bot/leads/${id}/contacted`),
+
+  getAnalytics: (params?: { days?: number }) => api.get('/visiva-bot/analytics', { params }),
+
+  sendMessage: (data: { phone: string; message: string }) =>
+    api.post('/visiva-bot/send-message', data),
+
+  getTemplates: (params?: { search?: string; active?: boolean }) =>
+    api.get('/visiva-bot/templates', { params }),
+
+  createTemplate: (data: {
+    name: string;
+    templateId?: string;
+    language?: string;
+    body: string;
+    variables?: Array<{ key: string; label: string; required?: boolean; defaultValue?: string }>;
+    active?: boolean;
+  }) => api.post('/visiva-bot/templates', data),
+
+  updateTemplate: (id: string, data: {
+    name: string;
+    templateId?: string;
+    language?: string;
+    body: string;
+    variables?: Array<{ key: string; label: string; required?: boolean; defaultValue?: string }>;
+    active?: boolean;
+  }) => api.put(`/visiva-bot/templates/${id}`, data),
+
+  deleteTemplate: (id: string) => api.delete(`/visiva-bot/templates/${id}`),
+
+  sendTemplateMessage: (data: {
+    phone: string;
+    templateId: string;
+    variables?: Record<string, string>;
+  }) => api.post('/visiva-bot/send-template-message', data),
+
+  getMessageHistory: (params?: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    type?: string;
+    templateId?: string;
+  }) => api.get('/visiva-bot/message-history', { params }),
+
+  deleteMessageHistory: (id: string) => api.delete(`/visiva-bot/message-history/${id}`),
+
+  getMediaUrl: (marker: string): string => {
+    if (!marker) return '';
+    const base = api.defaults.baseURL || '';
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+    const query = token ? `?token=${encodeURIComponent(token)}` : '';
+    if (marker.startsWith('__visiva_media_id__:')) {
+      const mediaId = marker.replace('__visiva_media_id__:', '');
+      return `${base}/visiva-bot/media/${encodeURIComponent(mediaId)}${query}`;
+    }
+    return marker;
+  },
+};
+
+// ========================================
 // TENANT CONFIG API
 // ========================================
 export const tenantAPI = {
