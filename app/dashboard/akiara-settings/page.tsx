@@ -12,6 +12,7 @@ import {
   Eye,
   EyeOff,
   FileText,
+  FileSpreadsheet,
   Globe,
   IndianRupee,
   Key,
@@ -80,6 +81,7 @@ interface TenantData {
     outsideWarranty: string;
   };
   messageTemplates?: MessageTemplate[];
+  repairStatusSheetUrl?: string;
 }
 
 type TabKey = "general" | "integrations" | "links" | "templates" | "advanced";
@@ -130,6 +132,7 @@ export default function AkiaraSettingsPage() {
   const [warrantyLink, setWarrantyLink] = useState("");
   const [calendlyLink, setCalendlyLink] = useState("");
   const [websiteLink, setWebsiteLink] = useState("");
+  const [repairStatusSheetUrl, setRepairStatusSheetUrl] = useState("");
   const [withinWarranty, setWithinWarranty] = useState("FREE");
   const [messageTemplates, setMessageTemplates] = useState<MessageTemplate[]>([]);
   const [outsideWarranty, setOutsideWarranty] = useState("₹500 per visit");
@@ -155,6 +158,7 @@ export default function AkiaraSettingsPage() {
         setWarrantyLink(t.links?.warrantyRegistration || "");
         setCalendlyLink(t.links?.calendly || "");
         setWebsiteLink(t.links?.website || "");
+        setRepairStatusSheetUrl(t.repairStatusSheetUrl || "");
         setWithinWarranty(t.homeServicePricing?.withinWarranty || "FREE");
         setMessageTemplates(t.messageTemplates || []);
         setOutsideWarranty(t.homeServicePricing?.outsideWarranty || "₹500 per visit");
@@ -182,6 +186,7 @@ export default function AkiaraSettingsPage() {
         brandName,
         botName,
         customPrompt,
+        repairStatusSheetUrl,
         extraEscalationKeywords: extraKeywords.split(",").map((s) => s.trim()).filter(Boolean),
         links: {
           ...tenant.links,
@@ -651,6 +656,7 @@ export default function AkiaraSettingsPage() {
                       { label: "Warranty Registration", value: warrantyLink, setter: setWarrantyLink, placeholder: "https://warranty.yourbrand.com", icon: <Shield className="w-3.5 h-3.5 text-green-500" /> },
                       { label: "Calendly Booking Page", value: calendlyLink, setter: setCalendlyLink, placeholder: "https://calendly.com/your-brand", icon: <Calendar className="w-3.5 h-3.5 text-blue-500" /> },
                       { label: "Website / Support Page", value: websiteLink, setter: setWebsiteLink, placeholder: "https://www.yourbrand.com", icon: <Globe className="w-3.5 h-3.5 text-violet-500" /> },
+                      { label: "Repair Status Google Sheet", value: repairStatusSheetUrl, setter: setRepairStatusSheetUrl, placeholder: "https://docs.google.com/spreadsheets/d/.../edit?gid=...", icon: <FileSpreadsheet className="w-3.5 h-3.5 text-yellow-600" /> },
                     ].map((link) => (
                       <div key={link.label} className="space-y-1.5">
                         <label className="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
