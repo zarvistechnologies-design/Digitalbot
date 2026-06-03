@@ -129,6 +129,11 @@ export const callsAPI = {
 
 export const voiceProviderAPI = {
   getAgents: () => api.get('/voice-agents'),
+  getVoices: (params?: { language?: string; includeCustom?: boolean }) => api.get('/voices', { params }),
+  updateAgentVoice: (
+    agentId: string,
+    data: { voiceId: string; provider?: string; model?: string | null; language?: string | null; agentName?: string }
+  ) => api.put(`/voice-agents/${agentId}/voice`, data),
 };
 
 // ========================================

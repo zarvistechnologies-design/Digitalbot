@@ -123,14 +123,58 @@ interface VoiceAgentOption {
   listenerModel?: string;
 }
 
+interface VoiceOption {
+  id: string;
+  voiceId?: string;
+  name: string;
+  provider?: string;
+  model?: string | null;
+  language?: string | null;
+  category?: string | null;
+  previewUrl?: string | null;
+  settings?: Record<string, unknown>;
+  source?: string;
+}
+
 type PromptResponse = Partial<AgentForm> & {
   millisConfig?: Partial<VoiceRuntimeConfig>;
   voiceRuntimeConfig?: Partial<VoiceRuntimeConfig>;
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://digital-api-46ss.onrender.com/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
 
 const llmModels = ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-1.5-flash", "gemini-1.5-pro"];
+const allowedVoiceProviders = ["elevenlabs", "sarvam"] as const;
+const allowedVoiceProviderSet = new Set<string>(allowedVoiceProviders);
+
+const normalizeVoiceProvider = (provider?: string | null) => provider?.trim().toLowerCase() || "";
+
+const getVoiceProviderLabel = (provider?: string | null) => {
+  const normalized = normalizeVoiceProvider(provider);
+  if (normalized === "elevenlabs") return "ElevenLabs";
+  if (normalized === "sarvam") return "Sarvam";
+  return provider || "Voice service";
+};
+
+const cleanSystemAgentMessage = (message?: string | null, fallback = "Something went wrong.") => {
+  const value = message || fallback;
+  return value
+    .replace(/MILLIS_API_KEY/g, "voice service API key")
+    .replace(/Millis AI/g, "voice service")
+    .replace(/Millis/g, "voice service");
+};
+
+const getVoiceProviderBadgeClass = (provider?: string | null) => {
+  const normalized = normalizeVoiceProvider(provider);
+  if (normalized === "sarvam") return "border-emerald-200 bg-emerald-50 text-emerald-700";
+  return "border-violet-200 bg-violet-50 text-violet-700";
+};
+
+const getVoiceProviderIconClass = (provider?: string | null) => {
+  const normalized = normalizeVoiceProvider(provider);
+  if (normalized === "sarvam") return "bg-emerald-600 text-white";
+  return "bg-violet-600 text-white";
+};
 
 const defaultPrompt = `You are the clinic's AI voice receptionist for doctor appointment calls.
 
@@ -246,6 +290,7 @@ function mergePrompt(prompt: PromptResponse | null, fallback: AgentForm): AgentF
 
 function applyVoiceAgentToForm(form: AgentForm, agent?: VoiceAgentOption): AgentForm {
   if (!agent) return form;
+  const hasSelectedVoice = Boolean(form.voiceRuntimeConfig.tts.voiceId);
 
   return {
     ...form,
@@ -255,8 +300,10 @@ function applyVoiceAgentToForm(form: AgentForm, agent?: VoiceAgentOption): Agent
       agentName: agent.name || form.voiceRuntimeConfig.agentName,
       tts: {
         ...form.voiceRuntimeConfig.tts,
-        provider: agent.voiceProvider || form.voiceRuntimeConfig.tts.provider,
-        voiceId: agent.voiceId || form.voiceRuntimeConfig.tts.voiceId,
+        provider: hasSelectedVoice
+          ? form.voiceRuntimeConfig.tts.provider
+          : agent.voiceProvider || form.voiceRuntimeConfig.tts.provider,
+        voiceId: form.voiceRuntimeConfig.tts.voiceId || agent.voiceId || "",
         language: agent.language || form.voiceRuntimeConfig.tts.language,
       },
       stt: {
@@ -275,7 +322,9 @@ export default function SystemAgentConfigurationPage() {
   const [formData, setFormData] = useState<AgentForm>(() => buildDefaultForm(null));
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [voiceAgents, setVoiceAgents] = useState<VoiceAgentOption[]>([]);
+  const [voices, setVoices] = useState<VoiceOption[]>([]);
   const [voiceAgentsError, setVoiceAgentsError] = useState<string | null>(null);
+  const [voiceListError, setVoiceListError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -288,6 +337,7 @@ export default function SystemAgentConfigurationPage() {
       setLoading(true);
       setError(null);
       setVoiceAgentsError(null);
+      setVoiceListError(null);
       setSavedMessage(null);
 
       const storedUser = typeof window !== "undefined" ? localStorage.getItem("user") : null;
@@ -295,10 +345,11 @@ export default function SystemAgentConfigurationPage() {
       setUser(parsedUser);
       const fallback = buildDefaultForm(parsedUser);
 
-      const [promptResult, doctorsResult, voiceAgentsResult] = await Promise.allSettled([
+      const [promptResult, doctorsResult, voiceAgentsResult, voicesResult] = await Promise.allSettled([
         promptsAPI.getCurrent(),
         doctorsAPI.getAll(),
         voiceProviderAPI.getAgents(),
+        voiceProviderAPI.getVoices({ includeCustom: true }),
       ]);
 
       const agents =
@@ -309,6 +360,18 @@ export default function SystemAgentConfigurationPage() {
       setVoiceAgents(safeAgents);
       if (voiceAgentsResult.status === "rejected") {
         setVoiceAgentsError("Voice agent list could not be loaded from the provider API.");
+      }
+
+      const availableVoices =
+        voicesResult.status === "fulfilled"
+          ? (voicesResult.value.data?.voices || [])
+          : [];
+      const safeVoices = Array.isArray(availableVoices) ? availableVoices : [];
+      setVoices(safeVoices);
+      if (voicesResult.status === "rejected") {
+        setVoiceListError("Voice list could not be loaded; showing voices already configured on agents.");
+      } else if (voicesResult.value.data?.success === false) {
+        setVoiceListError(cleanSystemAgentMessage(voicesResult.value.data?.warning, "Voice list could not be loaded."));
       }
 
       let nextForm = fallback;
@@ -330,7 +393,7 @@ export default function SystemAgentConfigurationPage() {
         setDoctors([]);
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to load system agent configuration");
+      setError(cleanSystemAgentMessage(err instanceof Error ? err.message : null, "Failed to load system agent configuration"));
     } finally {
       setLoading(false);
     }
@@ -358,21 +421,40 @@ export default function SystemAgentConfigurationPage() {
 
   const voiceChoices = useMemo(() => {
     const seen = new Set<string>();
-    return voiceAgents
+    const millisVoices = voices
+      .map((voice) => ({
+        id: voice.voiceId || voice.id,
+        name: voice.name || voice.voiceId || voice.id || "Voice",
+        provider: normalizeVoiceProvider(voice.provider),
+        model: voice.model || null,
+        language: voice.language || "",
+        category: voice.category || "",
+        previewUrl: voice.previewUrl || null,
+        settings: voice.settings || {},
+      }))
+      .filter((voice) => voice.id && allowedVoiceProviderSet.has(voice.provider));
+    const agentVoices = voiceAgents
       .filter((agent) => agent.voiceId)
-      .filter((agent) => {
-        const id = agent.voiceId || '';
-        if (seen.has(id)) return false;
-        seen.add(id);
-        return true;
-      })
       .map((agent) => ({
-        id: agent.voiceId || '',
-        name: agent.voiceName || agent.voiceId || 'Configured voice',
-        provider: agent.voiceProvider || '',
-        language: agent.language || '',
-      }));
-  }, [voiceAgents]);
+        id: agent.voiceId || "",
+        name: agent.voiceName || agent.voiceId || "Configured voice",
+        provider: normalizeVoiceProvider(agent.voiceProvider),
+        model: null,
+        language: agent.language || "",
+        category: "agent-configured",
+        previewUrl: null,
+        settings: {},
+      }))
+      .filter((voice) => voice.id && allowedVoiceProviderSet.has(voice.provider));
+
+    return (millisVoices.length > 0 ? millisVoices : agentVoices)
+      .filter((voice) => {
+        const key = voice.id;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+  }, [voiceAgents, voices]);
 
   const handleVoiceAgentSelect = (agentId: string) => {
     const agent = voiceAgents.find((item) => item.id === agentId);
@@ -383,6 +465,11 @@ export default function SystemAgentConfigurationPage() {
     const voice = voiceChoices.find((item) => item.id === voiceId);
     setFormData((prev) => ({
       ...prev,
+      voiceConfig: {
+        ...prev.voiceConfig,
+        voiceId,
+        language: voice?.language || prev.voiceConfig.language,
+      },
       voiceRuntimeConfig: {
         ...prev.voiceRuntimeConfig,
         tts: {
@@ -394,6 +481,20 @@ export default function SystemAgentConfigurationPage() {
       },
     }));
   };
+
+  const selectedVoiceChoice = useMemo(
+    () => voiceChoices.find((voice) => voice.id === formData.voiceRuntimeConfig.tts.voiceId),
+    [formData.voiceRuntimeConfig.tts.voiceId, voiceChoices]
+  );
+
+  const voiceProviderCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    voiceChoices.forEach((voice) => {
+      const provider = normalizeVoiceProvider(voice.provider);
+      counts[provider] = (counts[provider] || 0) + 1;
+    });
+    return counts;
+  }, [voiceChoices]);
 
   const updateField = <K extends keyof AgentForm>(key: K, value: AgentForm[K]) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -442,15 +543,48 @@ export default function SystemAgentConfigurationPage() {
       }
 
       const { voiceRuntimeConfig, ...restFormData } = formData;
+      const voiceConfig = {
+        ...restFormData.voiceConfig,
+        voiceId: voiceRuntimeConfig.tts.voiceId,
+        language: voiceRuntimeConfig.tts.language || restFormData.voiceConfig.language,
+        speed: voiceRuntimeConfig.tts.speed || restFormData.voiceConfig.speed,
+      };
+      const selectedVoice = voiceChoices.find((voice) => voice.id === voiceRuntimeConfig.tts.voiceId);
       await promptsAPI.saveCurrent({
         ...restFormData,
+        voiceConfig,
         voiceRuntimeConfig,
         millisConfig: voiceRuntimeConfig,
       } as unknown as Record<string, unknown>);
+
+      let nextSavedMessage = "System agent configuration saved.";
+      if (voiceRuntimeConfig.agentId && voiceRuntimeConfig.tts.voiceId) {
+        try {
+          await voiceProviderAPI.updateAgentVoice(voiceRuntimeConfig.agentId, {
+            voiceId: voiceRuntimeConfig.tts.voiceId,
+            provider: selectedVoice?.provider || voiceRuntimeConfig.tts.provider,
+            model: selectedVoice?.model || undefined,
+            language: selectedVoice?.language || voiceRuntimeConfig.tts.language,
+            agentName: voiceRuntimeConfig.agentName,
+          });
+          nextSavedMessage = "System agent configuration saved and voice updated.";
+        } catch (syncError: any) {
+          await loadConfig();
+          const syncMessage = cleanSystemAgentMessage(
+            syncError?.response?.data?.error || syncError?.response?.data?.details || syncError?.message,
+            "Voice update failed."
+          );
+          setError(`Saved locally, but voice update failed: ${syncMessage}`);
+          return;
+        }
+      } else if (voiceRuntimeConfig.tts.voiceId) {
+        nextSavedMessage = "System agent configuration saved. Select a voice agent to sync the voice.";
+      }
+
       await loadConfig();
-      setSavedMessage("System agent configuration saved.");
+      setSavedMessage(nextSavedMessage);
     } catch (err: any) {
-      setError(err?.response?.data?.error || err?.message || "Failed to save system agent configuration");
+      setError(cleanSystemAgentMessage(err?.response?.data?.error || err?.message, "Failed to save system agent configuration"));
     } finally {
       setSaving(false);
     }
@@ -508,7 +642,7 @@ export default function SystemAgentConfigurationPage() {
               </div>
               <h1 className="mt-3 text-2xl sm:text-3xl font-bold text-slate-950">System Agent Configuration</h1>
               <p className="mt-1 max-w-3xl text-sm sm:text-base text-slate-600">
-                Configure the Custom LLM clinic model, prompt, tools, and voice settings for this assigned number.
+                Configure the Custom LLM , prompt, tools, and voice settings for this assigned number.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -573,7 +707,7 @@ export default function SystemAgentConfigurationPage() {
                     </div>
                     <div>
                       <h2 className="text-lg font-bold text-slate-950">Custom LLM System Prompt</h2>
-                      <p className="text-sm text-slate-500">This prompt is used by the clinic model during live calls.</p>
+                      <p className="text-sm text-slate-500">This prompt is used by the voice agent during live calls.</p>
                     </div>
                   </div>
 
@@ -623,7 +757,7 @@ export default function SystemAgentConfigurationPage() {
                         <SlidersHorizontal className="h-5 w-5" />
                       </div>
                       <div>
-                        <h2 className="text-lg font-bold text-slate-950">Clinic Model</h2>
+                        <h2 className="text-lg font-bold text-slate-950">Configuration</h2>
                         <p className="text-sm text-slate-500">Gemini model settings used by Custom LLM.</p>
                       </div>
                     </div>
@@ -739,7 +873,7 @@ export default function SystemAgentConfigurationPage() {
                     </div>
                     <div>
                       <h2 className="text-lg font-bold text-slate-950">Voice Agent & Voice Selection</h2>
-                      <p className="text-sm text-slate-500">Agent and voice options are loaded automatically from the configured voice API.</p>
+                      <p className="text-sm text-slate-500">Agent options and dashboard voices are loaded automatically.</p>
                     </div>
                   </div>
                   <label className="flex items-center gap-2 text-sm font-semibold text-slate-700">
@@ -756,6 +890,12 @@ export default function SystemAgentConfigurationPage() {
                 {voiceAgentsError && (
                   <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
                     {voiceAgentsError}
+                  </div>
+                )}
+
+                {voiceListError && (
+                  <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+                    {voiceListError}
                   </div>
                 )}
 
@@ -782,27 +922,114 @@ export default function SystemAgentConfigurationPage() {
                   </div>
 
                   <div className="rounded-lg border border-slate-200 p-4">
-                    <div className="mb-3 flex items-center gap-2 font-bold text-slate-900">
-                      <Volume2 className="h-4 w-4 text-sky-600" />
-                      Voice Selection
-                    </div>
-                    <label className="block">
-                      <span className="text-sm font-semibold text-slate-700">Select Voice</span>
-                      <select
-                        value={formData.voiceRuntimeConfig.tts.voiceId}
-                        onChange={(event) => handleVoiceSelect(event.target.value)}
-                        disabled={voiceChoices.length === 0}
-                        className="mt-1 h-11 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 disabled:bg-slate-50 disabled:text-slate-400"
-                      >
-                        <option value="">{voiceChoices.length ? "Choose voice" : "Using configured provider voice"}</option>
-                        {formData.voiceRuntimeConfig.tts.voiceId && !voiceChoices.some((voice) => voice.id === formData.voiceRuntimeConfig.tts.voiceId) && (
-                          <option value={formData.voiceRuntimeConfig.tts.voiceId}>Current voice</option>
-                        )}
-                        {voiceChoices.map((voice) => (
-                          <option key={voice.id} value={voice.id}>{voice.name}</option>
+                    <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="flex items-center gap-2 font-bold text-slate-900">
+                        <Volume2 className="h-4 w-4 text-sky-600" />
+                        Voice Selection
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {allowedVoiceProviders.map((provider) => (
+                          <span
+                            key={provider}
+                            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold ${getVoiceProviderBadgeClass(provider)}`}
+                          >
+                            {getVoiceProviderLabel(provider)}
+                            <span className="rounded-full bg-white/80 px-1.5 py-0.5 text-[10px] leading-none">
+                              {voiceProviderCounts[provider] || 0}
+                            </span>
+                          </span>
                         ))}
-                      </select>
-                    </label>
+                      </div>
+                    </div>
+
+                    <div className="grid max-h-[5.5rem] gap-2 overflow-y-auto overscroll-contain pr-1">
+                      {voiceChoices.length > 0 ? voiceChoices.map((voice) => {
+                        const selected = formData.voiceRuntimeConfig.tts.voiceId === voice.id;
+                        return (
+                          <button
+                            key={voice.id}
+                            type="button"
+                            onClick={() => handleVoiceSelect(voice.id)}
+                            aria-pressed={selected}
+                            className={`flex min-h-20 w-full items-center gap-3 rounded-lg border p-3 text-left transition ${
+                              selected
+                                ? "border-orange-300 bg-orange-50 shadow-sm ring-2 ring-orange-100"
+                                : "border-slate-200 bg-white hover:border-orange-200 hover:bg-orange-50/40"
+                            }`}
+                          >
+                            <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${getVoiceProviderIconClass(voice.provider)}`}>
+                              <Volume2 className="h-4 w-4" />
+                            </span>
+                            <span className="min-w-0 flex-1">
+                              <span className="block truncate text-sm font-semibold text-slate-950">{voice.name}</span>
+                              <span className="mt-1 flex max-h-6 flex-wrap gap-1.5 overflow-hidden">
+                                <span className={`rounded-full border px-2 py-0.5 text-[11px] font-semibold ${getVoiceProviderBadgeClass(voice.provider)}`}>
+                                  {getVoiceProviderLabel(voice.provider)}
+                                </span>
+                                {voice.language && (
+                                  <span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+                                    {voice.language}
+                                  </span>
+                                )}
+                                {voice.category === "custom" && (
+                                  <span className="rounded-full border border-orange-200 bg-orange-50 px-2 py-0.5 text-[11px] font-medium text-orange-700">
+                                    Custom
+                                  </span>
+                                )}
+                                {voice.previewUrl && (
+                                  <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[11px] font-medium text-sky-700">
+                                    Preview
+                                  </span>
+                                )}
+                              </span>
+                            </span>
+                            {selected ? (
+                              <CheckCircle className="h-5 w-5 shrink-0 text-orange-600" />
+                            ) : (
+                              <span className="h-5 w-5 shrink-0 rounded-full border border-slate-300" />
+                            )}
+                          </button>
+                        );
+                      }) : (
+                        <div className="rounded-lg border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
+                          No ElevenLabs or Sarvam voices are available right now.
+                        </div>
+                      )}
+                    </div>
+
+                    {formData.voiceRuntimeConfig.tts.voiceId && !selectedVoiceChoice && (
+                      <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-700">
+                        Current saved voice is outside ElevenLabs or Sarvam. Pick one from the list before saving.
+                      </div>
+                    )}
+
+                    {selectedVoiceChoice && (
+                      <div className="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+                        <div className="mb-2 flex items-center justify-between gap-3 text-xs">
+                          <span className="min-w-0 truncate font-semibold text-slate-700">
+                            {selectedVoiceChoice.name}
+                          </span>
+                          <span className={`shrink-0 rounded-full border px-2 py-1 font-semibold ${getVoiceProviderBadgeClass(selectedVoiceChoice.provider)}`}>
+                            {getVoiceProviderLabel(selectedVoiceChoice.provider)}
+                          </span>
+                        </div>
+                        {selectedVoiceChoice.previewUrl ? (
+                          <audio
+                            key={selectedVoiceChoice.id}
+                            controls
+                            preload="none"
+                            src={selectedVoiceChoice.previewUrl}
+                            className="h-10 w-full"
+                          >
+                            Your browser does not support the audio element.
+                          </audio>
+                        ) : (
+                          <p className="text-xs text-slate-500">
+                            No preview audio is available for this voice.
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </section>
@@ -819,15 +1046,15 @@ export default function SystemAgentConfigurationPage() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3">
                     {toolCards.map((tool) => (
-                      <div key={tool.name} className="rounded-lg border border-slate-200 p-4">
-                        <div className="mb-3 flex items-start justify-between gap-3">
-                          <div>
-                            <h3 className="font-bold text-slate-950">{tool.title}</h3>
-                            <p className="mt-1 text-xs font-mono text-slate-500">{tool.name}</p>
+                      <div key={tool.name} className="min-w-0 rounded-lg border border-slate-200 p-4">
+                        <div className="mb-3 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+                          <div className="min-w-0">
+                            <h3 className="break-words text-base font-bold leading-5 text-slate-950">{tool.title}</h3>
+                            <p className="mt-1 break-all font-mono text-[11px] leading-4 text-slate-500">{tool.name}</p>
                           </div>
-                          <label className="relative inline-flex cursor-pointer items-center">
+                          <label className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center">
                             <input
                               type="checkbox"
                               checked={formData.toolConfig.enabledTools[tool.key]}
@@ -837,7 +1064,7 @@ export default function SystemAgentConfigurationPage() {
                             <span className="h-6 w-11 rounded-full bg-slate-200 after:absolute after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all peer-checked:bg-orange-600 peer-checked:after:translate-x-5" />
                           </label>
                         </div>
-                        <p className="text-sm text-slate-600">{tool.description}</p>
+                        <p className="text-sm leading-6 text-slate-600">{tool.description}</p>
                         <p className="mt-3 break-all rounded-lg bg-slate-50 p-2 text-xs text-slate-500">{tool.endpoint || "Endpoint not set"}</p>
                       </div>
                     ))}
