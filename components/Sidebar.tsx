@@ -55,12 +55,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       if (isDoctorDashboard) {
         serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
         serviceItems.push({ name: 'Lead Analysis', href: '/dashboard/lead-analysis', icon: Users });
+        serviceItems.push({ name: 'System Agent', href: '/dashboard/system-agent', icon: Settings });
       }
       serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
       serviceItems.push({ name: 'Book Appointment', href: '/dashboard/book-appointment', icon: PlusCircle });
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
-      serviceItems.push({ name: 'System Agent', href: '/dashboard/system-agent', icon: Settings });
+
       
     }
     if (user?.selectedService === 'customer-support') {
