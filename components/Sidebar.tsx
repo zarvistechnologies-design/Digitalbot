@@ -37,17 +37,30 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
   ];
 
+  const formatServiceName = (service?: string) => {
+    if (!service) return '';
+    if (service === 'doctor-dashboard') return 'Doctor Dashboard';
+    return service.replace(/[-_]/g, ' ');
+  };
+
   const getServiceNavigation = () => {
+    const selectedService = (user?.selectedService || '').toLowerCase();
+    const isDoctorDashboard = ['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare'].includes(selectedService);
     const serviceItems = [];
     if (user?.selectedService === 'lead-analysis' || user?.selectedService === 'lead') {
       serviceItems.push({ name: 'Leads', href: '/dashboard/leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
     }
-    if (user?.selectedService === 'appointment') {
+    if (user?.selectedService === 'appointment' || isDoctorDashboard) {
+      if (isDoctorDashboard) {
+        serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
+        serviceItems.push({ name: 'Lead Analysis', href: '/dashboard/lead-analysis', icon: Users });
+      }
       serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
       serviceItems.push({ name: 'Book Appointment', href: '/dashboard/book-appointment', icon: PlusCircle });
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
+      serviceItems.push({ name: 'System Agent', href: '/dashboard/system-agent', icon: Settings });
       
     }
     if (user?.selectedService === 'customer-support') {
@@ -98,9 +111,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       <>
         {/* Desktop Sidebar Skeleton */}
         <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
-          <div className="flex flex-col grow bg-slate-50 border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
+          <div className="flex flex-col grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center shrink-0 px-4">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold text-orange-600">
                 DigitalBot
               </h1>
             </div>
@@ -133,11 +146,11 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
-        <div className="flex flex-col grow bg-slate-50 border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
+        <div className="flex flex-col grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
 
           {/* Logo */}
           <div className="flex items-center shrink-0 px-4">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold text-orange-600">
               DigitalBot
             </h1>
           </div>
@@ -145,7 +158,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           {/* User Info */}
           {user && (
             <div className="mt-6 px-4">
-              <div className="bg-orange-50 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
+              <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
                 <p className="text-sm font-semibold text-gray-900">{user.name}</p>
                 <p className="text-xs text-gray-600">{user.email}</p>
                 {user.assignedPhoneNumber && (
@@ -154,7 +167,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                   </p>
                 )}
                 <p className="text-xs text-orange-600 mt-1 capitalize">
-                  {user.selectedService?.replace('_', ' ')} Service
+                  {formatServiceName(user.selectedService)} Service
                 </p>
               </div>
             </div>
@@ -170,8 +183,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                   href={item.href}
                   className={cn(
                     isActive
-                      ? 'bg-gradient-to-r from-orange-600 to-orange-600 text-white shadow-md'
-                      : 'text-gray-700 hover:bg-gray-100',
+                      ? 'bg-orange-600 text-white shadow-md'
+                      : 'text-gray-700 hover:text-orange-600 hover:bg-white',
                     'group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all'
                   )}
                 >
@@ -191,7 +204,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           <div className="shrink-0 flex border-t border-gray-200 p-4 mt-auto">
             <button
               onClick={handleLogout}
-              className="flex items-center justify-center w-full gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold shadow-lg hover:shadow-xl transition transform hover:-translate-y-1"
+              className="flex items-center justify-center w-full gap-2 px-4 py-2 rounded-xl bg-orange-600 text-white font-semibold shadow-lg hover:bg-orange-700 hover:shadow-xl transition transform hover:-translate-y-1"
             >
               <LogOut className="h-5 w-5" />
               Logout
@@ -209,11 +222,11 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
             animate={{ x: 0 }}
             exit={{ x: -300 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="lg:hidden fixed inset-y-0 left-0 z-50 w-64 bg-slate-50 border-r border-gray-200 shadow-lg"
+            className="lg:hidden fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 shadow-lg"
           >
             <div className="flex flex-col h-full">
               <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold text-orange-600">
                   DigitalBot
                 </h1>
                 <button
@@ -226,14 +239,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
               {user && (
                 <div className="mt-4 px-4">
-                  <div className="bg-orange-50 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
                     <p className="text-sm font-semibold text-gray-900">{user.name}</p>
                     <p className="text-xs text-gray-600">{user.email}</p>
                     <p className="text-xs text-gray-600 mt-1">
                       Assigned Number:{user.assignedPhoneNumber}
                     </p>
                     <p className="text-xs text-orange-600 mt-1 capitalize">
-                      {user.selectedService?.replace('_', ' ')} Service
+                      {formatServiceName(user.selectedService)} Service
                     </p>
                   </div>
                 </div>
@@ -249,8 +262,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                       onClick={() => setSidebarOpen(false)}
                       className={cn(
                         isActive
-                          ? 'bg-gradient-to-r from-orange-600 to-orange-600 text-white shadow-md'
-                          : 'text-gray-700 hover:bg-gray-100',
+                          ? 'bg-orange-600 text-white shadow-md'
+                          : 'text-gray-700 hover:text-orange-600 hover:bg-white',
                         'group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all'
                       )}
                     >
@@ -269,12 +282,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
               <div className="shrink-0 flex border-t border-gray-200 p-4 mt-auto">
                 <button
                   onClick={handleLogout}
-                  className="flex items-center w-full rounded-lg p-2 hover:bg-gray-100 transition"
+                  className="flex items-center justify-center w-full gap-2 px-4 py-2 rounded-xl bg-orange-600 text-white font-semibold shadow-lg hover:bg-orange-700 transition"
                 >
-                  <LogOut className="h-5 w-5 text-gray-400 mr-3 group-hover:text-gray-500" />
-                  <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                    Logout
-                  </span>
+                  <LogOut className="h-5 w-5" />
+                  Logout
                 </button>
               </div>
             </div>

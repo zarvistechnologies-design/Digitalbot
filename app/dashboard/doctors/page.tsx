@@ -293,7 +293,7 @@ export default function DoctorsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-purple-50/20">
+    <div className="min-h-screen bg-white">
       {/* Mobile Menu Button */}
       {!sidebarOpen && (
         <button

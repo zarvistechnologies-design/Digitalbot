@@ -11,7 +11,7 @@ interface SignupFormProps {
   initialService?: string
 }
 
-type ServiceKey = 'lead-analysis' | 'appointment' | 'customer-support' | ''
+type ServiceKey = 'lead-analysis' | 'appointment' | 'doctor-dashboard' | 'customer-support' | ''
 
 export function SignupForm({ initialService }: SignupFormProps) {
   const router = useRouter()
@@ -27,6 +27,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     if (!serviceFromUrl) return
     if (serviceFromUrl === 'lead' || serviceFromUrl === 'lead-analysis') setSelectedService('lead-analysis')
     else if (serviceFromUrl === 'appointment') setSelectedService('appointment')
+    else if (['doctor', 'doctor-dashboard', 'doctor dashboard', 'clinic', 'healthcare'].includes(serviceFromUrl)) setSelectedService('doctor-dashboard')
     else if (serviceFromUrl === 'customer-support') setSelectedService('customer-support')
   }, [searchParams, initialService])
 
@@ -40,6 +41,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     const serviceFromUrl = searchParams.get('service') || initialService
     if (serviceFromUrl === 'lead' || serviceFromUrl === 'lead-analysis') return 'lead-analysis'
     if (serviceFromUrl === 'appointment') return 'appointment'
+    if (serviceFromUrl && ['doctor', 'doctor-dashboard', 'doctor dashboard', 'clinic', 'healthcare'].includes(serviceFromUrl)) return 'doctor-dashboard'
     if (serviceFromUrl === 'customer-support') return 'customer-support'
     return selectedService
   }
@@ -90,6 +92,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
         return { title: 'Lead Analysis Service', gradient: 'from-orange-500 to-violet-500' }
       case 'appointment':
         return { title: 'Appointment Service', gradient: 'from-violet-500 to-orange-600' }
+      case 'doctor-dashboard':
+        return { title: 'Doctor Dashboard Service', gradient: 'from-orange-500 to-violet-500' }
       case 'customer-support':
         return { title: 'Customer Support AI', gradient: 'from-orange-500 to-violet-500' }
       default:

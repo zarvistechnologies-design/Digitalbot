@@ -745,7 +745,7 @@ export default function AppointmentsPage() {
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-orange-50">
+      <div className="flex min-h-screen bg-white">
         <div className="hidden lg:block w-64 bg-gray-900"></div>
         <main className="flex-1 lg:ml-64"></main>
       </div>
@@ -755,7 +755,7 @@ export default function AppointmentsPage() {
   // ==================== DOCTOR SELECTION VIEW ====================
   if (!selectedDoctor) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-orange-50">
+      <div className="flex min-h-screen bg-white">
         {/* Mobile Menu Button */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -948,7 +948,7 @@ export default function AppointmentsPage() {
 
   // ==================== DOCTOR'S APPOINTMENT VIEW ====================
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-orange-50">
+    <div className="flex min-h-screen bg-white">
       {/* Mobile Menu Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}

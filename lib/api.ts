@@ -127,6 +127,10 @@ export const callsAPI = {
   },
 };
 
+export const voiceProviderAPI = {
+  getAgents: () => api.get('/voice-agents'),
+};
+
 // ========================================
 // DOCTORS API
 // ========================================
@@ -174,6 +178,9 @@ export const doctorsAPI = {
 // PROMPTS API
 // ========================================
 export const promptsAPI = {
+  // Get current authenticated user's prompt/config
+  getCurrent: () => api.get('/prompts'),
+
   // Get all prompts
   getAll: () => api.get('/prompts'),
 
@@ -181,32 +188,16 @@ export const promptsAPI = {
   getById: (id: string) => api.get(`/prompts/${id}`),
 
   // Create prompt
-  create: (data: {
-    hospitalName: string;
-    systemPrompt: string;
-    greetingMessage?: string;
-    closingMessage?: string;
-    workingHours?: { start: string; end: string };
-    workingDays?: number[];
-    voiceConfig?: { language?: string; voiceId?: string; speed?: number; pitch?: number };
-    features?: {
-      appointmentBooking?: boolean;
-      doctorAvailabilityCheck?: boolean;
-      appointmentCancellation?: boolean;
-      appointmentRescheduling?: boolean;
-      emergencyHandling?: boolean;
-    };
-    notifications?: {
-      smsEnabled?: boolean;
-      whatsappEnabled?: boolean;
-      emailEnabled?: boolean;
-      notifyDoctorOnBooking?: boolean;
-      notifyPatientOnBooking?: boolean;
-    };
-  }) => api.post('/prompts', data),
+  create: (data: unknown) => api.post('/prompts', data),
+
+  // Save current authenticated user's prompt/config
+  saveCurrent: (data: unknown) => api.post('/prompts', data),
 
   // Update prompt
-  update: (id: string, data: Record<string, unknown>) => api.put(`/prompts/${id}`, data),
+  update: (id: string, data: unknown) => api.put(`/prompts/${id}`, data),
+
+  // Update prompt by assigned phone number
+  updateByPhone: (phoneNumber: string, data: unknown) => api.put(`/prompts/${phoneNumber}`, data),
 
   // Delete prompt
   delete: (id: string) => api.delete(`/prompts/${id}`),

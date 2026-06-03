@@ -1142,7 +1142,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
+      <div className="flex min-h-screen bg-white">
         <div className="hidden lg:block">
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         </div>
@@ -1157,7 +1157,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
+    <div className="flex min-h-screen bg-white">
       {/* Mobile Menu Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}

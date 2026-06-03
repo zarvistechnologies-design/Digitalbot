@@ -104,7 +104,7 @@ userPhone ?: string;
     };
 
     return (
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 transition-all duration-300 hover:shadow-xl hover:border-orange-400">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300">
             <div className="p-6">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
@@ -114,14 +114,14 @@ userPhone ?: string;
                             <h3 className="text-xl font-bold text-gray-900">{campaign.name}</h3>
                         </div>
                         <div className="flex flex-wrap items-center gap-2">
-                            <span className={`px-3 py-1 rounded-lg text-xs font-bold border-2 ${getStatusColor(campaign.status)}`}>
+                            <span className={`px-3 py-1 rounded-lg text-xs font-bold border ${getStatusColor(campaign.status)}`}>
                                 {campaign.status.toUpperCase()}
                             </span>
-                            <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-orange-100 text-orange-700 border-2 border-orange-300">
+                            <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-slate-50 text-slate-700 border border-slate-200">
                                 {campaign.type}
                             </span>
                             {userPhone && (
-                                <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-orange-100 text-orange-700 border-2 border-orange-300">
+                                <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200">
                                     📞 {userPhone}
                                 </span>
                             )}
@@ -144,10 +144,10 @@ userPhone ?: string;
 
                 {/* AI Features Badge */}
                 {Object.values(campaign.aiFeatures).some(v => v) && (
-                    <div className="mb-4 p-3 bg-gradient-to-r from-orange-50 to-pink-50 rounded-xl border-2 border-orange-200">
+                    <div className="mb-4 p-3 bg-white rounded-lg border border-slate-200">
                         <div className="flex items-center gap-2 mb-2">
                             <span className="text-lg">🤖</span>
-                            <span className="text-sm font-bold text-orange-700">AI-Powered Features</span>
+                            <span className="text-sm font-bold text-slate-800">AI-Powered Features</span>
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {campaign.aiFeatures.smartScheduling && (
@@ -171,27 +171,27 @@ userPhone ?: string;
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-3 border-2 border-orange-200">
+                    <div className="bg-orange-50 rounded-lg p-3 border border-orange-200">
                         <div className="text-xs text-orange-700 font-semibold mb-1">Total Contacts</div>
                         <div className="text-2xl font-black text-orange-900">{campaign.totalContacts.toLocaleString()}</div>
                     </div>
-                    <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-3 border-2 border-green-200">
+                    <div className="bg-green-50 rounded-lg p-3 border border-green-200">
                         <div className="text-xs text-green-700 font-semibold mb-1">Successful</div>
                         <div className="text-2xl font-black text-green-900">{campaign.successful.toLocaleString()}</div>
                     </div>
-                    <div className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-xl p-3 border-2 border-sky-200">
+                    <div className="bg-sky-50 rounded-lg p-3 border border-sky-200">
                         <div className="text-xs text-sky-700 font-semibold mb-1">Pending</div>
                         <div className="text-2xl font-black text-sky-900">{campaign.pending.toLocaleString()}</div>
                     </div>
-                    <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-3 border-2 border-red-200">
+                    <div className="bg-red-50 rounded-lg p-3 border border-red-200">
                         <div className="text-xs text-red-700 font-semibold mb-1">Failed</div>
                         <div className="text-2xl font-black text-red-900">{campaign.failed.toLocaleString()}</div>
                     </div>
                 </div>
 
                 {/* Performance Metrics */}
-                <div className="bg-gradient-to-br from-orange-50 to-orange-50 rounded-xl p-4 mb-4 border-2 border-orange-200">
-                    <h4 className="text-sm font-bold text-orange-700 mb-3 flex items-center gap-2">
+                <div className="bg-slate-50 rounded-lg p-4 mb-4 border border-slate-200">
+                    <h4 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
@@ -746,7 +746,7 @@ export default function CampaignsPage() {
 
     if (loading) {
         return (
-            <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
+            <div className="flex min-h-screen bg-white">
                 <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
                     <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
                 </div>
@@ -764,7 +764,7 @@ export default function CampaignsPage() {
     }
 
     return (
-        <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
+        <div className="flex min-h-screen bg-white">
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -791,14 +791,14 @@ export default function CampaignsPage() {
                 <div className="max-w-8xl mx-auto space-y-6 sm:space-y-8">
 
                     {/* Header */}
-                    <div className="bg-white rounded-2xl shadow-xl border-2 border-orange-200 p-4 sm:p-6 lg:p-8">
+                    <div className="bg-white rounded-lg border border-slate-200 p-4 sm:p-6 lg:p-8">
                         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                             <div>
-                                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-pink-100 border-2 border-orange-300 rounded-xl px-4 py-2 mb-3">
+                                <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 mb-3">
                                     <span className="text-2xl">🚀</span>
                                     <span className="text-sm font-bold text-orange-700">Advanced Campaign Manager</span>
                                 </div>
-                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black bg-gradient-to-r from-slate-900 via-orange-600 to-pink-600 bg-clip-text text-transparent mb-2">
+                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 mb-2">
                                     Campaign Management
                                 </h1>
                                 <p className="text-slate-600 mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg">
@@ -813,7 +813,7 @@ export default function CampaignsPage() {
 
                             <button
                                 onClick={() => setShowCreateModal(true)}
-                                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-lg hover:scale-105 transform"
+                                className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-sm"
                             >
                                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -825,57 +825,57 @@ export default function CampaignsPage() {
 
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                        <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-pink-600 shadow-lg">
+                                <div className="p-3 rounded-lg bg-orange-600">
                                     <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                 </div>
                             </div>
                             <p className="text-slate-600 font-semibold mb-1 text-sm">Total Campaigns</p>
-                            <p className="text-3xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">{totalCampaigns}</p>
+                            <p className="text-3xl font-black text-slate-950">{totalCampaigns}</p>
                         </div>
 
-                        <div className="bg-white rounded-2xl shadow-lg border-2 border-green-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div className="bg-white rounded-lg border border-green-200 p-6 shadow-sm">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+                                <div className="p-3 rounded-lg bg-green-600">
                                     <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                     </svg>
                                 </div>
                             </div>
                             <p className="text-slate-600 font-semibold mb-1 text-sm">Active Campaigns</p>
-                            <p className="text-3xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">{activeCampaigns}</p>
+                            <p className="text-3xl font-black text-green-700">{activeCampaigns}</p>
                         </div>
 
-                        <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div className="bg-white rounded-lg border border-sky-200 p-6 shadow-sm">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-cyan-600 shadow-lg">
+                                <div className="p-3 rounded-lg bg-sky-600">
                                     <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
                                 </div>
                             </div>
                             <p className="text-slate-600 font-semibold mb-1 text-sm">Total Reach</p>
-                            <p className="text-3xl font-black bg-gradient-to-r from-orange-600 to-cyan-600 bg-clip-text text-transparent">{totalContacts.toLocaleString()}</p>
+                            <p className="text-3xl font-black text-sky-700">{totalContacts.toLocaleString()}</p>
                         </div>
 
-                        <div className="bg-white rounded-2xl shadow-lg border-2 border-sky-200 p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div className="bg-white rounded-lg border border-rose-200 p-6 shadow-sm">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-xl bg-gradient-to-br from-sky-500 to-red-600 shadow-lg">
+                                <div className="p-3 rounded-lg bg-rose-600">
                                     <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                                     </svg>
                                 </div>
                             </div>
                             <p className="text-slate-600 font-semibold mb-1 text-sm">Avg Conversion</p>
-                            <p className="text-3xl font-black bg-gradient-to-r from-sky-600 to-red-600 bg-clip-text text-transparent">{avgConversion.toFixed(1)}%</p>
+                            <p className="text-3xl font-black text-rose-700">{avgConversion.toFixed(1)}%</p>
                         </div>
                     </div>
 
                     {/* Filters */}
-                    <div className="bg-white rounded-2xl shadow-xl border-2 border-orange-200 p-4 sm:p-6">
+                    <div className="bg-white rounded-lg border border-slate-200 p-4 sm:p-6">
                         <div className="flex flex-col gap-4">
                             <div className="relative">
                                 <input
@@ -883,7 +883,7 @@ export default function CampaignsPage() {
                                     placeholder="🔍 Search campaigns..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full px-6 py-4 pl-12 bg-gradient-to-r from-orange-50 to-pink-50 border-2 border-orange-200 rounded-xl focus:bg-white focus:border-orange-400 focus:ring-4 focus:ring-purple-100 transition-all duration-200 text-lg text-slate-800 placeholder-slate-500 font-medium"
+                                    className="w-full px-6 py-4 pl-12 bg-white border border-slate-300 rounded-lg focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-200 text-lg text-slate-800 placeholder-slate-500 font-medium"
                                 />
                                 <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -892,18 +892,18 @@ export default function CampaignsPage() {
 
                             <div className="flex flex-wrap gap-3">
                                 {[
-                                    { value: 'all', label: 'All Campaigns', color: 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200', active: 'bg-gradient-to-r from-orange-500 to-pink-600' },
-                                    { value: 'active', label: 'Active', color: 'bg-green-50 text-green-700 border-green-300 hover:bg-green-100', active: 'bg-gradient-to-r from-green-500 to-emerald-600' },
-                                    { value: 'scheduled', label: 'Scheduled', color: 'bg-orange-50 text-orange-700 border-orange-300 hover:bg-orange-100', active: 'bg-gradient-to-r from-orange-500 to-cyan-600' },
-                                    { value: 'paused', label: 'Paused', color: 'bg-yellow-50 text-yellow-700 border-yellow-300 hover:bg-yellow-100', active: 'bg-gradient-to-r from-yellow-500 to-sky-600' },
-                                    { value: 'completed', label: 'Completed', color: 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100', active: 'bg-gradient-to-r from-gray-500 to-slate-600' },
-                                    { value: 'draft', label: 'Draft', color: 'bg-orange-50 text-orange-700 border-orange-300 hover:bg-orange-100', active: 'bg-gradient-to-r from-orange-500 to-orange-600' }
+                                    { value: 'all', label: 'All Campaigns', color: 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100', active: 'bg-orange-600' },
+                                    { value: 'active', label: 'Active', color: 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100', active: 'bg-green-600' },
+                                    { value: 'scheduled', label: 'Scheduled', color: 'bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100', active: 'bg-sky-600' },
+                                    { value: 'paused', label: 'Paused', color: 'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100', active: 'bg-yellow-600' },
+                                    { value: 'completed', label: 'Completed', color: 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100', active: 'bg-slate-700' },
+                                    { value: 'draft', label: 'Draft', color: 'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100', active: 'bg-orange-600' }
                                 ].map(filter => (
                                     <button
                                         key={filter.value}
                                         onClick={() => setFilterStatus(filter.value as FilterStatus)}
-                                        className={`px-4 py-2 rounded-lg font-bold transition-all duration-200 text-sm border-2 ${filterStatus === filter.value
-                                            ? filter.active + ' text-white shadow-lg transform scale-105'
+                                        className={`px-4 py-2 rounded-lg font-bold transition-all duration-200 text-sm border ${filterStatus === filter.value
+                                            ? filter.active + ' text-white shadow-sm'
                                             : filter.color
                                             }`}
                                     >
@@ -917,13 +917,13 @@ export default function CampaignsPage() {
                     {/* Campaigns Grid */}
                     <div className="grid gap-6">
                         {filteredCampaigns.length === 0 ? (
-                            <div className="bg-gradient-to-br from-orange-50 to-pink-50 rounded-3xl shadow-2xl border-2 border-orange-300 p-16 text-center">
+                            <div className="bg-white rounded-lg border border-slate-200 p-16 text-center">
                                 <div className="text-orange-500 mb-6">
                                     <svg className="mx-auto h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                 </div>
-                                <h3 className="text-3xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent mb-3">
+                                <h3 className="text-3xl font-black text-slate-950 mb-3">
                                     {searchTerm || filterStatus !== 'all' ? 'No campaigns match your filters' : 'No campaigns yet'}
                                 </h3>
                                 <p className="text-gray-600 text-lg mb-6">
@@ -935,7 +935,7 @@ export default function CampaignsPage() {
                                 {!searchTerm && filterStatus === 'all' && (
                                     <button
                                         onClick={() => setShowCreateModal(true)}
-                                        className="px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-lg hover:scale-105 transform mx-auto"
+                                        className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-sm mx-auto"
                                     >
                                         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

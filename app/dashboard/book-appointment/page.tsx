@@ -574,7 +574,7 @@ export default function BookAppointmentPage() {
 
   // ==================== RENDER ====================
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
+    <div className="min-h-screen bg-white">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Mobile header */}

@@ -14,15 +14,21 @@ console.log('🔌 WS_URL:', WS_URL);
 // TYPES
 // ==========================================
 type Call = {
-  _id: string;
+  _id?: string;
+  id?: string;
+  call_id?: string;
+  session_id?: string;
   from_number?: string;
   to_number?: string;
   status?: string;
   startTime?: string;
+  start_time?: string;
   duration?: number;
   direction?: string;
   transcription?: string;
+  transcription_formatted?: string;
   transcript?: string;
+  chat?: unknown;
   isLead?: boolean;
   name?: string;
   phone?: string;
@@ -31,6 +37,7 @@ type Call = {
   customerNeed?: string;
   leadAnalysisAt?: string;
   createdAt?: string;
+  created_at?: string;
   updatedAt?: string;
 };
 
@@ -127,6 +134,26 @@ const normalizeTranscriptionText = (value: unknown): string => {
   return String(value);
 };
 
+const getCallId = (call: Partial<Call>, fallback = ""): string => {
+  const id = call._id || call.id || call.call_id || call.session_id || fallback;
+  return String(id || "");
+};
+
+const getCallTranscription = (call: Partial<Call>): unknown => {
+  return call.transcription || call.transcript || call.transcription_formatted || call.chat;
+};
+
+const normalizeCall = (call: Call, index: number): Call => {
+  const callId = getCallId(call, `call-${index}`);
+  return {
+    ...call,
+    _id: callId,
+    transcription: call.transcription || call.transcript || call.transcription_formatted,
+    startTime: call.startTime || call.start_time || call.createdAt || call.created_at,
+    createdAt: call.createdAt || call.created_at,
+  };
+};
+
 // Get auth token helper - FORCE DEMO TOKEN
 const getAuthToken = () => {
   if (typeof window === 'undefined') return null;
@@ -172,6 +199,8 @@ const MenuIcon = () => (
 
 // Lead Details Modal Component
 const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }) => {
+  const callId = getCallId(call, "unknown");
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -193,7 +222,7 @@ const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <h3 className="text-xs sm:text-sm font-medium text-gray-500 mb-2">Call ID</h3>
-              <p className="text-sm sm:text-base text-gray-900 font-mono break-all">{call._id}</p>
+              <p className="text-sm sm:text-base text-gray-900 font-mono break-all">{callId}</p>
             </div>
             <div>
               <h3 className="text-xs sm:text-sm font-medium text-gray-500 mb-2">Duration</h3>
@@ -247,12 +276,12 @@ const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }
             </div>
           )}
 
-          {(call.transcription || call.transcript) && (
+          {getCallTranscription(call) && (
             <div>
               <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3">Transcription</h3>
               <div className="bg-gray-50 rounded-xl p-4 max-h-64 overflow-y-auto border border-gray-200">
                 {(() => {
-                  let t = call.transcription || call.transcript;
+                  let t = getCallTranscription(call);
                   if (!t) return null;
                   let messages = [];
                   if (typeof t === 'string') {
@@ -390,13 +419,14 @@ function CallCard({
   isProcessing: boolean;
 }) {
   const isAnalyzed = call.isLead !== undefined && call.isLead !== null && call.leadAnalysisAt;
-  const hasTranscription = call.transcription || call.transcript;
+  const hasTranscription = getCallTranscription(call);
+  const callId = getCallId(call, "unknown");
 
   return (
-    <div className={`bg-white rounded-2xl shadow-lg border transition-all duration-300 hover:shadow-xl ${
-      call.isLead === true ? 'border-l-4 border-l-green-400 bg-gradient-to-r from-green-50/50 to-white' :
+    <div className={`bg-white rounded-lg border transition-all duration-300 hover:shadow-sm ${
+      call.isLead === true ? 'border-l-4 border-l-green-500' :
       call.isLead === false ? 'border-l-4 border-l-gray-300' :
-      'border-orange-200'
+      'border-slate-200'
     }`}>
       <div className="p-4 sm:p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -405,7 +435,7 @@ function CallCard({
             <div className="space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                 <span className="text-xs font-mono text-white bg-gray-700 px-2 sm:px-3 py-1 rounded-lg inline-block break-all">
-                  ID: {call._id.substring(0, 8)}
+                  ID: {callId.substring(0, 8)}
                 </span>
                 <span className="text-xs sm:text-sm text-gray-700 font-medium break-all">
                   {(call.from_number || '')} → {(call.to_number|| '')}
@@ -691,8 +721,8 @@ export default function LeadsPage() {
   // Process Individual Call
   // ==========================================
   const processIndividualCall = useCallback(async (callId: string, forceReanalyze = false) => {
-    const call = calls.find(c => c._id === callId);
-    if (!call || (!call.transcription && !call.transcript)) {
+    const call = calls.find(c => getCallId(c) === callId);
+    if (!call || !getCallTranscription(call)) {
       console.log(`Call ${callId} not found or has no transcription`);
       return;
     }
@@ -702,7 +732,7 @@ export default function LeadsPage() {
       return;
     }
 
-    const transcriptionText = normalizeTranscriptionText(call.transcription || call.transcript);
+    const transcriptionText = normalizeTranscriptionText(getCallTranscription(call));
     if (!transcriptionText || transcriptionText.trim().length === 0) {
       console.log(`Call ${callId} has empty transcription`);
       return;
@@ -712,12 +742,12 @@ export default function LeadsPage() {
 
     try {
       console.log(`${forceReanalyze ? '🔄 Re-analyzing' : '🆕 Analyzing'} call ${callId}...`);
-      const aiResult = await processTranscriptionWithAI(call._id, transcriptionText);
+      const aiResult = await processTranscriptionWithAI(callId, transcriptionText);
 
       if (aiResult && aiResult.extraction_method !== "failed") {
         setCalls(prevCalls =>
           prevCalls.map(c =>
-            c._id === callId
+            getCallId(c) === callId
               ? {
                   ...c,
                   isLead: aiResult.is_lead,
@@ -741,7 +771,7 @@ export default function LeadsPage() {
         console.error(`❌ AI analysis failed for call ${callId}`);
         setCalls(prevCalls =>
           prevCalls.map(c =>
-            c._id === callId
+            getCallId(c) === callId
               ? {
                   ...c,
                   isLead: false,
@@ -756,7 +786,7 @@ export default function LeadsPage() {
       console.error(`❌ Failed to process call ${callId}:`, error);
       setCalls(prevCalls =>
         prevCalls.map(c =>
-          c._id === callId
+          getCallId(c) === callId
             ? {
                 ...c,
                 isLead: false,
@@ -776,7 +806,7 @@ export default function LeadsPage() {
   // ==========================================
   const analyzeAllPendingCalls = useCallback(async () => {
     const pendingCalls = calls.filter(call =>
-      (call.transcription || call.transcript) &&
+      getCallTranscription(call) &&
       (call.isLead === undefined || call.isLead === null || !call.leadAnalysisAt)
     );
 
@@ -799,7 +829,7 @@ export default function LeadsPage() {
       console.log(`📊 Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(pendingCalls.length/batchSize)}`);
 
       await Promise.all(
-        batch.map(call => processIndividualCall(call._id, false))
+        batch.map(call => processIndividualCall(getCallId(call), false))
       );
 
       if (i + batchSize < pendingCalls.length) {
@@ -845,7 +875,7 @@ export default function LeadsPage() {
         const callDate = call.startTime ? new Date(call.startTime).toLocaleString() : 'N/A';
 
         return [
-          call._id || '',
+          getCallId(call),
           call.name || 'Unknown',
           call.phone || call.from_number || call.to_number|| '',
           callDate,
@@ -917,12 +947,13 @@ export default function LeadsPage() {
 
       const callsData = await callsResponse.json();
       const fetchedCalls = callsData.calls || callsData.data?.calls || [];
+      const normalizedCalls = fetchedCalls.map((call: Call, index: number) => normalizeCall(call, index));
 
       console.log(`📊 Fetched ${fetchedCalls.length} calls from backend (already filtered by user phone)`);
 
       // Backend already filters by authenticated user's phone number
       // No need for client-side filtering - just use the data directly
-      setCalls(fetchedCalls);
+      setCalls(normalizedCalls);
       console.log(`✅ Loaded ${fetchedCalls.length} calls for authenticated user`);
 
     } catch (error) {
@@ -994,12 +1025,14 @@ export default function LeadsPage() {
             if (Array.isArray(newCallsData)) {
               setCalls(prevCalls => {
                 const updatedCalls = [...prevCalls];
-                newCallsData.forEach(newCall => {
-                  const existingIndex = updatedCalls.findIndex(call => call._id === newCall._id);
+                newCallsData.forEach((newCall, index) => {
+                  const normalizedCall = normalizeCall(newCall, index);
+                  const newCallId = getCallId(normalizedCall);
+                  const existingIndex = updatedCalls.findIndex(call => getCallId(call) === newCallId);
                   if (existingIndex > -1) {
-                    updatedCalls[existingIndex] = { ...updatedCalls[existingIndex], ...newCall };
+                    updatedCalls[existingIndex] = { ...updatedCalls[existingIndex], ...normalizedCall };
                   } else {
-                    updatedCalls.unshift(newCall);
+                    updatedCalls.unshift(normalizedCall);
                   }
                 });
                 return updatedCalls;
@@ -1053,7 +1086,7 @@ export default function LeadsPage() {
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(call =>
-        call._id.toLowerCase().includes(term) ||
+        getCallId(call).toLowerCase().includes(term) ||
         (call.from_number && call.from_number.toLowerCase().includes(term)) ||
         (call.to_number && call.to_number.toLowerCase().includes(term)) ||
         (call.name && call.name.toLowerCase().includes(term)) ||
@@ -1095,11 +1128,11 @@ export default function LeadsPage() {
   const leadsCount = calls.filter(call => call.isLead === true).length;
   const analyzedCount = calls.filter(call => call.leadAnalysisAt).length;
   const pendingAnalysis = calls.filter(call =>
-    (call.transcription || call.transcript) &&
+    getCallTranscription(call) &&
     (!call.leadAnalysisAt)
   ).length;
   const noTranscriptionCount = calls.filter(call =>
-    !call.transcription && !call.transcript
+    !getCallTranscription(call)
   ).length;
   const conversionRate = analyzedCount > 0 ? ((leadsCount / analyzedCount) * 100).toFixed(1) : "0";
 
@@ -1123,7 +1156,7 @@ export default function LeadsPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
+      <div className="flex min-h-screen bg-white">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border-2 border-orange-200"
@@ -1147,8 +1180,7 @@ export default function LeadsPage() {
             <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
               <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-white"></div>
             </div>
-            <p className="text-2xl font-black bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent mb-2">Loading Analytics...</p>
-            <p className="text-sm text-slate-600">Fetching complete database from MongoDB</p>
+            <p className="text-2xl font-black bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">Loading Analytics...</p>
           </div>
         </main>
       </div>
@@ -1156,7 +1188,7 @@ export default function LeadsPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
+    <div className="flex min-h-screen bg-white">
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
         className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border-2 border-orange-200 hover:border-orange-400 transition-all"
@@ -1179,16 +1211,16 @@ export default function LeadsPage() {
       <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8">
         <div className="max-w-8xl mx-auto space-y-6 sm:space-y-8">
 
-          <div className="bg-white rounded-2xl shadow-xl border-2 border-orange-200 p-4 sm:p-6 lg:p-8">
+          <div className="bg-white rounded-lg border border-slate-200 p-4 sm:p-6 lg:p-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div>
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-orange-100 border-2 border-orange-300 rounded-xl px-4 py-2 mb-3">
+                <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 mb-3">
                   <svg className="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   <span className="text-sm font-bold text-orange-700">AI-Powered Analytics</span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black bg-gradient-to-r from-slate-900 via-orange-600 to-orange-600 bg-clip-text text-transparent mb-2">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 mb-2">
                   Lead Analytics Dashboard
                 </h1>
                 <p className="text-slate-600 mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg">
@@ -1200,7 +1232,7 @@ export default function LeadsPage() {
                 <BulkAnalysisButton />
                 <button
                   onClick={() => setShowPromptEditor(true)}
-                  className="px-4 sm:px-6 py-2 sm:py-3 bg-white border-2 border-orange-300 text-orange-700 hover:bg-orange-50 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold hover:scale-105 transform"
+                  className="px-4 sm:px-6 py-2 sm:py-3 bg-white border border-orange-300 text-orange-700 hover:bg-orange-50 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold"
                 >
                   <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -1227,94 +1259,94 @@ export default function LeadsPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white rounded-lg border border-orange-200 p-4 sm:p-6 shadow-sm">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-orange-500 to-cyan-600 shadow-lg">
+                <div className="p-2 sm:p-3 rounded-lg bg-orange-600">
                   <PhoneIcon />
                 </div>
               </div>
               <div>
                 <p className="text-slate-600 font-semibold mb-1 text-xs sm:text-sm">Total Calls</p>
-                <p className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-orange-600 to-cyan-600 bg-clip-text text-transparent mb-2">{totalCalls.toLocaleString()}</p>
+                <p className="text-2xl sm:text-3xl font-black text-orange-700 mb-2">{totalCalls.toLocaleString()}</p>
                 <p className="text-xs sm:text-sm text-slate-500">{noTranscriptionCount} without audio</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border-2 border-green-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white rounded-lg border border-green-200 p-4 sm:p-6 shadow-sm">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+                <div className="p-2 sm:p-3 rounded-lg bg-green-600">
                   <TargetIcon />
                 </div>
               </div>
               <div>
                 <p className="text-slate-600 font-semibold mb-1 text-xs sm:text-sm">Leads Generated</p>
-                <p className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-2">{leadsCount.toLocaleString()}</p>
+                <p className="text-2xl sm:text-3xl font-black text-green-700 mb-2">{leadsCount.toLocaleString()}</p>
                 <p className="text-xs sm:text-sm text-slate-500">{conversionRate}% of analyzed calls</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border-2 border-orange-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white rounded-lg border border-sky-200 p-4 sm:p-6 shadow-sm">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-orange-500 to-pink-600 shadow-lg">
+                <div className="p-2 sm:p-3 rounded-lg bg-sky-600">
                   <ChartIcon />
                 </div>
               </div>
               <div>
                 <p className="text-slate-600 font-semibold mb-1 text-xs sm:text-sm">Analyzed Calls</p>
-                <p className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent mb-2">{analyzedCount.toLocaleString()}</p>
+                <p className="text-2xl sm:text-3xl font-black text-sky-700 mb-2">{analyzedCount.toLocaleString()}</p>
                 <p className="text-xs sm:text-sm text-slate-500">{pendingAnalysis} pending analysis</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border-2 border-sky-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white rounded-lg border border-rose-200 p-4 sm:p-6 shadow-sm">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-sky-500 to-red-600 shadow-lg">
+                <div className="p-2 sm:p-3 rounded-lg bg-rose-600">
                   <ClockIcon />
                 </div>
               </div>
               <div>
                 <p className="text-slate-600 font-semibold mb-1 text-xs sm:text-sm">Conversion Rate</p>
-                <p className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-sky-600 to-red-600 bg-clip-text text-transparent mb-2">{conversionRate}%</p>
+                <p className="text-2xl sm:text-3xl font-black text-rose-700 mb-2">{conversionRate}%</p>
                 <p className="text-xs sm:text-sm text-slate-500">From analyzed calls</p>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-            <div className="bg-white border-2 border-red-200 rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+            <div className="bg-white border border-red-200 rounded-lg p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-gradient-to-br from-red-500 to-sky-600 rounded-xl backdrop-blur-sm shadow-md">
+                <div className="p-3 bg-red-600 rounded-lg">
                   <svg className="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <span className="text-5xl font-black bg-gradient-to-r from-red-600 to-sky-600 bg-clip-text text-transparent">{hotLeads}</span>
+                <span className="text-5xl font-black text-red-700">{hotLeads}</span>
               </div>
               <h3 className="text-xl font-black text-slate-800 mb-1">🔥 Hot Leads</h3>
               <p className="text-sm text-slate-600 font-medium">80%+ confidence score</p>
             </div>
 
-            <div className="bg-white border-2 border-yellow-200 rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+            <div className="bg-white border border-yellow-200 rounded-lg p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-gradient-to-br from-yellow-500 to-sky-500 rounded-xl backdrop-blur-sm shadow-md">
+                <div className="p-3 bg-yellow-500 rounded-lg">
                   <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
-                <span className="text-5xl font-black bg-gradient-to-r from-yellow-600 to-sky-600 bg-clip-text text-transparent">{warmLeads}</span>
+                <span className="text-5xl font-black text-yellow-700">{warmLeads}</span>
               </div>
               <h3 className="text-xl font-black text-slate-800 mb-1">☀️ Warm Leads</h3>
               <p className="text-sm text-slate-600 font-medium">50-80% confidence score</p>
             </div>
 
-            <div className="bg-white border-2 border-orange-200 rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+            <div className="bg-white border border-sky-200 rounded-lg p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-gradient-to-br from-orange-500 to-cyan-600 rounded-xl backdrop-blur-sm shadow-md">
+                <div className="p-3 bg-sky-600 rounded-lg">
                   <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
                 </div>
-                <span className="text-5xl font-black bg-gradient-to-r from-orange-600 to-cyan-600 bg-clip-text text-transparent">{coldLeads}</span>
+                <span className="text-5xl font-black text-sky-700">{coldLeads}</span>
               </div>
               <h3 className="text-xl font-black text-slate-800 mb-1">❄️ Cold Leads</h3>
               <p className="text-sm text-slate-600 font-medium">Below 50% confidence</p>
@@ -1323,7 +1355,7 @@ export default function LeadsPage() {
 
           {/* Generated Leads from Database */}
           {showDbLeads && (
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl shadow-xl border-2 border-green-200 p-4 sm:p-6 mb-6">
+            <div className="bg-white rounded-lg border border-green-200 p-4 sm:p-6 mb-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
@@ -1332,7 +1364,7 @@ export default function LeadsPage() {
                     </svg>
                   </div>
                   <div>
-                    <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">
+                    <h2 className="text-xl sm:text-2xl font-black text-green-800">
                       Generated Leads ({dbLeads.length})
                     </h2>
                     <p className="text-sm text-slate-600">Qualified leads from database</p>
@@ -1428,7 +1460,7 @@ export default function LeadsPage() {
             </button>
           )}
 
-          <div className="bg-white rounded-2xl shadow-xl border-2 border-orange-200 p-4 sm:p-6">
+          <div className="bg-white rounded-lg border border-slate-200 p-4 sm:p-6">
             <div className="flex flex-col gap-4 sm:gap-6">
 
               <div className="w-full">
@@ -1438,7 +1470,7 @@ export default function LeadsPage() {
                     placeholder="🔍 Search calls, customers, products..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 pl-10 sm:pl-12 bg-gradient-to-r from-orange-50 to-orange-50 border-2 border-orange-200 rounded-xl focus:bg-white focus:border-orange-400 focus:ring-4 focus:ring-purple-100 transition-all duration-200 text-sm sm:text-base lg:text-lg text-slate-800 placeholder-slate-500 font-medium"
+                    className="w-full px-4 sm:px-6 py-3 sm:py-4 pl-10 sm:pl-12 bg-white border border-slate-300 rounded-lg focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-200 text-sm sm:text-base lg:text-lg text-slate-800 placeholder-slate-500 font-medium"
                   />
                   <svg className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 sm:h-6 sm:w-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -1448,17 +1480,17 @@ export default function LeadsPage() {
 
               <div className="flex flex-wrap gap-2 sm:gap-3">
                 {[
-                  { value: 'all', label: 'All', fullLabel: 'All Calls', color: 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200', active: 'bg-gradient-to-r from-orange-500 to-orange-600' },
-                  { value: 'leads', label: 'Leads', fullLabel: 'Leads Only', color: 'bg-green-50 text-green-700 border-green-300 hover:bg-green-100', active: 'bg-gradient-to-r from-green-500 to-emerald-600' },
-                  { value: 'pending', label: 'Pending', fullLabel: 'Pending Analysis', color: 'bg-sky-50 text-sky-700 border-sky-300 hover:bg-sky-100', active: 'bg-gradient-to-r from-sky-500 to-sky-600' },
-                  { value: 'no-leads', label: 'No Leads', fullLabel: 'No Leads', color: 'bg-red-50 text-red-700 border-red-300 hover:bg-red-100', active: 'bg-gradient-to-r from-red-500 to-rose-600' }
+                  { value: 'all', label: 'All', fullLabel: 'All Calls', color: 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100', active: 'bg-orange-600' },
+                  { value: 'leads', label: 'Leads', fullLabel: 'Leads Only', color: 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100', active: 'bg-green-600' },
+                  { value: 'pending', label: 'Pending', fullLabel: 'Pending Analysis', color: 'bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100', active: 'bg-sky-600' },
+                  { value: 'no-leads', label: 'No Leads', fullLabel: 'No Leads', color: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100', active: 'bg-red-600' }
                 ].map(filter => (
                   <button
                     key={filter.value}
                     onClick={() => setFilterStatus(filter.value as FilterStatus)}
                     className={`px-3 sm:px-4 py-2 rounded-lg font-bold transition-all duration-200 text-xs sm:text-sm border-2 ${
                       filterStatus === filter.value
-                        ? filter.active + ' text-white shadow-lg transform scale-105'
+                        ? filter.active + ' text-white shadow-sm'
                         : filter.color
                     }`}
                   >
@@ -1544,11 +1576,11 @@ export default function LeadsPage() {
             ) : (
               filteredCalls.map((call) => (
                 <CallCard
-                  key={call._id}
+                  key={getCallId(call)}
                   call={call}
-                  onAnalyze={() => processIndividualCall(call._id, call.leadAnalysisAt ? true : false)}
+                  onAnalyze={() => processIndividualCall(getCallId(call), call.leadAnalysisAt ? true : false)}
                   onViewDetails={() => setSelectedCall(call)}
-                  isProcessing={processingQueue.includes(call._id)}
+                  isProcessing={processingQueue.includes(getCallId(call))}
                 />
               ))
             )}
