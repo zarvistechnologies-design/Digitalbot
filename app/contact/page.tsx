@@ -89,7 +89,7 @@ const contactMethods = [
     title: "Live Chat",
     description: "Chat with us on WhatsApp",
     value: "Available on WhatsApp",
-    action: "https://api.whatsapp.com/send?phone=917892518414&text=Hi%20DigitalBot.ai%2C%20I%20want%20to%20know%20more%20about%20your%20AI%20services.",
+    action: "https://api.whatsapp.com/send?phone=918756824350&text=Hi%20DigitalBot.ai%2C%20I%20want%20to%20know%20more%20about%20your%20AI%20services.",
     gradient: "from-orange-600 to-orange-600",
     bgColor: "from-orange-50/50 to-orange-100/30",
     borderColor: "border-orange-200/30",

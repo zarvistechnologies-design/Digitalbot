@@ -625,8 +625,8 @@ function ConnectedPhonesShowcase() {
     return (
         <div className="relative flex min-h-[430px] items-center justify-center overflow-visible sm:min-h-[500px] lg:min-h-[560px]">
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
-                <div className="h-[280px] w-[280px] rounded-full bg-orange-100/45 blur-3xl sm:h-[390px] sm:w-[390px]" />
-                <div className="absolute h-[240px] w-[240px] rounded-full border border-green-200/50 sm:h-[340px] sm:w-[340px]" />
+                <div className="h-[280px] w-[280px] rounded-full bg-white sm:h-[390px] sm:w-[390px]" />
+                <div className="absolute h-[240px] w-[240px] rounded-full border border-slate-100 sm:h-[340px] sm:w-[340px]" />
             </div>
             <img
                 src="/images/whatsapp-business-api-whautomate.png"
@@ -985,6 +985,7 @@ export default function Hero() {
 
     // Vapi voice agent state
     const vapiRef = useRef<any>(null)
+    const voiceGardenAudioRef = useRef<HTMLAudioElement | null>(null)
     const [isCallActive, setIsCallActive] = useState(false)
     const [isSpeaking, setIsSpeaking] = useState(false)
     const [callStatus, setCallStatus] = useState('')
@@ -1087,6 +1088,37 @@ export default function Hero() {
             }
         }
     }
+
+    const playVoiceGardenSample = (audioSrc: string) => {
+        if (voiceGardenAudioRef.current) {
+            voiceGardenAudioRef.current.pause()
+            voiceGardenAudioRef.current.currentTime = 0
+        }
+
+        const audio = new Audio(audioSrc)
+        voiceGardenAudioRef.current = audio
+
+        audio.addEventListener('ended', () => {
+            if (voiceGardenAudioRef.current === audio) {
+                voiceGardenAudioRef.current = null
+            }
+        }, { once: true })
+
+        audio.play().catch(() => {
+            if (voiceGardenAudioRef.current === audio) {
+                voiceGardenAudioRef.current = null
+            }
+        })
+    }
+
+    useEffect(() => {
+        return () => {
+            if (voiceGardenAudioRef.current) {
+                voiceGardenAudioRef.current.pause()
+                voiceGardenAudioRef.current = null
+            }
+        }
+    }, [])
 
     // GSAP Journey Flowchart animation with ScrollTrigger
     useEffect(() => {
@@ -2140,10 +2172,7 @@ export default function Hero() {
                                     <button
                                         type="button"
                                         className="absolute inset-0 flex cursor-pointer items-center justify-center"
-                                        onClick={() => {
-                                            const audio = new Audio(service.audio);
-                                            audio.play();
-                                        }}
+                                        onClick={() => playVoiceGardenSample(service.audio)}
                                         aria-label={`Play ${service.title} sample`}
                                     >
                                         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500/85 shadow-lg backdrop-blur-sm transition-all group-hover:scale-110 group-hover:bg-orange-600">
@@ -2299,7 +2328,7 @@ export default function Hero() {
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-9 text-center">
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
-                            Why <span className="text-orange-500">Digitalbot</span>
+                            Why <span className="text-orange-500">Digitalbot.ai</span>
                         </h2>
                         <p className="mx-auto mt-3 max-w-3xl text-sm sm:text-base text-slate-500">
                             Digitalbot gives your business AI agents for WhatsApp, voice calls, customer support, lead follow-up, appointments, campaigns, and dashboard management.

@@ -72,7 +72,7 @@ export type IndustryVoiceAgentConfig = {
 }
 
 const audioSamples = [
-  { title: "Voice sample 1", src: "/audio/lead-generation-sample.mp3" },
+  
   { title: "Voice sample 2", src: "/audio/virtual-receptionist-sample.mp3" },
 ]
 
@@ -102,14 +102,14 @@ function AudioWavePlayer({
   src,
   title,
   isPlaying,
-  onToggle,
+  onPlay,
   onEnded,
 }: {
   src: string
   title: string
   isPlaying: boolean
-  onToggle: () => void
-  onEnded: () => void
+  onPlay: (audio: HTMLAudioElement) => void
+  onEnded: (audio: HTMLAudioElement) => void
 }) {
   const audioRef = useRef<HTMLAudioElement>(null)
 
@@ -124,17 +124,23 @@ function AudioWavePlayer({
     if (!audio) return
 
     if (!isPlaying) {
-      onToggle()
-      audio.play()
+      onPlay(audio)
+      audio.play().catch(() => onEnded(audio))
     } else {
       audio.pause()
-      onEnded()
+      onEnded(audio)
     }
   }
 
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-1.5 shadow-sm">
-      <audio ref={audioRef} preload="none" src={src} onEnded={onEnded} onPause={() => isPlaying && onEnded()} />
+      <audio
+        ref={audioRef}
+        preload="none"
+        src={src}
+        onEnded={() => audioRef.current && onEnded(audioRef.current)}
+        onPause={() => isPlaying && audioRef.current && onEnded(audioRef.current)}
+      />
       <div className="flex items-center gap-2">
         <button
           type="button"
@@ -161,6 +167,25 @@ function AudioWavePlayer({
 export function IndustryVoiceAgentPage({ config }: { config: IndustryVoiceAgentConfig }) {
   const [activeSample, setActiveSample] = useState<string | null>(null)
   const [activeFeature, setActiveFeature] = useState(1)
+  const activeAudioRef = useRef<HTMLAudioElement | null>(null)
+
+  const playSample = (title: string, audio: HTMLAudioElement) => {
+    if (activeAudioRef.current && activeAudioRef.current !== audio) {
+      activeAudioRef.current.pause()
+      activeAudioRef.current.currentTime = 0
+    }
+
+    activeAudioRef.current = audio
+    setActiveSample(title)
+  }
+
+  const stopSample = (title: string, audio: HTMLAudioElement) => {
+    if (activeAudioRef.current === audio) {
+      activeAudioRef.current = null
+    }
+
+    setActiveSample((current) => (current === title ? null : current))
+  }
 
   return (
     <>
@@ -213,7 +238,7 @@ export function IndustryVoiceAgentPage({ config }: { config: IndustryVoiceAgentC
               </div>
 
               <div className="mt-5 max-w-sm">
-                <p className="mb-1.5 text-sm font-bold uppercase tracking-[0.2em] text-orange-600">Voice samples</p>
+                <p className="mb-1.5 text-sm font-bold uppercase tracking-[0.2em] text-orange-600">Voice sample</p>
                 <div className="grid gap-1.5 sm:grid-cols-2">
                   {audioSamples.map((sample) => (
                     <AudioWavePlayer
@@ -221,8 +246,8 @@ export function IndustryVoiceAgentPage({ config }: { config: IndustryVoiceAgentC
                       src={sample.src}
                       title={sample.title}
                       isPlaying={activeSample === sample.title}
-                      onToggle={() => setActiveSample(sample.title)}
-                      onEnded={() => setActiveSample((current) => (current === sample.title ? null : current))}
+                      onPlay={(audio) => playSample(sample.title, audio)}
+                      onEnded={(audio) => stopSample(sample.title, audio)}
                     />
                   ))}
                 </div>

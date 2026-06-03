@@ -19,10 +19,7 @@ import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 
 const audioSamples = [
-  {
-    title: "Voice sample 1",
-    src: "/audio/lead-generation-sample.mp3",
-  },
+  
   {
     title: "Voice sample 2",
     src: "/audio/virtual-receptionist-sample.mp3",
@@ -392,7 +389,7 @@ export default function RealEstatePage() {
               </div>
 
               <div className="mt-5 max-w-sm">
-                <p className="mb-1.5 text-sm font-bold uppercase tracking-[0.2em] text-orange-600">Voice samples</p>
+                <p className="mb-1.5 text-sm font-bold uppercase tracking-[0.2em] text-orange-600">Voice sample</p>
                 <div className="grid gap-1.5 sm:grid-cols-2">
                   {audioSamples.map((sample) => (
                     <AudioWavePlayer
