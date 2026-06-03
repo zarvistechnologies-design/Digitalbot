@@ -1,5 +1,4 @@
 import ChatbotWidget from "@/components/chatbot-widget"
-import VapiChatWidget from "@/components/vapi-chat-widget"
 import { Analytics } from "@vercel/analytics/next"
 import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
@@ -278,7 +277,6 @@ export default function RootLayout({
         
         {children}
         <ChatbotWidget />
-        <VapiChatWidget />
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
