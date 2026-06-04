@@ -210,9 +210,6 @@ export default function EducationPage() {
                 <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#128c7e] px-6 py-4 text-sm font-bold text-white shadow-lg shadow-emerald-900/20 transition hover:bg-[#075e54]">
                   Book free demo <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link href="/services/whatsapp-bot" className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-6 py-4 text-sm font-bold text-slate-800 transition hover:border-emerald-200 hover:text-emerald-700">
-                  See WhatsApp bot service
-                </Link>
               </div>
               <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {stats.map((item) => (
