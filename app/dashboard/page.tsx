@@ -51,8 +51,6 @@ export default function AnalyticsOverview() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [dateFilter, setDateFilter] = useState("7");
-  const [toNumber, setToNumber] = useState("");
-  const [callStatus, setCallStatus] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const chartColors = ['#f97316', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
@@ -107,7 +105,7 @@ export default function AnalyticsOverview() {
   });
 
   // Compute all analytics from raw calls using useMemo — instant on filter change
-  const { analytics, recentCalls } = useMemo(() => {
+  const { analytics, recentCalls, agentLeaderboard, heatmapData, qualityTrend } = useMemo(() => {
     const calls = rawCalls || [];
     if (calls.length === 0) return { analytics: null, recentCalls: [] };
 
@@ -192,39 +190,57 @@ export default function AnalyticsOverview() {
     const monthlyGrowth = lastMonthCalls > 0 ? ((thisMonthCalls - lastMonthCalls) / lastMonthCalls) * 100 : 0;
 
     const analyticsData: Analytics = { totalCalls: filteredCalls.length, completedCalls: completed, failedCalls: failed, avgDuration, inboundCalls: inbound, outboundCalls: outbound, busyCalls: busy, transcribedCalls: transcribed, summarizedCalls: summarized, todaysCalls, weeklyGrowth, monthlyGrowth, peakHours, dailyStats, statusDistribution, hourlyDistribution, durationAnalysis, weeklyComparison };
-    return { analytics: analyticsData, recentCalls: calls.slice(0, 5) };
+    // Agent leaderboard
+    const agentMap: { [key: string]: { name: string; calls: number; totalDuration: number; completed: number } } = {};
+    filteredCalls.forEach((c: any) => {
+      const key = c.agent_id || c.agent_name || 'Unknown';
+      if (!agentMap[key]) agentMap[key] = { name: c.agent_name || key, calls: 0, totalDuration: 0, completed: 0 };
+      agentMap[key].calls += 1;
+      agentMap[key].totalDuration += (c.duration || 0);
+      if (c.status === 'completed' || c.status === 'user-ended' || c.status === 'agent-ended') agentMap[key].completed += 1;
+    });
+    const agentLeaderboard = Object.values(agentMap).map(a => ({
+      name: a.name || 'Unknown',
+      calls: a.calls,
+      avgDuration: a.calls > 0 ? Math.round(a.totalDuration / a.calls) : 0,
+      successRate: a.calls > 0 ? Math.round((a.completed / a.calls) * 100) : 0,
+    })).sort((a, b) => b.calls - a.calls).slice(0, 8);
+
+    // Hourly heatmap (weekday x hour)
+    const heatmapData: number[][] = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => 0));
+    filteredCalls.forEach((c: any) => {
+      const d = new Date(c.start_time);
+      if (isNaN(d.getTime())) return;
+      const wd = d.getDay(); // 0 (Sun) - 6
+      const hr = d.getHours();
+      heatmapData[wd][hr] = (heatmapData[wd][hr] || 0) + 1;
+    });
+
+    // Call quality trend (heuristic): completed + transcription presence
+    const trendDays = Math.min(Math.max(7, parseInt(dateFilter)), 30);
+    const qualityTrend: { date: string; score: number }[] = [];
+    for (let i = trendDays - 1; i >= 0; i--) {
+      const day = new Date();
+      day.setDate(day.getDate() - i);
+      const dayStr = day.toDateString();
+      const dayCalls = filteredCalls.filter((c: any) => new Date(c.start_time).toDateString() === dayStr);
+      if (dayCalls.length === 0) {
+        qualityTrend.push({ date: day.toLocaleDateString(), score: 0 });
+        continue;
+      }
+      const totalScore = dayCalls.reduce((sum: number, c: any) => {
+        let s = (c.status === 'completed' || c.status === 'user-ended' || c.status === 'agent-ended') ? 1 : 0;
+        if (c.transcription || c.transcription_formatted || c.chat) s += 0.5;
+        return sum + s;
+      }, 0);
+      const avg = totalScore / (dayCalls.length * 1.5); // normalize to 0..1
+      qualityTrend.push({ date: day.toLocaleDateString(), score: Math.round(avg * 100) });
+    }
+
+    return { analytics: analyticsData, recentCalls: calls.slice(0, 5), agentLeaderboard, heatmapData, qualityTrend };
   }, [rawCalls, dateFilter]);
 
-  const handleOutboundCall = async () => {
-    if (!toNumber) return alert("Please enter a number to call.");
-    setCallStatus("Calling...");
-    try {
-      const token = 'demo-token'; // Use demo-token for development
-      const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
-      
-      const res = await fetch(`${API_BASE_URL}/outbound-call`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ toNumber }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setCallStatus("Call initiated successfully!");
-        if (mounted) {
-          refresh();
-        }
-        setToNumber("");
-      } else {
-        setCallStatus(`Error: ${data.error || 'Failed to initiate call'}`);
-      }
-    } catch (err) {
-      console.error(err);
-      setCallStatus("Failed to initiate call.");
-    }
-  };
+
 
   const MetricCard = ({ title, value, icon: Icon, trend, trendValue, color = "orange", subtitle }: any) => (
     <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-300 group">
@@ -322,47 +338,7 @@ export default function AnalyticsOverview() {
             </div>
           </header>
 
-          {/* Quick Call Section */}
-          <section className="mb-6 sm:mb-8">
-            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-400 to-orange-500 rounded-xl flex items-center justify-center shadow-md shrink-0">
-                  <PhoneCall className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                </div>
-                <div className="min-w-0">
-                  <h2 className="text-lg sm:text-xl font-bold text-slate-800">Quick Call</h2>
-                  <p className="text-slate-600 text-xs sm:text-sm truncate">Start a new AI conversation instantly</p>
-                </div>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-end">
-                <div className="flex-1">
-                  <label className="block text-xs sm:text-sm font-semibold text-slate-700 mb-2">Phone Number</label>
-                  <input
-                    type="tel"
-                    placeholder="+91XXXXXXXXXX"
-                    value={toNumber}
-                    onChange={(e) => setToNumber(e.target.value)}
-                    className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-200 text-base"
-                  />
-                </div>
-                <button
-                  onClick={handleOutboundCall}
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-orange-500 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 min-h-12"
-                >
-                  <PhoneCall className="w-5 h-5" />
-                  <span>Call Now</span>
-                </button>
-              </div>
-              {callStatus && (
-                <div className="mt-4 p-3 sm:p-4 bg-orange-50 border border-orange-200 rounded-xl">
-                  <p className="text-orange-800 font-medium text-xs sm:text-sm flex items-center gap-2">
-                    <Clock className="w-4 h-4 shrink-0" />
-                    <span className="truncate">{callStatus}</span>
-                  </p>
-                </div>
-              )}
-            </div>
-          </section>
+          {/* Quick Call section removed */}
 
           {analytics && (
             <>
@@ -405,6 +381,100 @@ export default function AnalyticsOverview() {
                   />
                 </div>
               </section>
+
+                {/* New Widgets: Agent Leaderboard, Hourly Heatmap, Quality Trend */}
+                <section className="mb-6 sm:mb-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                    {/* Agent Leaderboard */}
+                    <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-bold text-slate-800">Agent Leaderboard</h3>
+                        <span className="text-xs text-slate-500">Top performers</span>
+                      </div>
+                      {agentLeaderboard && agentLeaderboard.length > 0 ? (
+                        <div className="space-y-3">
+                          {agentLeaderboard.map((a: any, idx: number) => (
+                            <div key={a.name} className="flex items-center justify-between gap-3">
+                              <div className="flex items-center gap-3 min-w-0">
+                                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center font-bold text-orange-700">{idx+1}</div>
+                                <div className="min-w-0">
+                                  <div className="font-semibold text-slate-800 truncate">{a.name}</div>
+                                  <div className="text-xs text-slate-500">{a.calls} calls • {a.avgDuration}s avg</div>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-sm font-bold text-slate-800">{a.calls}</div>
+                                <div className="text-xs text-slate-500">{a.successRate}% success</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-sm text-slate-500">No agent data</div>
+                      )}
+                    </div>
+
+                    {/* Hourly Heatmap */}
+                    <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-bold text-slate-800">Hourly Heatmap</h3>
+                        <span className="text-xs text-slate-500">Calls by weekday/hour</span>
+                      </div>
+                      {heatmapData ? (
+                        <div className="text-xs text-slate-600">
+                          <div className="overflow-x-auto">
+                            <div className="grid gap-1" style={{gridTemplateColumns: '6rem repeat(24, 1fr)'}}>
+                              <div />
+                              {Array.from({ length: 24 }).map((_, h) => (
+                                <div key={h} className="text-center text-xs text-slate-400" style={{fontSize:12}}>{h}</div>
+                              ))}
+                              {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((wd, i) => {
+                                const row = heatmapData[i] || Array.from({ length: 24 }, () => 0);
+                                const max = Math.max(...row, 1);
+                                return (
+                                  <>
+                                    <div key={`label-${i}`} className="flex items-center text-sm font-semibold text-slate-700" style={{paddingLeft:6}}>{wd}</div>
+                                    {row.map((val: number, j: number) => {
+                                      const intensity = Math.round((val / max) * 255);
+                                      const bg = val === 0 ? 'bg-transparent' : undefined;
+                                      const style = val === 0 ? {} : { background: `rgba(249,115,22,${Math.max(0.12, val / max)})` };
+                                      return <div key={`cell-${i}-${j}`} className="w-full h-4 rounded-sm" style={style} title={`${val} calls`} />;
+                                    })}
+                                  </>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-sm text-slate-500">No heatmap data</div>
+                      )}
+                    </div>
+
+                    {/* Call Quality Trend */}
+                    <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-bold text-slate-800">Call Quality Trend</h3>
+                        <span className="text-xs text-slate-500">Quality (heuristic)</span>
+                      </div>
+                      {qualityTrend && qualityTrend.length > 0 ? (
+                        <div style={{ height: 180 }}>
+                          <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={qualityTrend}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                              <XAxis dataKey="date" tickFormatter={(d) => new Date(d).toLocaleDateString()} hide />
+                              <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
+                              <Tooltip formatter={(v: any) => `${v}%`} />
+                              <Line type="monotone" dataKey="score" stroke="#10b981" strokeWidth={3} dot={{ r: 2 }} />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        </div>
+                      ) : (
+                        <div className="text-sm text-slate-500">No quality data</div>
+                      )}
+                    </div>
+                  </div>
+                </section>
 
               {/* Call Direction & Status */}
               <section className="mb-6 sm:mb-8">
