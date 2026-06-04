@@ -385,8 +385,8 @@ export default function AnalyticsOverview() {
                 {/* New Widgets: Agent Leaderboard, Hourly Heatmap, Quality Trend */}
                 <section className="mb-6 sm:mb-8">
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                    {/* Agent Leaderboard */}
-                    <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
+                    {/* Agent Leaderboard - compact, non-card */}
+                    <div className="p-1 sm:p-2">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-bold text-slate-800">Agent Leaderboard</h3>
                         <span className="text-xs text-slate-500">Top performers</span>
@@ -414,8 +414,8 @@ export default function AnalyticsOverview() {
                       )}
                     </div>
 
-                    {/* Hourly Heatmap */}
-                    <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
+                    {/* Hourly Heatmap - compact, non-card */}
+                    <div className="p-1 sm:p-2">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-bold text-slate-800">Hourly Heatmap</h3>
                         <span className="text-xs text-slate-500">Calls by weekday/hour</span>
@@ -451,8 +451,8 @@ export default function AnalyticsOverview() {
                       )}
                     </div>
 
-                    {/* Call Quality Trend */}
-                    <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
+                    {/* Call Quality Trend - compact, non-card */}
+                    <div className="p-1 sm:p-2">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-bold text-slate-800">Call Quality Trend</h3>
                         <span className="text-xs text-slate-500">Quality (heuristic)</span>
