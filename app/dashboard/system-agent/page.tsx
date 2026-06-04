@@ -20,7 +20,7 @@ import {
   Wrench,
   X,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface User {
   name?: string;
@@ -329,8 +329,17 @@ export default function SystemAgentConfigurationPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savedMessage, setSavedMessage] = useState<string | null>(null);
+  const systemPromptTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const assignedPhone = user?.assignedPhoneNumber || "";
+
+  const resizeSystemPromptTextarea = useCallback(() => {
+    const textarea = systemPromptTextareaRef.current;
+    if (!textarea) return;
+
+    textarea.style.height = "auto";
+    textarea.style.height = `${Math.max(textarea.scrollHeight, 360)}px`;
+  }, []);
 
   const loadConfig = useCallback(async () => {
     try {
@@ -403,14 +412,15 @@ export default function SystemAgentConfigurationPage() {
     loadConfig();
   }, [loadConfig]);
 
+  useEffect(() => {
+    resizeSystemPromptTextarea();
+  }, [formData.systemPrompt, resizeSystemPromptTextarea]);
+
   const clinicModelPreview = useMemo(() => ({
     phone_number: assignedPhone || "assigned number",
     name: formData.hospitalName,
     prompt: "System prompt from this page",
     greeting: formData.greetingMessage,
-    booking_endpoint: formData.toolConfig.bookingEndpoint,
-    availability_endpoint: formData.toolConfig.availabilityEndpoint,
-    doctors_endpoint: formData.toolConfig.doctorsEndpoint,
     model: formData.customLlmConfig.model,
     temperature: formData.customLlmConfig.temperature,
     max_output_tokens: formData.customLlmConfig.maxOutputTokens,
@@ -742,10 +752,14 @@ export default function SystemAgentConfigurationPage() {
                   <label className="mt-4 block">
                     <span className="text-sm font-semibold text-slate-700">System Prompt</span>
                     <textarea
+                      ref={systemPromptTextareaRef}
                       value={formData.systemPrompt}
-                      onChange={(event) => updateField("systemPrompt", event.target.value)}
-                      rows={15}
-                      className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-3 text-sm leading-6 outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                      onChange={(event) => {
+                        updateField("systemPrompt", event.target.value);
+                        requestAnimationFrame(resizeSystemPromptTextarea);
+                      }}
+                      rows={12}
+                      className="mt-1 min-h-[360px] w-full resize-y overflow-hidden rounded-lg border border-slate-200 px-3 py-3 text-sm leading-6 outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                     />
                   </label>
                 </div>
@@ -1065,45 +1079,8 @@ export default function SystemAgentConfigurationPage() {
                           </label>
                         </div>
                         <p className="text-sm leading-6 text-slate-600">{tool.description}</p>
-                        <p className="mt-3 break-all rounded-lg bg-slate-50 p-2 text-xs text-slate-500">{tool.endpoint || "Endpoint not set"}</p>
                       </div>
                     ))}
-                  </div>
-
-                  <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <label className="block">
-                      <span className="text-sm font-semibold text-slate-700">Booking Endpoint</span>
-                      <input
-                        value={formData.toolConfig.bookingEndpoint}
-                        onChange={(event) => updateTool("bookingEndpoint", event.target.value)}
-                        className="mt-1 h-11 w-full rounded-lg border border-slate-200 px-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm font-semibold text-slate-700">Availability Endpoint</span>
-                      <input
-                        value={formData.toolConfig.availabilityEndpoint}
-                        onChange={(event) => updateTool("availabilityEndpoint", event.target.value)}
-                        className="mt-1 h-11 w-full rounded-lg border border-slate-200 px-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm font-semibold text-slate-700">Doctors Endpoint</span>
-                      <input
-                        value={formData.toolConfig.doctorsEndpoint}
-                        onChange={(event) => updateTool("doctorsEndpoint", event.target.value)}
-                        className="mt-1 h-11 w-full rounded-lg border border-slate-200 px-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm font-semibold text-slate-700">Tool Auth Header</span>
-                      <input
-                        value={formData.toolConfig.bookingAuthHeader}
-                        onChange={(event) => updateTool("bookingAuthHeader", event.target.value)}
-                        placeholder="Bearer token or custom header"
-                        className="mt-1 h-11 w-full rounded-lg border border-slate-200 px-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
-                      />
-                    </label>
                   </div>
                 </div>
 
