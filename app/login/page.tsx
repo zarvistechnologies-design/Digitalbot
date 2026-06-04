@@ -54,7 +54,7 @@ export default function LoginPage(): JSX.Element {
 
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
-      console.log('🔐 Attempting login to:', API_URL);
+      
 
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',

@@ -245,16 +245,8 @@ export default function Billing() {
   const fetchCreditBalance = async () => {
     try {
       const token = getAuthToken();
-      console.log('\n========== FETCH CREDIT BALANCE ==========');
-      console.log('🔐 Token Present:', !!token);
-      console.log('🔐 Token Preview:', token ? token.substring(0, 30) + '...' : 'NO TOKEN');
-      console.log('📋 API URL:', `${API_BASE_URL}/billing/credits/balance`);
-
       const userId = getUserId();
       const response = await fetch(`${API_BASE_URL}/billing/credits/balance?userId=${userId}`);
-
-      console.log('📊 Response Status:', response.status, response.statusText);
-
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         if (response.status === 403) {
@@ -263,13 +255,12 @@ export default function Billing() {
           console.error('   2. Token is expired');
           console.error('   3. Token is invalid');
           console.error('   4. Backend JWT_SECRET mismatch');
-          console.log('💡 Solution: Log out and log back in to get a fresh token');
+          // Suggestion: Log out and log back in to get a fresh token
         }
         return;
       }
 
       const result = await response.json();
-      console.log('✅ Credit Balance Response:', result);
 
       if (result.success) {
         setUserCredits(result.data);
@@ -283,14 +274,10 @@ export default function Billing() {
   const fetchTransactions = async () => {
     try {
       const token = getAuthToken();
-      console.log('\n========== FETCH TRANSACTIONS ==========');
-      console.log('🔐 Token Present:', !!token);
-      console.log('📋 API URL:', `${API_BASE_URL}/billing/transactions/history?limit=10`);
-
       const userId = getUserId();
       const response = await fetch(`${API_BASE_URL}/billing/transactions/history?userId=${userId}&limit=10`);
 
-      console.log('📊 Response Status:', response.status, response.statusText);
+      
 
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
@@ -298,8 +285,6 @@ export default function Billing() {
       }
 
       const result = await response.json();
-      console.log('✅ Transactions Response:', result);
-
       if (result.success && result.data.transactions) {
         setRecentTransactions(result.data.transactions);
       }
@@ -312,22 +297,15 @@ export default function Billing() {
   const fetchCallHistory = async () => {
     try {
       const token = getAuthToken();
-      console.log('\n========== FETCH CALL HISTORY ==========');
-      console.log('🔐 Token Present:', !!token);
-      console.log('📋 API URL:', `${API_BASE_URL}/billing/calls/history?limit=10`);
 
       const userId = getUserId();
       const response = await fetch(`${API_BASE_URL}/billing/calls/history?userId=${userId}&limit=10`);
-
-      console.log('📊 Response Status:', response.status, response.statusText);
-
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         return;
       }
 
       const result = await response.json();
-      console.log('✅ Call History Response:', result);
 
       if (result.success && result.data.calls) {
         setCallHistory(result.data.calls);
@@ -341,22 +319,14 @@ export default function Billing() {
   const fetchCallStatistics = async () => {
     try {
       const token = getAuthToken();
-      console.log('\n========== FETCH CALL STATISTICS ==========');
-      console.log('🔐 Token Present:', !!token);
-      console.log('📋 API URL:', `${API_BASE_URL}/billing/calls/statistics`);
-
       const userId = getUserId();
       const response = await fetch(`${API_BASE_URL}/billing/calls/statistics?userId=${userId}`);
-
-      console.log('📊 Response Status:', response.status, response.statusText);
-
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         return;
       }
 
       const result = await response.json();
-      console.log('✅ Call Statistics Response:', result);
 
       if (result.success) {
         setCallStats(result.data);
@@ -501,7 +471,6 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
         },
         modal: {
           ondismiss: function () {
-            console.log("Payment cancelled");
             setLoading(false);
           },
         },
