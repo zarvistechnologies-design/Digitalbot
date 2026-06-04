@@ -5,7 +5,7 @@ import { useWebSocket } from "@/components/hooks/use-websocket";
 import { CACHE_KEYS, invalidateCache } from "@/lib/cache";
 import { Activity, AlertCircle, ArrowDown, ArrowUp, BarChart3, Brain, CheckCircle, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, TrendingUp, X, XCircle, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface Call {
@@ -240,6 +240,8 @@ export default function AnalyticsOverview() {
     return { analytics: analyticsData, recentCalls: calls.slice(0, 5), agentLeaderboard, heatmapData, qualityTrend };
   }, [rawCalls, dateFilter]);
 
+  const heatmapMax = heatmapData ? heatmapData.flat().reduce((m, v) => Math.max(m, v), 0) : 0;
+
 
 
   const MetricCard = ({ title, value, icon: Icon, trend, trendValue, color = "orange", subtitle }: any) => (
@@ -422,28 +424,28 @@ export default function AnalyticsOverview() {
                       </div>
                       {heatmapData ? (
                         <div className="text-xs text-slate-600">
-                          <div className="overflow-x-auto">
-                            <div className="grid gap-1" style={{gridTemplateColumns: '6rem repeat(24, 1fr)'}}>
+                          <div className="overflow-auto">
+                            <div className="inline-grid" style={{ gridTemplateColumns: `6rem repeat(24, 28px)`, gap: '6px', alignItems: 'center' }}>
                               <div />
                               {Array.from({ length: 24 }).map((_, h) => (
-                                <div key={h} className="text-center text-xs text-slate-400" style={{fontSize:12}}>{h}</div>
+                                <div key={`h-${h}`} className="text-center text-xs text-slate-400" style={{ fontSize: 12 }}>{h}</div>
                               ))}
+
                               {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((wd, i) => {
                                 const row = heatmapData[i] || Array.from({ length: 24 }, () => 0);
-                                const max = Math.max(...row, 1);
                                 return (
-                                  <>
-                                    <div key={`label-${i}`} className="flex items-center text-sm font-semibold text-slate-700" style={{paddingLeft:6}}>{wd}</div>
+                                  <React.Fragment key={`row-${i}`}>
+                                    <div className="flex items-center text-sm font-semibold text-slate-700" style={{ paddingLeft: 6 }}>{wd}</div>
                                     {row.map((val: number, j: number) => {
-                                      const intensity = Math.round((val / max) * 255);
-                                      const bg = val === 0 ? 'bg-transparent' : undefined;
-                                      const style = val === 0 ? {} : { background: `rgba(249,115,22,${Math.max(0.12, val / max)})` };
-                                      return <div key={`cell-${i}-${j}`} className="w-full h-4 rounded-sm" style={style} title={`${val} calls`} />;
+                                      const alpha = heatmapMax > 0 ? Math.max(0.06, (val / heatmapMax) * 0.95) : 0;
+                                      const style: any = val === 0 ? { width: 28, height: 20, borderRadius: 6, background: 'transparent' } : { width: 28, height: 20, borderRadius: 6, background: `rgba(249,115,22,${alpha})` };
+                                      return <div key={`cell-${i}-${j}`} title={`${val} calls`} style={style} />;
                                     })}
-                                  </>
+                                  </React.Fragment>
                                 );
                               })}
                             </div>
+                            <div className="mt-2 text-xs text-slate-500">Legend: darker = more calls</div>
                           </div>
                         </div>
                       ) : (
