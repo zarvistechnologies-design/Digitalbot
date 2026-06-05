@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
-import { doctorsAPI, promptsAPI, voiceProviderAPI } from "@/lib/api";
+import { clinicConfigAPI, doctorsAPI, voiceProviderAPI } from "@/lib/api";
 import {
   AlertCircle,
   Bot,
@@ -136,7 +136,7 @@ interface VoiceOption {
   source?: string;
 }
 
-type PromptResponse = Partial<AgentForm> & {
+type ClinicConfigResponse = Partial<AgentForm> & {
   millisConfig?: Partial<VoiceRuntimeConfig>;
   voiceRuntimeConfig?: Partial<VoiceRuntimeConfig>;
 };
@@ -260,20 +260,20 @@ function buildDefaultForm(user: User | null): AgentForm {
   };
 }
 
-function mergePrompt(prompt: PromptResponse | null, fallback: AgentForm): AgentForm {
-  if (!prompt) return fallback;
-  const runtimeConfig = prompt.voiceRuntimeConfig || prompt.millisConfig || {};
+function mergeClinicConfig(config: ClinicConfigResponse | null, fallback: AgentForm): AgentForm {
+  if (!config) return fallback;
+  const runtimeConfig = config.voiceRuntimeConfig || config.millisConfig || {};
   return {
     ...fallback,
-    ...prompt,
-    voiceConfig: { ...fallback.voiceConfig, ...(prompt.voiceConfig || {}) },
-    customLlmConfig: { ...fallback.customLlmConfig, ...(prompt.customLlmConfig || {}) },
+    ...config,
+    voiceConfig: { ...fallback.voiceConfig, ...(config.voiceConfig || {}) },
+    customLlmConfig: { ...fallback.customLlmConfig, ...(config.customLlmConfig || {}) },
     toolConfig: {
       ...fallback.toolConfig,
-      ...(prompt.toolConfig || {}),
+      ...(config.toolConfig || {}),
       enabledTools: {
         ...fallback.toolConfig.enabledTools,
-        ...(prompt.toolConfig?.enabledTools || {}),
+        ...(config.toolConfig?.enabledTools || {}),
       },
     },
     voiceRuntimeConfig: {
@@ -282,9 +282,10 @@ function mergePrompt(prompt: PromptResponse | null, fallback: AgentForm): AgentF
       tts: { ...fallback.voiceRuntimeConfig.tts, ...(runtimeConfig.tts || {}) },
       stt: { ...fallback.voiceRuntimeConfig.stt, ...(runtimeConfig.stt || {}) },
     },
-    features: { ...fallback.features, ...(prompt.features || {}) },
-    notifications: { ...fallback.notifications, ...(prompt.notifications || {}) },
-    workingHours: { ...fallback.workingHours, ...(prompt.workingHours || {}) },
+    features: { ...fallback.features, ...(config.features || {}) },
+    notifications: { ...fallback.notifications, ...(config.notifications || {}) },
+    workingHours: { ...fallback.workingHours, ...(config.workingHours || {}) },
+    workingDays: Array.isArray(config.workingDays) ? config.workingDays : fallback.workingDays,
   };
 }
 
@@ -354,8 +355,8 @@ export default function SystemAgentConfigurationPage() {
       setUser(parsedUser);
       const fallback = buildDefaultForm(parsedUser);
 
-      const [promptResult, doctorsResult, voiceAgentsResult, voicesResult] = await Promise.allSettled([
-        promptsAPI.getCurrent(),
+      const [clinicConfigResult, doctorsResult, voiceAgentsResult, voicesResult] = await Promise.allSettled([
+        clinicConfigAPI.getCurrent(),
         doctorsAPI.getAll(),
         voiceProviderAPI.getAgents(),
         voiceProviderAPI.getVoices({ includeCustom: true }),
@@ -384,9 +385,9 @@ export default function SystemAgentConfigurationPage() {
       }
 
       let nextForm = fallback;
-      if (promptResult.status === "fulfilled") {
-        const prompt = promptResult.value.data?.prompt || null;
-        nextForm = mergePrompt(prompt, fallback);
+      if (clinicConfigResult.status === "fulfilled") {
+        const config = clinicConfigResult.value.data?.config || null;
+        nextForm = mergeClinicConfig(config, fallback);
       }
 
       const selectedAgent =
@@ -560,7 +561,7 @@ export default function SystemAgentConfigurationPage() {
         speed: voiceRuntimeConfig.tts.speed || restFormData.voiceConfig.speed,
       };
       const selectedVoice = voiceChoices.find((voice) => voice.id === voiceRuntimeConfig.tts.voiceId);
-      await promptsAPI.saveCurrent({
+      await clinicConfigAPI.saveCurrent({
         ...restFormData,
         voiceConfig,
         voiceRuntimeConfig,

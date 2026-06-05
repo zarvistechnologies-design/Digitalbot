@@ -209,6 +209,17 @@ export const promptsAPI = {
 };
 
 // ========================================
+// CUSTOM LLM CLINIC CONFIG API
+// ========================================
+export const clinicConfigAPI = {
+  // Get current authenticated user's Custom LLM clinic config
+  getCurrent: () => api.get('/clinic-config'),
+
+  // Save current authenticated user's Custom LLM clinic config
+  saveCurrent: (data: unknown) => api.post('/clinic-config', data),
+};
+
+// ========================================
 // AVAILABILITY API
 // ========================================
 export const availabilityAPI = {
