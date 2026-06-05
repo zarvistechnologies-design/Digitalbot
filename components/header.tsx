@@ -255,6 +255,9 @@ export function Header() {
                             <Link href="/" className={cn("hdr-nav-link", pathname === "/" && "active")}>
                                 Home
                             </Link>
+                            <Link href="/about-us" className={cn("hdr-nav-link", pathname === "/about-us" && "active")}>
+                                About Us
+                            </Link>
 
                             {/* Solutions Dropdown */}
                             <div className="relative" onMouseEnter={() => setActiveDropdown("solutions")} onMouseLeave={() => setActiveDropdown(null)}>
@@ -391,7 +394,7 @@ export function Header() {
                             </div>
 
                             {/* Other Nav Items */}
-                            {navItems.filter(item => item.href !== "/").map((item) => (
+                            {navItems.filter(item => item.href !== "/" && item.href !== "/about-us").map((item) => (
                                 <Link key={item.href} href={item.href} className={cn("hdr-nav-link", pathname === item.href && "active")}>
                                     {item.label}
                                 </Link>
