@@ -29,7 +29,7 @@ const services = [
         color: "from-orange-500 to-orange-500",
         stat: "95%",
         statLabel: "Booking Success Rate",
-        audio: "/audio/doctor-appointment-sample.mp3",          
+        audio: "/audio/doctor_appointment.mp3",          
         features: [
             { icon: "Calendar", text: "Smart scheduling with real-time calendar sync" },
             { icon: "Clock", text: "Instant SMS & email confirmations" },
@@ -46,7 +46,7 @@ const services = [
         color: "from-orange-500 to-orange-500",
         stat: "3x",
         statLabel: "More Qualified Leads",
-        audio: "/audio/lead-generation-sample.mp3",
+        audio: "/audio/lead_generation.mpeg",
         features: [
             { icon: "TrendingUp", text: "Smart lead qualification & scoring" },
             { icon: "Calendar", text: "Auto-book meetings in your calendar" },
@@ -62,7 +62,7 @@ const services = [
         color: "from-orange-500 to-orange-500",
         stat: "90%",
         statLabel: "First Call Resolution",
-        audio: "/audio/customer-care-sample.mp3",
+        audio: "/audio/customer_support.mpeg",
         features: [
             { icon: "Headphones", text: "24/7 support without hold times" },
             { icon: "CheckCircle", text: "90% first-call resolution rate" },
@@ -71,14 +71,14 @@ const services = [
         ],
     },
     {
-        title: "Voicebot Integration",
+        title: "E-commerce",
         subtitle: "Seamlessly Connect AI Voice to Your Systems",
         img: "https://res.cloudinary.com/dvwmbidka/image/upload/e_background_removal/b_rgb:94a3b8/voicebot_integaration_pjlorx",
         desc: "Connect our AI voice agents directly into your existing workflows. From CRM updates to calendar syncing, our voicebot integrates with the tools you already use.",
         color: "from-orange-500 to-orange-600",
         stat: "50+",
         statLabel: "Native Integrations",
-        audio: "/audio/virtual-receptionist-sample.mp3",
+        audio: "/audio/voicebot_integration.mpeg",
         features: [
             { icon: "Zap", text: "Connect with Zapier, Make, & 1000+ apps" },
             { icon: "Share2", text: "Bi-directional data flow & updates" },
