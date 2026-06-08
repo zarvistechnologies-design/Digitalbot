@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
-import { clinicConfigAPI, doctorsAPI, voiceProviderAPI } from "@/lib/api";
+import { clinicConfigAPI, doctorsAPI, tankroAPI, voiceProviderAPI } from "@/lib/api";
 import {
   AlertCircle,
   Bot,
@@ -26,6 +26,7 @@ interface User {
   name?: string;
   email?: string;
   assignedPhoneNumber?: string;
+  selectedService?: string;
 }
 
 interface CustomLlmConfig {
@@ -107,7 +108,8 @@ interface AgentForm {
 interface Doctor {
   _id: string;
   name: string;
-  specialization: string;
+  specialization?: string;
+  district?: string;
   slotDuration?: number;
   active?: boolean;
 }
@@ -187,16 +189,45 @@ Your job:
 6. If the caller has an emergency, ask them to contact emergency services or transfer to staff.
 7. Keep replies short, natural, and easy to understand on a phone call.`;
 
+const tankroPrompt = `You are Tankro's AI voice booking assistant for water tank cleaning and service calls.
+
+Your job:
+1. Greet the caller warmly.
+2. Understand the service they need: tank cleaning, roof care, callback, complaint, or other.
+3. Ask for district/location, preferred date, preferred time, customer name, service purpose, and address if needed.
+4. If tank cleaning, ask for tank capacity in litres when the caller knows it.
+5. Use get_doctors to list configured Tankro service locations/districts.
+6. Use check_doctor_availability to check slots for the selected district/location.
+7. Use book_appointment only after date, time, customer name, district/location, and purpose are clear.
+8. When calling book_appointment, put the customer name in patient_name, selected district/location in location_name or district, and purpose in purpose/service_type.
+9. Never confirm a booking until the booking tool succeeds.
+10. Keep replies short, natural, and easy to understand on a phone call.`;
+
+const isTankroService = (service?: string) => {
+  const normalized = (service || "").toLowerCase().replace(/[\s_]+/g, "-");
+  return normalized === "tankro" || normalized === "tankro-dashboard";
+};
+
 function buildDefaultForm(user: User | null): AgentForm {
   const phone = user?.assignedPhoneNumber || "";
-  const doctorsEndpoint = phone ? `${API_BASE_URL}/doctors/by-phone/${phone}` : `${API_BASE_URL}/doctors/by-phone`;
+  const tankro = isTankroService(user?.selectedService);
+  const encodedPhone = phone ? encodeURIComponent(phone) : "{{assignedPhoneNumber}}";
+  const doctorsEndpoint = tankro
+    ? `${API_BASE_URL}/tankro/locations/by-phone/${encodedPhone}`
+    : phone
+      ? `${API_BASE_URL}/doctors/by-phone/${encodedPhone}`
+      : `${API_BASE_URL}/doctors/by-phone/{{assignedPhoneNumber}}`;
 
   return {
-    hospitalName: user?.name ? `${user.name} Clinic` : "Clinic",
+    hospitalName: tankro ? (user?.name || "Tankro") : user?.name ? `${user.name} Clinic` : "Clinic",
     hospitalAddress: "",
-    hospitalDescription: "Doctor appointment voice agent for patient calls.",
-    systemPrompt: defaultPrompt,
-    greetingMessage: "Hello! Welcome to our clinic. How can I help you today?",
+    hospitalDescription: tankro
+      ? "Tankro service booking voice agent for customer calls."
+      : "Doctor appointment voice agent for patient calls.",
+    systemPrompt: tankro ? tankroPrompt : defaultPrompt,
+    greetingMessage: tankro
+      ? "Hello! Welcome to Tankro. How can I help you today?"
+      : "Hello! Welcome to our clinic. How can I help you today?",
     closingMessage: "Thank you for calling. Have a great day!",
     voiceConfig: {
       language: "en-IN",
@@ -206,7 +237,7 @@ function buildDefaultForm(user: User | null): AgentForm {
     },
     customLlmConfig: {
       provider: "gemini",
-      clinicModel: "doctor-appointment-clinic",
+      clinicModel: tankro ? "tankro-service-booking" : "doctor-appointment-clinic",
       model: "gemini-2.5-flash",
       temperature: 0.6,
       maxOutputTokens: 1024,
@@ -215,8 +246,8 @@ function buildDefaultForm(user: User | null): AgentForm {
       active: true,
     },
     toolConfig: {
-      bookingEndpoint: `${API_BASE_URL}/availability/book`,
-      availabilityEndpoint: `${API_BASE_URL}/availability`,
+      bookingEndpoint: tankro ? `${API_BASE_URL}/tankro/book` : `${API_BASE_URL}/availability/book`,
+      availabilityEndpoint: tankro ? `${API_BASE_URL}/tankro/availability` : `${API_BASE_URL}/availability`,
       doctorsEndpoint,
       bookingAuthHeader: "",
       enabledTools: {
@@ -333,6 +364,7 @@ export default function SystemAgentConfigurationPage() {
   const systemPromptTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const assignedPhone = user?.assignedPhoneNumber || "";
+  const isTankroAgent = isTankroService(user?.selectedService);
 
   const resizeSystemPromptTextarea = useCallback(() => {
     const textarea = systemPromptTextareaRef.current;
@@ -352,12 +384,13 @@ export default function SystemAgentConfigurationPage() {
 
       const storedUser = typeof window !== "undefined" ? localStorage.getItem("user") : null;
       const parsedUser = storedUser ? JSON.parse(storedUser) as User : null;
+      const tankroUser = isTankroService(parsedUser?.selectedService);
       setUser(parsedUser);
       const fallback = buildDefaultForm(parsedUser);
 
       const [clinicConfigResult, doctorsResult, voiceAgentsResult, voicesResult] = await Promise.allSettled([
         clinicConfigAPI.getCurrent(),
-        doctorsAPI.getAll(),
+        tankroUser ? tankroAPI.getLocations() : doctorsAPI.getAll(),
         voiceProviderAPI.getAgents(),
         voiceProviderAPI.getVoices({ includeCustom: true }),
       ]);
@@ -397,7 +430,7 @@ export default function SystemAgentConfigurationPage() {
       setFormData(applyVoiceAgentToForm(nextForm, selectedAgent));
 
       if (doctorsResult.status === "fulfilled") {
-        const doctorList = doctorsResult.value.data?.doctors || doctorsResult.value.data?.data || [];
+        const doctorList = doctorsResult.value.data?.doctors || doctorsResult.value.data?.locations || doctorsResult.value.data?.data || [];
         setDoctors(Array.isArray(doctorList) ? doctorList : []);
       } else {
         setDoctors([]);
@@ -611,22 +644,28 @@ export default function SystemAgentConfigurationPage() {
     {
       key: "bookAppointment" as const,
       name: "book_appointment",
-      title: "Book Appointment",
-      description: "Books the patient after doctor, date, time, name, and phone are collected.",
+      title: isTankroAgent ? "Book Service Visit" : "Book Appointment",
+      description: isTankroAgent
+        ? "Confirms a Tankro service booking after location, purpose, date, time, name, and phone are collected."
+        : "Books the patient after doctor, date, time, name, and phone are collected.",
       endpoint: formData.toolConfig.bookingEndpoint,
     },
     {
       key: "checkDoctorAvailability" as const,
       name: "check_doctor_availability",
       title: "Check Availability",
-      description: "Checks doctor slots before confirming any appointment.",
+      description: isTankroAgent
+        ? "Checks Tankro district/location slots before confirming any service visit."
+        : "Checks doctor slots before confirming any appointment.",
       endpoint: formData.toolConfig.availabilityEndpoint,
     },
     {
       key: "getDoctors" as const,
       name: "get_doctors",
-      title: "Get Doctors",
-      description: "Returns clinic doctors, specializations, and slot duration.",
+      title: isTankroAgent ? "Get Locations" : "Get Doctors",
+      description: isTankroAgent
+        ? "Returns configured Tankro service locations, districts, and slot duration."
+        : "Returns clinic doctors, specializations, and slot duration.",
       endpoint: formData.toolConfig.doctorsEndpoint,
     },
   ];
@@ -850,13 +889,15 @@ export default function SystemAgentConfigurationPage() {
                         <Stethoscope className="h-5 w-5" />
                       </div>
                       <div>
-                        <h2 className="text-lg font-bold text-slate-950">Clinic Data</h2>
-                        <p className="text-sm text-slate-500">Doctors available to this agent.</p>
+                        <h2 className="text-lg font-bold text-slate-950">{isTankroAgent ? "Service Data" : "Clinic Data"}</h2>
+                        <p className="text-sm text-slate-500">
+                          {isTankroAgent ? "Locations available to this agent." : "Doctors available to this agent."}
+                        </p>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="rounded-lg bg-slate-50 p-3">
-                        <div className="text-xs font-semibold text-slate-500">Doctors</div>
+                        <div className="text-xs font-semibold text-slate-500">{isTankroAgent ? "Locations" : "Doctors"}</div>
                         <div className="text-2xl font-bold text-slate-950">{doctors.length}</div>
                       </div>
                       <div className="rounded-lg bg-slate-50 p-3">
@@ -870,10 +911,12 @@ export default function SystemAgentConfigurationPage() {
                       {doctors.length > 0 ? doctors.slice(0, 5).map((doctor) => (
                         <div key={doctor._id} className="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2 text-sm">
                           <span className="font-semibold text-slate-800">{doctor.name}</span>
-                          <span className="text-xs text-slate-500">{doctor.specialization}</span>
+                          <span className="text-xs text-slate-500">{isTankroAgent ? doctor.district : doctor.specialization}</span>
                         </div>
                       )) : (
-                        <div className="rounded-lg border border-dashed border-slate-200 p-3 text-sm text-slate-500">No doctors configured yet.</div>
+                        <div className="rounded-lg border border-dashed border-slate-200 p-3 text-sm text-slate-500">
+                          {isTankroAgent ? "No locations configured yet." : "No doctors configured yet."}
+                        </div>
                       )}
                     </div>
                   </div>

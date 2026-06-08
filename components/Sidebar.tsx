@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { BookOpen, Bot, Calendar, CalendarCheck, CreditCard, FileText, LayoutDashboard, LogOut, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
+import { BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, FileText, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -40,6 +40,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const formatServiceName = (service?: string) => {
     if (!service) return '';
     if (service === 'doctor-dashboard') return 'Doctor Dashboard';
+    if (service === 'tankro') return 'Tankro Dashboard';
     return service.replace(/[-_]/g, ' ');
   };
 
@@ -91,6 +92,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Bot Leads', href: '/dashboard/visiva-bot/leads', icon: Users });
       serviceItems.push({ name: 'Quick Messages', href: '/dashboard/visiva-bot/messages', icon: Send });
       serviceItems.push({ name: 'Templates', href: '/dashboard/visiva-bot/templates', icon: FileText });
+    }
+    if (selectedService === 'tankro' || selectedService === 'tankro-dashboard') {
+      serviceItems.push({ name: 'Locations', href: '/dashboard/tankro-locations', icon: MapPin });
+      serviceItems.push({ name: 'Service Bookings', href: '/dashboard/tankro-bookings', icon: ClipboardList });
     }
     return serviceItems;
   };

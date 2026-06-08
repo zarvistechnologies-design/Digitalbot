@@ -100,8 +100,9 @@ export const callsAPI = {
   },
 
   // Get call recording URL
-  getCallRecordingUrl: (callId: string) => {
-    return `${API_BASE_URL}/calls/${callId}/recording`;
+  getCallRecordingUrl: (callId: string, token?: string) => {
+    const query = token ? `?token=${encodeURIComponent(token)}` : '';
+    return `${API_BASE_URL}/calls/${encodeURIComponent(callId)}/recording${query}`;
   },
 
   // Get call analytics
@@ -325,6 +326,98 @@ export const calendarAPI = {
   // Sync availability from calendar
   syncAvailability: (doctorId: string, date: string) =>
     api.get(`/calendar/sync/${doctorId}/${date}`),
+};
+
+// ========================================
+// TANKRO API
+// ========================================
+export const tankroAPI = {
+  getDefaults: () => api.get('/tankro/defaults'),
+
+  getSummary: () => api.get('/tankro/summary'),
+
+  getLocations: (params?: { active?: boolean; search?: string }) =>
+    api.get('/tankro/locations', { params }),
+
+  seedDefaultLocations: () => api.post('/tankro/locations/seed-defaults'),
+
+  createLocation: (data: {
+    name: string;
+    district: string;
+    address?: string;
+    contactPhone?: string;
+    email?: string;
+    slotDuration?: number;
+    allowMultipleBookings?: boolean;
+    maxBookingsPerSlot?: number;
+    defaultWorkingHours?: { start: string; end: string };
+    workingDays?: number[];
+    calendarId?: string;
+    active?: boolean;
+  }) => api.post('/tankro/locations', data),
+
+  updateLocation: (id: string, data: Partial<{
+    name: string;
+    district: string;
+    address: string;
+    contactPhone: string;
+    email: string;
+    slotDuration: number;
+    allowMultipleBookings: boolean;
+    maxBookingsPerSlot: number;
+    defaultWorkingHours: { start: string; end: string };
+    workingDays: number[];
+    calendarId: string;
+    active: boolean;
+  }>) =>
+    api.put(`/tankro/locations/${id}`, data),
+
+  deleteLocation: (id: string) => api.delete(`/tankro/locations/${id}`),
+
+  getBookings: (params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    locationId?: string;
+    from_date?: string;
+    to_date?: string;
+    search?: string;
+  }) => api.get('/tankro/bookings', { params }),
+
+  createBooking: (data: {
+    customerName: string;
+    customerPhone: string;
+    customerEmail?: string;
+    customerAddress?: string;
+    locationId: string;
+    propertyType?: string;
+    serviceType?: string;
+    tankCapacityLitres?: number;
+    date: string;
+    time: string;
+    notes?: string;
+  }) => api.post('/tankro/bookings', data),
+
+  updateBooking: (id: string, data: Record<string, unknown>) =>
+    api.put(`/tankro/bookings/${id}`, data),
+
+  deleteBooking: (id: string) => api.delete(`/tankro/bookings/${id}`),
+
+  checkAvailability: (params: {
+    assignedPhoneNumber: string;
+    locationId?: string;
+    locationName?: string;
+    district?: string;
+    date: string;
+  }) => api.get('/tankro/availability', { params }),
+};
+
+export const tankroCalendarAPI = {
+  connect: (locationId: string) => api.get(`/tankro/calendar/connect/${locationId}`),
+  getStatus: (locationId: string) => api.get(`/tankro/calendar/status/${locationId}`),
+  disconnect: (locationId: string) => api.post(`/tankro/calendar/disconnect/${locationId}`),
+  syncAvailability: (locationId: string, date: string) =>
+    api.get(`/tankro/calendar/sync/${locationId}/${date}`),
 };
 
 // ========================================

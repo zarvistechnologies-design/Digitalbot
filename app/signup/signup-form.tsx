@@ -11,7 +11,7 @@ interface SignupFormProps {
   initialService?: string
 }
 
-type ServiceKey = 'lead-analysis' | 'appointment' | 'doctor-dashboard' | 'customer-support' | ''
+type ServiceKey = 'lead-analysis' | 'appointment' | 'doctor-dashboard' | 'customer-support' | 'tankro' | ''
 
 export function SignupForm({ initialService }: SignupFormProps) {
   const router = useRouter()
@@ -29,6 +29,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     else if (serviceFromUrl === 'appointment') setSelectedService('appointment')
     else if (['doctor', 'doctor-dashboard', 'doctor dashboard', 'clinic', 'healthcare'].includes(serviceFromUrl)) setSelectedService('doctor-dashboard')
     else if (serviceFromUrl === 'customer-support') setSelectedService('customer-support')
+    else if (['tankro', 'tankro-dashboard', 'tankro dashboard', 'tank', 'tank cleaning'].includes(serviceFromUrl)) setSelectedService('tankro')
   }, [searchParams, initialService])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +44,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     if (serviceFromUrl === 'appointment') return 'appointment'
     if (serviceFromUrl && ['doctor', 'doctor-dashboard', 'doctor dashboard', 'clinic', 'healthcare'].includes(serviceFromUrl)) return 'doctor-dashboard'
     if (serviceFromUrl === 'customer-support') return 'customer-support'
+    if (serviceFromUrl && ['tankro', 'tankro-dashboard', 'tankro dashboard', 'tank', 'tank cleaning'].includes(serviceFromUrl)) return 'tankro'
     return selectedService
   }
 
@@ -96,6 +98,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
         return { title: 'Doctor Dashboard Service', gradient: 'from-orange-500 to-violet-500' }
       case 'customer-support':
         return { title: 'Customer Support AI', gradient: 'from-orange-500 to-violet-500' }
+      case 'tankro':
+        return { title: 'Tankro Service Dashboard', gradient: 'from-orange-500 to-violet-500' }
       default:
         return { title: 'DigitalBot Service', gradient: 'from-orange-500 to-violet-600' }
     }

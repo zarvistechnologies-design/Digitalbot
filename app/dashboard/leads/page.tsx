@@ -276,7 +276,7 @@ const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }
             </div>
           )}
 
-          {getCallTranscription(call) && (
+          {Boolean(getCallTranscription(call)) && (
             <div>
               <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3">Transcription</h3>
               <div className="bg-gray-50 rounded-xl p-4 max-h-64 overflow-y-auto border border-gray-200">
@@ -419,7 +419,7 @@ function CallCard({
   isProcessing: boolean;
 }) {
   const isAnalyzed = call.isLead !== undefined && call.isLead !== null && call.leadAnalysisAt;
-  const hasTranscription = getCallTranscription(call);
+  const hasTranscription = Boolean(getCallTranscription(call));
   const callId = getCallId(call, "unknown");
 
   return (

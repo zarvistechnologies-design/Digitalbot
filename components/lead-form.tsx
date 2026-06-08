@@ -1,3 +1,5 @@
+import Image from "next/image";
+
  <section className="relative min-h-[200vh] bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff] dark:from-slate-900 dark:via-gray-900 dark:to-slate-800" id="use-cases">
           <div className="flex flex-col lg:flex-row">
             {/* LEFT SIDE - STICKY/FIXED */}

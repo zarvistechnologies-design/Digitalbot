@@ -31,6 +31,7 @@ const Dashboard = () => {
   const [refreshInterval, setRefreshInterval] = useState(30000);
   const [isBackgroundFetching, setIsBackgroundFetching] = useState(false);
   const [newCallsCount, setNewCallsCount] = useState(0);
+  const [recordingErrors, setRecordingErrors] = useState<Record<string, string>>({});
 
   const getCallId = (call: any): string => {
     return String(call?.id || call?.session_id || call?.call_id || call?._id || '');
@@ -82,23 +83,99 @@ const Dashboard = () => {
     const candidates = [
       call?.recording_url,
       call?.recordingUrl,
+      call?.recording_download_url,
+      call?.recordingDownloadUrl,
+      call?.recording_file,
+      call?.recordingFile,
+      call?.recording_file_url,
+      call?.recordingFileUrl,
+      call?.recordingLink,
+      call?.recording_link,
       call?.call_recording,
+      call?.call_recording_url,
+      call?.callRecordingUrl,
       call?.audio_url,
       call?.audioUrl,
+      call?.audio_file,
+      call?.audioFile,
+      call?.media_url,
+      call?.mediaUrl,
+      call?.file_url,
+      call?.fileUrl,
       typeof recording === 'string' ? recording : null,
       recording?.url,
       recording?.recording_url,
       recording?.recordingUrl,
+      recording?.download_url,
+      recording?.downloadUrl,
+      recording?.link,
+      recording?.recording_link,
+      recording?.recordingLink,
+      recording?.signed_url,
+      recording?.signedUrl,
+      recording?.playback_url,
+      recording?.playbackUrl,
       recording?.audio_url,
       recording?.audioUrl,
+      recording?.media_url,
+      recording?.mediaUrl,
+      recording?.file_url,
+      recording?.fileUrl,
       call?.metadata?.recording_url,
       call?.metadata?.recordingUrl,
+      call?.metadata?.recording_download_url,
+      call?.metadata?.recordingDownloadUrl,
+      call?.metadata?.recording_file_url,
+      call?.metadata?.recordingFileUrl,
+      call?.metadata?.recordingLink,
+      call?.metadata?.recording_link,
       call?.metadata?.call_recording,
+      call?.metadata?.call_recording_url,
+      call?.metadata?.callRecordingUrl,
       call?.metadata?.audio_url,
       call?.metadata?.audioUrl,
+      call?.metadata?.media_url,
+      call?.metadata?.mediaUrl,
+      call?.metadata?.file_url,
+      call?.metadata?.fileUrl,
     ];
 
-    return candidates.find((value) => typeof value === 'string' && value.trim())?.trim() || '';
+    const directUrl = candidates.find((value) => typeof value === 'string' && value.trim())?.trim() || findRecordingUrlDeep(call) || '';
+    const callId = getCallId(call);
+    if (!callId) return directUrl;
+
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') || undefined : undefined;
+    return directUrl ? callsAPI.getCallRecordingUrl(callId, token) : '';
+  };
+
+  const findRecordingUrlDeep = (value: any, path: string[] = [], seen = new Set<any>()): string => {
+    if (!value) return '';
+
+    if (typeof value === 'string') {
+      const trimmed = value.trim();
+      const pathText = path.join('.').toLowerCase();
+      const looksLikeAudioPath = /\.(mp3|wav|m4a|mpeg|mp4|ogg)(\?|#|$)/i.test(trimmed);
+      const looksLikeRecordingField = /(record|audio|media|playback|download|file|signed)/i.test(pathText);
+      return /^https?:\/\//i.test(trimmed) && (looksLikeRecordingField || looksLikeAudioPath) ? trimmed : '';
+    }
+
+    if (typeof value !== 'object' || seen.has(value)) return '';
+    seen.add(value);
+
+    if (Array.isArray(value)) {
+      for (let index = 0; index < value.length; index += 1) {
+        const found = findRecordingUrlDeep(value[index], [...path, String(index)], seen);
+        if (found) return found;
+      }
+      return '';
+    }
+
+    for (const [key, child] of Object.entries(value)) {
+      const found = findRecordingUrlDeep(child, [...path, key], seen);
+      if (found) return found;
+    }
+
+    return '';
   };
 
   const fetchCalls = async (page = 1, limit = 100, search = '', isBackground = false) => {
@@ -324,6 +401,11 @@ const Dashboard = () => {
       setExpandedCall(null);
     } else {
       setExpandedCall(callId);
+      setRecordingErrors((prev) => {
+        const next = { ...prev };
+        delete next[callId];
+        return next;
+      });
       try {
         const response = await callsAPI.getCall(callId);
         const callData = response.data.data || response.data;
@@ -613,13 +695,15 @@ const Dashboard = () => {
               {/* Calls List */}
               <div className="space-y-4">
                 {calls.map((call: any) => {
+                  const callId = getCallId(call);
                   const { phone, isInbound } = getPhoneDisplay(call);
                   const recordingUrl = getRecordingUrl(call);
+                  const recordingError = recordingErrors[callId];
                   
                   return (
-                    <div key={getCallId(call)} className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <div key={callId} className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                       <div
-                        onClick={() => handleCallClick(getCallId(call))}
+                        onClick={() => handleCallClick(callId)}
                         className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
                       >
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
@@ -672,7 +756,7 @@ const Dashboard = () => {
                         </div>
                       </div>
 
-                      {expandedCall === getCallId(call) && (
+                      {expandedCall === callId && (
                         <>
                           <div className="border-t border-gray-200"></div>
                           <div className="p-6 bg-white">
@@ -725,9 +809,37 @@ const Dashboard = () => {
                                     className="w-full"
                                     src={recordingUrl}
                                     preload="metadata"
+                                    onError={() => {
+                                      setRecordingErrors((prev) => ({
+                                        ...prev,
+                                        [callId]: 'Recording could not be loaded in the browser. Try opening it directly.',
+                                      }));
+                                    }}
                                   >
                                     Your browser does not support the audio element.
                                   </audio>
+                                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                                    <a
+                                      href={recordingUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm font-semibold transition-colors"
+                                    >
+                                      Open Recording
+                                    </a>
+                                    <a
+                                      href={recordingUrl}
+                                      download
+                                      className="inline-flex items-center px-4 py-2 border border-orange-600 text-orange-600 hover:bg-orange-50 rounded-lg text-sm font-semibold transition-colors"
+                                    >
+                                      Download
+                                    </a>
+                                    {recordingError && (
+                                      <span className="text-sm font-medium text-orange-700">
+                                        {recordingError}
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
                               ) : call.agent_config?.call_settings?.enable_recording ? (
                                 <div className="bg-white border-2 border-orange-500 rounded-xl p-4">
