@@ -1,7 +1,7 @@
 "use client"
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Award, BarChart3, Bot, Calendar, CalendarCheck, CheckCircle, Clock, CreditCard, FileText, Headphones, LayoutDashboard, Megaphone, MessageSquare, Mic, Phone, PhoneCall, PlusCircle, Send, Shield, Stethoscope, TrendingUp, Users, Zap } from "lucide-react";
+import { ArrowRight, Award, BarChart3, Bot, Calendar, CalendarCheck, CheckCircle, Clock, CreditCard, FileText, Headphones, LayoutDashboard, Megaphone, MessageSquare, Mic, Pause, Phone, PhoneCall, Play, PlusCircle, Send, Shield, Stethoscope, TrendingUp, Users, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
 import TrustedBrands from "./TrustedBrands";
@@ -17,6 +17,13 @@ type VoiceCallControls = {
     callStatus: string
     vapiLoaded: boolean
     onToggleCall: () => void
+}
+
+const formatAudioTime = (seconds: number) => {
+    if (!Number.isFinite(seconds) || seconds <= 0) return "0:00"
+    const minutes = Math.floor(seconds / 60)
+    const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, "0")
+    return `${minutes}:${remainingSeconds}`
 }
 
 // Services data for attractive-style scroll showcase
@@ -986,6 +993,13 @@ export default function Hero() {
     // Vapi voice agent state
     const vapiRef = useRef<any>(null)
     const voiceGardenAudioRef = useRef<HTMLAudioElement | null>(null)
+    const [voiceGardenPlayer, setVoiceGardenPlayer] = useState({
+        src: "",
+        isPlaying: false,
+        currentTime: 0,
+        duration: 0,
+    })
+    const [voiceGardenDurations, setVoiceGardenDurations] = useState<Record<string, number>>({})
     const [isCallActive, setIsCallActive] = useState(false)
     const [isSpeaking, setIsSpeaking] = useState(false)
     const [callStatus, setCallStatus] = useState('')
@@ -1089,26 +1103,56 @@ export default function Hero() {
         }
     }
 
-    const playVoiceGardenSample = (audioSrc: string) => {
-        if (voiceGardenAudioRef.current) {
-            voiceGardenAudioRef.current.pause()
-            voiceGardenAudioRef.current.currentTime = 0
+    const toggleVoiceGardenSample = (audioSrc: string) => {
+        const activeAudio = voiceGardenAudioRef.current
+
+        if (activeAudio && voiceGardenPlayer.src === audioSrc) {
+            if (activeAudio.paused) {
+                if (activeAudio.ended || (activeAudio.duration && activeAudio.currentTime >= activeAudio.duration)) {
+                    activeAudio.currentTime = 0
+                }
+                activeAudio.play()
+                    .then(() => setVoiceGardenPlayer((prev) => ({ ...prev, isPlaying: true })))
+                    .catch(() => setVoiceGardenPlayer((prev) => ({ ...prev, isPlaying: false })))
+            } else {
+                activeAudio.pause()
+                setVoiceGardenPlayer((prev) => ({ ...prev, isPlaying: false }))
+            }
+            return
+        }
+
+        if (activeAudio) {
+            activeAudio.pause()
+            activeAudio.currentTime = 0
         }
 
         const audio = new Audio(audioSrc)
         voiceGardenAudioRef.current = audio
+        setVoiceGardenPlayer({ src: audioSrc, isPlaying: false, currentTime: 0, duration: voiceGardenDurations[audioSrc] || 0 })
+
+        audio.addEventListener('loadedmetadata', () => {
+            const duration = Number.isFinite(audio.duration) ? audio.duration : 0
+            setVoiceGardenDurations((prev) => ({ ...prev, [audioSrc]: duration }))
+            setVoiceGardenPlayer((prev) => (
+                prev.src === audioSrc ? { ...prev, duration } : prev
+            ))
+        })
+
+        audio.addEventListener('timeupdate', () => {
+            setVoiceGardenPlayer((prev) => (
+                prev.src === audioSrc ? { ...prev, currentTime: audio.currentTime, duration: Number.isFinite(audio.duration) ? audio.duration : prev.duration } : prev
+            ))
+        })
 
         audio.addEventListener('ended', () => {
             if (voiceGardenAudioRef.current === audio) {
-                voiceGardenAudioRef.current = null
+                setVoiceGardenPlayer((prev) => ({ ...prev, isPlaying: false, currentTime: prev.duration }))
             }
         }, { once: true })
 
-        audio.play().catch(() => {
-            if (voiceGardenAudioRef.current === audio) {
-                voiceGardenAudioRef.current = null
-            }
-        })
+        audio.play()
+            .then(() => setVoiceGardenPlayer((prev) => ({ ...prev, isPlaying: true })))
+            .catch(() => setVoiceGardenPlayer((prev) => ({ ...prev, isPlaying: false })))
     }
 
     useEffect(() => {
@@ -2160,32 +2204,62 @@ export default function Hero() {
                         </div>
 
                         <div className="grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
-                            {services.slice(0, 4).map((service) => (
-                                <div key={service.title} className="group relative aspect-[3/4] overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
-                                    <img
-                                        src={service.img}
-                                        alt={service.title}
-                                        className="absolute inset-0 h-full w-full object-cover object-top"
-                                        loading="lazy"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-                                    <button
-                                        type="button"
-                                        className="absolute inset-0 flex cursor-pointer items-center justify-center"
-                                        onClick={() => playVoiceGardenSample(service.audio)}
-                                        aria-label={`Play ${service.title} sample`}
-                                    >
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500/85 shadow-lg backdrop-blur-sm transition-all group-hover:scale-110 group-hover:bg-orange-600">
-                                            <svg className="ml-0.5 h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M8 5v14l11-7z" />
-                                            </svg>
+                            {services.slice(0, 4).map((service) => {
+                                const isActive = voiceGardenPlayer.src === service.audio
+                                const isPlaying = isActive && voiceGardenPlayer.isPlaying
+                                const duration = isActive ? voiceGardenPlayer.duration : voiceGardenDurations[service.audio] || 0
+                                const currentTime = isActive ? voiceGardenPlayer.currentTime : 0
+                                const progress = duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0
+                                const actionLabel = isPlaying ? "Pause" : currentTime > 0 && currentTime < duration ? "Resume" : "Play"
+
+                                return (
+                                    <div key={service.title} className="group relative aspect-[3/4] overflow-hidden rounded-2xl bg-slate-950 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                                        <img
+                                            src={service.img}
+                                            alt={service.title}
+                                            className="absolute inset-0 h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                                            loading="lazy"
+                                        />
+                                        <audio
+                                            preload="metadata"
+                                            src={service.audio}
+                                            onLoadedMetadata={(event) => {
+                                                const audio = event.currentTarget
+                                                setVoiceGardenDurations((prev) => ({ ...prev, [service.audio]: audio.duration || 0 }))
+                                            }}
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+                                        <button
+                                            type="button"
+                                            className={`absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full shadow-lg backdrop-blur-md transition-all group-hover:scale-105 ${isPlaying ? "bg-white/90 text-orange-600" : "bg-orange-500/85 text-white hover:bg-orange-600"}`}
+                                            onClick={() => toggleVoiceGardenSample(service.audio)}
+                                            aria-label={`${actionLabel} ${service.title} sample`}
+                                        >
+                                            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="ml-0.5 h-4 w-4" />}
+                                        </button>
+                                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                                            <h3 className="truncate text-sm font-bold drop-shadow-lg">{service.title}</h3>
+                                            <p className="mt-0.5 text-[10px] font-medium text-white/70 drop-shadow">{isPlaying ? "Playing now" : actionLabel}</p>
+                                            <div className="mt-2 flex h-4 items-end justify-start gap-[2px]">
+                                                {[32, 50, 38, 62, 44, 68, 36, 54].map((height, index) => (
+                                                    <span
+                                                        key={index}
+                                                        className={`w-0.5 rounded-full ${isPlaying ? "animate-[voice-bar_0.9s_ease-in-out_infinite] bg-orange-400" : "bg-white/45"}`}
+                                                        style={{ height: `${height}%`, animationDelay: `${index * 0.06}s` }}
+                                                    />
+                                                ))}
+                                            </div>
+                                            <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/25">
+                                                <div className="h-full rounded-full bg-orange-400 transition-[width] duration-200" style={{ width: `${progress}%` }} />
+                                            </div>
+                                            <div className="mt-2 flex items-center justify-between text-[10px] font-semibold text-white/80 drop-shadow">
+                                                <span>{formatAudioTime(currentTime)}</span>
+                                                <span>{formatAudioTime(duration)}</span>
+                                            </div>
                                         </div>
-                                    </button>
-                                    <div className="absolute bottom-0 left-0 right-0 p-3">
-                                        <h3 className="text-sm font-bold text-white drop-shadow-lg">{service.title}</h3>
                                     </div>
-                                </div>
-                            ))}
+                                )
+                            })}
                         </div>
 
                     </div>
