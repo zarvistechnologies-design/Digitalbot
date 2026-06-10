@@ -34,14 +34,14 @@ interface Message {
 type Step = "greeting" | "service-type" | "voice-services" | "whatsapp-services" | "collect-name" | "collect-phone" | "submitting" | "done";
 
 const voiceServices = [
-  "AI Voice Bot",
-  "Voice AI for Business",
-  "Voice Automation",
-  "Conversational AI",
-  "AI Customer Support",
-  "AI Call Center",
-  "AI Sales Agent",
-  "Virtual Receptionist",
+  "Real Estate",
+  "Insurance",
+  "Healthcare",
+  "Restaurants",
+  "Finance",
+  "Education",
+  "E-commerce",
+  
 ];
 
 const whatsappServices = [
