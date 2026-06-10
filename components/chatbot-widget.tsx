@@ -41,7 +41,7 @@ const voiceServices = [
   "Finance",
   "Education",
   "E-commerce",
-  
+  "Others",
 ];
 
 const whatsappServices = [
