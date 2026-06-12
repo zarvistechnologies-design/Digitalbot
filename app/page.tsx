@@ -1,3 +1,5 @@
+import { CTA } from "@/components/cta"
+
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import Hero from "@/components/hero"
@@ -22,10 +24,11 @@ export default function Home() {
 
       <Header />
 
-      <main id="main-content" className="min-h-screen bg-white" role="main" suppressHydrationWarning>
+      <main id="main-content" className="min-h-screen" role="main" suppressHydrationWarning>
         <Hero />
 
-        <PreFooterCTA />
+        {/* Modern CTA Component */}
+        <CTA />
 
         {/* Testimonials Section */}
         <TestimonialCarousel />
@@ -47,21 +50,19 @@ export default function Home() {
             </div>
 
             {/* 3-Column Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 items-stretch">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 items-start">
 
               {/* LEFT - Have Questions? */}
-              <div className="h-full bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-5 shadow-lg text-center flex flex-col">
-                <div>
-                  <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&h=200&fit=crop&crop=face" alt="Have Questions" className="w-24 h-24 mx-auto mb-4 object-cover rounded-full border-3 border-white/40 shadow-lg" />
-                  <h3 className="text-lg font-bold text-white mb-3">Have Questions?</h3>
-                  <div className="space-y-2 text-left mb-4">
-                    {['How can we help you?', '24/7 Support', 'Contact us anytime.'].map((t, i) => (
-                      <div key={i} className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-green-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
-                        <span className="text-xs font-medium text-white/90">{t}</span>
-                      </div>
-                    ))}
-                  </div>
+              <div className="flex h-full min-h-[330px] flex-col rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 p-5 text-center shadow-lg">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&h=200&fit=crop&crop=face" alt="Have Questions" className="w-24 h-24 mx-auto mb-4 object-cover rounded-full border-3 border-white/40 shadow-lg" />
+                <h3 className="text-lg font-bold text-white mb-3">Have Questions?</h3>
+                <div className="space-y-2 text-left mb-4">
+                  {['How can we help you?', '24/7 Support', 'Contact us anytime.'].map((t, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <svg className="w-4 h-4 text-green-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                      <span className="text-xs font-medium text-white/90">{t}</span>
+                    </div>
+                  ))}
                 </div>
                 <Link href="/contact#contact-form" className="mt-auto block w-full py-2.5 text-sm font-bold text-emerald-600 bg-white rounded-full shadow-md hover:shadow-lg transition-all">
                   Contact Us
@@ -71,7 +72,10 @@ export default function Home() {
               {/* CENTER - FAQ Accordion */}
               <div className="lg:col-span-2">
                 {/* Search */}
-                
+                <div className="relative mb-4">
+                  <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                  <input type="text" placeholder="Search for answers..." className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300" />
+                </div>
                 {/* Accordion */}
                 <div className="space-y-2">
                   {[
@@ -99,7 +103,7 @@ export default function Home() {
               </div>
 
               {/* RIGHT - Need Help? */}
-              <div className="h-full bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl p-5 shadow-lg text-center flex flex-col">
+              <div className="flex h-full min-h-[330px] flex-col rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 p-5 text-center shadow-lg">
                 <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face" alt="Need Help" className="w-24 h-24 mx-auto mb-4 object-cover rounded-full border-3 border-white/40 shadow-lg" />
                 <h3 className="text-lg font-bold text-white mb-4">Need Help?</h3>
                 <div className="mt-auto space-y-2">
@@ -344,6 +348,7 @@ export default function Home() {
 
       </main>
 
+      <PreFooterCTA />
       <Footer />
     </>
   )
