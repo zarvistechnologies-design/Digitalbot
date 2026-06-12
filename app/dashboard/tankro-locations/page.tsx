@@ -83,7 +83,7 @@ const initialFormData: LocationFormData = {
   allowMultipleBookings: true,
   maxBookingsPerSlot: 3,
   defaultWorkingHours: { start: "09:00", end: "18:00" },
-  workingDays: [1, 2, 3, 4, 5, 6],
+  workingDays: [0, 1, 2, 3, 4, 5, 6],
   active: true,
 };
 

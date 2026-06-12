@@ -410,6 +410,17 @@ export const tankroAPI = {
     district?: string;
     date: string;
   }) => api.get('/tankro/availability', { params }),
+
+  getSessions: (params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    state?: string;
+    district?: string;
+    search?: string;
+  }) => api.get('/tankro/sessions', { params }),
+
+  getSession: (id: string) => api.get(`/tankro/sessions/${id}`),
 };
 
 export const tankroCalendarAPI = {

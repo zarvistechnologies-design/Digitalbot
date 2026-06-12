@@ -96,6 +96,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     if (selectedService === 'tankro' || selectedService === 'tankro-dashboard') {
       serviceItems.push({ name: 'Locations', href: '/dashboard/tankro-locations', icon: MapPin });
       serviceItems.push({ name: 'Service Bookings', href: '/dashboard/tankro-bookings', icon: ClipboardList });
+      serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/tankro-sessions', icon: MessageSquare });
     }
     return serviceItems;
   };
