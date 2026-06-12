@@ -1890,7 +1890,7 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-8 pb-16 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white" role="region" aria-labelledby="hero-heading">
+            <section className="pt-8 pb-8 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white" role="region" aria-labelledby="hero-heading">
 
                 <div className="absolute inset-0 bg-white pointer-events-none" aria-hidden="true"></div>
 
@@ -1960,7 +1960,7 @@ export default function Hero() {
                         <div className="hero-phone-secondary relative z-10 mr-[-30px] sm:mr-[-50px] mb-4 sm:mb-8">
                             {/* Surface shadow */}
                             <div className="absolute -bottom-4 sm:-bottom-6 left-1/2 -translate-x-1/2 w-[70%] h-[18px] sm:h-[28px] bg-black/15 rounded-[50%] blur-xl pointer-events-none rotate-[-6deg]" />
-                            <div className="w-[140px] sm:w-[220px] md:w-[260px] h-[280px] sm:h-[430px] md:h-[500px] rounded-[28px] sm:rounded-[40px] border-[3px] sm:border-[5px] border-[#1d1d1f] bg-[#ece5dd] shadow-[0_30px_80px_rgba(0,0,0,0.18)] rotate-[-6deg] overflow-hidden flex flex-col relative">
+                            <div className="w-[140px] sm:w-[220px] md:w-[260px] h-[280px] sm:h-[430px] md:h-[500px] rounded-[28px] sm:rounded-[40px] border-[3px] sm:border-[5px] border-[#1d1d1f] bg-white shadow-[0_30px_80px_rgba(0,0,0,0.18)] rotate-[-6deg] overflow-hidden flex flex-col relative">
                                 {/* Dynamic Island */}
                                 <div className="absolute top-[3px] sm:top-[6px] left-1/2 -translate-x-1/2 z-20 w-[40px] sm:w-[65px] h-[10px] sm:h-[18px] bg-[#1d1d1f] rounded-full" />
                                 {/* WhatsApp Header - right at top with space for Dynamic Island */}
@@ -1974,7 +1974,7 @@ export default function Hero() {
                                     <span className="text-white text-[10px] sm:text-xs">📞</span>
                                 </div>
                                 {/* Chat Messages */}
-                                <div className="flex-1 bg-[#ece5dd] px-1.5 sm:px-2 py-1.5 overflow-y-auto space-y-1.5">
+                                <div className="flex-1 bg-white px-1.5 sm:px-2 py-1.5 overflow-y-auto space-y-1.5">
                                     {/* Date Badge */}
                                     <div className="text-center">
                                         <span className="text-[6px] sm:text-[7px] text-slate-600 bg-white/80 px-1.5 py-0.5 rounded shadow-sm">Today 8:30 AM</span>
@@ -2052,8 +2052,8 @@ export default function Hero() {
                             <div className="absolute -bottom-5 sm:-bottom-8 left-1/2 -translate-x-1/2 w-[75%] h-[20px] sm:h-[32px] bg-black/18 rounded-[50%] blur-xl pointer-events-none" />
                             <div className="w-[160px] sm:w-[250px] md:w-[300px] h-[320px] sm:h-[490px] md:h-[580px] rounded-[30px] sm:rounded-[44px] border-[3px] sm:border-[5px] border-[#1d1d1f] bg-white shadow-[0_40px_100px_rgba(0,0,0,0.22)] overflow-hidden flex flex-col relative p-1.5 sm:p-2">
                                 <div className="absolute top-[3px] sm:top-[6px] left-1/2 -translate-x-1/2 z-20 w-[45px] sm:w-[70px] h-[10px] sm:h-[18px] bg-[#1d1d1f] rounded-full" />
-                                <div className="flex flex-1 flex-col overflow-hidden rounded-[24px] sm:rounded-[36px] bg-[#ece5dd] px-3 pb-3 pt-6 text-slate-900 sm:px-6 sm:pb-6 sm:pt-11">
-                                    <div className="-mx-3 -mt-6 rounded-t-[24px] bg-[#ece5dd] px-3 pb-2 pt-6 text-slate-900 sm:-mx-6 sm:-mt-11 sm:rounded-t-[36px] sm:px-6 sm:pb-2 sm:pt-11">
+                                <div className="flex flex-1 flex-col overflow-hidden rounded-[24px] sm:rounded-[36px] bg-white px-3 pb-3 pt-6 text-slate-900 sm:px-6 sm:pb-6 sm:pt-11">
+                                    <div className="-mx-3 -mt-6 rounded-t-[24px] bg-white px-3 pb-2 pt-6 text-slate-900 sm:-mx-6 sm:-mt-11 sm:rounded-t-[36px] sm:px-6 sm:pb-2 sm:pt-11">
                                         <div className="flex items-center justify-between text-[9px] font-bold sm:text-xs">
                                             <span>9:41</span>
                                             <span>5G</span>
@@ -2161,7 +2161,7 @@ export default function Hero() {
             </section>
 
             {/* Stop Losing Customers Section */}
-            <section className="py-16 sm:py-20 lg:py-24 bg-[#fafafa] relative overflow-hidden">
+            <section className="pt-8 pb-10 sm:pt-10 sm:pb-12 lg:pt-12 lg:pb-14 bg-[#fafafa] relative overflow-hidden">
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                         {/* Left Content */}
@@ -2290,7 +2290,7 @@ export default function Hero() {
 
 
             {/* Voice Garden - Service Samples */}
-            <section className="py-16 sm:py-20 bg-[#fafafa] relative overflow-hidden">
+            <section className="pt-8 pb-16 sm:pt-10 sm:pb-20 bg-[#fafafa] relative overflow-hidden">
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Section Header */}
                     <div className="text-center mb-12 sm:mb-16">
