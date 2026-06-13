@@ -491,6 +491,11 @@ export default function TankroBookingsPage() {
                               {booking.time}
                             </span>
                           </div>
+                          {booking.customerAddress && (
+                            <p className="mt-2 text-sm text-gray-600 bg-gray-50 border border-gray-100 rounded-lg p-3">
+                              <span className="font-semibold text-gray-800">Address:</span> {booking.customerAddress}
+                            </p>
+                          )}
                           <div className="mt-3 flex flex-wrap gap-2 text-xs">
                             {booking.propertyType && (
                               <span className="px-2 py-1 rounded-md bg-gray-50 text-gray-700 border border-gray-200">{booking.propertyType}</span>
