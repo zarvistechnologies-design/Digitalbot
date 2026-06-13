@@ -112,15 +112,15 @@ export function Header() {
                 .hdr-root { font-family: 'Plus Jakarta Sans', sans-serif; }
 
                 .hdr-bar {
-                    background: #ffffff;
-                    backdrop-filter: none;
-                    -webkit-backdrop-filter: none;
+                    background: rgba(255,255,255,0.82);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
                     border-bottom: 1px solid rgba(0,0,0,0.07);
                 }
                 .hdr-bar-scrolled {
-                    background: #ffffff;
-                    backdrop-filter: none;
-                    -webkit-backdrop-filter: none;
+                    background: rgba(255,255,255,0.97);
+                    backdrop-filter: blur(24px);
+                    -webkit-backdrop-filter: blur(24px);
                     border-bottom: 1px solid rgba(234,88,12,0.15);
                     box-shadow: 0 2px 30px rgba(0,0,0,0.08);
                 }
