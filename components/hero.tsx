@@ -4,8 +4,17 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Award, BarChart3, Bot, Calendar, CalendarCheck, CheckCircle, Clock, CreditCard, FileText, Headphones, Keyboard, LayoutDashboard, Megaphone, MessageSquare, Mic, Pause, Phone, PhoneCall, Play, PlusCircle, Send, Shield, Stethoscope, TrendingUp, User, Users, Video, Volume2, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
+import TrustedBrands from './TrustedBrands';
 
 gsap.registerPlugin(ScrollTrigger);
+
+type VoiceCallControls = {
+    isCallActive: boolean;
+    isSpeaking: boolean;
+    callStatus: string;
+    vapiLoaded: boolean;
+    onToggleCall: () => void;
+};
 
 // Services data for attractive-style scroll showcase
 const services = [
@@ -1086,6 +1095,724 @@ const bizPhoneChats = {
     ],
 };
 
+const businessOptions = [
+    { id: 'travel', label: 'Travel', emoji: '✈️', color: 'bg-orange-100 text-orange-700 border-orange-200 hover:bg-orange-200', active: 'bg-orange-500 text-white border-orange-500 shadow-orange-500/30' },
+    { id: 'doctor', label: 'Doctor', emoji: '🏥', color: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200', active: 'bg-blue-500 text-white border-blue-500 shadow-blue-500/30' },
+    { id: 'salon', label: 'Salon', emoji: '💇', color: 'bg-pink-100 text-pink-700 border-pink-200 hover:bg-pink-200', active: 'bg-pink-500 text-white border-pink-500 shadow-pink-500/30' },
+    { id: 'event', label: 'Events', emoji: '🎫', color: 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200', active: 'bg-purple-500 text-white border-purple-500 shadow-purple-500/30' },
+    { id: 'support', label: 'Support', emoji: '🎧', color: 'bg-teal-100 text-teal-700 border-teal-200 hover:bg-teal-200', active: 'bg-teal-500 text-white border-teal-500 shadow-teal-500/30' },
+    { id: 'restaurant', label: 'Restaurant', emoji: '🍽️', color: 'bg-red-100 text-red-700 border-red-200 hover:bg-red-200', active: 'bg-red-500 text-white border-red-500 shadow-red-500/30' },
+    { id: 'realestate', label: 'Real Estate', emoji: '🏠', color: 'bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200', active: 'bg-emerald-500 text-white border-emerald-500 shadow-emerald-500/30' },
+    { id: 'ecommerce', label: 'E-Commerce', emoji: '🛒', color: 'bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-200', active: 'bg-amber-500 text-white border-amber-500 shadow-amber-500/30' },
+    { id: 'education', label: 'Education', emoji: '📚', color: 'bg-indigo-100 text-indigo-700 border-indigo-200 hover:bg-indigo-200', active: 'bg-indigo-500 text-white border-indigo-500 shadow-indigo-500/30' },
+    { id: 'fitness', label: 'Fitness', emoji: '💪', color: 'bg-lime-100 text-lime-700 border-lime-200 hover:bg-lime-200', active: 'bg-lime-600 text-white border-lime-600 shadow-lime-600/30' },
+    { id: 'insurance', label: 'Insurance', emoji: '🛡️', color: 'bg-sky-100 text-sky-700 border-sky-200 hover:bg-sky-200', active: 'bg-sky-500 text-white border-sky-500 shadow-sky-500/30' },
+    { id: 'banking', label: 'Banking', emoji: '🏦', color: 'bg-violet-100 text-violet-700 border-violet-200 hover:bg-violet-200', active: 'bg-violet-500 text-white border-violet-500 shadow-violet-500/30' },
+    { id: 'logistics', label: 'Logistics', emoji: '🚚', color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200', active: 'bg-yellow-500 text-white border-yellow-500 shadow-yellow-500/30' },
+    { id: 'hotel', label: 'Hotels', emoji: '🏨', color: 'bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200', active: 'bg-rose-500 text-white border-rose-500 shadow-rose-500/30' },
+    { id: 'automotive', label: 'Automotive', emoji: '🚗', color: 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200', active: 'bg-slate-600 text-white border-slate-600 shadow-slate-600/30' },
+    { id: 'legal', label: 'Legal', emoji: '⚖️', color: 'bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200', active: 'bg-stone-500 text-white border-stone-500 shadow-stone-500/30' },
+    { id: 'grocery', label: 'Grocery', emoji: '🥬', color: 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200', active: 'bg-green-500 text-white border-green-500 shadow-green-500/30' },
+    { id: 'telecom', label: 'Telecom', emoji: '📱', color: 'bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200', active: 'bg-cyan-500 text-white border-cyan-500 shadow-cyan-500/30' },
+] as const;
+
+type BusinessId = typeof businessOptions[number]['id'];
+
+function ConnectedPhonesShowcase() {
+    return (
+        <div className="relative flex min-h-[430px] items-center justify-center overflow-visible sm:min-h-[500px] lg:min-h-[560px]">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                <div className="h-[280px] w-[280px] rounded-full bg-white sm:h-[390px] sm:w-[390px]" />
+                <div className="absolute h-[240px] w-[240px] rounded-full border border-slate-100 sm:h-[340px] sm:w-[340px]" />
+            </div>
+            <img
+                src="/images/whatsapp-business-api-whautomate.png"
+                alt="WhatsApp Business API automation with AI chatbot reminders payments and invoices"
+                className="relative z-10 h-auto w-full max-w-[560px] object-contain drop-shadow-2xl sm:max-w-[640px] lg:max-w-[680px]"
+                loading="lazy"
+            />
+        </div>
+    )
+
+}
+
+function HeroWhatsAppPhone() {
+    return (
+        <div className="w-[260px] sm:w-[285px] lg:w-[290px] ml-0 sm:ml-0 lg:ml-2">
+            <div className="flex aspect-[9/17.4] flex-col overflow-hidden rounded-[40px] border-[6px] border-slate-900 bg-white shadow-[0_40px_100px_rgba(15,23,42,0.16)]">
+                <div className="bg-[#075e54] px-4 pb-0 pt-2">
+                    <div className="mb-2 flex items-center justify-between text-[10px] font-semibold text-white">
+                        <span>9:41</span>
+                        <div className="h-5 w-20 rounded-full bg-slate-950" />
+                        <span>5G</span>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 bg-[#075e54] px-3 py-3 text-white">
+                    <ArrowRight className="h-4 w-4 rotate-180 text-white" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-500 text-sm font-bold text-white">D</div>
+                    <div className="min-w-0 flex-1">
+                        <p className="truncate text-base font-bold leading-tight text-white">DigitalBot AI</p>
+                        <p className="flex items-center gap-1 text-[10px] font-semibold text-orange-100">
+                            <span className="h-1.5 w-1.5 rounded-full bg-orange-300" />
+                            Verified Business
+                        </p>
+                    </div>
+                    <PhoneCall className="h-4 w-4 text-white/75" />
+                </div>
+
+                <div className="flex-1 space-y-3 overflow-hidden bg-[#efeae2] px-4 py-4">
+                    <p className="mx-auto w-fit rounded-full bg-white/80 px-4 py-1.5 text-[10px] text-slate-500">Today 8:30 AM</p>
+
+                    <div className="w-[88%] rounded-xl rounded-tl-sm bg-white px-3.5 py-3 shadow-sm">
+                        <p className="text-[12px] leading-relaxed text-slate-800">
+                            The holiday season is almost here! 🌍<br />
+                            Start planning your dream getaway with special <span className="font-bold">30% discount</span>
+                        </p>
+                        <div className="mt-3 grid grid-cols-2 gap-2">
+                            {[
+                                { label: '🏔️ Manali', key: 'manali' },
+                                { label: '🏖️ Beach', key: 'beach' },
+                            ].map((place) => (
+                                <div key={place.key} className="flex h-[70px] items-end rounded-xl bg-gradient-to-br from-orange-300 to-orange-500 p-2">
+                                    <span className="rounded-md bg-black/30 px-2 py-1 text-[9px] font-bold text-white">{place.label}</span>
+                                </div>
+                            ))}
+                        </div>
+                        <p className="mt-1 text-right text-[8px] text-slate-400">8:30 ✓✓</p>
+                    </div>
+
+                    <div className="ml-auto w-[82%] rounded-xl rounded-tr-sm bg-[#dcf8c6] px-3.5 py-3 shadow-sm">
+                        <p className="text-[12px] leading-relaxed text-slate-800">I'd love to book Manali! What dates are available?</p>
+                        <p className="mt-1 text-right text-[8px] text-slate-400">8:31 ✓✓</p>
+                    </div>
+
+                    <div className="w-[88%] rounded-xl rounded-tl-sm bg-white px-3.5 py-3 shadow-sm">
+                        <p className="text-[12px] leading-relaxed text-slate-800">
+                            Great choice! 🏔️ Here are the available dates for Manali:<br />
+                            🗓️ Dec 20 - Dec 25<br />
+                            🗓️ Dec 27 - Jan 1<br />
+                            🗓️ Jan 5 - Jan 10
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                            <span className="rounded-full border border-orange-200 px-2.5 py-1 text-[9px] font-medium text-orange-600">Dec 20-25</span>
+                            <span className="rounded-full border border-orange-200 px-2.5 py-1 text-[9px] font-medium text-orange-600">Dec 27-Jan 1</span>
+                        </div>
+                        <p className="mt-1 text-right text-[8px] text-slate-400">8:30 ✓✓</p>
+                    </div>
+                </div>
+
+                <div className="bg-[#efeae2] px-3 pb-3">
+                    <div className="flex items-center gap-2 rounded-full bg-white px-3 py-2">
+                        <span className="text-lg">😊</span>
+                        <span className="flex-1 truncate text-[11px] text-slate-400">Type a message...</span>
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#075e54]">
+                            <Mic className="h-4 w-4 text-white" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function HeroVoicePhone({ isCallActive, isSpeaking, callStatus, vapiLoaded, onToggleCall }: VoiceCallControls) {
+    const controls = [
+        { icon: Mic, label: 'Mute' },
+        { icon: PhoneCall, label: 'Speaker' },
+        { icon: MessageSquare, label: 'Message' },
+        { icon: Phone, label: 'Video' },
+        { icon: Bot, label: 'Keypad' },
+        { icon: Clock, label: 'Record' },
+    ]
+    const isConnecting = callStatus === 'Connecting...' || callStatus === 'Initializing...'
+    const voiceStatus = isCallActive ? (isSpeaking ? 'Assistant Speaking' : 'Listening Now') : 'Voice AI Ready'
+    const voiceDescription = callStatus || 'Tap Start Call and talk to the DigitalBot voice agent live.'
+
+    return (
+        <div className="relative mx-0 sm:mx-0 lg:mx-auto w-[260px] sm:w-[280px] lg:w-[290px]">
+            <div className="aspect-[9/17.4] rounded-[38px] border-[5px] border-slate-900 bg-slate-900 p-1.5 shadow-[0_28px_70px_rgba(15,23,42,0.2)]">
+                <div className="relative flex h-full flex-col overflow-hidden rounded-[31px] bg-slate-950">
+                    <div className="absolute left-1/2 top-4 z-20 h-4 w-20 -translate-x-1/2 rounded-full bg-slate-900" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(124,58,237,0.55),transparent_32%),linear-gradient(135deg,#0f172a_0%,#21173e_46%,#111827_100%)]" />
+                    <div className="relative z-10 flex h-full flex-col px-5 pb-6 pt-8 text-white">
+                        <div className="flex items-center justify-between text-[11px] font-semibold text-white">
+                            <span>9:41</span>
+                            <span>5G</span>
+                        </div>
+
+                        <div className="mt-10 text-center">
+                            <p className="text-sm font-bold tracking-wide text-white/85">AI Voice Agent</p>
+                            <p className="mt-1 text-2xl font-light text-white">{isCallActive ? 'Live Call' : 'Ready'}</p>
+                        </div>
+
+                        <div className="mt-6 rounded-2xl border border-white/10 bg-white/10 p-3 text-left shadow-[0_14px_40px_rgba(0,0,0,0.18)] backdrop-blur">
+                            <div className="flex items-start gap-3">
+                                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white ${isCallActive ? 'bg-emerald-500' : 'bg-orange-500'}`}>
+                                    <Bot className="h-4 w-4" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-semibold uppercase tracking-wide text-orange-200">{voiceStatus}</p>
+                                    <p className="mt-1 text-[11px] font-medium leading-snug text-white">
+                                        {voiceDescription}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-7 grid grid-cols-3 gap-3">
+                            {controls.map((control) => {
+                                const Icon = control.icon
+                                return (
+                                    <div key={control.label} className="text-center">
+                                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/18 text-white backdrop-blur">
+                                            <Icon className="h-5 w-5" />
+                                        </div>
+                                        <p className="mt-2 text-[9px] font-medium text-white/70">{control.label}</p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+
+                        <div className="mt-auto flex justify-center">
+                            <button
+                                type="button"
+                                onClick={onToggleCall}
+                                disabled={isConnecting || (!vapiLoaded && !isCallActive)}
+                                className={`flex min-w-[136px] items-center justify-center gap-2 rounded-full px-4 py-3 text-[12px] font-bold text-white shadow-lg transition-all disabled:cursor-not-allowed disabled:opacity-70 ${
+                                    isCallActive
+                                        ? 'bg-red-500 shadow-red-500/30 hover:bg-red-600'
+                                        : 'bg-orange-500 shadow-orange-500/30 hover:bg-orange-600'
+                                }`}
+                            >
+                                <PhoneCall className={`h-4 w-4 ${isCallActive ? 'rotate-[135deg]' : ''}`} />
+                                {isConnecting ? 'Connecting' : isCallActive ? 'End Call' : vapiLoaded ? 'Start Call' : 'Loading'}
+                            </button>
+                        </div>
+                        <p className="mt-2 text-center text-[9px] font-medium text-white/45">
+                            {isCallActive ? 'Voice agent is live' : 'Uses your microphone'}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function HeroPeopleShowcase() {
+    return (
+        <div className="relative mx-auto flex min-h-[360px] w-full max-w-[660px] items-end justify-center overflow-visible px-2 pt-6 sm:min-h-[430px] lg:min-h-[500px]">
+            <img
+                src="/images/voice-whatsapp-team.png"
+                alt="Digitalbot team pointing to voice AI and WhatsApp automation"
+                className="relative z-10 h-auto w-[min(660px,112%)] max-w-none object-contain drop-shadow-2xl"
+                loading="eager"
+            />
+        </div>
+    )
+}
+
+function FlowBuilderDiagram() {
+    const nodes = [
+        { title: 'WhatsApp Trigger', label: 'New message received', x: 170, y: 118, w: 190, accent: 'border-emerald-200', tone: 'green' },
+        { title: 'Intent Check', label: 'Pricing, booking or support?', x: 390, y: 76, w: 150, accent: 'border-orange-200', tone: 'orange' },
+        { title: 'Lead Score', label: 'Hot lead or nurture?', x: 390, y: 212, w: 150, accent: 'border-blue-200', tone: 'blue' },
+        { title: 'n8n Workflow', label: 'Run backend automation', x: 390, y: 318, w: 150, accent: 'border-violet-200', tone: 'purple' },
+        { title: 'Auto Reply', label: 'Send smart WhatsApp reply', x: 590, y: 42, w: 170, accent: 'border-emerald-200', tone: 'green' },
+        { title: 'Zapier Sync', label: 'Push data to tools', x: 720, y: 142, w: 170, accent: 'border-orange-200', tone: 'orange' },
+        { title: 'Google Sheets', label: 'Save inquiry row', x: 590, y: 252, w: 170, accent: 'border-blue-200', tone: 'blue' },
+        { title: 'CRM Route', label: 'Choose the right CRM', x: 590, y: 332, w: 170, accent: 'border-violet-200', tone: 'purple' },
+        { title: 'HubSpot / Zoho', label: 'Create contact and deal', x: 820, y: 248, w: 170, accent: 'border-emerald-200', tone: 'green' },
+        { title: 'Salesforce CRM', label: 'Assign owner and stage', x: 820, y: 356, w: 170, accent: 'border-blue-200', tone: 'blue' },
+    ];
+    const sidebarTools = [
+        { icon: Bot, label: 'AI agent' },
+        { icon: MessageSquare, label: 'WhatsApp' },
+        { icon: Users, label: 'CRM' },
+        { icon: Send, label: 'API' },
+        { icon: LayoutDashboard, label: 'Workflow' },
+        { icon: Zap, label: 'Zapier' },
+        { icon: PhoneCall, label: 'Voice bot' },
+        { icon: Clock, label: 'Sync' },
+    ];
+
+    return (
+        <div className="w-full overflow-x-auto pb-3">
+            <div className="relative mx-auto h-[520px] min-w-[1120px] overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+                <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(236,253,245,0.9)_0%,rgba(255,247,237,0.72)_36%,rgba(239,246,255,0.74)_68%,rgba(245,243,255,0.9)_100%)]" />
+                <div className="absolute inset-0 left-12" style={{
+                    backgroundImage: 'radial-gradient(circle, rgba(100,116,139,0.28) 1px, transparent 1px)',
+                    backgroundSize: '18px 18px',
+                }} />
+
+                <aside className="absolute inset-y-0 left-0 z-30 flex w-12 flex-col items-center bg-gradient-to-b from-slate-950 via-indigo-950 to-emerald-950 py-3 text-white">
+                    <div className="mb-8 flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-400/15 text-emerald-300">
+                        <Bot className="h-4 w-4" />
+                    </div>
+                    {sidebarTools.map((tool) => {
+                        const Icon = tool.icon;
+                        return (
+                            <div key={tool.label} title={tool.label} className="mb-5 flex h-7 w-7 items-center justify-center rounded-lg text-white/85 transition-colors hover:bg-white/10 hover:text-white">
+                                <Icon className="h-4 w-4" />
+                            </div>
+                        );
+                    })}
+                    <div className="absolute left-0 top-[150px] rounded-r bg-red-500 px-1.5 py-1 text-[10px] font-bold">Beta</div>
+                    <div className="absolute left-0 top-[198px] rounded-r bg-orange-500 px-1.5 py-1 text-[10px] font-bold">New</div>
+                </aside>
+
+                <div className="absolute left-12 right-0 top-0 z-20 h-10 bg-white/85 backdrop-blur">
+                    <div className="absolute left-10 top-1.5 rounded border border-slate-200 bg-white px-4 py-1 text-[10px] font-medium text-slate-500">
+                        WhatsApp Flow + CRM Automation
+                    </div>
+                    <div className="absolute right-20 top-1.5 flex items-center gap-2">
+                        {['SAVE', 'ARRANGE', 'SEND TEST'].map((label) => (
+                            <button key={label} className="rounded bg-gradient-to-r from-violet-500 to-indigo-500 px-4 py-1.5 text-[9px] font-bold text-white shadow-sm">
+                                {label}
+                            </button>
+                        ))}
+                        <button className="flex h-7 w-8 items-center justify-center rounded bg-gradient-to-r from-emerald-500 to-teal-500 text-sm font-bold text-white">+</button>
+                    </div>
+                    <button className="absolute right-4 top-14 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-violet-500 text-xl font-semibold text-white shadow-lg">+</button>
+                </div>
+
+                <svg className="absolute left-12 top-10 z-0 h-[480px] w-[1072px]" viewBox="0 0 1072 480" fill="none" aria-hidden="true">
+                    <path d="M134 74 C160 74 150 160 170 160" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M134 92 C170 116 118 226 148 226" stroke="#f97316" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M148 226 C265 226 270 360 390 360" stroke="#8b5cf6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M360 160 C383 160 368 118 390 118" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M360 160 C385 160 368 254 390 254" stroke="#3b82f6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M540 118 C570 118 560 84 590 84" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M540 254 C625 254 620 184 720 184" stroke="#f97316" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M540 360 C575 360 560 294 590 294" stroke="#3b82f6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M540 360 C575 360 560 374 590 374" stroke="#8b5cf6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M760 294 C790 294 790 290 820 290" stroke="#10b981" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M760 374 C790 374 790 398 820 398" stroke="#3b82f6" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+
+                <div className="absolute left-[102px] top-[74px] z-10 text-center">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-yellow-300 shadow-lg ring-4 ring-white">
+                        <Zap className="h-10 w-10 text-slate-950" />
+                    </div>
+                    <div className="mt-2 text-[10px] font-semibold text-slate-700">Start Flow</div>
+                </div>
+
+                <div className="absolute left-[100px] top-[218px] z-10 text-center">
+                    <div className="flex h-24 w-24 items-center justify-center bg-green-500 text-white shadow-lg">
+                        <MessageSquare className="h-10 w-10" />
+                    </div>
+                    <div className="mt-2 text-[10px] font-semibold text-slate-700">WhatsApp API</div>
+                </div>
+
+                {nodes.map((node) => (
+                    <div
+                        key={node.title}
+                        className={`absolute z-10 rounded-md border ${node.accent} bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.08)]`}
+                        style={{ left: node.x + 48, top: node.y + 40, width: node.w }}
+                    >
+                        <div className="mb-2 flex items-center justify-between">
+                            <span className="text-[9px] font-bold text-slate-500">{node.title}</span>
+                            <span className="text-[9px] text-slate-300">...</span>
+                        </div>
+                        <div className={`${node.tone === 'purple' ? 'bg-violet-500 text-white border-violet-500' : node.tone === 'orange' ? 'bg-orange-500 text-white border-orange-500' : node.tone === 'blue' ? 'bg-blue-500 text-white border-blue-500' : node.tone === 'green' ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-white text-slate-500 border-slate-100'} rounded border px-2 py-2 text-[9px] font-semibold`}>
+                            {node.label}
+                        </div>
+                        <div className="mt-2 flex items-center justify-between text-[8px] text-slate-400">
+                            <span>{node.title.includes('Text') ? 'Text' : node.title.includes('Action') ? 'Action' : 'Button'}</span>
+                            <span className="text-[#6c5ce7]">o</span>
+                        </div>
+                    </div>
+                ))}
+
+                {[{ l: 942, t: 430 }, { l: 1060, t: 430 }].map((dot, index) => (
+                    <div key={index} className="absolute z-20 flex h-12 w-12 items-center justify-center rounded-full bg-[#6c5ce7] text-white shadow-lg" style={{ left: dot.l, top: dot.t }}>
+                        {index === 0 ? '?' : '+'}
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+function AutomationFeatureShowcase(_voiceControls: VoiceCallControls) {
+    const [activeDashboard, setActiveDashboard] = useState(dashboardTabs[0].id)
+    const dashboard = dashboardTabs.find((tab) => tab.id === activeDashboard) ?? dashboardTabs[0]
+
+    return (
+        <section className="relative overflow-hidden bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+            <div className="mx-auto max-w-7xl">
+                <div className="mb-8 text-center">
+                    <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-orange-700">
+                        <LayoutDashboard className="h-4 w-4" />
+                        Live business dashboard
+                    </div>
+                    <h2 className="text-3xl font-bold leading-tight text-slate-950 sm:text-4xl lg:text-5xl">
+                        Manage calls, WhatsApp, bookings, and leads in one dashboard.
+                    </h2>
+                    <p className="mx-auto mt-4 max-w-2xl text-sm font-medium leading-6 text-slate-600 sm:text-base">
+                        This dashboard view uses the existing DigitalBot dashboard data for assistants, calls, appointments, campaigns, and chatbot sessions.
+                    </p>
+                </div>
+
+                <div className="mb-5 flex flex-wrap justify-center gap-2">
+                    {dashboardTabs.map((tab) => {
+                        const TabIcon = tab.icon
+                        const isActive = tab.id === activeDashboard
+                        return (
+                            <button
+                                key={tab.id}
+                                type="button"
+                                onClick={() => setActiveDashboard(tab.id)}
+                                className={`inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-bold transition-all ${
+                                    isActive
+                                        ? "border-orange-500 bg-orange-500 text-white shadow-lg shadow-orange-500/20"
+                                        : "border-orange-100 bg-white text-slate-600 hover:border-orange-300 hover:text-orange-600"
+                                }`}
+                            >
+                                <TabIcon className="h-4 w-4" />
+                                {tab.label}
+                            </button>
+                        )
+                    })}
+                </div>
+
+                <div className="overflow-hidden rounded-2xl border border-orange-200 bg-white shadow-2xl shadow-orange-100/70">
+                    <div className="flex min-h-[620px]">
+                        <aside className="hidden w-56 shrink-0 border-r border-slate-200 bg-slate-950 text-white lg:flex lg:flex-col">
+                            <div className="border-b border-white/10 px-4 py-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500">
+                                        <Bot className="h-5 w-5" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-black">DigitalBot</p>
+                                        <p className="text-[10px] font-bold text-orange-200">AI Workspace</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <nav className="flex-1 space-y-1 p-3">
+                                {dashboard.sidebarItems.map((item) => {
+                                    const ItemIcon = sidebarIcons[item] ?? LayoutDashboard
+                                    const isActive = item === "Dashboard"
+                                    return (
+                                        <div
+                                            key={item}
+                                            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-xs font-bold ${
+                                                isActive ? "bg-orange-500 text-white" : "text-slate-400"
+                                            }`}
+                                        >
+                                            <ItemIcon className="h-4 w-4" />
+                                            <span>{item}</span>
+                                        </div>
+                                    )
+                                })}
+                            </nav>
+                            <div className="border-t border-white/10 p-4">
+                                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Assistant</p>
+                                <p className="mt-1 text-sm font-black">{dashboard.assistantName}</p>
+                                <p className="mt-1 text-[11px] text-slate-400">{dashboard.mobNumber}</p>
+                            </div>
+                        </aside>
+
+                        <div className="min-w-0 flex-1 bg-slate-50">
+                            <div className="flex flex-col gap-3 border-b border-slate-200 bg-white px-4 py-4 sm:flex-row sm:items-center sm:justify-between lg:px-6">
+                                <div>
+                                    <p className="text-xs font-bold uppercase tracking-wide text-orange-600">{dashboard.assistantId}</p>
+                                    <h3 className="text-xl font-black text-slate-950">{dashboard.assistantName}</h3>
+                                </div>
+                                <div className="flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700">
+                                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                                    Live sync active
+                                </div>
+                            </div>
+
+                            <div className="space-y-4 p-4 lg:p-6">
+                                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                                    {dashboard.stats.map((stat) => {
+                                        const StatIcon = stat.icon
+                                        return (
+                                            <div key={stat.label} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                                                <div className="flex items-start justify-between gap-3">
+                                                    <div>
+                                                        <p className="text-xs font-bold text-slate-500">{stat.label}</p>
+                                                        <p className="mt-2 text-2xl font-black text-slate-950">{stat.value}</p>
+                                                    </div>
+                                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50">
+                                                        <StatIcon className={`h-5 w-5 ${stat.color}`} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+
+                                <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+                                    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                                        <div className="mb-4 flex items-center justify-between">
+                                            <div>
+                                                <p className="text-sm font-black text-slate-950">Call activity</p>
+                                                <p className="text-xs text-slate-500">Last 10 reporting points</p>
+                                            </div>
+                                            <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700">+18%</span>
+                                        </div>
+                                        <div className="flex h-52 items-end gap-2">
+                                            {dashboard.chartData.map((height, index) => (
+                                                <div key={index} className="flex flex-1 flex-col items-center gap-2">
+                                                    <div
+                                                        className="w-full rounded-t-lg bg-gradient-to-t from-orange-500 to-orange-300"
+                                                        style={{ height: `${height}%` }}
+                                                    />
+                                                    <span className="text-[10px] font-bold text-slate-400">{index + 1}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                                        <div className="mb-4 flex items-center justify-between">
+                                            <div>
+                                                <p className="text-sm font-black text-slate-950">Resolution score</p>
+                                                <p className="text-xs text-slate-500">Automated dashboard summary</p>
+                                            </div>
+                                            <p className="text-2xl font-black text-orange-600">{dashboard.donutPercent}%</p>
+                                        </div>
+                                        <div className="flex items-center gap-5">
+                                            <div className="relative h-28 w-28 shrink-0">
+                                                <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90">
+                                                    <circle cx="60" cy="60" r="48" fill="none" stroke="#ffedd5" strokeWidth="14" />
+                                                    <circle
+                                                        cx="60"
+                                                        cy="60"
+                                                        r="48"
+                                                        fill="none"
+                                                        stroke="#f97316"
+                                                        strokeLinecap="round"
+                                                        strokeWidth="14"
+                                                        strokeDasharray={`${dashboard.donutPercent * 3.02} 302`}
+                                                    />
+                                                </svg>
+                                                <div className="absolute inset-0 flex items-center justify-center text-lg font-black text-slate-950">
+                                                    {dashboard.donutPercent}%
+                                                </div>
+                                            </div>
+                                            <div className="min-w-0 flex-1 space-y-3">
+                                                {dashboard.donutStats.map((item) => (
+                                                    <div key={item.label} className="flex items-center justify-between gap-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className={`h-2.5 w-2.5 rounded-full ${item.color}`} />
+                                                            <span className="text-xs font-bold text-slate-600">{item.label}</span>
+                                                        </div>
+                                                        <span className="text-xs font-black text-slate-950">{item.value}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+                                    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                                        <div className="mb-4 flex items-center justify-between">
+                                            <p className="text-sm font-black text-slate-950">
+                                                {dashboard.appointments ? "Appointments" : dashboard.leads ? "Leads" : dashboard.campaigns ? "Campaigns" : dashboard.whatsappChat ? "WhatsApp sessions" : "Recent activity"}
+                                            </p>
+                                            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">Today</span>
+                                        </div>
+
+                                        {dashboard.appointments && (
+                                            <div className="overflow-hidden rounded-lg border border-slate-100">
+                                                {dashboard.appointments.slice(0, 4).map((item) => (
+                                                    <div key={`${item.name}-${item.time}`} className="grid gap-2 border-b border-slate-100 px-3 py-3 text-xs last:border-b-0 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
+                                                        <div>
+                                                            <p className="font-black text-slate-900">{item.name}</p>
+                                                            <p className="text-slate-500">{item.phone}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-bold text-slate-700">{item.doctor}</p>
+                                                            <p className="text-slate-500">{item.date} at {item.time}</p>
+                                                        </div>
+                                                        <span className="rounded-full bg-orange-50 px-3 py-1 font-bold text-orange-700">{item.status}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {dashboard.leads && (
+                                            <div className="space-y-3">
+                                                {dashboard.leads.slice(0, 4).map((lead) => (
+                                                    <div key={lead.id} className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-3">
+                                                        <div className="flex items-start justify-between gap-3">
+                                                            <div>
+                                                                <p className="text-xs font-black text-slate-900">{lead.name || lead.from}</p>
+                                                                <p className="mt-1 text-xs text-slate-500">{lead.need || "General call"}</p>
+                                                            </div>
+                                                            <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${lead.isLead ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>
+                                                                {lead.isLead ? `${lead.confidence}% lead` : "No lead"}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {dashboard.campaigns && (
+                                            <div className="space-y-3">
+                                                {dashboard.campaigns.slice(0, 4).map((campaign) => (
+                                                    <div key={campaign.name} className="rounded-lg border border-slate-100 bg-slate-50 p-3">
+                                                        <div className="flex items-center justify-between gap-3">
+                                                            <p className="text-xs font-black text-slate-900">{campaign.name}</p>
+                                                            <span className="rounded-full bg-orange-50 px-2.5 py-1 text-[10px] font-bold text-orange-700">{campaign.status}</span>
+                                                        </div>
+                                                        <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
+                                                            <div className="h-full rounded-full bg-orange-500" style={{ width: `${campaign.successRate}%` }} />
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {dashboard.whatsappChat && (
+                                            <div className="max-h-72 space-y-2 overflow-y-auto rounded-lg bg-[#efeae2] p-3">
+                                                {dashboard.whatsappChat.slice(0, 5).map((msg, index) => (
+                                                    <div key={`${msg.time}-${index}`} className={msg.from === "user" ? "flex justify-end" : "flex justify-start"}>
+                                                        <div className={`max-w-[78%] rounded-lg px-3 py-2 text-xs shadow-sm ${msg.from === "user" ? "bg-[#dcf8c6] text-slate-900" : "bg-white text-slate-800"}`}>
+                                                            <p className="whitespace-pre-line">{msg.text}</p>
+                                                            <p className="mt-1 text-right text-[9px] text-slate-400">{msg.time}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                                        <p className="text-sm font-black text-slate-950">Live queue</p>
+                                        <div className="mt-4 space-y-3">
+                                            {[
+                                                { label: "New call routed", value: "12 sec ago", icon: PhoneCall },
+                                                { label: "Booking confirmed", value: "2 min ago", icon: CalendarCheck },
+                                                { label: "Lead pushed to CRM", value: "5 min ago", icon: Users },
+                                                { label: "WhatsApp resolved", value: "9 min ago", icon: MessageSquare },
+                                            ].map((item) => (
+                                                <div key={item.label} className="flex items-center gap-3 rounded-lg bg-orange-50 px-3 py-3">
+                                                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-orange-600">
+                                                        <item.icon className="h-4 w-4" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-black text-slate-900">{item.label}</p>
+                                                        <p className="text-[11px] text-slate-500">{item.value}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+function VoicaiStyleLandingHero() {
+    const equalizerBars = [
+        32, 44, 58, 78, 104, 86, 64, 42, 54, 88, 116, 96, 70, 48, 62, 92,
+        126, 108, 76, 52, 68, 98, 132, 112, 82, 58, 46, 64, 94, 120, 102, 72,
+        50, 60, 84, 110, 92, 66, 44, 56, 78, 104, 88, 62, 42, 52, 72, 96,
+    ]
+
+    return (
+        <section className="relative overflow-hidden bg-white px-4 pb-12 pt-24 sm:px-8 sm:pt-28 lg:px-16 lg:pt-32" role="region" aria-labelledby="hero-heading">
+            <style dangerouslySetInnerHTML={{ __html: `
+                @keyframes clean-equalizer {
+                    0%, 100% { transform: scaleY(0.68); opacity: 0.72; }
+                    42% { transform: scaleY(1); opacity: 1; }
+                    72% { transform: scaleY(0.48); opacity: 0.62; }
+                }
+
+                .clean-equalizer-bar {
+                    transform-origin: bottom;
+                    animation: clean-equalizer 1.35s ease-in-out infinite;
+                    background:
+                        repeating-linear-gradient(
+                            to top,
+                            #050505 0 8px,
+                            #050505 8px,
+                            transparent 8px,
+                            transparent 14px
+                        );
+                }
+
+                @media (prefers-reduced-motion: reduce) {
+                    .clean-equalizer-bar {
+                        animation: none !important;
+                    }
+                }
+            `}} />
+            <div className="relative mx-auto max-w-[1500px] px-0 sm:px-4 lg:px-8">
+                <div className="relative overflow-hidden bg-white px-4 pb-8 pt-16 sm:px-8 sm:pb-12 sm:pt-20 lg:px-14 lg:pt-24">
+                    <div className="relative mx-auto max-w-6xl text-center">
+                        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-xs font-bold uppercase tracking-wide text-orange-700">
+                            <Bot className="h-4 w-4" />
+                            AI Voice + WhatsApp Automation
+                        </div>
+
+                        <h1 id="hero-heading" className="relative z-10 mx-auto max-w-5xl text-balance text-4xl font-bold leading-[1.06] text-slate-950 sm:text-5xl lg:text-[60px] xl:text-[68px]">
+                            Every Call Answered.
+                            <br className="hidden sm:block" />
+                            <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Every Lead Followed.</span>
+                        </h1>
+
+                        <p className="mx-auto mt-6 max-w-2xl text-base font-semibold leading-7 text-slate-600 sm:text-lg">
+                            Your 24/7 AI front desk for calls, WhatsApp replies, bookings, and lead follow-ups.
+                        </p>
+
+                        <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5">
+                            {["Answers calls", "Replies on WhatsApp", "Books appointments", "Qualifies leads"].map((item) => (
+                                <span key={item} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-700 shadow-sm">
+                                    {item}
+                                </span>
+                            ))}
+                        </div>
+
+                        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                            <a
+                                href="/contact"
+                                className="inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-8 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-transform hover:-translate-y-0.5 sm:w-auto"
+                            >
+                                Start 7-day trial
+                            </a>
+                            <a
+                                href="/contact"
+                                className="inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-white px-8 text-sm font-bold text-orange-700 shadow-lg shadow-orange-100/80 ring-1 ring-orange-100 transition-transform hover:-translate-y-0.5 sm:w-auto"
+                            >
+                                Schedule a call
+                            </a>
+                        </div>
+
+                        <div className="mx-auto mt-12 max-w-5xl overflow-hidden bg-white">
+                            <div className="mx-auto flex h-36 items-end justify-center gap-[5px] overflow-hidden px-2 sm:gap-2">
+                                {equalizerBars.map((height, index) => (
+                                    <div
+                                        key={`clean-equalizer-${index}`}
+                                        className="clean-equalizer-bar w-[7px] shrink-0 rounded-t-[2px] sm:w-[10px]"
+                                        style={{
+                                            height: `${height}px`,
+                                            animationDelay: `${index * -0.04}s`,
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
 export default function Hero() {
     const [counts, setCounts] = useState([0, 0, 0])
     const [activeBiz, setActiveBiz] = useState('travel')
@@ -1890,7 +2617,9 @@ export default function Hero() {
             }
             `}} />
 
-            <section className="pt-8 pb-8 px-4 sm:px-8 lg:px-16 relative overflow-hidden min-h-screen bg-white" role="region" aria-labelledby="hero-heading">
+            <VoicaiStyleLandingHero />
+
+            <section className="hidden pt-8 pb-6 px-4 sm:px-8 lg:px-16 relative overflow-hidden bg-white" aria-hidden="true">
 
                 <div className="absolute inset-0 bg-white pointer-events-none" aria-hidden="true"></div>
 
@@ -1932,7 +2661,81 @@ export default function Hero() {
                     }
                 `}} />
 
-                <div className="container mx-auto relative z-30 max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto relative z-30 max-w-[1500px] px-5 sm:px-8 lg:px-10 xl:px-12">
+
+                    <div className="grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:gap-10 lg:py-16 xl:gap-12">
+                        {/* Right: Image */}
+                        <div className="order-2 hidden min-w-0 justify-end bg-white hero-slide-1 lg:flex">
+                            <div className="relative aspect-[1.34/1] w-full max-w-[880px] overflow-hidden bg-white xl:max-w-[980px]">
+                                <img
+                                    src="/images/landing-hero-ai-chat.png"
+                                    alt="DigitalBot AI voice and WhatsApp automation dashboard"
+                                    className="absolute right-0 top-1/2 h-[108%] w-auto max-w-none -translate-y-1/2 bg-white object-contain"
+                                    loading="eager"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Left: Content */}
+                        <div className="order-1 min-w-0 max-w-[620px] space-y-6">
+                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-50 to-orange-100/50 border border-orange-200 px-4 py-2 rounded-full shadow-sm hero-slide-1">
+                                <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                                <span className="text-xs font-semibold tracking-wide text-orange-700 uppercase">AI voice + WhatsApp automation</span>
+                            </div>
+
+                            <h1 id="legacy-hero-heading" className="text-4xl font-bold leading-tight tracking-tight text-slate-900 hero-slide-2 sm:text-5xl lg:text-[54px] xl:text-[58px]">
+                                Everything Connected.<br />
+                                <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-clip-text text-transparent">Business Simplified.</span>
+                            </h1>
+
+                            <p className="text-lg font-medium leading-relaxed text-slate-600 hero-slide-3">
+                                From chat to calls, bookings to analytics — manage every customer interaction in one powerful ERP platform. <span className="text-slate-900 font-semibold">Never miss an opportunity again.</span>
+                            </p>
+
+                            <ul className="space-y-3 text-slate-700 hero-slide-3">
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle className="h-5 w-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                    <span className="text-sm">24/7 AI-powered responses across WhatsApp, calls & chat</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle className="h-5 w-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                    <span className="text-sm">Automatic booking, scheduling & appointment management</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle className="h-5 w-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                    <span className="text-sm">Real-time analytics & customer insights on one dashboard</span>
+                                </li>
+                            </ul>
+
+                            <div className="flex flex-col items-start justify-start gap-3 sm:flex-row pt-4 hero-slide-4">
+                                <a
+                                    href="/contact"
+                                    className="group inline-flex min-w-[180px] items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-500/30 transition-all duration-300 hover:from-orange-600 hover:to-orange-700 hover:shadow-xl hover:shadow-orange-500/40"
+                                >
+                                    Get Started Free
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                </a>
+                                <a
+                                    href="/contact"
+                                    className="group inline-flex min-w-[180px] items-center justify-center rounded-lg border-2 border-slate-200 bg-white px-7 py-3.5 text-sm font-semibold text-slate-900 shadow-sm transition-all duration-300 hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600"
+                                >
+                                    Schedule a Demo
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {/* Mobile Image */}
+                    <div className="lg:hidden -mx-4 bg-white px-4 py-8 sm:-mx-6 sm:px-6">
+                        <img
+                            src="/images/landing-hero-ai-chat.png"
+                            alt="DigitalBot AI voice and WhatsApp automation dashboard"
+                            className="block h-auto w-full bg-white object-contain"
+                            loading="eager"
+                        />
+                    </div>
 
                     {/* Top: Badge + Headline */}
                     <div className="text-center pt-10 sm:pt-14 lg:pt-16 space-y-5">
@@ -2160,8 +2963,10 @@ export default function Hero() {
 
             </section>
 
-            {/* Stop Losing Customers Section */}
-            <section className="pt-8 pb-10 sm:pt-10 sm:pb-12 lg:pt-12 lg:pb-14 bg-[#fafafa] relative overflow-hidden">
+            <TrustedBrands />
+
+            {/* Leverage AI Voice Calls Section */}
+            <section className="bg-white py-8 sm:py-10 lg:py-12 relative overflow-hidden">
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                         {/* Left Content */}
@@ -2527,6 +3332,18 @@ export default function Hero() {
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* Industry Automation Section */}
+            <section className="bg-white px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+                <div className="mx-auto max-w-7xl">
+                    <img
+                        src="/images/about_us_2.png"
+                        alt="AI automation for every industry including real estate, healthcare, insurance, restaurants, finance, education, ecommerce, and collections"
+                        className="h-auto w-full"
+                        loading="lazy"
+                    />
                 </div>
             </section>
 
