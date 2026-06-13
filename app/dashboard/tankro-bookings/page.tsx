@@ -101,6 +101,14 @@ const serviceLabels: Record<string, string> = {
   other: "Other",
 };
 
+const sourceLabels: Record<string, string> = {
+  millis_ai_auto: "AI",
+  manual: "Manual",
+  web: "Web",
+  api: "API",
+  whatsapp_bot: "WhatsApp",
+};
+
 export default function TankroBookingsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [locations, setLocations] = useState<TankroLocation[]>([]);
@@ -443,88 +451,98 @@ export default function TankroBookingsPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {bookings.map((booking) => (
-                <div key={booking._id} className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:shadow-md transition-shadow">
-                  <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:justify-between">
-                    <div className="flex gap-4 min-w-0">
-                      <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center shrink-0">
-                        <Droplets className="w-6 h-6 text-orange-600" />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <h2 className="text-lg font-bold text-gray-900">{booking.customerName}</h2>
-                          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${statusStyles[booking.status]}`}>
-                            {booking.status}
-                          </span>
-                          <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
-                            {serviceLabels[booking.serviceType] || booking.serviceType}
-                          </span>
+              {bookings.map((booking) => {
+                const bookingLocation = booking.locationName || booking.district;
+
+                return (
+                  <div key={booking._id} className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:shadow-md transition-shadow">
+                    <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:justify-between">
+                      <div className="flex gap-4 min-w-0">
+                        <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center shrink-0">
+                          <Droplets className="w-6 h-6 text-orange-600" />
                         </div>
-                        <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-600">
-                          <span className="inline-flex items-center gap-2">
-                            <Phone className="w-4 h-4" />
-                            {booking.customerPhone}
-                          </span>
-                          <span className="inline-flex items-center gap-2">
-                            <MapPin className="w-4 h-4" />
-                            {booking.locationName || booking.district}
-                          </span>
-                          <span className="inline-flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            {new Date(booking.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                          </span>
-                          <span className="inline-flex items-center gap-2">
-                            <Clock className="w-4 h-4" />
-                            {booking.time}
-                          </span>
-                        </div>
-                        <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                          {booking.propertyType && (
-                            <span className="px-2 py-1 rounded-md bg-gray-50 text-gray-700 border border-gray-200">{booking.propertyType}</span>
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 mb-1">
+                            <h2 className="text-lg font-bold text-gray-900">{booking.customerName}</h2>
+                            <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${statusStyles[booking.status]}`}>
+                              {booking.status}
+                            </span>
+                            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                              {serviceLabels[booking.serviceType] || booking.serviceType}
+                            </span>
+                          </div>
+                          <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-600">
+                            <span className="inline-flex items-center gap-2">
+                              <Phone className="w-4 h-4" />
+                              {booking.customerPhone}
+                            </span>
+                            {bookingLocation && (
+                              <span className="inline-flex items-center gap-2">
+                                <MapPin className="w-4 h-4" />
+                                {bookingLocation}
+                              </span>
+                            )}
+                            <span className="inline-flex items-center gap-2">
+                              <Calendar className="w-4 h-4" />
+                              {new Date(booking.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                            </span>
+                            <span className="inline-flex items-center gap-2">
+                              <Clock className="w-4 h-4" />
+                              {booking.time}
+                            </span>
+                          </div>
+                          <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                            {booking.propertyType && (
+                              <span className="px-2 py-1 rounded-md bg-gray-50 text-gray-700 border border-gray-200">{booking.propertyType}</span>
+                            )}
+                            {booking.tankCapacityLitres ? (
+                              <span className="px-2 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-100">{booking.tankCapacityLitres} L</span>
+                            ) : null}
+                            {booking.quotedPrice ? (
+                              <span className="px-2 py-1 rounded-md bg-green-50 text-green-700 border border-green-100">Rs. {booking.quotedPrice}</span>
+                            ) : null}
+                            {booking.source && (
+                              <span className="px-2 py-1 rounded-md bg-gray-50 text-gray-600 border border-gray-200">
+                                {formatSourceLabel(booking.source)}
+                              </span>
+                            )}
+                          </div>
+                          {booking.notes && (
+                            <p className="mt-3 text-sm text-gray-600 bg-gray-50 border border-gray-100 rounded-lg p-3">{booking.notes}</p>
                           )}
-                          {booking.tankCapacityLitres ? (
-                            <span className="px-2 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-100">{booking.tankCapacityLitres} L</span>
-                          ) : null}
-                          {booking.quotedPrice ? (
-                            <span className="px-2 py-1 rounded-md bg-green-50 text-green-700 border border-green-100">Rs. {booking.quotedPrice}</span>
-                          ) : null}
-                          <span className="px-2 py-1 rounded-md bg-gray-50 text-gray-600 border border-gray-200">{booking.source}</span>
                         </div>
-                        {booking.notes && (
-                          <p className="mt-3 text-sm text-gray-600 bg-gray-50 border border-gray-100 rounded-lg p-3">{booking.notes}</p>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2 lg:justify-end">
+                        {booking.status !== "confirmed" && (
+                          <button
+                            onClick={() => updateBookingStatus(booking, "confirmed")}
+                            className="px-3 py-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-lg text-sm font-medium"
+                          >
+                            Confirm
+                          </button>
+                        )}
+                        {booking.status !== "completed" && (
+                          <button
+                            onClick={() => updateBookingStatus(booking, "completed")}
+                            className="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-sm font-medium"
+                          >
+                            Complete
+                          </button>
+                        )}
+                        {booking.status !== "cancelled" && (
+                          <button
+                            onClick={() => updateBookingStatus(booking, "cancelled")}
+                            className="px-3 py-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg text-sm font-medium"
+                          >
+                            Cancel
+                          </button>
                         )}
                       </div>
                     </div>
-
-                    <div className="flex flex-wrap gap-2 lg:justify-end">
-                      {booking.status !== "confirmed" && (
-                        <button
-                          onClick={() => updateBookingStatus(booking, "confirmed")}
-                          className="px-3 py-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-lg text-sm font-medium"
-                        >
-                          Confirm
-                        </button>
-                      )}
-                      {booking.status !== "completed" && (
-                        <button
-                          onClick={() => updateBookingStatus(booking, "completed")}
-                          className="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-sm font-medium"
-                        >
-                          Complete
-                        </button>
-                      )}
-                      {booking.status !== "cancelled" && (
-                        <button
-                          onClick={() => updateBookingStatus(booking, "cancelled")}
-                          className="px-3 py-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg text-sm font-medium"
-                        >
-                          Cancel
-                        </button>
-                      )}
-                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -739,4 +757,9 @@ export default function TankroBookingsPage() {
       )}
     </div>
   );
+}
+
+function formatSourceLabel(source?: string) {
+  if (!source) return "";
+  return sourceLabels[source] || source.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 }

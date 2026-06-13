@@ -27,6 +27,25 @@ interface TankroMessage {
   createdAt: string;
 }
 
+interface TankroBookingDetails {
+  _id: string;
+  customerName?: string;
+  customerPhone?: string;
+  customerAddress?: string;
+  locationName?: string;
+  district?: string;
+  propertyType?: string;
+  serviceType?: string;
+  tankCapacityLitres?: number;
+  quotedPrice?: number;
+  date?: string;
+  time?: string;
+  status?: string;
+  source?: string;
+  notes?: string;
+  createdAt?: string;
+}
+
 interface TankroSession {
   _id: string;
   phone: string;
@@ -43,7 +62,7 @@ interface TankroSession {
   selectedTime?: string;
   preferredDate?: string;
   preferredTime?: string;
-  bookingId?: string;
+  bookingId?: string | TankroBookingDetails | null;
   messages: TankroMessage[];
   lastMessageAt: string;
   createdAt: string;
@@ -74,6 +93,14 @@ const serviceLabels: Record<string, string> = {
   callback: "Callback",
   complaint: "Complaint",
   other: "Other",
+};
+
+const sourceLabels: Record<string, string> = {
+  millis_ai_auto: "AI",
+  manual: "Manual",
+  web: "Web",
+  api: "API",
+  whatsapp_bot: "WhatsApp",
 };
 
 export default function TankroSessionsPage() {
@@ -202,53 +229,57 @@ export default function TankroSessionsPage() {
           ) : (
             <div className="grid grid-cols-1 xl:grid-cols-[420px_1fr] gap-6">
               <div className="space-y-3">
-                {sessions.map((session) => (
-                  <button
-                    key={session._id}
-                    onClick={() => setSelectedId(session._id)}
-                    className={`w-full text-left bg-white rounded-xl border p-4 shadow-sm transition-colors ${
-                      selectedSession?._id === session._id
-                        ? "border-orange-300 ring-2 ring-orange-100"
-                        : "border-gray-200 hover:border-orange-200"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="font-bold text-gray-900 truncate">{session.customerName || session.phone}</p>
-                        <p className="text-sm text-gray-500 flex items-center gap-2 mt-1">
-                          <Phone className="w-4 h-4" />
-                          <span className="truncate">{session.phone}</span>
-                        </p>
+                {sessions.map((session) => {
+                  const sessionLocation = getSessionLocation(session);
+
+                  return (
+                    <button
+                      key={session._id}
+                      onClick={() => setSelectedId(session._id)}
+                      className={`w-full text-left bg-white rounded-xl border p-4 shadow-sm transition-colors ${
+                        selectedSession?._id === session._id
+                          ? "border-orange-300 ring-2 ring-orange-100"
+                          : "border-gray-200 hover:border-orange-200"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="font-bold text-gray-900 truncate">{session.customerName || session.phone}</p>
+                          <p className="text-sm text-gray-500 flex items-center gap-2 mt-1">
+                            <Phone className="w-4 h-4" />
+                            <span className="truncate">{session.phone}</span>
+                          </p>
+                        </div>
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${statusStyles[session.status]}`}>
+                          {session.status}
+                        </span>
                       </div>
-                      <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${statusStyles[session.status]}`}>
-                        {session.status}
-                      </span>
-                    </div>
 
-                    <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                      {session.district && (
-                        <span className="px-2 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-100">
-                          {session.district}
+                      <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                        {sessionLocation && (
+                          <span className="px-2 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-100">
+                            {sessionLocation}
+                          </span>
+                        )}
+                        <span className="px-2 py-1 rounded-md bg-gray-50 text-gray-700 border border-gray-200">
+                          {stateLabels[session.state] || session.state}
                         </span>
-                      )}
-                      <span className="px-2 py-1 rounded-md bg-gray-50 text-gray-700 border border-gray-200">
-                        {stateLabels[session.state] || session.state}
-                      </span>
-                      {session.bookingId && (
-                        <span className="px-2 py-1 rounded-md bg-green-50 text-green-700 border border-green-100">
-                          Booking
-                        </span>
-                      )}
-                    </div>
+                        {session.bookingId && (
+                          <span className="px-2 py-1 rounded-md bg-green-50 text-green-700 border border-green-100">
+                            Booking
+                          </span>
+                        )}
+                      </div>
 
-                    <p className="mt-3 text-sm text-gray-600 line-clamp-2">
-                      {getLastMessage(session)?.text || "No messages yet"}
-                    </p>
-                    <p className="mt-2 text-xs text-gray-400">
-                      {formatDateTime(session.lastMessageAt)}
-                    </p>
-                  </button>
-                ))}
+                      <p className="mt-3 text-sm text-gray-600 line-clamp-2">
+                        {getLastMessage(session)?.text || "No messages yet"}
+                      </p>
+                      <p className="mt-2 text-xs text-gray-400">
+                        {formatDateTime(session.lastMessageAt)}
+                      </p>
+                    </button>
+                  );
+                })}
               </div>
 
               <SessionDetail session={selectedSession} />
@@ -275,6 +306,15 @@ function Metric({ label, value, icon }: { label: string; value: number; icon: Re
 function SessionDetail({ session }: { session: TankroSession | null }) {
   if (!session) return null;
 
+  const booking = getSessionBooking(session);
+  const sessionLocation = getSessionLocation(session);
+  const serviceType = booking?.serviceType || session.serviceType || "";
+  const propertyType = booking?.propertyType || session.propertyType || "";
+  const tankCapacity = booking?.tankCapacityLitres ?? session.tankCapacityLitres;
+  const quotedPrice = booking?.quotedPrice ?? session.quotedPrice;
+  const bookingTime = formatBookingTime(session);
+  const bookingSource = booking?.source ? formatSourceLabel(booking.source) : "";
+
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
       <div className="p-5 border-b border-gray-200">
@@ -286,10 +326,10 @@ function SessionDetail({ session }: { session: TankroSession | null }) {
                 <Phone className="w-4 h-4" />
                 {session.phone}
               </span>
-              {session.district && (
+              {sessionLocation && (
                 <span className="inline-flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
-                  {session.district}
+                  {sessionLocation}
                 </span>
               )}
               <span className="inline-flex items-center gap-2">
@@ -304,11 +344,20 @@ function SessionDetail({ session }: { session: TankroSession | null }) {
         </div>
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 text-sm">
-          <Info label="Service" value={serviceLabels[session.serviceType || ""] || session.serviceType || "N/A"} icon={<Droplets className="w-4 h-4" />} />
-          <Info label="Tanks" value={session.tankCount ? String(session.tankCount) : "N/A"} icon={<ClipboardList className="w-4 h-4" />} />
-          <Info label="Capacity" value={session.tankCapacityLitres ? `${session.tankCapacityLitres} L` : "N/A"} icon={<Droplets className="w-4 h-4" />} />
-          <Info label="Booking" value={formatBookingTime(session)} icon={<Calendar className="w-4 h-4" />} />
+          {sessionLocation && <Info label="Location" value={sessionLocation} icon={<MapPin className="w-4 h-4" />} />}
+          {serviceType && <Info label="Service" value={serviceLabels[serviceType] || serviceType} icon={<Droplets className="w-4 h-4" />} />}
+          {propertyType && <Info label="Property" value={propertyType} icon={<ClipboardList className="w-4 h-4" />} />}
+          {session.tankCount ? <Info label="Tanks" value={String(session.tankCount)} icon={<ClipboardList className="w-4 h-4" />} /> : null}
+          {tankCapacity ? <Info label="Capacity" value={`${tankCapacity} L`} icon={<Droplets className="w-4 h-4" />} /> : null}
+          {bookingTime && <Info label="Booking" value={bookingTime} icon={<Calendar className="w-4 h-4" />} />}
+          {quotedPrice ? <Info label="Price" value={`Rs. ${quotedPrice}`} icon={<CheckCircle2 className="w-4 h-4" />} /> : null}
+          {bookingSource && <Info label="Source" value={bookingSource} icon={<MessageSquare className="w-4 h-4" />} />}
         </div>
+        {booking?.customerAddress && (
+          <p className="mt-3 text-sm text-gray-600 bg-gray-50 border border-gray-100 rounded-lg p-3">
+            {booking.customerAddress}
+          </p>
+        )}
       </div>
 
       <div className="p-5 max-h-[620px] overflow-y-auto space-y-3 bg-gray-50">
@@ -352,6 +401,15 @@ function getLastMessage(session: TankroSession) {
   return session.messages?.[session.messages.length - 1] || null;
 }
 
+function getSessionBooking(session: TankroSession) {
+  return typeof session.bookingId === "object" && session.bookingId !== null ? session.bookingId : null;
+}
+
+function getSessionLocation(session: TankroSession) {
+  const booking = getSessionBooking(session);
+  return booking?.locationName || booking?.district || session.district || "";
+}
+
 function formatDateTime(value?: string) {
   if (!value) return "N/A";
   return new Date(value).toLocaleString("en-IN", {
@@ -363,8 +421,25 @@ function formatDateTime(value?: string) {
 }
 
 function formatBookingTime(session: TankroSession) {
-  const date = session.selectedDate || session.preferredDate;
-  const time = session.selectedTime || session.preferredTime;
-  if (!date && !time) return "N/A";
-  return [date, time].filter(Boolean).join(" ");
+  const booking = getSessionBooking(session);
+  const date = booking?.date || session.selectedDate || session.preferredDate;
+  const time = booking?.time || session.selectedTime || session.preferredTime;
+  if (!date && !time) return "";
+  return [formatDateOnly(date), time].filter(Boolean).join(" ");
+}
+
+function formatDateOnly(value?: string) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function formatSourceLabel(source?: string) {
+  if (!source) return "";
+  return sourceLabels[source] || source.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 }
