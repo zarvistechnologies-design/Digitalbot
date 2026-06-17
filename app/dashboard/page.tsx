@@ -75,7 +75,7 @@ export default function AnalyticsOverview() {
   // Fetch raw calls once and cache — shared with Calls page
   const fetchCallsData = useCallback(async () => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
     const callsRes = await fetch(`${API_BASE_URL}/calls?limit=1000`, {
       headers: {
         'Authorization': `Bearer ${token}`,

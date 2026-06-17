@@ -34,6 +34,8 @@ interface Appointment {
   age?: number | string | null;
   patientAge?: number | string | null;
   purpose: string;
+  patientType?: "new" | "follow_up";
+  queueNumber?: string;
   status: "scheduled" | "confirmed" | "completed" | "cancelled" | "no-show" | "rescheduled";
   date: string;
   time: string;
@@ -48,13 +50,14 @@ interface Appointment {
     call_direction?: string;
     confidence_score?: number;
     doctor_name?: string;
+    queueNumberingEnabled?: boolean;
   };
   createdAt: string;
   updatedAt: string;
 }
 
 // ==================== CONSTANTS ====================
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
 const statusStyles: Record<Appointment["status"], string> = {
   scheduled: "bg-orange-100 text-orange-700 border-orange-300",
@@ -287,6 +290,20 @@ function AppointmentModal({
                   <p className="text-sm text-gray-600 font-semibold mb-1">Time</p>
                   <p className="text-lg font-bold text-gray-900">{apt.time}</p>
                 </div>
+                {apt.queueNumber && (
+                  <div className="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                    <p className="text-sm text-green-700 font-semibold mb-1">Queue Number</p>
+                    <p className="text-lg font-bold text-green-900">{apt.queueNumber}</p>
+                  </div>
+                )}
+                {apt.queueNumber && (
+                  <div className="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                    <p className="text-sm text-green-700 font-semibold mb-1">Patient Type</p>
+                    <p className="text-lg font-bold text-green-900">
+                      {apt.patientType === "follow_up" ? "Old / Follow-up" : "New Patient"}
+                    </p>
+                  </div>
+                )}
               </div>
               <div className="bg-white p-4 rounded-xl border-2 border-gray-200">
                 <p className="text-sm text-gray-600 font-semibold mb-2">Purpose of Visit</p>
@@ -1249,6 +1266,14 @@ export default function AppointmentsPage() {
                                 <Clock className="w-4 h-4 text-orange-600" />
                                 <span className="text-sm font-semibold text-gray-700">{apt.time}</span>
                               </div>
+                              {apt.queueNumber && (
+                                <div className="flex items-center gap-2 bg-green-50 px-3 py-2 rounded-lg">
+                                  <Zap className="w-4 h-4 text-green-600" />
+                                  <span className="text-sm font-semibold text-green-700">
+                                    No. {apt.queueNumber}
+                                  </span>
+                                </div>
+                              )}
                               {hasPatientAge(apt) && (
                                 <div className="flex items-center gap-2 bg-orange-50 px-3 py-2 rounded-lg">
                                   <HeartPulse className="w-4 h-4 text-orange-600" />

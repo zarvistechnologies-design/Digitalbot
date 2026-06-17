@@ -55,12 +55,25 @@ interface Doctor {
   defaultBlockedTimes?: BlockedTime[];
   allowMultipleBookings?: boolean;
   maxPatientsPerSlot?: number;
+  queueNumbering?: QueueNumbering;
   active: boolean;
+}
+
+interface QueueNumbering {
+  enabled: boolean;
+  newPatientStart: number;
+  newPatientEnd: number;
+  followUpStart: number;
+  followUpEnd: number;
+  overflowPrefix: number;
+  overflowStart: number;
+  allowOverflow: boolean;
 }
 
 interface FormData {
   patientName: string;
   patientPhone: string;
+  patientType: "new" | "follow_up";
   doctorId: string;
   doctorName: string;
   date: string;
@@ -80,12 +93,14 @@ interface BookedAppointment {
   doctorName: string;
   date: string;
   time: string;
+  queueNumber?: string;
   id?: string;
 }
 
 const initialFormData: FormData = {
   patientName: "",
   patientPhone: "",
+  patientType: "new",
   doctorId: "",
   doctorName: "",
   date: "",
@@ -325,6 +340,9 @@ function RecentBookings({ bookings }: { bookings: BookedAppointment[] }) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-medium text-gray-900 truncate">{booking.patientName}</p>
+              {booking.queueNumber && (
+                <p className="text-xs font-semibold text-green-700">Number {booking.queueNumber}</p>
+              )}
               <p className="text-xs text-gray-500">
                 {booking.doctorName} • {new Date(booking.date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })} at {booking.time}
               </p>
@@ -421,14 +439,6 @@ export default function BookAppointmentPage() {
         return;
       }
 
-      // Convert API response to TimeSlot format
-      // availableSlots from API are already filtered (no blocked times)
-      const apiSlots: TimeSlot[] = (data.availableSlots || []).map((slot: { time: string; start: string }) => ({
-        time: slot.start,
-        isBlocked: false,
-        blockReason: "",
-      }));
-
       // Add blocked times for display (so user can see when breaks are)
       // Only use doctor's configured blocked times - if not set, show all slots
       const blockedTimes = selectedDoctor.defaultBlockedTimes || [];
@@ -440,14 +450,18 @@ export default function BookAppointmentPage() {
         blockedTimes
       );
 
-      // Merge: use blocked status from generated, but filter out booked from API
+      // Merge: fixed-slot doctors block booked times; multiple/queue doctors trust API capacity.
       const bookedTimes = (data.bookedSlots || []).map((s: { start: string }) => s.start);
+      const availableTimes = new Set((data.availableSlots || []).map((s: { start: string }) => s.start));
+      const usesSharedSlot = Boolean(selectedDoctor.allowMultipleBookings || selectedDoctor.queueNumbering?.enabled);
       const mergedSlots = allSlots.map((slot) => {
         if (slot.isBlocked) {
           return slot; // Keep break times marked as blocked
         }
-        // Check if this slot is booked
-        if (bookedTimes.includes(slot.time)) {
+        if (usesSharedSlot && !availableTimes.has(slot.time)) {
+          return { ...slot, isBlocked: true, blockReason: "Full" };
+        }
+        if (!usesSharedSlot && bookedTimes.includes(slot.time)) {
           return { ...slot, isBlocked: true, blockReason: "Already Booked" };
         }
         return slot;
@@ -521,6 +535,7 @@ export default function BookAppointmentPage() {
       const response = await appointmentsAPI.create({
         name: formData.patientName,
         phone: formData.patientPhone,
+        patientType: formData.patientType,
         doctorId: formData.doctorId,
         doctorName: formData.doctorName,
         date: formData.date,
@@ -536,6 +551,7 @@ export default function BookAppointmentPage() {
           doctorName: formData.doctorName,
           date: formData.date,
           time: formData.time,
+          queueNumber: response.data?.data?.queueNumber,
           id: response.data?.data?._id,
         },
         ...prev,
@@ -548,6 +564,7 @@ export default function BookAppointmentPage() {
         ...initialFormData,
         doctorId: selectedDoctor?._id || "",
         doctorName: selectedDoctor?.name || "",
+        patientType: "new",
       });
       
       // Clear success after 3 seconds
@@ -837,6 +854,38 @@ export default function BookAppointmentPage() {
                       </div>
                     </div>
 
+                    {selectedDoctor?.queueNumbering?.enabled && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          Patient Type
+                        </label>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleInputChange("patientType", "new")}
+                            className={`px-4 py-3 rounded-xl border text-sm font-semibold transition-all ${
+                              formData.patientType === "new"
+                                ? "bg-green-600 text-white border-green-600"
+                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                            }`}
+                          >
+                            New Patient
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleInputChange("patientType", "follow_up")}
+                            className={`px-4 py-3 rounded-xl border text-sm font-semibold transition-all ${
+                              formData.patientType === "follow_up"
+                                ? "bg-green-600 text-white border-green-600"
+                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                            }`}
+                          >
+                            Old / Follow-up
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1.5">
                         Reason / Purpose
@@ -885,6 +934,14 @@ export default function BookAppointmentPage() {
                         </span>
                         <span className="text-gray-500">Time:</span>
                         <span className="font-medium text-gray-900">{formData.time || "-"}</span>
+                        {selectedDoctor?.queueNumbering?.enabled && (
+                          <>
+                            <span className="text-gray-500">Patient Type:</span>
+                            <span className="font-medium text-gray-900">
+                              {formData.patientType === "follow_up" ? "Old / Follow-up" : "New Patient"}
+                            </span>
+                          </>
+                        )}
                       </div>
                     </div>
 

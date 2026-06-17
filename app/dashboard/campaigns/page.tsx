@@ -295,7 +295,7 @@ export default function CampaignsPage() {
                     return;
                 }
 
-                const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
+                const API_BASE_URL = 'http://localhost:4000/api';
 
                 const response = await fetch(`${API_BASE_URL}/campaigns`, {
                     headers: {
@@ -367,7 +367,7 @@ export default function CampaignsPage() {
                 return;
             }
 
-            const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
+            const API_BASE_URL = 'http://localhost:4000/api';
 
             const endpoint = currentStatus === 'active' ? 'pause' : 'resume';
 
@@ -581,7 +581,7 @@ export default function CampaignsPage() {
         setCreating(true);
 
         try {
-            const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
+            const API_BASE_URL = 'http://localhost:4000/api';
 
             const newCampaign = {
                 name: campaignName,
@@ -684,7 +684,7 @@ export default function CampaignsPage() {
         setLaunching(true);
 
         try {
-            const API_BASE_URL = 'https://digital-api-46ss.onrender.com/api';
+            const API_BASE_URL = 'http://localhost:4000/api';
 
             const response = await fetch(`${API_BASE_URL}/campaigns/${campaignId}/launch`, {
                 method: 'POST',

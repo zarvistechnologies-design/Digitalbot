@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -154,6 +154,18 @@ export const doctorsAPI = {
     phone: string;
     email?: string;
     slotDuration?: number;
+    allowMultipleBookings?: boolean;
+    maxPatientsPerSlot?: number;
+    queueNumbering?: {
+      enabled: boolean;
+      newPatientStart: number;
+      newPatientEnd: number;
+      followUpStart: number;
+      followUpEnd: number;
+      overflowPrefix: number;
+      overflowStart: number;
+      allowOverflow: boolean;
+    };
     defaultWorkingHours?: { start: string; end: string };
     workingDays?: number[];
     calendarId?: string;
@@ -166,6 +178,18 @@ export const doctorsAPI = {
     phone: string;
     email: string;
     slotDuration: number;
+    allowMultipleBookings: boolean;
+    maxPatientsPerSlot: number;
+    queueNumbering: {
+      enabled: boolean;
+      newPatientStart: number;
+      newPatientEnd: number;
+      followUpStart: number;
+      followUpEnd: number;
+      overflowPrefix: number;
+      overflowStart: number;
+      allowOverflow: boolean;
+    };
     defaultWorkingHours: { start: string; end: string };
     workingDays: number[];
     active: boolean;
@@ -239,6 +263,8 @@ export const availabilityAPI = {
     patientName: string;
     patientPhone: string;
     patientEmail?: string;
+    patientType?: 'new' | 'follow_up';
+    patient_type?: 'new' | 'follow_up';
     purpose?: string;
     notes?: string;
   }) => api.post('/availability/book', data),
@@ -288,6 +314,7 @@ export const appointmentsAPI = {
   create: (data: {
     name: string;
     phone: string;
+    patientType?: 'new' | 'follow_up';
     reason?: string;
     date: string;
     time: string;

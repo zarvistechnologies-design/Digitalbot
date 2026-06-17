@@ -50,6 +50,7 @@ interface Doctor {
   slotDuration: number;
   allowMultipleBookings?: boolean;
   maxPatientsPerSlot?: number;
+  queueNumbering?: QueueNumbering;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
   weeklySchedule?: WeeklySchedule;
@@ -64,6 +65,17 @@ interface BlockedTime {
   reason: string;
 }
 
+interface QueueNumbering {
+  enabled: boolean;
+  newPatientStart: number;
+  newPatientEnd: number;
+  followUpStart: number;
+  followUpEnd: number;
+  overflowPrefix: number;
+  overflowStart: number;
+  allowOverflow: boolean;
+}
+
 interface DoctorFormData {
   name: string;
   specialization: string;
@@ -73,6 +85,7 @@ interface DoctorFormData {
   slotDuration: number;
   allowMultipleBookings: boolean;
   maxPatientsPerSlot: number;
+  queueNumbering: QueueNumbering;
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
   weeklySchedule?: WeeklySchedule;
@@ -129,6 +142,16 @@ const initialFormData: DoctorFormData = {
   slotDuration: 30,
   allowMultipleBookings: false,
   maxPatientsPerSlot: 1,
+  queueNumbering: {
+    enabled: false,
+    newPatientStart: 1,
+    newPatientEnd: 10,
+    followUpStart: 11,
+    followUpEnd: 18,
+    overflowPrefix: 18,
+    overflowStart: 11,
+    allowOverflow: true,
+  },
   defaultWorkingHours: { start: "09:00", end: "17:00" },
   workingDays: [1, 2, 3, 4, 5],
   weeklySchedule: undefined,
@@ -238,6 +261,10 @@ export default function DoctorsPage() {
       slotDuration: doctor.slotDuration,
       allowMultipleBookings: doctor.allowMultipleBookings || false,
       maxPatientsPerSlot: doctor.maxPatientsPerSlot || 1,
+      queueNumbering: {
+        ...initialFormData.queueNumbering,
+        ...(doctor.queueNumbering || {}),
+      },
       defaultWorkingHours: doctor.defaultWorkingHours,
       workingDays: doctor.workingDays,
       weeklySchedule: hasDiffTimings ? doctor.weeklySchedule : { ...DEFAULT_WEEKLY_SCHEDULE },
@@ -421,6 +448,11 @@ export default function DoctorsPage() {
                       {doctor.allowMultipleBookings && (
                         <span className="ml-2 px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded-full">
                           {doctor.maxPatientsPerSlot || 1} patients/slot
+                        </span>
+                      )}
+                      {doctor.queueNumbering?.enabled && (
+                        <span className="ml-2 px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">
+                          Queue new {doctor.queueNumbering.newPatientStart}-{doctor.queueNumbering.newPatientEnd} / old {doctor.queueNumbering.overflowPrefix}/{doctor.queueNumbering.followUpStart}-{doctor.queueNumbering.overflowPrefix}/{doctor.queueNumbering.followUpEnd} / extra new {doctor.queueNumbering.newPatientEnd + 1}+
                         </span>
                       )}
                     </div>
@@ -670,6 +702,153 @@ export default function DoctorsPage() {
                     <p className="text-xs text-gray-500 mt-1">
                       Up to 20 patients can be booked in the same time slot
                     </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Queue Numbering */}
+              <div className="border border-gray-200 rounded-lg p-4 bg-white">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      OPD Queue Numbering
+                    </label>
+                    <p className="text-xs text-gray-500">
+                      New patients use {formData.queueNumbering.newPatientStart}-{formData.queueNumbering.newPatientEnd}, old patients use {formData.queueNumbering.overflowPrefix}/{formData.queueNumbering.followUpStart}-{formData.queueNumbering.overflowPrefix}/{formData.queueNumbering.followUpEnd}, then extra new patients use {formData.queueNumbering.newPatientEnd + 1}+
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        allowMultipleBookings: !formData.queueNumbering.enabled ? true : formData.allowMultipleBookings,
+                        maxPatientsPerSlot: !formData.queueNumbering.enabled
+                          ? Math.max(formData.maxPatientsPerSlot, formData.queueNumbering.followUpEnd)
+                          : formData.maxPatientsPerSlot,
+                        queueNumbering: {
+                          ...formData.queueNumbering,
+                          enabled: !formData.queueNumbering.enabled,
+                        },
+                      })
+                    }
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      formData.queueNumbering.enabled ? "bg-green-600" : "bg-gray-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        formData.queueNumbering.enabled ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                {formData.queueNumbering.enabled && (
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">New Start</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={formData.queueNumbering.newPatientStart}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            queueNumbering: {
+                              ...formData.queueNumbering,
+                              newPatientStart: Math.max(1, parseInt(e.target.value) || 1),
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">New End</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={formData.queueNumbering.newPatientEnd}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            queueNumbering: {
+                              ...formData.queueNumbering,
+                              newPatientEnd: Math.max(1, parseInt(e.target.value) || 10),
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Follow-up Start</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={formData.queueNumbering.followUpStart}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            queueNumbering: {
+                              ...formData.queueNumbering,
+                              followUpStart: Math.max(1, parseInt(e.target.value) || 11),
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Follow-up End</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={formData.queueNumbering.followUpEnd}
+                        onChange={(e) => {
+                          const value = Math.max(1, parseInt(e.target.value) || 18);
+                          setFormData({
+                            ...formData,
+                            maxPatientsPerSlot: Math.max(formData.maxPatientsPerSlot, value),
+                            queueNumbering: {
+                              ...formData.queueNumbering,
+                              followUpEnd: value,
+                              overflowPrefix: value,
+                            },
+                          });
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Old Prefix</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={formData.queueNumbering.overflowPrefix}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            queueNumbering: {
+                              ...formData.queueNumbering,
+                              overflowPrefix: Math.max(1, parseInt(e.target.value) || 18),
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Extra New Start</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={formData.queueNumbering.newPatientEnd + 1}
+                        readOnly
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                      />
+                    </div>
                   </div>
                 )}
               </div>
