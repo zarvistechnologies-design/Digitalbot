@@ -2,7 +2,7 @@
 import Sidebar from "@/components/Sidebar";
 import { useEffect, useState } from "react";
 
-const API_BASE = "http://localhost:4000/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://digital-api-46ss.onrender.com/api";
 
 const getAuthToken = () => {
   if (typeof window !== "undefined") {

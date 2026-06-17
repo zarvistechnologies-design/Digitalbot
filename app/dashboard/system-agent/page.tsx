@@ -143,7 +143,7 @@ type ClinicConfigResponse = Partial<AgentForm> & {
   voiceRuntimeConfig?: Partial<VoiceRuntimeConfig>;
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://digital-api-46ss.onrender.com/api";
 
 const llmModels = ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-1.5-flash", "gemini-1.5-pro"];
 const allowedVoiceProviders = ["elevenlabs", "sarvam"] as const;

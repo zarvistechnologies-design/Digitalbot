@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-const WS_BASE_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:4000/ws';
+const WS_BASE_URL = process.env.NEXT_PUBLIC_WS_URL || 'wss://digital-api-46ss.onrender.com/ws';
 
 interface UseWebSocketOptions {
   /** Event types to listen for */

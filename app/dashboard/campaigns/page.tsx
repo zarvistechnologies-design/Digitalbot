@@ -9,6 +9,8 @@ const getAuthToken = () => {
 
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
+
 // Helper to get user info from token
 const getUserFromToken = () => {
     if (typeof window !== 'undefined') {
@@ -295,8 +297,6 @@ export default function CampaignsPage() {
                     return;
                 }
 
-                const API_BASE_URL = 'http://localhost:4000/api';
-
                 const response = await fetch(`${API_BASE_URL}/campaigns`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -366,8 +366,6 @@ export default function CampaignsPage() {
                 alert('❌ Please login to perform this action');
                 return;
             }
-
-            const API_BASE_URL = 'http://localhost:4000/api';
 
             const endpoint = currentStatus === 'active' ? 'pause' : 'resume';
 
@@ -581,8 +579,6 @@ export default function CampaignsPage() {
         setCreating(true);
 
         try {
-            const API_BASE_URL = 'http://localhost:4000/api';
-
             const newCampaign = {
                 name: campaignName,
                 type: campaignType,
@@ -684,8 +680,6 @@ export default function CampaignsPage() {
         setLaunching(true);
 
         try {
-            const API_BASE_URL = 'http://localhost:4000/api';
-
             const response = await fetch(`${API_BASE_URL}/campaigns/${campaignId}/launch`, {
                 method: 'POST',
                 headers: {
