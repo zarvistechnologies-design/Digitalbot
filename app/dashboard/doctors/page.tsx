@@ -147,8 +147,8 @@ const initialFormData: DoctorFormData = {
     newPatientStart: 1,
     newPatientEnd: 10,
     followUpStart: 11,
-    followUpEnd: 18,
-    overflowPrefix: 18,
+    followUpEnd: 80,
+    overflowPrefix: 81,
     overflowStart: 11,
     allowOverflow: true,
   },
@@ -452,7 +452,7 @@ export default function DoctorsPage() {
                       )}
                       {doctor.queueNumbering?.enabled && (
                         <span className="ml-2 px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">
-                          Queue new {doctor.queueNumbering.newPatientStart}-{doctor.queueNumbering.newPatientEnd} / old {doctor.queueNumbering.overflowPrefix}/{doctor.queueNumbering.followUpStart}-{doctor.queueNumbering.overflowPrefix}/{doctor.queueNumbering.followUpEnd} / extra new {doctor.queueNumbering.newPatientEnd + 1}+
+                          Queue new {doctor.queueNumbering.newPatientStart}-{doctor.queueNumbering.newPatientEnd} / old {doctor.queueNumbering.followUpStart}-{doctor.queueNumbering.followUpEnd} / extra new {doctor.queueNumbering.overflowPrefix}/{doctor.queueNumbering.overflowStart}+
                         </span>
                       )}
                     </div>
@@ -714,7 +714,7 @@ export default function DoctorsPage() {
                       OPD Queue Numbering
                     </label>
                     <p className="text-xs text-gray-500">
-                      New patients use {formData.queueNumbering.newPatientStart}-{formData.queueNumbering.newPatientEnd}, old patients use {formData.queueNumbering.overflowPrefix}/{formData.queueNumbering.followUpStart}-{formData.queueNumbering.overflowPrefix}/{formData.queueNumbering.followUpEnd}, then extra new patients use {formData.queueNumbering.newPatientEnd + 1}+
+                      New patients use {formData.queueNumbering.newPatientStart}-{formData.queueNumbering.newPatientEnd}, old patients use {formData.queueNumbering.followUpStart}-{formData.queueNumbering.followUpEnd}, then extra new patients use {formData.queueNumbering.overflowPrefix}/{formData.queueNumbering.overflowStart}, {formData.queueNumbering.overflowPrefix + 1}/{formData.queueNumbering.overflowStart + 1}, etc.
                     </p>
                   </div>
                   <button
@@ -807,14 +807,14 @@ export default function DoctorsPage() {
                         min="1"
                         value={formData.queueNumbering.followUpEnd}
                         onChange={(e) => {
-                          const value = Math.max(1, parseInt(e.target.value) || 18);
+                          const value = Math.max(1, parseInt(e.target.value) || 80);
                           setFormData({
                             ...formData,
                             maxPatientsPerSlot: Math.max(formData.maxPatientsPerSlot, value),
                             queueNumbering: {
                               ...formData.queueNumbering,
                               followUpEnd: value,
-                              overflowPrefix: value,
+                              overflowPrefix: value + 1,
                             },
                           });
                         }}
@@ -822,7 +822,7 @@ export default function DoctorsPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Old Prefix</label>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Extra New Left</label>
                       <input
                         type="number"
                         min="1"
@@ -832,7 +832,7 @@ export default function DoctorsPage() {
                             ...formData,
                             queueNumbering: {
                               ...formData.queueNumbering,
-                              overflowPrefix: Math.max(1, parseInt(e.target.value) || 18),
+                              overflowPrefix: Math.max(1, parseInt(e.target.value) || 81),
                             },
                           })
                         }
@@ -842,9 +842,8 @@ export default function DoctorsPage() {
                     <div>
                       <label className="block text-xs font-medium text-gray-600 mb-1">Extra New Start</label>
                       <input
-                        type="number"
-                        min="1"
-                        value={formData.queueNumbering.newPatientEnd + 1}
+                        type="text"
+                        value={`${formData.queueNumbering.overflowPrefix}/${formData.queueNumbering.overflowStart}`}
                         readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
                       />
