@@ -8,6 +8,8 @@ import { Call, CallStats } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
+const ALL_CALLS_LIMIT = 0;
+
 const Dashboard = () => {
   const router = useRouter();
   const [calls, setCalls] = useState<Call[]>([]);
@@ -178,7 +180,7 @@ const Dashboard = () => {
     return '';
   };
 
-  const fetchCalls = async (page = 1, limit = 100, search = '', isBackground = false) => {
+  const fetchCalls = async (page = 1, limit = ALL_CALLS_LIMIT, search = '', isBackground = false) => {
     try {
       if (!isBackground) {
         // Only show loading if no cached data available
@@ -285,7 +287,7 @@ const Dashboard = () => {
       if (msg.type === 'new-call' || msg.type === 'call-update') {
         invalidateCache(CACHE_KEYS.CALLS);
         invalidateCache(CACHE_KEYS.CALLS_STATS);
-        fetchCalls(1, 100, searchQuery, true);
+        fetchCalls(1, ALL_CALLS_LIMIT, searchQuery, true);
         fetchStats();
       }
     }, [searchQuery]),
@@ -296,7 +298,7 @@ const Dashboard = () => {
 
     const interval = setInterval(() => {
       if (!loading) {
-        fetchCalls(1, 100, searchQuery, true);
+        fetchCalls(1, ALL_CALLS_LIMIT, searchQuery, true);
         invalidateCache(CACHE_KEYS.CALLS_STATS);
         fetchStats();
       }
@@ -310,7 +312,7 @@ const Dashboard = () => {
   }, [expandedCall]);
 
   const handleSearch = () => {
-    fetchCalls(1, 100, searchQuery);
+    fetchCalls(1, ALL_CALLS_LIMIT, searchQuery);
   };
 
   const handleApplyFilters = () => {
@@ -381,6 +383,18 @@ const Dashboard = () => {
 
   const changeRefreshInterval = (newInterval: number) => {
     setRefreshInterval(newInterval);
+  };
+
+  const isCompletedCall = (call: Call) =>
+    ['completed', 'user-ended', 'agent-ended', 'ended'].includes(String(call.status || '').toLowerCase());
+
+  const callSummary = {
+    total: calls.length,
+    completed: calls.filter(isCompletedCall).length,
+    averageDuration: calls.length > 0
+      ? Math.round(calls.reduce((sum, call) => sum + (Number(call.duration) || 0), 0) / calls.length)
+      : undefined,
+    inbound: calls.filter((call) => call.direction === 'inbound').length,
   };
 
   const formatLastRefreshTime = () => {
@@ -514,7 +528,7 @@ const Dashboard = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-500 text-sm font-medium mb-1">Total Calls</p>
-                      <p className="text-3xl font-bold text-gray-900">{stats?.total_calls || calls.length}</p>
+                      <p className="text-3xl font-bold text-gray-900">{callSummary.total}</p>
                     </div>
                     <div className="bg-white border-2 border-orange-500 p-3 rounded-xl">
                       <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -528,7 +542,7 @@ const Dashboard = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-500 text-sm font-medium mb-1">Completed</p>
-                      <p className="text-3xl font-bold text-gray-900">{stats?.completed_calls || calls.filter(c => c.status === 'completed').length}</p>
+                      <p className="text-3xl font-bold text-gray-900">{callSummary.completed}</p>
                     </div>
                     <div className="bg-white border-2 border-orange-500 p-3 rounded-xl">
                       <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -542,7 +556,7 @@ const Dashboard = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-500 text-sm font-medium mb-1">Avg Duration</p>
-                      <p className="text-3xl font-bold text-gray-900">{formatDuration(stats?.average_duration)}</p>
+                      <p className="text-3xl font-bold text-gray-900">{formatDuration(callSummary.averageDuration)}</p>
                     </div>
                     <div className="bg-white border-2 border-orange-500 p-3 rounded-xl">
                       <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -556,7 +570,7 @@ const Dashboard = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-500 text-sm font-medium mb-1">Inbound</p>
-                      <p className="text-3xl font-bold text-gray-900">{stats?.calls_by_direction?.inbound || calls.filter(c => c.direction === 'inbound').length}</p>
+                      <p className="text-3xl font-bold text-gray-900">{callSummary.inbound}</p>
                     </div>
                     <div className="bg-white border-2 border-orange-500 p-3 rounded-xl">
                       <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
