@@ -8,6 +8,7 @@ import {
     ChevronLeft,
     ChevronRight,
     Clock,
+    Hash,
     Menu,
     RefreshCw,
     User,
@@ -40,15 +41,22 @@ interface Doctor {
   defaultWorkingHours: { start: string; end: string };
   workingDays: number[];
   weeklySchedule?: WeeklySchedule;
+  queueNumbering?: {
+    enabled?: boolean;
+  };
   active: boolean;
 }
 
 interface TimeSlot {
   time: string;
+  start?: string;
+  end?: string;
   available: boolean;
   appointmentId?: string;
   patientName?: string;
   patientPhone?: string;
+  patientType?: "new" | "follow_up";
+  queueNumber?: string;
 }
 
 interface AlternateDoctor {
@@ -68,6 +76,9 @@ interface AvailabilityData {
   bookedSlots: TimeSlot[];
   isOnLeave: boolean;
   workingHours: { start: string; end: string };
+  queueNumbering?: {
+    enabled?: boolean;
+  };
   alternateDoctors?: AlternateDoctor[];
 }
 
@@ -102,6 +113,50 @@ const getDayHours = (doctor: Doctor, date: Date): { start: string; end: string }
 
 const getMonthYear = (date: Date): string => {
   return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+};
+
+const isQueueMode = (doctor: Doctor | null, availability: AvailabilityData | null) => {
+  return Boolean(availability?.queueNumbering?.enabled || doctor?.queueNumbering?.enabled);
+};
+
+const getSlotDisplay = (slot: TimeSlot, queueMode: boolean) => {
+  if (queueMode) return slot.queueNumber ? `Queue No. ${slot.queueNumber}` : "Queue number pending";
+  return slot.time || slot.start || "No time set";
+};
+
+const getQueueNumberParts = (queueNumber?: string) => {
+  const parts = String(queueNumber || "").match(/\d+/g) || [];
+  return {
+    first: parts[0] ? Number(parts[0]) : Number.MAX_SAFE_INTEGER,
+    second: parts[1] ? Number(parts[1]) : 0,
+    raw: String(queueNumber || ""),
+  };
+};
+
+const compareQueueNumbers = (a?: string, b?: string) => {
+  const left = getQueueNumberParts(a);
+  const right = getQueueNumberParts(b);
+
+  if (left.first !== right.first) return left.first - right.first;
+  if (left.second !== right.second) return left.second - right.second;
+
+  return left.raw.localeCompare(right.raw, undefined, { numeric: true, sensitivity: "base" });
+};
+
+const getDisplayBookedSlots = (slots: TimeSlot[], queueMode: boolean) => {
+  if (!queueMode) return slots;
+
+  return [...slots].sort((a, b) => compareQueueNumbers(a.queueNumber, b.queueNumber));
+};
+
+const getPatientTypeLabel = (patientType?: TimeSlot["patientType"]) => {
+  return patientType === "follow_up" ? "Follow-up" : "New patient";
+};
+
+const getPatientInitials = (name?: string) => {
+  const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "P";
+  return parts.slice(0, 2).map((part) => part[0]?.toUpperCase()).join("");
 };
 
 // ==================== MAIN COMPONENT ====================
@@ -188,7 +243,7 @@ export default function AvailabilityPage() {
   // Cancel appointment
   const handleCancelAppointment = async (slot: TimeSlot) => {
     if (!slot.appointmentId) return;
-    if (!confirm(`Cancel appointment for ${slot.patientName} at ${slot.time}?`)) return;
+    if (!confirm(`Cancel appointment for ${slot.patientName} (${getSlotDisplay(slot, queueMode)})?`)) return;
 
     try {
       await availabilityAPI.cancel({
@@ -260,6 +315,8 @@ export default function AvailabilityPage() {
   const weekDates = getWeekDates();
   const isToday = formatDate(selectedDate) === formatDate(new Date());
   const isPast = selectedDate < new Date(new Date().setHours(0, 0, 0, 0));
+  const queueMode = isQueueMode(selectedDoctor, availability);
+  const visibleBookedSlots = getDisplayBookedSlots(availability?.bookedSlots || [], queueMode);
 
   return (
     <div className="min-h-screen bg-white">
@@ -409,7 +466,7 @@ export default function AvailabilityPage() {
                     Dr. {selectedDoctor.name} - {selectedDoctor.specialization}
                   </h3>
                   <p className="text-sm text-gray-500">
-                    {selectedDoctor.slotDuration} min slots •{" "}
+                    {queueMode ? "OPD queue mode" : `${selectedDoctor.slotDuration} min slots`} |{" "}
                     Today: {(() => {
                       const dayHours = getDayHours(selectedDoctor, selectedDate);
                       const start = dayHours?.start || availability?.workingHours?.start || selectedDoctor.defaultWorkingHours.start;
@@ -538,48 +595,145 @@ export default function AvailabilityPage() {
                       Appointments cannot be managed for past dates.
                     </p>
                   </div>
+                ) : queueMode ? (
+                  <div className="space-y-5">
+                    <div className="flex flex-col gap-4 border-b border-gray-100 pb-5 lg:flex-row lg:items-center lg:justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-green-100 bg-green-50 text-green-700">
+                          <Hash className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900">OPD Queue</h4>
+                          <p className="text-sm text-gray-500">
+                            {visibleBookedSlots.length} {visibleBookedSlots.length === 1 ? "patient" : "patients"} for{" "}
+                            {selectedDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 sm:flex">
+                        <div className="rounded-lg border border-green-200 bg-green-50 px-3 py-2">
+                          <p className="text-xs font-medium text-green-700">Mode</p>
+                          <p className="text-sm font-semibold text-green-900">Queue</p>
+                        </div>
+                        <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
+                          <p className="text-xs font-medium text-gray-500">Time Slots</p>
+                          <p className="text-sm font-semibold text-gray-900">Hidden</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="overflow-hidden rounded-lg border border-gray-200">
+                      <div className="hidden bg-gray-50 px-4 py-3 text-xs font-semibold uppercase text-gray-500 sm:grid sm:grid-cols-[140px_minmax(0,1fr)_140px_52px]">
+                        <span>Token</span>
+                        <span>Patient</span>
+                        <span>Type</span>
+                        <span className="text-right">Action</span>
+                      </div>
+
+                      {visibleBookedSlots.length > 0 ? (
+                        <div className="divide-y divide-gray-100">
+                          {visibleBookedSlots.map((slot, index) => (
+                            <div
+                              key={slot.appointmentId || `${slot.queueNumber || "queue"}-${index}`}
+                              className="grid grid-cols-1 gap-3 px-4 py-3 transition-colors hover:bg-gray-50 sm:grid-cols-[140px_minmax(0,1fr)_140px_52px] sm:items-center"
+                            >
+                              <div className="flex items-center gap-2">
+                                <span className="inline-flex min-w-16 items-center justify-center rounded-md border border-green-200 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700">
+                                  {slot.queueNumber || `#${index + 1}`}
+                                </span>
+                              </div>
+
+                              <div className="flex min-w-0 items-center gap-3">
+                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-900 text-xs font-semibold text-white">
+                                  {getPatientInitials(slot.patientName)}
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="truncate font-medium text-gray-900">{slot.patientName || "Patient"}</p>
+                                  <p className="truncate text-sm text-gray-500">{slot.patientPhone || "No phone"}</p>
+                                </div>
+                              </div>
+
+                              <div>
+                                <span
+                                  className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+                                    slot.patientType === "follow_up"
+                                      ? "bg-sky-50 text-sky-700"
+                                      : "bg-gray-100 text-gray-700"
+                                  }`}
+                                >
+                                  {getPatientTypeLabel(slot.patientType)}
+                                </span>
+                              </div>
+
+                              <button
+                                onClick={() => handleCancelAppointment(slot)}
+                                className="justify-self-start rounded-lg p-2 text-red-600 transition-colors hover:bg-red-50 sm:justify-self-end"
+                                title="Cancel Appointment"
+                              >
+                                <XCircle className="h-5 w-5" />
+                                <span className="sr-only">Cancel Appointment</span>
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="px-4 py-10 text-center">
+                          <Hash className="mx-auto h-10 w-10 text-gray-300" />
+                          <h4 className="mt-3 font-medium text-gray-900">No queue bookings</h4>
+                          <p className="mt-1 text-sm text-gray-500">Patients booked for this date will appear here.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 ) : (
                   <>
                     {/* Stats */}
                     <div className="grid grid-cols-3 gap-4 mb-6">
                       <div className="bg-green-50 rounded-xl p-4 text-center">
                         <div className="text-2xl font-bold text-green-700">
-                          {availability?.availableSlots?.length || 0}
+                          {queueMode ? "ON" : (availability?.availableSlots?.length || 0)}
                         </div>
-                        <div className="text-sm text-green-600">Available Slots</div>
+                        <div className="text-sm text-green-600">{queueMode ? "Queue Mode" : "Available Slots"}</div>
                       </div>
                       <div className="bg-orange-50 rounded-xl p-4 text-center">
                         <div className="text-2xl font-bold text-orange-700">
                           {availability?.bookedSlots?.length || 0}
                         </div>
-                        <div className="text-sm text-orange-600">Booked</div>
+                        <div className="text-sm text-orange-600">{queueMode ? "Queue Bookings" : "Booked"}</div>
                       </div>
                       <div className="bg-gray-50 rounded-xl p-4 text-center">
                         <div className="text-2xl font-bold text-gray-700">
-                          {(availability?.availableSlots?.length || 0) +
-                            (availability?.bookedSlots?.length || 0)}
+                          {queueMode
+                            ? (availability?.bookedSlots?.length || 0)
+                            : (availability?.availableSlots?.length || 0) + (availability?.bookedSlots?.length || 0)}
                         </div>
-                        <div className="text-sm text-gray-600">Total Slots</div>
+                        <div className="text-sm text-gray-600">{queueMode ? "Total Tokens" : "Total Slots"}</div>
                       </div>
                     </div>
 
                     {/* Booked Appointments */}
                     {availability?.bookedSlots && availability.bookedSlots.length > 0 && (
                       <div className="mb-6">
-                        <h4 className="font-medium text-gray-900 mb-3">Booked Appointments</h4>
+                        <h4 className="font-medium text-gray-900 mb-3">
+                          {queueMode ? "OPD Queue Bookings" : "Booked Appointments"}
+                        </h4>
                         <div className="space-y-2">
-                          {availability.bookedSlots.map((slot) => (
+                          {getDisplayBookedSlots(availability.bookedSlots, queueMode).map((slot) => (
                             <div
-                              key={slot.time}
+                              key={slot.appointmentId || slot.queueNumber || slot.time}
                               className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-orange-50 rounded-xl border border-orange-200 gap-3">
                               <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-2 text-orange-700">
-                                  <Clock className="w-4 h-4" />
-                                  <span className="font-semibold">{slot.time}</span>
+                                  {queueMode ? <Hash className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
+                                  <span className="font-semibold">{getSlotDisplay(slot, queueMode)}</span>
                                 </div>
                                 <div>
                                   <p className="font-medium text-gray-900">{slot.patientName}</p>
-                                  <p className="text-sm text-gray-500">{slot.patientPhone}</p>
+                                  <p className="text-sm text-gray-500">
+                                    {slot.patientPhone}
+                                    {queueMode && slot.patientType ? ` • ${getPatientTypeLabel(slot.patientType)}` : ""}
+                                  </p>
                                 </div>
                               </div>
                               <button
@@ -597,8 +751,14 @@ export default function AvailabilityPage() {
 
                     {/* Available Slots */}
                     <div>
-                      <h4 className="font-medium text-gray-900 mb-3">Available Time Slots</h4>
-                      {availability?.availableSlots && availability.availableSlots.length > 0 ? (
+                      <h4 className="font-medium text-gray-900 mb-3">
+                        {queueMode ? "Queue Availability" : "Available Time Slots"}
+                      </h4>
+                      {queueMode ? (
+                        <div className="rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-800">
+                          OPD queue is enabled for this doctor. Fixed time slots are hidden; patients are managed by queue/token number.
+                        </div>
+                      ) : availability?.availableSlots && availability.availableSlots.length > 0 ? (
                         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
                           {availability.availableSlots.map((slot) => (
                             <div

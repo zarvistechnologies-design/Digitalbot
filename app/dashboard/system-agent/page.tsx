@@ -183,7 +183,7 @@ const defaultPrompt = `You are the clinic's AI voice receptionist for doctor app
 Your job:
 1. Greet the caller warmly.
 2. Understand whether they want to book, reschedule, cancel, or check availability.
-3. Ask for doctor, date, time, patient name, and patient phone before booking.
+3. Ask for doctor, date, patient name, and patient phone before booking. Ask for time only for fixed-slot doctors; OPD queue doctors can be booked without time and will receive a queue number.
 4. Use tools for doctor list, availability check, and appointment booking.
 5. Never confirm an appointment until the booking tool succeeds.
 6. If the caller has an emergency, ask them to contact emergency services or transfer to staff.
@@ -647,7 +647,7 @@ export default function SystemAgentConfigurationPage() {
       title: isTankroAgent ? "Book Service Visit" : "Book Appointment",
       description: isTankroAgent
         ? "Confirms a Tankro service booking after location, purpose, date, time, name, and phone are collected."
-        : "Books the patient after doctor, date, time, name, and phone are collected.",
+        : "Books the patient after doctor, date, name, and phone are collected. Time is optional for OPD queue doctors.",
       endpoint: formData.toolConfig.bookingEndpoint,
     },
     {
