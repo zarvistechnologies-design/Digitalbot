@@ -143,6 +143,8 @@ const getDayPeriods = (doctor: Doctor, dayOfWeek: number): TimePeriod[] => {
   return normalizePeriods(doctor.defaultWorkingPeriods, doctor.defaultWorkingHours);
 };
 
+const isQueueDoctor = (doctor: Doctor | null) => Boolean(doctor?.queueNumbering?.enabled);
+
 // ==================== TIME SLOTS ====================
 const generateTimeSlots = (
   periods: TimePeriod[],
@@ -345,7 +347,8 @@ function RecentBookings({ bookings }: { bookings: BookedAppointment[] }) {
                 <p className="text-xs font-semibold text-green-700">Number {booking.queueNumber}</p>
               )}
               <p className="text-xs text-gray-500">
-                {booking.doctorName} • {new Date(booking.date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })} at {booking.time}
+                {booking.doctorName} • {new Date(booking.date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                {booking.time ? ` at ${booking.time}` : booking.queueNumber ? ` • Queue No. ${booking.queueNumber}` : " • Queue booking"}
               </p>
             </div>
           </div>
@@ -422,6 +425,12 @@ export default function BookAppointmentPage() {
       date,
       time: "",
     }));
+
+    if (isQueueDoctor(selectedDoctor)) {
+      setAvailableSlots([]);
+      setStep(3);
+      return;
+    }
 
     // Fetch actual availability from API (properly filters out blocked/lunch times)
     try {
@@ -521,7 +530,7 @@ export default function BookAppointmentPage() {
       setError("Please select a date");
       return;
     }
-    if (!formData.time) {
+    if (!formData.time && !isQueueDoctor(selectedDoctor)) {
       setError("Please select a time slot");
       return;
     }
@@ -635,7 +644,7 @@ export default function BookAppointmentPage() {
             <div className="flex items-center justify-center gap-4">
               {[
                 { num: 1, label: "Select Doctor" },
-                { num: 2, label: "Choose Date & Time" },
+                { num: 2, label: "Choose Date" },
                 { num: 3, label: "Patient Details" },
               ].map((s, idx) => (
                 <div key={s.num} className="flex items-center">
@@ -737,7 +746,7 @@ export default function BookAppointmentPage() {
                   <div className="bg-gradient-to-r from-orange-600 to-cyan-600 px-6 py-4">
                     <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                       <Calendar className="h-5 w-5" />
-                      Step 2: Choose Date & Time for Dr. {selectedDoctor.name}
+                      Step 2: Choose {isQueueDoctor(selectedDoctor) ? "Date & Queue" : "Date & Time"} for Dr. {selectedDoctor.name}
                     </h2>
                   </div>
                   <div className="p-5 space-y-6">
@@ -772,8 +781,14 @@ export default function BookAppointmentPage() {
                       />
                     </div>
 
+                    {formData.date && isQueueDoctor(selectedDoctor) && (
+                      <div className="rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-800">
+                        OPD queue is enabled for this doctor. Time is not required; a queue number will be assigned after booking.
+                      </div>
+                    )}
+
                     {/* Time Slots */}
-                    {formData.date && availableSlots.length > 0 && (
+                    {formData.date && !isQueueDoctor(selectedDoctor) && availableSlots.length > 0 && (
                       <TimeSlotGrid
                         slots={availableSlots}
                         selectedTime={formData.time}
@@ -930,8 +945,10 @@ export default function BookAppointmentPage() {
                               })
                             : "-"}
                         </span>
-                        <span className="text-gray-500">Time:</span>
-                        <span className="font-medium text-gray-900">{formData.time || "-"}</span>
+                        <span className="text-gray-500">{isQueueDoctor(selectedDoctor) ? "Queue:" : "Time:"}</span>
+                        <span className="font-medium text-gray-900">
+                          {isQueueDoctor(selectedDoctor) ? "Assigned after booking" : formData.time || "-"}
+                        </span>
                         {selectedDoctor?.queueNumbering?.enabled && (
                           <>
                             <span className="text-gray-500">Patient Type:</span>

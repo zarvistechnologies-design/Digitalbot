@@ -11,6 +11,7 @@ import {
     ChevronRight,
     Clock,
     FileText,
+    Hash,
     HeartPulse,
     Menu,
     Phone,
@@ -38,7 +39,7 @@ interface Appointment {
   queueNumber?: string;
   status: "scheduled" | "confirmed" | "completed" | "cancelled" | "no-show" | "rescheduled";
   date: string;
-  time: string;
+  time?: string;
   callId?: string;
   source: "millis_ai_auto" | "manual" | "web" | "api";
   notes?: string;
@@ -51,6 +52,7 @@ interface Appointment {
     confidence_score?: number;
     doctor_name?: string;
     queueNumberingEnabled?: boolean;
+    queueSlot?: string;
   };
   createdAt: string;
   updatedAt: string;
@@ -103,6 +105,22 @@ function hasPatientAge(apt: Pick<Appointment, "age" | "patientAge">) {
 
 function hasPatientLocation(location: Appointment["location"]) {
   return Boolean(location?.trim());
+}
+
+function isQueueAppointment(apt: Pick<Appointment, "queueNumber" | "metadata">) {
+  return Boolean(apt.queueNumber || apt.metadata?.queueNumberingEnabled);
+}
+
+function getScheduleLabel(apt: Pick<Appointment, "time" | "queueNumber" | "metadata">) {
+  if (isQueueAppointment(apt)) {
+    return apt.queueNumber ? `Queue No. ${apt.queueNumber}` : "Queue number pending";
+  }
+
+  return apt.time?.trim() || "No time set";
+}
+
+function getScheduleTitle(apt: Pick<Appointment, "queueNumber" | "metadata">) {
+  return isQueueAppointment(apt) ? "Queue Number" : "Time";
 }
 
 // ==================== BADGE COMPONENTS ====================
@@ -287,8 +305,8 @@ function AppointmentModal({
                   </p>
                 </div>
                 <div className="bg-white p-4 rounded-xl border-2 border-gray-200">
-                  <p className="text-sm text-gray-600 font-semibold mb-1">Time</p>
-                  <p className="text-lg font-bold text-gray-900">{apt.time}</p>
+                  <p className="text-sm text-gray-600 font-semibold mb-1">{getScheduleTitle(apt)}</p>
+                  <p className="text-lg font-bold text-gray-900">{getScheduleLabel(apt)}</p>
                 </div>
                 {apt.queueNumber && (
                   <div className="bg-green-50 p-4 rounded-xl border-2 border-green-200">
@@ -1248,6 +1266,12 @@ export default function AppointmentsPage() {
                                   {Math.round(apt.metadata.confidence_score * 100)}% Confidence
                                 </span>
                               )}
+                              {isQueueAppointment(apt) && (
+                                <span className="flex items-center gap-1 px-2 py-1 bg-sky-100 text-sky-700 rounded-lg text-xs font-bold">
+                                  <Hash className="w-3 h-3" />
+                                  OPD Queue
+                                </span>
+                              )}
                             </div>
 
                             {/* Details Grid */}
@@ -1263,8 +1287,12 @@ export default function AppointmentsPage() {
                                 </span>
                               </div>
                               <div className="flex items-center gap-2 bg-orange-50 px-3 py-2 rounded-lg">
-                                <Clock className="w-4 h-4 text-orange-600" />
-                                <span className="text-sm font-semibold text-gray-700">{apt.time}</span>
+                                {isQueueAppointment(apt) ? (
+                                  <Hash className="w-4 h-4 text-orange-600" />
+                                ) : (
+                                  <Clock className="w-4 h-4 text-orange-600" />
+                                )}
+                                <span className="text-sm font-semibold text-gray-700">{getScheduleLabel(apt)}</span>
                               </div>
                               {apt.queueNumber && (
                                 <div className="flex items-center gap-2 bg-green-50 px-3 py-2 rounded-lg">
