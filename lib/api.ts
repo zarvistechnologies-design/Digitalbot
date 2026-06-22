@@ -140,6 +140,18 @@ export const voiceProviderAPI = {
 // ========================================
 // DOCTORS API
 // ========================================
+type WorkingPeriod = { start: string; end: string };
+type DoctorDaySchedule = {
+  start?: string;
+  end?: string;
+  periods?: WorkingPeriod[];
+  isWorking: boolean;
+};
+type DoctorWeeklySchedule = Partial<Record<
+  'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday',
+  DoctorDaySchedule
+>>;
+
 export const doctorsAPI = {
   // Get all doctors
   getAll: () => api.get('/doctors'),
@@ -152,6 +164,7 @@ export const doctorsAPI = {
     name: string;
     specialization: string;
     phone: string;
+    phone2?: string;
     email?: string;
     slotDuration?: number;
     allowMultipleBookings?: boolean;
@@ -167,7 +180,10 @@ export const doctorsAPI = {
       allowOverflow: boolean;
     };
     defaultWorkingHours?: { start: string; end: string };
+    defaultWorkingPeriods?: WorkingPeriod[];
     workingDays?: number[];
+    weeklySchedule?: DoctorWeeklySchedule | null;
+    defaultBlockedTimes?: Array<{ start: string; end: string; reason: string }>;
     calendarId?: string;
   }) => api.post('/doctors', data),
 
@@ -176,6 +192,7 @@ export const doctorsAPI = {
     name: string;
     specialization: string;
     phone: string;
+    phone2: string;
     email: string;
     slotDuration: number;
     allowMultipleBookings: boolean;
@@ -191,7 +208,10 @@ export const doctorsAPI = {
       allowOverflow: boolean;
     };
     defaultWorkingHours: { start: string; end: string };
+    defaultWorkingPeriods: WorkingPeriod[];
     workingDays: number[];
+    weeklySchedule: DoctorWeeklySchedule | null;
+    defaultBlockedTimes: Array<{ start: string; end: string; reason: string }>;
     active: boolean;
     calendarId: string;
   }>) => api.put(`/doctors/${id}`, data),
@@ -288,6 +308,7 @@ export const availabilityAPI = {
     doctorId: string;
     date: string;
     workingHours: { start: string; end: string };
+    workingPeriods?: WorkingPeriod[];
     blockedTimes?: Array<{ start: string; end: string; reason?: string }>;
   }) => api.put('/availability/working-hours', data),
 };

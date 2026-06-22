@@ -16,9 +16,15 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 // ==================== TYPES ====================
-interface DaySchedule {
+interface TimePeriod {
   start: string;
   end: string;
+}
+
+interface DaySchedule {
+  start?: string;
+  end?: string;
+  periods?: TimePeriod[];
   isWorking: boolean;
 }
 
@@ -38,6 +44,7 @@ interface Doctor {
   specialization: string;
   slotDuration: number;
   defaultWorkingHours: { start: string; end: string };
+  defaultWorkingPeriods?: TimePeriod[];
   workingDays: number[];
   weeklySchedule?: WeeklySchedule;
   active: boolean;
@@ -68,6 +75,7 @@ interface AvailabilityData {
   bookedSlots: TimeSlot[];
   isOnLeave: boolean;
   workingHours: { start: string; end: string };
+  workingPeriods?: TimePeriod[];
   alternateDoctors?: AlternateDoctor[];
 }
 
@@ -87,17 +95,29 @@ const getDayName = (date: Date): string => {
 
 const DAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"] as const;
 
-const getDayHours = (doctor: Doctor, date: Date): { start: string; end: string } | null => {
+const normalizePeriods = (periods?: TimePeriod[], fallback?: { start?: string; end?: string }): TimePeriod[] => {
+  if (periods && periods.length > 0) return periods;
+  if (fallback?.start && fallback?.end) return [{ start: fallback.start, end: fallback.end }];
+  return [];
+};
+
+const hasWeeklySchedule = (doctor: Doctor): boolean => Boolean(
+  doctor.weeklySchedule && Object.values(doctor.weeklySchedule).some(schedule => (
+    schedule && normalizePeriods(schedule.periods, schedule).length > 0
+  ))
+);
+
+const getDayPeriods = (doctor: Doctor, date: Date): TimePeriod[] => {
   const dayIndex = date.getDay();
   const dayKey = DAY_KEYS[dayIndex];
   const ws = doctor.weeklySchedule;
-  if (ws && ws[dayKey] && ws[dayKey].start && ws[dayKey].end) {
-    if (!ws[dayKey].isWorking) return null;
-    return { start: ws[dayKey].start, end: ws[dayKey].end };
+  if (hasWeeklySchedule(doctor)) {
+    const schedule = ws?.[dayKey];
+    if (!schedule || schedule.isWorking === false) return [];
+    return normalizePeriods(schedule.periods, schedule);
   }
-  // Fallback to default
-  if (!doctor.workingDays?.includes(dayIndex)) return null;
-  return doctor.defaultWorkingHours;
+  if (!doctor.workingDays?.includes(dayIndex)) return [];
+  return normalizePeriods(doctor.defaultWorkingPeriods, doctor.defaultWorkingHours);
 };
 
 const getMonthYear = (date: Date): string => {
@@ -411,21 +431,21 @@ export default function AvailabilityPage() {
                   <p className="text-sm text-gray-500">
                     {selectedDoctor.slotDuration} min slots •{" "}
                     Today: {(() => {
-                      const dayHours = getDayHours(selectedDoctor, selectedDate);
-                      const start = dayHours?.start || availability?.workingHours?.start || selectedDoctor.defaultWorkingHours.start;
-                      const end = dayHours?.end || availability?.workingHours?.end || selectedDoctor.defaultWorkingHours.end;
-                      return `${start} - ${end}`;
+                      const periods = availability?.workingPeriods?.length
+                        ? availability.workingPeriods
+                        : getDayPeriods(selectedDoctor, selectedDate);
+                      return periods.map(period => `${period.start} - ${period.end}`).join(", ") || "Not working";
                     })()}
                   </p>
-                  {selectedDoctor.weeklySchedule && Object.values(selectedDoctor.weeklySchedule).some(d => d && d.start && d.end) && (
+                  {hasWeeklySchedule(selectedDoctor) && (
                     <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1">
                       {(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const).map((dayLabel, idx) => {
-                        const hours = getDayHours(selectedDoctor, (() => { const d = new Date(selectedDate); d.setDate(d.getDate() - d.getDay() + idx); return d; })());
-                        if (!hours) return null;
+                        const periods = getDayPeriods(selectedDoctor, (() => { const d = new Date(selectedDate); d.setDate(d.getDate() - d.getDay() + idx); return d; })());
+                        if (periods.length === 0) return null;
                         const isSelectedDay = selectedDate.getDay() === idx;
                         return (
                           <span key={idx} className={`text-xs ${isSelectedDay ? "text-orange-700 font-semibold" : "text-gray-400"}`}>
-                            {dayLabel} {hours.start}-{hours.end}
+                            {dayLabel} {periods.map(period => `${period.start}-${period.end}`).join(", ")}
                           </span>
                         );
                       })}

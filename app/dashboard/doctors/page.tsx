@@ -22,9 +22,15 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 // ==================== TYPES ====================
+interface TimePeriod {
+  start: string;
+  end: string;
+}
+
 interface DaySchedule {
   start?: string;
   end?: string;
+  periods?: TimePeriod[];
   isWorking: boolean;
 }
 
@@ -52,6 +58,7 @@ interface Doctor {
   maxPatientsPerSlot?: number;
   queueNumbering?: QueueNumbering;
   defaultWorkingHours: { start: string; end: string };
+  defaultWorkingPeriods?: TimePeriod[];
   workingDays: number[];
   weeklySchedule?: WeeklySchedule;
   active: boolean;
@@ -87,6 +94,7 @@ interface DoctorFormData {
   maxPatientsPerSlot: number;
   queueNumbering: QueueNumbering;
   defaultWorkingHours: { start: string; end: string };
+  defaultWorkingPeriods: TimePeriod[];
   workingDays: number[];
   weeklySchedule?: WeeklySchedule;
   useDifferentTimings: boolean;
@@ -104,14 +112,44 @@ const DAYS_OF_WEEK = [
   { value: 6, label: "Sat", key: "saturday" as const },
 ];
 
-const DEFAULT_WEEKLY_SCHEDULE: WeeklySchedule = {
-  sunday:    { start: "09:00", end: "17:00", isWorking: false },
-  monday:    { start: "09:00", end: "17:00", isWorking: true },
-  tuesday:   { start: "09:00", end: "17:00", isWorking: true },
-  wednesday: { start: "09:00", end: "17:00", isWorking: true },
-  thursday:  { start: "09:00", end: "17:00", isWorking: true },
-  friday:    { start: "09:00", end: "17:00", isWorking: true },
-  saturday:  { start: "09:00", end: "17:00", isWorking: false },
+const createDaySchedule = (isWorking: boolean): DaySchedule => ({
+  start: "09:00",
+  end: "17:00",
+  periods: [{ start: "09:00", end: "17:00" }],
+  isWorking,
+});
+
+const createDefaultWeeklySchedule = (): WeeklySchedule => ({
+  sunday: createDaySchedule(false),
+  monday: createDaySchedule(true),
+  tuesday: createDaySchedule(true),
+  wednesday: createDaySchedule(true),
+  thursday: createDaySchedule(true),
+  friday: createDaySchedule(true),
+  saturday: createDaySchedule(false),
+});
+
+const normalizePeriods = (periods?: TimePeriod[], fallback?: { start?: string; end?: string }): TimePeriod[] => {
+  if (periods && periods.length > 0) return periods.map(period => ({ ...period }));
+  if (fallback?.start && fallback?.end) return [{ start: fallback.start, end: fallback.end }];
+  return [{ start: "09:00", end: "17:00" }];
+};
+
+const getPeriodsLabel = (periods: TimePeriod[]): string => (
+  periods.map(period => `${period.start} - ${period.end}`).join(", ")
+);
+
+const getPeriodsError = (periods: TimePeriod[], label: string): string | null => {
+  const sorted = [...periods].sort((a, b) => a.start.localeCompare(b.start));
+  for (let index = 0; index < sorted.length; index += 1) {
+    if (!sorted[index].start || !sorted[index].end || sorted[index].start >= sorted[index].end) {
+      return `${label}: end time must be after start time.`;
+    }
+    if (index > 0 && sorted[index].start < sorted[index - 1].end) {
+      return `${label}: timings cannot overlap.`;
+    }
+  }
+  return null;
 };
 
 const SPECIALIZATIONS = [
@@ -153,6 +191,7 @@ const initialFormData: DoctorFormData = {
     allowOverflow: true,
   },
   defaultWorkingHours: { start: "09:00", end: "17:00" },
+  defaultWorkingPeriods: [{ start: "09:00", end: "17:00" }],
   workingDays: [1, 2, 3, 4, 5],
   weeklySchedule: undefined,
   useDifferentTimings: false,
@@ -202,14 +241,52 @@ export default function DoctorsPage() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    let periodsError = getPeriodsError(formData.defaultWorkingPeriods, "Daily timings");
+    if (formData.useDifferentTimings) {
+      for (const day of DAYS_OF_WEEK) {
+        const schedule = formData.weeklySchedule?.[day.key];
+        if (schedule?.isWorking !== false) {
+          periodsError = getPeriodsError(normalizePeriods(schedule?.periods, schedule), `${day.label} timings`);
+          if (periodsError) break;
+        }
+      }
+    }
+    if (periodsError) {
+      alert(periodsError);
+      return;
+    }
     setSaving(true);
 
     try {
       // Build payload — only include weeklySchedule if different timings are enabled
       const { useDifferentTimings, ...payload } = formData;
+      const defaultPeriods = [...formData.defaultWorkingPeriods].sort((a, b) => a.start.localeCompare(b.start));
+      payload.defaultWorkingPeriods = defaultPeriods;
+      payload.defaultWorkingHours = {
+        start: defaultPeriods[0].start,
+        end: defaultPeriods[defaultPeriods.length - 1].end,
+      };
+
       if (!useDifferentTimings) {
-        // Send null (not undefined) so backend actually clears the weeklySchedule in DB
         payload.weeklySchedule = null as unknown as WeeklySchedule;
+      } else {
+        const weeklySchedule = createDefaultWeeklySchedule();
+        DAYS_OF_WEEK.forEach(({ key }) => {
+          const schedule = formData.weeklySchedule?.[key];
+          if (!schedule || schedule.isWorking === false) {
+            weeklySchedule[key] = { isWorking: false, periods: [] };
+            return;
+          }
+          const periods = normalizePeriods(schedule.periods, schedule)
+            .sort((a, b) => a.start.localeCompare(b.start));
+          weeklySchedule[key] = {
+            isWorking: true,
+            periods,
+            start: periods[0].start,
+            end: periods[periods.length - 1].end,
+          };
+        });
+        payload.weeklySchedule = weeklySchedule;
       }
 
       if (editingDoctor) {
@@ -245,7 +322,9 @@ export default function DoctorsPage() {
   // Check if a doctor has weeklySchedule set with any day having start/end
   const hasDifferentTimings = (ws?: WeeklySchedule) => {
     if (!ws) return false;
-    return Object.values(ws).some((day) => day && day.start && day.end);
+    return Object.values(ws).some((day) => (
+      day && ((day.periods?.length || 0) > 0 || (day.start && day.end))
+    ));
   };
 
   // Handle edit
@@ -266,8 +345,17 @@ export default function DoctorsPage() {
         ...(doctor.queueNumbering || {}),
       },
       defaultWorkingHours: doctor.defaultWorkingHours,
+      defaultWorkingPeriods: normalizePeriods(doctor.defaultWorkingPeriods, doctor.defaultWorkingHours),
       workingDays: doctor.workingDays,
-      weeklySchedule: hasDiffTimings ? doctor.weeklySchedule : { ...DEFAULT_WEEKLY_SCHEDULE },
+      weeklySchedule: hasDiffTimings
+        ? DAYS_OF_WEEK.reduce<WeeklySchedule>((schedule, day) => {
+            const existing = doctor.weeklySchedule?.[day.key];
+            schedule[day.key] = existing
+              ? { ...existing, periods: normalizePeriods(existing.periods, existing) }
+              : createDaySchedule(false);
+            return schedule;
+          }, {})
+        : createDefaultWeeklySchedule(),
       useDifferentTimings: hasDiffTimings,
       defaultBlockedTimes: (doctor as unknown as { defaultBlockedTimes?: BlockedTime[] }).defaultBlockedTimes || [],
       calendarId: doctor.calendarId || "",
@@ -464,7 +552,9 @@ export default function DoctorsPage() {
                     ) : (
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
-                        {formatWorkingDays(doctor.workingDays)} · {doctor.defaultWorkingHours.start} - {doctor.defaultWorkingHours.end}
+                        {formatWorkingDays(doctor.workingDays)} · {getPeriodsLabel(
+                          normalizePeriods(doctor.defaultWorkingPeriods, doctor.defaultWorkingHours)
+                        )}
                       </div>
                     )}
                     {/* Google Calendar Status */}
@@ -874,7 +964,7 @@ export default function DoctorsPage() {
                     onClick={() => setFormData({
                       ...formData,
                       useDifferentTimings: true,
-                      weeklySchedule: formData.weeklySchedule || { ...DEFAULT_WEEKLY_SCHEDULE },
+                      weeklySchedule: formData.weeklySchedule || createDefaultWeeklySchedule(),
                     })}
                     className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
                       formData.useDifferentTimings
@@ -889,40 +979,64 @@ export default function DoctorsPage() {
 
               {!formData.useDifferentTimings ? (
                 <>
-                  {/* Default Working Hours */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Start Time
-                      </label>
-                      <input
-                        type="time"
-                        value={formData.defaultWorkingHours.start}
-                        onChange={(e) =>
-                          setFormData({
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Daily appointment timings
+                    </label>
+                    {formData.defaultWorkingPeriods.map((period, index) => (
+                      <div key={index} className="flex items-center gap-2 mb-2">
+                        <input
+                          type="time"
+                          value={period.start}
+                          onChange={(event) => setFormData({
                             ...formData,
-                            defaultWorkingHours: { ...formData.defaultWorkingHours, start: e.target.value },
-                          })
-                        }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        End Time
-                      </label>
-                      <input
-                        type="time"
-                        value={formData.defaultWorkingHours.end}
-                        onChange={(e) =>
-                          setFormData({
+                            defaultWorkingPeriods: formData.defaultWorkingPeriods.map((item, itemIndex) => (
+                              itemIndex === index ? { ...item, start: event.target.value } : item
+                            )),
+                          })}
+                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                        <span className="text-gray-400">to</span>
+                        <input
+                          type="time"
+                          value={period.end}
+                          onChange={(event) => setFormData({
                             ...formData,
-                            defaultWorkingHours: { ...formData.defaultWorkingHours, end: e.target.value },
-                          })
-                        }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      />
-                    </div>
+                            defaultWorkingPeriods: formData.defaultWorkingPeriods.map((item, itemIndex) => (
+                              itemIndex === index ? { ...item, end: event.target.value } : item
+                            )),
+                          })}
+                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                        {formData.defaultWorkingPeriods.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => setFormData({
+                              ...formData,
+                              defaultWorkingPeriods: formData.defaultWorkingPeriods.filter((_, itemIndex) => itemIndex !== index),
+                            })}
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                            aria-label="Remove timing"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => setFormData({
+                        ...formData,
+                        defaultWorkingPeriods: [
+                          ...formData.defaultWorkingPeriods,
+                          { start: "18:00", end: "20:00" },
+                        ],
+                      })}
+                      className="flex items-center gap-2 px-3 py-2 text-orange-600 hover:bg-orange-50 rounded-lg border border-dashed border-orange-300"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add timing
+                    </button>
                   </div>
 
                   {/* Working Days */}
@@ -961,7 +1075,7 @@ export default function DoctorsPage() {
                     return (
                       <div
                         key={day.value}
-                        className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+                        className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
                           isWorking ? "bg-white border-gray-200" : "bg-gray-50 border-gray-100"
                         }`}
                       >
@@ -969,11 +1083,12 @@ export default function DoctorsPage() {
                         <button
                           type="button"
                           onClick={() => {
-                            const ws = { ...(formData.weeklySchedule || DEFAULT_WEEKLY_SCHEDULE) };
+                            const ws = { ...(formData.weeklySchedule || createDefaultWeeklySchedule()) };
                             ws[dayKey] = {
                               ...ws[dayKey],
                               start: ws[dayKey]?.start || "09:00",
                               end: ws[dayKey]?.end || "17:00",
+                              periods: normalizePeriods(ws[dayKey]?.periods, ws[dayKey]),
                               isWorking: !isWorking,
                             };
                             setFormData({ ...formData, weeklySchedule: ws });
@@ -988,29 +1103,74 @@ export default function DoctorsPage() {
                         </button>
 
                         {isWorking ? (
-                          <>
-                            <input
-                              type="time"
-                              value={schedule?.start || "09:00"}
-                              onChange={(e) => {
-                                const ws = { ...(formData.weeklySchedule || DEFAULT_WEEKLY_SCHEDULE) };
-                                ws[dayKey] = { ...ws[dayKey], start: e.target.value, isWorking: true };
+                          <div className="flex-1 space-y-2">
+                            {normalizePeriods(schedule?.periods, schedule).map((period, periodIndex, periods) => (
+                              <div key={periodIndex} className="flex flex-wrap sm:flex-nowrap items-center gap-2">
+                                <input
+                                  type="time"
+                                  value={period.start}
+                                  onChange={(event) => {
+                                    const ws = { ...(formData.weeklySchedule || createDefaultWeeklySchedule()) };
+                                    const updatedPeriods = periods.map((item, itemIndex) => (
+                                      itemIndex === periodIndex ? { ...item, start: event.target.value } : item
+                                    ));
+                                    ws[dayKey] = { ...ws[dayKey], periods: updatedPeriods, isWorking: true };
+                                    setFormData({ ...formData, weeklySchedule: ws });
+                                  }}
+                                  className="min-w-0 flex-1 px-2 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                />
+                                <span className="text-gray-400 text-sm">to</span>
+                                <input
+                                  type="time"
+                                  value={period.end}
+                                  onChange={(event) => {
+                                    const ws = { ...(formData.weeklySchedule || createDefaultWeeklySchedule()) };
+                                    const updatedPeriods = periods.map((item, itemIndex) => (
+                                      itemIndex === periodIndex ? { ...item, end: event.target.value } : item
+                                    ));
+                                    ws[dayKey] = { ...ws[dayKey], periods: updatedPeriods, isWorking: true };
+                                    setFormData({ ...formData, weeklySchedule: ws });
+                                  }}
+                                  className="min-w-0 flex-1 px-2 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                />
+                                {periods.length > 1 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const ws = { ...(formData.weeklySchedule || createDefaultWeeklySchedule()) };
+                                      ws[dayKey] = {
+                                        ...ws[dayKey],
+                                        periods: periods.filter((_, itemIndex) => itemIndex !== periodIndex),
+                                        isWorking: true,
+                                      };
+                                      setFormData({ ...formData, weeklySchedule: ws });
+                                    }}
+                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                                    aria-label={`Remove ${day.label} timing`}
+                                  >
+                                    <X className="w-4 h-4" />
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const ws = { ...(formData.weeklySchedule || createDefaultWeeklySchedule()) };
+                                const periods = normalizePeriods(ws[dayKey]?.periods, ws[dayKey]);
+                                ws[dayKey] = {
+                                  ...ws[dayKey],
+                                  periods: [...periods, { start: "18:00", end: "20:00" }],
+                                  isWorking: true,
+                                };
                                 setFormData({ ...formData, weeklySchedule: ws });
                               }}
-                              className="px-2 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                            />
-                            <span className="text-gray-400 text-sm">to</span>
-                            <input
-                              type="time"
-                              value={schedule?.end || "17:00"}
-                              onChange={(e) => {
-                                const ws = { ...(formData.weeklySchedule || DEFAULT_WEEKLY_SCHEDULE) };
-                                ws[dayKey] = { ...ws[dayKey], end: e.target.value, isWorking: true };
-                                setFormData({ ...formData, weeklySchedule: ws });
-                              }}
-                              className="px-2 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                            />
-                          </>
+                              className="flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                              Add timing
+                            </button>
+                          </div>
                         ) : (
                           <span className="text-gray-400 text-sm italic">Day off</span>
                         )}

@@ -27,9 +27,15 @@ interface BlockedTime {
   reason: string;
 }
 
-interface DaySchedule {
+interface TimePeriod {
   start: string;
   end: string;
+}
+
+interface DaySchedule {
+  start?: string;
+  end?: string;
+  periods?: TimePeriod[];
   isWorking: boolean;
 }
 
@@ -50,6 +56,7 @@ interface Doctor {
   phone: string;
   slotDuration: number;
   defaultWorkingHours: { start: string; end: string };
+  defaultWorkingPeriods?: TimePeriod[];
   workingDays: number[];
   weeklySchedule?: WeeklySchedule;
   defaultBlockedTimes?: BlockedTime[];
@@ -112,65 +119,57 @@ const initialFormData: FormData = {
 const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const DAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"] as const;
 
-const getDayHours = (doctor: Doctor, dayOfWeek: number): { start: string; end: string } | null => {
+const normalizePeriods = (periods?: TimePeriod[], fallback?: { start?: string; end?: string }): TimePeriod[] => {
+  if (periods && periods.length > 0) return periods;
+  if (fallback?.start && fallback?.end) return [{ start: fallback.start, end: fallback.end }];
+  return [];
+};
+
+const hasWeeklySchedule = (doctor: Doctor): boolean => Boolean(
+  doctor.weeklySchedule && Object.values(doctor.weeklySchedule).some(schedule => (
+    schedule && (normalizePeriods(schedule.periods, schedule).length > 0)
+  ))
+);
+
+const getDayPeriods = (doctor: Doctor, dayOfWeek: number): TimePeriod[] => {
   const dayKey = DAY_KEYS[dayOfWeek];
   const ws = doctor.weeklySchedule;
-  if (ws && ws[dayKey] && ws[dayKey].start && ws[dayKey].end) {
-    if (!ws[dayKey].isWorking) return null;
-    return { start: ws[dayKey].start, end: ws[dayKey].end };
+  if (hasWeeklySchedule(doctor)) {
+    const schedule = ws?.[dayKey];
+    if (!schedule || schedule.isWorking === false) return [];
+    return normalizePeriods(schedule.periods, schedule);
   }
-  // Fallback to default
-  if (!doctor.workingDays?.includes(dayOfWeek)) return null;
-  return doctor.defaultWorkingHours;
+  if (!doctor.workingDays?.includes(dayOfWeek)) return [];
+  return normalizePeriods(doctor.defaultWorkingPeriods, doctor.defaultWorkingHours);
 };
 
 // ==================== TIME SLOTS ====================
 const generateTimeSlots = (
-  start: string,
-  end: string,
+  periods: TimePeriod[],
   duration: number,
   blockedTimes: BlockedTime[] = []
 ): TimeSlot[] => {
   const slots: TimeSlot[] = [];
-  const [startHour, startMin] = start.split(":").map(Number);
-  const [endHour, endMin] = end.split(":").map(Number);
-
-  let currentHour = startHour;
-  let currentMin = startMin;
-
-  const isTimeInRange = (time: string, rangeStart: string, rangeEnd: string): boolean => {
-    const [h, m] = time.split(":").map(Number);
-    const [sh, sm] = rangeStart.split(":").map(Number);
-    const [eh, em] = rangeEnd.split(":").map(Number);
-    
-    const timeMinutes = h * 60 + m;
-    const startMinutes = sh * 60 + sm;
-    const endMinutes = eh * 60 + em;
-    
-    return timeMinutes >= startMinutes && timeMinutes < endMinutes;
+  const toMinutes = (time: string) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
   };
 
-  while (currentHour < endHour || (currentHour === endHour && currentMin < endMin)) {
-    const timeStr = `${currentHour.toString().padStart(2, "0")}:${currentMin.toString().padStart(2, "0")}`;
-    
-    // Check if this time falls within any blocked time
-    let isBlocked = false;
-    let blockReason = "";
-    
-    for (const blocked of blockedTimes) {
-      if (isTimeInRange(timeStr, blocked.start, blocked.end)) {
-        isBlocked = true;
-        blockReason = blocked.reason || "Break";
-        break;
-      }
-    }
-    
-    slots.push({ time: timeStr, isBlocked, blockReason });
-
-    currentMin += duration;
-    while (currentMin >= 60) {
-      currentMin -= 60;
-      currentHour += 1;
+  for (const period of periods) {
+    let currentMinutes = toMinutes(period.start);
+    const periodEnd = toMinutes(period.end);
+    while (currentMinutes + duration <= periodEnd) {
+      const timeStr = `${Math.floor(currentMinutes / 60).toString().padStart(2, "0")}:${(currentMinutes % 60).toString().padStart(2, "0")}`;
+      const slotEnd = currentMinutes + duration;
+      const blocked = blockedTimes.find(item => (
+        currentMinutes < toMinutes(item.end) && slotEnd > toMinutes(item.start)
+      ));
+      slots.push({
+        time: timeStr,
+        isBlocked: Boolean(blocked),
+        blockReason: blocked?.reason || "",
+      });
+      currentMinutes += duration;
     }
   }
 
@@ -214,10 +213,12 @@ function DoctorCard({
           <div className="mt-3 space-y-1.5">
             <div className="flex items-center gap-2 text-xs text-gray-600">
               <Clock className="h-3.5 w-3.5" />
-              {doctor.weeklySchedule && Object.values(doctor.weeklySchedule).some(d => d && d.start && d.end) ? (
+              {hasWeeklySchedule(doctor) ? (
                 <span className="text-orange-600">Custom hours per day</span>
               ) : (
-                <span>{doctor.defaultWorkingHours?.start} - {doctor.defaultWorkingHours?.end}</span>
+                <span>{normalizePeriods(doctor.defaultWorkingPeriods, doctor.defaultWorkingHours).map(period => (
+                  `${period.start}-${period.end}`
+                )).join(", ")}</span>
               )}
             </div>
             <div className="flex items-center gap-2 text-xs text-gray-600">
@@ -409,8 +410,8 @@ export default function BookAppointmentPage() {
     const dayOfWeek = selectedDate.getDay();
 
     // Check if the selected day is a working day for the doctor
-    const dayHours = getDayHours(selectedDoctor, dayOfWeek);
-    if (!dayHours) {
+    const dayPeriods = getDayPeriods(selectedDoctor, dayOfWeek);
+    if (dayPeriods.length === 0) {
       setError(`Doctor is not available on ${DAYS_OF_WEEK[dayOfWeek]}. Please select a working day.`);
       setTimeout(() => setError(null), 3000);
       return;
@@ -442,10 +443,8 @@ export default function BookAppointmentPage() {
       // Add blocked times for display (so user can see when breaks are)
       // Only use doctor's configured blocked times - if not set, show all slots
       const blockedTimes = selectedDoctor.defaultBlockedTimes || [];
-      const hours = getDayHours(selectedDoctor, dayOfWeek);
       const allSlots = generateTimeSlots(
-        hours?.start || selectedDoctor.defaultWorkingHours?.start || "09:00",
-        hours?.end || selectedDoctor.defaultWorkingHours?.end || "17:00",
+        dayPeriods,
         selectedDoctor.slotDuration || 30,
         blockedTimes
       );
@@ -472,10 +471,8 @@ export default function BookAppointmentPage() {
       console.error("Failed to fetch availability:", err);
       // Fallback to local generation - only use doctor's configured blocked times
       const blockedTimes = selectedDoctor.defaultBlockedTimes || [];
-      const hours = getDayHours(selectedDoctor, dayOfWeek);
       const slots = generateTimeSlots(
-        hours?.start || selectedDoctor.defaultWorkingHours?.start || "09:00",
-        hours?.end || selectedDoctor.defaultWorkingHours?.end || "17:00",
+        dayPeriods,
         selectedDoctor.slotDuration || 30,
         blockedTimes
       );
@@ -752,15 +749,16 @@ export default function BookAppointmentPage() {
                       <div className="flex flex-wrap gap-2 mb-3">
                         <span className="text-xs text-gray-500">Working Days:</span>
                         {DAYS_OF_WEEK.map((dayLabel, idx) => {
-                          const hours = getDayHours(selectedDoctor, idx);
-                          if (!hours) return null;
+                          const periods = getDayPeriods(selectedDoctor, idx);
+                          if (periods.length === 0) return null;
+                          const periodsLabel = periods.map(period => `${period.start}-${period.end}`).join(", ");
                           return (
                             <span
                               key={idx}
                               className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full"
-                              title={`${hours.start} - ${hours.end}`}
+                              title={periodsLabel}
                             >
-                              {dayLabel} {selectedDoctor.weeklySchedule ? `(${hours.start}-${hours.end})` : ""}
+                              {dayLabel} {hasWeeklySchedule(selectedDoctor) ? `(${periodsLabel})` : ""}
                             </span>
                           );
                         })}
