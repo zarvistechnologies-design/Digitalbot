@@ -4,26 +4,23 @@ import Sidebar from "@/components/Sidebar";
 import { tankroAPI } from "@/lib/api";
 import {
   AlertCircle,
-  Calendar,
-  CheckCircle2,
   Clock,
-  ClipboardList,
-  Droplets,
   Loader2,
+  Lock,
   MapPin,
   Menu,
   MessageSquare,
   Phone,
   RefreshCw,
   Search,
-  User,
+  Send,
 } from "lucide-react";
-import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 interface TankroMessage {
-  role: "user" | "assistant" | "system";
+  role: "user" | "assistant" | "admin" | "system";
   text: string;
+  messageId?: string;
   createdAt: string;
 }
 
@@ -51,7 +48,7 @@ interface TankroSession {
   phone: string;
   customerName?: string;
   state: string;
-  status: "active" | "completed" | "handoff" | "abandoned";
+  status: "active" | "completed" | "handoff" | "abandoned" | "closed";
   district?: string;
   propertyType?: string;
   serviceType?: string;
@@ -66,6 +63,12 @@ interface TankroSession {
   messages: TankroMessage[];
   lastMessageAt: string;
   createdAt: string;
+  replyWindow?: {
+    canReply: boolean;
+    lastCustomerMessageAt?: string | null;
+    expiresAt?: string | null;
+    remainingMs?: number;
+  };
 }
 
 const statusStyles: Record<TankroSession["status"], string> = {
@@ -73,6 +76,7 @@ const statusStyles: Record<TankroSession["status"], string> = {
   completed: "bg-green-100 text-green-700 border-green-200",
   handoff: "bg-blue-100 text-blue-700 border-blue-200",
   abandoned: "bg-gray-100 text-gray-700 border-gray-200",
+  closed: "bg-slate-100 text-slate-700 border-slate-200",
 };
 
 const stateLabels: Record<string, string> = {
@@ -85,23 +89,10 @@ const stateLabels: Record<string, string> = {
   awaiting_name: "Name",
   completed: "Completed",
   handoff: "Handoff",
+  closed_24h: "Closed",
 };
 
-const serviceLabels: Record<string, string> = {
-  tank_cleaning: "Tank Cleaning",
-  roof_care: "Roof Care",
-  callback: "Callback",
-  complaint: "Complaint",
-  other: "Other",
-};
-
-const sourceLabels: Record<string, string> = {
-  millis_ai_auto: "AI",
-  manual: "Manual",
-  web: "Web",
-  api: "API",
-  whatsapp_bot: "WhatsApp",
-};
+const REPLY_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 export default function TankroSessionsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -125,7 +116,9 @@ export default function TankroSessionsPage() {
       const rows = response.data.data || [];
       setSessions(rows);
       setCounts(response.data.counts || {});
-      setSelectedId((current) => current || rows[0]?._id || "");
+      setSelectedId((current) =>
+        rows.some((session: TankroSession) => session._id === current) ? current : rows[0]?._id || ""
+      );
     } catch (err: any) {
       setError(err.response?.data?.error || "Failed to load Tankro sessions");
     } finally {
@@ -142,258 +135,376 @@ export default function TankroSessionsPage() {
   }, [selectedId, sessions]);
 
   const activeCount = counts.byStatus?.active || 0;
-  const completedCount = counts.byStatus?.completed || 0;
   const handoffCount = counts.byStatus?.handoff || 0;
+  const closedCount = counts.byStatus?.closed || 0;
+
+  const sendAdminMessage = useCallback(async (sessionId: string, message: string) => {
+    try {
+      const response = await tankroAPI.sendSessionMessage(sessionId, message);
+      const updatedSession = response.data.session;
+      if (updatedSession) {
+        setSessions((current) =>
+          current.map((session) => (session._id === sessionId ? updatedSession : session))
+        );
+        setSelectedId(updatedSession._id);
+      }
+    } catch (err: any) {
+      const updatedSession = err.response?.data?.session;
+      if (updatedSession) {
+        setSessions((current) =>
+          current.map((session) => (session._id === sessionId ? updatedSession : session))
+        );
+        setSelectedId(updatedSession._id);
+      }
+      throw err;
+    }
+  }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white lg:h-screen lg:overflow-hidden">
       {!sidebarOpen && (
         <button
           onClick={() => setSidebarOpen(true)}
-          className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-xl shadow-lg border border-gray-200"
+          className="fixed left-4 top-4 z-50 rounded-xl border border-gray-200 bg-white p-3 shadow-lg lg:hidden"
+          aria-label="Open sidebar"
         >
-          <Menu className="w-6 h-6 text-gray-700" />
+          <Menu className="h-6 w-6 text-gray-700" />
         </button>
       )}
 
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      <main className="lg:pl-64">
-        <div className="p-4 lg:p-8 pt-20 lg:pt-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
-            <div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <MessageSquare className="w-8 h-8 text-orange-600" />
-                Tankro Bot Sessions
-              </h1>
-              <p className="text-gray-600 mt-1">WhatsApp conversations, booking state, and customer replies</p>
-            </div>
-            <button
-              onClick={fetchSessions}
-              disabled={loading}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-            >
-              <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-              Refresh
-            </button>
-          </div>
+      <main className="lg:h-screen lg:overflow-hidden lg:pl-64">
+        <div className="flex min-h-screen flex-col pt-16 lg:h-full lg:min-h-0 lg:p-3 lg:pt-3">
+          <div className="grid min-h-0 flex-1 overflow-hidden border border-gray-200 bg-white shadow-xl lg:rounded-xl lg:grid-cols-[420px_minmax(0,1fr)] xl:grid-cols-[440px_minmax(0,1fr)]">
+            <aside className="flex min-h-[520px] flex-col overflow-hidden border-r border-gray-200 bg-white lg:min-h-0">
+              <div className="shrink-0 border-b border-gray-200 bg-white px-4 py-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-orange-600 text-sm font-bold text-white shadow-sm shadow-orange-200">
+                      T
+                    </div>
+                    <div className="min-w-0">
+                      <h1 className="truncate text-base font-bold text-gray-900">Tankro Bot Sessions</h1>
+                      <p className="truncate text-xs text-gray-500">{sessions.length} conversations</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={fetchSessions}
+                    disabled={loading}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-gray-600 transition hover:bg-orange-50 hover:text-orange-600 disabled:opacity-60"
+                    aria-label="Refresh sessions"
+                  >
+                    <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+                  </button>
+                </div>
 
-          {error && (
-            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 flex items-center gap-3">
-              <AlertCircle className="w-5 h-5" />
-              <span>{error}</span>
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
-            <Metric label="Sessions" value={sessions.length} icon={<MessageSquare className="w-5 h-5" />} />
-            <Metric label="Active" value={activeCount} icon={<Clock className="w-5 h-5" />} />
-            <Metric label="Completed" value={completedCount} icon={<CheckCircle2 className="w-5 h-5" />} />
-            <Metric label="Handoff" value={handoffCount} icon={<User className="w-5 h-5" />} />
-          </div>
-
-          <div className="bg-white rounded-xl border border-gray-200 p-4 mb-6 shadow-sm">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-              <div className="relative md:col-span-3">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Search phone, customer, district, or message"
-                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                />
-              </div>
-              <select
-                value={statusFilter}
-                onChange={(event) => setStatusFilter(event.target.value)}
-                className="px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              >
-                <option value="All">All status</option>
-                <option value="active">Active</option>
-                <option value="completed">Completed</option>
-                <option value="handoff">Handoff</option>
-                <option value="abandoned">Abandoned</option>
-              </select>
-            </div>
-          </div>
-
-          {loading ? (
-            <div className="flex items-center justify-center py-24">
-              <Loader2 className="w-10 h-10 animate-spin text-orange-600" />
-            </div>
-          ) : sessions.length === 0 ? (
-            <div className="text-center py-16 border border-dashed border-gray-300 rounded-2xl">
-              <MessageSquare className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900">No sessions found</h3>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 xl:grid-cols-[420px_1fr] gap-6">
-              <div className="space-y-3">
-                {sessions.map((session) => {
-                  const sessionLocation = getSessionLocation(session);
-
-                  return (
-                    <button
-                      key={session._id}
-                      onClick={() => setSelectedId(session._id)}
-                      className={`w-full text-left bg-white rounded-xl border p-4 shadow-sm transition-colors ${
-                        selectedSession?._id === session._id
-                          ? "border-orange-300 ring-2 ring-orange-100"
-                          : "border-gray-200 hover:border-orange-200"
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <p className="font-bold text-gray-900 truncate">{session.customerName || session.phone}</p>
-                          <p className="text-sm text-gray-500 flex items-center gap-2 mt-1">
-                            <Phone className="w-4 h-4" />
-                            <span className="truncate">{session.phone}</span>
-                          </p>
-                        </div>
-                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${statusStyles[session.status]}`}>
-                          {session.status}
-                        </span>
-                      </div>
-
-                      <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                        {sessionLocation && (
-                          <span className="px-2 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-100">
-                            {sessionLocation}
-                          </span>
-                        )}
-                        <span className="px-2 py-1 rounded-md bg-gray-50 text-gray-700 border border-gray-200">
-                          {stateLabels[session.state] || session.state}
-                        </span>
-                        {session.bookingId && (
-                          <span className="px-2 py-1 rounded-md bg-green-50 text-green-700 border border-green-100">
-                            Booking
-                          </span>
-                        )}
-                      </div>
-
-                      <p className="mt-3 text-sm text-gray-600 line-clamp-2">
-                        {getLastMessage(session)?.text || "No messages yet"}
-                      </p>
-                      <p className="mt-2 text-xs text-gray-400">
-                        {formatDateTime(session.lastMessageAt)}
-                      </p>
-                    </button>
-                  );
-                })}
+                <div className="mt-3 grid grid-cols-4 gap-2">
+                  <InboxStat label="All" value={sessions.length} />
+                  <InboxStat label="Active" value={activeCount} />
+                  <InboxStat label="Handoff" value={handoffCount} />
+                  <InboxStat label="Closed" value={closedCount} />
+                </div>
               </div>
 
-              <SessionDetail session={selectedSession} />
-            </div>
-          )}
+              {error && (
+                <div className="m-3 flex shrink-0 items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                  <AlertCircle className="h-4 w-4" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              <div className="shrink-0 border-b border-gray-200 bg-white p-3">
+                <div className="relative">
+                  <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                  <input
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                    placeholder="Search name, phone, location, or message"
+                    className="h-10 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-3 text-sm text-gray-900 outline-none transition focus:border-orange-300 focus:bg-white focus:ring-2 focus:ring-orange-100"
+                  />
+                </div>
+                <select
+                  value={statusFilter}
+                  onChange={(event) => setStatusFilter(event.target.value)}
+                  className="mt-2 h-9 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 text-xs font-semibold text-gray-700 outline-none transition focus:border-orange-300 focus:bg-white focus:ring-2 focus:ring-orange-100"
+                >
+                  <option value="All">All status</option>
+                  <option value="active">Active</option>
+                  <option value="completed">Completed</option>
+                  <option value="handoff">Handoff</option>
+                  <option value="abandoned">Abandoned</option>
+                  <option value="closed">Closed</option>
+                </select>
+              </div>
+
+              <div className="min-h-0 flex-1 overflow-y-auto bg-white p-2">
+                {loading ? (
+                  <div className="flex h-full items-center justify-center">
+                    <Loader2 className="h-8 w-8 animate-spin text-orange-600" />
+                  </div>
+                ) : sessions.length === 0 ? (
+                  <div className="flex h-full flex-col items-center justify-center px-6 text-center">
+                    <MessageSquare className="mb-3 h-11 w-11 text-gray-300" />
+                    <p className="text-sm font-semibold text-gray-900">No sessions found</p>
+                    <p className="mt-1 text-xs text-gray-500">Try changing search or status.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {sessions.map((session) => (
+                      <SessionCard
+                        key={session._id}
+                        session={session}
+                        selected={selectedSession?._id === session._id}
+                        onSelect={() => setSelectedId(session._id)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </aside>
+
+            <SessionDetail session={selectedSession} onSendMessage={sendAdminMessage} />
+          </div>
         </div>
       </main>
     </div>
   );
 }
 
-function Metric({ label, value, icon }: { label: string; value: number; icon: ReactNode }) {
+function InboxStat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500 font-medium">{label}</p>
-        <span className="text-orange-600">{icon}</span>
-      </div>
-      <p className="text-3xl font-bold text-gray-900 mt-1">{value}</p>
+    <div className="rounded-lg border border-orange-100 bg-orange-50 px-2 py-1.5 text-center">
+      <p className="text-sm font-bold leading-none text-orange-700">{value}</p>
+      <p className="mt-0.5 truncate text-[10px] font-semibold uppercase text-gray-500">{label}</p>
     </div>
   );
 }
 
-function SessionDetail({ session }: { session: TankroSession | null }) {
-  if (!session) return null;
-
-  const booking = getSessionBooking(session);
+function SessionCard({
+  session,
+  selected,
+  onSelect,
+}: {
+  session: TankroSession;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  const replyWindow = getClientReplyWindow(session);
+  const lastMessage = getLastMessage(session);
   const sessionLocation = getSessionLocation(session);
-  const serviceType = booking?.serviceType || session.serviceType || "";
-  const propertyType = booking?.propertyType || session.propertyType || "";
-  const tankCapacity = booking?.tankCapacityLitres ?? session.tankCapacityLitres;
-  const quotedPrice = booking?.quotedPrice ?? session.quotedPrice;
-  const bookingTime = formatBookingTime(session);
-  const bookingSource = booking?.source ? formatSourceLabel(booking.source) : "";
+  const stateLabel = stateLabels[session.state] || formatStatusLabel(session.state);
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-      <div className="p-5 border-b border-gray-200">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <h2 className="text-xl font-bold text-gray-900">{session.customerName || session.phone}</h2>
-            <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-600">
-              <span className="inline-flex items-center gap-2">
-                <Phone className="w-4 h-4" />
-                {session.phone}
-              </span>
-              {sessionLocation && (
-                <span className="inline-flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  {sessionLocation}
-                </span>
-              )}
-              <span className="inline-flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                {stateLabels[session.state] || session.state}
-              </span>
+    <button
+      onClick={onSelect}
+      className={`w-full rounded-lg border px-3 py-2.5 text-left transition ${
+        selected
+          ? "border-orange-300 bg-orange-50 shadow-sm ring-2 ring-orange-100"
+          : "border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50"
+      }`}
+    >
+      <div className="flex min-w-0 gap-3">
+        <div
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+            replyWindow.canReply ? "bg-orange-600 text-white" : "bg-gray-200 text-gray-600"
+          }`}
+        >
+          {getInitials(session.customerName || session.phone)}
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex min-w-0 items-start justify-between gap-2">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-bold text-gray-900">{session.customerName || "Tankro customer"}</p>
+              <div className="mt-0.5 flex min-w-0 items-center gap-1.5 text-xs text-gray-500">
+                <Phone className="h-3.5 w-3.5 shrink-0" />
+                <span className="truncate">{session.phone}</span>
+              </div>
             </div>
+            <span className="shrink-0 text-[11px] font-medium text-gray-400">{formatDateTime(session.lastMessageAt)}</span>
           </div>
-          <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${statusStyles[session.status]}`}>
-            {session.status}
-          </span>
-        </div>
 
-        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 text-sm">
-          {sessionLocation && <Info label="Location" value={sessionLocation} icon={<MapPin className="w-4 h-4" />} />}
-          {serviceType && <Info label="Service" value={serviceLabels[serviceType] || serviceType} icon={<Droplets className="w-4 h-4" />} />}
-          {propertyType && <Info label="Property" value={propertyType} icon={<ClipboardList className="w-4 h-4" />} />}
-          {session.tankCount ? <Info label="Tanks" value={String(session.tankCount)} icon={<ClipboardList className="w-4 h-4" />} /> : null}
-          {tankCapacity ? <Info label="Capacity" value={`${tankCapacity} L`} icon={<Droplets className="w-4 h-4" />} /> : null}
-          {bookingTime && <Info label="Booking" value={bookingTime} icon={<Calendar className="w-4 h-4" />} />}
-          {quotedPrice ? <Info label="Price" value={`Rs. ${quotedPrice}`} icon={<CheckCircle2 className="w-4 h-4" />} /> : null}
-          {bookingSource && <Info label="Source" value={bookingSource} icon={<MessageSquare className="w-4 h-4" />} />}
-        </div>
-        {booking?.customerAddress && (
-          <p className="mt-3 text-sm text-gray-600 bg-gray-50 border border-gray-100 rounded-lg p-3">
-            {booking.customerAddress}
+          {sessionLocation && (
+            <div className="mt-1 flex min-w-0 items-center gap-1.5 text-xs text-gray-500">
+              <MapPin className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">{sessionLocation}</span>
+            </div>
+          )}
+
+          <p className="mt-2 line-clamp-2 text-xs leading-5 text-gray-600">
+            {lastMessage?.text || "No messages captured yet"}
           </p>
-        )}
-      </div>
 
-      <div className="p-5 max-h-[620px] overflow-y-auto space-y-3 bg-gray-50">
-        {(session.messages || []).map((message, index) => (
-          <div
-            key={`${message.createdAt}-${index}`}
-            className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-          >
-            <div
-              className={`max-w-[82%] rounded-xl px-4 py-3 text-sm shadow-sm ${
-                message.role === "user"
-                  ? "bg-orange-600 text-white"
-                  : "bg-white text-gray-800 border border-gray-200"
+          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+            <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${statusStyles[session.status]}`}>
+              {formatStatusLabel(session.status)}
+            </span>
+            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-bold text-gray-600">
+              {stateLabel}
+            </span>
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                replyWindow.canReply ? "bg-orange-100 text-orange-700" : "bg-gray-100 text-gray-500"
               }`}
             >
-              <p className="whitespace-pre-wrap leading-relaxed">{message.text}</p>
-              <p className={`mt-2 text-[11px] ${message.role === "user" ? "text-orange-100" : "text-gray-400"}`}>
-                {formatDateTime(message.createdAt)}
-              </p>
-            </div>
+              {replyWindow.canReply ? `${formatWindowRemaining(replyWindow.remainingMs)} left` : "closed"}
+            </span>
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+    </button>
   );
 }
 
-function Info({ label, value, icon }: { label: string; value: string; icon: ReactNode }) {
+function SessionDetail({
+  session,
+  onSendMessage,
+}: {
+  session: TankroSession | null;
+  onSendMessage: (sessionId: string, message: string) => Promise<void>;
+}) {
+  const [messageText, setMessageText] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMessageText("");
+    setSendError(null);
+  }, [session?._id]);
+
+  if (!session) {
+    return (
+      <section className="flex min-h-[520px] min-w-0 flex-col items-center justify-center bg-orange-50 px-6 text-center lg:min-h-0">
+        <div className="rounded-xl bg-white/90 px-6 py-5 shadow-sm">
+          <MessageSquare className="mx-auto mb-3 h-10 w-10 text-orange-500" />
+          <p className="text-sm font-semibold text-gray-900">Select a session</p>
+          <p className="mt-1 text-xs text-gray-500">The customer conversation will appear here.</p>
+        </div>
+      </section>
+    );
+  }
+
+  const sessionLocation = getSessionLocation(session);
+  const replyWindow = getClientReplyWindow(session);
+  const messages = session.messages || [];
+
+  const handleSend = async () => {
+    const cleanMessage = messageText.trim();
+    if (!cleanMessage || !replyWindow.canReply) return;
+
+    try {
+      setSending(true);
+      setSendError(null);
+      await onSendMessage(session._id, cleanMessage);
+      setMessageText("");
+    } catch (err: any) {
+      setSendError(err.response?.data?.error || "Failed to send message");
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
-    <div className="rounded-lg bg-gray-50 border border-gray-100 p-3">
-      <p className="text-xs text-gray-500 font-medium flex items-center gap-2">
-        <span className="text-orange-600">{icon}</span>
-        {label}
-      </p>
-      <p className="mt-1 font-semibold text-gray-900 truncate">{value}</p>
-    </div>
+    <section className="flex min-h-[520px] min-w-0 flex-col overflow-hidden bg-orange-50 lg:min-h-0">
+      <div className="flex h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-4">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-100 text-sm font-bold text-orange-700">
+            {getInitials(session.customerName || session.phone)}
+          </div>
+          <div className="min-w-0">
+            <h2 className="truncate text-sm font-semibold text-gray-900">{session.customerName || session.phone}</h2>
+            <p className="mt-0.5 truncate text-xs text-gray-500">
+              {session.phone}{sessionLocation ? ` / ${sessionLocation}` : ""} / {formatStatusLabel(session.status)}
+            </p>
+          </div>
+        </div>
+        <div className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold ${
+          replyWindow.canReply ? "bg-orange-100 text-orange-700" : "bg-gray-100 text-gray-500"
+        }`}>
+          {replyWindow.canReply ? <Clock className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
+          {replyWindow.canReply ? `${formatWindowRemaining(replyWindow.remainingMs)} left` : "closed"}
+        </div>
+      </div>
+
+      <div
+        className="min-h-0 flex-1 overflow-y-auto px-3 py-4 sm:px-6 lg:px-8"
+        style={{
+          backgroundColor: "#fff7ed",
+          backgroundImage:
+            "radial-gradient(rgba(234,88,12,0.08) 1px, transparent 1px), radial-gradient(rgba(249,115,22,0.05) 1px, transparent 1px)",
+          backgroundPosition: "0 0, 10px 10px",
+          backgroundSize: "20px 20px",
+        }}
+      >
+        {messages.length === 0 && (
+          <div className="flex h-full items-center justify-center">
+            <div className="rounded-xl bg-white/90 px-6 py-5 text-center shadow-sm">
+              <MessageSquare className="mx-auto mb-2 h-9 w-9 text-orange-500" />
+              <p className="text-sm font-semibold text-gray-900">No messages captured yet</p>
+              <p className="mt-1 text-xs text-gray-500">Customer and bot replies will appear here.</p>
+            </div>
+          </div>
+        )}
+        <div className="space-y-2">
+          {messages.map((message, index) => {
+            const outbound = message.role === "assistant" || message.role === "admin";
+
+            return (
+              <div
+                key={`${message.createdAt}-${index}`}
+                className={`flex ${outbound ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-[84%] rounded-lg px-3 py-2 text-sm shadow-sm sm:max-w-[72%] ${
+                    outbound ? "rounded-tr-sm bg-orange-600 text-white" : "rounded-tl-sm bg-white text-gray-900"
+                  }`}
+                >
+                  <p className="whitespace-pre-wrap leading-relaxed">{message.text || "[message]"}</p>
+                  <div className="mt-1 flex items-center justify-end gap-2">
+                    <span className={`text-[10px] ${outbound ? "text-orange-100" : "text-gray-500"}`}>
+                      {message.role === "admin" ? "Admin" : message.role === "assistant" ? "Bot" : "Customer"}
+                    </span>
+                    <span className={`text-[10px] ${outbound ? "text-orange-100" : "text-gray-500"}`}>{formatDateTime(message.createdAt)}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="shrink-0 border-t border-gray-200 bg-white px-4 py-3">
+        {sendError && (
+          <div className="mb-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            {sendError}
+          </div>
+        )}
+        <div className="flex items-end gap-2">
+          <textarea
+            value={messageText}
+            onChange={(event) => setMessageText(event.target.value)}
+            disabled={!replyWindow.canReply || sending}
+            rows={1}
+            placeholder={replyWindow.canReply ? "Type a message" : "Session closed after 24 hours"}
+            className="min-h-[44px] flex-1 resize-none rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-orange-300 focus:bg-white focus:ring-2 focus:ring-orange-100 disabled:bg-gray-100 disabled:text-gray-400"
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                handleSend();
+              }
+            }}
+          />
+          <button
+            onClick={handleSend}
+            disabled={!messageText.trim() || !replyWindow.canReply || sending}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-orange-600 text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+            aria-label={replyWindow.canReply ? "Send message" : "Chat closed"}
+          >
+            {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : replyWindow.canReply ? <Send className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -410,9 +521,69 @@ function getSessionLocation(session: TankroSession) {
   return booking?.locationName || booking?.district || session.district || "";
 }
 
+function getInitials(value?: string) {
+  const clean = String(value || "T").replace(/[^\w\s+]/g, " ").trim();
+  if (!clean) return "T";
+  if (clean.startsWith("+")) return clean.slice(-2).toUpperCase();
+  return clean
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
+
+function getLastCustomerMessageDate(session: TankroSession) {
+  const messages = session.messages || [];
+  for (let index = messages.length - 1; index >= 0; index -= 1) {
+    const message = messages[index];
+    if (message.role === "user" && message.createdAt) {
+      const date = new Date(message.createdAt);
+      if (!Number.isNaN(date.getTime())) return date;
+    }
+  }
+
+  const fallback = new Date(session.createdAt || session.lastMessageAt);
+  return Number.isNaN(fallback.getTime()) ? null : fallback;
+}
+
+function getClientReplyWindow(session: TankroSession) {
+  const serverExpiresAt = session.replyWindow?.expiresAt ? new Date(session.replyWindow.expiresAt) : null;
+  const lastCustomerDate = getLastCustomerMessageDate(session);
+  const expiresAt = serverExpiresAt && !Number.isNaN(serverExpiresAt.getTime())
+    ? serverExpiresAt
+    : lastCustomerDate
+      ? new Date(lastCustomerDate.getTime() + REPLY_WINDOW_MS)
+      : null;
+  const remainingMs = expiresAt ? Math.max(0, expiresAt.getTime() - Date.now()) : 0;
+
+  return {
+    canReply: session.status !== "closed" && Boolean(expiresAt) && remainingMs > 0,
+    expiresAt: expiresAt ? expiresAt.toISOString() : null,
+    remainingMs,
+  };
+}
+
+function formatWindowRemaining(value?: number) {
+  const remainingMs = Math.max(0, value || 0);
+  const hours = Math.floor(remainingMs / (60 * 60 * 1000));
+  const minutes = Math.floor((remainingMs % (60 * 60 * 1000)) / (60 * 1000));
+  if (hours > 0) return `${hours}h ${minutes}m`;
+  if (minutes > 0) return `${minutes}m`;
+  return "less than 1m";
+}
+
+function formatStatusLabel(status?: string) {
+  if (!status) return "Unknown";
+  if (status === "closed") return "Closed";
+  return status.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
 function formatDateTime(value?: string) {
   if (!value) return "N/A";
-  return new Date(value).toLocaleString("en-IN", {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString("en-IN", {
     day: "numeric",
     month: "short",
     hour: "2-digit",
@@ -420,26 +591,3 @@ function formatDateTime(value?: string) {
   });
 }
 
-function formatBookingTime(session: TankroSession) {
-  const booking = getSessionBooking(session);
-  const date = booking?.date || session.selectedDate || session.preferredDate;
-  const time = booking?.time || session.selectedTime || session.preferredTime;
-  if (!date && !time) return "";
-  return [formatDateOnly(date), time].filter(Boolean).join(" ");
-}
-
-function formatDateOnly(value?: string) {
-  if (!value) return "";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-function formatSourceLabel(source?: string) {
-  if (!source) return "";
-  return sourceLabels[source] || source.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
-}

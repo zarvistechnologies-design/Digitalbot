@@ -469,6 +469,9 @@ export const tankroAPI = {
   }) => api.get('/tankro/sessions', { params }),
 
   getSession: (id: string) => api.get(`/tankro/sessions/${id}`),
+
+  sendSessionMessage: (id: string, message: string) =>
+    api.post(`/tankro/sessions/${id}/send-message`, { message }),
 };
 
 export const tankroCalendarAPI = {
