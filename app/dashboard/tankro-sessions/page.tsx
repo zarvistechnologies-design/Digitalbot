@@ -450,16 +450,16 @@ function SessionDetail({
             const isCustomer = message.role === "user";
             const isAdmin = message.role === "admin";
             const bubbleStyle = isCustomer
-              ? "rounded-tl-sm bg-white text-gray-900"
+              ? "rounded-tr-sm bg-orange-600 text-white"
               : isAdmin
-                ? "rounded-tr-sm bg-orange-600 text-white"
-                : "rounded-tr-sm border border-orange-200 bg-orange-100 text-gray-900";
-            const metaStyle = isAdmin ? "text-orange-100" : "text-gray-500";
+                ? "rounded-tl-sm border border-orange-200 bg-orange-100 text-gray-900"
+                : "rounded-tl-sm bg-white text-gray-900";
+            const metaStyle = isCustomer ? "text-orange-100" : "text-gray-500";
 
             return (
               <div
                 key={`${message.createdAt}-${index}`}
-                className={`flex ${isCustomer ? "justify-start" : "justify-end"}`}
+                className={`flex ${isCustomer ? "justify-end" : "justify-start"}`}
               >
                 <div
                   className={`max-w-[84%] rounded-lg px-3 py-2 text-sm shadow-sm sm:max-w-[72%] ${bubbleStyle}`}
