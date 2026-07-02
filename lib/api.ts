@@ -607,6 +607,15 @@ export const healthiqureAPI = {
     order?: string;
   }) => api.get('/healthiqure/leads', { params }),
 
+  // Get every phone number that has messaged the bot (including greeting-only users)
+  getContacts: (params?: {
+    location?: string;
+    service?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }) => api.get('/healthiqure/contacts', { params }),
+
   // Mark lead as contacted (supports historyId for archived queries)
   markContacted: (phone: string, historyId?: string) =>
     api.patch(`/healthiqure/leads/${phone}/contacted${historyId ? `?historyId=${historyId}` : ''}`),

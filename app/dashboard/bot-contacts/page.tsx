@@ -1,5 +1,6 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import { useWebSocket } from "@/components/hooks/use-websocket";
 import { healthiqureAPI } from "@/lib/api";
 import {
     AlertCircle,
@@ -34,6 +35,7 @@ interface Lead {
     gender?: string;
     type?: string;
   };
+  profileName?: string | null;
   adminContacted: boolean;
   lastActivity: string;
   createdAt: string;
@@ -117,17 +119,15 @@ export default function BotContactsPage() {
   const [locations, setLocations] = useState<string[]>([]);
   const [services, setServices] = useState<string[]>([]);
 
-  const fetchLeads = useCallback(async () => {
-    setLoading(true);
+  const fetchContacts = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true);
     try {
-      const res = await healthiqureAPI.getLeads({
+      const res = await healthiqureAPI.getContacts({
         location: filterLocation !== "all" ? filterLocation : undefined,
         service: filterService !== "all" ? filterService : undefined,
         search: search || undefined,
         page,
         limit: 50,
-        sort: "lastActivity",
-        order: "desc",
       });
       const data = res.data;
       setLeads(data.data || []);
@@ -142,13 +142,19 @@ export default function BotContactsPage() {
     } catch (err) {
       console.error("Failed to fetch contacts:", err);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, [filterLocation, filterService, search, page]);
 
   useEffect(() => {
-    fetchLeads();
-  }, [fetchLeads]);
+    fetchContacts();
+  }, [fetchContacts]);
+
+  useWebSocket({
+    onMessage: useCallback((data: { type?: string }) => {
+      if (data.type === "healthiqure-contact-update") fetchContacts(true);
+    }, [fetchContacts]),
+  });
 
   // Reset page on filter change
   useEffect(() => {
@@ -225,7 +231,7 @@ export default function BotContactsPage() {
               </span>
             )}
             <button
-              onClick={() => { fetchLeads(); clearSelection(); }}
+              onClick={() => { fetchContacts(); clearSelection(); }}
               className="p-2 rounded-lg hover:bg-gray-100 text-gray-500"
               title="Refresh"
             >
@@ -336,14 +342,14 @@ export default function BotContactsPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-medium text-gray-900 truncate">
-                            {lead.patientInfo?.name || formatPhone(lead.phone)}
+                            {lead.patientInfo?.name || lead.profileName || formatPhone(lead.phone)}
                           </span>
                           {lead.adminContacted && (
                             <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
                           )}
                         </div>
                         <div className="flex items-center gap-2 mt-0.5">
-                          {lead.patientInfo?.name && (
+                          {(lead.patientInfo?.name || lead.profileName) && (
                             <span className="text-xs text-gray-500 flex items-center gap-0.5">
                               <Phone className="w-3 h-3" />
                               {formatPhone(lead.phone)}
