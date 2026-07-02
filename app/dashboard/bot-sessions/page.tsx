@@ -1,5 +1,6 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import { useWebSocket } from "@/components/hooks/use-websocket";
 import { healthiqureAPI } from "@/lib/api";
 import {
     ChevronDown,
@@ -143,8 +144,8 @@ export default function BotSessionsPage() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
+  const fetchData = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true);
     try {
       const [sessionsRes, analyticsRes] = await Promise.all([
         healthiqureAPI.getSessions({ limit: 200 }),
@@ -155,9 +156,17 @@ export default function BotSessionsPage() {
     } catch (err) {
       console.error("Failed to fetch bot data:", err);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, [dateRange]);
+
+  useWebSocket({
+    onMessage: useCallback((data: any) => {
+      if (data.type === "healthiqure-session-update") {
+        fetchData(true);
+      }
+    }, [fetchData]),
+  });
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
