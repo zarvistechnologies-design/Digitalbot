@@ -360,27 +360,35 @@ function AppointmentModal({
                   if (Array.isArray(transcriptionData)) {
                     return (
                       <div className="space-y-3">
-                        {transcriptionData.map((msg: any, idx: number) => (
-                          <div
-                            key={idx}
-                            className={`p-3 rounded-lg ${
-                              msg.role === "user"
-                                ? "bg-orange-50 border-l-4 border-orange-500"
-                                : "bg-orange-50 border-l-4 border-orange-500"
-                            }`}
-                          >
-                            <div className="flex items-center gap-2 mb-1">
-                              <span
-                                className={`text-xs font-bold uppercase ${
-                                  msg.role === "user" ? "text-orange-700" : "text-orange-700"
-                                }`}
-                              >
-                                {msg.role === "user" ? "Patient" : "Assistant"}
-                              </span>
+                        {transcriptionData.map((msg: any, idx: number) => {
+                          const messageText = typeof msg === "string"
+                            ? msg
+                            : msg.content || msg.text || msg.message || msg.transcript || msg.value || msg.utterance || "";
+
+                          if (!String(messageText).trim()) return null;
+
+                          return (
+                            <div
+                              key={idx}
+                              className={`p-3 rounded-lg ${
+                                msg.role === "user"
+                                  ? "bg-orange-50 border-l-4 border-orange-500"
+                                  : "bg-orange-50 border-l-4 border-orange-500"
+                              }`}
+                            >
+                              <div className="flex items-center gap-2 mb-1">
+                                <span
+                                  className={`text-xs font-bold uppercase ${
+                                    msg.role === "user" ? "text-orange-700" : "text-orange-700"
+                                  }`}
+                                >
+                                  {msg.role === "user" ? "Patient" : "Assistant"}
+                                </span>
+                              </div>
+                              <p className="text-sm text-gray-800 leading-relaxed">{messageText}</p>
                             </div>
-                            <p className="text-sm text-gray-800 leading-relaxed">{msg.content}</p>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     );
                   }

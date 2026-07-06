@@ -929,6 +929,11 @@ const Dashboard = () => {
                                       if (Array.isArray(chatData)) {
                                         return chatData.map((message: any, index: number) => {
                                           if (message.role === 'tool') return null;
+                                          const messageText = typeof message === 'string'
+                                            ? message
+                                            : message.content || message.text || message.message || message.transcript || message.value || message.utterance || '';
+
+                                          if (!String(messageText).trim()) return null;
 
                                           return (
                                             <div
@@ -947,7 +952,7 @@ const Dashboard = () => {
                                               <p className={`text-sm whitespace-pre-wrap leading-relaxed ${
                                                 message.role === 'assistant' ? 'text-orange-700' : 'text-gray-800'
                                               }`}>
-                                                {message.content}
+                                                {messageText}
                                               </p>
                                             </div>
                                           );
