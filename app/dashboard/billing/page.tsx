@@ -4,6 +4,7 @@ import {
     ArrowRight,
     Award,
     BarChart3,
+    CalendarDays,
     Check,
     CheckCircle2,
     ChevronDown, ChevronUp,
@@ -30,7 +31,7 @@ import {
     X,
     Zap
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
 
@@ -67,6 +68,39 @@ interface FAQ {
   answer: string;
 }
 
+type UsagePeriod = 'this_month' | 'last_month' | 'last_30_days' | 'all_time' | 'custom';
+
+interface UsageSummary {
+  creditsSpent: number;
+  callCount: number;
+  durationMinutes: number;
+  averageCreditsPerCall: number;
+  creditsPurchased: number;
+  amountPaid: number;
+  purchaseCount: number;
+}
+
+const toDateInputValue = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const formatCredits = (value: number) => value.toLocaleString(undefined, {
+  minimumFractionDigits: value % 1 === 0 ? 0 : 1,
+  maximumFractionDigits: 1
+});
+
+const formatDateLabel = (value: string) => {
+  const [year, month, day] = value.split('-').map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString(undefined, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+};
+
 export default function Billing() {
   const [mounted, setMounted] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -78,6 +112,24 @@ export default function Billing() {
   const [isCustom, setIsCustom] = useState(false);
   const [activeView, setActiveView] = useState<'credits' | 'calls'>('credits');
   const [loading, setLoading] = useState(false);
+  const [usagePeriod, setUsagePeriod] = useState<UsagePeriod>('this_month');
+  const [customStartDate, setCustomStartDate] = useState(() => {
+    const now = new Date();
+    return toDateInputValue(new Date(now.getFullYear(), now.getMonth(), 1));
+  });
+  const [customEndDate, setCustomEndDate] = useState(() => toDateInputValue(new Date()));
+  const [usageLoading, setUsageLoading] = useState(false);
+  const usageRequestId = useRef(0);
+  const [usageError, setUsageError] = useState('');
+  const [usageSummary, setUsageSummary] = useState<UsageSummary>({
+    creditsSpent: 0,
+    callCount: 0,
+    durationMinutes: 0,
+    averageCreditsPerCall: 0,
+    creditsPurchased: 0,
+    amountPaid: 0,
+    purchaseCount: 0
+  });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successData, setSuccessData] = useState<{
     creditsAdded: number;
@@ -188,6 +240,11 @@ export default function Billing() {
     }
   }, [activeView]);
 
+  useEffect(() => {
+    if (!mounted || activeView !== 'calls') return;
+    fetchUsageSummary();
+  }, [mounted, activeView, usagePeriod, customStartDate, customEndDate]);
+
   // Fetch user info from backend
   const fetchUserInfo = async () => {
     try {
@@ -269,6 +326,165 @@ export default function Billing() {
       console.error('❌ Error fetching credit balance:', error);
     }
   };
+
+  const getUsageDateRange = () => {
+    const now = new Date();
+    if (usagePeriod === 'all_time') return null;
+    if (usagePeriod === 'custom') {
+      return { startDate: customStartDate, endDate: customEndDate };
+    }
+    if (usagePeriod === 'last_month') {
+      return {
+        startDate: toDateInputValue(new Date(now.getFullYear(), now.getMonth() - 1, 1)),
+        endDate: toDateInputValue(new Date(now.getFullYear(), now.getMonth(), 0))
+      };
+    }
+    if (usagePeriod === 'last_30_days') {
+      const start = new Date(now);
+      start.setDate(start.getDate() - 29);
+      return { startDate: toDateInputValue(start), endDate: toDateInputValue(now) };
+    }
+    return {
+      startDate: toDateInputValue(new Date(now.getFullYear(), now.getMonth(), 1)),
+      endDate: toDateInputValue(now)
+    };
+  };
+
+  const fetchUsageSummary = async () => {
+    const requestId = ++usageRequestId.current;
+    const userId = getUserId();
+    if (!userId) return;
+
+    const range = getUsageDateRange();
+    if (range && (!range.startDate || !range.endDate || range.startDate > range.endDate)) {
+      setUsageError('Choose a valid date range. The start date must be before the end date.');
+      setUsageLoading(false);
+      return;
+    }
+
+    try {
+      setUsageLoading(true);
+      setUsageError('');
+      const params = new URLSearchParams({ userId });
+      if (range) {
+        params.set('startDate', range.startDate);
+        params.set('endDate', range.endDate);
+        params.set('timezoneOffset', String(new Date().getTimezoneOffset()));
+      }
+      const response = await fetch(`${API_BASE_URL}/billing/credits/usage-summary?${params}`);
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Unable to load usage');
+      }
+      if (requestId === usageRequestId.current) setUsageSummary(result.data);
+    } catch (error) {
+      if (requestId === usageRequestId.current) {
+        setUsageError(error instanceof Error ? error.message : 'Unable to load usage');
+      }
+    } finally {
+      if (requestId === usageRequestId.current) setUsageLoading(false);
+    }
+  };
+
+  const getUsageRangeLabel = () => {
+    const range = getUsageDateRange();
+    if (!range) return 'All recorded usage';
+    if (!range.startDate || !range.endDate) return 'Choose both dates';
+    return `${formatDateLabel(range.startDate)} – ${formatDateLabel(range.endDate)}`;
+  };
+
+  const UsageByPeriodCard = () => (
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-lg mb-8 p-6">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <CalendarDays className="w-5 h-5 text-orange-600" />
+            <h2 className="text-base font-bold text-slate-900">Usage by period</h2>
+          </div>
+          <p className="text-xs text-slate-500">Choose a period to see exactly what you spent during those dates.</p>
+        </div>
+        <select
+          value={usagePeriod}
+          onChange={(event) => setUsagePeriod(event.target.value as UsagePeriod)}
+          aria-label="Usage period"
+          className="w-full lg:w-52 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+        >
+          <option value="this_month">This month</option>
+          <option value="last_month">Last month</option>
+          <option value="last_30_days">Last 30 days</option>
+          <option value="all_time">All time</option>
+          <option value="custom">Custom dates</option>
+        </select>
+      </div>
+
+      <p className="text-xs font-semibold text-slate-600 mb-4">Showing: {getUsageRangeLabel()}</p>
+
+      {usagePeriod === 'custom' && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 mb-5 rounded-xl bg-slate-50 border border-slate-200">
+          <label className="text-xs font-bold text-slate-600">
+            From
+            <input
+              type="date"
+              value={customStartDate}
+              max={customEndDate || undefined}
+              onChange={(event) => setCustomStartDate(event.target.value)}
+              className="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900"
+            />
+          </label>
+          <label className="text-xs font-bold text-slate-600">
+            To
+            <input
+              type="date"
+              value={customEndDate}
+              min={customStartDate || undefined}
+              max={toDateInputValue(new Date())}
+              onChange={(event) => setCustomEndDate(event.target.value)}
+              className="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900"
+            />
+          </label>
+        </div>
+      )}
+
+      {usageError ? (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{usageError}</div>
+      ) : usageLoading ? (
+        <div className="flex min-h-32 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold text-slate-600">
+          <Loader2 className="w-4 h-4 mr-2 animate-spin text-orange-600" />
+          Updating usage for this period…
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="rounded-xl border border-orange-200 bg-orange-50 p-4">
+            <p className="text-xs font-bold text-orange-700 uppercase tracking-wide">Credits spent</p>
+            <p className="text-2xl font-black text-slate-900 mt-2">{formatCredits(usageSummary.creditsSpent)}</p>
+            <p className="text-xs text-slate-500 mt-1">Deducted for billed calls</p>
+          </div>
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <p className="text-xs font-bold text-slate-600 uppercase tracking-wide">Billed calls</p>
+            <p className="text-2xl font-black text-slate-900 mt-2">{usageSummary.callCount.toLocaleString()}</p>
+            <p className="text-xs text-slate-500 mt-1">Connected, chargeable calls</p>
+          </div>
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <p className="text-xs font-bold text-slate-600 uppercase tracking-wide">Call minutes</p>
+            <p className="text-2xl font-black text-slate-900 mt-2">{formatCredits(usageSummary.durationMinutes)}</p>
+            <p className="text-xs text-slate-500 mt-1">Total billed duration</p>
+          </div>
+          <div className="rounded-xl border border-green-200 bg-green-50 p-4">
+            <p className="text-xs font-bold text-green-700 uppercase tracking-wide">Credits purchased</p>
+            <p className="text-2xl font-black text-slate-900 mt-2">{formatCredits(usageSummary.creditsPurchased)}</p>
+            <p className="text-xs text-slate-500 mt-1">From completed payments</p>
+          </div>
+        </div>
+      )}
+
+      {!usageLoading && !usageError && (
+        <div className="flex flex-wrap gap-x-6 gap-y-2 mt-5 pt-4 border-t border-slate-200 text-xs text-slate-600">
+          <span>Payments in period: <strong className="text-slate-900">{usageSummary.purchaseCount}</strong></span>
+          <span>Amount paid: <strong className="text-slate-900">${usageSummary.amountPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></span>
+        </div>
+      )}
+    </div>
+  );
 
   // Fetch transactions
   const fetchTransactions = async () => {
@@ -1208,68 +1424,29 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           {/* Credit Management View */}
           {activeView === 'credits' && (
             <>
-              {/* Credit Usage Card */}
+              {/* Available Credit Balance */}
               {mounted && (
-                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-lg mb-6 transition-all">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-xs font-bold text-slate-500 mb-1 uppercase tracking-wide">Current Balance</p>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold bg-gradient-to-r from-orange-600 via-orange-600 to-cyan-600 bg-clip-text text-transparent">
-                      {userCredits.remaining}
-                    </span>
-                    <span className="text-base text-slate-500 font-medium">/ {userCredits.total} credits</span>
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-lg mb-6 overflow-hidden">
+                  <div className="p-6 bg-gradient-to-br from-orange-50 via-white to-amber-50 text-slate-900 border-b border-orange-100">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-xs font-bold text-orange-700 mb-2 uppercase tracking-widest">Available credits</p>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-4xl sm:text-5xl font-black text-slate-900">
+                            {formatCredits(userCredits.remaining)}
+                          </span>
+                          <span className="text-base text-slate-600 font-medium">credits</span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-3">This is your live balance and the amount you can spend now.</p>
+                      </div>
+                      <div className="w-14 h-14 shrink-0 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-200">
+                        <Wallet className="w-7 h-7 text-white" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-md">
-                  <Zap className="w-8 h-8 text-white" />
-                </div>
-              </div>
 
-              {/* Progress Bar */}
-              <div className="mb-4">
-                <div className="flex justify-between items-center mb-1.5">
-                  <span className="text-xs font-semibold text-slate-600">Credits Used</span>
-                  <span className="text-xs font-bold text-orange-600">{userCredits.percentage.toFixed(1)}%</span>
                 </div>
-                <div className="bg-slate-200 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-orange-500 via-orange-500 to-cyan-500 transition-all duration-700"
-                    style={{ width: `${userCredits.percentage}%` }}
-                  >
-                  </div>
-                </div>
-                <p className="text-xs text-slate-500 mt-1.5">
-                  You've used <span className="font-bold text-orange-600">{userCredits.used}</span> credits this month
-                </p>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-3 pt-4 border-t border-slate-200">
-                <div className="text-center">
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center mx-auto mb-1.5">
-                    <TrendingUp className="w-5 h-5 text-white" />
-                  </div>
-                  <p className="text-base font-bold text-slate-900">{userCredits.used}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">Used</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-cyan-600 rounded-lg flex items-center justify-center mx-auto mb-1.5">
-                    <Wallet className="w-5 h-5 text-white" />
-                  </div>
-                  <p className="text-base font-bold text-slate-900">{userCredits.remaining}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">Remaining</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-pink-600 rounded-lg flex items-center justify-center mx-auto mb-1.5">
-                    <BarChart3 className="w-5 h-5 text-white" />
-                  </div>
-                  <p className="text-base font-bold text-slate-900">{userCredits.total}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">Total</p>
-                </div>
-              </div>
-            </div>
-          )}
+              )}
 
           {/* AutoPay Toggle */}
           {mounted && (
@@ -1671,38 +1848,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           {/* Calls View */}
           {activeView === 'calls' && mounted && (
             <>
-              {/* Call Statistics */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <Phone className="w-12 h-12" />
-                    <div className="text-right">
-                      <p className="text-3xl font-black">{callStats.totalCalls}</p>
-                      <p className="text-sm font-medium opacity-90">Total Calls</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-orange-500 to-cyan-600 rounded-2xl p-6 text-white shadow-xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <Clock className="w-12 h-12" />
-                    <div className="text-right">
-                      <p className="text-3xl font-black">{callStats.totalDuration}</p>
-                      <p className="text-sm font-medium opacity-90">Total Duration</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-orange-500 to-pink-600 rounded-2xl p-6 text-white shadow-xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <Zap className="w-12 h-12" />
-                    <div className="text-right">
-                      <p className="text-3xl font-black">{callStats.totalCreditsUsed}</p>
-                      <p className="text-sm font-medium opacity-90">Credits Used</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <UsageByPeriodCard />
 
               {/* Recent Calls Table */}
               <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-xl overflow-hidden mb-8">
