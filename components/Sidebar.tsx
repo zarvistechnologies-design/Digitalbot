@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, FileText, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
+import { AlertTriangle, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -98,6 +98,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Service Bookings', href: '/dashboard/tankro-bookings', icon: ClipboardList });
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/tankro-sessions', icon: MessageSquare });
     }
+    if (['casino', 'ballys', "bally's casino", 'ballys-casino'].includes(selectedService)) {
+      serviceItems.push({ name: 'Reservations', href: '/dashboard/casino-reservations', icon: CalendarCheck });
+      serviceItems.push({ name: 'VIP Guests', href: '/dashboard/casino-vip-guests', icon: Crown });
+      serviceItems.push({ name: 'Membership', href: '/dashboard/casino-membership', icon: IdCard });
+      serviceItems.push({ name: 'Guest Messages', href: '/dashboard/casino-messages', icon: MessageSquare });
+      serviceItems.push({ name: 'Grievances', href: '/dashboard/casino-grievances', icon: AlertTriangle });
+      serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
+    }
     return serviceItems;
   };
 
@@ -117,7 +125,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     return (
       <>
         {/* Desktop Sidebar Skeleton */}
-        <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
+        <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:z-40">
           <div className="flex flex-col grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center shrink-0 px-4">
               <h1 className="text-2xl font-bold text-orange-600">
@@ -152,7 +160,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       </AnimatePresence>
 
       {/* Desktop Sidebar */}
-      <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
+      <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:z-40">
         <div className="flex flex-col grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
 
           {/* Logo */}
