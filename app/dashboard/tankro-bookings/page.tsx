@@ -41,8 +41,8 @@ interface TankroBooking {
   serviceType: "tank_cleaning" | "roof_care" | "callback" | "complaint" | "other";
   tankCapacityLitres?: number;
   quotedPrice?: number;
-  date: string;
-  time: string;
+  date?: string | null;
+  time?: string | null;
   status: "scheduled" | "confirmed" | "completed" | "cancelled" | "rescheduled";
   source: string;
   notes?: string;
@@ -196,7 +196,9 @@ export default function TankroBookingsPage() {
 
   const todayCount = useMemo(() => {
     const today = new Date().toDateString();
-    return bookings.filter((booking) => new Date(booking.date).toDateString() === today).length;
+    return bookings.filter((booking) => (
+      booking.date ? new Date(booking.date).toDateString() === today : false
+    )).length;
   }, [bookings]);
 
   const selectedLocation = useMemo(() => {
@@ -482,14 +484,18 @@ export default function TankroBookingsPage() {
                                 {bookingLocation}
                               </span>
                             )}
-                            <span className="inline-flex items-center gap-2">
-                              <Calendar className="w-4 h-4" />
-                              {new Date(booking.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                            </span>
-                            <span className="inline-flex items-center gap-2">
-                              <Clock className="w-4 h-4" />
-                              {booking.time}
-                            </span>
+                            {booking.date && (
+                              <span className="inline-flex items-center gap-2">
+                                <Calendar className="w-4 h-4" />
+                                {new Date(booking.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                              </span>
+                            )}
+                            {booking.time && (
+                              <span className="inline-flex items-center gap-2">
+                                <Clock className="w-4 h-4" />
+                                {booking.time}
+                              </span>
+                            )}
                           </div>
                           {booking.customerAddress && (
                             <p className="mt-2 text-sm text-gray-600 bg-gray-50 border border-gray-100 rounded-lg p-3">
