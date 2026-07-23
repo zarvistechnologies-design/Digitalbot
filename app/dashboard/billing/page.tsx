@@ -665,7 +665,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
       // Razorpay options - use user info fetched from backend
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_RenAKHL0qTaSlA",
+        key: orderResult.data.keyId,
         amount: Math.round(orderResult.data.amount * 100),
         currency: orderResult.data.currency,
         name: "DigitalBot",
@@ -683,8 +683,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                userId // Include userId for payment verification
+                razorpay_signature: response.razorpay_signature
               })
             });
 
