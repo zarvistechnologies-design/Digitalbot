@@ -92,7 +92,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         },
         staleTime: 60_000,
       });
-      void akiaraAPI.getAnalytics({ days: 7 });
+      void queryClient.prefetchQuery({
+        queryKey: ['akiara', 'analytics', 7],
+        queryFn: async () => {
+          const response = await akiaraAPI.getAnalytics({ days: 7 });
+          return response.data?.data || null;
+        },
+        staleTime: 30_000,
+      });
     } else if (href === '/dashboard/akiara-tickets') {
       void queryClient.prefetchQuery({
         queryKey: ['akiara', 'tickets', 'initial'],

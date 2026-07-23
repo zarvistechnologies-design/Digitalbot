@@ -12,6 +12,7 @@ const STORAGE_KEY = "digitalbot-query-cache-v1";
 const shouldPersistQuery = (queryKey: readonly unknown[]) =>
   queryKey[0] === "doctors" ||
   queryKey[0] === "prompts" ||
+  (queryKey[0] === "akiara" && queryKey[1] === "analytics") ||
   (queryKey[0] === "tankro" && queryKey[1] === "summary");
 
 export default function QueryProvider({ children }: { children: ReactNode }) {

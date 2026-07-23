@@ -16,6 +16,7 @@ import {
 } from "@/components/dashboard/lazy-recharts";
 import { useWebSocket } from "@/components/hooks/use-websocket";
 import { akiaraAPI } from "@/lib/api";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
     AlertTriangle,
     ChevronDown,
@@ -170,7 +171,6 @@ interface User {
 export default function AkiaraSessionsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sessions, setSessions] = useState<AkiaraSession[]>([]);
-  const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterState, setFilterState] = useState("all");
@@ -182,6 +182,19 @@ export default function AkiaraSessionsPage() {
   const [customMsg, setCustomMsg] = useState("");
   const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const analyticsDays = parseInt(dateRange, 10);
+  const {
+    data: analytics = null,
+    refetch: refetchAnalytics,
+  } = useQuery<Analytics | null>({
+    queryKey: ["akiara", "analytics", analyticsDays],
+    queryFn: async () => {
+      const response = await akiaraAPI.getAnalytics({ days: analyticsDays });
+      return response.data?.data || null;
+    },
+    placeholderData: keepPreviousData,
+    staleTime: 30_000,
+  });
 
   useEffect(() => { 
     setMounted(true);
@@ -191,13 +204,6 @@ export default function AkiaraSessionsPage() {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const analyticsPromise = akiaraAPI
-      .getAnalytics({ days: parseInt(dateRange, 10) })
-      .catch((error) => {
-        console.error("Failed to fetch Akiara analytics:", error);
-        return null;
-      });
-
     try {
       const sessionsRes = await akiaraAPI.getSessions({ limit: 100, historyLimit: 20 });
       setSessions(sessionsRes.data?.data || []);
@@ -206,10 +212,7 @@ export default function AkiaraSessionsPage() {
     } finally {
       setLoading(false);
     }
-
-    const analyticsRes = await analyticsPromise;
-    if (analyticsRes) setAnalytics(analyticsRes.data?.data || null);
-  }, [dateRange]);
+  }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
@@ -218,8 +221,9 @@ export default function AkiaraSessionsPage() {
     onMessage: useCallback((data: any) => {
       if (data.type === 'akiara_session_update' || data.type === 'akiara_ticket_created') {
         fetchData();
+        void refetchAnalytics();
       }
-    }, [fetchData]),
+    }, [fetchData, refetchAnalytics]),
   });
 
   const handleSendMessage = async (phone: string) => {
@@ -324,7 +328,13 @@ export default function AkiaraSessionsPage() {
                   <option value="30">Last 30 days</option>
                   <option value="90">Last 90 days</option>
                 </select>
-                <button onClick={fetchData} className="h-10 w-10 flex items-center justify-center bg-white rounded-xl border border-slate-200 shadow-sm hover:bg-slate-50 hover:border-slate-300 transition-all">
+                <button
+                  onClick={() => {
+                    void fetchData();
+                    void refetchAnalytics();
+                  }}
+                  className="h-10 w-10 flex items-center justify-center bg-white rounded-xl border border-slate-200 shadow-sm hover:bg-slate-50 hover:border-slate-300 transition-all"
+                >
                   <RefreshCw className={`w-4 h-4 text-slate-500 ${loading ? "animate-spin" : ""}`} />
                 </button>
               </div>
