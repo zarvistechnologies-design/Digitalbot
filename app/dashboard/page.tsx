@@ -2,7 +2,7 @@
 import Sidebar from "@/components/Sidebar";
 import { useCachedFetch } from "@/components/hooks/use-cached-fetch";
 import { useWebSocket } from "@/components/hooks/use-websocket";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "@/components/dashboard/lazy-recharts";
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { CACHE_KEYS, invalidateCache } from "@/lib/cache";
 import { Activity, AlertCircle, ArrowDown, ArrowUp, BarChart3, Brain, CheckCircle, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, TrendingUp, X, XCircle, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
