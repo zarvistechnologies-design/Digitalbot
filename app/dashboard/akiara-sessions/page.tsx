@@ -1,22 +1,9 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
-import {
-    Area,
-    AreaChart,
-    Bar,
-    BarChart,
-    CartesianGrid,
-    Cell,
-    Pie,
-    PieChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
-} from "@/components/dashboard/lazy-recharts";
 import { useWebSocket } from "@/components/hooks/use-websocket";
 import { akiaraAPI } from "@/lib/api";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 import {
     AlertTriangle,
     ChevronDown,
@@ -25,7 +12,6 @@ import {
     Loader2,
     Menu,
     MessageSquare,
-    Package,
     RefreshCw,
     Search,
     Send,
@@ -35,6 +21,20 @@ import {
     Zap
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+
+const AkiaraAnalyticsCharts = dynamic(
+  () => import("@/components/dashboard/AkiaraAnalyticsCharts"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="mb-6 grid grid-cols-1 gap-3 lg:grid-cols-3">
+        {[0, 1, 2].map((item) => (
+          <div key={item} className="h-[450px] animate-pulse rounded-xl border border-slate-200/80 bg-white lg:h-[449px]" />
+        ))}
+      </div>
+    ),
+  }
+);
 
 interface AkiaraSession {
   _id: string;
@@ -76,8 +76,6 @@ interface Analytics {
   languageBreakdown: Record<string, number>;
   dailyStats: { date: string; sessions: number; tickets: number }[];
 }
-
-const chartColors = ["#f97316", "#10b981", "#8b5cf6", "#ef4444", "#06b6d4", "#f59e0b", "#ec4899", "#14b8a6"];
 
 const stateLabels: Record<string, string> = {
   WELCOME: "Welcome",
@@ -256,19 +254,6 @@ export default function AkiaraSessionsPage() {
     return true;
   });
 
-  // Pie chart data
-  const productPie = analytics?.productBreakdown
-    ? Object.entries(analytics.productBreakdown)
-        .filter(([, v]) => v > 0)
-        .map(([k, v]) => ({ name: productLabels[k] || k, value: v }))
-    : [];
-
-  const servicePie = analytics?.serviceBreakdown
-    ? Object.entries(analytics.serviceBreakdown)
-        .filter(([, v]) => v > 0)
-        .map(([k, v]) => ({ name: serviceLabels[k] || k, value: v }))
-    : [];
-
   if (loading && !analytics) {
     return (
       <div className="flex min-h-screen bg-[#f8fafc]">
@@ -366,74 +351,14 @@ export default function AkiaraSessionsPage() {
 
           {/* ===== CHARTS ===== */}
           {analytics && mounted && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-6">
-              {/* Daily Trend */}
-              <div className="lg:col-span-1 bg-white rounded-xl border border-slate-200/80 p-5">
-                <h3 className="text-sm font-semibold text-slate-700 mb-4 flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4 text-orange-500" /> Daily Trend
-                </h3>
-                <ResponsiveContainer width="100%" height={220}>
-                  <AreaChart data={analytics.dailyStats || []}>
-                    <defs>
-                      <linearGradient id="akSessGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#f97316" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                    <XAxis dataKey="date" stroke="#94a3b8" fontSize={10} tickFormatter={(d: string) => d.slice(5)} />
-                    <YAxis stroke="#94a3b8" fontSize={10} />
-                    <Tooltip contentStyle={{ backgroundColor: "rgba(255,255,255,0.97)", border: "1px solid #e2e8f0", borderRadius: "10px", fontSize: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.08)" }} />
-                    <Area type="monotone" dataKey="sessions" stroke="#f97316" fill="url(#akSessGrad)" strokeWidth={2} name="Sessions" />
-                    <Area type="monotone" dataKey="tickets" stroke="#ef4444" fill="transparent" strokeWidth={2} strokeDasharray="5 5" name="Tickets" />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* Product Pie */}
-              <div className="bg-white rounded-xl border border-slate-200/80 p-5">
-                <h3 className="text-sm font-semibold text-slate-700 mb-4 flex items-center gap-2">
-                  <Package className="w-4 h-4 text-orange-500" /> By Product
-                </h3>
-                {productPie.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={200}>
-                    <PieChart>
-                      <Pie data={productPie} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={40} outerRadius={70} paddingAngle={5} label={(e: { name: string; value: number }) => `${e.name}: ${e.value}`}>
-                        {productPie.map((_, i) => <Cell key={i} fill={chartColors[i % chartColors.length]} />)}
-                      </Pie>
-                      <Tooltip />
-                    </PieChart>
-                  </ResponsiveContainer>
-                ) : <p className="text-slate-400 text-center py-10 text-sm">No data yet</p>}
-                {/* Language breakdown */}
-                <div className="mt-4 pt-4 border-t border-slate-100">
-                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Languages</p>
-                  <div className="flex gap-1.5 flex-wrap">
-                    {Object.entries(analytics.languageBreakdown || {}).filter(([, v]) => v > 0).map(([k, v]) => (
-                      <span key={k} className="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-medium text-slate-600">{langLabels[k] || k}: {v}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Service Bar */}
-              <div className="bg-white rounded-xl border border-slate-200/80 p-5">
-                <h3 className="text-sm font-semibold text-slate-700 mb-4 flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-emerald-500" /> By Service Type
-                </h3>
-                {servicePie.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={220}>
-                    <BarChart data={servicePie} layout="vertical">
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                      <XAxis type="number" stroke="#94a3b8" fontSize={10} />
-                      <YAxis type="category" dataKey="name" stroke="#94a3b8" fontSize={9} width={100} />
-                      <Tooltip contentStyle={{ backgroundColor: "rgba(255,255,255,0.97)", border: "1px solid #e2e8f0", borderRadius: "10px", fontSize: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.08)" }} />
-                      <Bar dataKey="value" fill="#f97316" radius={[0, 6, 6, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : <p className="text-slate-400 text-center py-10 text-sm">No data yet</p>}
-              </div>
-            </div>
+            <AkiaraAnalyticsCharts
+              dailyStats={analytics.dailyStats || []}
+              productBreakdown={analytics.productBreakdown || {}}
+              serviceBreakdown={analytics.serviceBreakdown || {}}
+              languageBreakdown={analytics.languageBreakdown || {}}
+              productLabels={productLabels}
+              serviceLabels={serviceLabels}
+            />
           )}
 
           {/* ===== FILTERS ===== */}
