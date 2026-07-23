@@ -1,6 +1,17 @@
 "use client";
 
 import { useWebSocket } from "@/components/hooks/use-websocket";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "@/components/dashboard/lazy-recharts";
 import { visivaBotAPI } from "@/lib/api";
 import {
   Activity,
@@ -19,17 +30,6 @@ import {
   Users,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 import { VisivaPageShell } from "../_components/VisivaPageShell";
 import { formatPhone, interestClass, interestLabels, stateClass, stateLabels, timeAgo } from "../_components/visiva-utils";
 

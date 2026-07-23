@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import { promptsAPI } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 import {
     AlertCircle,
     Bot,
@@ -14,7 +15,7 @@ import {
     Trash2,
     X
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
 // ==================== TYPES ====================
 interface Prompt {
@@ -146,9 +147,6 @@ const initialFormData: PromptFormData = {
 // ==================== MAIN COMPONENT ====================
 export default function PromptsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [prompts, setPrompts] = useState<Prompt[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null);
@@ -156,24 +154,19 @@ export default function PromptsPage() {
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<"basic" | "voice" | "features" | "notifications">("basic");
 
-  // Fetch prompts
-  const fetchPrompts = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  const {
+    data: prompts = [],
+    isPending: loading,
+    error: promptsError,
+    refetch: fetchPrompts,
+  } = useQuery<Prompt[], Error>({
+    queryKey: ["prompts"],
+    queryFn: async () => {
       const response = await promptsAPI.getAll();
-      setPrompts(response.data.prompts || []);
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to fetch prompts";
-      setError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchPrompts();
-  }, [fetchPrompts]);
+      return response.data.prompts || [];
+    },
+  });
+  const error = promptsError?.message || null;
 
   // Filter prompts
   const filteredPrompts = prompts.filter(
@@ -293,7 +286,7 @@ export default function PromptsPage() {
 
             <div className="flex gap-3">
               <button
-                onClick={fetchPrompts}
+                onClick={() => void fetchPrompts()}
                 disabled={loading}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
               >

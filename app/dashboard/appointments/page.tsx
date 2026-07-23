@@ -1,5 +1,6 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
     AlertCircle,
     ArrowLeft,
@@ -23,7 +24,7 @@ import {
     Zap
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
 
 // ==================== TYPES ====================
 interface Appointment {
@@ -567,9 +568,7 @@ function AppointmentModal({
 export default function AppointmentsPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -604,36 +603,36 @@ export default function AppointmentsPage() {
     fetchUserData();
   }, []);
 
-  const fetchAppointments = useCallback(async () => {
-    if (!mounted) return;
-
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams({ limit: "10000" });
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+  const {
+    data: appointments = [],
+    isPending: loading,
+    isFetching,
+    error: appointmentsError,
+    refetch: fetchAppointments,
+  } = useQuery<Appointment[], Error>({
+    queryKey: ["appointments", filterStatus, deferredSearchTerm],
+    enabled: mounted,
+    queryFn: async () => {
+      const params = new URLSearchParams({ limit: "1000", include_stats: "false" });
       if (filterStatus !== "All") params.append("status", filterStatus);
-      if (searchTerm) params.append("name", searchTerm);
+      if (deferredSearchTerm) params.append("name", deferredSearchTerm);
 
       const url = `${API_BASE_URL}/appointments?${params.toString()}`;
       const response = await fetch(url, { method: "GET", headers: getAuthHeaders() });
 
       if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
       const data = await response.json();
-
-      if (data.success) {
-        const sortedAppointments = (data.appointments || []).sort(
+      return data.success
+        ? (data.appointments || []).sort(
           (a: Appointment, b: Appointment) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-        setAppointments(sortedAppointments);
-      }
-    } catch (err) {
-      console.error("Failed to fetch appointments:", err);
-      setError("Failed to fetch appointments");
-      setAppointments([]);
-    }
-    setLoading(false);
-  }, [filterStatus, searchTerm, mounted]);
+        )
+        : [];
+    },
+    placeholderData: keepPreviousData,
+  });
+  const displayError = error || appointmentsError?.message || null;
 
   const updateAppointmentStatus = async (appointmentId: string | undefined, newStatus: Appointment["status"]) => {
     if (!appointmentId) return;
@@ -661,12 +660,6 @@ export default function AppointmentsPage() {
       setError("Failed to update appointment");
     }
   };
-
-  useEffect(() => {
-    if (mounted) {
-      fetchAppointments();
-    }
-  }, [fetchAppointments, mounted]);
 
   // Group appointments by doctor
   const doctorGroups = useMemo(() => {
@@ -872,11 +865,11 @@ export default function AppointmentsPage() {
                     </div>
                   </div>
                   <button
-                    onClick={fetchAppointments}
-                    disabled={loading}
+                    onClick={() => void fetchAppointments()}
+                    disabled={isFetching}
                     className="bg-white/20 backdrop-blur-md hover:bg-white/30 p-3 rounded-xl transition border border-white/30 disabled:opacity-50"
                   >
-                    <RefreshCw className={`w-6 h-6 text-white ${loading ? "animate-spin" : ""}`} />
+                    <RefreshCw className={`w-6 h-6 text-white ${isFetching ? "animate-spin" : ""}`} />
                   </button>
                 </div>
               </div>
@@ -889,10 +882,10 @@ export default function AppointmentsPage() {
                 <span className="font-medium">{successMessage}</span>
               </div>
             )}
-            {error && (
+            {displayError && (
               <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl flex items-center gap-3 shadow-md">
                 <AlertCircle className="w-6 h-6" />
-                <span className="font-medium">{error}</span>
+                <span className="font-medium">{displayError}</span>
               </div>
             )}
 
@@ -1063,11 +1056,11 @@ export default function AppointmentsPage() {
                   </button>
                 )}
                 <button
-                  onClick={fetchAppointments}
-                  disabled={loading}
+                  onClick={() => void fetchAppointments()}
+                  disabled={isFetching}
                   className="px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl transition backdrop-blur-sm disabled:opacity-50"
                 >
-                  <RefreshCw className={`w-5 h-5 ${loading ? "animate-spin" : ""}`} />
+                  <RefreshCw className={`w-5 h-5 ${isFetching ? "animate-spin" : ""}`} />
                 </button>
               </div>
             </div>
@@ -1080,10 +1073,10 @@ export default function AppointmentsPage() {
               <span className="font-medium">{successMessage}</span>
             </div>
           )}
-          {error && (
+          {displayError && (
             <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-6 py-4 rounded-xl flex items-center gap-3 shadow-md">
               <AlertCircle className="w-6 h-6" />
-              <span className="font-medium">{error}</span>
+              <span className="font-medium">{displayError}</span>
             </div>
           )}
 

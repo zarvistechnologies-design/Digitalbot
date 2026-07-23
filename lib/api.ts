@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getDashboardQueryClient } from '@/lib/query-client';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
 
@@ -9,6 +10,17 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+const API_CACHE_TTL = 30_000;
+const defaultAxiosAdapter = axios.getAdapter(axios.defaults.adapter);
+
+const hashScope = (value: string) => {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash * 31 + value.charCodeAt(index)) | 0;
+  }
+  return hash.toString(36);
+};
 
 // Request interceptor to add auth token
 api.interceptors.request.use(
@@ -21,20 +33,30 @@ api.interceptors.request.use(
       }
     }
 
-    // Add cache busting for GET requests
-    if (config.method === 'get') {
-      config.params = {
-        ...config.params,
-        _t: Date.now(), // Add timestamp to prevent caching
-      };
+    const method = config.method?.toLowerCase() || 'get';
+    if (method !== 'get') {
+      return config;
     }
 
-    // Disable caching
-    config.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
-    config.headers['Pragma'] = 'no-cache';
-    config.headers['Expires'] = '0';
+    if (
+      typeof window === 'undefined' ||
+      (config.responseType && config.responseType !== 'json')
+    ) return config;
 
-    console.log(`Making ${config.method?.toUpperCase()} request to ${config.url}`);
+    const authScope = String(config.headers.Authorization || 'anonymous');
+    const cacheKey = `${config.baseURL || ''}${config.url || ''}:${JSON.stringify(config.params || {})}`;
+    const queryClient = getDashboardQueryClient();
+
+    config.adapter = async (adapterConfig) => {
+      const response = await queryClient.fetchQuery({
+        queryKey: ["network", "axios", cacheKey, hashScope(authScope)],
+        staleTime: API_CACHE_TTL,
+        gcTime: 5 * 60_000,
+        queryFn: () => defaultAxiosAdapter(adapterConfig),
+      });
+      return { ...response, config: adapterConfig };
+    };
+
     return config;
   },
   (error) => {
@@ -45,6 +67,12 @@ api.interceptors.request.use(
 // Response interceptor for error handling and auth
 api.interceptors.response.use(
   (response) => {
+    if (
+      typeof window !== 'undefined' &&
+      response.config.method?.toLowerCase() !== 'get'
+    ) {
+      void getDashboardQueryClient().invalidateQueries();
+    }
     return response;
   },
   (error) => {
@@ -437,10 +465,15 @@ export const tankroAPI = {
     customerPhone: string;
     customerEmail?: string;
     customerAddress?: string;
+    city?: string;
+    area?: string;
+    landmark?: string;
     locationId: string;
     propertyType?: string;
     serviceType?: string;
     tankCapacityLitres?: number;
+    jarQuantity?: number;
+    route?: string;
     date: string;
     time: string;
     notes?: string;

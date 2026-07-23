@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import { templateAPI } from "@/lib/api";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   Check,
   Copy,
@@ -14,7 +15,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useDeferredValue, useState } from "react";
 
 interface Template {
   _id: string;
@@ -28,12 +29,9 @@ interface Template {
 
 export default function TemplatesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [templates, setTemplates] = useState<Template[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
-  const [categories, setCategories] = useState<string[]>([]);
 
   // Modal state
   const [showModal, setShowModal] = useState(false);
@@ -48,30 +46,30 @@ export default function TemplatesPage() {
   // Copy feedback
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const fetchTemplates = useCallback(async () => {
-    try {
-      setLoading(true);
+  const deferredSearch = useDeferredValue(searchQuery);
+  const {
+    data: templateData,
+    isPending: loading,
+    isFetching,
+    refetch: fetchTemplates,
+  } = useQuery({
+    queryKey: ["templates", deferredSearch, categoryFilter, typeFilter],
+    queryFn: async () => {
       const params: Record<string, string> = {};
-      if (searchQuery) params.search = searchQuery;
+      if (deferredSearch) params.search = deferredSearch;
       if (categoryFilter) params.language = categoryFilter;
       if (typeFilter !== "all") params.type = typeFilter;
       const res = await templateAPI.getTemplates(params);
-      const data = Array.isArray(res.data.data) ? res.data.data : Array.isArray(res.data) ? res.data : [];
-      setTemplates(data);
-
-      // Use languages from API response, or extract from data
-      const cats = Array.isArray(res.data.languages) ? res.data.languages : [...new Set(data.map((t: Template) => t.language).filter(Boolean))] as string[];
-      setCategories(cats);
-    } catch (err) {
-      console.error("Failed to fetch templates:", err);
-    } finally {
-      setLoading(false);
-    }
-  }, [searchQuery, categoryFilter, typeFilter]);
-
-  useEffect(() => {
-    fetchTemplates();
-  }, [fetchTemplates]);
+      const data: Template[] = Array.isArray(res.data.data) ? res.data.data : Array.isArray(res.data) ? res.data : [];
+      const cats: string[] = Array.isArray(res.data.languages)
+        ? res.data.languages
+        : [...new Set(data.map((template) => template.language).filter(Boolean))];
+      return { templates: data, categories: cats };
+    },
+    placeholderData: keepPreviousData,
+  });
+  const templates = templateData?.templates || [];
+  const categories = templateData?.categories || [];
 
   const openCreate = () => {
     setEditingTemplate(null);
@@ -144,11 +142,12 @@ export default function TemplatesPage() {
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={fetchTemplates}
+              onClick={() => void fetchTemplates()}
+              disabled={isFetching}
               className="p-2 rounded-lg hover:bg-gray-100 text-gray-500"
               title="Refresh"
             >
-              <RefreshCw className="w-5 h-5" />
+              <RefreshCw className={`w-5 h-5 ${isFetching ? "animate-spin" : ""}`} />
             </button>
             <button
               onClick={openCreate}

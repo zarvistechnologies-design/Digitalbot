@@ -1,5 +1,6 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import { useQueryClient } from "@tanstack/react-query";
 import {
     ArrowRight,
     Award,
@@ -102,6 +103,13 @@ const formatDateLabel = (value: string) => {
 };
 
 export default function Billing() {
+  const queryClient = useQueryClient();
+  const readFreshCache = <T,>(queryKey: readonly unknown[], maxAge = 30_000): T | undefined => {
+    const state = queryClient.getQueryState<T>(queryKey);
+    return state?.dataUpdatedAt && Date.now() - state.dataUpdatedAt < maxAge
+      ? state.data
+      : undefined;
+  };
   const [mounted, setMounted] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -248,6 +256,11 @@ export default function Billing() {
   // Fetch user info from backend
   const fetchUserInfo = async () => {
     try {
+      const cached = readFreshCache<typeof userInfo>(['billing', 'user'], 5 * 60_000);
+      if (cached) {
+        setUserInfo(cached);
+        return;
+      }
       const token = getAuthToken();
       if (!token) return;
       const response = await fetch(`${API_BASE_URL}/auth/me`, {
@@ -256,11 +269,13 @@ export default function Billing() {
       if (response.ok) {
         const data = await response.json();
         if (data) {
-          setUserInfo({
+          const nextUserInfo = {
             name: data.name || '',
             email: data.email || '',
             assignedPhoneNumber: data.assignedPhoneNumber || '',
-          });
+          };
+          setUserInfo(nextUserInfo);
+          queryClient.setQueryData(['billing', 'user'], nextUserInfo);
         }
       }
     } catch (error) {
@@ -299,10 +314,15 @@ export default function Billing() {
   };
 
   // Fetch credit balance
-  const fetchCreditBalance = async () => {
+  const fetchCreditBalance = async (force = false) => {
     try {
-      const token = getAuthToken();
       const userId = getUserId();
+      const queryKey = ['billing', 'credits', userId];
+      const cached = !force ? readFreshCache<typeof userCredits>(queryKey) : null;
+      if (cached) {
+        setUserCredits(cached);
+        return;
+      }
       const response = await fetch(`${API_BASE_URL}/billing/credits/balance?userId=${userId}`);
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
@@ -321,6 +341,7 @@ export default function Billing() {
 
       if (result.success) {
         setUserCredits(result.data);
+        queryClient.setQueryData(queryKey, result.data);
       }
     } catch (error) {
       console.error('❌ Error fetching credit balance:', error);
@@ -487,10 +508,15 @@ export default function Billing() {
   );
 
   // Fetch transactions
-  const fetchTransactions = async () => {
+  const fetchTransactions = async (force = false) => {
     try {
-      const token = getAuthToken();
       const userId = getUserId();
+      const queryKey = ['billing', 'transactions', userId];
+      const cached = !force ? readFreshCache<Transaction[]>(queryKey) : null;
+      if (cached) {
+        setRecentTransactions(cached);
+        return;
+      }
       const response = await fetch(`${API_BASE_URL}/billing/transactions/history?userId=${userId}&limit=10`);
 
       
@@ -503,6 +529,7 @@ export default function Billing() {
       const result = await response.json();
       if (result.success && result.data.transactions) {
         setRecentTransactions(result.data.transactions);
+        queryClient.setQueryData(queryKey, result.data.transactions);
       }
     } catch (error) {
       console.error('❌ Error fetching transactions:', error);
@@ -512,9 +539,13 @@ export default function Billing() {
   // Fetch call history
   const fetchCallHistory = async () => {
     try {
-      const token = getAuthToken();
-
       const userId = getUserId();
+      const queryKey = ['billing', 'calls', userId];
+      const cached = readFreshCache<Call[]>(queryKey);
+      if (cached) {
+        setCallHistory(cached);
+        return;
+      }
       const response = await fetch(`${API_BASE_URL}/billing/calls/history?userId=${userId}&limit=10`);
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
@@ -525,6 +556,7 @@ export default function Billing() {
 
       if (result.success && result.data.calls) {
         setCallHistory(result.data.calls);
+        queryClient.setQueryData(queryKey, result.data.calls);
       }
     } catch (error) {
       console.error('❌ Error fetching call history:', error);
@@ -534,8 +566,13 @@ export default function Billing() {
   // Fetch call statistics
   const fetchCallStatistics = async () => {
     try {
-      const token = getAuthToken();
       const userId = getUserId();
+      const queryKey = ['billing', 'statistics', userId];
+      const cached = readFreshCache<typeof callStats>(queryKey);
+      if (cached) {
+        setCallStats(cached);
+        return;
+      }
       const response = await fetch(`${API_BASE_URL}/billing/calls/statistics?userId=${userId}`);
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
@@ -546,6 +583,7 @@ export default function Billing() {
 
       if (result.success) {
         setCallStats(result.data);
+        queryClient.setQueryData(queryKey, result.data);
       }
     } catch (error) {
       console.error('❌ Error fetching call statistics:', error);
@@ -656,8 +694,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               setSelectedPlan(null);
               setIsCustom(false);
               // Refresh data
-              await fetchCreditBalance();
-              await fetchTransactions();
+              await fetchCreditBalance(true);
+              await fetchTransactions(true);
               // Show success modal
               setSuccessData({
                 creditsAdded: verifyResult.data.credits_added,

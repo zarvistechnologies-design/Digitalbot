@@ -1,5 +1,19 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import {
+    Area,
+    AreaChart,
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Cell,
+    Pie,
+    PieChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "@/components/dashboard/lazy-recharts";
 import { useWebSocket } from "@/components/hooks/use-websocket";
 import { akiaraAPI } from "@/lib/api";
 import {
@@ -20,20 +34,6 @@ import {
     Zap
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import {
-    Area,
-    AreaChart,
-    Bar,
-    BarChart,
-    CartesianGrid,
-    Cell,
-    Pie,
-    PieChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
-} from "recharts";
 
 interface AkiaraSession {
   _id: string;
@@ -365,7 +365,7 @@ export default function AkiaraSessionsPage() {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                    <XAxis dataKey="date" stroke="#94a3b8" fontSize={10} tickFormatter={(d) => d.slice(5)} />
+                    <XAxis dataKey="date" stroke="#94a3b8" fontSize={10} tickFormatter={(d: string) => d.slice(5)} />
                     <YAxis stroke="#94a3b8" fontSize={10} />
                     <Tooltip contentStyle={{ backgroundColor: "rgba(255,255,255,0.97)", border: "1px solid #e2e8f0", borderRadius: "10px", fontSize: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.08)" }} />
                     <Area type="monotone" dataKey="sessions" stroke="#f97316" fill="url(#akSessGrad)" strokeWidth={2} name="Sessions" />

@@ -2,11 +2,11 @@
 import Sidebar from "@/components/Sidebar";
 import { useCachedFetch } from "@/components/hooks/use-cached-fetch";
 import { useWebSocket } from "@/components/hooks/use-websocket";
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "@/components/dashboard/lazy-recharts";
 import { CACHE_KEYS, invalidateCache } from "@/lib/cache";
 import { Activity, AlertCircle, ArrowDown, ArrowUp, BarChart3, Brain, CheckCircle, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, TrendingUp, X, XCircle, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface Call {
   id: string;
@@ -464,8 +464,8 @@ export default function AnalyticsOverview() {
                           <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={qualityTrend}>
                               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                              <XAxis dataKey="date" tickFormatter={(d) => new Date(d).toLocaleDateString()} hide />
-                              <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
+                              <XAxis dataKey="date" tickFormatter={(d: string) => new Date(d).toLocaleDateString()} hide />
+                              <YAxis domain={[0, 100]} tickFormatter={(v: number) => `${v}%`} />
                               <Tooltip formatter={(v: any) => `${v}%`} />
                               <Line type="monotone" dataKey="score" stroke="#10b981" strokeWidth={3} dot={{ r: 2 }} />
                             </LineChart>

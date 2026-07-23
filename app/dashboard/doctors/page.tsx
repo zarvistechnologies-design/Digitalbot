@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import { calendarAPI, doctorsAPI } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 import {
   AlertCircle,
   Calendar,
@@ -19,7 +20,7 @@ import {
   User,
   X,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
 // ==================== TYPES ====================
 interface TimePeriod {
@@ -203,33 +204,25 @@ const initialFormData: DoctorFormData = {
 // ==================== MAIN COMPONENT ====================
 export default function DoctorsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
   const [formData, setFormData] = useState<DoctorFormData>(initialFormData);
   const [saving, setSaving] = useState(false);
 
-  // Fetch doctors
-  const fetchDoctors = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  const {
+    data: doctors = [],
+    isPending: loading,
+    error: doctorsError,
+    refetch: fetchDoctors,
+  } = useQuery<Doctor[], Error>({
+    queryKey: ["doctors"],
+    queryFn: async () => {
       const response = await doctorsAPI.getAll();
-      setDoctors(response.data.doctors || []);
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to fetch doctors";
-      setError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchDoctors();
-  }, [fetchDoctors]);
+      return response.data.doctors || [];
+    },
+  });
+  const error = doctorsError?.message || null;
 
   // Filter doctors
   const filteredDoctors = doctors.filter(
@@ -436,7 +429,7 @@ export default function DoctorsPage() {
 
             <div className="flex gap-3">
               <button
-                onClick={fetchDoctors}
+                onClick={() => void fetchDoctors()}
                 disabled={loading}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
               >

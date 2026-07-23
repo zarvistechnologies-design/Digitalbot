@@ -7,8 +7,6 @@ import { useCallback, useEffect, useState } from "react";
 // ==========================================
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'wss://digital-api-46ss.onrender.com/ws';
-console.log('🌐 API_BASE_URL:', API_BASE_URL);
-console.log('🔌 WS_URL:', WS_URL);
 
 // ==========================================
 // TYPES
@@ -925,11 +923,8 @@ export default function LeadsPage() {
       console.log("📞 Fetching calls from MongoDB...");
 
       const token = getAuthToken();
-      console.log("🔐 Token retrieved:", token);
-      console.log("🌐 API Base URL:", API_BASE_URL);
-      console.log("📡 Full URL:", `${API_BASE_URL}/calls?limit=0`);
-
-      const callsResponse = await fetch(`${API_BASE_URL}/calls?limit=0`, {
+      // Bound the initial response so Leads does not block on the full call history.
+      const callsResponse = await fetch(`${API_BASE_URL}/calls?limit=1000`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import { appointmentsAPI, availabilityAPI, doctorsAPI } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 import {
   AlertCircle,
   Calendar,
@@ -18,7 +19,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
 // ==================== TYPES ====================
 interface BlockedTime {
@@ -363,7 +364,6 @@ export default function BookAppointmentPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -372,24 +372,20 @@ export default function BookAppointmentPage() {
   const [recentBookings, setRecentBookings] = useState<BookedAppointment[]>([]);
   const [step, setStep] = useState(1); // 1: Select Doctor, 2: Date/Time, 3: Patient Details
 
-  // ==================== FETCH DOCTORS ====================
-  const fetchDoctors = useCallback(async () => {
-    setLoading(true);
-    try {
+  const {
+    data: doctors = [],
+    isPending: doctorsLoading,
+    error: doctorsError,
+    refetch: fetchDoctors,
+  } = useQuery<Doctor[], Error, Doctor[]>({
+    queryKey: ["doctors"],
+    queryFn: async () => {
       const response = await doctorsAPI.getAll();
-      const activeDoctors = (response.data.doctors || []).filter((d: Doctor) => d.active);
-      setDoctors(activeDoctors);
-    } catch (err) {
-      console.error("Failed to fetch doctors:", err);
-      setError("Failed to load doctors. Please refresh the page.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchDoctors();
-  }, [fetchDoctors]);
+      return response.data.doctors || [];
+    },
+    select: (allDoctors) => allDoctors.filter((doctor) => doctor.active),
+  });
+  const displayError = error || doctorsError?.message || null;
 
   // ==================== HANDLE DOCTOR SELECTION ====================
   const handleDoctorSelect = (doctor: Doctor) => {
@@ -629,11 +625,11 @@ export default function BookAppointmentPage() {
                 </p>
               </div>
               <button
-                onClick={fetchDoctors}
-                disabled={loading}
+                onClick={() => void fetchDoctors()}
+                disabled={doctorsLoading}
                 className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all shadow-sm hover:shadow-md disabled:opacity-50"
               >
-                <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+                <RefreshCw className={`h-4 w-4 ${doctorsLoading ? "animate-spin" : ""}`} />
                 Refresh Doctors
               </button>
             </div>
@@ -689,10 +685,10 @@ export default function BookAppointmentPage() {
             </div>
           )}
 
-          {error && (
+          {displayError && (
             <div className="mb-6 bg-red-50 border border-red-200 rounded-2xl p-4 flex items-center gap-3">
               <AlertCircle className="h-5 w-5 text-red-600 shrink-0" />
-              <p className="text-red-800 flex-1">{error}</p>
+              <p className="text-red-800 flex-1">{displayError}</p>
               <button
                 onClick={() => setError(null)}
                 className="p-1 hover:bg-red-100 rounded-full transition-colors"
@@ -714,7 +710,7 @@ export default function BookAppointmentPage() {
                   </h2>
                 </div>
                 <div className="p-5">
-                  {loading ? (
+                  {doctorsLoading ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {[1, 2, 3, 4].map((i) => (
                         <div key={i} className="animate-pulse bg-gray-100 rounded-2xl h-36" />

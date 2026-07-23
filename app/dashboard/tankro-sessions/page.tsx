@@ -2,6 +2,7 @@
 
 import Sidebar from "@/components/Sidebar";
 import { tankroAPI } from "@/lib/api";
+import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AlertCircle,
   Clock,
@@ -95,40 +96,42 @@ const stateLabels: Record<string, string> = {
 const REPLY_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 export default function TankroSessionsPage() {
+  const queryClient = useQueryClient();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sessions, setSessions] = useState<TankroSession[]>([]);
   const [selectedId, setSelectedId] = useState("");
-  const [counts, setCounts] = useState<{ byStatus?: Record<string, number>; byState?: Record<string, number> }>({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
 
-  const fetchSessions = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  const {
+    data: sessionData,
+    isPending: loading,
+    isFetching,
+    error: sessionsError,
+    refetch: fetchSessions,
+  } = useQuery({
+    queryKey: ["tankro", "sessions", statusFilter, search],
+    queryFn: async () => {
       const response = await tankroAPI.getSessions({
         limit: 100,
         status: statusFilter !== "All" ? statusFilter : undefined,
         search: search || undefined,
       });
-      const rows = response.data.data || [];
-      setSessions(rows);
-      setCounts(response.data.counts || {});
-      setSelectedId((current) =>
-        rows.some((session: TankroSession) => session._id === current) ? current : rows[0]?._id || ""
-      );
-    } catch (err: any) {
-      setError(err.response?.data?.error || "Failed to load Tankro sessions");
-    } finally {
-      setLoading(false);
-    }
-  }, [search, statusFilter]);
+      return {
+        sessions: (response.data.data || []) as TankroSession[],
+        counts: response.data.counts || {},
+      };
+    },
+    placeholderData: keepPreviousData,
+  });
+  const sessions = sessionData?.sessions || [];
+  const counts = sessionData?.counts || {};
+  const error = sessionsError?.message || null;
 
   useEffect(() => {
-    fetchSessions();
-  }, [fetchSessions]);
+    setSelectedId((current) =>
+      sessions.some((session) => session._id === current) ? current : sessions[0]?._id || ""
+    );
+  }, [sessions]);
 
   const selectedSession = useMemo(() => {
     return sessions.find((session) => session._id === selectedId) || sessions[0] || null;
@@ -143,22 +146,34 @@ export default function TankroSessionsPage() {
       const response = await tankroAPI.sendSessionMessage(sessionId, message);
       const updatedSession = response.data.session;
       if (updatedSession) {
-        setSessions((current) =>
-          current.map((session) => (session._id === sessionId ? updatedSession : session))
+        queryClient.setQueryData<typeof sessionData>(
+          ["tankro", "sessions", statusFilter, search],
+          (current) => current ? {
+            ...current,
+            sessions: current.sessions.map((session) =>
+              session._id === sessionId ? updatedSession : session
+            ),
+          } : current
         );
         setSelectedId(updatedSession._id);
       }
     } catch (err: any) {
       const updatedSession = err.response?.data?.session;
       if (updatedSession) {
-        setSessions((current) =>
-          current.map((session) => (session._id === sessionId ? updatedSession : session))
+        queryClient.setQueryData<typeof sessionData>(
+          ["tankro", "sessions", statusFilter, search],
+          (current) => current ? {
+            ...current,
+            sessions: current.sessions.map((session) =>
+              session._id === sessionId ? updatedSession : session
+            ),
+          } : current
         );
         setSelectedId(updatedSession._id);
       }
       throw err;
     }
-  }, []);
+  }, [queryClient, search, statusFilter]);
 
   return (
     <div className="min-h-screen bg-white lg:h-screen lg:overflow-hidden">
@@ -190,12 +205,12 @@ export default function TankroSessionsPage() {
                     </div>
                   </div>
                   <button
-                    onClick={fetchSessions}
-                    disabled={loading}
+                    onClick={() => void fetchSessions()}
+                    disabled={isFetching}
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-gray-600 transition hover:bg-orange-50 hover:text-orange-600 disabled:opacity-60"
                     aria-label="Refresh sessions"
                   >
-                    <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+                    <RefreshCw className={`h-4 w-4 ${isFetching ? "animate-spin" : ""}`} />
                   </button>
                 </div>
 
