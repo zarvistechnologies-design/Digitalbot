@@ -62,6 +62,7 @@ interface Call {
   type: string;
   credits: number;
   status: string;
+  provider?: 'exotel' | 'vobiz';
 }
 
 interface FAQ {
@@ -205,7 +206,7 @@ export default function Billing() {
   const faqs: FAQ[] = [
     {
       question: "How do credits work?",
-      answer: "Credits are consumed based on API usage. Each API call uses a certain number of credits depending on the complexity and type of request. You can monitor your usage in real-time on the dashboard."
+      answer: "The same dashboard balance funds your calls. Vobiz calls are charged at ₹6 per connected minute, prorated by seconds; Exotel calls keep their configured rate."
     },
     {
       question: "What happens when I run out of credits?",
@@ -1904,6 +1905,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                         <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Phone Number</th>
                         <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Duration</th>
                         <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Type</th>
+                        <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Provider</th>
                         <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Credits</th>
                         <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Status</th>
                       </tr>
@@ -1925,6 +1927,9 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                               </span>
                             </td>
                             <td className="px-6 py-4">
+                              <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase text-slate-700">{call.provider || 'exotel'}</span>
+                            </td>
+                            <td className="px-6 py-4">
                               <div className="flex items-center gap-1">
                                 <Zap className="w-4 h-4 text-orange-600" />
                                 <span className="text-sm font-black text-orange-600">{call.credits}</span>
@@ -1940,7 +1945,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={6} className="px-6 py-8 text-center text-slate-500">
+                          <td colSpan={7} className="px-6 py-8 text-center text-slate-500">
                             No calls yet
                           </td>
                         </tr>
