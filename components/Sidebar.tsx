@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/api';
+import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/api';
 import { CACHE_KEYS } from '@/lib/cache';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -82,6 +82,25 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
             totals: response.data.totals || null,
           };
         },
+      });
+    } else if (href === '/dashboard/akiara-sessions') {
+      void queryClient.prefetchQuery({
+        queryKey: ['akiara', 'sessions', 'initial'],
+        queryFn: async () => {
+          const response = await akiaraAPI.getSessions({ limit: 100, historyLimit: 20 });
+          return response.data?.data || [];
+        },
+        staleTime: 60_000,
+      });
+      void akiaraAPI.getAnalytics({ days: 7 });
+    } else if (href === '/dashboard/akiara-tickets') {
+      void queryClient.prefetchQuery({
+        queryKey: ['akiara', 'tickets', 'initial'],
+        queryFn: async () => {
+          const response = await akiaraAPI.getTickets({ page: 1, limit: 100 });
+          return response.data;
+        },
+        staleTime: 60_000,
       });
     }
   };

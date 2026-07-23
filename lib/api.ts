@@ -727,6 +727,7 @@ export const akiaraAPI = {
     search?: string;
     page?: number;
     limit?: number;
+    historyLimit?: number;
   }) => api.get('/akiara/sessions', { params }),
 
   // Get single session by phone

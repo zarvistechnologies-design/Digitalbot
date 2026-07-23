@@ -22,7 +22,7 @@ import {
     User,
     X
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useDeferredValue, useEffect, useState } from "react";
 
 interface AkiaraTicket {
   _id: string;
@@ -176,9 +176,38 @@ interface User {
   selectedService: string;
 }
 
+interface TicketStats {
+  total: number;
+  open: number;
+  inProgress: number;
+  notContacted: number;
+  orderIdPending: number;
+  homeVisit: number;
+  customerCouriering: number;
+  refund: number;
+  resolved: number;
+  closed: number;
+  urgent: number;
+}
+
+const emptyTicketStats: TicketStats = {
+  total: 0,
+  open: 0,
+  inProgress: 0,
+  notContacted: 0,
+  orderIdPending: 0,
+  homeVisit: 0,
+  customerCouriering: 0,
+  refund: 0,
+  resolved: 0,
+  closed: 0,
+  urgent: 0,
+};
+
 export default function AkiaraTicketsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [tickets, setTickets] = useState<AkiaraTicket[]>([]);
+  const [stats, setStats] = useState<TicketStats>(emptyTicketStats);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -207,6 +236,7 @@ export default function AkiaraTicketsPage() {
     customerPincode: "",
   });
   const [user, setUser] = useState<User | null>(null);
+  const deferredSearch = useDeferredValue(search);
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
@@ -216,45 +246,31 @@ export default function AkiaraTicketsPage() {
   const fetchTickets = useCallback(async () => {
     setLoading(true);
     try {
-      const allTickets: AkiaraTicket[] = [];
-      let page = 1;
-      const limit = 100;
-      let hasMore = true;
+      const params: any = {
+        page: 1,
+        limit: 100,
+        status: filterStatus !== "all" ? filterStatus : undefined,
+        priority: filterPriority !== "all" ? filterPriority : undefined,
+        product: filterProduct !== "all" ? filterProduct : undefined,
+        search: deferredSearch || undefined,
+      };
 
-      while (hasMore) {
-        const params: any = { page, limit };
-        
-        // Add date range filter
-        if (filterDateRange !== "all") {
-          const hours = parseInt(filterDateRange);
-          const since = new Date();
-          since.setHours(since.getHours() - hours);
-          params.createdAfter = since.toISOString();
-        }
-
-        const res = await akiaraAPI.getTickets(params);
-        const ticketsData = res.data?.data || [];
-        
-        if (ticketsData.length === 0) {
-          hasMore = false;
-        } else {
-          allTickets.push(...ticketsData);
-          page++;
-          
-          // Safety check to prevent infinite loops
-          if (ticketsData.length < limit) {
-            hasMore = false;
-          }
-        }
+      if (filterDateRange !== "all") {
+        const hours = parseInt(filterDateRange, 10);
+        const since = new Date();
+        since.setHours(since.getHours() - hours);
+        params.createdAfter = since.toISOString();
       }
-      
-      setTickets(allTickets);
+
+      const res = await akiaraAPI.getTickets(params);
+      setTickets(res.data?.data || []);
+      setStats({ ...emptyTicketStats, ...(res.data?.stats || {}) });
     } catch (err) {
       console.error("Failed to fetch tickets:", err);
     } finally {
       setLoading(false);
     }
-  }, [filterDateRange]);
+  }, [deferredSearch, filterDateRange, filterPriority, filterProduct, filterStatus]);
 
   useEffect(() => { fetchTickets(); }, [fetchTickets]);
 
@@ -346,21 +362,7 @@ export default function AkiaraTicketsPage() {
     return true;
   });
 
-  // Stats
-  const stats = {
-    total: tickets.length,
-    open: tickets.filter((t) => t.status === "open").length,
-    inProgress: tickets.filter((t) => t.status === "in_progress").length,
-    notContacted: tickets.filter((t) => t.status === "not_contacted").length,
-    orderIdPending: tickets.filter((t) => t.status === "order_id_pending").length,
-    homeVisit: tickets.filter((t) => t.status === "home_visit").length,
-    customerCouriering: tickets.filter((t) => t.status === "Couriering").length,
-    refund: tickets.filter((t) => t.status === "refund").length,
-    resolved: tickets.filter((t) => t.status === "resolved").length,
-    urgent: tickets.filter((t) => t.priority === "urgent" && t.status !== "closed").length,
-  };
-
-  if (loading) {
+  if (loading && tickets.length === 0) {
     return (
       <div className="flex min-h-screen bg-[#f8fafc]">
         <div className="hidden lg:block"><Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /></div>
@@ -486,7 +488,7 @@ export default function AkiaraTicketsPage() {
                 { key: "Couriering", label: "Couriering", count: stats.customerCouriering },
                 { key: "refund", label: "Refund", count: stats.refund },
                 { key: "resolved", label: "Resolved", count: stats.resolved },
-                { key: "closed", label: "Closed", count: tickets.filter(t => t.status === "closed").length },
+                { key: "closed", label: "Closed", count: stats.closed },
               ].map((s) => (
                 <button
                   key={s.key}

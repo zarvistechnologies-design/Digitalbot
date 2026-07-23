@@ -191,18 +191,24 @@ export default function AkiaraSessionsPage() {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
+    const analyticsPromise = akiaraAPI
+      .getAnalytics({ days: parseInt(dateRange, 10) })
+      .catch((error) => {
+        console.error("Failed to fetch Akiara analytics:", error);
+        return null;
+      });
+
     try {
-      const [sessionsRes, analyticsRes] = await Promise.all([
-        akiaraAPI.getSessions({ limit: 200 }),
-        akiaraAPI.getAnalytics({ days: parseInt(dateRange) }),
-      ]);
+      const sessionsRes = await akiaraAPI.getSessions({ limit: 100, historyLimit: 20 });
       setSessions(sessionsRes.data?.data || []);
-      setAnalytics(analyticsRes.data?.data || null);
     } catch (err) {
-      console.error("Failed to fetch Akiara data:", err);
+      console.error("Failed to fetch Akiara sessions:", err);
     } finally {
       setLoading(false);
     }
+
+    const analyticsRes = await analyticsPromise;
+    if (analyticsRes) setAnalytics(analyticsRes.data?.data || null);
   }, [dateRange]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
