@@ -114,6 +114,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
   const baseNavigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    
     { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
     { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
   ];
@@ -140,6 +141,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         serviceItems.push({ name: 'System Agent', href: '/dashboard/system-agent', icon: Settings });
       }
       serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
+      serviceItems.push({ name: 'WhatsApp', href: '/dashboard/whatsapp', icon: MessageSquare });
       serviceItems.push({ name: 'Book Appointment', href: '/dashboard/book-appointment', icon: PlusCircle });
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });

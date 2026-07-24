@@ -951,4 +951,11 @@ export const tenantAPI = {
     api.put(`/tenants/${tenantId}`, data),
 };
 
+export const whatsappInboxAPI = {
+  getConversations: (search?: string) =>
+    api.get('/whatsapp-inbox/conversations', { params: search ? { search } : undefined }),
+  getMessages: (phone: string) =>
+    api.get(`/whatsapp-inbox/conversations/${encodeURIComponent(phone)}/messages`),
+};
+
 export default api;
