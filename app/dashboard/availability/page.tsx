@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import { availabilityAPI, doctorsAPI } from "@/lib/api";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
     AlertCircle,
     Calendar,
@@ -14,7 +15,7 @@ import {
     User,
     XCircle
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // ==================== TYPES ====================
 interface TimePeriod {
@@ -182,66 +183,49 @@ const getPatientInitials = (name?: string) => {
 // ==================== MAIN COMPONENT ====================
 export default function AvailabilityPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [availability, setAvailability] = useState<AvailabilityData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [loadingAvailability, setLoadingAvailability] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [leaveReason, setLeaveReason] = useState("");
   const [savingLeave, setSavingLeave] = useState(false);
 
-  // Fetch doctors
-  const fetchDoctors = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  const {
+    data: doctors = [],
+    isPending: loading,
+    error: doctorsError,
+    refetch: fetchDoctors,
+  } = useQuery<Doctor[], Error, Doctor[]>({
+    queryKey: ["doctors"],
+    queryFn: async () => {
       const response = await doctorsAPI.getAll();
-      const activeDoctors = (response.data.doctors || []).filter((d: Doctor) => d.active);
-      setDoctors(activeDoctors);
-      if (activeDoctors.length > 0 && !selectedDoctor) {
-        setSelectedDoctor(activeDoctors[0]);
-      }
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to fetch doctors";
-      setError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedDoctor]);
+      return response.data.doctors || [];
+    },
+    select: (allDoctors) => allDoctors.filter((doctor) => doctor.active),
+  });
 
-  // Fetch availability
-  const fetchAvailability = useCallback(async () => {
-    if (!selectedDoctor) return;
+  useEffect(() => {
+    if (!selectedDoctor && doctors.length > 0) setSelectedDoctor(doctors[0]);
+  }, [doctors, selectedDoctor]);
 
-    try {
-      setLoadingAvailability(true);
+  const availabilityDate = formatDate(selectedDate);
+  const {
+    data: availability = null,
+    isFetching: loadingAvailability,
+    refetch: fetchAvailability,
+  } = useQuery<AvailabilityData | null>({
+    queryKey: ["availability", selectedDoctor?._id, availabilityDate],
+    enabled: Boolean(selectedDoctor),
+    queryFn: async () => {
       const response = await availabilityAPI.check({
-        doctorId: selectedDoctor._id,
-        date: formatDate(selectedDate),
+        doctorId: selectedDoctor!._id,
+        date: availabilityDate,
       });
-
-      if (response.data.success) {
-        setAvailability(response.data);
-      }
-    } catch (err: unknown) {
-      console.error("Failed to fetch availability:", err);
-    } finally {
-      setLoadingAvailability(false);
-    }
-  }, [selectedDoctor, selectedDate]);
-
-  useEffect(() => {
-    fetchDoctors();
-  }, [fetchDoctors]);
-
-  useEffect(() => {
-    if (selectedDoctor) {
-      fetchAvailability();
-    }
-  }, [selectedDoctor, selectedDate, fetchAvailability]);
+      return response.data.success ? response.data : null;
+    },
+    placeholderData: keepPreviousData,
+    staleTime: 30_000,
+  });
+  const error = doctorsError?.message || null;
 
   // Navigate dates
   const goToPreviousDay = () => {

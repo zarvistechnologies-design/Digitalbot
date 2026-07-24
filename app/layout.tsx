@@ -1,4 +1,4 @@
-import ChatbotWidget from "@/components/chatbot-widget"
+import AppProviders from "@/components/providers/AppProviders"
 import { Analytics } from "@vercel/analytics/next"
 import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
@@ -275,8 +275,7 @@ export default function RootLayout({
           `
         }} />
         
-        {children}
-        <ChatbotWidget />
+        <AppProviders>{children}</AppProviders>
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>

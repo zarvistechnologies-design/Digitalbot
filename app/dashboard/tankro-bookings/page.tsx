@@ -33,20 +33,29 @@ interface TankroBooking {
   _id: string;
   customerName: string;
   customerPhone: string;
+  customerEmail?: string;
   customerAddress?: string;
+  city?: string;
+  area?: string;
+  landmark?: string;
   locationId: string;
   locationName: string;
   district: string;
   propertyType?: string;
-  serviceType: "tank_cleaning" | "roof_care" | "callback" | "complaint" | "other";
+  serviceType: "tank_cleaning" | "roof_care" | "water_delivery" | "callback" | "complaint" | "other";
   tankCapacityLitres?: number;
+  jarQuantity?: number;
   quotedPrice?: number;
   date?: string | null;
   time?: string | null;
+  route?: string;
   status: "scheduled" | "confirmed" | "completed" | "cancelled" | "rescheduled";
   source: string;
+  callId?: string;
   notes?: string;
+  metadata?: Record<string, unknown>;
   createdAt: string;
+  updatedAt?: string;
 }
 
 interface Slot {
@@ -63,10 +72,15 @@ interface BookingForm {
   customerName: string;
   customerPhone: string;
   customerAddress: string;
+  city: string;
+  area: string;
+  landmark: string;
   locationId: string;
   propertyType: string;
   serviceType: string;
   tankCapacityLitres: string;
+  jarQuantity: string;
+  route: string;
   date: string;
   time: string;
   notes: string;
@@ -76,10 +90,15 @@ const initialForm: BookingForm = {
   customerName: "",
   customerPhone: "",
   customerAddress: "",
+  city: "",
+  area: "",
+  landmark: "",
   locationId: "",
   propertyType: "Home",
   serviceType: "tank_cleaning",
   tankCapacityLitres: "",
+  jarQuantity: "",
+  route: "",
   date: "",
   time: "",
   notes: "",
@@ -96,6 +115,7 @@ const statusStyles: Record<TankroBooking["status"], string> = {
 const serviceLabels: Record<string, string> = {
   tank_cleaning: "Tank Cleaning",
   roof_care: "Roof Care",
+  water_delivery: "Water Delivery",
   callback: "Callback",
   complaint: "Complaint",
   other: "Other",

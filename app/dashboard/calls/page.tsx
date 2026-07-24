@@ -3,8 +3,9 @@
 import Sidebar from '@/components/Sidebar';
 import { useWebSocket } from '@/components/hooks/use-websocket';
 import { callsAPI } from '@/lib/api';
-import { CACHE_KEYS, cachedFetch, getStaleCache, invalidateCache, setCache } from '@/lib/cache';
+import { CACHE_KEYS, cachedFetch, getCache, getStaleCache, invalidateCache, setCache } from '@/lib/cache';
 import { Call, CallStats } from '@/types';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -12,6 +13,7 @@ const ALL_CALLS_LIMIT = 0;
 
 const Dashboard = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [calls, setCalls] = useState<Call[]>([]);
   const [allCalls, setAllCalls] = useState<Call[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +44,9 @@ const Dashboard = () => {
   useEffect(() => {
     setMounted(true);
     // Load from cache instantly on mount
-    const cachedCalls = getStaleCache<Call[]>(CACHE_KEYS.CALLS);
+    const queryCalls = queryClient.getQueryData<Call[]>([CACHE_KEYS.CALLS]);
+    if (queryCalls?.length) setCache(CACHE_KEYS.CALLS, queryCalls, 60_000);
+    const cachedCalls = queryCalls || getStaleCache<Call[]>(CACHE_KEYS.CALLS);
     if (cachedCalls && cachedCalls.length > 0) {
       setCalls(cachedCalls);
       setAllCalls(cachedCalls);
@@ -56,7 +60,7 @@ const Dashboard = () => {
     if (cachedAgents) {
       setAvailableAgents(cachedAgents);
     }
-  }, []);
+  }, [queryClient]);
 
   // Helper function to get phone number from call object
   const getPhoneNumber = (call: any): string => {
@@ -191,10 +195,6 @@ const Dashboard = () => {
       }
       setError(null);
 
-      callsAPI.healthCheck().catch((err) => {
-        console.warn('Calls health check failed, fetching calls anyway:', err.message);
-      });
-
       const response = await callsAPI.getCalls({ page, limit });
 
       const rawCallsData = response.data.data?.calls || response.data.calls || response.data.data || [];
@@ -275,7 +275,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (mounted) {
-      fetchCalls();
+      if (!getCache<Call[]>(CACHE_KEYS.CALLS)) fetchCalls();
       fetchStats();
       fetchAgents();
     }

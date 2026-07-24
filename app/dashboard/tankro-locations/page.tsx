@@ -2,6 +2,7 @@
 
 import Sidebar from "@/components/Sidebar";
 import { tankroAPI, tankroCalendarAPI } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 import {
   AlertCircle,
   Calendar,
@@ -20,7 +21,7 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 interface TankroLocation {
   _id: string;
@@ -97,9 +98,6 @@ const formatWorkingDays = (workingDays: number[] = []) => {
 
 export default function TankroLocationsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [locations, setLocations] = useState<TankroLocation[]>([]);
-  const [totals, setTotals] = useState<SummaryTotals | null>(null);
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -108,23 +106,24 @@ export default function TankroLocationsPage() {
   const [editingLocation, setEditingLocation] = useState<TankroLocation | null>(null);
   const [formData, setFormData] = useState<LocationFormData>(initialFormData);
 
-  const fetchSummary = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  const {
+    data: summary,
+    isPending: loading,
+    error: summaryError,
+    refetch: fetchSummary,
+  } = useQuery<{ locations: TankroLocation[]; totals: SummaryTotals | null }, Error>({
+    queryKey: ["tankro", "summary"],
+    queryFn: async () => {
       const response = await tankroAPI.getSummary();
-      setLocations(response.data.locations || []);
-      setTotals(response.data.totals || null);
-    } catch (err: any) {
-      setError(err.response?.data?.error || "Failed to load Tankro locations");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchSummary();
-  }, [fetchSummary]);
+      return {
+        locations: response.data.locations || [],
+        totals: response.data.totals || null,
+      };
+    },
+  });
+  const locations = summary?.locations || [];
+  const totals = summary?.totals || null;
+  const displayError = error || summaryError?.message || null;
 
   const filteredLocations = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -278,7 +277,7 @@ export default function TankroLocationsPage() {
 
             <div className="flex flex-wrap gap-3">
               <button
-                onClick={fetchSummary}
+                onClick={() => void fetchSummary()}
                 disabled={loading}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
               >
@@ -312,10 +311,10 @@ export default function TankroLocationsPage() {
             </div>
           )}
 
-          {error && (
+          {displayError && (
             <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 flex items-center gap-3">
               <AlertCircle className="w-5 h-5" />
-              <span>{error}</span>
+              <span>{displayError}</span>
             </div>
           )}
 

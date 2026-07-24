@@ -1,6 +1,9 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/api';
+import { CACHE_KEYS } from '@/lib/cache';
+import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
@@ -19,17 +22,95 @@ interface User {
   assignedPhoneNumber?: string;
 }
 
+let cachedDashboardUser: User | null = null;
+
 export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const [user, setUser] = useState<User | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const queryClient = useQueryClient();
+  const [user, setUser] = useState<User | null>(cachedDashboardUser);
+  const [mounted, setMounted] = useState(Boolean(cachedDashboardUser));
 
   useEffect(() => {
     setMounted(true);
     const userData = localStorage.getItem('user');
-    if (userData) setUser(JSON.parse(userData));
+    if (userData) {
+      cachedDashboardUser = JSON.parse(userData);
+      setUser(cachedDashboardUser);
+    }
   }, []);
+
+  const prefetchDashboardData = (href: string) => {
+    router.prefetch(href);
+
+    if (href === '/dashboard' || href === '/dashboard/calls') {
+      void queryClient.prefetchQuery({
+        queryKey: [CACHE_KEYS.CALLS],
+        queryFn: async () => {
+          const response = await callsAPI.getCalls({ limit: 1000 });
+          return response.data.data?.calls || response.data.calls || [];
+        },
+        staleTime: 60_000,
+      });
+    } else if (
+      href === '/dashboard/doctors' ||
+      href === '/dashboard/availability' ||
+      href === '/dashboard/book-appointment'
+    ) {
+      void queryClient.prefetchQuery({
+        queryKey: ['doctors'],
+        queryFn: async () => {
+          const response = await doctorsAPI.getAll();
+          return response.data.doctors || [];
+        },
+      });
+    } else if (href === '/dashboard/prompts') {
+      void queryClient.prefetchQuery({
+        queryKey: ['prompts'],
+        queryFn: async () => {
+          const response = await promptsAPI.getAll();
+          return response.data.prompts || [];
+        },
+      });
+    } else if (href === '/dashboard/tankro-locations') {
+      void queryClient.prefetchQuery({
+        queryKey: ['tankro', 'summary'],
+        queryFn: async () => {
+          const response = await tankroAPI.getSummary();
+          return {
+            locations: response.data.locations || [],
+            totals: response.data.totals || null,
+          };
+        },
+      });
+    } else if (href === '/dashboard/akiara-sessions') {
+      void queryClient.prefetchQuery({
+        queryKey: ['akiara', 'sessions', 'initial'],
+        queryFn: async () => {
+          const response = await akiaraAPI.getSessions({ limit: 100, historyLimit: 20 });
+          return response.data?.data || [];
+        },
+        staleTime: 60_000,
+      });
+      void queryClient.prefetchQuery({
+        queryKey: ['akiara', 'analytics', 7],
+        queryFn: async () => {
+          const response = await akiaraAPI.getAnalytics({ days: 7 });
+          return response.data?.data || null;
+        },
+        staleTime: 30_000,
+      });
+    } else if (href === '/dashboard/akiara-tickets') {
+      void queryClient.prefetchQuery({
+        queryKey: ['akiara', 'tickets', 'initial'],
+        queryFn: async () => {
+          const response = await akiaraAPI.getTickets({ page: 1, limit: 100 });
+          return response.data;
+        },
+        staleTime: 60_000,
+      });
+    }
+  };
 
   const baseNavigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -112,9 +193,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
   const isAkiara = user?.selectedService === 'akiara';
   const ishealthiQurepatientnavigation = user?.selectedService === 'healthiQure patient navigation';
-  const navigation = isAkiara || ishealthiQurepatientnavigation ? getServiceNavigation() : [...baseNavigation, ...getServiceNavigation()];
+  const navigation = isAkiara || ishealthiQurepatientnavigation
+    ? [{ name: 'Billing', href: '/dashboard/billing', icon: CreditCard }, ...getServiceNavigation()]
+    : [...baseNavigation, ...getServiceNavigation()];
 
   const handleLogout = () => {
+    cachedDashboardUser = null;
+    queryClient.clear();
+    sessionStorage.removeItem('digitalbot-query-cache-v1');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     router.push('/');
@@ -197,6 +283,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                 <Link
                   key={item.name}
                   href={item.href}
+                  onMouseEnter={() => prefetchDashboardData(item.href)}
+                  onFocus={() => prefetchDashboardData(item.href)}
                   className={cn(
                     isActive
                       ? 'bg-orange-600 text-white shadow-md'
@@ -275,6 +363,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                     <Link
                       key={item.name}
                       href={item.href}
+                      onMouseEnter={() => prefetchDashboardData(item.href)}
+                      onFocus={() => prefetchDashboardData(item.href)}
                       onClick={() => setSidebarOpen(false)}
                       className={cn(
                         isActive

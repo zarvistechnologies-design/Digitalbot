@@ -271,7 +271,7 @@ export default function BotSessionsPage() {
                   <option value="30">Last 30 days</option>
                   <option value="90">Last 90 days</option>
                 </select>
-                <button onClick={fetchData} className="p-2 bg-white rounded-xl border border-slate-300 shadow-md hover:bg-orange-50 transition-colors">
+                <button onClick={() => void fetchData()} className="p-2 bg-white rounded-xl border border-slate-300 shadow-md hover:bg-orange-50 transition-colors">
                   <RefreshCw className={`w-5 h-5 text-slate-600 ${loading ? "animate-spin" : ""}`} />
                 </button>
               </div>
