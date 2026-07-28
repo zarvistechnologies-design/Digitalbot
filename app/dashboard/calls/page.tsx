@@ -24,6 +24,7 @@ const Dashboard = () => {
   const [expandedCall, setExpandedCall] = useState<string | null>(null);
   const [selectedAgent, setSelectedAgent] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedDirection, setSelectedDirection] = useState('');
   const [phoneFilter, setPhoneFilter] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -326,13 +327,21 @@ const Dashboard = () => {
 
     if (selectedStatus) {
       filteredCalls = filteredCalls.filter(call =>
-        call.status === selectedStatus
+        (call.status || (call as any).call_status) === selectedStatus
+      );
+    }
+
+    if (selectedDirection) {
+      filteredCalls = filteredCalls.filter(call =>
+        call.direction === selectedDirection
       );
     }
 
     if (phoneFilter) {
+      const phoneTerm = phoneFilter.trim().toLowerCase();
       filteredCalls = filteredCalls.filter(call =>
-        getPhoneNumber(call).includes(phoneFilter)
+        [call.from_number, call.to_number, call.phone_number]
+          .some(number => String(number || '').toLowerCase().includes(phoneTerm))
       );
     }
 
@@ -358,10 +367,75 @@ const Dashboard = () => {
   const handleClearFilters = () => {
     setSelectedAgent('');
     setSelectedStatus('');
+    setSelectedDirection('');
     setPhoneFilter('');
     setStartDate('');
     setEndDate('');
     setCalls(allCalls);
+  };
+
+  const escapeCsvCell = (value: unknown) => {
+    let text = value === null || value === undefined ? '' : String(value);
+
+    // Prevent Excel/Sheets from interpreting exported user data as a formula.
+    if (/^[=+\-@\t\r]/.test(text)) {
+      text = `'${text}`;
+    }
+
+    return `"${text.replace(/"/g, '""')}"`;
+  };
+
+  const formatCsvDuration = (duration: unknown) => {
+    const totalSeconds = Math.max(0, Math.round(Number(duration) || 0));
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return hours > 0
+      ? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+      : `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const handleDownloadCsv = () => {
+    if (calls.length === 0) return;
+
+    const headers = [
+      'Caller Number',
+      'Called Number',
+      'Direction',
+      'Call Duration',
+      'Status',
+      'Call Date & Time',
+    ];
+
+    const rows = calls.map((call: any) => {
+      return [
+        call.from_number || call.phone_number || 'Unknown',
+        call.to_number || call.phone_number || 'Unknown',
+        call.direction
+          ? `${call.direction.charAt(0).toUpperCase()}${call.direction.slice(1)}`
+          : 'Unknown',
+        formatCsvDuration(call.duration),
+        call.status || call.call_status || 'Unknown',
+        call.start_time ? new Date(call.start_time).toLocaleString() : 'N/A',
+      ];
+    });
+
+    const csv = [
+      headers.map(escapeCsvCell).join(','),
+      ...rows.map(row => row.map(escapeCsvCell).join(',')),
+    ].join('\r\n');
+    const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const date = new Date().toISOString().slice(0, 10);
+
+    link.href = url;
+    link.download = `calls-${date}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
   };
 
   const handleRefresh = () => {
@@ -651,6 +725,20 @@ const Dashboard = () => {
                       </div>
 
                       <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Direction</label>
+                        <select
+                          value={selectedDirection}
+                          onChange={(e) => setSelectedDirection(e.target.value)}
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all bg-white shadow-sm"
+                        >
+                          <option value="">Inbound & Outbound</option>
+                          <option value="inbound">Inbound</option>
+                          <option value="outbound">Outbound</option>
+                          <option value="unknown">Unknown</option>
+                        </select>
+                      </div>
+
+                      <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
                         <input
                           type="text"
@@ -701,9 +789,23 @@ const Dashboard = () => {
               </div>
 
               {/* Call History Header */}
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900">All Calls</h2>
-                <p className="text-gray-500">Showing {calls.length} call(s)</p>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">All Calls</h2>
+                  <p className="text-gray-500 mt-1">Showing {calls.length} call(s)</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleDownloadCsv}
+                  disabled={calls.length === 0}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-all shadow-lg hover:shadow-xl font-semibold disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
+                  title={calls.length === 0 ? 'No calls available to download' : 'Download the currently displayed calls'}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14a2 2 0 002-2v-2" />
+                  </svg>
+                  Download CSV ({calls.length})
+                </button>
               </div>
 
               {/* Calls List */}
