@@ -140,6 +140,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         serviceItems.push({ name: 'System Agent', href: '/dashboard/system-agent', icon: Settings });
       }
       serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
+      serviceItems.push({ name: 'WhatsApp Inbox', href: '/dashboard/whatsapp-inbox', icon: MessageSquare });
       serviceItems.push({ name: 'Book Appointment', href: '/dashboard/book-appointment', icon: PlusCircle });
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
