@@ -332,14 +332,23 @@ export const availabilityAPI = {
   }) => api.post('/availability/leave', data),
 
   // Update working hours
-  updateWorkingHours: (data: {
-    doctorId: string;
-    date: string;
-    workingHours: { start: string; end: string };
-    workingPeriods?: WorkingPeriod[];
-    blockedTimes?: Array<{ start: string; end: string; reason?: string }>;
-  }) => api.put('/availability/working-hours', data),
-};
+    updateWorkingHours: (data: {
+      doctorId: string;
+      date: string;
+      workingHours: { start: string; end: string };
+      workingPeriods?: WorkingPeriod[];
+      blockedTimes?: Array<{ start: string; end: string; reason?: string }>;
+    }) => api.put('/availability/working-hours', data),
+
+    // Remove one manually blocked doctor period
+    unblockTime: (data: {
+      doctorId: string;
+      date: string;
+      startTime: string;
+      endTime: string;
+      reason: string;
+    }) => api.post('/availability/unblock-time', data),
+  };
 
 // ========================================
 // APPOINTMENTS API

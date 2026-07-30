@@ -1,9 +1,11 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import { useWebSocket } from "@/components/hooks/use-websocket";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
     AlertCircle,
     ArrowLeft,
+    Ban,
     Bot,
     Building2,
     Calendar,
@@ -24,7 +26,7 @@ import {
     Zap
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 
 // ==================== TYPES ====================
 interface Appointment {
@@ -51,6 +53,7 @@ interface Appointment {
     agent_name?: string;
     call_direction?: string;
     confidence_score?: number;
+    doctorId?: string;
     doctor_name?: string;
     queueNumberingEnabled?: boolean;
     queueSlot?: string;
@@ -59,8 +62,53 @@ interface Appointment {
   updatedAt: string;
 }
 
+interface DoctorOption {
+  _id: string;
+  name: string;
+  specialization?: string;
+}
+
+interface BlockedTime {
+  start: string;
+  end: string;
+  reason: string;
+}
+
+interface AvailabilitySlot {
+  time: string;
+  start: string;
+  end: string;
+}
+
+interface QueueAvailabilitySection {
+  remaining: number;
+  canBook: boolean;
+}
+
+interface DoctorAvailabilityResponse {
+  success: boolean;
+  manualBlockedTimes?: BlockedTime[];
+  availableSlots?: AvailabilitySlot[];
+  isOnLeave?: boolean;
+  leaveReason?: string;
+  isNotWorkingDay?: boolean;
+  queueNumbering?: {
+    enabled?: boolean;
+  };
+  queueAvailability?: {
+    newPatient?: QueueAvailabilitySection;
+    followUp?: QueueAvailabilitySection;
+  };
+}
+
 // ==================== CONSTANTS ====================
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
+const APPOINTMENT_REALTIME_EVENTS = new Set([
+  "appointment-created",
+  "appointment-update",
+  "appointment-deleted",
+  "availability-update",
+]);
 
 const statusStyles: Record<Appointment["status"], string> = {
   scheduled: "bg-orange-100 text-orange-700 border-orange-300",
@@ -80,6 +128,15 @@ const statusColors: Record<Appointment["status"], string> = {
   rescheduled: "yellow",
 };
 
+const statusLabels: Record<Appointment["status"], string> = {
+  scheduled: "Scheduled",
+  confirmed: "Confirmed",
+  completed: "Completed",
+  cancelled: "Cancelled",
+  "no-show": "No Show",
+  rescheduled: "Rescheduled",
+};
+
 // ==================== HELPER FUNCTIONS ====================
 function getAuthHeaders() {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -92,6 +149,18 @@ function getAuthHeaders() {
     }
   }
   return headers;
+}
+
+function getLocalDateInputValue(date = new Date()) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
+}
+
+function normalizeDoctorName(name: string) {
+  return name.replace(/^(doctor\.?\s*|dr\.?\s*)/i, "").trim().toLowerCase();
 }
 
 function getPatientAge(apt: Pick<Appointment, "age" | "patientAge">) {
@@ -128,7 +197,7 @@ function getScheduleTitle(apt: Pick<Appointment, "queueNumber" | "metadata">) {
 function StatusBadge({ status }: { status: Appointment["status"] }) {
   return (
     <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${statusStyles[status]}`}>
-      {status.charAt(0).toUpperCase() + status.slice(1)}
+      {statusLabels[status]}
     </span>
   );
 }
@@ -164,10 +233,12 @@ function AppointmentModal({
   apt,
   onClose,
   onUpdate,
+  onReschedule,
 }: {
   apt: Appointment;
   onClose: () => void;
   onUpdate: (id: string, newStatus: Appointment["status"]) => void;
+  onReschedule: (appointment: Appointment) => void;
 }) {
   const color = statusColors[apt.status] || "gray";
   const gradientMap = {
@@ -421,7 +492,7 @@ function AppointmentModal({
               <StatusBadge status={apt.status} />
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
               <button
                 onClick={() => onUpdate(apt._id, "completed")}
                 disabled={apt.status === "completed"}
@@ -430,11 +501,18 @@ function AppointmentModal({
                 ✔ Complete
               </button>
               <button
-                onClick={() => onUpdate(apt._id, "rescheduled")}
-                disabled={apt.status === "rescheduled"}
+                onClick={() => onReschedule(apt)}
+                disabled={["completed", "cancelled", "no-show"].includes(apt.status)}
                 className="px-4 py-3 text-sm font-bold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed bg-yellow-500 text-white hover:bg-yellow-600 shadow-md hover:shadow-lg transform hover:scale-105"
               >
                 🔄 Reschedule
+              </button>
+              <button
+                onClick={() => onUpdate(apt._id, "no-show")}
+                disabled={apt.status === "no-show"}
+                className="px-4 py-3 text-sm font-bold rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed bg-gray-600 text-white hover:bg-gray-700 shadow-md hover:shadow-lg transform hover:scale-105"
+              >
+                No Show
               </button>
               <button
                 onClick={() => onUpdate(apt._id, "cancelled")}
@@ -581,6 +659,21 @@ export default function AppointmentsPage() {
   const [clinicName, setClinicName] = useState("My Clinic");
   const [filterMonth, setFilterMonth] = useState<string>("All");
   const [filterYear, setFilterYear] = useState<string>("All");
+  const [blockTimeModalOpen, setBlockTimeModalOpen] = useState(false);
+  const [blockDate, setBlockDate] = useState("");
+  const [blockStartTime, setBlockStartTime] = useState("09:00");
+  const [blockEndTime, setBlockEndTime] = useState("10:00");
+  const [blockReason, setBlockReason] = useState("Doctor unavailable");
+  const [cancelExistingAppointments, setCancelExistingAppointments] = useState(true);
+  const [blockingTime, setBlockingTime] = useState(false);
+  const [blockedTimeToUnblock, setBlockedTimeToUnblock] = useState<BlockedTime | null>(null);
+  const [unblockingTime, setUnblockingTime] = useState(false);
+  const [appointmentToReschedule, setAppointmentToReschedule] = useState<Appointment | null>(null);
+  const [rescheduleDate, setRescheduleDate] = useState("");
+  const [rescheduleTime, setRescheduleTime] = useState("");
+  const [rescheduling, setRescheduling] = useState(false);
+  const [rescheduleError, setRescheduleError] = useState<string | null>(null);
+  const realtimeRefreshTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -631,7 +724,61 @@ export default function AppointmentsPage() {
         : [];
     },
     placeholderData: keepPreviousData,
+    refetchInterval: 30_000,
+    refetchIntervalInBackground: false,
   });
+  const { data: doctorOptions = [] } = useQuery<DoctorOption[]>({
+    queryKey: ["appointment-doctors"],
+    enabled: mounted,
+    queryFn: async () => {
+      const response = await fetch(`${API_BASE_URL}/doctors?active=true`, {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
+      if (!response.ok) return [];
+      const data = await response.json();
+      return data.success ? data.doctors || [] : [];
+    },
+  });
+  const rescheduleDoctorId = appointmentToReschedule?.metadata?.doctorId || "";
+  const {
+    data: rescheduleAvailability,
+    isFetching: rescheduleAvailabilityLoading,
+    error: rescheduleAvailabilityError,
+  } = useQuery<DoctorAvailabilityResponse, Error>({
+    queryKey: ["appointment-reschedule-availability", rescheduleDoctorId, rescheduleDate],
+    enabled: mounted && Boolean(appointmentToReschedule && rescheduleDoctorId && rescheduleDate),
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        doctorId: rescheduleDoctorId,
+        date: rescheduleDate,
+      });
+      const response = await fetch(`${API_BASE_URL}/availability?${params.toString()}`, {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Failed to load available appointment slots");
+      }
+      return data;
+    },
+    retry: false,
+  });
+  const rescheduleQueueEnabled = Boolean(rescheduleAvailability?.queueNumbering?.enabled);
+  const rescheduleQueueSection = appointmentToReschedule?.patientType === "follow_up"
+    ? rescheduleAvailability?.queueAvailability?.followUp
+    : rescheduleAvailability?.queueAvailability?.newPatient;
+  const rescheduleSlots = useMemo(() => {
+    const slots = rescheduleAvailability?.availableSlots || [];
+    if (rescheduleDate !== getLocalDateInputValue()) return slots;
+
+    const now = new Date();
+    const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(
+      now.getMinutes()
+    ).padStart(2, "0")}`;
+    return slots.filter((slot) => slot.start > currentTime);
+  }, [rescheduleAvailability?.availableSlots, rescheduleDate]);
   const displayError = error || appointmentsError?.message || null;
 
   const updateAppointmentStatus = async (appointmentId: string | undefined, newStatus: Appointment["status"]) => {
@@ -650,7 +797,7 @@ export default function AppointmentsPage() {
         setSuccessMessage(
           newStatus === "confirmed"
             ? "✅ Appointment confirmed! Email sent to doctor."
-            : `Status updated to ${newStatus}!`
+            : `Status updated to ${statusLabels[newStatus]}!`
         );
         setTimeout(() => setSuccessMessage(null), 5000);
         setSelectedAppointment(null);
@@ -658,6 +805,76 @@ export default function AppointmentsPage() {
       }
     } catch (err) {
       setError("Failed to update appointment");
+    }
+  };
+
+  const openRescheduleModal = (appointment: Appointment) => {
+    const today = getLocalDateInputValue();
+    const currentAppointmentDate = getLocalDateInputValue(new Date(appointment.date));
+
+    setRescheduleDate(currentAppointmentDate >= today ? currentAppointmentDate : today);
+    setRescheduleTime("");
+    setRescheduleError(null);
+    setSelectedAppointment(null);
+    setAppointmentToReschedule(appointment);
+  };
+
+  const submitReschedule = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!appointmentToReschedule) return;
+    if (!rescheduleDoctorId) {
+      setRescheduleError("This appointment has no assigned doctor.");
+      return;
+    }
+    if (!rescheduleDate) {
+      setRescheduleError("Select a new appointment date.");
+      return;
+    }
+    if (!rescheduleQueueEnabled && !rescheduleTime) {
+      setRescheduleError("Select an available time slot.");
+      return;
+    }
+
+    setRescheduling(true);
+    setRescheduleError(null);
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/appointments/${appointmentToReschedule._id}/reschedule`,
+        {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: JSON.stringify({
+            date: rescheduleDate,
+            time: rescheduleQueueEnabled ? undefined : rescheduleTime,
+          }),
+        }
+      );
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Failed to reschedule appointment");
+      }
+
+      const queueMessage = data.queueNumber
+        ? ` New queue number: ${data.queueNumber}.`
+        : "";
+      const notificationMessage = data.patientNotified
+        ? " Patient notification sent."
+        : " Appointment updated, but the patient notification could not be sent.";
+      setSuccessMessage(
+        `Appointment rescheduled successfully.${queueMessage}${notificationMessage}`
+      );
+      setAppointmentToReschedule(null);
+      setRescheduleTime("");
+      await fetchAppointments();
+      setTimeout(() => setSuccessMessage(null), 8000);
+    } catch (rescheduleRequestError) {
+      setRescheduleError(
+        rescheduleRequestError instanceof Error
+          ? rescheduleRequestError.message
+          : "Failed to reschedule appointment"
+      );
+    } finally {
+      setRescheduling(false);
     }
   };
 
@@ -672,7 +889,195 @@ export default function AppointmentsPage() {
     return groups;
   }, [appointments]);
 
-  const doctors = Object.keys(doctorGroups).sort();
+  const doctors = useMemo(
+    () =>
+      Array.from(
+        new Set([
+          ...doctorOptions.map((doctor) => doctor.name).filter(Boolean),
+          ...Object.keys(doctorGroups),
+        ])
+      ).sort((a, b) => a.localeCompare(b)),
+    [doctorGroups, doctorOptions]
+  );
+
+  const selectedDoctorId = useMemo(() => {
+    if (!selectedDoctor || selectedDoctor === "Unassigned") return "";
+
+    const doctorFromList = doctorOptions.find(
+      (doctor) => normalizeDoctorName(doctor.name) === normalizeDoctorName(selectedDoctor)
+    );
+    if (doctorFromList?._id) return doctorFromList._id;
+
+    return String(
+      doctorGroups[selectedDoctor]?.find((appointment) => appointment.metadata?.doctorId)
+        ?.metadata?.doctorId || ""
+    );
+  }, [doctorGroups, doctorOptions, selectedDoctor]);
+
+  const {
+    data: selectedDateAvailability,
+    isFetching: blockedTimesLoading,
+    error: blockedTimesError,
+    refetch: refetchBlockedTimes,
+  } = useQuery<DoctorAvailabilityResponse, Error>({
+    queryKey: ["doctor-manual-blocks", selectedDoctorId, selectedDate],
+    enabled: mounted && Boolean(selectedDoctorId && selectedDate),
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        doctorId: selectedDoctorId,
+        date: selectedDate || "",
+      });
+      const response = await fetch(`${API_BASE_URL}/availability?${params.toString()}`, {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to load blocked periods");
+      }
+      return data;
+    },
+  });
+  const manualBlockedTimes = selectedDateAvailability?.manualBlockedTimes || [];
+
+  const scheduleRealtimeRefresh = useCallback(() => {
+    if (realtimeRefreshTimer.current) clearTimeout(realtimeRefreshTimer.current);
+    realtimeRefreshTimer.current = setTimeout(() => {
+      void fetchAppointments();
+      if (selectedDoctorId && selectedDate) {
+        void refetchBlockedTimes();
+      }
+    }, 200);
+  }, [fetchAppointments, refetchBlockedTimes, selectedDate, selectedDoctorId]);
+
+  useWebSocket({
+    onMessage: useCallback((message: { type?: string }) => {
+      if (message?.type && APPOINTMENT_REALTIME_EVENTS.has(message.type)) {
+        scheduleRealtimeRefresh();
+      }
+    }, [scheduleRealtimeRefresh]),
+  });
+
+  useEffect(() => () => {
+    if (realtimeRefreshTimer.current) clearTimeout(realtimeRefreshTimer.current);
+  }, []);
+
+  const openBlockTimeModal = () => {
+    setError(null);
+    setBlockDate(selectedDate || getLocalDateInputValue());
+    setBlockStartTime("09:00");
+    setBlockEndTime("10:00");
+    setBlockReason("Doctor unavailable");
+    setCancelExistingAppointments(true);
+    setBlockTimeModalOpen(true);
+  };
+
+  const blockDoctorTime = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!selectedDoctorId) {
+      setError("This doctor could not be matched to a doctor record.");
+      return;
+    }
+    if (!blockDate || !blockStartTime || !blockEndTime) {
+      setError("Select a date, start time, and end time.");
+      return;
+    }
+    if (blockStartTime >= blockEndTime) {
+      setError("End time must be after start time.");
+      return;
+    }
+
+    setBlockingTime(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_BASE_URL}/availability/block-time`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          doctorId: selectedDoctorId,
+          date: blockDate,
+          startTime: blockStartTime,
+          endTime: blockEndTime,
+          reason: blockReason,
+          cancelExistingAppointments,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to block the selected time");
+      }
+
+      const cancelledCount = Number(data.cancelledCount || 0);
+      const appointmentsKept = Number(data.appointmentsKept || 0);
+      const notificationCount = Number(data.patientNotificationsSent || 0);
+      setSuccessMessage(
+        cancelExistingAppointments && cancelledCount > 0
+          ? `${blockStartTime}-${blockEndTime} is now unavailable. ${cancelledCount} appointment${
+              cancelledCount === 1 ? "" : "s"
+            } cancelled; ${notificationCount} patient notification${
+              notificationCount === 1 ? "" : "s"
+            } sent.`
+          : cancelExistingAppointments
+          ? `${blockStartTime}-${blockEndTime} is now unavailable. No existing appointments were affected.`
+          : `${blockStartTime}-${blockEndTime} is blocked for new bookings. ${appointmentsKept} existing appointment${
+              appointmentsKept === 1 ? "" : "s"
+            } kept.`
+      );
+      setSelectedDate(blockDate);
+      setCurrentMonth(new Date(`${blockDate}T12:00:00`));
+      setBlockTimeModalOpen(false);
+      await fetchAppointments();
+      if (selectedDate === blockDate) {
+        await refetchBlockedTimes();
+      }
+      setTimeout(() => setSuccessMessage(null), 8000);
+    } catch (blockError) {
+      setError(blockError instanceof Error ? blockError.message : "Failed to block the selected time");
+    } finally {
+      setBlockingTime(false);
+    }
+  };
+
+  const unblockDoctorTime = async () => {
+    if (!selectedDoctorId || !selectedDate || !blockedTimeToUnblock) return;
+
+    setUnblockingTime(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_BASE_URL}/availability/unblock-time`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          doctorId: selectedDoctorId,
+          date: selectedDate,
+          startTime: blockedTimeToUnblock.start,
+          endTime: blockedTimeToUnblock.end,
+          reason: blockedTimeToUnblock.reason,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to unblock the selected time");
+      }
+
+      setSuccessMessage(
+        data.stillBlocked
+          ? `The selected ${blockedTimeToUnblock.start}-${blockedTimeToUnblock.end} block was removed, but another schedule block still overlaps this period.`
+          : `${blockedTimeToUnblock.start}-${blockedTimeToUnblock.end} is available for new bookings again. Previously cancelled appointments remain cancelled.`
+      );
+      setBlockedTimeToUnblock(null);
+      await refetchBlockedTimes();
+      setTimeout(() => setSuccessMessage(null), 8000);
+    } catch (unblockError) {
+      setError(
+        unblockError instanceof Error
+          ? unblockError.message
+          : "Failed to unblock the selected time"
+      );
+    } finally {
+      setUnblockingTime(false);
+    }
+  };
 
   // Get available years from appointments
   const availableYears = useMemo(() => {
@@ -908,7 +1313,7 @@ export default function AppointmentsPage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                   {doctors.map((doctor) => {
-                    const doctorAppts = doctorGroups[doctor];
+                    const doctorAppts = doctorGroups[doctor] || [];
                     const todayAppts = doctorAppts.filter(
                       (a) => new Date(a.date).toDateString() === new Date().toDateString()
                     );
@@ -1047,6 +1452,19 @@ export default function AppointmentsPage() {
                 </p>
               </div>
               <div className="flex gap-2 sm:gap-3">
+                <button
+                  onClick={openBlockTimeModal}
+                  disabled={!selectedDoctorId}
+                  title={
+                    selectedDoctorId
+                      ? "Block a time range and cancel overlapping appointments"
+                      : "Doctor record not available"
+                  }
+                  className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl transition font-semibold text-sm sm:text-base disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Ban className="w-5 h-5" />
+                  <span className="hidden sm:inline">Block Time</span>
+                </button>
                 {selectedDate && (
                   <button
                     onClick={() => setSelectedDate(null)}
@@ -1119,6 +1537,46 @@ export default function AppointmentsPage() {
 
                 <div className="grid grid-cols-7 gap-1.5">{renderCalendar()}</div>
 
+                {selectedDate && (
+                  <div className="mt-6 border-t border-gray-200 pt-5">
+                    <div className="mb-3 flex items-center justify-between">
+                      <h4 className="font-bold text-gray-900">Blocked Periods</h4>
+                      {blockedTimesLoading && (
+                        <RefreshCw className="h-4 w-4 animate-spin text-gray-400" />
+                      )}
+                    </div>
+
+                    {blockedTimesError ? (
+                      <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                        {blockedTimesError.message}
+                      </div>
+                    ) : !blockedTimesLoading && manualBlockedTimes.length === 0 ? (
+                      <div className="rounded-xl border border-green-200 bg-green-50 p-3 text-sm text-green-700">
+                        No manually blocked periods on this date.
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        {manualBlockedTimes.map((blockedTime) => (
+                          <button
+                            key={`${blockedTime.start}-${blockedTime.end}-${blockedTime.reason}`}
+                            type="button"
+                            onClick={() => setBlockedTimeToUnblock(blockedTime)}
+                            className="w-full rounded-xl border border-red-200 bg-red-50 p-3 text-left transition hover:border-red-400 hover:bg-red-100"
+                          >
+                            <div className="flex items-center gap-2 font-bold text-red-700">
+                              <Ban className="h-4 w-4" />
+                              {blockedTime.start}-{blockedTime.end}
+                            </div>
+                            <div className="mt-1 text-xs text-red-600">
+                              {blockedTime.reason || "Doctor unavailable"} · Click to unblock
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Quick Stats */}
                 <div className="mt-6 pt-5 border-t border-gray-200 space-y-3">
                   <div className="flex items-center justify-between text-sm">
@@ -1153,7 +1611,7 @@ export default function AppointmentsPage() {
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="text"
-                        placeholder="Search patient name..."
+                        placeholder="Search name, mobile, or queue number..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-orange-500 text-gray-900 font-medium"
@@ -1168,6 +1626,7 @@ export default function AppointmentsPage() {
                       <option value="scheduled">Scheduled</option>
                       <option value="confirmed">Confirmed</option>
                       <option value="completed">Completed</option>
+                      <option value="no-show">No Show</option>
                       <option value="cancelled">Cancelled</option>
                     </select>
                     <select
@@ -1363,12 +1822,417 @@ export default function AppointmentsPage() {
         </div>
       </main>
 
+      {/* Reschedule Appointment Modal */}
+      {appointmentToReschedule && (
+        <div
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4"
+          onClick={() => !rescheduling && setAppointmentToReschedule(null)}
+        >
+          <form
+            onSubmit={submitReschedule}
+            onClick={(event) => event.stopPropagation()}
+            className="max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white shadow-2xl"
+          >
+            <div className="flex items-start justify-between border-b border-gray-200 p-5">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Reschedule Appointment</h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  {appointmentToReschedule.name} · Dr.{" "}
+                  {appointmentToReschedule.metadata?.doctor_name || "Assigned Doctor"}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setAppointmentToReschedule(null)}
+                disabled={rescheduling}
+                className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 disabled:opacity-50"
+                aria-label="Close reschedule appointment"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 p-5">
+              <div className="grid gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 sm:grid-cols-2">
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+                    Current date
+                  </div>
+                  <div className="mt-1 font-bold text-amber-950">
+                    {new Date(appointmentToReschedule.date).toLocaleDateString("en-IN")}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+                    Current {appointmentToReschedule.queueNumber ? "queue" : "time"}
+                  </div>
+                  <div className="mt-1 font-bold text-amber-950">
+                    {getScheduleLabel(appointmentToReschedule)}
+                  </div>
+                </div>
+              </div>
+
+              <label className="block">
+                <span className="mb-2 block text-sm font-semibold text-gray-700">
+                  New appointment date
+                </span>
+                <input
+                  type="date"
+                  min={getLocalDateInputValue()}
+                  value={rescheduleDate}
+                  onChange={(event) => {
+                    setRescheduleDate(event.target.value);
+                    setRescheduleTime("");
+                    setRescheduleError(null);
+                  }}
+                  required
+                  className="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-gray-900 outline-none transition focus:border-yellow-500 focus:ring-2 focus:ring-yellow-100"
+                />
+              </label>
+
+              {!rescheduleDoctorId ? (
+                <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                  This appointment has no assigned doctor and cannot be rescheduled.
+                </div>
+              ) : rescheduleAvailabilityLoading ? (
+                <div className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 p-8 text-gray-600">
+                  <RefreshCw className="h-5 w-5 animate-spin" />
+                  Loading doctor availability...
+                </div>
+              ) : rescheduleAvailabilityError ? (
+                <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                  {rescheduleAvailabilityError.message}
+                </div>
+              ) : rescheduleAvailability?.isOnLeave ? (
+                <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                  The doctor is on leave on this date
+                  {rescheduleAvailability.leaveReason
+                    ? `: ${rescheduleAvailability.leaveReason}`
+                    : "."}
+                </div>
+              ) : rescheduleAvailability?.isNotWorkingDay ? (
+                <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
+                  The doctor does not work on this date. Select another date.
+                </div>
+              ) : rescheduleQueueEnabled ? (
+                <div className="rounded-xl border border-orange-200 bg-orange-50 p-4">
+                  <div className="flex items-center gap-2 font-bold text-orange-900">
+                    <Hash className="h-5 w-5" />
+                    A new queue number will be assigned
+                  </div>
+                  <p className="mt-2 text-sm text-orange-800">
+                    {rescheduleQueueSection
+                      ? rescheduleQueueSection.remaining === 0 &&
+                        rescheduleQueueSection.canBook
+                        ? "The standard queue is full; an overflow queue number will be assigned."
+                        : `${rescheduleQueueSection.remaining} ${
+                          appointmentToReschedule.patientType === "follow_up"
+                            ? "follow-up"
+                            : "new-patient"
+                        } queue number${
+                          rescheduleQueueSection.remaining === 1 ? "" : "s"
+                        } remaining.`
+                      : "Queue availability will be validated when you confirm."}
+                  </p>
+                  {rescheduleQueueSection?.canBook === false && (
+                    <p className="mt-2 font-semibold text-red-700">
+                      This queue is full. Select another date.
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="text-sm font-semibold text-gray-700">
+                      Select an available time
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {rescheduleSlots.length} available
+                    </span>
+                  </div>
+                  {rescheduleSlots.length > 0 ? (
+                    <div className="grid max-h-56 grid-cols-2 gap-2 overflow-y-auto pr-1 sm:grid-cols-3">
+                      {rescheduleSlots.map((slot) => (
+                        <button
+                          key={`${slot.start}-${slot.end}`}
+                          type="button"
+                          onClick={() => {
+                            setRescheduleTime(slot.start);
+                            setRescheduleError(null);
+                          }}
+                          className={`rounded-xl border px-3 py-2.5 text-sm font-bold transition ${
+                            rescheduleTime === slot.start
+                              ? "border-yellow-500 bg-yellow-500 text-white shadow-md"
+                              : "border-gray-200 bg-white text-gray-800 hover:border-yellow-400 hover:bg-yellow-50"
+                          }`}
+                        >
+                          {slot.time}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-600">
+                      No future slots are available on this date.
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {rescheduleError && (
+                <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                  <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+                  {rescheduleError}
+                </div>
+              )}
+
+              <div className="rounded-xl border border-green-200 bg-green-50 p-3 text-sm text-green-800">
+                The patient will receive the existing appointment notification with the new
+                schedule. No doctor notification will be sent.
+              </div>
+            </div>
+
+            <div className="flex flex-col-reverse gap-3 border-t border-gray-200 bg-gray-50 p-5 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => setAppointmentToReschedule(null)}
+                disabled={rescheduling}
+                className="rounded-xl border border-gray-300 bg-white px-5 py-2.5 font-semibold text-gray-700 transition hover:bg-gray-100 disabled:opacity-50"
+              >
+                Keep Current Schedule
+              </button>
+              <button
+                type="submit"
+                disabled={
+                  rescheduling ||
+                  rescheduleAvailabilityLoading ||
+                  !rescheduleDoctorId ||
+                  !rescheduleDate ||
+                  Boolean(rescheduleAvailabilityError) ||
+                  Boolean(rescheduleAvailability?.isOnLeave) ||
+                  Boolean(rescheduleAvailability?.isNotWorkingDay) ||
+                  (rescheduleQueueEnabled
+                    ? rescheduleQueueSection?.canBook === false
+                    : !rescheduleTime)
+                }
+                className="flex items-center justify-center gap-2 rounded-xl bg-yellow-500 px-5 py-2.5 font-bold text-white transition hover:bg-yellow-600 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {rescheduling ? (
+                  <RefreshCw className="h-5 w-5 animate-spin" />
+                ) : (
+                  <Calendar className="h-5 w-5" />
+                )}
+                {rescheduling ? "Rescheduling..." : "Confirm Reschedule"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Doctor Time Block Modal */}
+      {blockTimeModalOpen && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4"
+          onClick={() => !blockingTime && setBlockTimeModalOpen(false)}
+        >
+          <form
+            onSubmit={blockDoctorTime}
+            onClick={(event) => event.stopPropagation()}
+            className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-2xl"
+          >
+            <div className="flex items-start justify-between border-b border-gray-200 p-4 sm:p-5">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Block Doctor Time</h2>
+                <p className="mt-1 text-sm text-gray-500">Dr. {selectedDoctor}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setBlockTimeModalOpen(false)}
+                disabled={blockingTime}
+                className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 disabled:opacity-50"
+                aria-label="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-3 p-4 sm:p-5">
+              <div className="rounded-xl border border-orange-200 bg-orange-50 p-3 text-sm text-orange-800">
+                This period will become unavailable for new bookings.
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-3">
+                <label className="block">
+                  <span className="mb-2 block text-sm font-semibold text-gray-700">Date</span>
+                  <input
+                    type="date"
+                    min={getLocalDateInputValue()}
+                    value={blockDate}
+                    onChange={(event) => setBlockDate(event.target.value)}
+                    required
+                    className="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-gray-900 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                  />
+                </label>
+                <label className="block">
+                  <span className="mb-2 block text-sm font-semibold text-gray-700">Start time</span>
+                  <input
+                    type="time"
+                    value={blockStartTime}
+                    onChange={(event) => setBlockStartTime(event.target.value)}
+                    required
+                    className="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-gray-900 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                  />
+                </label>
+                <label className="block">
+                  <span className="mb-2 block text-sm font-semibold text-gray-700">End time</span>
+                  <input
+                    type="time"
+                    value={blockEndTime}
+                    onChange={(event) => setBlockEndTime(event.target.value)}
+                    required
+                    className="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-gray-900 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                  />
+                </label>
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                <label className="block">
+                  <span className="mb-2 block text-sm font-semibold text-gray-700">
+                    Block reason
+                  </span>
+                  <input
+                    type="text"
+                    maxLength={160}
+                    value={blockReason}
+                    onChange={(event) => setBlockReason(event.target.value)}
+                    placeholder="Doctor unavailable"
+                    className="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-gray-900 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                  />
+                </label>
+
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 p-3 transition hover:bg-gray-50">
+                  <input
+                    type="checkbox"
+                    checked={!cancelExistingAppointments}
+                    onChange={(event) => setCancelExistingAppointments(!event.target.checked)}
+                    className="mt-1 h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+                  />
+                  <span>
+                    <span className="block text-sm font-semibold text-gray-900">
+                      Do not cancel existing appointments
+                    </span>
+                    <span className="mt-1 block text-xs text-gray-500">
+                      Check this to block only new bookings.
+                    </span>
+                  </span>
+                </label>
+              </div>
+
+              {cancelExistingAppointments && (
+                <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+                  Overlapping appointments will be cancelled and affected patients will be notified.
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col-reverse gap-3 border-t border-gray-200 bg-gray-50 p-4 sm:flex-row sm:justify-end sm:p-5">
+              <button
+                type="button"
+                onClick={() => setBlockTimeModalOpen(false)}
+                disabled={blockingTime}
+                className="rounded-xl border border-gray-300 bg-white px-5 py-2.5 font-semibold text-gray-700 transition hover:bg-gray-100 disabled:opacity-50"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                disabled={blockingTime}
+                className="flex items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-2.5 font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {blockingTime ? (
+                  <RefreshCw className="h-5 w-5 animate-spin" />
+                ) : (
+                  <Ban className="h-5 w-5" />
+                )}
+                {blockingTime
+                  ? "Blocking..."
+                  : cancelExistingAppointments
+                  ? "Block Time & Cancel"
+                  : "Block New Bookings"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Unblock Time Confirmation */}
+      {blockedTimeToUnblock && selectedDate && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4"
+          onClick={() => !unblockingTime && setBlockedTimeToUnblock(null)}
+        >
+          <div
+            onClick={(event) => event.stopPropagation()}
+            className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl"
+          >
+            <div className="flex items-start justify-between border-b border-gray-200 p-5 sm:p-6">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Unblock This Time?</h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  {blockedTimeToUnblock.start}-{blockedTimeToUnblock.end} on{" "}
+                  {new Date(`${selectedDate}T12:00:00`).toLocaleDateString("en-IN")}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setBlockedTimeToUnblock(null)}
+                disabled={unblockingTime}
+                className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 disabled:opacity-50"
+                aria-label="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 p-5 sm:p-6">
+              <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+                This manual block will be removed. Any other overlapping schedule blocks will still
+                apply.
+              </div>
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                Appointments previously cancelled from this block will remain cancelled.
+              </div>
+            </div>
+
+            <div className="flex flex-col-reverse gap-3 border-t border-gray-200 bg-gray-50 p-5 sm:flex-row sm:justify-end sm:p-6">
+              <button
+                type="button"
+                onClick={() => setBlockedTimeToUnblock(null)}
+                disabled={unblockingTime}
+                className="rounded-xl border border-gray-300 bg-white px-5 py-3 font-semibold text-gray-700 transition hover:bg-gray-100 disabled:opacity-50"
+              >
+                Keep Blocked
+              </button>
+              <button
+                type="button"
+                onClick={() => void unblockDoctorTime()}
+                disabled={unblockingTime}
+                className="flex items-center justify-center gap-2 rounded-xl bg-green-600 px-5 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {unblockingTime && <RefreshCw className="h-5 w-5 animate-spin" />}
+                {unblockingTime ? "Unblocking..." : "Unblock Time"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Appointment Details Modal */}
       {selectedAppointment && (
         <AppointmentModal
           apt={selectedAppointment}
           onClose={() => setSelectedAppointment(null)}
           onUpdate={updateAppointmentStatus}
+          onReschedule={openRescheduleModal}
         />
       )}
     </div>

@@ -1,11 +1,14 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import { useWebSocket } from "@/components/hooks/use-websocket";
 import { availabilityAPI, doctorsAPI } from "@/lib/api";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
     AlertCircle,
+    Ban,
     Calendar,
     CalendarX,
+    CheckCircle2,
     ChevronLeft,
     ChevronRight,
     Clock,
@@ -13,9 +16,10 @@ import {
     Menu,
     RefreshCw,
     User,
+    X,
     XCircle
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // ==================== TYPES ====================
 interface TimePeriod {
@@ -76,6 +80,12 @@ interface AlternateDoctor {
   availableSlots?: { time: string; start: string }[];
 }
 
+interface BlockedTime {
+  start: string;
+  end: string;
+  reason: string;
+}
+
 interface AvailabilityData {
   doctorId: string;
   doctorName: string;
@@ -85,11 +95,19 @@ interface AvailabilityData {
   isOnLeave: boolean;
   workingHours: { start: string; end: string };
   workingPeriods?: TimePeriod[];
+  manualBlockedTimes?: BlockedTime[];
   queueNumbering?: {
     enabled?: boolean;
   };
   alternateDoctors?: AlternateDoctor[];
 }
+
+const AVAILABILITY_REALTIME_EVENTS = new Set([
+  "appointment-created",
+  "appointment-update",
+  "appointment-deleted",
+  "availability-update",
+]);
 
 // ==================== HELPERS ====================
 const formatDate = (date: Date): string => {
@@ -188,6 +206,10 @@ export default function AvailabilityPage() {
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [leaveReason, setLeaveReason] = useState("");
   const [savingLeave, setSavingLeave] = useState(false);
+  const [blockedTimeToUnblock, setBlockedTimeToUnblock] = useState<BlockedTime | null>(null);
+  const [unblockingTime, setUnblockingTime] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const realtimeRefreshTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const {
     data: doctors = [],
@@ -224,8 +246,29 @@ export default function AvailabilityPage() {
     },
     placeholderData: keepPreviousData,
     staleTime: 30_000,
+    refetchInterval: 30_000,
+    refetchIntervalInBackground: false,
   });
   const error = doctorsError?.message || null;
+
+  const scheduleRealtimeRefresh = useCallback(() => {
+    if (realtimeRefreshTimer.current) clearTimeout(realtimeRefreshTimer.current);
+    realtimeRefreshTimer.current = setTimeout(() => {
+      void fetchAvailability();
+    }, 200);
+  }, [fetchAvailability]);
+
+  useWebSocket({
+    onMessage: useCallback((message: { type?: string }) => {
+      if (message?.type && AVAILABILITY_REALTIME_EVENTS.has(message.type)) {
+        scheduleRealtimeRefresh();
+      }
+    }, [scheduleRealtimeRefresh]),
+  });
+
+  useEffect(() => () => {
+    if (realtimeRefreshTimer.current) clearTimeout(realtimeRefreshTimer.current);
+  }, []);
 
   // Navigate dates
   const goToPreviousDay = () => {
@@ -302,6 +345,35 @@ export default function AvailabilityPage() {
     }
   };
 
+  const handleUnblockTime = async () => {
+    if (!selectedDoctor || !blockedTimeToUnblock) return;
+
+    setUnblockingTime(true);
+    try {
+      const response = await availabilityAPI.unblockTime({
+        doctorId: selectedDoctor._id,
+        date: availabilityDate,
+        startTime: blockedTimeToUnblock.start,
+        endTime: blockedTimeToUnblock.end,
+        reason: blockedTimeToUnblock.reason,
+      });
+      const data = response.data || {};
+      setSuccessMessage(
+        data.stillBlocked
+          ? `The selected ${blockedTimeToUnblock.start}-${blockedTimeToUnblock.end} block was removed, but another block still overlaps this period.`
+          : `${blockedTimeToUnblock.start}-${blockedTimeToUnblock.end} is available for new bookings again. Cancelled appointments remain cancelled.`
+      );
+      setBlockedTimeToUnblock(null);
+      await fetchAvailability();
+      setTimeout(() => setSuccessMessage(null), 8000);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Failed to unblock time";
+      alert(errorMessage);
+    } finally {
+      setUnblockingTime(false);
+    }
+  };
+
   // Generate week view
   const getWeekDates = (): Date[] => {
     const dates: Date[] = [];
@@ -321,6 +393,22 @@ export default function AvailabilityPage() {
   const isPast = selectedDate < new Date(new Date().setHours(0, 0, 0, 0));
   const queueMode = isQueueMode(selectedDoctor, availability);
   const visibleBookedSlots = getDisplayBookedSlots(availability?.bookedSlots || [], queueMode);
+  const scheduleTimeCards = [
+    ...(availability?.availableSlots || []).map((slot) => ({
+      kind: "available" as const,
+      sortTime: slot.start || slot.time,
+      key: `available-${slot.start || slot.time}`,
+      label: slot.time || slot.start || "Available",
+      blockedTime: null,
+    })),
+    ...(availability?.manualBlockedTimes || []).map((blockedTime) => ({
+      kind: "blocked" as const,
+      sortTime: blockedTime.start,
+      key: `blocked-${blockedTime.start}-${blockedTime.end}-${blockedTime.reason}`,
+      label: `${blockedTime.start}-${blockedTime.end}`,
+      blockedTime,
+    })),
+  ].sort((left, right) => left.sortTime.localeCompare(right.sortTime));
 
   return (
     <div className="min-h-screen bg-white">
@@ -366,6 +454,12 @@ export default function AvailabilityPage() {
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3 text-red-700">
               <AlertCircle className="w-5 h-5" />
               {error}
+            </div>
+          )}
+          {successMessage && (
+            <div className="mb-6 flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 p-4 text-green-700">
+              <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
+              <span>{successMessage}</span>
             </div>
           )}
 
@@ -514,6 +608,38 @@ export default function AvailabilityPage() {
                   )}
                 </div>
               </div>
+
+              {!loadingAvailability &&
+                !availability?.isOnLeave &&
+                !isPast &&
+                queueMode &&
+                Boolean(availability?.manualBlockedTimes?.length) && (
+                  <div className="border-b border-gray-200 bg-red-50/40 px-4 py-5 sm:px-6">
+                    <div className="mb-3 flex items-center gap-2">
+                      <Ban className="h-5 w-5 text-red-600" />
+                      <h4 className="font-semibold text-gray-900">Blocked Periods</h4>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                      {availability?.manualBlockedTimes?.map((blockedTime) => (
+                        <button
+                          key={`${blockedTime.start}-${blockedTime.end}-${blockedTime.reason}`}
+                          type="button"
+                          onClick={() => setBlockedTimeToUnblock(blockedTime)}
+                          className="rounded-xl border border-red-200 bg-red-50 p-4 text-left transition-colors hover:border-red-400 hover:bg-red-100"
+                        >
+                          <div className="flex items-center gap-2 font-bold text-red-700">
+                            <Clock className="h-4 w-4" />
+                            {blockedTime.start}-{blockedTime.end}
+                          </div>
+                          <p className="mt-1 text-sm text-red-600">
+                            {blockedTime.reason || "Doctor unavailable"}
+                          </p>
+                          <p className="mt-2 text-xs font-medium text-red-500">Click to unblock</p>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
               {/* Content */}
               <div className="p-6">
@@ -756,26 +882,39 @@ export default function AvailabilityPage() {
                     {/* Available Slots */}
                     <div>
                       <h4 className="font-medium text-gray-900 mb-3">
-                        {queueMode ? "Queue Availability" : "Available Time Slots"}
+                        {queueMode ? "Queue Availability" : "Time Slots"}
                       </h4>
                       {queueMode ? (
                         <div className="rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-800">
                           OPD queue is enabled for this doctor. Fixed time slots are hidden; patients are managed by queue/token number.
                         </div>
-                      ) : availability?.availableSlots && availability.availableSlots.length > 0 ? (
-                        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
-                          {availability.availableSlots.map((slot) => (
-                            <div
-                              key={slot.time}
-                              className="py-2 px-3 bg-green-50 border border-green-200 rounded-lg text-center text-sm font-medium text-green-700"
-                            >
-                              {slot.time}
-                            </div>
-                          ))}
+                      ) : scheduleTimeCards.length > 0 ? (
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-6">
+                          {scheduleTimeCards.map((card) =>
+                            card.kind === "blocked" && card.blockedTime ? (
+                              <button
+                                key={card.key}
+                                type="button"
+                                onClick={() => setBlockedTimeToUnblock(card.blockedTime)}
+                                title={`${card.blockedTime.reason || "Doctor unavailable"} — click to unblock`}
+                                className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-center transition-colors hover:border-red-500 hover:bg-red-100"
+                              >
+                                <span className="block text-sm font-bold text-red-700">{card.label}</span>
+                                <span className="block truncate text-xs text-red-500">Blocked · Unblock</span>
+                              </button>
+                            ) : (
+                              <div
+                                key={card.key}
+                                className="rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-center text-sm font-medium text-green-700"
+                              >
+                                {card.label}
+                              </div>
+                            )
+                          )}
                         </div>
                       ) : (
                         <p className="text-gray-500 text-center py-4">
-                          No available slots for this date
+                          No available or manually blocked slots for this date
                         </p>
                       )}
                     </div>
@@ -798,6 +937,68 @@ export default function AvailabilityPage() {
           )}
         </div>
       </div>
+
+      {/* Unblock Time Modal */}
+      {blockedTimeToUnblock && selectedDoctor && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          onClick={() => !unblockingTime && setBlockedTimeToUnblock(null)}
+        >
+          <div
+            className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between border-b border-gray-200 p-6">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900">Unblock This Time?</h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  Dr. {selectedDoctor.name} · {blockedTimeToUnblock.start}-
+                  {blockedTimeToUnblock.end}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setBlockedTimeToUnblock(null)}
+                disabled={unblockingTime}
+                className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 disabled:opacity-50"
+                aria-label="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 p-6">
+              <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+                This manual block will be removed and newly free slots can be booked again.
+              </div>
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                Previously cancelled appointments will remain cancelled. Other overlapping schedule
+                blocks will still apply.
+              </div>
+            </div>
+
+            <div className="flex flex-col-reverse gap-3 border-t border-gray-200 bg-gray-50 p-6 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => setBlockedTimeToUnblock(null)}
+                disabled={unblockingTime}
+                className="rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+              >
+                Keep Blocked
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleUnblockTime()}
+                disabled={unblockingTime}
+                className="flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700 disabled:opacity-50"
+              >
+                {unblockingTime && <RefreshCw className="h-4 w-4 animate-spin" />}
+                {unblockingTime ? "Unblocking..." : "Unblock Time"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Leave Modal */}
       {showLeaveModal && (
