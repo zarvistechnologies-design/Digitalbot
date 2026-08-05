@@ -15,6 +15,7 @@ import {
   Search,
   Send,
   Trash2,
+  Users,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -65,6 +66,26 @@ interface TenantData {
   brandName: string;
 }
 
+interface BulkSendResult {
+  phone?: string;
+  input?: string;
+  status: "queued" | "sent" | "failed" | "skipped";
+  messageId?: string;
+  error?: string;
+}
+
+interface BulkCampaign {
+  _id: string;
+  status: "queued" | "running" | "completed" | "failed";
+  total: number;
+  validRecipients: number;
+  sent: number;
+  failed: number;
+  skipped: number;
+  results: BulkSendResult[];
+  error?: string;
+}
+
 function formatPhone(phone: string) {
   const digits = phone.replace(/\D/g, "");
   if (digits.startsWith("91") && digits.length === 12) return `+91 ${digits.slice(2, 7)}-${digits.slice(7)}`;
@@ -97,6 +118,13 @@ function renderPreview(template: MessageTemplate | undefined, values: Record<str
   }, template.body);
 }
 
+function parseBulkPhoneInput(value: string) {
+  return value
+    .split(/[\n,;\t ]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 export default function AkiaraMessagesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -104,7 +132,12 @@ export default function AkiaraMessagesPage() {
   const [resolvedTenantId, setResolvedTenantId] = useState("");
   const [templates, setTemplates] = useState<MessageTemplate[]>([]);
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
+  const [sendMode, setSendMode] = useState<"single" | "bulk">("single");
   const [phone, setPhone] = useState("");
+  const [bulkPhones, setBulkPhones] = useState("");
+  const [bulkResults, setBulkResults] = useState<BulkSendResult[]>([]);
+  const [bulkConfirmOpen, setBulkConfirmOpen] = useState(false);
+  const [activeBulkCampaign, setActiveBulkCampaign] = useState<BulkCampaign | null>(null);
   const [variableValues, setVariableValues] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [sendResult, setSendResult] = useState<{ type: "success" | "error"; message: string } | null>(null);
@@ -159,6 +192,14 @@ export default function AkiaraMessagesPage() {
       ? extractVariables(selectedTemplate.body)
       : [];
   const preview = renderPreview(selectedTemplate, variableValues);
+  const bulkPhoneCount = useMemo(() => parseBulkPhoneInput(bulkPhones).length, [bulkPhones]);
+  const uniqueBulkPhoneCount = useMemo(() => {
+    const normalized = parseBulkPhoneInput(bulkPhones)
+      .map((item) => item.replace(/\D/g, ""))
+      .map((digits) => (digits.length === 10 ? `91${digits}` : digits))
+      .filter(Boolean);
+    return new Set(normalized).size;
+  }, [bulkPhones]);
 
   const fetchTemplates = useCallback(async () => {
     if (!tenantId) return;
@@ -206,10 +247,38 @@ export default function AkiaraMessagesPage() {
   useEffect(() => { fetchTemplates(); }, [fetchTemplates]);
   useEffect(() => { fetchHistory(); }, [fetchHistory]);
   useEffect(() => { setPage(1); }, [search, filterType]);
+  useEffect(() => {
+    if (!activeBulkCampaign || !tenantId || !["queued", "running"].includes(activeBulkCampaign.status)) return;
+
+    const timer = window.setInterval(async () => {
+      try {
+        const res = await akiaraAPI.getBulkCampaign(activeBulkCampaign._id, { tenantId });
+        const campaign = res.data?.data;
+        if (!campaign) return;
+        setActiveBulkCampaign(campaign);
+        setBulkResults(campaign.results || []);
+        if (["completed", "failed"].includes(campaign.status)) {
+          setSendResult({
+            type: campaign.status === "completed" ? "success" : "error",
+            message: campaign.status === "completed"
+              ? `Bulk campaign completed: ${campaign.sent || 0} sent, ${campaign.failed || 0} failed, ${campaign.skipped || 0} skipped.`
+              : campaign.error || "Bulk campaign failed.",
+          });
+          setSending(false);
+          fetchHistory();
+        }
+      } catch (err) {
+        console.error("Failed to fetch bulk campaign:", err);
+      }
+    }, 2500);
+
+    return () => window.clearInterval(timer);
+  }, [activeBulkCampaign, tenantId, fetchHistory]);
 
   const handleTemplateChange = (templateId: string) => {
     setSelectedTemplateId(templateId);
     setSendResult(null);
+    setBulkResults([]);
     const template = templates.find((item) => item.id === templateId);
     const defaults: Record<string, string> = {};
     const variables = template?.variables?.length ? template.variables : template ? extractVariables(template.body) : [];
@@ -243,6 +312,46 @@ export default function AkiaraMessagesPage() {
     } catch (err: any) {
       setSendResult({ type: "error", message: err.response?.data?.error || "Failed to send template message." });
     } finally {
+      setSending(false);
+    }
+  };
+
+  const validateBulkSend = () => {
+    if (!selectedTemplate || bulkPhoneCount === 0) return;
+    const missing = selectedVariables.filter((variable) => variable.required !== false && !variableValues[variable.key]?.trim());
+    if (missing.length) {
+      setSendResult({ type: "error", message: `Fill required fields: ${missing.map((item) => item.label).join(", ")}` });
+      return;
+    }
+    setSendResult(null);
+    setBulkConfirmOpen(true);
+  };
+
+  const queueBulkSend = async () => {
+    if (!selectedTemplate || bulkPhoneCount === 0) return;
+    setSending(true);
+    setSendResult(null);
+    setBulkResults([]);
+    setActiveBulkCampaign(null);
+    setBulkConfirmOpen(false);
+    try {
+      const res = await akiaraAPI.sendBulkTemplateMessage({
+        phones: parseBulkPhoneInput(bulkPhones),
+        tenantId,
+        templateId: selectedTemplate.id,
+        variables: variableValues,
+      });
+      const data = res.data || {};
+      const campaign = data.data;
+      setActiveBulkCampaign(campaign || null);
+      setBulkResults(campaign?.results || []);
+      setSendResult({
+        type: "success",
+        message: data.message || "Bulk campaign queued.",
+      });
+    } catch (err: any) {
+      setBulkResults(err.response?.data?.results || []);
+      setSendResult({ type: "error", message: err.response?.data?.error || "Failed to send bulk template message." });
       setSending(false);
     }
   };
@@ -307,13 +416,47 @@ export default function AkiaraMessagesPage() {
                 )}
               </div>
 
-              <div>
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">Phone Number</label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="9876543210" className="w-full h-11 pl-10 pr-3 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none" />
-                </div>
+              <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+                <button
+                  type="button"
+                  onClick={() => { setSendMode("single"); setSendResult(null); setBulkResults([]); }}
+                  className={`h-9 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-colors ${sendMode === "single" ? "bg-white text-orange-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+                >
+                  <Phone className="w-4 h-4" /> Single
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setSendMode("bulk"); setSendResult(null); }}
+                  className={`h-9 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-colors ${sendMode === "bulk" ? "bg-white text-orange-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+                >
+                  <Users className="w-4 h-4" /> Bulk
+                </button>
               </div>
+
+              {sendMode === "single" ? (
+                <div>
+                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">Phone Number</label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="9876543210" className="w-full h-11 pl-10 pr-3 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none" />
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Phone Numbers</label>
+                    <span className="text-[11px] font-medium text-slate-500">{uniqueBulkPhoneCount} unique / {bulkPhoneCount} entered</span>
+                  </div>
+                  <textarea
+                    value={bulkPhones}
+                    onChange={(event) => setBulkPhones(event.target.value)}
+                    placeholder={"9876543210\n919876543211\n9876543212"}
+                    rows={7}
+                    className="w-full px-3 py-3 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none resize-none"
+                  />
+                  <p className="mt-2 text-xs text-slate-500">Use one number per line, or separate numbers with commas. Bulk sending is template-only.</p>
+                </div>
+              )}
 
               {selectedVariables.length > 0 && (
                 <div className="space-y-3">
@@ -340,9 +483,35 @@ export default function AkiaraMessagesPage() {
                 </div>
               )}
 
-              <button onClick={handleSend} disabled={sending || !selectedTemplate || !phone.trim()} className="w-full h-11 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hover:shadow-lg disabled:opacity-40">
+              {sendMode === "bulk" && bulkResults.length > 0 && (
+                <div className="max-h-56 overflow-y-auto rounded-xl border border-slate-200 bg-slate-50 divide-y divide-slate-200">
+                  {activeBulkCampaign && (
+                    <div className="px-3 py-2 bg-white text-xs text-slate-600 flex items-center justify-between gap-3">
+                      <span className="font-semibold capitalize">{activeBulkCampaign.status}</span>
+                      <span>{activeBulkCampaign.sent} sent / {activeBulkCampaign.failed} failed / {activeBulkCampaign.skipped} skipped</span>
+                    </div>
+                  )}
+                  {bulkResults.map((item, index) => (
+                    <div key={`${item.phone || item.input || index}-${index}`} className="px-3 py-2 flex items-start justify-between gap-3 text-xs">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-slate-700 truncate">{item.phone ? formatPhone(item.phone) : item.input}</p>
+                        {item.error && <p className="text-red-500 mt-0.5 line-clamp-2">{item.error}</p>}
+                      </div>
+                      <span className={`shrink-0 px-2 py-0.5 rounded-full font-semibold ${item.status === "sent" ? "bg-emerald-100 text-emerald-700" : item.status === "skipped" ? "bg-slate-200 text-slate-600" : item.status === "queued" ? "bg-orange-100 text-orange-700" : "bg-red-100 text-red-700"}`}>
+                        {item.status}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <button
+                onClick={sendMode === "single" ? handleSend : validateBulkSend}
+                disabled={sending || !selectedTemplate || (sendMode === "single" ? !phone.trim() : bulkPhoneCount === 0)}
+                className="w-full h-11 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hover:shadow-lg disabled:opacity-40"
+              >
                 {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                Send Template
+                {sendMode === "single" ? "Send Template" : "Send Bulk Template"}
               </button>
             </div>
 
@@ -435,6 +604,53 @@ export default function AkiaraMessagesPage() {
           </section>
         </div>
       </main>
+
+      {bulkConfirmOpen && selectedTemplate && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setBulkConfirmOpen(false)}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full overflow-hidden" onClick={(event) => event.stopPropagation()}>
+            <div className="px-5 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-between">
+              <p className="font-semibold text-sm">Confirm Bulk Campaign</p>
+              <button onClick={() => setBulkConfirmOpen(false)}><X className="w-5 h-5" /></button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div className="grid grid-cols-3 gap-3">
+                <div className="rounded-xl bg-slate-50 border border-slate-200 p-3">
+                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Entered</p>
+                  <p className="text-xl font-bold text-slate-900">{bulkPhoneCount}</p>
+                </div>
+                <div className="rounded-xl bg-slate-50 border border-slate-200 p-3">
+                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Unique</p>
+                  <p className="text-xl font-bold text-slate-900">{uniqueBulkPhoneCount}</p>
+                </div>
+                <div className="rounded-xl bg-orange-50 border border-orange-200 p-3">
+                  <p className="text-[11px] font-semibold text-orange-500 uppercase tracking-wider">Template</p>
+                  <p className="text-sm font-bold text-orange-700 truncate">{selectedTemplate.name}</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Message Preview</p>
+                <div className="max-h-52 overflow-y-auto bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">
+                  {preview}
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
+                <button
+                  onClick={() => setBulkConfirmOpen(false)}
+                  className="h-10 px-4 rounded-xl bg-white border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={queueBulkSend}
+                  className="h-10 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-sm font-semibold text-white flex items-center justify-center gap-2 hover:shadow-lg"
+                >
+                  <Send className="w-4 h-4" /> Queue Campaign
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {expandedMessage && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setExpandedMessage(null)}>

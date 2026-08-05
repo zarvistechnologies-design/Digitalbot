@@ -804,6 +804,18 @@ export const akiaraAPI = {
     variables?: Record<string, string>;
   }) => api.post('/akiara/send-template-message', data),
 
+  // Send a rendered tenant template to multiple customers
+  sendBulkTemplateMessage: (data: {
+    phones: string[];
+    tenantId: string;
+    templateId: string;
+    variables?: Record<string, string>;
+  }) => api.post('/akiara/send-bulk-template-message', data),
+
+  // Get bulk campaign progress
+  getBulkCampaign: (id: string, params?: { tenantId?: string }) =>
+    api.get(`/akiara/bulk-campaigns/${id}`, { params: { ...params, _ts: Date.now() } }),
+
   // Get dashboard message history
   getMessageHistory: (params: {
     tenantId: string;
