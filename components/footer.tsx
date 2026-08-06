@@ -66,7 +66,7 @@ export function Footer() {
                 {[
                   { icon: Twitter, link: "https://twitter.com/digitalbot_ai", label: "Twitter", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
                   { icon: Linkedin, link: "https://linkedin.com/company/digitalbot-ai", label: "LinkedIn", bg: "bg-orange-600", hover: "hover:bg-orange-700", shadow: "shadow-orange-500/30" },
-                  { icon: Phone, link: "/contact", label: "Contact Us", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
+                  { icon: Phone, link: "tel:+9178925 18414", label: "Call Now", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
                   { icon: Mail, link: "mailto:Hello@digitalbot.ai", label: "Email", bg: "bg-orange-500", hover: "hover:bg-orange-600", shadow: "shadow-orange-500/30" },
                 ].map((social, idx) => (
                   <Link

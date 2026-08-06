@@ -163,7 +163,7 @@ export default function About() {
               <ol className="flex items-center gap-2">
                 <li><Link href="/" className="text-slate-400 hover:text-orange-600 transition-colors">Home</Link></li>
                 <li className="text-slate-300">/</li>
-                <li className="text-orange-600 font-medium">About</li>
+                <li className="text-orange-600 font-medium">About Us</li>
               </ol>
             </nav>
 
