@@ -2313,7 +2313,7 @@ export default function Hero() {
                             const progress = isActive && sampleDuration > 0 ? sampleCurrentTime / sampleDuration : 0
 
                             return (
-                                <div key={i} className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 aspect-[3/4]">
+                                <div key={i} className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 h-[340px] sm:aspect-[3/4]">
                                     {/* Person image as background */}
                                     <img
                                         src={service.img}
@@ -2327,11 +2327,11 @@ export default function Hero() {
                                     {/* Play / pause button centered */}
                                     <button
                                         type="button"
-                                        className="absolute inset-0 z-10 flex cursor-pointer items-center justify-center"
+                                        className="absolute inset-0 z-50 flex items-center justify-center -translate-y-6 touch-manipulation"
                                         onClick={() => toggleSampleAudio(i, service.audio)}
                                         aria-label={`${isPlaying ? 'Pause' : 'Play'} ${service.title} sample`}
                                     >
-                                        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/85 shadow-lg backdrop-blur-sm transition-all group-hover:scale-110 group-hover:bg-orange-500/95 sm:h-11 sm:w-11">
+                                        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/85 shadow-lg backdrop-blur-sm transition-all group-hover:scale-110 group-hover:bg-orange-500/95 sm:h-11 sm:w-11">
                                             {isPlaying ? (
                                                 <Pause className="h-4 w-4 text-white sm:h-5 sm:w-5" />
                                             ) : (
@@ -2341,7 +2341,7 @@ export default function Hero() {
                                     </button>
 
                                     {/* Title and audio timeline */}
-                                    <div className="absolute bottom-0 left-0 right-0 z-20 p-3 sm:p-4">
+                                    <div className="absolute bottom-0 left-0 right-0 z-20 px-4 pb-4 pt-8 sm:p-4">
                                         <h3 className="text-sm font-bold text-white drop-shadow-lg sm:text-base">{service.title}</h3>
                                         <div className="mt-2">
                                             <div className="flex h-3.5 w-[72px] items-end justify-start gap-[1.5px]" aria-hidden="true">
