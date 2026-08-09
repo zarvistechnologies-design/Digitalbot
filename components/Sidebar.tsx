@@ -179,6 +179,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Service Bookings', href: '/dashboard/tankro-bookings', icon: ClipboardList });
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/tankro-sessions', icon: MessageSquare });
     }
+    if (['event-booking-crm', 'event booking crm', 'event-booking', 'event', 'events'].includes(selectedService)) {
+      serviceItems.push({ name: 'Event Bookings', href: '/dashboard/event-bookings', icon: ClipboardList });
+      serviceItems.push({ name: 'Availability', href: '/dashboard/event-availability', icon: CalendarCheck });
+    }
     if (['casino', 'ballys', "bally's casino", 'ballys-casino'].includes(selectedService)) {
       serviceItems.push({ name: 'Reservations', href: '/dashboard/casino-reservations', icon: CalendarCheck });
       serviceItems.push({ name: 'VIP Guests', href: '/dashboard/casino-vip-guests', icon: Crown });
