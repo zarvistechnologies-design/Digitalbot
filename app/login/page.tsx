@@ -5,12 +5,23 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 // Define the shape of the user data expected from the backend
 interface User {
-  id: string; // example user property
-  email: string; // example user property
+  id: string;
+  email: string;
   selectedService?: string;
-  // ... other user properties
+  bookingOnboardingComplete?: boolean;
+  bookingBusinessType?: string;
 }
 
+const bookingServices = new Set(['booking-crm', 'event-booking-crm']);
+
+function getDashboardDestination(user?: User | null) {
+  if (user?.selectedService === 'akiara') return '/dashboard/akiara-sessions';
+  if (user?.selectedService === 'healthiQure patient navigation') return '/dashboard/bot-sessions';
+  if (bookingServices.has(String(user?.selectedService || '').toLowerCase())) {
+    return user?.bookingOnboardingComplete ? '/dashboard/booking-crm' : '/dashboard/booking-crm/setup';
+  }
+  return '/dashboard';
+}
 export default function LoginPage(): JSX.Element {
   // 1. State variables with explicit types
   const [email, setEmail] = useState<string>('');
@@ -25,13 +36,7 @@ export default function LoginPage(): JSX.Element {
     if (token) {
       const userData = localStorage.getItem('user');
       const user = userData ? JSON.parse(userData) : null;
-      router.push(
-        user?.selectedService === 'akiara'
-          ? '/dashboard/akiara-sessions'
-          : user?.selectedService === 'healthiQure patient navigation'
-            ? '/dashboard/bot-sessions'
-            : '/dashboard'
-      );
+      router.push(getDashboardDestination(user));
     }
   }, [router]);
 
@@ -82,13 +87,7 @@ export default function LoginPage(): JSX.Element {
             localStorage.setItem('userId', data.user.id);
           }
         }
-        const dest =
-          data.user?.selectedService === 'akiara'
-            ? '/dashboard/akiara-sessions'
-            : data.user?.selectedService === 'healthiQure patient navigation'
-              ? '/dashboard/bot-sessions'
-              : '/dashboard';
-        router.push(dest);
+        router.push(getDashboardDestination(data.user));
       } else {
         setError(data.error || 'Login failed');
       }

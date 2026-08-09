@@ -5,7 +5,7 @@ import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/ap
 import { CACHE_KEYS } from '@/lib/cache';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertTriangle, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
+import { AlertTriangle, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -17,6 +17,8 @@ interface SidebarProps {
 
 interface User {
   selectedService?: string;
+  bookingBusinessType?: string;
+  bookingOnboardingComplete?: boolean;
   name?: string;
   email?: string;
   assignedPhoneNumber?: string;
@@ -125,6 +127,15 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     return service.replace(/[-_]/g, ' ');
   };
 
+  const getAssignedServiceLabel = () => {
+    const selectedService = String(user?.selectedService || '').toLowerCase();
+    const isBookingCrm = ['booking-crm', 'event-booking-crm'].includes(selectedService);
+    if (isBookingCrm && user?.bookingBusinessType) {
+      return `${formatServiceName(user.bookingBusinessType)} Workspace`;
+    }
+    return `${formatServiceName(user?.selectedService)} Service`;
+  };
+
   const getServiceNavigation = () => {
     const selectedService = (user?.selectedService || '').toLowerCase();
     const isDoctorDashboard = ['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare'].includes(selectedService);
@@ -179,9 +190,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Service Bookings', href: '/dashboard/tankro-bookings', icon: ClipboardList });
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/tankro-sessions', icon: MessageSquare });
     }
-    if (['event-booking-crm', 'event booking crm', 'event-booking', 'event', 'events'].includes(selectedService)) {
-      serviceItems.push({ name: 'Event Bookings', href: '/dashboard/event-bookings', icon: ClipboardList });
-      serviceItems.push({ name: 'Availability', href: '/dashboard/event-availability', icon: CalendarCheck });
+    if (['event-booking-crm', 'event booking crm', 'event-booking', 'event', 'events', 'booking-crm', 'booking crm', 'booking'].includes(selectedService)) {
+      serviceItems.push({ name: 'Booking CRM', href: '/dashboard/booking-crm', icon: Package });
+      serviceItems.push({ name: 'Bulk Campaigns', href: '/dashboard/booking-crm/bulk-campaigns', icon: Megaphone });
+      serviceItems.push({ name: 'Follow-ups', href: '/dashboard/booking-crm/follow-ups', icon: ClipboardList });
     }
     if (['casino', 'ballys', "bally's casino", 'ballys-casino'].includes(selectedService)) {
       serviceItems.push({ name: 'Reservations', href: '/dashboard/casino-reservations', icon: CalendarCheck });
@@ -272,7 +284,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                   </p>
                 )}
                 <p className="text-xs text-orange-600 mt-1 capitalize">
-                  {formatServiceName(user.selectedService)} Service
+                  {getAssignedServiceLabel()}
                 </p>
               </div>
             </div>
@@ -353,7 +365,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                       Assigned Number:{user.assignedPhoneNumber}
                     </p>
                     <p className="text-xs text-orange-600 mt-1 capitalize">
-                      {formatServiceName(user.selectedService)} Service
+                      {getAssignedServiceLabel()}
                     </p>
                   </div>
                 </div>

@@ -156,6 +156,13 @@ export const callsAPI = {
   },
 };
 
+export const campaignsAPI = {
+  getCampaigns: (params?: Record<string, string | number | undefined>) => api.get('/campaigns', { params }),
+  launch: (id: string) => api.post(`/campaigns/${id}/launch`),
+  pause: (id: string) => api.post(`/campaigns/${id}/pause`),
+  resume: (id: string) => api.post(`/campaigns/${id}/resume`),
+};
+
 export const voiceProviderAPI = {
   getAgents: () => api.get('/voice-agents'),
   getVoices: (params?: { language?: string; includeCustom?: boolean }) => api.get('/voices', { params }),
@@ -593,6 +600,25 @@ export const eventBookingAPI = {
     venueName?: string;
     city?: string;
   }) => api.get('/events/availability', { params }),
+};
+
+export const bookingCrmAPI = {
+  getTools: () => api.get('/booking-crm/tools'),
+  getOverview: () => api.get('/booking-crm/overview'),
+  getProfile: () => api.get('/booking-crm/profile'),
+  completeOnboarding: (data: { businessType: string; businessName?: string }) => api.post('/booking-crm/onboarding', data),
+  updateProfile: (data: Record<string, unknown>) => api.put('/booking-crm/profile', data),
+  getServices: () => api.get('/booking-crm/services'),
+  createService: (data: Record<string, unknown>) => api.post('/booking-crm/services', data),
+  updateService: (id: string, data: Record<string, unknown>) => api.put('/booking-crm/services/' + id, data),
+  getResources: () => api.get('/booking-crm/resources'),
+  createResource: (data: Record<string, unknown>) => api.post('/booking-crm/resources', data),
+  updateResource: (id: string, data: Record<string, unknown>) => api.put('/booking-crm/resources/' + id, data),
+  getBookings: (params?: Record<string, string | number | undefined>) => api.get('/booking-crm/bookings', { params }),
+  createBooking: (data: Record<string, unknown>) => api.post('/booking-crm/bookings', data),
+  updateBooking: (id: string, data: Record<string, unknown>) => api.put('/booking-crm/bookings/' + id, data),
+  getCustomers: () => api.get('/booking-crm/customers'),
+  checkAvailability: (data: Record<string, unknown>) => api.post('/booking-crm/availability', data),
 };
 
 // ========================================

@@ -69,7 +69,10 @@ export default function AnalyticsOverview() {
         router.replace('/dashboard/bot-sessions');
         return;
       }
-    }
+      if (['booking-crm', 'event-booking-crm'].includes(String(user.selectedService || '').toLowerCase())) {
+        router.replace(user.bookingOnboardingComplete ? '/dashboard/booking-crm' : '/dashboard/booking-crm/setup');
+        return;
+      }    }
   }, [router]);
 
   // Fetch raw calls once and cache — shared with Calls page
