@@ -242,7 +242,7 @@ export default function EventAvailabilityPage() {
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-8">
                 {(tools.length ? tools : [
                   { name: "check_event_availability", description: "Optional. Lists the slots for a date. book_event does not need this first.", endpoint: "/api/events/availability", method: "POST", requiredFields: ["assignedPhoneNumber", "eventDate"] },
-                  { name: "book_event", description: "Books straight away. The caller's number comes from the call, so the agent never asks for it.", endpoint: "/api/events/book", method: "POST", requiredFields: ["assignedPhoneNumber", "customerName", "eventDate", "eventTime"] },
+                  { name: "book_event", description: "Books straight away. The agent sends only the caller's name — the number comes from the call, and the date and time from this calendar.", endpoint: "/api/events/book", method: "POST", requiredFields: ["assignedPhoneNumber", "customerName"] },
                 ]).map((tool) => (
                   <div key={tool.name} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
                     <div className="flex items-start gap-3">

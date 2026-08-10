@@ -315,19 +315,13 @@ After confirmation, call `book_event`:
 ```json
 {
   "assignedPhoneNumber": "+918071579839",
-  "customerName": "Customer full name",
-  "customerEmail": "Customer email if offered",
-  "eventType": "Workshop",
-  "eventDate": "YYYY-MM-DD",
-  "eventTime": "HH:mm",
-  "venueName": "Main Event Calendar",
-  "notes": "Anything the caller mentioned"
+  "customerName": "Customer full name"
 }
 ```
 
-`eventDate` and `eventTime` are always the fixed workshop date and time. Leave out any field the caller did not offer — only `customerName` is required from the conversation.
+That is the whole payload. `customerName` is the only value you collect in conversation — the backend fills in the phone number from the live call, and the date and time from the workshop calendar.
 
-When available from the call platform, include the call ID as `callId` so the same call cannot create a duplicate booking.
+You may add `customerEmail` or `notes` if the caller volunteered them, and the call ID as `callId` when the platform provides it, so the same call cannot create a duplicate booking. Never add anything else and never ask for it.
 
 **5. Confirm success to the caller:**
 
@@ -337,7 +331,7 @@ If the tool fails, apologize and say the booking could not be saved yet. Do not 
 
 ### Date and Time Rules
 
-- Send the fixed workshop date as `YYYY-MM-DD` and the fixed time as 24-hour `HH:mm`.
+- Never send `eventDate` or `eventTime`. The workshop calendar already holds them.
 - If the caller asks for a different date or time, explain warmly that the workshop runs only at the fixed date and time.
 
 ### Vozon Webhook Setup
