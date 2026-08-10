@@ -1097,14 +1097,15 @@ export default function CampaignsPage() {
                                             {outboundProvider === 'vozon' && (
                                                 <div className="space-y-5">
                                                     <div>
-                                                        <label className="block text-sm font-bold text-gray-700 mb-2">Vozon Phone Number ID *</label>
+                                                        <label className="block text-sm font-bold text-gray-700 mb-2">Vozon Phone Number or Phone Number ID *</label>
                                                         <input
                                                             type="text"
                                                             value={phoneNumberId}
                                                             onChange={(e) => setPhoneNumberId(e.target.value)}
-                                                            placeholder="Enter Vozon phone number ID"
+                                                            placeholder="e.g., +919876543210 or Vozon phone-number ID"
                                                             className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
                                                         />
+                                                        <p className="text-xs text-gray-500 mt-1">If you enter a phone number, Digitalbot will resolve its internal Vozon ID automatically.</p>
                                                     </div>
                                                     <div>
                                                         <label className="block text-sm font-bold text-gray-700 mb-2">Vozon Daily Call Limit *</label>
