@@ -34,7 +34,7 @@ const getUserFromToken = () => {
 type Campaign = {
     _id: string;
     name: string;
-    type: 'voice' | 'sms' | 'email' | 'multi-channel';
+    type: 'voice';
     status: 'draft' | 'scheduled' | 'active' | 'paused' | 'completed';
     targetAudience: string;
     totalContacts: number;
@@ -263,12 +263,10 @@ export default function CampaignsPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [userInfo, setUserInfo] = useState<{ email: string, assignedPhoneNumber: string, userId: string } | null>(null);
 
-    // Create Campaign Modal states
+    // Create Voice Campaign Modal states
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [campaignName, setCampaignName] = useState('');
-    const [campaignType, setCampaignType] = useState<'voice' | 'sms' | 'email' | 'multi-channel'>('voice');
     const [targetAudience, setTargetAudience] = useState('');
-    const [agentId, setAgentId] = useState('');
     const [contacts, setContacts] = useState<Array<{ name: string, phone: string, email?: string }>>([]);
     const [csvFile, setCsvFile] = useState<File | null>(null);
     const [uploadStep, setUploadStep] = useState<'form' | 'upload' | 'review'>('form');
@@ -297,7 +295,7 @@ export default function CampaignsPage() {
                     return;
                 }
 
-                const response = await fetch(`${API_BASE_URL}/campaigns`, {
+                const response = await fetch(`${API_BASE_URL}/campaigns?type=voice`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -333,7 +331,7 @@ export default function CampaignsPage() {
     }, []);
 
     useEffect(() => {
-        let filtered = campaigns;
+        let filtered = campaigns.filter((campaign) => campaign.type === 'voice');
 
         if (filterStatus !== 'all') {
             filtered = filtered.filter(c => c.status === filterStatus);
@@ -556,19 +554,13 @@ export default function CampaignsPage() {
         }
     };
 
-    // Create Campaign Handler
+    // Create Voice Campaign Handler
     const handleCreateCampaign = async () => {
         // Validate required fields
         if (!campaignName || !targetAudience || contacts.length === 0) {
             alert('❌ Please fill in all required fields and add contacts!');
             return;
         }
-        // Validate Agent ID is required for voice campaigns
-        if (campaignType === 'voice' && (!agentId || agentId.trim() === '')) {
-            alert('❌ AI Agent ID is required for voice campaigns!\n\nPlease enter your AI Voice Agent ID from your AI Voice Agent dashboard before creating a campaign.');
-            return;
-        }
-
         // Check authentication
         const token = getAuthToken();
         if (!token) {
@@ -581,13 +573,10 @@ export default function CampaignsPage() {
         try {
             const newCampaign = {
                 name: campaignName,
-                type: campaignType,
+                type: 'voice',
                 targetAudience: targetAudience,
                 totalContacts: contacts.length,
                 status: 'draft',
-                content: {
-                    voiceAgentId: agentId || undefined
-                },
                 // Store contacts temporarily in metadata
                 metadata: {
                     contacts: contacts
@@ -614,7 +603,6 @@ export default function CampaignsPage() {
                 setShowCreateModal(false);
                 setCampaignName('');
                 setTargetAudience('');
-                setAgentId('');
                 setContacts([]);
                 setCsvFile(null);
                 setUploadStep('form');
@@ -657,12 +645,6 @@ export default function CampaignsPage() {
             return;
         }
 
-        // Check if campaign has Agent ID configured
-        const campaignAgentId = campaign.content?.voiceAgentId || campaign.millisAI?.agentId;
-        if (campaign.type === 'voice' && (!campaignAgentId || campaignAgentId.trim() === '')) {
-            alert('❌ Cannot launch campaign!\n\nThis voice campaign is missing an AI Voice Agent ID. Please edit the campaign and add an Agent ID before launching.');
-            return;
-        }
         // Check authentication
         const token = getAuthToken();
         if (!token) {
@@ -670,9 +652,6 @@ export default function CampaignsPage() {
             return;
         }
 
-        if (!confirm(`🚀 Are you sure you want to launch this campaign?\n\nThis will start making ${campaign.totalContacts} calls from your assigned phone number: ${userInfo?.assignedPhoneNumber || 'your number'}`)) {
-            return;
-        }
         if (!confirm(`🚀 Are you sure you want to launch this campaign?\n\nThis will start making ${campaign.totalContacts} calls from your assigned phone number: ${userInfo?.assignedPhoneNumber || 'your number'}`)) {
             return;
         }
@@ -793,10 +772,10 @@ export default function CampaignsPage() {
                                     <span className="text-sm font-bold text-orange-700">Advanced Campaign Manager</span>
                                 </div>
                                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 mb-2">
-                                    Campaign Management
+                                    Voice Campaigns
                                 </h1>
                                 <p className="text-slate-600 mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg">
-                                    AI-powered campaigns • Multi-channel • Smart automation
+                                    Outbound voice campaigns with smart automation
                                 </p>
                                 {userInfo?.assignedPhoneNumber && (
                                     <p className="text-sm text-orange-600 font-semibold mt-2">
@@ -812,7 +791,7 @@ export default function CampaignsPage() {
                                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                 </svg>
-                                Create Campaign
+                                Create Voice Campaign
                             </button>
                         </div>
                     </div>
@@ -934,7 +913,7 @@ export default function CampaignsPage() {
                                         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                         </svg>
-                                        Create Your First Campaign
+                                        Create Your First Voice Campaign
                                     </button>
                                 )}
                             </div>
@@ -963,7 +942,7 @@ export default function CampaignsPage() {
                 </div>
             </main>
 
-            {/* Create Campaign Modal */}
+            {/* Create Voice Campaign Modal */}
             {showCreateModal && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
@@ -971,7 +950,7 @@ export default function CampaignsPage() {
                         <div className="sticky top-0 bg-gradient-to-r from-orange-600 to-pink-600 text-white p-6 rounded-t-3xl">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-3xl font-black">🚀 Create New Campaign</h2>
+                                    <h2 className="text-3xl font-black">🚀 Create Voice Campaign</h2>
                                     <p className="text-orange-100 mt-1">Launch AI-powered bulk calling campaign</p>
                                     {userInfo?.assignedPhoneNumber && (
                                         <p className="text-orange-100 text-sm mt-1">
@@ -1016,30 +995,6 @@ export default function CampaignsPage() {
 
                                     <div>
                                         <label className="block text-sm font-bold text-gray-700 mb-2">
-                                            Campaign Type *
-                                        </label>
-                                        <div className="grid grid-cols-4 gap-3">
-                                            {(['voice', 'sms', 'email', 'multi-channel'] as const).map((type) => (
-                                                <button
-                                                    key={type}
-                                                    onClick={() => setCampaignType(type)}
-                                                    className={`p-4 rounded-xl border-2 font-semibold transition-all ${campaignType === type
-                                                        ? 'border-orange-500 bg-orange-50 text-orange-700'
-                                                        : 'border-gray-300 hover:border-orange-300'
-                                                        }`}
-                                                >
-                                                    {type === 'voice' && '📞'}
-                                                    {type === 'sms' && '💬'}
-                                                    {type === 'email' && '📧'}
-                                                    {type === 'multi-channel' && '🌐'}
-                                                    <div className="text-xs mt-1 capitalize">{type}</div>
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-bold text-gray-700 mb-2">
                                             Target Audience *
                                         </label>
                                         <input
@@ -1051,21 +1006,6 @@ export default function CampaignsPage() {
                                         />
                                     </div>
 
-                                    {campaignType === 'voice' && (
-                                        <div>
-                                            <label className="block text-sm font-bold text-gray-700 mb-2">
-                                                AI Agent ID * (Required for Voice Campaigns)
-                                            </label>
-                                            <input
-                                                type="text"
-                                                value={agentId}
-                                                onChange={(e) => setAgentId(e.target.value)}
-                                                placeholder="e.g., -OXrv5021Ddq4NGGbG0h"
-                                                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                            />
-                                            <p className="text-xs text-gray-500 mt-1">Get this from your Millis AI Voice Agent dashboard</p>
-                                        </div>
-                                    )}
                                     <button
                                         onClick={() => setUploadStep('upload')}
                                         disabled={!campaignName || !targetAudience}
@@ -1165,7 +1105,7 @@ export default function CampaignsPage() {
                                             </div>
                                             <div>
                                                 <p className="text-sm text-gray-600 font-semibold">Type</p>
-                                                <p className="text-lg font-bold text-gray-900 capitalize">{campaignType}</p>
+                                                <p className="text-lg font-bold text-gray-900 capitalize">Voice</p>
                                             </div>
                                             <div>
                                                 <p className="text-sm text-gray-600 font-semibold">Target Audience</p>
@@ -1175,12 +1115,6 @@ export default function CampaignsPage() {
                                                 <p className="text-sm text-gray-600 font-semibold">Total Contacts</p>
                                                 <p className="text-lg font-bold text-orange-600">{contacts.length}</p>
                                             </div>
-                                            {agentId && (
-                                                <div className="col-span-2">
-                                                    <p className="text-sm text-gray-600 font-semibold">AI Agent ID</p>
-                                                    <p className="text-lg font-bold text-gray-900">{agentId}</p>
-                                                </div>
-                                            )}
                                             {userInfo?.assignedPhoneNumber && (
                                                 <div className="col-span-2">
                                                     <p className="text-sm text-gray-600 font-semibold">Calling From</p>
@@ -1233,7 +1167,7 @@ export default function CampaignsPage() {
                                             disabled={creating}
                                             className="flex-1 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            {creating ? '⏳ Creating...' : '🚀 Create Campaign'}
+                                            {creating ? '⏳ Creating...' : '🚀 Create Voice Campaign'}
                                         </button>
                                     </div>
                                 </div>
