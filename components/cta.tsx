@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, Globe, HeadphonesIcon, Sparkles, Zap } from "lucide-react"
+import { ArrowRight, Sparkles } from "lucide-react"
 import Link from "next/link"
 
 export function CTA() {
@@ -39,19 +39,15 @@ export function CTA() {
               From AI voice calls to WhatsApp automation and smart dashboards — DigitalBot unifies every customer touchpoint into one intelligent, always-on platform.
             </p>
 
-            {/* Feature pills */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {[
-                { icon: Zap, label: "Voice AI Agents" },
-                { icon: Globe, label: "WhatsApp Bots" },
-                { icon: HeadphonesIcon, label: "24/7 Support" },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-sm">
-                  <item.icon className="w-4 h-4 text-orange-500 flex-shrink-0" />
-                  <span className="text-sm font-medium text-slate-700">{item.label}</span>
-                </div>
+            {/* Feature list */}
+            <ul className="space-y-3">
+              {["Voice AI Agents", "WhatsApp Bots", "24/7 Support"].map((item) => (
+                <li key={item} className="flex items-center gap-3 text-base font-medium text-slate-700">
+                  <span className="h-2 w-2 flex-shrink-0 rounded-full bg-orange-500" aria-hidden="true" />
+                  {item}
+                </li>
               ))}
-            </div>
+            </ul>
 
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-2">

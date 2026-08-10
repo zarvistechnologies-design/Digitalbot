@@ -154,6 +154,16 @@ export const callsAPI = {
   getAgents: () => {
     return api.get('/agents');
   },
+  syncVozonCalls: (limit = 50) => {
+    return api.post('/vozon-calls/sync', { limit });
+  },
+};
+
+export const campaignsAPI = {
+  getCampaigns: (params?: Record<string, string | number | undefined>) => api.get('/campaigns', { params }),
+  launch: (id: string) => api.post(`/campaigns/${id}/launch`),
+  pause: (id: string) => api.post(`/campaigns/${id}/pause`),
+  resume: (id: string) => api.post(`/campaigns/${id}/resume`),
 };
 
 export const voiceProviderAPI = {
@@ -540,6 +550,96 @@ export const tankroCalendarAPI = {
   disconnect: (locationId: string) => api.post(`/tankro/calendar/disconnect/${locationId}`),
   syncAvailability: (locationId: string, date: string) =>
     api.get(`/tankro/calendar/sync/${locationId}/${date}`),
+};
+// ========================================
+// EVENT BOOKING CRM API
+// ========================================
+export const eventBookingAPI = {
+  getTools: () => api.get('/events/tools'),
+  getSummary: () => api.get('/events/summary'),
+  getVenues: (params?: { active?: boolean; search?: string }) => api.get('/events/venues', { params }),
+  seedDefaultVenue: () => api.post('/events/venues/seed-default'),
+  createVenue: (data: {
+    name: string;
+    city?: string;
+    address?: string;
+    contactPhone?: string;
+    email?: string;
+    slotDuration?: number;
+    allowMultipleBookings?: boolean;
+    maxBookingsPerSlot?: number;
+    defaultWorkingHours?: { start: string; end: string };
+    workingDays?: number[];
+    active?: boolean;
+  }) => api.post('/events/venues', data),
+  updateVenue: (id: string, data: Partial<{
+    name: string;
+    city: string;
+    address: string;
+    contactPhone: string;
+    email: string;
+    slotDuration: number;
+    allowMultipleBookings: boolean;
+    maxBookingsPerSlot: number;
+    defaultWorkingHours: { start: string; end: string };
+    workingDays: number[];
+    active: boolean;
+  }>) => api.put(`/events/venues/${id}`, data),
+  deleteVenue: (id: string) => api.delete(`/events/venues/${id}`),
+  getBookings: (params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    venueId?: string;
+    from_date?: string;
+    to_date?: string;
+    search?: string;
+  }) => api.get('/events/bookings', { params }),
+  createBooking: (data: {
+    customerName: string;
+    customerPhone: string;
+    customerEmail?: string;
+    eventType: string;
+    eventDate: string;
+    eventTime: string;
+    guestCount?: number;
+    budget?: number;
+    packageName?: string;
+    venueId?: string;
+    venueName?: string;
+    city?: string;
+    notes?: string;
+    specialRequirements?: string;
+  }) => api.post('/events/bookings', data),
+  updateBooking: (id: string, data: Record<string, unknown>) => api.put(`/events/bookings/${id}`, data),
+  deleteBooking: (id: string) => api.delete(`/events/bookings/${id}`),
+  checkAvailability: (params: {
+    assignedPhoneNumber: string;
+    eventDate: string;
+    eventTime?: string;
+    venueId?: string;
+    venueName?: string;
+    city?: string;
+  }) => api.get('/events/availability', { params }),
+};
+
+export const bookingCrmAPI = {
+  getTools: () => api.get('/booking-crm/tools'),
+  getOverview: () => api.get('/booking-crm/overview'),
+  getProfile: () => api.get('/booking-crm/profile'),
+  completeOnboarding: (data: { businessType: string; businessName?: string }) => api.post('/booking-crm/onboarding', data),
+  updateProfile: (data: Record<string, unknown>) => api.put('/booking-crm/profile', data),
+  getServices: () => api.get('/booking-crm/services'),
+  createService: (data: Record<string, unknown>) => api.post('/booking-crm/services', data),
+  updateService: (id: string, data: Record<string, unknown>) => api.put('/booking-crm/services/' + id, data),
+  getResources: () => api.get('/booking-crm/resources'),
+  createResource: (data: Record<string, unknown>) => api.post('/booking-crm/resources', data),
+  updateResource: (id: string, data: Record<string, unknown>) => api.put('/booking-crm/resources/' + id, data),
+  getBookings: (params?: Record<string, string | number | undefined>) => api.get('/booking-crm/bookings', { params }),
+  createBooking: (data: Record<string, unknown>) => api.post('/booking-crm/bookings', data),
+  updateBooking: (id: string, data: Record<string, unknown>) => api.put('/booking-crm/bookings/' + id, data),
+  getCustomers: () => api.get('/booking-crm/customers'),
+  checkAvailability: (data: Record<string, unknown>) => api.post('/booking-crm/availability', data),
 };
 
 // ========================================

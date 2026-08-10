@@ -304,19 +304,33 @@ export function IndustrySolutionPage({ config }: { config: IndustrySolutionConfi
               <p className="text-lg leading-8 text-slate-600">{config.servicesBody}</p>
             </div>
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {config.services.map((service) => {
-                const Icon = service.icon
-                return (
-                  <div key={service.title} className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:border-emerald-200 hover:shadow-lg">
-                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-[#128c7e]">
-                      <Icon className="h-6 w-6" />
-                    </div>
-                    <h3 className="text-lg font-black text-slate-950">{service.title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{service.body}</p>
-                  </div>
-                )
-              })}
-            </div>
+  {config.services.map((service) => {
+    const Icon = service.icon
+
+    return (
+      <div
+        key={service.title}
+        className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:border-emerald-200 hover:shadow-lg"
+      >
+        {/* Icon + Title */}
+        <div className="mb-4 flex items-center gap-4">
+          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-[#128c7e]">
+            <Icon className="h-6 w-6" />
+          </div>
+
+          <h3 className="text-lg font-black text-slate-950">
+            {service.title}
+          </h3>
+        </div>
+
+        {/* Description */}
+        <p className="text-sm leading-6 text-slate-600">
+          {service.body}
+        </p>
+      </div>
+    )
+  })}
+</div>
           </div>
         </section>
 
@@ -357,7 +371,7 @@ export function IndustrySolutionPage({ config }: { config: IndustrySolutionConfi
           </div>
         </section>
 
-        <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <section className="px-4 pt-20 pb-8 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-700">{config.journeyLabel}</p>
@@ -384,7 +398,7 @@ export function IndustrySolutionPage({ config }: { config: IndustrySolutionConfi
           </div>
         </section>
 
-        <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <section className="px-4 pt-12 pb-10 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-10 text-center">
               <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-700">What you get</p>
@@ -552,7 +566,7 @@ export function IndustrySolutionPage({ config }: { config: IndustrySolutionConfi
           </div>
         </section>
 
-        <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+        <section className="bg-white px-4 pt-10 pb-8 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-14 text-center">
               <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-700">Why it converts</p>
@@ -596,7 +610,7 @@ export function IndustrySolutionPage({ config }: { config: IndustrySolutionConfi
           </div>
         </section>
 
-        <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <section className="px-4 pt-8 pb-20 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-5xl rounded-lg bg-slate-950 p-8 text-center text-white shadow-2xl sm:p-12">
             <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-[#25d366] text-slate-950">
               <PhoneCall className="h-7 w-7" />

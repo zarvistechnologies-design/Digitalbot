@@ -17,7 +17,7 @@ const services = [
         color: "from-orange-500 to-orange-500",
         stat: "95%",
         statLabel: "Booking Success Rate",
-        audio: "/audio/doctor_appointment.mp3",          
+        audio: "/audio/doctor_appointment.mp3",
         features: [
             { icon: "Calendar", text: "Smart scheduling with real-time calendar sync" },
             { icon: "Clock", text: "Instant SMS & email confirmations" },
@@ -1954,7 +1954,7 @@ export default function Hero() {
                     {/* Center: Two Large Phones */}
                     <div className="relative flex justify-center items-end mt-8 sm:mt-16 hero-phones-in" style={{ minHeight: 'clamp(340px, 50vw, 520px)' }}>
                         {/* Subtle glow behind phones */}
-                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[280px] sm:w-[420px] h-[220px] sm:h-[320px] rounded-full bg-gradient-to-t from-slate-100/40 via-slate-50/20 to-transparent blur-3xl pointer-events-none" />
+                        <div className="absolute bottom-10 left-1/2 z-[1] -translate-x-1/2 w-[280px] sm:w-[420px] h-[220px] sm:h-[320px] rounded-full bg-gradient-to-t from-orange-100/35 via-slate-50/20 to-transparent blur-3xl pointer-events-none" />
 
                         {/* Left Phone (secondary, tilted) - WhatsApp Chat */}
                         <div className="hero-phone-secondary relative z-10 mr-[-30px] sm:mr-[-50px] mb-4 sm:mb-8">
@@ -2021,13 +2021,13 @@ export default function Hero() {
                                         <div className="bg-white rounded-lg rounded-tl-sm px-2 py-1.5 shadow-sm">
                                             <p className="text-[8px] sm:text-[9px] text-slate-800">Great choice! 🏕 Here are the available dates for Manali:</p>
                                             <div className="mt-1 space-y-0.5 text-[7px] sm:text-[8px] text-slate-700">
-                                                <p>📅 Dec 20 - Dec 25</p>
-                                                <p>📅 Dec 27 - Jan 1</p>
-                                                <p>📅 Jan 5 - Jan 10</p>
+                                                <p>📅 Aug 4 - Aug 6</p>
+                                                <p>📅 Aug 7 - Aug 9</p>
+                                                <p>📅 Aug 11- Aug 14</p>
                                             </div>
                                             <div className="flex gap-1 mt-1.5">
-                                                <span className="px-1.5 py-0.5 rounded-full border border-orange-400 text-[6px] sm:text-[7px] text-orange-600 font-medium">Dec 20-25</span>
-                                                <span className="px-1.5 py-0.5 rounded-full border border-orange-400 text-[6px] sm:text-[7px] text-orange-600 font-medium">Dec 27-Jan 1</span>
+                                                <span className="px-1.5 py-0.5 rounded-full border border-orange-400 text-[6px] sm:text-[7px] text-orange-600 font-medium">Aug 4 -Aug 8 </span>
+                                                <span className="px-1.5 py-0.5 rounded-full border border-orange-400 text-[6px] sm:text-[7px] text-orange-600 font-medium">Aug 9- Aug 14</span>
                                             </div>
                                             <div className="text-right mt-1"><span className="text-[6px] text-slate-400">8:31 ✓✓</span></div>
                                         </div>
@@ -2112,7 +2112,7 @@ export default function Hero() {
                         </div>
 
                         {/* Floating badges */}
-                        <div className="hidden sm:block absolute left-[8%] lg:left-[14%] top-20 hero-badge-float">
+                        <div className="hidden sm:block absolute left-[8%] lg:left-[14%] top-20 z-30 hero-badge-float">
                             <div className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-lg shadow-slate-100/30">
                                 <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
                                     <PhoneCall className="h-4 w-4 text-orange-500" />
@@ -2120,7 +2120,7 @@ export default function Hero() {
                                 </div>
                             </div>
                         </div>
-                        <div className="hidden sm:block absolute right-[8%] lg:right-[14%] top-32 hero-badge-float-2">
+                        <div className="hidden sm:block absolute right-[8%] lg:right-[14%] top-32 z-30 hero-badge-float-2">
                             <div className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-lg shadow-slate-100/30">
                                 <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
                                     <MessageSquare className="h-4 w-4 text-orange-500" />
@@ -2128,7 +2128,7 @@ export default function Hero() {
                                 </div>
                             </div>
                         </div>
-                        <div className="hidden lg:block absolute right-[10%] bottom-28 hero-badge-float">
+                        <div className="hidden lg:block absolute right-[10%] bottom-28 z-30 hero-badge-float">
                             <div className="rounded-2xl border border-orange-100 bg-white px-4 py-2.5 shadow-lg shadow-orange-100/30">
                                 <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
                                     <CheckCircle className="h-4 w-4 text-orange-500" />
@@ -2313,7 +2313,7 @@ export default function Hero() {
                             const progress = isActive && sampleDuration > 0 ? sampleCurrentTime / sampleDuration : 0
 
                             return (
-                                <div key={i} className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 aspect-[3/4]">
+                                <div key={i} className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 h-[340px] sm:aspect-[3/4]">
                                     {/* Person image as background */}
                                     <img
                                         src={service.img}
@@ -2327,11 +2327,11 @@ export default function Hero() {
                                     {/* Play / pause button centered */}
                                     <button
                                         type="button"
-                                        className="absolute inset-0 z-10 flex cursor-pointer items-center justify-center"
+                                        className="absolute inset-0 z-50 flex items-center justify-center -translate-y-6 touch-manipulation"
                                         onClick={() => toggleSampleAudio(i, service.audio)}
                                         aria-label={`${isPlaying ? 'Pause' : 'Play'} ${service.title} sample`}
                                     >
-                                        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/85 shadow-lg backdrop-blur-sm transition-all group-hover:scale-110 group-hover:bg-orange-500/95 sm:h-11 sm:w-11">
+                                        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-500/85 shadow-lg backdrop-blur-sm transition-all group-hover:scale-110 group-hover:bg-orange-500/95 sm:h-11 sm:w-11">
                                             {isPlaying ? (
                                                 <Pause className="h-4 w-4 text-white sm:h-5 sm:w-5" />
                                             ) : (
@@ -2341,7 +2341,7 @@ export default function Hero() {
                                     </button>
 
                                     {/* Title and audio timeline */}
-                                    <div className="absolute bottom-0 left-0 right-0 z-20 p-3 sm:p-4">
+                                    <div className="absolute bottom-0 left-0 right-0 z-20 px-4 pb-4 pt-8 sm:p-4">
                                         <h3 className="text-sm font-bold text-white drop-shadow-lg sm:text-base">{service.title}</h3>
                                         <div className="mt-2">
                                             <div className="flex h-3.5 w-[72px] items-end justify-start gap-[1.5px]" aria-hidden="true">
@@ -2485,8 +2485,8 @@ export default function Hero() {
                             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-5 text-center lg:text-left">Select your business</p>
                             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
                                 {[
-                                    { id: 'travel', label: 'Travel', emoji: '✈️', color: 'bg-orange-100 text-orange-700 border-orange-200 hover:bg-orange-200', active: 'bg-orange-500 text-white border-orange-500 shadow-orange-500/30' },
-                                    { id: 'doctor', label: 'Doctor', emoji: '🏥', color: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200', active: 'bg-blue-500 text-white border-blue-500 shadow-blue-500/30' },
+                                    { id: 'travel', label: 'Travel', emoji: '✈️', color: 'text-amber-900 border-amber-300 hover:brightness-95', active: 'text-white border-amber-600 shadow-amber-500/30', background: '#fde68a', activeBackground: '#d97706' },
+                                    { id: 'doctor', label: 'Doctor', emoji: '🏥', color: 'text-blue-900 border-blue-300 hover:brightness-105', active: 'text-white border-blue-600 shadow-blue-500/30', background: '#bfdbfe', activeBackground: '#3b82f6' },
                                     { id: 'salon', label: 'Salon', emoji: '💇', color: 'bg-pink-100 text-pink-700 border-pink-200 hover:bg-pink-200', active: 'bg-pink-500 text-white border-pink-500 shadow-pink-500/30' },
                                     { id: 'event', label: 'Events', emoji: '🎫', color: 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200', active: 'bg-purple-500 text-white border-purple-500 shadow-purple-500/30' },
                                     { id: 'support', label: 'Support', emoji: '🎧', color: 'bg-teal-100 text-teal-700 border-teal-200 hover:bg-teal-200', active: 'bg-teal-500 text-white border-teal-500 shadow-teal-500/30' },
@@ -2500,13 +2500,14 @@ export default function Hero() {
                                     { id: 'logistics', label: 'Logistics', emoji: '🚚', color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200', active: 'bg-yellow-500 text-white border-yellow-500 shadow-yellow-500/30' },
                                     { id: 'hotel', label: 'Hotels', emoji: '🏨', color: 'bg-rose-100 text-rose-700 border-rose-200 hover:bg-rose-200', active: 'bg-rose-500 text-white border-rose-500 shadow-rose-500/30' },
                                     { id: 'automotive', label: 'Automotive', emoji: '🚗', color: 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200', active: 'bg-slate-600 text-white border-slate-600 shadow-slate-600/30' },
-                                    { id: 'legal', label: 'Legal', emoji: '⚖️', color: 'bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200', active: 'bg-stone-500 text-white border-stone-500 shadow-stone-500/30' },
+                                    { id: 'legal', label: 'Legal', emoji: '⚖️', color: 'bg-gradient-to-br from-fuchsia-100 to-purple-100 text-fuchsia-800 border-fuchsia-300 hover:from-fuchsia-200 hover:to-purple-200', active: 'bg-gradient-to-br from-fuchsia-500 to-purple-600 text-white border-fuchsia-600 shadow-fuchsia-500/30' },
                                     { id: 'grocery', label: 'Grocery', emoji: '🥬', color: 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200', active: 'bg-green-500 text-white border-green-500 shadow-green-500/30' },
                                     { id: 'telecom', label: 'Telecom', emoji: '📱', color: 'bg-cyan-100 text-cyan-700 border-cyan-200 hover:bg-cyan-200', active: 'bg-cyan-500 text-white border-cyan-500 shadow-cyan-500/30' },
                                 ].map((biz) => (
                                     <button
                                         key={biz.id}
                                         onClick={() => setActiveBiz(biz.id)}
+                                        style={'background' in biz ? { backgroundColor: activeBiz === biz.id ? biz.activeBackground : biz.background } : undefined}
                                         className={`flex flex-col items-center gap-1.5 px-2 py-3 rounded-2xl border text-xs font-semibold transition-all duration-300 ${
                                             activeBiz === biz.id ? biz.active + ' shadow-lg scale-105' : biz.color
                                         }`}

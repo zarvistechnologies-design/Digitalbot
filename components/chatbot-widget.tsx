@@ -376,7 +376,7 @@ export default function ChatbotWidget() {
                       value={userName}
                       onChange={(e) => setUserName(e.target.value)}
                       placeholder="Enter your name..."
-                      className="w-full pl-9 pr-4 py-2.5 bg-gray-100 rounded-full text-sm text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-300 focus:bg-white transition-all"
+                      className="w-full pl-8 pr-3 py-2 bg-gray-100 rounded-full text-sm text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-orange-300 focus:bg-white transition-all"
                     />
                   </div>
                   <button

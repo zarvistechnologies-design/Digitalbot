@@ -310,7 +310,7 @@ export function Header() {
                             {/* Services Dropdown */}
                             <div className="relative" onMouseEnter={() => setActiveDropdown("services")} onMouseLeave={() => setActiveDropdown(null)}>
                                 <button className="hdr-trigger">
-                                    Voice Agent Service
+                                    Voice Agent Services
                                     <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", activeDropdown === "services" && "rotate-180")} />
                                 </button>
                                 <AnimatePresence>
@@ -425,7 +425,7 @@ export function Header() {
                                 animate={{ height: "auto", opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
                                 transition={{ duration: 0.22 }}
-                                className="lg:hidden overflow-hidden bg-white border-t border-gray-100 rounded-b-2xl"
+                                className="fixed top-[66px] right-0 h-[calc(100vh-66px)] w-[80%] bg-white shadow-2xl lg:hidden overflow-y-auto"
                             >
                                 <nav className="py-4 space-y-0.5 px-2">
                                     {/* Home Link */}
@@ -482,7 +482,7 @@ export function Header() {
                                             onClick={() => setMobileAccordion(mobileAccordion === "services" ? null : "services")}
                                             className="w-full flex items-center justify-between px-4 py-3 text-sm font-[550] text-slate-600 hover:bg-orange-50/70 hover:text-orange-600 rounded-xl transition-colors"
                                         >
-                                            Voice Agent Service
+                                            Voice Agent Services
                                             <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", mobileAccordion === "services" && "rotate-180")} />
                                         </button>
                                         <AnimatePresence>

@@ -199,9 +199,9 @@ export default function EducationPage() {
                 <Sparkles className="h-4 w-4" />
                 WhatsApp automation for education
               </div>
-              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+              <h3 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
                 Convert every student inquiry into a booked admission call.
-              </h1>
+              </h3>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
                 DigitalBot answers admission questions, sends brochures, qualifies leads, books campus visits,
                 and reminds students about fees directly inside WhatsApp.
@@ -248,19 +248,33 @@ export default function EducationPage() {
               </p>
             </div>
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {services.map((service) => {
-                const Icon = service.icon
-                return (
-                  <div key={service.title} className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:border-emerald-200 hover:shadow-lg">
-                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-[#128c7e]">
-                      <Icon className="h-6 w-6" />
-                    </div>
-                    <h3 className="text-lg font-black text-slate-950">{service.title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{service.body}</p>
-                  </div>
-                )
-              })}
-            </div>
+  {services.map((service) => {
+    const Icon = service.icon
+
+    return (
+      <div
+        key={service.title}
+        className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:border-emerald-200 hover:shadow-lg"
+      >
+        {/* Icon + Title */}
+        <div className="flex items-center gap-4 mb-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-[#128c7e] flex-shrink-0">
+            <Icon className="h-6 w-6" />
+          </div>
+
+          <h3 className="text-lg font-black text-slate-950">
+            {service.title}
+          </h3>
+        </div>
+
+        {/* Description */}
+        <p className="text-sm leading-6 text-slate-600">
+          {service.body}
+        </p>
+      </div>
+    )
+  })}
+</div>
           </div>
         </section>
 
@@ -306,7 +320,7 @@ export default function EducationPage() {
         </section>
 
         {/* ── Student journey ──────────────────────────────────────────────── */}
-        <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <section className="px-4 pt-20 pb-8 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div className="order-2 overflow-hidden rounded-lg border border-emerald-100 bg-white p-3 shadow-xl">
               <Image
@@ -342,8 +356,8 @@ export default function EducationPage() {
         </section>
 
         {/* ── Dashboard Preview ────────────────────────────────────────────── */}
-        <section className="px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
+        <section className="px-4 pt-12 pb-10 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl"> 
             <div className="mb-10 text-center">
               <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-700">What you get</p>
               <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
@@ -593,7 +607,7 @@ export default function EducationPage() {
         </section>
 
         {/* ── Results Section ───────────────────────────────────────────────── */}
-        <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+        <section className="bg-white px-4 pt-20 pb-10 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
 
             {/* Label + heading */}
@@ -659,7 +673,7 @@ export default function EducationPage() {
         </section>
 
         {/* ── CTA ─────────────────────────────────────────────────────────── */}
-        <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <section className="px-4 pt-4 pb-20 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-5xl rounded-lg bg-slate-950 p-8 text-center text-white shadow-2xl sm:p-12">
             <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-[#25d366] text-slate-950">
               <PhoneCall className="h-7 w-7" />

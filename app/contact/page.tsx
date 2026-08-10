@@ -97,7 +97,7 @@ const contactMethods = [
   },
   {
     icon: MapPin,
-    title: "India Office",
+    title: "Bangalore(HQ)",
     description: "Our headquarters",
     value: "Behind Manyata Tech Park,\nHebbal, Bangalore 560077",
     action: "https://maps.google.com/?q=Manyata+Tech+Park+Hebbal+Bangalore",
@@ -108,8 +108,8 @@ const contactMethods = [
   },
   {
     icon: MapPin,
-    title: "Second india office",
-    description: "Lucknow",
+    title: "Lucknow",
+    description: "Second India office",
     value: "Experion,V296+9MM, AV 7, Vibhuti Khand, Gomti Nagar, Lucknow, Uttar Pradesh 226010",
     action: "https://maps.app.goo.gl/B2iGy9u8EosW2Wrt8",
     gradient: "from-orange-500 to-orange-600",
@@ -235,20 +235,28 @@ export default function ContactPage() {
                 </p>
 
                 {/* Quick Features */}
-                <div className="flex flex-wrap gap-3 mb-8">
-                  <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full">
-                    <Clock className="w-4 h-4 text-slate-500" />
-                    <span className="text-sm text-slate-600 font-medium">2hr Response</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full">
-                    <Shield className="w-4 h-4 text-slate-500" />
-                    <span className="text-sm text-slate-600 font-medium">Enterprise Security</span>
-                  </div>
-                  <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full">
-                    <Users className="w-4 h-4 text-slate-500" />
-                    <span className="text-sm text-slate-600 font-medium">Dedicated Team</span>
-                  </div>
-                </div>
+                <div className="flex flex-wrap items-center gap-x-8 gap-y-3 mb-8">
+  <div className="flex items-center gap-3">
+    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+    <span className="text-sm text-slate-600 font-medium">
+      2hr Response
+    </span>
+  </div>
+
+  <div className="flex items-center gap-3">
+    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+    <span className="text-sm text-slate-600 font-medium">
+      Enterprise Security
+    </span>
+  </div>
+
+  <div className="flex items-center gap-3">
+    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+    <span className="text-sm text-slate-600 font-medium">
+      Dedicated Team
+    </span>
+  </div>
+</div>
 
                 {/* CTA Buttons */}
                 <div className="flex flex-wrap gap-4">
@@ -256,7 +264,7 @@ export default function ContactPage() {
                     Send Message
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                  <Link href="tel:+9178925 18414" className="px-6 py-3 text-slate-600 font-medium border border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-xl transition-all flex items-center gap-2">
+                  <Link href="tel:+9178925 18414" className="group px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2">
                     <Phone className="w-4 h-4" />
                     Call Now
                   </Link>
@@ -467,7 +475,7 @@ export default function ContactPage() {
                     ) : (
                       <>
                         Send Message
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        
                       </>
                     )}
                   </button>
@@ -482,7 +490,7 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Methods - orange Section */}
-        <section className="py-20 px-4 bg-white relative overflow-hidden lg:col-span-2">
+        <section className="py-10 px-4 bg-white relative overflow-hidden lg:col-span-2">
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
@@ -523,7 +531,7 @@ export default function ContactPage() {
         </section>
 
         {/* Benefits Section - White */}
-        <section className="py-20 px-4 bg-gradient-to-b from-slate-50 to-white lg:col-span-2">
+        <section className="py-10 px-4 bg-gradient-to-b from-slate-50 to-white lg:col-span-2">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
@@ -556,7 +564,7 @@ export default function ContactPage() {
         </section>
 
         {/* CTA Section - orange */}
-        <section className="py-20 px-4 bg-white relative overflow-hidden lg:col-span-2">
+        <section className="py-10 px-4 bg-white relative overflow-hidden lg:col-span-2">
           <div className="container mx-auto max-w-4xl text-center relative z-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
               <Zap className="w-4 h-4 text-slate-600" />

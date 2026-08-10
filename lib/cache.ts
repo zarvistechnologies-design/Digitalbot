@@ -61,6 +61,12 @@ export function invalidateCachePrefix(prefix: string): void {
   }
 }
 
+export function clearCache(): void {
+  cache.clear();
+  inflight.clear();
+  listeners.forEach((callbacks) => callbacks.forEach((callback) => callback()));
+}
+
 /** Subscribe to cache changes */
 export function subscribeCache(key: string, fn: () => void): () => void {
   if (!listeners.has(key)) listeners.set(key, new Set());
