@@ -284,6 +284,7 @@ export default function CampaignsPage() {
     const [campaignName, setCampaignName] = useState('');
     const [targetAudience, setTargetAudience] = useState('');
     const [agentId, setAgentId] = useState('');
+    const [phoneNumberId, setPhoneNumberId] = useState('');
     const [outboundProvider, setOutboundProvider] = useState<'millis' | 'vozon'>('vozon');
     const [dailyLimit, setDailyLimit] = useState(250);
     const [contacts, setContacts] = useState<Array<{ name: string, phone: string, email?: string }>>([]);
@@ -589,6 +590,10 @@ export default function CampaignsPage() {
             alert('❌ Daily limit must be a whole number between 1 and 100000.');
             return;
         }
+        if (outboundProvider === 'vozon' && (!agentId.trim() || !phoneNumberId.trim())) {
+            alert('❌ Vozon Agent ID and Phone Number ID are required.');
+            return;
+        }
 
         // Check authentication
         const token = getAuthToken();
@@ -609,6 +614,11 @@ export default function CampaignsPage() {
                 content: {
                     voiceAgentId: outboundProvider === 'millis' ? agentId || undefined : undefined
                 },
+                vozonAI: outboundProvider === 'vozon' ? {
+                    agentId: agentId.trim(),
+                    phoneNumberId: phoneNumberId.trim(),
+                    dailyLimit
+                } : undefined,
                 // Store contacts temporarily in metadata
                 metadata: {
                     contacts: contacts,
@@ -638,6 +648,7 @@ export default function CampaignsPage() {
                 setCampaignName('');
                 setTargetAudience('');
                 setAgentId('');
+                setPhoneNumberId('');
                 setOutboundProvider('vozon');
                 setDailyLimit(250);
                 setContacts([]);
@@ -1009,6 +1020,7 @@ export default function CampaignsPage() {
                                         setContacts([]);
                                         setCsvFile(null);
                                         setAgentId('');
+                                        setPhoneNumberId('');
                                         setOutboundProvider('vozon');
                                         setDailyLimit(250);
                                     }}
@@ -1069,31 +1081,43 @@ export default function CampaignsPage() {
                                                     ))}
                                                 </div>
                                             </div>
-                                            {outboundProvider === 'millis' ? (
-                                                <div>
-                                                    <label className="block text-sm font-bold text-gray-700 mb-2">Millis AI Agent ID *</label>
-                                                    <input
-                                                        type="text"
-                                                        value={agentId}
-                                                        onChange={(e) => setAgentId(e.target.value)}
-                                                        placeholder="e.g., -OXrv5021Ddq4NGGbG0h"
-                                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                                    />
-                                                    <p className="text-xs text-gray-500 mt-1">Get this from your Millis AI Voice Agent dashboard.</p>
-                                                </div>
-                                            ) : (
-                                                <div>
-                                                    <label className="block text-sm font-bold text-gray-700 mb-2">Vozon Daily Call Limit *</label>
-                                                    <input
-                                                        type="number"
-                                                        min={1}
-                                                        max={100000}
-                                                        step={1}
-                                                        value={dailyLimit}
-                                                        onChange={(e) => setDailyLimit(Number(e.target.value))}
-                                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                                    />
-                                                    <p className="text-xs text-gray-500 mt-1">The connected Vozon agent and phone number are selected automatically.</p>
+                                            <div>
+                                                <label className="block text-sm font-bold text-gray-700 mb-2">
+                                                    {outboundProvider === 'vozon' ? 'Vozon Agent ID *' : 'Millis AI Agent ID *'}
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={agentId}
+                                                    onChange={(e) => setAgentId(e.target.value)}
+                                                    placeholder={outboundProvider === 'vozon' ? 'Enter Vozon agent ID' : 'e.g., -OXrv5021Ddq4NGGbG0h'}
+                                                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                                />
+                                                <p className="text-xs text-gray-500 mt-1">Get this from your {outboundProvider === 'vozon' ? 'Vozon' : 'Millis AI'} dashboard.</p>
+                                            </div>
+                                            {outboundProvider === 'vozon' && (
+                                                <div className="space-y-5">
+                                                    <div>
+                                                        <label className="block text-sm font-bold text-gray-700 mb-2">Vozon Phone Number ID *</label>
+                                                        <input
+                                                            type="text"
+                                                            value={phoneNumberId}
+                                                            onChange={(e) => setPhoneNumberId(e.target.value)}
+                                                            placeholder="Enter Vozon phone number ID"
+                                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-sm font-bold text-gray-700 mb-2">Vozon Daily Call Limit *</label>
+                                                        <input
+                                                            type="number"
+                                                            min={1}
+                                                            max={100000}
+                                                            step={1}
+                                                            value={dailyLimit}
+                                                            onChange={(e) => setDailyLimit(Number(e.target.value))}
+                                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                                        />
+                                                    </div>
                                                 </div>
                                             )}
                                     </div>
@@ -1210,10 +1234,16 @@ export default function CampaignsPage() {
                                                 <p className="text-sm text-gray-600 font-semibold">Provider</p>
                                                 <p className="text-lg font-bold text-gray-900 capitalize">{outboundProvider}</p>
                                             </div>
-                                            {outboundProvider === 'millis' && agentId && (
+                                            {agentId && (
                                                 <div className="col-span-2">
                                                     <p className="text-sm text-gray-600 font-semibold">AI Agent ID</p>
                                                     <p className="text-lg font-bold text-gray-900">{agentId}</p>
+                                                </div>
+                                            )}
+                                            {outboundProvider === 'vozon' && phoneNumberId && (
+                                                <div className="col-span-2">
+                                                    <p className="text-sm text-gray-600 font-semibold">Phone Number ID</p>
+                                                    <p className="text-lg font-bold text-gray-900">{phoneNumberId}</p>
                                                 </div>
                                             )}
                                             {outboundProvider === 'vozon' && (
