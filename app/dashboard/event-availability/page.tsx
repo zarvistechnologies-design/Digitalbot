@@ -60,8 +60,8 @@ const initialForm: VenueForm = {
   contactPhone: "",
   email: "",
   slotDuration: 180,
-  allowMultipleBookings: false,
-  maxBookingsPerSlot: 1,
+  allowMultipleBookings: true,
+  maxBookingsPerSlot: 0,
   defaultWorkingHours: { start: "10:00", end: "22:00" },
   workingDays: [0, 1, 2, 3, 4, 5, 6],
   active: true,
@@ -125,8 +125,8 @@ export default function EventAvailabilityPage() {
       contactPhone: venue.contactPhone || "",
       email: venue.email || "",
       slotDuration: venue.slotDuration || 180,
-      allowMultipleBookings: venue.allowMultipleBookings === true,
-      maxBookingsPerSlot: venue.maxBookingsPerSlot || 1,
+      allowMultipleBookings: venue.allowMultipleBookings !== false,
+      maxBookingsPerSlot: venue.maxBookingsPerSlot ?? 0,
       defaultWorkingHours: venue.defaultWorkingHours || { start: "10:00", end: "22:00" },
       workingDays: venue.workingDays?.length ? venue.workingDays : [0, 1, 2, 3, 4, 5, 6],
       active: venue.active !== false,
@@ -241,8 +241,8 @@ export default function EventAvailabilityPage() {
             <>
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-8">
                 {(tools.length ? tools : [
-                  { name: "check_event_availability", description: "Check if an event date and time is available.", endpoint: "/api/events/availability", method: "POST", requiredFields: ["assignedPhoneNumber", "eventDate"] },
-                  { name: "book_event", description: "Create an event booking or lead from the voice call.", endpoint: "/api/events/book", method: "POST", requiredFields: ["assignedPhoneNumber", "customerName", "customerPhone", "eventType", "eventDate", "eventTime"] },
+                  { name: "check_event_availability", description: "Optional. Lists the slots for a date. book_event does not need this first.", endpoint: "/api/events/availability", method: "POST", requiredFields: ["assignedPhoneNumber", "eventDate"] },
+                  { name: "book_event", description: "Books straight away. The caller's number comes from the call, so the agent never asks for it.", endpoint: "/api/events/book", method: "POST", requiredFields: ["assignedPhoneNumber", "customerName", "eventDate", "eventTime"] },
                 ]).map((tool) => (
                   <div key={tool.name} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
                     <div className="flex items-start gap-3">
@@ -291,7 +291,7 @@ export default function EventAvailabilityPage() {
                         </div>
                         <div className="rounded-lg bg-gray-50 p-3 border border-gray-100">
                           <p className="text-xs text-gray-500 font-medium">Capacity</p>
-                          <p className="text-lg font-bold text-gray-900">{venue.maxBookingsPerSlot || 1}/slot</p>
+                          <p className="text-lg font-bold text-gray-900">{venue.maxBookingsPerSlot ? `${venue.maxBookingsPerSlot}/slot` : "Unlimited"}</p>
                         </div>
                       </div>
                       <div className="space-y-2 text-sm text-gray-600 mb-4">
@@ -337,7 +337,7 @@ export default function EventAvailabilityPage() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <NumberField label="Slot Minutes" value={form.slotDuration} min={30} max={720} onChange={(value) => setForm({ ...form, slotDuration: value || 180 })} />
-                <NumberField label="Max Per Slot" value={form.maxBookingsPerSlot} min={1} max={25} onChange={(value) => setForm({ ...form, maxBookingsPerSlot: value || 1 })} />
+                <NumberField label="Max Per Slot (0 = unlimited)" value={form.maxBookingsPerSlot} min={0} max={500} onChange={(value) => setForm({ ...form, maxBookingsPerSlot: value || 0 })} />
                 <label className="flex items-center gap-3 mt-6">
                   <input type="checkbox" checked={form.allowMultipleBookings} onChange={(event) => setForm({ ...form, allowMultipleBookings: event.target.checked })} className="h-4 w-4 accent-orange-600" />
                   <span className="text-sm font-medium text-gray-700">Multiple events</span>
