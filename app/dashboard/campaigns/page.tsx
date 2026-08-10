@@ -66,6 +66,17 @@ type Campaign = {
     millisAI?: {
         agentId?: string;
     };
+    vozonAI?: {
+        agentId?: string;
+        phoneNumberId?: string;
+        dailyLimit?: number;
+    };
+    vozonCampaignId?: string;
+    metadata?: {
+        outboundProvider?: 'millis' | 'vozon';
+        dailyLimit?: number;
+        [key: string]: unknown;
+    };
 };
 
 type FilterStatus = 'all' | 'active' | 'scheduled' | 'completed' | 'draft' | 'paused';
@@ -122,6 +133,11 @@ userPhone ?: string;
                             <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-slate-50 text-slate-700 border border-slate-200">
                                 {campaign.type}
                             </span>
+                            {campaign.type === 'voice' && (
+                                <span className="px-3 py-1 rounded-lg text-xs font-semibold capitalize bg-orange-50 text-orange-700 border border-orange-200">
+                                    {campaign.metadata?.outboundProvider || 'millis'}
+                                </span>
+                            )}
                             {userPhone && (
                                 <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200">
                                     📞 {userPhone}
@@ -267,6 +283,9 @@ export default function CampaignsPage() {
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [campaignName, setCampaignName] = useState('');
     const [targetAudience, setTargetAudience] = useState('');
+    const [agentId, setAgentId] = useState('');
+    const [outboundProvider, setOutboundProvider] = useState<'millis' | 'vozon'>('vozon');
+    const [dailyLimit, setDailyLimit] = useState(250);
     const [contacts, setContacts] = useState<Array<{ name: string, phone: string, email?: string }>>([]);
     const [csvFile, setCsvFile] = useState<File | null>(null);
     const [uploadStep, setUploadStep] = useState<'form' | 'upload' | 'review'>('form');
@@ -561,6 +580,16 @@ export default function CampaignsPage() {
             alert('❌ Please fill in all required fields and add contacts!');
             return;
         }
+        // Validate Agent ID is required for voice campaigns
+        if (outboundProvider === 'millis' && (!agentId || agentId.trim() === '')) {
+            alert('❌ AI Agent ID is required for voice campaigns!\n\nPlease enter your AI Voice Agent ID from your AI Voice Agent dashboard before creating a campaign.');
+            return;
+        }
+        if (outboundProvider === 'vozon' && (!Number.isInteger(dailyLimit) || dailyLimit < 1 || dailyLimit > 100000)) {
+            alert('❌ Daily limit must be a whole number between 1 and 100000.');
+            return;
+        }
+
         // Check authentication
         const token = getAuthToken();
         if (!token) {
@@ -577,9 +606,14 @@ export default function CampaignsPage() {
                 targetAudience: targetAudience,
                 totalContacts: contacts.length,
                 status: 'draft',
+                content: {
+                    voiceAgentId: outboundProvider === 'millis' ? agentId || undefined : undefined
+                },
                 // Store contacts temporarily in metadata
                 metadata: {
-                    contacts: contacts
+                    contacts: contacts,
+                    outboundProvider,
+                    dailyLimit: outboundProvider === 'vozon' ? dailyLimit : undefined
                 }
             };
 
@@ -603,6 +637,9 @@ export default function CampaignsPage() {
                 setShowCreateModal(false);
                 setCampaignName('');
                 setTargetAudience('');
+                setAgentId('');
+                setOutboundProvider('vozon');
+                setDailyLimit(250);
                 setContacts([]);
                 setCsvFile(null);
                 setUploadStep('form');
@@ -645,6 +682,13 @@ export default function CampaignsPage() {
             return;
         }
 
+        // Check if campaign has Agent ID configured
+        const provider = campaign.metadata?.outboundProvider || 'millis';
+        const campaignAgentId = campaign.content?.voiceAgentId || campaign.millisAI?.agentId;
+        if (provider === 'millis' && (!campaignAgentId || campaignAgentId.trim() === '')) {
+            alert('❌ Cannot launch campaign!\n\nThis voice campaign is missing an AI Voice Agent ID. Please edit the campaign and add an Agent ID before launching.');
+            return;
+        }
         // Check authentication
         const token = getAuthToken();
         if (!token) {
@@ -964,6 +1008,9 @@ export default function CampaignsPage() {
                                         setUploadStep('form');
                                         setContacts([]);
                                         setCsvFile(null);
+                                        setAgentId('');
+                                        setOutboundProvider('vozon');
+                                        setDailyLimit(250);
                                     }}
                                     className="p-2 hover:bg-white/20 rounded-lg transition-all"
                                 >
@@ -1006,6 +1053,50 @@ export default function CampaignsPage() {
                                         />
                                     </div>
 
+                                    <div className="space-y-5">
+                                            <div>
+                                                <label className="block text-sm font-bold text-gray-700 mb-2">Calling Provider *</label>
+                                                <div className="grid grid-cols-2 gap-3">
+                                                    {(['vozon', 'millis'] as const).map((provider) => (
+                                                        <button
+                                                            type="button"
+                                                            key={provider}
+                                                            onClick={() => setOutboundProvider(provider)}
+                                                            className={`p-3 rounded-xl border-2 font-semibold capitalize transition-all ${outboundProvider === provider ? 'border-orange-500 bg-orange-50 text-orange-700' : 'border-gray-300 hover:border-orange-300'}`}
+                                                        >
+                                                            {provider}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            {outboundProvider === 'millis' ? (
+                                                <div>
+                                                    <label className="block text-sm font-bold text-gray-700 mb-2">Millis AI Agent ID *</label>
+                                                    <input
+                                                        type="text"
+                                                        value={agentId}
+                                                        onChange={(e) => setAgentId(e.target.value)}
+                                                        placeholder="e.g., -OXrv5021Ddq4NGGbG0h"
+                                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                                    />
+                                                    <p className="text-xs text-gray-500 mt-1">Get this from your Millis AI Voice Agent dashboard.</p>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <label className="block text-sm font-bold text-gray-700 mb-2">Vozon Daily Call Limit *</label>
+                                                    <input
+                                                        type="number"
+                                                        min={1}
+                                                        max={100000}
+                                                        step={1}
+                                                        value={dailyLimit}
+                                                        onChange={(e) => setDailyLimit(Number(e.target.value))}
+                                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                                    />
+                                                    <p className="text-xs text-gray-500 mt-1">The connected Vozon agent and phone number are selected automatically.</p>
+                                                </div>
+                                            )}
+                                    </div>
                                     <button
                                         onClick={() => setUploadStep('upload')}
                                         disabled={!campaignName || !targetAudience}
@@ -1115,6 +1206,22 @@ export default function CampaignsPage() {
                                                 <p className="text-sm text-gray-600 font-semibold">Total Contacts</p>
                                                 <p className="text-lg font-bold text-orange-600">{contacts.length}</p>
                                             </div>
+                                            <div>
+                                                <p className="text-sm text-gray-600 font-semibold">Provider</p>
+                                                <p className="text-lg font-bold text-gray-900 capitalize">{outboundProvider}</p>
+                                            </div>
+                                            {outboundProvider === 'millis' && agentId && (
+                                                <div className="col-span-2">
+                                                    <p className="text-sm text-gray-600 font-semibold">AI Agent ID</p>
+                                                    <p className="text-lg font-bold text-gray-900">{agentId}</p>
+                                                </div>
+                                            )}
+                                            {outboundProvider === 'vozon' && (
+                                                <div>
+                                                    <p className="text-sm text-gray-600 font-semibold">Daily Limit</p>
+                                                    <p className="text-lg font-bold text-gray-900">{dailyLimit.toLocaleString()}</p>
+                                                </div>
+                                            )}
                                             {userInfo?.assignedPhoneNumber && (
                                                 <div className="col-span-2">
                                                     <p className="text-sm text-gray-600 font-semibold">Calling From</p>
