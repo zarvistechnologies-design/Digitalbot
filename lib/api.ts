@@ -154,6 +154,9 @@ export const callsAPI = {
   getAgents: () => {
     return api.get('/agents');
   },
+  syncVozonCalls: (limit = 50) => {
+    return api.post('/vozon-calls/sync', { limit });
+  },
 };
 
 export const campaignsAPI = {

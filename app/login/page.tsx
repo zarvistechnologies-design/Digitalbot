@@ -1,5 +1,6 @@
 'use client';
 import { PageBackground } from '@/components/page-background';
+import { clearCache } from '@/lib/cache';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
@@ -49,6 +50,7 @@ export default function LoginPage(): JSX.Element {
     // Clear any old cached data first
     localStorage.clear();
     sessionStorage.clear();
+    clearCache();
 
     // Clear all cookies
     document.cookie.split(";").forEach((c) => {

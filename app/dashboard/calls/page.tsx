@@ -185,6 +185,24 @@ const Dashboard = () => {
     return '';
   };
 
+  const syncBookingWorkspaceCalls = async () => {
+    const rawUser = localStorage.getItem('user');
+    const user = rawUser ? JSON.parse(rawUser) : null;
+    const service = String(user?.selectedService || '').toLowerCase();
+    if (!['booking-crm', 'event-booking-crm'].includes(service)) return;
+
+    try {
+      await callsAPI.syncVozonCalls(50);
+      invalidateCache(CACHE_KEYS.CALLS);
+      invalidateCache(CACHE_KEYS.CALLS_STATS);
+      invalidateCache(CACHE_KEYS.CALLS_AGENTS);
+    } catch (syncError: any) {
+      console.warn(
+        'Vozon call history sync failed:',
+        syncError.response?.data?.details || syncError.message
+      );
+    }
+  };
   const fetchCalls = async (page = 1, limit = ALL_CALLS_LIMIT, search = '', isBackground = false) => {
     try {
       if (!isBackground) {
@@ -276,9 +294,16 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (mounted) {
-      if (!getCache<Call[]>(CACHE_KEYS.CALLS)) fetchCalls();
-      fetchStats();
-      fetchAgents();
+      if (!getCache<Call[]>(CACHE_KEYS.CALLS)) {
+        void syncBookingWorkspaceCalls().finally(() => {
+          fetchCalls();
+          fetchStats();
+          fetchAgents();
+        });
+      } else {
+        fetchStats();
+        fetchAgents();
+      }
     }
   }, [mounted]);
 
@@ -438,11 +463,12 @@ const Dashboard = () => {
     URL.revokeObjectURL(url);
   };
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setNewCallsCount(0);
     invalidateCache(CACHE_KEYS.CALLS);
     invalidateCache(CACHE_KEYS.CALLS_STATS);
     invalidateCache(CACHE_KEYS.CALLS_AGENTS);
+    await syncBookingWorkspaceCalls();
     fetchCalls();
     fetchStats();
     fetchAgents();

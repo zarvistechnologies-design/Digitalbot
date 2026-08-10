@@ -101,11 +101,6 @@ const pageConfig: Record<OperationsPageKind, { title: string; eyebrow: string; d
   },
 };
 
-const operationsNavigation = [
-  { label: "Bulk Campaigns", href: "/dashboard/booking-crm/bulk-campaigns", kind: "campaigns" as const, icon: Megaphone },
-  { label: "Follow-ups", href: "/dashboard/booking-crm/follow-ups", kind: "followups" as const, icon: ListTodo },
-];
-
 function pretty(value?: string) {
   return String(value || "Unknown").replace(/_/g, " ").replace(/\b\w/g, (character) => character.toUpperCase());
 }
@@ -233,18 +228,12 @@ export default function OperationsPage({ kind }: { kind: OperationsPageKind }) {
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <Link href="/dashboard/booking-crm" className="inline-flex h-10 items-center gap-2 rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"><ArrowLeft className="h-4 w-4" />Booking CRM</Link>
+                <Link href="/dashboard/booking-crm" className="inline-flex h-10 items-center gap-2 rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"><ArrowLeft className="h-4 w-4" />Booking Workspace</Link>
                 <button onClick={() => void loadPage()} disabled={loading} className="inline-flex h-10 items-center gap-2 rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 disabled:opacity-50"><RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />Refresh</button>
                 {kind === "campaigns" && <Link href="/dashboard/campaigns" className="inline-flex h-10 items-center gap-2 rounded-md bg-zinc-950 px-4 text-sm font-semibold text-white hover:bg-zinc-800">New campaign <ArrowUpRight className="h-4 w-4" /></Link>}
               </div>
             </div>
 
-            <nav className="mt-6 flex gap-1 overflow-x-auto" aria-label="Booking CRM operations">
-              {operationsNavigation.map((item) => {
-                const Icon = item.icon;
-                return <Link key={item.kind} href={item.href} className={`flex h-11 shrink-0 items-center gap-2 border-b-2 px-3 text-sm font-semibold transition-colors ${kind === item.kind ? "border-orange-600 text-orange-700" : "border-transparent text-zinc-500 hover:text-zinc-900"}`}><Icon className="h-4 w-4" />{item.label}</Link>;
-              })}
-            </nav>
           </div>
         </header>
 

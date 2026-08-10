@@ -1,5 +1,5 @@
-import OperationsPage from "../_components/OperationsPage";
+import { redirect } from "next/navigation";
 
 export default function BulkCampaignsPage() {
-  return <OperationsPage kind="campaigns" />;
+  redirect("/dashboard/campaigns");
 }

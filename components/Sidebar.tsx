@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/api';
-import { CACHE_KEYS } from '@/lib/cache';
+import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
@@ -191,8 +191,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/tankro-sessions', icon: MessageSquare });
     }
     if (['event-booking-crm', 'event booking crm', 'event-booking', 'event', 'events', 'booking-crm', 'booking crm', 'booking'].includes(selectedService)) {
-      serviceItems.push({ name: 'Booking CRM', href: '/dashboard/booking-crm', icon: Package });
-      serviceItems.push({ name: 'Bulk Campaigns', href: '/dashboard/booking-crm/bulk-campaigns', icon: Megaphone });
+      serviceItems.push({ name: 'Booking Workspace', href: '/dashboard/booking-crm', icon: Package });
+      serviceItems.push({ name: 'Bulk Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Follow-ups', href: '/dashboard/booking-crm/follow-ups', icon: ClipboardList });
     }
     if (['casino', 'ballys', "bally's casino", 'ballys-casino'].includes(selectedService)) {
@@ -215,6 +215,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const handleLogout = () => {
     cachedDashboardUser = null;
     queryClient.clear();
+    clearCache();
     sessionStorage.removeItem('digitalbot-query-cache-v1');
     localStorage.removeItem('token');
     localStorage.removeItem('user');

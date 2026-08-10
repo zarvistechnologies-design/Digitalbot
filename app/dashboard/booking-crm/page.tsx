@@ -148,7 +148,7 @@ const defaultTerms: Terminology = {
 };
 
 const defaultProfile: BookingProfile = {
-  businessName: "DigitalBot Booking CRM",
+  businessName: "DigitalBot Booking Workspace",
   businessType: "events",
   bookingMode: "time_slot",
   terminology: defaultTerms,
@@ -295,7 +295,7 @@ export default function BookingCrmPage() {
         router.replace("/dashboard");
         return;
       }
-      setError(err.response?.data?.error || "Could not load the Booking CRM workspace");
+      setError(err.response?.data?.error || "Could not load the Booking Workspace");
     } finally {
       setLoading(false);
     }
@@ -416,7 +416,7 @@ export default function BookingCrmPage() {
       setSaving(true);
       const response = await bookingCrmAPI.updateProfile(profile as unknown as Record<string, unknown>);
       setProfile({ ...response.data.profile, terminology: { ...defaultTerms, ...(response.data.profile.terminology || {}) } });
-      notify("Booking CRM settings saved");
+      notify("Booking Workspace settings saved");
       await loadDashboard();
     } catch (err: any) {
       setError(err.response?.data?.error || "Could not save settings");
@@ -444,7 +444,7 @@ export default function BookingCrmPage() {
                   <span className="text-zinc-300">/</span>
                   <span>{pretty(profile.bookingMode)}</span>
                 </div>
-                <h1 className="truncate text-2xl font-bold text-zinc-950 lg:text-3xl">DigitalBot Booking CRM</h1>
+                <h1 className="truncate text-2xl font-bold text-zinc-950 lg:text-3xl">DigitalBot Booking Workspace</h1>
                 <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-500">
                   <span className="inline-flex items-center gap-1.5"><Phone className="h-4 w-4" />{profile.assignedPhoneNumber || "Voice number connected"}</span>
                   <span className="inline-flex items-center gap-1.5"><Clock3 className="h-4 w-4" />{profile.timezone}</span>
@@ -464,7 +464,7 @@ export default function BookingCrmPage() {
               </div>
             </div>
 
-            <nav className="mt-6 flex gap-1 overflow-x-auto" aria-label="Booking CRM sections">
+            <nav className="mt-6 flex gap-1 overflow-x-auto" aria-label="Booking Workspace sections">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 const label = tab.id === "bookings" ? terms.bookings : tab.id === "customers" ? terms.customers : tab.label;

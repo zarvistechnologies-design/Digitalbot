@@ -66,7 +66,7 @@ export default function BookingCrmSetupPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [checking, setChecking] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [businessName, setBusinessName] = useState("DigitalBot Booking CRM");
+  const [businessName, setBusinessName] = useState("DigitalBot Booking Workspace");
   const [businessType, setBusinessType] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -84,7 +84,7 @@ export default function BookingCrmSetupPage() {
         const response = await bookingCrmAPI.getProfile();
         const profile = response.data.profile;
         if (!active) return;
-        setBusinessName(profile?.businessName || "DigitalBot Booking CRM");
+        setBusinessName(profile?.businessName || "DigitalBot Booking Workspace");
         if (profile?.onboardingComplete) {
           updateCachedUser(profile.businessType);
           router.replace("/dashboard/booking-crm");
@@ -105,7 +105,7 @@ export default function BookingCrmSetupPage() {
     try {
       setSaving(true);
       setError(null);
-      const response = await bookingCrmAPI.completeOnboarding({ businessType, businessName: businessName.trim() || "DigitalBot Booking CRM" });
+      const response = await bookingCrmAPI.completeOnboarding({ businessType, businessName: businessName.trim() || "DigitalBot Booking Workspace" });
       updateCachedUser(response.data.profile.businessType);
       router.replace("/dashboard/booking-crm");
     } catch (setupError: any) {
@@ -127,7 +127,7 @@ export default function BookingCrmSetupPage() {
       <main className="lg:pl-64">
         <header className="border-b border-zinc-200 bg-white">
           <div className="px-4 pb-6 pt-20 sm:px-6 lg:px-8 lg:pt-7">
-            <p className="text-xs font-semibold uppercase text-orange-700">Booking CRM setup</p>
+            <p className="text-xs font-semibold uppercase text-orange-700">Booking Workspace setup</p>
             <h1 className="mt-2 text-2xl font-bold sm:text-3xl">Choose your business</h1>
             <p className="mt-2 max-w-2xl text-sm text-zinc-500">This choice sets the workspace terminology and booking behavior for this account.</p>
           </div>
