@@ -121,19 +121,21 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const formatServiceName = (service?: string) => {
     if (!service) return '';
     if (service === 'doctor-dashboard') return 'Doctor Dashboard';
+    if (service === 'appointment-whatsapp' || service === 'doctor-whatsapp') return 'Doctor Desk';
     if (service === 'tankro') return 'Tankro Dashboard';
     return service.replace(/[-_]/g, ' ');
   };
 
   const getServiceNavigation = () => {
     const selectedService = (user?.selectedService || '').toLowerCase();
+    const isAppointmentWhatsApp = ['appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp'].includes(selectedService);
     const isDoctorDashboard = ['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare'].includes(selectedService);
     const serviceItems = [];
     if (user?.selectedService === 'lead-analysis' || user?.selectedService === 'lead') {
       serviceItems.push({ name: 'Leads', href: '/dashboard/leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
     }
-    if (user?.selectedService === 'appointment' || isDoctorDashboard) {
+    if (user?.selectedService === 'appointment' || isAppointmentWhatsApp || isDoctorDashboard) {
       if (isDoctorDashboard) {
         serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
         serviceItems.push({ name: 'Lead Analysis', href: '/dashboard/lead-analysis', icon: Users });
@@ -143,6 +145,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Book Appointment', href: '/dashboard/book-appointment', icon: PlusCircle });
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
+      if (isAppointmentWhatsApp) {
+        serviceItems.push({ name: 'Patient Inbox', href: '/dashboard/doctor-whatsapp', icon: MessageSquare });
+      }
 
       
     }

@@ -11,7 +11,7 @@ interface SignupFormProps {
   initialService?: string
 }
 
-type ServiceKey = 'lead-analysis' | 'appointment' | 'doctor-dashboard' | 'customer-support' | 'tankro' | ''
+type ServiceKey = 'lead-analysis' | 'appointment' | 'appointment-whatsapp' | 'doctor-dashboard' | 'customer-support' | 'tankro' | ''
 
 export function SignupForm({ initialService }: SignupFormProps) {
   const router = useRouter()
@@ -28,6 +28,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     if (serviceFromUrl === 'lead' || serviceFromUrl === 'lead-analysis') setSelectedService('lead-analysis')
     else if (serviceFromUrl === 'appointment') setSelectedService('appointment')
     else if (['doctor', 'doctor-dashboard', 'doctor dashboard', 'clinic', 'healthcare'].includes(serviceFromUrl)) setSelectedService('doctor-dashboard')
+    else if (['doctor-desk', 'doctor desk', 'appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp', 'doctor whatsapp', 'doctor+whatsapp', 'doctor + whatsapp'].includes(serviceFromUrl)) setSelectedService('appointment-whatsapp')
     else if (serviceFromUrl === 'customer-support') setSelectedService('customer-support')
     else if (['tankro', 'tankro-dashboard', 'tankro dashboard', 'tank', 'tank cleaning'].includes(serviceFromUrl)) setSelectedService('tankro')
   }, [searchParams, initialService])
@@ -43,6 +44,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     if (serviceFromUrl === 'lead' || serviceFromUrl === 'lead-analysis') return 'lead-analysis'
     if (serviceFromUrl === 'appointment') return 'appointment'
     if (serviceFromUrl && ['doctor', 'doctor-dashboard', 'doctor dashboard', 'clinic', 'healthcare'].includes(serviceFromUrl)) return 'doctor-dashboard'
+    if (serviceFromUrl && ['doctor-desk', 'doctor desk', 'appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp', 'doctor whatsapp', 'doctor+whatsapp', 'doctor + whatsapp'].includes(serviceFromUrl)) return 'appointment-whatsapp'
     if (serviceFromUrl === 'customer-support') return 'customer-support'
     if (serviceFromUrl && ['tankro', 'tankro-dashboard', 'tankro dashboard', 'tank', 'tank cleaning'].includes(serviceFromUrl)) return 'tankro'
     return selectedService
@@ -96,6 +98,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
         return { title: 'Appointment Service', gradient: 'from-violet-500 to-orange-600' }
       case 'doctor-dashboard':
         return { title: 'Doctor Dashboard Service', gradient: 'from-orange-500 to-violet-500' }
+      case 'appointment-whatsapp':
+        return { title: 'Doctor Desk', gradient: 'from-emerald-500 to-teal-600' }
       case 'customer-support':
         return { title: 'Customer Support AI', gradient: 'from-orange-500 to-violet-500' }
       case 'tankro':

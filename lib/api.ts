@@ -253,6 +253,24 @@ export const doctorsAPI = {
 };
 
 // ========================================
+// DOCTOR + WHATSAPP API
+// ========================================
+export const doctorWhatsappAPI = {
+  getConversations: (params?: { page?: number; limit?: number; search?: string }) =>
+    api.get('/doctor-whatsapp/conversations', { params }),
+
+  getMessages: (phone: string, params: { metaPhoneNumberId: string; page?: number; limit?: number }) =>
+    api.get(`/doctor-whatsapp/conversations/${encodeURIComponent(phone)}/messages`, { params }),
+
+  getMediaUrl: (mediaId: string) => {
+    const base = api.defaults.baseURL || '';
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+    const query = token ? `?token=${encodeURIComponent(token)}` : '';
+    return `${base}/doctor-whatsapp/media/${encodeURIComponent(mediaId)}${query}`;
+  },
+};
+
+// ========================================
 // PROMPTS API
 // ========================================
 export const promptsAPI = {
