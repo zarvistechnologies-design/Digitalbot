@@ -27,6 +27,7 @@ type Lead = {
   callId?: string;
   customerName?: string;
   phoneNumber?: string;
+  alternatePhoneNumber?: string;
   email?: string;
   company?: string;
   callDate?: string;
@@ -149,6 +150,7 @@ function LeadRow({ lead }: { lead: Lead }) {
           </div>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 pl-4 text-xs text-slate-500">
             <span className="inline-flex items-center gap-1"><Phone className="h-3.5 w-3.5" />{formatPhone(lead.phoneNumber)}</span>
+            {lead.alternatePhoneNumber && <span className="inline-flex items-center gap-1"><Phone className="h-3.5 w-3.5" />Alt: {formatPhone(lead.alternatePhoneNumber)}</span>}
             {lead.email && <span className="inline-flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{lead.email}</span>}
           </div>
         </div>
@@ -187,6 +189,8 @@ function LeadRow({ lead }: { lead: Lead }) {
             <div><dt className="text-xs font-semibold text-slate-500">Priority</dt><dd className="mt-1 text-sm font-medium capitalize text-slate-800">{lead.leadPriority || "medium"}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">Source</dt><dd className="mt-1 text-sm font-medium capitalize text-slate-800">{String(lead.leadSource || "call").replace(/_/g, " ")}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">Created</dt><dd className="mt-1 text-sm font-medium text-slate-800">{formatDate(lead.callDate || lead.createdAt)}</dd></div>
+            <div><dt className="text-xs font-semibold text-slate-500">Primary phone</dt><dd className="mt-1 text-sm text-slate-700">{formatPhone(lead.phoneNumber)}</dd></div>
+            <div><dt className="text-xs font-semibold text-slate-500">Alternate / WhatsApp</dt><dd className="mt-1 text-sm text-slate-700">{lead.alternatePhoneNumber ? formatPhone(lead.alternatePhoneNumber) : "Not provided"}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">Company</dt><dd className="mt-1 text-sm text-slate-700">{lead.company || "Not specified"}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">Timeline</dt><dd className="mt-1 text-sm text-slate-700">{lead.timeline || "Not specified"}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">Budget</dt><dd className="mt-1 text-sm text-slate-700">{lead.budget || "Not specified"}</dd></div>
@@ -238,7 +242,7 @@ export default function QualifiedLeadsPage() {
     const term = search.trim().toLowerCase();
     return leads
       .filter((lead) => qualityFilter === "all" || getLeadQuality(lead) === qualityFilter)
-      .filter((lead) => !term || [lead.customerName, lead.phoneNumber, lead.email, lead.company, lead.productsInterested?.[0], lead.interests?.[0], lead.painPoints?.[0]].some((value) => String(value || "").toLowerCase().includes(term)))
+      .filter((lead) => !term || [lead.customerName, lead.phoneNumber, lead.alternatePhoneNumber, lead.email, lead.company, lead.productsInterested?.[0], lead.interests?.[0], lead.painPoints?.[0]].some((value) => String(value || "").toLowerCase().includes(term)))
       .sort((a, b) => Number(b.leadScore || 0) - Number(a.leadScore || 0));
   }, [leads, qualityFilter, search]);
 
@@ -257,7 +261,7 @@ export default function QualifiedLeadsPage() {
   const exportCsv = () => {
     if (!filteredLeads.length) return;
     const headings = [
-      "Name", "Phone", "Email", "Company", "Quality", "Lead Score", "Interest",
+      "Name", "Primary Phone", "Alternate / WhatsApp Number", "Email", "Company", "Quality", "Lead Score", "Interest",
       "Customer Need", "Summary", "Status", "Priority", "Source", "Budget", "Timeline",
       "Next Action", "Follow-up Required", "Follow-up Date", "Follow-up Notes", "Intents",
       "Agent", "Call Duration (seconds)", "Call Date", "Created At", "Call ID"
@@ -265,6 +269,7 @@ export default function QualifiedLeadsPage() {
     const rows = filteredLeads.map((lead) => [
       csvCell(lead.customerName || "Unknown"),
       csvPhone(lead.phoneNumber),
+      csvPhone(lead.alternatePhoneNumber),
       csvCell(lead.email),
       csvCell(lead.company),
       csvCell(getLeadQuality(lead)),

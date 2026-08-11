@@ -30,6 +30,7 @@ type Call = {
   isLead?: boolean;
   name?: string;
   phone?: string;
+  alternatePhoneNumber?: string;
   confidence?: number;
   productInterest?: string;
   customerNeed?: string;
@@ -60,15 +61,17 @@ Extract the following information:
 1. is_lead: true if this is a potential sales opportunity, false if not
 2. customer_name: The customer's name if mentioned
 3. phone_number: Customer's phone number if different from caller
-4. product_interest: What product/service they're interested in
-5. customer_need: What problem or need they have
-6. confidence_score: How confident you are (0.0 to 1.0)
+4. alternate_phone_number: A different callback or WhatsApp number explicitly given by the customer. Return empty if it is the same as the caller number. Prefix incomplete dictated digits with "INCOMPLETE: "
+5. product_interest: What product/service they're interested in
+6. customer_need: What problem or need they have
+7. confidence_score: How confident you are (0.0 to 1.0)
 
 Respond ONLY with valid JSON in this exact format (no markdown, no backticks):
 {
   "is_lead": boolean,
   "customer_name": "string or empty",
   "phone_number": "string or empty",
+  "alternate_phone_number": "different number or empty",
   "product_interest": "string or empty",
   "customer_need": "string or empty",
   "confidence_score": number between 0 and 1
@@ -261,6 +264,12 @@ const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }
                   <div>
                     <h4 className="text-xs sm:text-sm font-medium text-sky-600 mb-1">Phone Number</h4>
                     <p className="text-sm sm:text-base text-green-800 break-all">{formatPhone(call.phone)}</p>
+                  </div>
+                )}
+                {call.alternatePhoneNumber && (
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-medium text-sky-600 mb-1">Alternate / WhatsApp Number</h4>
+                    <p className="text-sm sm:text-base text-green-800 break-all">{formatPhone(call.alternatePhoneNumber)}</p>
                   </div>
                 )}
                 {call.productInterest && (
@@ -505,6 +514,12 @@ function CallRow({
                             <p className="text-green-800 break-all">{formatPhone(call.phone)}</p>
                           </div>
                         )}
+                        {call.alternatePhoneNumber && (
+                          <div>
+                            <span className="font-medium text-slate-500">Alternate / WhatsApp:</span>
+                            <p className="text-green-800 break-all">{formatPhone(call.alternatePhoneNumber)}</p>
+                          </div>
+                        )}
                         {call.productInterest && (
                           <div className="col-span-1 sm:col-span-2">
                             <span className="font-medium text-slate-500">Interest:</span>
@@ -738,20 +753,32 @@ export default function AnalyzerPage() {
 
       if (aiResult && aiResult.extraction_method !== "failed") {
         setCalls(prevCalls =>
-          prevCalls.map(c =>
-            getCallId(c) === callId
-              ? {
-                  ...c,
-                  isLead: aiResult.is_lead,
-                  name: aiResult.customer_name || "",
-                  phone: aiResult.phone_number || "",
-                  productInterest: aiResult.product_interest || "",
-                  customerNeed: aiResult.customer_need || "",
-                  confidence: aiResult.confidence_score,
-                  leadAnalysisAt: new Date().toISOString()
-                }
-              : c
-          )
+          prevCalls.map(c => {
+            if (getCallId(c) !== callId) return c;
+            const primaryPhone = (c.direction === "outbound" ? c.to_number : c.from_number)
+              || c.phone
+              || aiResult.phone_number
+              || "";
+            const extractedAlternate = String(aiResult.alternate_phone_number || aiResult.whatsapp_number || "").trim();
+            const primaryDigits = primaryPhone.replace(/\D/g, "").slice(-10);
+            const alternateDigits = extractedAlternate.replace(/\D/g, "").slice(-10);
+            const alternatePhoneNumber = /same\s+as\s+(caller|calling|this|primary)/i.test(extractedAlternate)
+              || (primaryDigits && alternateDigits && primaryDigits === alternateDigits)
+              ? ""
+              : extractedAlternate;
+
+            return {
+              ...c,
+              isLead: aiResult.is_lead,
+              name: aiResult.customer_name || "",
+              phone: primaryPhone,
+              alternatePhoneNumber,
+              productInterest: aiResult.product_interest || "",
+              customerNeed: aiResult.customer_need || "",
+              confidence: aiResult.confidence_score,
+              leadAnalysisAt: new Date().toISOString()
+            };
+          })
         );
 
         console.log(`✅ Successfully ${forceReanalyze ? 're-analyzed' : 'analyzed'} call ${callId}:`, {
@@ -964,6 +991,7 @@ export default function AnalyzerPage() {
         (call.to_number && call.to_number.toLowerCase().includes(term)) ||
         (call.name && call.name.toLowerCase().includes(term)) ||
         (call.phone && call.phone.includes(term)) ||
+        (call.alternatePhoneNumber && call.alternatePhoneNumber.includes(term)) ||
         (call.productInterest && call.productInterest.toLowerCase().includes(term))
       );
     }
