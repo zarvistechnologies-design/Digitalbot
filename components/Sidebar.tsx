@@ -5,7 +5,7 @@ import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/ap
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertTriangle, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
+import { AlertTriangle, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -114,10 +114,23 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     }
   };
 
+  const isPathologyService = String(user?.selectedService || '').toLowerCase() === 'pathology-diagnostic';
   const baseNavigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: isPathologyService ? 'Diagnostic Center' : 'Dashboard', href: isPathologyService ? '/dashboard/pathology' : '/dashboard', icon: LayoutDashboard },
     { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
     { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
+  ];
+  const pathologyNavigation = [
+    { name: 'Dashboard', href: '/dashboard/pathology', icon: LayoutDashboard },
+    { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
+    { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
+    { name: 'Bookings', href: '/dashboard/pathology/bookings', icon: ClipboardList },
+    { name: 'Patients', href: '/dashboard/pathology/patients', icon: Users },
+    { name: 'Sample Tracking', href: '/dashboard/pathology/samples', icon: TestTube2 },
+    { name: 'Reports', href: '/dashboard/pathology/reports', icon: FileText },
+    { name: 'WhatsApp Inbox', href: '/dashboard/pathology/whatsapp', icon: MessageSquare },
+    { name: 'Test Catalog', href: '/dashboard/pathology/tests', icon: FlaskConical },
+    { name: 'Doctors & Referrals', href: '/dashboard/pathology/referrals', icon: Stethoscope },
   ];
 
   const formatServiceName = (service?: string) => {
@@ -125,6 +138,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     if (service === 'doctor-dashboard') return 'Doctor Dashboard';
     if (service === 'appointment-whatsapp' || service === 'doctor-whatsapp') return 'Doctor Desk';
     if (service === 'tankro') return 'Tankro Dashboard';
+    if (service === 'pathology-diagnostic') return 'Pathology Diagnostic Center';
     return service.replace(/[-_]/g, ' ');
   };
 
@@ -213,9 +227,11 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
   const isAkiara = user?.selectedService === 'akiara';
   const ishealthiQurepatientnavigation = user?.selectedService === 'healthiQure patient navigation';
-  const navigation = isAkiara || ishealthiQurepatientnavigation
-    ? [{ name: 'Billing', href: '/dashboard/billing', icon: CreditCard }, ...getServiceNavigation()]
-    : [...baseNavigation, ...getServiceNavigation()];
+  const navigation = isPathologyService
+    ? pathologyNavigation
+    : isAkiara || ishealthiQurepatientnavigation
+      ? [{ name: 'Billing', href: '/dashboard/billing', icon: CreditCard }, ...getServiceNavigation()]
+      : [...baseNavigation, ...getServiceNavigation()];
 
   const handleLogout = () => {
     cachedDashboardUser = null;
