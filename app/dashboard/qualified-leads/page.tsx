@@ -111,6 +111,27 @@ function formatPhone(value?: string) {
   return value;
 }
 
+function formatExportDate(value?: string) {
+  if (!value) return "";
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "" : date.toISOString();
+}
+
+function csvCell(value: unknown) {
+  const joined = Array.isArray(value) ? value.filter(Boolean).join(" | ") : value;
+  let text = String(joined ?? "").replace(/\r?\n/g, " ").trim();
+  // Prevent spreadsheet formula execution for user/AI supplied text.
+  if (/^[=+\-@]/.test(text)) text = `'${text}`;
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+function csvPhone(value?: string) {
+  if (!value) return csvCell("");
+  // A leading tab keeps Excel from converting long phone numbers to numeric
+  // notation or stripping the plus sign. It remains visually unobtrusive.
+  return csvCell(`\t${formatPhone(value)}`);
+}
+
 function LeadRow({ lead }: { lead: Lead }) {
   const [expanded, setExpanded] = useState(false);
   const quality = getLeadQuality(lead);
@@ -235,19 +256,48 @@ export default function QualifiedLeadsPage() {
 
   const exportCsv = () => {
     if (!filteredLeads.length) return;
-    const headings = ["Name", "Phone", "Email", "Company", "Quality", "Score", "Interest", "Need", "Status", "Priority", "Created"];
+    const headings = [
+      "Name", "Phone", "Email", "Company", "Quality", "Lead Score", "Interest",
+      "Customer Need", "Summary", "Status", "Priority", "Source", "Budget", "Timeline",
+      "Next Action", "Follow-up Required", "Follow-up Date", "Follow-up Notes", "Intents",
+      "Agent", "Call Duration (seconds)", "Call Date", "Created At", "Call ID"
+    ];
     const rows = filteredLeads.map((lead) => [
-      lead.customerName || "Unknown", lead.phoneNumber || "", lead.email || "", lead.company || "",
-      getLeadQuality(lead), lead.leadScore || 0, lead.productsInterested?.[0] || lead.interests?.[0] || "",
-      lead.painPoints?.[0] || "", lead.leadStatus || "new", lead.leadPriority || "medium", formatDate(lead.callDate || lead.createdAt),
-    ].map((value) => `"${String(value).replace(/"/g, '""')}"`).join(","));
-    const blob = new Blob([[headings.join(","), ...rows].join("\n")], { type: "text/csv;charset=utf-8" });
+      csvCell(lead.customerName || "Unknown"),
+      csvPhone(lead.phoneNumber),
+      csvCell(lead.email),
+      csvCell(lead.company),
+      csvCell(getLeadQuality(lead)),
+      csvCell(Number(lead.leadScore || 0)),
+      csvCell(lead.productsInterested?.length ? lead.productsInterested : lead.interests),
+      csvCell(lead.painPoints),
+      csvCell(lead.summary),
+      csvCell(lead.leadStatus || "new"),
+      csvCell(lead.leadPriority || "medium"),
+      csvCell(String(lead.leadSource || "call").replace(/_/g, " ")),
+      csvCell(lead.budget),
+      csvCell(lead.timeline),
+      csvCell(lead.nextAction),
+      csvCell(lead.followUpRequired ? "Yes" : "No"),
+      csvCell(formatExportDate(lead.followUpDate)),
+      csvCell(lead.followUpNotes),
+      csvCell(lead.intents),
+      csvCell(lead.agentName),
+      csvCell(Number(lead.callDuration || 0)),
+      csvCell(formatExportDate(lead.callDate)),
+      csvCell(formatExportDate(lead.createdAt)),
+      csvCell(lead.callId),
+    ].join(","));
+    const csv = `\uFEFF${[headings.map(csvCell).join(","), ...rows].join("\r\n")}`;
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
     link.download = `qualified-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
     link.click();
-    URL.revokeObjectURL(url);
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
   };
 
   return (
