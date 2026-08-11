@@ -11,7 +11,7 @@ interface SignupFormProps {
   initialService?: string
 }
 
-type ServiceKey = 'lead-analysis' | 'appointment' | 'appointment-whatsapp' | 'doctor-dashboard' | 'customer-support' | 'tankro' | ''
+type ServiceKey = 'lead-analysis' | 'appointment' | 'appointment-whatsapp' | 'doctor-dashboard' | 'customer-support' | 'tankro' | 'pathology-diagnostic' | ''
 
 export function SignupForm({ initialService }: SignupFormProps) {
   const router = useRouter()
@@ -31,6 +31,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     else if (['doctor-desk', 'doctor desk', 'appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp', 'doctor whatsapp', 'doctor+whatsapp', 'doctor + whatsapp'].includes(serviceFromUrl)) setSelectedService('appointment-whatsapp')
     else if (serviceFromUrl === 'customer-support') setSelectedService('customer-support')
     else if (['tankro', 'tankro-dashboard', 'tankro dashboard', 'tank', 'tank cleaning'].includes(serviceFromUrl)) setSelectedService('tankro')
+    else if (['pathology', 'pathology-diagnostic', 'diagnostic', 'diagnostic-center', 'diagnostic center'].includes(serviceFromUrl)) setSelectedService('pathology-diagnostic')
   }, [searchParams, initialService])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +48,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     if (serviceFromUrl && ['doctor-desk', 'doctor desk', 'appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp', 'doctor whatsapp', 'doctor+whatsapp', 'doctor + whatsapp'].includes(serviceFromUrl)) return 'appointment-whatsapp'
     if (serviceFromUrl === 'customer-support') return 'customer-support'
     if (serviceFromUrl && ['tankro', 'tankro-dashboard', 'tankro dashboard', 'tank', 'tank cleaning'].includes(serviceFromUrl)) return 'tankro'
+    if (serviceFromUrl && ['pathology', 'pathology-diagnostic', 'diagnostic', 'diagnostic-center', 'diagnostic center'].includes(serviceFromUrl)) return 'pathology-diagnostic'
     return selectedService
   }
 
@@ -104,6 +106,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
         return { title: 'Customer Support AI', gradient: 'from-orange-500 to-violet-500' }
       case 'tankro':
         return { title: 'Tankro Service Dashboard', gradient: 'from-orange-500 to-violet-500' }
+      case 'pathology-diagnostic':
+        return { title: 'Pathology Diagnostic Center', gradient: 'from-teal-600 to-sky-600' }
       default:
         return { title: 'DigitalBot Service', gradient: 'from-orange-500 to-violet-600' }
     }

@@ -18,8 +18,9 @@ const bookingServices = new Set(['booking-crm', 'event-booking-crm']);
 function getDashboardDestination(user?: User | null) {
   if (user?.selectedService === 'akiara') return '/dashboard/akiara-sessions';
   if (user?.selectedService === 'healthiQure patient navigation') return '/dashboard/bot-sessions';
+  if (user?.selectedService === 'pathology-diagnostic') return '/dashboard/pathology';
   if (bookingServices.has(String(user?.selectedService || '').toLowerCase())) {
-    return user?.bookingOnboardingComplete ? '/dashboard/booking-crm' : '/dashboard/booking-crm/setup';
+    return user?.bookingOnboardingComplete ? '/dashboard' : '/dashboard/booking-crm/setup';
   }
   return '/dashboard';
 }
