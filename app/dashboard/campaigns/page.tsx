@@ -1,5 +1,6 @@
 "use client"
 import Sidebar from "@/components/Sidebar";
+import { Edit3, Eye, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 const getAuthToken = () => {
     if (typeof window !== 'undefined') {
@@ -52,10 +53,23 @@ type Campaign = {
         autoOptimization: boolean;
     };
     performance: {
-        conversionRate: number;
-        avgSentiment: number;
-        engagementScore: number;
-        predictedROI: number;
+        conversionRate: number | null;
+        avgSentiment: number | null;
+        engagementScore: number | null;
+        predictedROI: number | null;
+    };
+    operational?: {
+        attempted: number;
+        answered: number;
+        failed: number;
+        pending: number;
+        answerRate: number | null;
+        avgDurationSeconds: number | null;
+        analyzedOutcomes: number;
+        successfulOutcomes: number;
+        sentimentSamples: number;
+        positiveSentimentRate: number | null;
+        analyticsAvailable: boolean;
     };
     createdAt: string;
     updatedAt: string;
@@ -81,190 +95,104 @@ type Campaign = {
 
 type FilterStatus = 'all' | 'active' | 'scheduled' | 'completed' | 'draft' | 'paused';
 
+const formatPercent = (value: number | null | undefined, digits = 1) =>
+    typeof value === 'number' && Number.isFinite(value) ? `${value.toFixed(digits)}%` : 'Not available';
+
+const formatDuration = (seconds: number | null | undefined) => {
+    if (typeof seconds !== 'number' || !Number.isFinite(seconds)) return 'Not available';
+    const rounded = Math.round(seconds);
+    return rounded < 60 ? `${rounded}s` : `${Math.floor(rounded / 60)}m ${rounded % 60}s`;
+};
+
 // Icons
 const MenuIcon = () => (
     <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
     </svg>
 );
-function CampaignCard({ campaign, onView, onEdit, onToggle, onLaunch, isLaunching, userPhone }: {
+function CampaignCard({ campaign, onView, onEdit, onToggle, onLaunch, isLaunching, isToggling, userPhone }: {
 campaign: Campaign;
 onView: () => void;
 onEdit: () => void;
 onToggle: () => void;
 onLaunch: () => void;
 isLaunching ?: boolean;
+isToggling ?: boolean;
 userPhone ?: string;
 }) {
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'active': return 'bg-green-100 text-green-700 border-green-300';
-            case 'scheduled': return 'bg-orange-100 text-orange-700 border-orange-300';
-            case 'completed': return 'bg-gray-100 text-gray-700 border-gray-300';
-            case 'paused': return 'bg-yellow-100 text-yellow-700 border-yellow-300';
-            default: return 'bg-orange-100 text-orange-700 border-orange-300';
+            case 'active': return 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20';
+            case 'scheduled': return 'bg-sky-50 text-sky-700 ring-1 ring-sky-600/20';
+            case 'completed': return 'bg-slate-100 text-slate-700 ring-1 ring-slate-600/20';
+            case 'paused': return 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20';
+            default: return 'bg-orange-50 text-orange-700 ring-1 ring-orange-600/20';
         }
     };
 
-    const getTypeIcon = (type: string) => {
-        switch (type) {
-            case 'voice': return '📞';
-            case 'sms': return '💬';
-            case 'email': return '📧';
-            case 'multi-channel': return '🌐';
-            default: return '📢';
-        }
-    };
+    const attempted = campaign.operational?.attempted ?? campaign.contacted;
+    const answered = campaign.operational?.answered ?? 0;
+    const pending = campaign.operational?.pending ?? campaign.pending;
+    const progress = campaign.totalContacts > 0
+        ? Math.min(100, Math.round((attempted / campaign.totalContacts) * 100))
+        : 0;
 
     return (
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300">
-            <div className="p-6">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                            <span className="text-2xl">{getTypeIcon(campaign.type)}</span>
-                            <h3 className="text-xl font-bold text-gray-900">{campaign.name}</h3>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-2">
-                            <span className={`px-3 py-1 rounded-lg text-xs font-bold border ${getStatusColor(campaign.status)}`}>
+        <article className="px-5 py-5 transition-colors hover:bg-orange-50/30 sm:px-6">
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-[minmax(260px,1.6fr)_minmax(180px,1fr)_90px_90px_auto] xl:items-center">
+                <div className="flex min-w-0 items-start gap-3 sm:col-span-2 xl:col-span-1">
+                    <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-50 text-orange-700">
+                        <Phone className="h-4 w-4" />
+                    </span>
+                    <div className="min-w-0">
+                        <button onClick={onView} className="block max-w-full truncate text-left text-base font-bold text-slate-950 transition-colors hover:text-orange-700">{campaign.name}</button>
+                        <p className="mt-1 truncate text-sm text-slate-500">{campaign.targetAudience || 'General audience'}</p>
+                        <div className="mt-2 flex flex-wrap items-center gap-2">
+                            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-extrabold tracking-wider ${getStatusColor(campaign.status)}`}>
+                                <span className={`h-1.5 w-1.5 rounded-full ${campaign.status === 'active' ? 'bg-emerald-500' : campaign.status === 'paused' ? 'bg-amber-500' : 'bg-orange-500'}`} />
                                 {campaign.status.toUpperCase()}
                             </span>
-                            <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-slate-50 text-slate-700 border border-slate-200">
-                                {campaign.type}
-                            </span>
-                            {campaign.type === 'voice' && (
-                                <span className="px-3 py-1 rounded-lg text-xs font-semibold capitalize bg-orange-50 text-orange-700 border border-orange-200">
-                                    {campaign.metadata?.outboundProvider || 'millis'}
-                                </span>
-                            )}
-                            {userPhone && (
-                                <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200">
-                                    📞 {userPhone}
-                                </span>
-                            )}
+                            <span className="text-xs font-semibold text-slate-500">Vozon</span>
+                            {userPhone && <span className="hidden text-xs text-slate-400 2xl:inline">• {userPhone}</span>}
                         </div>
                     </div>
-
-                    {/* Toggle Active/Pause */}
-                    {campaign.status === 'active' || campaign.status === 'paused' ? (
-                        <button
-                            onClick={onToggle}
-                            className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${campaign.status === 'active'
-                                ? 'bg-yellow-500 text-white hover:bg-yellow-600'
-                                : 'bg-green-500 text-white hover:bg-green-600'
-                                }`}
-                        >
-                            {campaign.status === 'active' ? '⏸ Pause' : '▶ Resume'}
-                        </button>
-                    ) : null}
                 </div>
 
-                {/* AI Features Badge */}
-                {Object.values(campaign.aiFeatures).some(v => v) && (
-                    <div className="mb-4 p-3 bg-white rounded-lg border border-slate-200">
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="text-lg">🤖</span>
-                            <span className="text-sm font-bold text-slate-800">AI-Powered Features</span>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {campaign.aiFeatures.smartScheduling && (
-                                <span className="px-2 py-1 bg-orange-600 text-white rounded text-xs font-semibold">Smart Scheduling</span>
-                            )}
-                            {campaign.aiFeatures.abTesting && (
-                                <span className="px-2 py-1 bg-pink-600 text-white rounded text-xs font-semibold">A/B Testing</span>
-                            )}
-                            {campaign.aiFeatures.sentimentAnalysis && (
-                                <span className="px-2 py-1 bg-orange-600 text-white rounded text-xs font-semibold">Sentiment AI</span>
-                            )}
-                            {campaign.aiFeatures.performancePrediction && (
-                                <span className="px-2 py-1 bg-sky-600 text-white rounded text-xs font-semibold">Performance Prediction</span>
-                            )}
-                            {campaign.aiFeatures.autoOptimization && (
-                                <span className="px-2 py-1 bg-green-600 text-white rounded text-xs font-semibold">Auto-Optimization</span>
-                            )}
-                        </div>
+                <div>
+                    <div className="mb-2 flex items-center justify-between text-xs">
+                        <span className="font-medium text-slate-500">{progress}% complete</span>
+                        <span className="font-semibold text-slate-700">{attempted.toLocaleString()}/{campaign.totalContacts.toLocaleString()}</span>
                     </div>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                        <div className="h-full rounded-full bg-orange-600 transition-all" style={{ width: `${progress}%` }} />
+                    </div>
+                    <p className="mt-2 text-xs text-slate-500">Answer rate <strong className="text-slate-700">{formatPercent(campaign.operational?.answerRate)}</strong></p>
+                </div>
+
+                <div><p className="text-xs font-medium text-slate-500">Answered</p><p className="mt-1 text-lg font-bold text-emerald-700">{answered.toLocaleString()}</p></div>
+                <div><p className="text-xs font-medium text-slate-500">Pending</p><p className="mt-1 text-lg font-bold text-slate-900">{pending.toLocaleString()}</p></div>
+
+                <div className="flex flex-wrap items-center gap-2 sm:col-span-2 xl:col-span-1 xl:justify-end">
+                {campaign.status === 'draft' && (
+                    <button onClick={onLaunch} disabled={isLaunching} className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-orange-600 px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50">
+                        {isLaunching ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />} {isLaunching ? 'Launching' : 'Launch'}
+                    </button>
                 )}
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                    <div className="bg-orange-50 rounded-lg p-3 border border-orange-200">
-                        <div className="text-xs text-orange-700 font-semibold mb-1">Total Contacts</div>
-                        <div className="text-2xl font-black text-orange-900">{campaign.totalContacts.toLocaleString()}</div>
-                    </div>
-                    <div className="bg-green-50 rounded-lg p-3 border border-green-200">
-                        <div className="text-xs text-green-700 font-semibold mb-1">Successful</div>
-                        <div className="text-2xl font-black text-green-900">{campaign.successful.toLocaleString()}</div>
-                    </div>
-                    <div className="bg-sky-50 rounded-lg p-3 border border-sky-200">
-                        <div className="text-xs text-sky-700 font-semibold mb-1">Pending</div>
-                        <div className="text-2xl font-black text-sky-900">{campaign.pending.toLocaleString()}</div>
-                    </div>
-                    <div className="bg-red-50 rounded-lg p-3 border border-red-200">
-                        <div className="text-xs text-red-700 font-semibold mb-1">Failed</div>
-                        <div className="text-2xl font-black text-red-900">{campaign.failed.toLocaleString()}</div>
-                    </div>
-                </div>
-
-                {/* Performance Metrics */}
-                <div className="bg-slate-50 rounded-lg p-4 mb-4 border border-slate-200">
-                    <h4 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                        Performance Metrics
-                    </h4>
-                    <div className="grid grid-cols-2 gap-3">
-                        <div>
-                            <div className="text-xs text-gray-600 mb-1">Conversion Rate</div>
-                            <div className="text-lg font-bold text-gray-900">{campaign.performance.conversionRate.toFixed(1)}%</div>
-                        </div>
-                        <div>
-                            <div className="text-xs text-gray-600 mb-1">Engagement Score</div>
-                            <div className="text-lg font-bold text-gray-900">{campaign.performance.engagementScore.toFixed(1)}/10</div>
-                        </div>
-                        <div>
-                            <div className="text-xs text-gray-600 mb-1">Avg Sentiment</div>
-                            <div className="text-lg font-bold text-gray-900">{campaign.performance.avgSentiment > 0 ? '😊' : campaign.performance.avgSentiment < 0 ? '😞' : '😐'} {campaign.performance.avgSentiment.toFixed(2)}</div>
-                        </div>
-                        <div>
-                            <div className="text-xs text-gray-600 mb-1">Predicted ROI</div>
-                            <div className="text-lg font-bold text-green-600">{campaign.performance.predictedROI.toFixed(0)}%</div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-2 flex-col">
-                    {/* Launch button for draft campaigns */}
-                    {campaign.status === 'draft' && (
-                        <button
-                            onClick={onLaunch}
-                            disabled={isLaunching}
-                            className="w-full px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all font-bold text-sm shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {isLaunching ? '⏳ Launching...' : '🚀 Launch Campaign'}
-                        </button>
-                    )}
-
-                    <div className="flex gap-2">
-                        <button
-                            onClick={onView}
-                            className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-600 to-orange-600 text-white rounded-lg hover:from-orange-700 hover:to-orange-700 transition-all font-semibold text-sm"
-                        >
-                            📊 View
-                        </button>
-                        <button
-                            onClick={onEdit}
-                            className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-600 to-pink-600 text-white rounded-lg hover:from-sky-700 hover:to-pink-700 transition-all font-semibold text-sm"
-                        >
-                            ✏️ Edit
-                        </button>
-                    </div>
+                {campaign.status === 'active' || campaign.status === 'paused' ? (
+                    <button onClick={onToggle} disabled={isToggling} className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold transition-colors ${campaign.status === 'active' ? 'bg-amber-50 text-amber-700 hover:bg-amber-100' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'} disabled:opacity-60`}>
+                        {isToggling ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : campaign.status === 'active' ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
+                        {isToggling ? 'Updating' : campaign.status === 'active' ? 'Pause' : 'Resume'}
+                    </button>
+                ) : null}
+                    <button onClick={onView} aria-label={`View ${campaign.name}`} title="View details" className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:border-orange-200 hover:text-orange-700">
+                        <Eye className="h-4 w-4" />
+                    </button>
+                    <button onClick={onEdit} aria-label={`Edit ${campaign.name}`} title="Edit campaign" className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:border-orange-200 hover:text-orange-700">
+                        <Edit3 className="h-4 w-4" />
+                    </button>
                 </div>
             </div>
-        </div>
+        </article>
     );
 }
 
@@ -273,7 +201,13 @@ export default function CampaignsPage() {
     const [filteredCampaigns, setFilteredCampaigns] = useState<Campaign[]>([]);
     const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
-    const [launching, setLaunching] = useState(false);
+    const [launchingCampaignId, setLaunchingCampaignId] = useState<string | null>(null);
+    const [togglingCampaignId, setTogglingCampaignId] = useState<string | null>(null);
+    const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+    const [editingCampaign, setEditingCampaign] = useState<Campaign | null>(null);
+    const [editName, setEditName] = useState('');
+    const [editTargetAudience, setEditTargetAudience] = useState('');
+    const [savingEdit, setSavingEdit] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
     const [searchTerm, setSearchTerm] = useState('');
@@ -303,15 +237,16 @@ export default function CampaignsPage() {
 
     // Fetch campaigns from backend API
     useEffect(() => {
-        const fetchCampaigns = async () => {
+        let mounted = true;
+        const fetchCampaigns = async (silent = false) => {
             try {
-                setLoading(true);
+                if (!silent) setLoading(true);
                 const token = getAuthToken();
 
                 if (!token) {
                     console.warn('⚠️ No authentication token found');
-                    setCampaigns([]);
-                    setLoading(false);
+                    if (mounted) setCampaigns([]);
+                    if (mounted && !silent) setLoading(false);
                     return;
                 }
 
@@ -329,25 +264,30 @@ export default function CampaignsPage() {
                         // window.location.href = '/login';
                     }
                     console.warn('Failed to fetch campaigns');
-                    setCampaigns([]);
+                    if (mounted && !silent) setCampaigns([]);
                     return;
                 }
 
                 const data = await response.json();
                 const fetchedCampaigns = data.data?.campaigns || data.campaigns || [];
-                setCampaigns(fetchedCampaigns);
+                if (mounted) setCampaigns(fetchedCampaigns);
 
                 console.log(`✅ Fetched ${fetchedCampaigns.length} campaigns from backend`);
 
             } catch (error) {
                 console.error('Error fetching campaigns:', error);
-                setCampaigns([]);
+                if (mounted && !silent) setCampaigns([]);
             } finally {
-                setLoading(false);
+                if (mounted && !silent) setLoading(false);
             }
         };
 
-        fetchCampaigns();
+        void fetchCampaigns();
+        const refreshTimer = window.setInterval(() => void fetchCampaigns(true), 15000);
+        return () => {
+            mounted = false;
+            window.clearInterval(refreshTimer);
+        };
     }, []);
 
     useEffect(() => {
@@ -372,12 +312,10 @@ export default function CampaignsPage() {
     const totalCampaigns = campaigns.length;
     const activeCampaigns = campaigns.filter(c => c.status === 'active').length;
     const totalContacts = campaigns.reduce((sum, c) => sum + c.totalContacts, 0);
-    const avgConversion = campaigns.length > 0
-        ? campaigns.reduce((sum, c) => sum + c.performance.conversionRate, 0) / campaigns.length
-        : 0;
 
     // Handle campaign actions
     const handleToggleCampaign = async (campaignId: string, currentStatus: string) => {
+        if (togglingCampaignId) return;
         try {
             const token = getAuthToken();
             if (!token) {
@@ -386,6 +324,7 @@ export default function CampaignsPage() {
             }
 
             const endpoint = currentStatus === 'active' ? 'pause' : 'resume';
+            setTogglingCampaignId(campaignId);
 
             const response = await fetch(`${API_BASE_URL}/campaigns/${campaignId}/${endpoint}`, {
                 method: 'POST',
@@ -397,23 +336,58 @@ export default function CampaignsPage() {
 
             if (response.ok) {
                 const data = await response.json();
-                setCampaigns(campaigns.map(c =>
+                setCampaigns(current => current.map(c =>
                     c._id === campaignId ? data.data : c
                 ));
                 alert(`✅ Campaign ${endpoint}d successfully!`);
             } else {
-                throw new Error('Failed to toggle campaign');
+                const errorData = await response.json().catch(() => null);
+                throw new Error(errorData?.error || errorData?.message || `Failed to ${endpoint} campaign`);
             }
         } catch (error) {
             console.error('Error toggling campaign:', error);
-            alert('❌ Failed to update campaign. Please try again.');
+            alert(`❌ ${error instanceof Error ? error.message : 'Failed to update campaign. Please try again.'}`);
+        } finally {
+            setTogglingCampaignId(null);
         }
     };
     const handleViewCampaign = (campaignId: string) => {
-        alert(`View campaign details: ${campaignId}\n\nThis will open a detailed campaign modal or page.`);
+        const campaign = campaigns.find(item => item._id === campaignId);
+        if (campaign) setSelectedCampaign(campaign);
     };
     const handleEditCampaign = (campaignId: string) => {
-        alert(`Edit campaign: ${campaignId}\n\nThis will open a campaign editor.`);
+        const campaign = campaigns.find(item => item._id === campaignId);
+        if (!campaign) return;
+        setEditingCampaign(campaign);
+        setEditName(campaign.name);
+        setEditTargetAudience(campaign.targetAudience);
+    };
+
+    const handleSaveCampaign = async () => {
+        if (!editingCampaign || !editName.trim() || !editTargetAudience.trim()) return;
+        const token = getAuthToken();
+        if (!token) {
+            alert('❌ Please login to edit this campaign');
+            return;
+        }
+        setSavingEdit(true);
+        try {
+            const response = await fetch(`${API_BASE_URL}/campaigns/${editingCampaign._id}`, {
+                method: 'PUT',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: editName.trim(), targetAudience: editTargetAudience.trim() })
+            });
+            const data = await response.json().catch(() => null);
+            if (!response.ok) throw new Error(data?.error || data?.message || 'Failed to update campaign');
+            setCampaigns(current => current.map(item => item._id === editingCampaign._id ? data.data : item));
+            setSelectedCampaign(current => current?._id === editingCampaign._id ? data.data : current);
+            setEditingCampaign(null);
+            alert('✅ Campaign updated successfully!');
+        } catch (error) {
+            alert(`❌ ${error instanceof Error ? error.message : 'Failed to update campaign'}`);
+        } finally {
+            setSavingEdit(false);
+        }
     };
 
     // CSV Upload Handler
@@ -641,7 +615,7 @@ export default function CampaignsPage() {
                 console.log('✅ Campaign created:', data);
 
                 // Add to campaigns list
-                setCampaigns([data.data.campaign, ...campaigns]);
+                setCampaigns(current => [data.data.campaign, ...current]);
 
                 // Reset form
                 setShowCreateModal(false);
@@ -694,7 +668,7 @@ export default function CampaignsPage() {
         }
 
         // Check if campaign has Agent ID configured
-        const provider = campaign.metadata?.outboundProvider || 'millis';
+        const provider = campaign.metadata?.outboundProvider || 'vozon';
         const campaignAgentId = campaign.content?.voiceAgentId || campaign.millisAI?.agentId;
         if (provider === 'millis' && (!campaignAgentId || campaignAgentId.trim() === '')) {
             alert('❌ Cannot launch campaign!\n\nThis voice campaign is missing an AI Voice Agent ID. Please edit the campaign and add an Agent ID before launching.');
@@ -711,7 +685,8 @@ export default function CampaignsPage() {
             return;
         }
 
-        setLaunching(true);
+        if (launchingCampaignId) return;
+        setLaunchingCampaignId(campaignId);
 
         try {
             const response = await fetch(`${API_BASE_URL}/campaigns/${campaignId}/launch`, {
@@ -727,7 +702,7 @@ export default function CampaignsPage() {
                 console.log('✅ Campaign launched:', data);
 
                 // Update campaign in list
-                setCampaigns(campaigns.map(c =>
+                setCampaigns(current => current.map(c =>
                     c._id === campaignId
                         ? { ...c, status: 'active', ...data.data.campaign }
                         : c
@@ -768,7 +743,7 @@ export default function CampaignsPage() {
                 alert(`❌ Failed to launch campaign!\n\nError: ${message}\n\nPlease try again or contact support.`);
             }
         } finally {
-            setLaunching(false);
+            setLaunchingCampaignId(null);
         }
     };
 
@@ -780,11 +755,9 @@ export default function CampaignsPage() {
                 </div>
                 <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8 flex items-center justify-center">
                     <div className="text-center">
-                        <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-white"></div>
-                        </div>
-                        <p className="text-2xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent mb-2">Loading Campaigns...</p>
-                        <p className="text-sm text-slate-600">Fetching your campaign data</p>
+                        <Loader2 className="mx-auto mb-4 h-8 w-8 animate-spin text-orange-600" />
+                        <p className="text-lg font-semibold text-slate-900">Loading campaigns</p>
+                        <p className="mt-1 text-sm text-slate-500">Fetching your campaign data</p>
                     </div>
                 </main>
             </div>
@@ -792,7 +765,7 @@ export default function CampaignsPage() {
     }
 
     return (
-        <div className="flex min-h-screen bg-white">
+        <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50/40">
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -816,47 +789,45 @@ export default function CampaignsPage() {
             </div>
 
             <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8">
-                <div className="max-w-8xl mx-auto space-y-6 sm:space-y-8">
+                <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
 
                     {/* Header */}
-                    <div className="bg-white rounded-lg border border-slate-200 p-4 sm:p-6 lg:p-8">
+                    <div className="pb-2">
                         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                             <div>
-                                <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 mb-3">
-                                    <span className="text-2xl">🚀</span>
-                                    <span className="text-sm font-bold text-orange-700">Advanced Campaign Manager</span>
+                                <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-orange-700">
+                                    <Sparkles className="h-4 w-4" />
+                                    Campaign management
                                 </div>
-                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-950 mb-2">
+                                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-950 mb-1">
                                     Voice Campaigns
                                 </h1>
-                                <p className="text-slate-600 mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg">
-                                    Outbound voice campaigns with smart automation
+                                <p className="max-w-2xl text-slate-600 text-sm sm:text-base">
+                                    Create and monitor outbound voice campaigns.
                                 </p>
                                 {userInfo?.assignedPhoneNumber && (
-                                    <p className="text-sm text-orange-600 font-semibold mt-2">
-                                        📞 Your calling number: {userInfo.assignedPhoneNumber}
+                                    <p className="inline-flex items-center gap-2 text-xs text-slate-500 font-medium mt-3">
+                                        <Phone className="h-3.5 w-3.5" /> Calling from {userInfo.assignedPhoneNumber}
                                     </p>
                                 )}
                             </div>
 
                             <button
                                 onClick={() => setShowCreateModal(true)}
-                                className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-sm"
+                                className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-semibold shadow-sm"
                             >
-                                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                </svg>
-                                Create Voice Campaign
+                                <Plus className="h-4 w-4" />
+                                New campaign
                             </button>
                         </div>
                     </div>
 
-                    {/* Stats Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                        <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
+                    {/* Summary strip */}
+                    <div className="grid overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm sm:grid-cols-3 sm:divide-x sm:divide-slate-200">
+                        <div className="border-b border-slate-200 p-5 sm:border-b-0">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-lg bg-orange-600">
-                                    <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div className="p-2 rounded-lg bg-orange-50 text-orange-700">
+                                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                 </div>
@@ -865,10 +836,10 @@ export default function CampaignsPage() {
                             <p className="text-3xl font-black text-slate-950">{totalCampaigns}</p>
                         </div>
 
-                        <div className="bg-white rounded-lg border border-green-200 p-6 shadow-sm">
+                        <div className="border-b border-slate-200 p-5 sm:border-b-0">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-lg bg-green-600">
-                                    <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+                                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                     </svg>
                                 </div>
@@ -877,10 +848,10 @@ export default function CampaignsPage() {
                             <p className="text-3xl font-black text-green-700">{activeCampaigns}</p>
                         </div>
 
-                        <div className="bg-white rounded-lg border border-sky-200 p-6 shadow-sm">
+                        <div className="p-5">
                             <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-lg bg-sky-600">
-                                    <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div className="p-2 rounded-lg bg-sky-50 text-sky-700">
+                                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
                                 </div>
@@ -889,50 +860,39 @@ export default function CampaignsPage() {
                             <p className="text-3xl font-black text-sky-700">{totalContacts.toLocaleString()}</p>
                         </div>
 
-                        <div className="bg-white rounded-lg border border-rose-200 p-6 shadow-sm">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="p-3 rounded-lg bg-rose-600">
-                                    <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <p className="text-slate-600 font-semibold mb-1 text-sm">Avg Conversion</p>
-                            <p className="text-3xl font-black text-rose-700">{avgConversion.toFixed(1)}%</p>
-                        </div>
                     </div>
 
                     {/* Filters */}
-                    <div className="bg-white rounded-lg border border-slate-200 p-4 sm:p-6">
-                        <div className="flex flex-col gap-4">
-                            <div className="relative">
+                    <div className="border-b border-slate-200 pb-5">
+                        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                            <div className="relative lg:max-w-md lg:flex-1">
                                 <input
                                     type="text"
-                                    placeholder="🔍 Search campaigns..."
+                                    placeholder="Search campaigns by name or audience..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full px-6 py-4 pl-12 bg-white border border-slate-300 rounded-lg focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-200 text-lg text-slate-800 placeholder-slate-500 font-medium"
+                                    className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                                 />
-                                <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </div>
 
-                            <div className="flex flex-wrap gap-3">
+                            <div className="flex flex-wrap gap-2">
                                 {[
-                                    { value: 'all', label: 'All Campaigns', color: 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100', active: 'bg-orange-600' },
-                                    { value: 'active', label: 'Active', color: 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100', active: 'bg-green-600' },
-                                    { value: 'scheduled', label: 'Scheduled', color: 'bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100', active: 'bg-sky-600' },
-                                    { value: 'paused', label: 'Paused', color: 'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100', active: 'bg-yellow-600' },
-                                    { value: 'completed', label: 'Completed', color: 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100', active: 'bg-slate-700' },
-                                    { value: 'draft', label: 'Draft', color: 'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100', active: 'bg-orange-600' }
+                                    { value: 'all', label: 'All campaigns' },
+                                    { value: 'active', label: 'Active' },
+                                    { value: 'scheduled', label: 'Scheduled' },
+                                    { value: 'paused', label: 'Paused' },
+                                    { value: 'completed', label: 'Completed' },
+                                    { value: 'draft', label: 'Draft' }
                                 ].map(filter => (
                                     <button
                                         key={filter.value}
                                         onClick={() => setFilterStatus(filter.value as FilterStatus)}
-                                        className={`px-4 py-2 rounded-lg font-bold transition-all duration-200 text-sm border ${filterStatus === filter.value
-                                            ? filter.active + ' text-white shadow-sm'
-                                            : filter.color
+                                        className={`rounded-lg border px-3.5 py-2 text-sm font-semibold transition-colors ${filterStatus === filter.value
+                                            ? 'border-slate-900 bg-slate-900 text-white'
+                                            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900'
                                             }`}
                                     >
                                         {filter.label}
@@ -942,33 +902,42 @@ export default function CampaignsPage() {
                         </div>
                     </div>
 
-                    {/* Campaigns Grid */}
-                    <div className="grid gap-6">
+                    {/* Campaign list */}
+                    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm divide-y divide-slate-200">
+                        {filteredCampaigns.length > 0 && (
+                            <div className="hidden grid-cols-[minmax(260px,1.6fr)_minmax(180px,1fr)_90px_90px_auto] gap-5 bg-slate-50 px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-slate-500 xl:grid">
+                                <span>Campaign</span>
+                                <span>Progress</span>
+                                <span>Answered</span>
+                                <span>Pending</span>
+                                <span className="text-right">Actions</span>
+                            </div>
+                        )}
                         {filteredCampaigns.length === 0 ? (
-                            <div className="bg-white rounded-lg border border-slate-200 p-16 text-center">
-                                <div className="text-orange-500 mb-6">
-                                    <svg className="mx-auto h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="p-10 text-center sm:p-14">
+                                <div className="mb-4 text-slate-400">
+                                    <svg className="mx-auto h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                 </div>
-                                <h3 className="text-3xl font-black text-slate-950 mb-3">
+                                <h3 className="mb-2 text-xl font-semibold text-slate-950">
                                     {searchTerm || filterStatus !== 'all' ? 'No campaigns match your filters' : 'No campaigns yet'}
                                 </h3>
-                                <p className="text-gray-600 text-lg mb-6">
+                                <p className="mx-auto mb-6 max-w-lg text-sm text-slate-500">
                                     {searchTerm || filterStatus !== 'all'
                                         ? 'Try adjusting your search or filters'
-                                        : 'Create your first AI-powered bulk calling campaign to start generating leads!'
+                                        : 'Create your first outbound voice campaign to start contacting leads.'
                                     }
                                 </p>
                                 {!searchTerm && filterStatus === 'all' && (
                                     <button
                                         onClick={() => setShowCreateModal(true)}
-                                        className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-bold shadow-sm mx-auto"
+                                        className="mx-auto flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700"
                                     >
-                                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                         </svg>
-                                        Create Your First Voice Campaign
+                                        New campaign
                                     </button>
                                 )}
                             </div>
@@ -981,35 +950,99 @@ export default function CampaignsPage() {
                                     onEdit={() => handleEditCampaign(campaign._id)}
                                     onToggle={() => handleToggleCampaign(campaign._id, campaign.status)}
                                     onLaunch={() => handleLaunchCampaign(campaign._id)}
-                                    isLaunching={launching}
+                                    isLaunching={launchingCampaignId === campaign._id}
+                                    isToggling={togglingCampaignId === campaign._id}
                                     userPhone={userInfo?.assignedPhoneNumber}
                                 />
                             ))
                         )}
                     </div>
 
-                    <div className="text-center py-6">
-                        <p className="text-gray-600 text-lg">
-                            Showing <span className="font-bold text-orange-600">{filteredCampaigns.length}</span> of <span className="font-bold text-orange-600">{totalCampaigns}</span> campaigns
+                    <div className="py-2 text-center">
+                        <p className="text-sm text-slate-500">
+                            Showing <span className="font-semibold text-slate-800">{filteredCampaigns.length}</span> of <span className="font-semibold text-slate-800">{totalCampaigns}</span> campaigns
                         </p>
                     </div>
 
                 </div>
             </main>
 
+            {/* Campaign details modal */}
+            {selectedCampaign && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 p-4 backdrop-blur-sm" onMouseDown={() => setSelectedCampaign(null)}>
+                    <div className="w-full max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl" onMouseDown={(event) => event.stopPropagation()}>
+                        <div className="flex items-start justify-between bg-slate-950 p-6 text-white sm:p-8">
+                            <div>
+                                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-orange-200"><Eye className="h-3.5 w-3.5" /> Campaign details</div>
+                                <h2 className="text-2xl font-semibold sm:text-3xl">{selectedCampaign.name}</h2>
+                                <p className="mt-2 text-sm text-slate-300">{selectedCampaign.targetAudience}</p>
+                            </div>
+                            <button type="button" onClick={() => setSelectedCampaign(null)} className="rounded-xl p-2 text-slate-300 transition hover:bg-white/10 hover:text-white" aria-label="Close campaign details"><X className="h-5 w-5" /></button>
+                        </div>
+                        <div className="max-h-[70vh] space-y-6 overflow-y-auto p-6 sm:p-8">
+                            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                {[
+                                    ['Status', selectedCampaign.status],
+                                    ['Provider', 'Vozon'],
+                                    ['Contacts', selectedCampaign.totalContacts],
+                                    ['Answered', selectedCampaign.operational?.answered ?? 0]
+                                ].map(([label, value]) => <div key={String(label)} className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-semibold text-slate-500">{label}</p><p className="mt-1 break-words font-extrabold capitalize text-slate-950">{String(value)}</p></div>)}
+                            </div>
+                            <div className="rounded-2xl border border-slate-200 p-5">
+                                <h3 className="font-extrabold text-slate-950">Performance</h3>
+                                <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                                    <div><p className="text-xs text-slate-500">Attempted</p><p className="text-lg font-bold">{selectedCampaign.operational?.attempted ?? selectedCampaign.contacted}</p></div>
+                                    <div><p className="text-xs text-slate-500">Answer rate</p><p className="text-lg font-bold">{formatPercent(selectedCampaign.operational?.answerRate)}</p></div>
+                                    <div><p className="text-xs text-slate-500">Avg duration</p><p className="text-lg font-bold">{formatDuration(selectedCampaign.operational?.avgDurationSeconds)}</p></div>
+                                    <div><p className="text-xs text-slate-500">Goal conversion</p><p className="text-lg font-bold text-emerald-600">{formatPercent(selectedCampaign.performance?.conversionRate)}</p></div>
+                                </div>
+                            </div>
+                            <div className="grid gap-3 sm:grid-cols-2">
+                                <div className="rounded-2xl border border-slate-200 p-4"><p className="text-xs font-semibold text-slate-500">Agent ID</p><p className="mt-1 break-all text-sm font-bold text-slate-800">{selectedCampaign.vozonAI?.agentId || selectedCampaign.content?.voiceAgentId || selectedCampaign.millisAI?.agentId || 'Not configured'}</p></div>
+                                <div className="rounded-2xl border border-slate-200 p-4"><p className="text-xs font-semibold text-slate-500">Provider campaign ID</p><p className="mt-1 break-all text-sm font-bold text-slate-800">{selectedCampaign.vozonCampaignId || 'Not available'}</p></div>
+                            </div>
+                            <div className="flex justify-end gap-3">
+                                <button type="button" onClick={() => { handleEditCampaign(selectedCampaign._id); setSelectedCampaign(null); }} className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-orange-600"><Edit3 className="h-4 w-4" /> Edit campaign</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit campaign modal */}
+            {editingCampaign && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 p-4 backdrop-blur-sm" onMouseDown={() => !savingEdit && setEditingCampaign(null)}>
+                    <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl sm:p-8" onMouseDown={(event) => event.stopPropagation()}>
+                        <div className="flex items-start justify-between">
+                            <div><p className="text-sm font-semibold text-orange-600">Edit campaign</p><h2 className="mt-1 text-2xl font-semibold text-slate-950">Campaign information</h2></div>
+                            <button type="button" disabled={savingEdit} onClick={() => setEditingCampaign(null)} className="rounded-xl p-2 text-slate-500 hover:bg-slate-100" aria-label="Close campaign editor"><X className="h-5 w-5" /></button>
+                        </div>
+                        <div className="mt-7 space-y-5">
+                            <label className="block"><span className="mb-2 block text-sm font-bold text-slate-700">Campaign name</span><input value={editName} onChange={(event) => setEditName(event.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" /></label>
+                            <label className="block"><span className="mb-2 block text-sm font-bold text-slate-700">Target audience</span><input value={editTargetAudience} onChange={(event) => setEditTargetAudience(event.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" /></label>
+                            <p className="rounded-xl bg-sky-50 p-3 text-xs leading-5 text-sky-700">Provider, agent and phone-number settings stay locked after creation so the linked Vozon campaign remains consistent.</p>
+                        </div>
+                        <div className="mt-7 flex gap-3">
+                            <button type="button" disabled={savingEdit} onClick={() => setEditingCampaign(null)} className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50">Cancel</button>
+                            <button type="button" disabled={savingEdit || !editName.trim() || !editTargetAudience.trim()} onClick={handleSaveCampaign} className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50">{savingEdit ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}{savingEdit ? 'Saving...' : 'Save changes'}</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Create Voice Campaign Modal */}
             {showCreateModal && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm">
+                    <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-white shadow-2xl">
                         {/* Modal Header */}
-                        <div className="sticky top-0 bg-gradient-to-r from-orange-600 to-pink-600 text-white p-6 rounded-t-3xl">
+                        <div className="sticky top-0 z-10 rounded-t-xl border-b border-slate-200 bg-white p-5 sm:p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-3xl font-black">🚀 Create Voice Campaign</h2>
-                                    <p className="text-orange-100 mt-1">Launch AI-powered bulk calling campaign</p>
+                                    <h2 className="text-xl font-semibold text-slate-950 sm:text-2xl">Create voice campaign</h2>
+                                    <p className="mt-1 text-sm text-slate-500">Configure the campaign, upload contacts and review before launch.</p>
                                     {userInfo?.assignedPhoneNumber && (
-                                        <p className="text-orange-100 text-sm mt-1">
-                                            📞 Calls will be made from: {userInfo.assignedPhoneNumber}
+                                        <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-slate-600">
+                                            <Phone className="h-3.5 w-3.5" /> Calling from {userInfo.assignedPhoneNumber}
                                         </p>
                                     )}
                                 </div>
@@ -1017,14 +1050,18 @@ export default function CampaignsPage() {
                                     onClick={() => {
                                         setShowCreateModal(false);
                                         setUploadStep('form');
+                                        setCampaignName('');
+                                        setTargetAudience('');
                                         setContacts([]);
                                         setCsvFile(null);
+                                        if (fileInputRef.current) fileInputRef.current.value = '';
                                         setAgentId('');
                                         setPhoneNumberId('');
                                         setOutboundProvider('vozon');
                                         setDailyLimit(250);
                                     }}
-                                    className="p-2 hover:bg-white/20 rounded-lg transition-all"
+                                    className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                                    aria-label="Close create campaign"
                                 >
                                     <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1034,7 +1071,7 @@ export default function CampaignsPage() {
                         </div>
 
                         {/* Modal Body */}
-                        <div className="p-8 space-y-6">
+                        <div className="space-y-6 p-5 sm:p-7">
 
                             {/* Step 1: Campaign Details */}
                             {uploadStep === 'form' && (
@@ -1048,7 +1085,7 @@ export default function CampaignsPage() {
                                             value={campaignName}
                                             onChange={(e) => setCampaignName(e.target.value)}
                                             placeholder="e.g., Black Friday Sales Campaign"
-                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                                         />
                                     </div>
 
@@ -1061,38 +1098,30 @@ export default function CampaignsPage() {
                                             value={targetAudience}
                                             onChange={(e) => setTargetAudience(e.target.value)}
                                             placeholder="e.g., Premium Customers, New Leads"
-                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                                         />
                                     </div>
 
                                     <div className="space-y-5">
                                             <div>
                                                 <label className="block text-sm font-bold text-gray-700 mb-2">Calling Provider *</label>
-                                                <div className="grid grid-cols-2 gap-3">
-                                                    {(['vozon', 'millis'] as const).map((provider) => (
-                                                        <button
-                                                            type="button"
-                                                            key={provider}
-                                                            onClick={() => setOutboundProvider(provider)}
-                                                            className={`p-3 rounded-xl border-2 font-semibold capitalize transition-all ${outboundProvider === provider ? 'border-orange-500 bg-orange-50 text-orange-700' : 'border-gray-300 hover:border-orange-300'}`}
-                                                        >
-                                                            {provider}
-                                                        </button>
-                                                    ))}
+                                                <div className="flex items-center gap-3 rounded-lg border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-semibold text-orange-800">
+                                                    <span className="h-2 w-2 rounded-full bg-orange-600" />
+                                                    Vozon
                                                 </div>
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-bold text-gray-700 mb-2">
-                                                    {outboundProvider === 'vozon' ? 'Vozon Agent ID *' : 'Millis AI Agent ID *'}
+                                                    Vozon Agent ID *
                                                 </label>
                                                 <input
                                                     type="text"
                                                     value={agentId}
                                                     onChange={(e) => setAgentId(e.target.value)}
-                                                    placeholder={outboundProvider === 'vozon' ? 'Enter Vozon agent ID' : 'e.g., -OXrv5021Ddq4NGGbG0h'}
-                                                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                                    placeholder="Enter Vozon agent ID"
+                                                    className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                                                 />
-                                                <p className="text-xs text-gray-500 mt-1">Get this from your {outboundProvider === 'vozon' ? 'Vozon' : 'Millis AI'} dashboard.</p>
+                                                <p className="text-xs text-gray-500 mt-1">Get this from your Vozon dashboard.</p>
                                             </div>
                                             {outboundProvider === 'vozon' && (
                                                 <div className="space-y-5">
@@ -1103,7 +1132,7 @@ export default function CampaignsPage() {
                                                             value={phoneNumberId}
                                                             onChange={(e) => setPhoneNumberId(e.target.value)}
                                                             placeholder="e.g., +919876543210 or Vozon phone-number ID"
-                                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                                            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                                                         />
                                                         <p className="text-xs text-gray-500 mt-1">If you enter a phone number, Digitalbot will resolve its internal Vozon ID automatically.</p>
                                                     </div>
@@ -1116,7 +1145,7 @@ export default function CampaignsPage() {
                                                             step={1}
                                                             value={dailyLimit}
                                                             onChange={(e) => setDailyLimit(Number(e.target.value))}
-                                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                                            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                                                         />
                                                     </div>
                                                 </div>
@@ -1124,10 +1153,10 @@ export default function CampaignsPage() {
                                     </div>
                                     <button
                                         onClick={() => setUploadStep('upload')}
-                                        disabled={!campaignName || !targetAudience}
-                                        className="w-full py-4 bg-gradient-to-r from-orange-600 to-pink-600 text-white rounded-xl font-bold hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                        disabled={!campaignName.trim() || !targetAudience.trim() || !agentId.trim() || (outboundProvider === 'vozon' && !phoneNumberId.trim())}
+                                        className="w-full rounded-lg bg-orange-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
                                     >
-                                        Next: Upload Contacts →
+                                        Next: upload contacts
                                     </button>
                                 </div>
                             )}
@@ -1135,13 +1164,13 @@ export default function CampaignsPage() {
                             {/* Step 2: Upload Contacts */}
                             {uploadStep === 'upload' && (
                                 <div className="space-y-6 animate-fadeIn">
-                                    <div className="text-center">
-                                        <h3 className="text-2xl font-bold mb-2">📋 Upload Contact List</h3>
-                                        <p className="text-gray-600">Upload CSV or add contacts manually</p>
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-slate-950">Upload contact list</h3>
+                                        <p className="mt-1 text-sm text-slate-500">Upload a CSV file or add contacts manually.</p>
                                     </div>
 
                                     {/* CSV Upload */}
-                                    <div className="border-4 border-dashed border-gray-300 rounded-2xl p-8 text-center hover:border-orange-400 transition-all">
+                                    <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center transition-colors hover:border-orange-400">
                                         <input
                                             ref={fileInputRef}
                                             type="file"
@@ -1149,12 +1178,12 @@ export default function CampaignsPage() {
                                             onChange={handleCSVUpload}
                                             className="hidden"
                                         />
-                                        <svg className="h-16 w-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="mx-auto mb-4 h-10 w-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                         </svg>
                                         <button
                                             onClick={() => fileInputRef.current?.click()}
-                                            className="px-6 py-3 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 transition-all"
+                                            className="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 shadow-sm ring-1 ring-slate-300 transition-colors hover:bg-slate-50"
                                         >
                                             Choose CSV File
                                         </button>
@@ -1166,22 +1195,22 @@ export default function CampaignsPage() {
                                     {/* OR Divider */}
                                     <div className="flex items-center gap-4">
                                         <div className="flex-1 h-px bg-gray-300"></div>
-                                        <span className="text-gray-500 font-semibold">OR</span>
+                                        <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">or</span>
                                         <div className="flex-1 h-px bg-gray-300"></div>
                                     </div>
 
                                     {/* Manual Add */}
                                     <button
                                         onClick={handleAddManualContact}
-                                        className="w-full py-4 border-2 border-orange-600 text-orange-600 rounded-xl font-bold hover:bg-orange-50 transition-all"
+                                        className="w-full rounded-lg border border-slate-300 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
                                     >
-                                        ➕ Add Contact Manually
+                                        Add contact manually
                                     </button>
 
                                     {contacts.length > 0 && (
-                                        <div className="bg-green-50 border-2 border-green-300 rounded-xl p-4">
-                                            <p className="text-green-700 font-bold">
-                                                ✅ {contacts.length} contacts ready to go!
+                                        <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
+                                            <p className="text-sm font-semibold text-emerald-700">
+                                                {contacts.length} contacts ready
                                             </p>
                                         </div>
                                     )}
@@ -1189,16 +1218,16 @@ export default function CampaignsPage() {
                                     <div className="flex gap-3">
                                         <button
                                             onClick={() => setUploadStep('form')}
-                                            className="flex-1 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-bold hover:bg-gray-50 transition-all"
+                                            className="flex-1 rounded-lg border border-slate-300 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
                                         >
-                                            ← Back
+                                            Back
                                         </button>
                                         <button
                                             onClick={() => setUploadStep('review')}
                                             disabled={contacts.length === 0}
-                                            className="flex-1 py-3 bg-gradient-to-r from-orange-600 to-pink-600 text-white rounded-xl font-bold hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                            className="flex-1 rounded-lg bg-orange-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
                                         >
-                                            Review Contacts →
+                                            Review contacts
                                         </button>
                                     </div>
                                 </div>
@@ -1207,13 +1236,13 @@ export default function CampaignsPage() {
                             {/* Step 3: Review & Create */}
                             {uploadStep === 'review' && (
                                 <div className="space-y-6 animate-fadeIn">
-                                    <div className="text-center">
-                                        <h3 className="text-2xl font-bold mb-2">✅ Review & Launch</h3>
-                                        <p className="text-gray-600">Confirm details before creating campaign</p>
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-slate-950">Review campaign</h3>
+                                        <p className="mt-1 text-sm text-slate-500">Confirm the details before creating the campaign.</p>
                                     </div>
 
                                     {/* Campaign Summary */}
-                                    <div className="bg-gradient-to-br from-orange-50 to-pink-50 border-2 border-orange-300 rounded-2xl p-6 space-y-4">
+                                    <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50 p-5">
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
                                                 <p className="text-sm text-gray-600 font-semibold">Campaign Name</p>
@@ -1256,7 +1285,7 @@ export default function CampaignsPage() {
                                             {userInfo?.assignedPhoneNumber && (
                                                 <div className="col-span-2">
                                                     <p className="text-sm text-gray-600 font-semibold">Calling From</p>
-                                                    <p className="text-lg font-bold text-orange-600">📞 {userInfo.assignedPhoneNumber}</p>
+                                                    <p className="inline-flex items-center gap-2 text-lg font-bold text-slate-900"><Phone className="h-4 w-4 text-orange-600" /> {userInfo.assignedPhoneNumber}</p>
                                                 </div>
                                             )}
                                         </div>
@@ -1265,7 +1294,7 @@ export default function CampaignsPage() {
                                     {/* Contacts Preview */}
                                     <div>
                                         <h4 className="font-bold text-gray-900 mb-3">Contact List Preview</h4>
-                                        <div className="max-h-60 overflow-x-auto overflow-y-auto border-2 border-gray-200 rounded-xl">
+                                        <div className="max-h-60 overflow-x-auto overflow-y-auto rounded-lg border border-slate-200">
                                             <table className="w-full">
                                                 <thead className="bg-gray-100 sticky top-0">
                                                     <tr>
@@ -1296,16 +1325,16 @@ export default function CampaignsPage() {
                                         <button
                                             onClick={() => setUploadStep('upload')}
                                             disabled={creating}
-                                            className="flex-1 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-bold hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="flex-1 rounded-lg border border-slate-300 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
                                         >
-                                            ← Back
+                                            Back
                                         </button>
                                         <button
                                             onClick={handleCreateCampaign}
                                             disabled={creating}
-                                            className="flex-1 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="flex-1 rounded-lg bg-orange-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
                                         >
-                                            {creating ? '⏳ Creating...' : '🚀 Create Voice Campaign'}
+                                            {creating ? 'Creating...' : 'Create campaign'}
                                         </button>
                                     </div>
                                 </div>

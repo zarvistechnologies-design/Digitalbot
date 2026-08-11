@@ -5,7 +5,7 @@ import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/ap
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertTriangle, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
+import { AlertTriangle, BarChart3, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Stethoscope, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -143,7 +143,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     const isDoctorDashboard = ['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare'].includes(selectedService);
     const serviceItems = [];
     if (user?.selectedService === 'lead-analysis' || user?.selectedService === 'lead') {
-      serviceItems.push({ name: 'Leads', href: '/dashboard/leads', icon: Users });
+      serviceItems.push({ name: 'Analyzer', href: '/dashboard/leads', icon: BarChart3 });
+      serviceItems.push({ name: 'Leads', href: '/dashboard/qualified-leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
     }
     if (user?.selectedService === 'appointment' || isAppointmentWhatsApp || isDoctorDashboard) {
@@ -183,7 +184,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Settings', href: '/dashboard/akiara-settings', icon: Settings });
     }
     if (user?.selectedService === 'visiva-bot' || user?.selectedService === 'visiva bot') {
-      serviceItems.push({ name: 'Leads', href: '/dashboard/leads', icon: Users });
+      serviceItems.push({ name: 'Analyzer', href: '/dashboard/leads', icon: BarChart3 });
+      serviceItems.push({ name: 'Leads', href: '/dashboard/qualified-leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/visiva-bot/sessions', icon: MessageSquare });
       serviceItems.push({ name: 'Bot Leads', href: '/dashboard/visiva-bot/leads', icon: Users });
