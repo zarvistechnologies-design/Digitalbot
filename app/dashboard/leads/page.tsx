@@ -57,14 +57,27 @@ A call is considered a LEAD if:
 - Customer is inquiring about solutions
 - There's potential for a business opportunity
 
+Qualification rules:
+- Understand and qualify the customer's intent in any language or script, including mixed-language conversations. Do not require English keywords.
+- Judge only the customer's statements, not sales claims or offers made only by the assistant.
+- A specific requirement, request for products, pricing/catalogue request, accepted follow-up, or confirmed contact number is strong lead evidence.
+- Repeated transcript lines are duplicates, not separate evidence.
+- Do not qualify a call when only the assistant is selling and the customer gives no interest, need, question, or follow-up consent.
+
 Extract the following information:
 1. is_lead: true if this is a potential sales opportunity, false if not
-2. customer_name: The customer's name if mentioned
+2. customer_name: The customer's actual personal name only if explicitly stated by the customer. Never use greetings, honorifics, or forms of address such as Sir, Sir Ji, Madam, Ma'am, Mam, Ji, customer, or caller. Return an empty string when no real name is stated.
 3. phone_number: Customer's phone number if different from caller
 4. alternate_phone_number: A different callback or WhatsApp number explicitly given by the customer. Return empty if it is the same as the caller number. Prefix incomplete dictated digits with "INCOMPLETE: "
 5. product_interest: What product/service they're interested in
 6. customer_need: What problem or need they have
 7. confidence_score: How confident you are (0.0 to 1.0)
+
+Language rules:
+- Always write customer_name, product_interest, and customer_need in English using Latin letters, regardless of the transcript language.
+- Transliterate a real customer name into English letters; do not translate the meaning of a person's name.
+- Translate product requirements and customer needs into clear, concise English.
+- Keep phone numbers as digits and do not translate or reformat them.
 
 Respond ONLY with valid JSON in this exact format (no markdown, no backticks):
 {
