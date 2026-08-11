@@ -95,6 +95,22 @@ function formatDate(value?: string) {
   return date.toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
 }
 
+function formatPhone(value?: string) {
+  if (!value) return "No phone";
+  const digits = value.replace(/\D/g, "");
+  const nationalNumber = digits.length === 12 && digits.startsWith("91")
+    ? digits.slice(2)
+    : digits.length === 11 && digits.startsWith("0")
+      ? digits.slice(1)
+      : digits;
+
+  if (nationalNumber.length === 10) {
+    return `+91 ${nationalNumber.slice(0, 3)}-${nationalNumber.slice(3, 6)}-${nationalNumber.slice(6)}`;
+  }
+
+  return value;
+}
+
 function LeadRow({ lead }: { lead: Lead }) {
   const [expanded, setExpanded] = useState(false);
   const quality = getLeadQuality(lead);
@@ -111,7 +127,7 @@ function LeadRow({ lead }: { lead: Lead }) {
             <h3 className="truncate font-bold text-slate-900">{lead.customerName || "Unknown customer"}</h3>
           </div>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 pl-4 text-xs text-slate-500">
-            <span className="inline-flex items-center gap-1"><Phone className="h-3.5 w-3.5" />{lead.phoneNumber || "No phone"}</span>
+            <span className="inline-flex items-center gap-1"><Phone className="h-3.5 w-3.5" />{formatPhone(lead.phoneNumber)}</span>
             {lead.email && <span className="inline-flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{lead.email}</span>}
           </div>
         </div>

@@ -98,7 +98,18 @@ const formatTimeAgo = (dateString?: string) => {
 
 const formatPhone = (phone: string) => {
   if (!phone) return "";
-  return phone.replace(/(\d{3})(\d{3})(\d{4})/, "+91 $1-$2-$3");
+  const digits = phone.replace(/\D/g, "");
+  const nationalNumber = digits.length === 12 && digits.startsWith("91")
+    ? digits.slice(2)
+    : digits.length === 11 && digits.startsWith("0")
+      ? digits.slice(1)
+      : digits;
+
+  if (nationalNumber.length === 10) {
+    return `+91 ${nationalNumber.slice(0, 3)}-${nationalNumber.slice(3, 6)}-${nationalNumber.slice(6)}`;
+  }
+
+  return phone;
 };
 
 const normalizeTranscriptionText = (value: unknown): string => {
