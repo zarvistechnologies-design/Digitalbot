@@ -1,6 +1,8 @@
 import api from '@/lib/api';
 
 export const pathologyAPI = {
+  getWhatsappConfig: () => api.get('/pathology/whatsapp-config'),
+  updateWhatsappConfig: (data: Record<string, unknown>) => api.put('/pathology/whatsapp-config', data),
   getOverview: () => api.get('/pathology/overview'),
   getPatients: (params?: { search?: string }) => api.get('/pathology/patients', { params }),
   getPatient: (id: string) => api.get(`/pathology/patients/${id}`),
