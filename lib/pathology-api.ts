@@ -24,6 +24,8 @@ export const pathologyAPI = {
   createReferral: (data: Record<string, unknown>) => api.post('/pathology/referrals', data),
   updateReferral: (id: string, data: Record<string, unknown>) => api.patch(`/pathology/referrals/${id}`, data),
   getConversations: (params?: { search?: string }) => api.get('/pathology/inbox/conversations', { params }),
+  getAttentionCount: () => api.get('/pathology/inbox/attention-count'),
   getMessages: (phone: string, metaPhoneNumberId?: string) => api.get(`/pathology/inbox/${encodeURIComponent(phone)}/messages`, { params: { metaPhoneNumberId } }),
   sendMessage: (phone: string, data: { message: string; patientName?: string; metaPhoneNumberId?: string }) => api.post(`/pathology/inbox/${encodeURIComponent(phone)}/messages`, data),
+  updateHandoff: (phone: string, data: { action: 'takeover' | 'resume' | 'resolve'; metaPhoneNumberId?: string }) => api.patch(`/pathology/inbox/${encodeURIComponent(phone)}/handoff`, data),
 };
