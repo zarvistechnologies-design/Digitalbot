@@ -10,6 +10,7 @@ export const pathologyAPI = {
   getTests: (params?: { active?: boolean }) => api.get('/pathology/tests', { params }),
   createTest: (data: Record<string, unknown>) => api.post('/pathology/tests', data),
   updateTest: (id: string, data: Record<string, unknown>) => api.patch(`/pathology/tests/${id}`, data),
+  deleteTest: (id: string) => api.delete(`/pathology/tests/${id}`),
   getOrders: (params?: Record<string, string | undefined>) => api.get('/pathology/orders', { params }),
   createOrder: (data: Record<string, unknown>) => api.post('/pathology/orders', data),
   updateOrder: (id: string, data: Record<string, unknown>) => api.patch(`/pathology/orders/${id}`, data),
