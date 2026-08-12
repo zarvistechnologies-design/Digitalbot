@@ -3,7 +3,6 @@
 import { cn } from '@/lib/utils';
 import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/api';
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
-import { pathologyAPI } from '@/lib/pathology-api';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle, BarChart3, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
@@ -33,7 +32,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const queryClient = useQueryClient();
   const [user, setUser] = useState<User | null>(cachedDashboardUser);
   const [mounted, setMounted] = useState(Boolean(cachedDashboardUser));
-  const [pathologyAttentionCount, setPathologyAttentionCount] = useState(0);
 
   useEffect(() => {
     setMounted(true);
@@ -43,22 +41,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       setUser(cachedDashboardUser);
     }
   }, []);
-
-  useEffect(() => {
-    if (String(user?.selectedService || '').toLowerCase() !== 'pathology-diagnostic') return;
-    let active = true;
-    const refresh = async () => {
-      try {
-        const response = await pathologyAPI.getAttentionCount();
-        if (active) setPathologyAttentionCount(Number(response.data?.data?.count) || 0);
-      } catch { /* The navigation remains usable if badge polling fails. */ }
-    };
-    const receiveCount = (event: Event) => setPathologyAttentionCount(Number((event as CustomEvent).detail) || 0);
-    window.addEventListener('pathology-attention-count', receiveCount);
-    void refresh();
-    const timer = window.setInterval(refresh, 30_000);
-    return () => { active = false; window.clearInterval(timer); window.removeEventListener('pathology-attention-count', receiveCount); };
-  }, [user?.selectedService]);
 
   const prefetchDashboardData = (href: string) => {
     router.prefetch(href);
@@ -356,8 +338,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                       'mr-3 shrink-0 h-5 w-5'
                     )}
                   />
-                  <span className="min-w-0 flex-1">{item.name}</span>
-                  {item.href === '/dashboard/pathology/whatsapp' && pathologyAttentionCount > 0 && <span className="ml-2 min-w-5 rounded-full bg-rose-600 px-1.5 py-0.5 text-center text-[11px] font-bold text-white">{pathologyAttentionCount > 99 ? '99+' : pathologyAttentionCount}</span>}
+                  {item.name}
                 </Link>
               );
             })}
@@ -438,8 +419,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                           'mr-3 shrink-0 h-5 w-5'
                         )}
                       />
-                      <span className="min-w-0 flex-1">{item.name}</span>
-                      {item.href === '/dashboard/pathology/whatsapp' && pathologyAttentionCount > 0 && <span className="ml-2 min-w-5 rounded-full bg-rose-600 px-1.5 py-0.5 text-center text-[11px] font-bold text-white">{pathologyAttentionCount > 99 ? '99+' : pathologyAttentionCount}</span>}
+                      {item.name}
                     </Link>
                   );
                 })}
