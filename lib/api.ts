@@ -400,6 +400,7 @@ export const appointmentsAPI = {
   create: (data: {
     name: string;
     phone: string;
+    location?: string;
     patientType?: 'new' | 'follow_up';
     reason?: string;
     date: string;

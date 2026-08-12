@@ -10,6 +10,7 @@ import {
   Coffee,
   FileText,
   Menu,
+  MapPin,
   Phone,
   Plus,
   RefreshCw,
@@ -81,6 +82,7 @@ interface QueueNumbering {
 interface FormData {
   patientName: string;
   patientPhone: string;
+  location: string;
   patientType: "new" | "follow_up";
   doctorId: string;
   doctorName: string;
@@ -108,6 +110,7 @@ interface BookedAppointment {
 const initialFormData: FormData = {
   patientName: "",
   patientPhone: "",
+  location: "",
   patientType: "new",
   doctorId: "",
   doctorName: "",
@@ -537,6 +540,7 @@ export default function BookAppointmentPage() {
       const response = await appointmentsAPI.create({
         name: formData.patientName,
         phone: formData.patientPhone,
+        location: formData.location.trim() || undefined,
         patientType: formData.patientType,
         doctorId: formData.doctorId,
         doctorName: formData.doctorName,
@@ -860,6 +864,23 @@ export default function BookAppointmentPage() {
                             required
                           />
                         </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        Location / Branch <span className="text-gray-400">(Optional)</span>
+                      </label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <input
+                          type="text"
+                          value={formData.location}
+                          onChange={(e) => handleInputChange("location", e.target.value)}
+                          placeholder="e.g., Assi, Ramnagar, Main Branch"
+                          maxLength={160}
+                          className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                        />
                       </div>
                     </div>
 
