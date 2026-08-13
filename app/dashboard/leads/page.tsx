@@ -44,6 +44,15 @@ type FilterStatus = 'all' | 'leads' | 'no-leads' | 'pending';
 type SortField = 'startTime' | 'duration' | 'confidence';
 type SortOrder = 'asc' | 'desc';
 
+type BulkAnalysisProgress = {
+  total: number;
+  completed: number;
+  failed: number;
+  running: boolean;
+};
+
+const BULK_ANALYSIS_CONCURRENCY = 8;
+
 // Default prompt template - Simple lead qualification
 const DEFAULT_PROMPT = `You are an expert at analyzing sales call transcripts to identify potential leads.
 
@@ -642,6 +651,7 @@ export default function AnalyzerPage() {
   const [selectedCall, setSelectedCall] = useState<Call | null>(null);
   const [loading, setLoading] = useState(true);
   const [processingQueue, setProcessingQueue] = useState<string[]>([]);
+  const [bulkProgress, setBulkProgress] = useState<BulkAnalysisProgress | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -725,15 +735,7 @@ export default function AnalyzerPage() {
 
     } catch (error) {
       console.error(`❌ AI processing failed for ${callId}:`, error);
-      return {
-        is_lead: false,
-        customer_name: "",
-        phone_number: "",
-        product_interest: "",
-        customer_need: "",
-        confidence_score: 0,
-        extraction_method: "failed"
-      };
+      throw error;
     }
   }, [currentPrompt]);
 
@@ -744,21 +746,21 @@ export default function AnalyzerPage() {
     const call = calls.find(c => getCallId(c) === callId);
     if (!call || !getCallTranscription(call)) {
       console.log(`Call ${callId} not found or has no transcription`);
-      return;
+      return false;
     }
 
     if (!forceReanalyze && call.isLead !== undefined && call.isLead !== null && call.leadAnalysisAt) {
       console.log(`Call ${callId} already analyzed on ${call.leadAnalysisAt}, skipping`);
-      return;
+      return false;
     }
 
     const transcriptionText = normalizeTranscriptionText(getCallTranscription(call));
     if (!transcriptionText || transcriptionText.trim().length === 0) {
       console.log(`Call ${callId} has empty transcription`);
-      return;
+      return false;
     }
 
-    setProcessingQueue(prev => [...prev, callId]);
+    setProcessingQueue(prev => prev.includes(callId) ? prev : [...prev, callId]);
 
     try {
       console.log(`${forceReanalyze ? '🔄 Re-analyzing' : '🆕 Analyzing'} call ${callId}...`);
@@ -799,35 +801,14 @@ export default function AnalyzerPage() {
           customerName: aiResult.customer_name,
           confidence: aiResult.confidence_score
         });
+        return true;
       } else {
-        console.error(`❌ AI analysis failed for call ${callId}`);
-        setCalls(prevCalls =>
-          prevCalls.map(c =>
-            getCallId(c) === callId
-              ? {
-                  ...c,
-                  isLead: false,
-                  leadAnalysisAt: new Date().toISOString(),
-                  confidence: 0
-                }
-              : c
-          )
-        );
+        throw new Error(`AI analysis returned no result for call ${callId}`);
       }
     } catch (error) {
       console.error(`❌ Failed to process call ${callId}:`, error);
-      setCalls(prevCalls =>
-        prevCalls.map(c =>
-          getCallId(c) === callId
-            ? {
-                ...c,
-                isLead: false,
-                leadAnalysisAt: new Date().toISOString(),
-                confidence: 0
-              }
-            : c
-        )
-      );
+      // Keep failed calls pending so they can be retried.
+      return false;
     } finally {
       setProcessingQueue(prev => prev.filter(id => id !== callId));
     }
@@ -837,6 +818,8 @@ export default function AnalyzerPage() {
   // Analyze All Pending Calls
   // ==========================================
   const analyzeAllPendingCalls = useCallback(async () => {
+    if (bulkProgress?.running) return;
+
     const pendingCalls = calls.filter(call =>
       getCallTranscription(call) &&
       (call.isLead === undefined || call.isLead === null || !call.leadAnalysisAt)
@@ -847,31 +830,29 @@ export default function AnalyzerPage() {
       return;
     }
 
-    const confirmAnalysis = window.confirm(
-      `Analyze ${pendingCalls.length} pending calls with OpenAI? This may take a few minutes and will use API credits.`
-    );
-
-    if (!confirmAnalysis) return;
-
     console.log(`🚀 Starting bulk analysis of ${pendingCalls.length} calls...`);
 
-    const batchSize = 3;
-    for (let i = 0; i < pendingCalls.length; i += batchSize) {
-      const batch = pendingCalls.slice(i, i + batchSize);
-      console.log(`📊 Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(pendingCalls.length/batchSize)}`);
+    setBulkProgress({ total: pendingCalls.length, completed: 0, failed: 0, running: true });
 
-      await Promise.all(
-        batch.map(call => processIndividualCall(getCallId(call), false))
-      );
-
-      if (i + batchSize < pendingCalls.length) {
-        await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay between batches
+    let nextCallIndex = 0;
+    const worker = async () => {
+      while (nextCallIndex < pendingCalls.length) {
+        const call = pendingCalls[nextCallIndex++];
+        const succeeded = await processIndividualCall(getCallId(call), false);
+        setBulkProgress(previous => previous ? {
+          ...previous,
+          completed: previous.completed + 1,
+          failed: previous.failed + (succeeded ? 0 : 1)
+        } : previous);
       }
-    }
+    };
+
+    const workerCount = Math.min(BULK_ANALYSIS_CONCURRENCY, pendingCalls.length);
+    await Promise.all(Array.from({ length: workerCount }, () => worker()));
 
     console.log('✅ Bulk analysis completed!');
-    alert(`Analysis complete! Processed ${pendingCalls.length} calls.`);
-  }, [calls, processIndividualCall]);
+    setBulkProgress(previous => previous ? { ...previous, running: false } : previous);
+  }, [bulkProgress?.running, calls, processIndividualCall]);
 
   // ==========================================
   // Fetch Calls from Database
@@ -1051,14 +1032,20 @@ export default function AnalyzerPage() {
   const BulkAnalysisButton = () => (
     <button
       onClick={analyzeAllPendingCalls}
-      disabled={pendingAnalysis === 0 || processingQueue.length > 0}
+      disabled={pendingAnalysis === 0 || processingQueue.length > 0 || bulkProgress?.running}
       className="flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
     >
-      <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className={`h-4 w-4 sm:h-5 sm:w-5 ${bulkProgress?.running ? 'animate-pulse' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
-      <span className="hidden sm:inline">Analyze All Pending ({pendingAnalysis})</span>
-      <span className="sm:hidden">Analyze ({pendingAnalysis})</span>
+      {bulkProgress?.running ? (
+        <span>Analyzing {bulkProgress.completed}/{bulkProgress.total}</span>
+      ) : (
+        <>
+          <span className="hidden sm:inline">Analyze All Pending ({pendingAnalysis})</span>
+          <span className="sm:hidden">Analyze ({pendingAnalysis})</span>
+        </>
+      )}
     </button>
   );
 
@@ -1273,14 +1260,24 @@ export default function AnalyzerPage() {
             </div>
           </div>
 
-          {processingQueue.length > 0 && (
-            <div className="rounded-lg border border-orange-200 bg-orange-50 p-4">
+          {(processingQueue.length > 0 || bulkProgress) && (
+            <div className={`rounded-lg border p-4 ${bulkProgress && !bulkProgress.running && bulkProgress.failed === 0 ? 'border-emerald-200 bg-emerald-50' : 'border-orange-200 bg-orange-50'}`}>
               <div className="flex items-start">
-                <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-sky-600 mr-3 shrink-0 mt-0.5"></div>
+                {processingQueue.length > 0 ? (
+                  <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-orange-600 mr-3 shrink-0 mt-0.5"></div>
+                ) : (
+                  <svg className={`h-5 w-5 mr-3 shrink-0 ${bulkProgress?.failed ? 'text-orange-700' : 'text-emerald-700'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
                 <div>
-                  <h3 className="text-sm font-semibold text-orange-900 sm:text-base">Analyzing calls</h3>
-                  <p className="text-orange-700 text-xs sm:text-sm">
-                    Analyzing {processingQueue.length} call{processingQueue.length > 1 ? 's' : ''} with AI...
+                  <h3 className={`text-sm font-semibold sm:text-base ${bulkProgress && !bulkProgress.running && bulkProgress.failed === 0 ? 'text-emerald-900' : 'text-orange-900'}`}>
+                    {bulkProgress?.running ? 'Analyzing all pending calls' : bulkProgress ? 'Bulk analysis complete' : 'Analyzing call'}
+                  </h3>
+                  <p className={`text-xs sm:text-sm ${bulkProgress && !bulkProgress.running && bulkProgress.failed === 0 ? 'text-emerald-700' : 'text-orange-700'}`}>
+                    {bulkProgress
+                      ? `${bulkProgress.completed} of ${bulkProgress.total} processed${bulkProgress.failed ? `, ${bulkProgress.failed} failed and remain pending` : ''}.`
+                      : 'AI analysis is in progress...'}
                   </p>
                 </div>
               </div>
