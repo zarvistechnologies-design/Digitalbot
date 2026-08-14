@@ -7,6 +7,7 @@ import {
   ChevronUp,
   Download,
   Flame,
+  Headphones,
   Mail,
   Menu,
   Phone,
@@ -135,10 +136,15 @@ function csvPhone(value?: string) {
 
 function LeadRow({ lead }: { lead: Lead }) {
   const [expanded, setExpanded] = useState(false);
+  const [recordingError, setRecordingError] = useState("");
   const quality = getLeadQuality(lead);
   const meta = qualityMeta[quality];
   const interest = lead.productsInterested?.[0] || lead.interests?.[0] || "Not specified";
   const need = lead.painPoints?.[0] || "Not specified";
+  const token = getAuthToken();
+  const recordingUrl = lead.callId
+    ? `${API_BASE_URL}/calls/${encodeURIComponent(lead.callId)}/recording${token ? `?token=${encodeURIComponent(token)}` : ""}`
+    : "";
 
   return (
     <article className="border-b border-slate-200 last:border-b-0">
@@ -204,6 +210,39 @@ function LeadRow({ lead }: { lead: Lead }) {
               {lead.intents?.length ? <div><p className="text-xs font-semibold text-slate-500">Detected intents</p><p className="mt-1 text-sm leading-6 text-slate-700">{lead.intents.join(", ")}</p></div> : null}
             </div>
           )}
+
+          <div className="mt-5 border-t border-slate-200 pt-5">
+            <p className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+              <Headphones className="h-4 w-4" />Call recording
+            </p>
+            {recordingUrl ? (
+              <div className="mt-3 rounded-lg border border-slate-200 bg-white p-4">
+                <audio
+                  controls
+                  preload="metadata"
+                  className="w-full"
+                  src={recordingUrl}
+                  onError={() => setRecordingError("Recording is unavailable or still processing.")}
+                  onCanPlay={() => setRecordingError("")}
+                >
+                  Your browser does not support audio playback.
+                </audio>
+                <div className="mt-3 flex flex-wrap items-center gap-3">
+                  <a
+                    href={recordingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center rounded-lg bg-orange-600 px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-700"
+                  >
+                    Open recording
+                  </a>
+                  {recordingError && <span className="text-sm font-medium text-amber-700">{recordingError}</span>}
+                </div>
+              </div>
+            ) : (
+              <p className="mt-2 text-sm text-slate-500">No call recording is linked to this lead.</p>
+            )}
+          </div>
         </div>
       )}
     </article>
