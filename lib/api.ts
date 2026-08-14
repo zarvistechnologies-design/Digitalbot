@@ -419,6 +419,10 @@ export const appointmentsAPI = {
 
   // Get stats summary
   getStats: () => api.get('/appointments/stats/summary'),
+
+  // Create or retrieve a doctor's stable public appointment link
+  getDisplayLink: (doctorId: string) =>
+    api.post(`/appointments/display-links/${doctorId}`),
 };
 
 // ========================================

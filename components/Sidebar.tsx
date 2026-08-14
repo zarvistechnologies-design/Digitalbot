@@ -5,7 +5,7 @@ import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/ap
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertTriangle, BarChart3, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
+import { AlertTriangle, BarChart3, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -57,7 +57,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     } else if (
       href === '/dashboard/doctors' ||
       href === '/dashboard/availability' ||
-      href === '/dashboard/book-appointment'
+      href === '/dashboard/book-appointment' ||
+      href === '/dashboard/share-schedule'
     ) {
       void queryClient.prefetchQuery({
         queryKey: ['doctors'],
@@ -172,6 +173,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Book Appointment', href: '/dashboard/book-appointment', icon: PlusCircle });
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
+      serviceItems.push({ name: 'Share Schedule', href: '/dashboard/share-schedule', icon: Share2 });
       if (isAppointmentWhatsApp) {
         serviceItems.push({ name: 'Patient Inbox', href: '/dashboard/doctor-whatsapp', icon: MessageSquare });
       }
