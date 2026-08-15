@@ -263,6 +263,56 @@ export const doctorsAPI = {
 };
 
 // ========================================
+// VOICE CONNECTORS API
+// ========================================
+export type ConnectorProvider = 'vozon' | 'vapi' | 'retell' | 'synthflow' | 'custom';
+
+export interface VoiceConnector {
+  id: string;
+  name: string;
+  provider: ConnectorProvider;
+  status: 'active' | 'revoked';
+  externalAgentId?: string | null;
+  externalAgentName?: string | null;
+  externalPhoneNumberId?: string | null;
+  externalPhoneNumber?: string | null;
+  externalAgentMetadata?: {
+    team?: string;
+    status?: string;
+    language?: string;
+  } | null;
+  tokenPrefix: string;
+  permissions: string[];
+  lastUsedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  revokedAt?: string | null;
+}
+
+interface ConnectorTokenResponse {
+  success: true;
+  connector: VoiceConnector;
+  token: string;
+  token_notice: string;
+}
+
+export const connectorsAPI = {
+  list: () => api.get<{ success: true; connectors: VoiceConnector[] }>('/v1/connectors'),
+
+  create: (data: {
+    name: string;
+    provider: ConnectorProvider;
+    permissions?: string[];
+  }) => api.post<ConnectorTokenResponse>('/v1/connectors', data),
+
+  rotate: (id: string) =>
+    api.post<ConnectorTokenResponse>(`/v1/connectors/${encodeURIComponent(id)}/rotate`),
+
+  revoke: (id: string) =>
+    api.post<{ success: true; connector: VoiceConnector }>(`/v1/connectors/${encodeURIComponent(id)}/revoke`),
+};
+
+// ========================================
 // DOCTOR + WHATSAPP API
 // ========================================
 export const doctorWhatsappAPI = {
