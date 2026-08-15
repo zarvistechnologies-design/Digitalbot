@@ -6,27 +6,20 @@ import {
     Award,
     BarChart3,
     CalendarDays,
-    Check,
     CheckCircle2,
     ChevronDown, ChevronUp,
     Clock,
     CreditCard,
     Download,
-    Gift,
     Headphones,
     History,
     Loader2,
     Mail,
     Menu,
     MessageSquare,
-    Minus,
-    Package,
     Phone,
     Plus,
-    RefreshCw,
-    Settings,
     Shield,
-    Star,
     TrendingUp,
     Wallet,
     X,
@@ -35,15 +28,6 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
-
-interface CreditPackage {
-  id: string;
-  name: string;
-  credits: number;
-  price: number;
-  popular?: boolean;
-  savings?: string;
-}
 
 interface Transaction {
   id: string;
@@ -93,6 +77,12 @@ const formatCredits = (value: number) => value.toLocaleString(undefined, {
   minimumFractionDigits: value % 1 === 0 ? 0 : 1,
   maximumFractionDigits: 1
 });
+const formatInr = (value: number) => new Intl.NumberFormat('en-IN', {
+  style: 'currency',
+  currency: 'INR',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+}).format(value);
 
 const formatDateLabel = (value: string) => {
   const [year, month, day] = value.split('-').map(Number);
@@ -112,13 +102,10 @@ export default function Billing() {
       : undefined;
   };
   const [mounted, setMounted] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
-  const [autoPayEnabled, setAutoPayEnabled] = useState(false);
-  const [customAmount, setCustomAmount] = useState<number>(9);
-  const [isCustom, setIsCustom] = useState(false);
+  const [customAmount, setCustomAmount] = useState<number>(100);
   const [activeView, setActiveView] = useState<'credits' | 'calls'>('credits');
   const [loading, setLoading] = useState(false);
   const [usagePeriod, setUsagePeriod] = useState<UsagePeriod>('this_month');
@@ -153,7 +140,8 @@ export default function Billing() {
     name: string;
     email: string;
     assignedPhoneNumber: string;
-  }>({ name: '', email: '', assignedPhoneNumber: '' });
+    callRatePerMinute: number;
+  }>({ name: '', email: '', assignedPhoneNumber: '', callRatePerMinute: 6 });
 
   // Data from backend
   const [userCredits, setUserCredits] = useState({
@@ -176,65 +164,30 @@ export default function Billing() {
     }
   });
 
-  // Predefined plans (1 credit = ₹1, dollar to INR conversion)
-  const creditPackages: CreditPackage[] = [
-    {
-      id: 'starter',
-      name: 'Starter',
-      credits: 829,
-      price: 9,
-      savings: 'Best for beginners'
-    },
-    {
-      id: 'professional',
-      name: 'Professional',
-      credits: 4145,
-      price: 45,
-      popular: true,
-      savings: 'Save 10%'
-    },
-    {
-      id: 'business',
-      name: 'Business',
-      credits: 16580,
-      price: 180,
-      savings: 'Save 20%'
-    }
-  ];
-
-  // FAQs
   const faqs: FAQ[] = [
     {
       question: "How do credits work?",
-      answer: "The same dashboard balance funds your calls. Vobiz calls are charged at ₹6 per connected minute, prorated by seconds; Exotel calls keep their configured rate."
+      answer: `₹1 gives you 1 credit. Connected calls use credits at your assigned ₹${userInfo.callRatePerMinute} per-minute rate and are prorated by seconds.`
     },
     {
       question: "What happens when I run out of credits?",
-      answer: "When your credits run low, we'll notify you via email. Your API access will be paused once credits are exhausted, but you can instantly top up by purchasing more credits."
-    },
-    {
-      question: "How does AutoPay work?",
-      answer: "AutoPay automatically purchases credits when your balance drops below 10%. You can set your preferred credit package, and we'll charge your default payment method automatically."
+      answer: "Calling pauses when credits are exhausted. You can recharge any amount from this page and continue after payment confirmation."
     },
     {
       question: "Can I get a refund?",
-      answer: "Credits are non-refundable once purchased. However, unused credits never expire and remain in your account until used."
+      answer: "Credits are non-refundable once purchased. Unused credits do not expire."
     },
     {
       question: "Is my payment information secure?",
-      answer: "Yes! All payments are processed through Razorpay with bank-grade encryption. We never store your complete card details on our servers."
+      answer: "Payments are processed by Razorpay. DigitalBot does not store your complete card or bank details."
     },
     {
-      question: "Can I purchase custom credit amounts?",
-      answer: "Yes! You can purchase any amount starting from $9. Our system automatically calculates credits based on the current USD to INR conversion rate."
+      question: "Can I purchase a custom amount?",
+      answer: "Yes. Enter any amount from ₹1 and the page immediately shows your credits and estimated talk time."
     },
     {
-      question: "Do credits expire?",
-      answer: "No! Your credits never expire. Use them at your own pace without any time pressure."
-    },
-    {
-      question: "What payment methods do you accept?",
-      answer: "We accept all major credit/debit cards, UPI, net banking, and digital wallets through Razorpay payment gateway."
+      question: "What payment methods are accepted?",
+      answer: "Razorpay supports cards, UPI, net banking and supported digital wallets."
     }
   ];
 
@@ -259,7 +212,10 @@ export default function Billing() {
     try {
       const cached = readFreshCache<typeof userInfo>(['billing', 'user'], 5 * 60_000);
       if (cached) {
-        setUserInfo(cached);
+        setUserInfo({
+          ...cached,
+          callRatePerMinute: [4, 5, 6].includes(Number(cached.callRatePerMinute)) ? Number(cached.callRatePerMinute) : 6,
+        });
         return;
       }
       const token = getAuthToken();
@@ -274,6 +230,7 @@ export default function Billing() {
             name: data.name || '',
             email: data.email || '',
             assignedPhoneNumber: data.assignedPhoneNumber || '',
+            callRatePerMinute: [4, 5, 6].includes(Number(data.callRatePerMinute)) ? Number(data.callRatePerMinute) : 6,
           };
           setUserInfo(nextUserInfo);
           queryClient.setQueryData(['billing', 'user'], nextUserInfo);
@@ -420,7 +377,7 @@ export default function Billing() {
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <CalendarDays className="w-5 h-5 text-orange-600" />
+            <CalendarDays className="w-5 h-5 text-blue-600" />
             <h2 className="text-base font-bold text-slate-900">Usage by period</h2>
           </div>
           <p className="text-xs text-slate-500">Choose a period to see exactly what you spent during those dates.</p>
@@ -429,7 +386,7 @@ export default function Billing() {
           value={usagePeriod}
           onChange={(event) => setUsagePeriod(event.target.value as UsagePeriod)}
           aria-label="Usage period"
-          className="w-full lg:w-52 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+          className="w-full lg:w-52 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
         >
           <option value="this_month">This month</option>
           <option value="last_month">Last month</option>
@@ -471,13 +428,13 @@ export default function Billing() {
         <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{usageError}</div>
       ) : usageLoading ? (
         <div className="flex min-h-32 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold text-slate-600">
-          <Loader2 className="w-4 h-4 mr-2 animate-spin text-orange-600" />
+          <Loader2 className="w-4 h-4 mr-2 animate-spin text-blue-600" />
           Updating usage for this period…
         </div>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <div className="rounded-xl border border-orange-200 bg-orange-50 p-4">
-            <p className="text-xs font-bold text-orange-700 uppercase tracking-wide">Credits spent</p>
+          <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+            <p className="text-xs font-bold text-blue-700 uppercase tracking-wide">Credits spent</p>
             <p className="text-2xl font-black text-slate-900 mt-2">{formatCredits(usageSummary.creditsSpent)}</p>
             <p className="text-xs text-slate-500 mt-1">Deducted for billed calls</p>
           </div>
@@ -502,7 +459,7 @@ export default function Billing() {
       {!usageLoading && !usageError && (
         <div className="flex flex-wrap gap-x-6 gap-y-2 mt-5 pt-4 border-t border-slate-200 text-xs text-slate-600">
           <span>Payments in period: <strong className="text-slate-900">{usageSummary.purchaseCount}</strong></span>
-          <span>Amount paid: <strong className="text-slate-900">${usageSummary.amountPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></span>
+          <span>Amount paid: <strong className="text-slate-900">{formatInr(usageSummary.amountPaid)}</strong></span>
         </div>
       )}
     </div>
@@ -591,9 +548,9 @@ export default function Billing() {
     }
   };
 
-  // Calculate credits based on amount (~₹92.11 credits per $1)
+  // The backend uses the same authoritative rate: ₹1 = 1 credit.
   const calculateCredits = (amount: number): number => {
-    return Math.floor(amount * 92.11);
+    return Math.round(Math.max(0, amount) * 100) / 100;
   };
 
   // Initialize Razorpay
@@ -609,22 +566,12 @@ export default function Billing() {
 
   // Handle Razorpay Payment
   const handlePayment = async () => {
-    let amount = 0;
-    let credits = 0;
-    let planName = '';
+    let amount = customAmount;
+    let credits = calculateCredits(customAmount);
+    const planName = 'Credit Top-up';
 
-    if (isCustom) {
-      amount = customAmount;
-      credits = calculateCredits(customAmount);
-      planName = 'Custom Plan';
-    } else if (selectedPlan) {
-      const plan = creditPackages.find(p => p.id === selectedPlan);
-      if (!plan) return;
-      amount = plan.price;
-      credits = plan.credits;
-      planName = plan.name;
-    } else {
-      alert('Please select a plan or enter custom amount');
+    if (!Number.isFinite(amount) || amount < 1) {
+      alert('Please enter an amount of at least ₹1');
       return;
     }
 
@@ -633,7 +580,6 @@ export default function Billing() {
 
       // Create order
 const token = getAuthToken(); // Get the token
-const userId = getUserId(); // Get the userId
 
 const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order`, {
   method: 'POST',
@@ -642,11 +588,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
     'Authorization': `Bearer ${token}` // ✅ Add this line
   },
   body: JSON.stringify({
-    amount,
-    credits,
-    planName,
-    autoPay: autoPayEnabled,
-    userId // Include userId as well
+    amount
   })
 });
 
@@ -655,6 +597,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
       if (!orderResult.success) {
         throw new Error(orderResult.message || 'Failed to create order');
       }
+      amount = Number(orderResult.data.amount);
+      credits = Number(orderResult.data.credits);
 
       // Initialize Razorpay
       const res = await initializeRazorpay();
@@ -691,8 +635,6 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
             if (verifyResult.success) {
               setShowPaymentModal(false);
-              setSelectedPlan(null);
-              setIsCustom(false);
               // Refresh data
               await fetchCreditBalance(true);
               await fetchTransactions(true);
@@ -721,7 +663,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           contact: userInfo.assignedPhoneNumber,
         },
         theme: {
-          color: "#f97316",
+          color: "#2563eb",
         },
         modal: {
           ondismiss: function () {
@@ -743,28 +685,14 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
   // Payment Modal Component
   const PaymentModal = () => {
-    let amount = 0;
-    let credits = 0;
-    let planName = '';
-
-    if (isCustom) {
-      amount = customAmount;
-      credits = calculateCredits(customAmount);
-      planName = 'Custom Amount';
-    } else if (selectedPlan) {
-      const plan = creditPackages.find(p => p.id === selectedPlan);
-      if (plan) {
-        amount = plan.price;
-        credits = plan.credits;
-        planName = plan.name;
-      }
-    }
+    const amount = customAmount;
+    const credits = calculateCredits(customAmount);
 
     return (
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
         <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-8 transform transition-all animate-slideUp">
           <div className="text-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
               <CreditCard className="w-10 h-10 text-white" />
             </div>
             <h3 className="text-xl font-black text-slate-900 mb-2">
@@ -773,28 +701,22 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             <p className="text-slate-600 font-medium">Secure payment via Razorpay</p>
           </div>
 
-          <div className="bg-gradient-to-br from-slate-50 to-orange-50 border-2 border-orange-200 rounded-2xl p-6 mb-6">
+          <div className="bg-white border-2 border-slate-200 rounded-2xl p-6 mb-6">
             <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-200">
-              <span className="text-slate-700 font-bold">Plan:</span>
-              <span className="font-black text-slate-900">{planName}</span>
+              <span className="text-slate-700 font-bold">Purchase:</span>
+              <span className="font-black text-slate-900">Credit Top-up</span>
             </div>
             <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-200">
               <span className="text-slate-700 font-bold">Credits:</span>
-              <span className="font-black text-orange-600 flex items-center gap-1">
+              <span className="font-black text-blue-600 flex items-center gap-1">
                 <Zap className="w-4 h-4" />
                 {credits.toLocaleString()}
               </span>
             </div>
-            {autoPayEnabled && (
-              <div className="flex items-center gap-2 mb-3 pb-3 border-b border-slate-200 text-sm">
-                <RefreshCw className="w-4 h-4 text-green-600" />
-                <span className="text-green-600 font-bold">AutoPay Enabled</span>
-              </div>
-            )}
             <div className="flex justify-between items-center pt-2">
               <span className="text-lg font-black text-slate-900">Total:</span>
-              <span className="text-2xl font-black bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
-                ${amount}
+              <span className="text-2xl font-black text-blue-700">
+                ₹{amount.toLocaleString('en-IN')}
               </span>
             </div>
           </div>
@@ -803,7 +725,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             <button
               onClick={handlePayment}
               disabled={loading}
-              className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <>
@@ -821,8 +743,6 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             <button
               onClick={() => {
                 setShowPaymentModal(false);
-                setIsCustom(false);
-                setSelectedPlan(null);
               }}
               disabled={loading}
               className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-all disabled:opacity-50"
@@ -872,74 +792,64 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
   /* === HERO HEADER === */
   .hero {
-    background: linear-gradient(135deg, #0f0a2e 0%, #1a1145 30%, #2d1b69 60%, #1e1b4b 100%);
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
     padding: 28px 36px 40px;
     position: relative;
     overflow: hidden;
   }
   .hero::before {
-    content: '';
-    position: absolute;
-    top: -60%; right: -20%;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);
-    border-radius: 50%;
+    display: none;
   }
   .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -40%; left: -10%;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
-    border-radius: 50%;
+    display: none;
   }
   .hero-content { position: relative; z-index: 1; }
   .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
   .logo-group { display: flex; align-items: center; gap: 10px; }
   .logo-circle {
     width: 40px; height: 40px;
-    background: linear-gradient(135deg, #f97316, #f97316);
+    background: #2563eb;
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 18px rgba(139,92,246,0.4);
+    box-shadow: 0 6px 18px rgba(37,99,235,0.18);
   }
   .logo-circle svg { width: 20px; height: 20px; fill: white; }
-  .logo-text { color: white; }
+  .logo-text { color: #0f172a; }
   .logo-title { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
-  .logo-title em { font-style: normal; color: #fb923c; }
-  .logo-sub { font-size: 9px; color: #818cf8; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
+  .logo-title em { font-style: normal; color: #2563eb; }
+  .logo-sub { font-size: 9px; color: #64748b; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
 
   .inv-tag {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
     border-radius: 10px;
     padding: 10px 16px;
     text-align: right;
   }
-  .inv-tag-label { font-size: 9px; color: #818cf8; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
-  .inv-tag-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #e0e7ff; font-weight: 700; margin-top: 2px; }
+  .inv-tag-label { font-size: 9px; color: #64748b; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+  .inv-tag-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0f172a; font-weight: 700; margin-top: 2px; }
 
   /* Amount showcase */
   .amount-showcase {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 18px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .amount-label { font-size: 9px; color: #818cf8; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 4px; }
-  .amount-value { font-size: 36px; font-weight: 800; color: white; letter-spacing: -2px; line-height: 1; }
-  .amount-value .currency { font-size: 20px; color: #fb923c; vertical-align: top; margin-right: 2px; }
+  .amount-label { font-size: 9px; color: #64748b; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 4px; }
+  .amount-value { font-size: 36px; font-weight: 800; color: #0f172a; letter-spacing: -2px; line-height: 1; }
+  .amount-value .currency { font-size: 20px; color: #2563eb; vertical-align: top; margin-right: 2px; }
   .amount-meta { display: flex; gap: 18px; margin-top: 8px; }
   .amount-meta-item { display: flex; align-items: center; gap: 5px; }
   .meta-dot { width: 6px; height: 6px; border-radius: 50%; }
   .meta-dot.green { background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,0.5); }
-  .meta-dot.purple { background: #fb923c; box-shadow: 0 0 6px rgba(167,139,250,0.5); }
+  .meta-dot.blue { background: #2563eb; box-shadow: 0 0 6px rgba(37,99,235,0.25); }
   .meta-text { font-size: 10px; color: #94a3b8; }
-  .meta-text strong { color: #e0e7ff; }
+  .meta-text strong { color: #0f172a; }
 
   .paid-stamp { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .stamp-circle {
@@ -981,8 +891,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   .tile-icon svg { width: 14px; height: 14px; }
   .tile-icon.purple { background: #f3e8ff; }
   .tile-icon.purple svg { fill: #7c3aed; }
-  .tile-icon.orange { background: #dbeafe; }
-  .tile-icon.orange svg { fill: #2563eb; }
+  .tile-icon.blue { background: #dbeafe; }
+  .tile-icon.blue svg { fill: #2563eb; }
   .tile-icon.emerald { background: #d1fae5; }
   .tile-icon.emerald svg { fill: #059669; }
   .tile-label { font-size: 8px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; margin-bottom: 3px; }
@@ -999,8 +909,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
   /* Item card */
   .item-card {
-    background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 100%);
-    border: 1px solid #e9d5ff;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 10px;
     padding: 16px;
     display: flex;
@@ -1010,7 +920,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   }
   .item-icon-wrap {
     width: 42px; height: 42px;
-    background: linear-gradient(135deg, #7c3aed, #f97316);
+    background: #2563eb;
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
@@ -1082,28 +992,25 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
   /* === FOOTER === */
   .footer-wave { height: 24px; background: white; position: relative; }
-  .footer-wave::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 24px;
-    background: #0f0a2e;
-    clip-path: ellipse(60% 100% at 50% 100%);
-  }
+  .footer-wave::after { display: none; }
   .footer-main {
-    background: #0f0a2e;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
     padding: 14px 36px 18px;
     display: flex; justify-content: space-between; align-items: flex-end;
   }
   .footer-left {}
-  .footer-brand2 { font-size: 14px; font-weight: 800; color: white; margin-bottom: 2px; }
-  .footer-brand2 em { font-style: normal; color: #fb923c; }
-  .footer-desc { font-size: 10px; color: #f97316; line-height: 1.5; }
+  .footer-brand2 { font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
+  .footer-brand2 em { font-style: normal; color: #2563eb; }
+  .footer-desc { font-size: 10px; color: #64748b; line-height: 1.5; }
   .footer-right2 { text-align: right; }
   .footer-link { font-size: 10px; color: #818cf8; text-decoration: none; display: block; line-height: 1.8; }
   .footer-note2 {
-    background: #0a0720;
+    background: #f8fafc;
     padding: 8px 36px;
     text-align: center;
-    font-size: 9px; color: #4338ca;
-    border-top: 1px solid rgba(99,102,241,0.1);
+    font-size: 9px; color: #64748b;
+    border-top: 1px solid #e2e8f0;
   }
 
   @page { margin: 8mm; size: A4; }
@@ -1143,14 +1050,14 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
       <div class="amount-showcase">
         <div class="amount-left">
           <div class="amount-label">Amount Paid</div>
-          <div class="amount-value"><span class="currency">$</span>${invoiceData.amount.toFixed(2)}</div>
+          <div class="amount-value"><span class="currency">₹</span>${invoiceData.amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div class="amount-meta">
             <div class="amount-meta-item">
               <span class="meta-dot green"></span>
               <span class="meta-text"><strong>${invoiceData.credits.toLocaleString()}</strong> credits</span>
             </div>
             <div class="amount-meta-item">
-              <span class="meta-dot purple"></span>
+              <span class="meta-dot blue"></span>
               <span class="meta-text">via <strong>${invoiceData.paymentMethod || 'Razorpay'}</strong></span>
             </div>
           </div>
@@ -1177,7 +1084,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
         <div class="tile-sub">${invoiceData.userEmail || userInfo.email || 'N/A'}</div>
       </div>
       <div class="info-tile">
-        <div class="tile-icon orange">
+        <div class="tile-icon blue">
           <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
         </div>
         <div class="tile-label">Invoice Date</div>
@@ -1209,8 +1116,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           <svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
           ${invoiceData.credits.toLocaleString()}
         </div>
-        <div class="item-price">$${invoiceData.amount.toFixed(2)}</div>
-        <div class="item-rate">@ $${(invoiceData.amount / invoiceData.credits).toFixed(4)} per credit</div>
+        <div class="item-price">₹${invoiceData.amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+        <div class="item-rate">@ ₹${(invoiceData.amount / invoiceData.credits).toFixed(2)} per credit</div>
       </div>
     </div>
 
@@ -1219,19 +1126,19 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
     <div class="breakdown">
       <div class="brk-row">
         <span class="brk-label">${invoiceData.planName} (${invoiceData.credits.toLocaleString()} credits)</span>
-        <span class="brk-value">$${invoiceData.amount.toFixed(2)}</span>
+        <span class="brk-value">₹${invoiceData.amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
       </div>
       <div class="brk-row">
         <span class="brk-label">Platform Fee</span>
-        <span class="brk-value muted">$0.00</span>
+        <span class="brk-value muted">₹0.00</span>
       </div>
       <div class="brk-row">
         <span class="brk-label">Tax</span>
-        <span class="brk-value muted">$0.00</span>
+        <span class="brk-value muted">₹0.00</span>
       </div>
       <div class="brk-row brk-total">
         <span class="brk-label">Total Charged</span>
-        <span class="brk-value">$${invoiceData.amount.toFixed(2)}</span>
+        <span class="brk-value">₹${invoiceData.amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
       </div>
     </div>
 
@@ -1289,7 +1196,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   const SuccessModal = () => {
     if (!showSuccessModal || !successData) return null;
     return (
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
         <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 text-center transform transition-all animate-slideUp">
           {/* Success Icon */}
           <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg">
@@ -1302,12 +1209,12 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           {/* Transaction Details */}
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-5 mb-6 text-left space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-600 font-medium">Plan</span>
+              <span className="text-sm text-slate-600 font-medium">Purchase</span>
               <span className="text-sm font-bold text-slate-900">{successData.planName}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-slate-600 font-medium">Amount Paid</span>
-              <span className="text-sm font-bold text-slate-900">${successData.amount}</span>
+              <span className="text-sm font-bold text-slate-900">{formatInr(successData.amount)}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-slate-600 font-medium">Credits Added</span>
@@ -1318,7 +1225,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             </div>
             <div className="border-t border-green-200 pt-3 flex justify-between items-center">
               <span className="text-sm text-slate-600 font-medium">New Balance</span>
-              <span className="text-lg font-black bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
+              <span className="text-lg font-black text-blue-700">
                 {successData.newBalance.toLocaleString()} credits
               </span>
             </div>
@@ -1340,7 +1247,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   status: 'completed',
                 });
               }}
-              className="flex-1 bg-white border-2 border-orange-200 hover:border-orange-400 text-orange-700 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
+              className="flex-1 bg-white border-2 border-blue-200 hover:border-blue-400 text-blue-700 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
             >
               <Download className="w-5 h-5" />
               Download Invoice
@@ -1371,7 +1278,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
         </div>
         <main className="flex-1 lg:ml-60 flex items-center justify-center">
           <div className="text-center">
-            <Loader2 className="w-16 h-16 text-orange-600 animate-spin mx-auto mb-4" />
+            <Loader2 className="w-16 h-16 text-blue-600 animate-spin mx-auto mb-4" />
             <p className="text-base text-slate-700 font-bold">Loading your billing dashboard...</p>
           </div>
         </main>
@@ -1392,7 +1299,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          className="lg:hidden fixed inset-0 bg-slate-900/50 z-40"
           onClick={() => setSidebarOpen(false)}
         >
           <div className="w-64 h-full" onClick={(e) => e.stopPropagation()}>
@@ -1410,35 +1317,28 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
         <div className="max-w-7xl mx-auto">
 
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center gap-2 bg-gradient-to-r from-orange-100 to-orange-100 border-2 border-orange-300 rounded-xl px-4 py-2">
-                <Gift className="w-5 h-5 text-orange-600" />
-                <span className="text-sm font-bold text-orange-700">Special Offer: Get 20% more credits on Business Plan!</span>
-              </div>
-            </div>
-
+          <div className="mb-6">
             {/* View Toggle Buttons */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-3xl font-black bg-gradient-to-r from-slate-900 via-orange-600 to-orange-600 bg-clip-text text-transparent mb-2">
-                  {activeView === 'credits' ? 'Credit Management' : 'Call History'}
+                <h1 className="text-3xl font-black tracking-tight text-slate-900">
+                  {activeView === 'credits' ? 'Billing' : 'Call usage'}
                 </h1>
-                <p className="text-base text-slate-600 font-medium">
+                <p className="mt-1 text-sm text-slate-500">
                   {activeView === 'credits'
-                    ? 'Purchase credits, manage payments, and track your usage'
-                    : 'View your call history and usage details'
+                    ? 'Recharge credits and download your invoices.'
+                    : 'Review call charges and usage details.'
                   }
                 </p>
               </div>
 
-              <div className="flex gap-2 bg-white rounded-xl p-2 shadow-lg border-2 border-slate-200">
+              <div className="flex w-full gap-1 rounded-xl border border-slate-200 bg-slate-100 p-1 sm:w-auto">
                 <button
                   onClick={() => setActiveView('credits')}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all ${
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
                     activeView === 'credits'
-                      ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md'
-                      : 'text-slate-600 hover:bg-slate-100'
+                      ? 'bg-white text-blue-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   <CreditCard className="w-5 h-5" />
@@ -1446,10 +1346,10 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                 </button>
                 <button
                   onClick={() => setActiveView('calls')}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all ${
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
                     activeView === 'calls'
-                      ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md'
-                      : 'text-slate-600 hover:bg-slate-100'
+                      ? 'bg-white text-blue-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   <Phone className="w-5 h-5" />
@@ -1464,247 +1364,100 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             <>
               {/* Available Credit Balance */}
               {mounted && (
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-lg mb-6 overflow-hidden">
-                  <div className="p-6 bg-gradient-to-br from-orange-50 via-white to-amber-50 text-slate-900 border-b border-orange-100">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="text-xs font-bold text-orange-700 mb-2 uppercase tracking-widest">Available credits</p>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-4xl sm:text-5xl font-black text-slate-900">
-                            {formatCredits(userCredits.remaining)}
-                          </span>
-                          <span className="text-base text-slate-600 font-medium">credits</span>
-                        </div>
-                        <p className="text-xs text-slate-500 mt-3">This is your live balance and the amount you can spend now.</p>
+                <div className="relative mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm sm:p-8">
+                  <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+                    <div>
+                      <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-3 py-1.5 text-xs font-semibold text-blue-700">
+                        <Wallet className="h-4 w-4" /> Wallet balance
                       </div>
-                      <div className="w-14 h-14 shrink-0 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-200">
-                        <Wallet className="w-7 h-7 text-white" />
+                      <p className="text-sm text-slate-500">Available credits</p>
+                      <div className="mt-1 flex items-end gap-2">
+                        <span className="text-5xl font-black tracking-tight sm:text-6xl">{formatCredits(userCredits.remaining)}</span>
+                        <span className="mb-2 text-sm font-medium text-slate-500">credits</span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 sm:min-w-[360px]">
+                      <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                        <p className="text-xs text-slate-500">Your call rate</p>
+                        <p className="mt-1 text-2xl font-bold">₹{userInfo.callRatePerMinute}<span className="text-sm font-medium text-slate-500">/min</span></p>
+                      </div>
+                      <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                        <p className="text-xs text-slate-500">Talk time available</p>
+                        <p className="mt-1 text-2xl font-bold">{formatCredits(userCredits.remaining / userInfo.callRatePerMinute)}<span className="text-sm font-medium text-slate-500"> min</span></p>
                       </div>
                     </div>
                   </div>
-
                 </div>
               )}
 
-          {/* AutoPay Toggle */}
-          {mounted && (
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 mb-6 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
-                    <RefreshCw className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-900 mb-0.5">AutoPay</h3>
-                    <p className="text-xs text-slate-600">
-                      Auto-purchase credits when balance drops below 10%
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setAutoPayEnabled(!autoPayEnabled)}
-                  className={`relative w-16 h-8 rounded-full transition-all shadow-inner ${
-                    autoPayEnabled ? 'bg-green-500' : 'bg-slate-300'
-                  }`}
-                >
-                  <div
-                    className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform ${
-                      autoPayEnabled ? 'translate-x-8' : 'translate-x-0'
-                    }`}
-                  />
-                </button>
-              </div>
-              {autoPayEnabled && (
-                <div className="mt-4 pt-4 border-t border-green-200">
-                  <div className="flex items-center gap-2 text-sm text-green-700">
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span className="font-bold">AutoPay is active. We'll automatically purchase your preferred plan when credits are low.</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Pricing Plans */}
-          <div className="mb-6">
-            <h2 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <Package className="w-5 h-5 text-orange-600" />
-              Choose Your Plan
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              {creditPackages.map((pkg) => {
-                const isSelected = selectedPlan === pkg.id && !isCustom;
-
-                return (
-                  <div
-                    key={pkg.id}
-                    onClick={() => {
-                      setSelectedPlan(pkg.id);
-                      setIsCustom(false);
-                    }}
-                    className={`relative bg-white rounded-xl p-5 border cursor-pointer transition-all hover:shadow-lg ${
-                      isSelected
-                        ? 'border-orange-500 ring-2 ring-purple-200 shadow-lg'
-                        : 'border-slate-200 shadow hover:border-orange-300'
-                    } ${pkg.popular ? 'md:scale-105' : ''}`}
-                  >
-                    {pkg.popular && (
-                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
-                        <div className="bg-gradient-to-r from-orange-600 to-pink-600 text-white px-3 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1">
-                          <Star className="w-2.5 h-2.5 fill-current" />
-                          POPULAR
-                        </div>
-                      </div>
-                    )}
-
-                    {isSelected && (
-                      <div className="absolute top-3 right-3">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
-                          <Check className="w-4 h-4 text-white" />
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="text-center mb-4">
-                      <h3 className="text-sm font-bold text-slate-900 mb-1">{pkg.name}</h3>
-                      {pkg.savings && (
-                        <p className="text-xs font-semibold text-green-600">{pkg.savings}</p>
-                      )}
-                    </div>
-
-                    <div className="text-center mb-4">
-                      <div className="text-2xl font-bold text-slate-900 mb-2">
-                        ${pkg.price}
-                      </div>
-                      <div className="inline-block bg-gradient-to-r from-orange-50 to-orange-50 rounded-lg px-3 py-1.5 border border-orange-200">
-                        <div className="flex items-center gap-1.5">
-                          <Zap className="w-4 h-4 text-orange-600" />
-                          <span className="text-sm font-bold text-orange-600">
-                            {pkg.credits.toLocaleString()}
-                          </span>
-                          <span className="text-xs font-medium text-slate-600">credits</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <button
-                      className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg ${
-                        isSelected
-                          ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:scale-105'
-                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                      }`}
-                    >
-                      {isSelected ? 'Selected' : 'Select Plan'}
-                      <ArrowRight className="w-5 h-5" />
-                    </button>
-
-                    <div className="mt-4 text-center text-xs text-slate-500 font-medium">
-                      ${(pkg.price / pkg.credits).toFixed(2)} per credit
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Custom Amount Section */}
-            <div className="bg-gradient-to-br from-sky-50 to-sky-50 border border-sky-200 rounded-xl p-5 shadow-sm">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-sky-500 to-sky-600 rounded-lg flex items-center justify-center">
-                  <Settings className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-slate-900">Custom Amount</h3>
-                  <p className="text-xs text-slate-600">Purchase any amount starting from $9</p>
-                </div>
+          <div className="mb-8 grid gap-6 lg:grid-cols-[1.15fr_.85fr]">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
+              <div className="mb-6">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">Recharge wallet</p>
+                <h2 className="mt-2 text-2xl font-black text-slate-900">How much would you like to add?</h2>
+                <p className="mt-1 text-sm text-slate-500">Choose a quick amount or enter your own. ₹1 gives you 1 credit.</p>
               </div>
 
-              <div className="bg-white rounded-lg p-4 border border-sky-200 mb-3">
-                <label className="block text-xs font-semibold text-slate-700 mb-2">Enter Amount (USD)</label>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setCustomAmount(Math.max(9, customAmount - 10))}
-                    className="w-9 h-9 bg-slate-100 hover:bg-slate-200 rounded-lg flex items-center justify-center transition-all"
-                  >
-                    <Minus className="w-4 h-4" />
+              <div className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {[100, 500, 1000, 5000].map(amount => (
+                  <button key={amount} type="button" onClick={() => setCustomAmount(amount)} className={`rounded-xl border px-3 py-3 text-sm font-bold transition ${customAmount === amount ? 'border-blue-500 bg-blue-50 text-blue-700 ring-2 ring-blue-100' : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/60'}`}>
+                    {formatInr(amount)}
                   </button>
-                  <div className="flex-1 relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-base font-bold text-slate-900">$</span>
-                    <input
-                      type="number"
-                      min="9"
-                      value={customAmount}
-                      onChange={(e) => setCustomAmount(Math.max(9, parseInt(e.target.value) || 9))}
-                      className="w-full pl-9 pr-3 py-2.5 text-lg font-bold text-center border border-slate-300 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
-                    />
-                  </div>
-                  <button
-                    onClick={() => setCustomAmount(customAmount + 10)}
-                    className="w-9 h-9 bg-slate-100 hover:bg-slate-200 rounded-lg flex items-center justify-center transition-all"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <div className="mt-3 text-center">
-                  <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-orange-50 to-orange-50 rounded-lg px-4 py-2 border border-orange-200">
-                    <Zap className="w-4 h-4 text-orange-600" />
-                    <span className="text-base font-bold bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
-                      {calculateCredits(customAmount).toLocaleString()}
-                    </span>
-                    <span className="text-sm text-slate-600 font-medium">credits</span>
-                  </div>
-                  <p className="text-xs text-slate-500 mt-1.5">1 credit = ₹1</p>
-                </div>
+                ))}
               </div>
 
-              <button
-                onClick={() => {
-                  setIsCustom(true);
-                  setSelectedPlan(null);
-                  setShowPaymentModal(true);
-                }}
-                disabled={customAmount < 9}
-                className="w-full bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <CreditCard className="w-5 h-5" />
-                Purchase Custom Amount
-                <ArrowRight className="w-5 h-5" />
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">Custom amount</label>
+              <div className="relative">
+                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-2xl font-bold text-slate-400">₹</span>
+                <input type="number" min="1" max="1000000" step="0.01" value={customAmount} onChange={(event) => setCustomAmount(Math.max(0, Number(event.target.value) || 0))} className="h-16 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 pl-12 pr-5 text-2xl font-black text-slate-900 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100" />
+              </div>
+
+              <button onClick={() => setShowPaymentModal(true)} disabled={customAmount < 1 || customAmount > 1_000_000} className="mt-5 flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 text-base font-bold text-white shadow-lg shadow-blue-100 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">
+                Pay {formatInr(customAmount)} securely
+                <ArrowRight className="h-5 w-5" />
               </button>
+              <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-slate-500"><Shield className="h-3.5 w-3.5" /> Payments are securely processed by Razorpay</p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">Recharge summary</p>
+              <div className="mt-6 space-y-3">
+                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <span className="flex items-center gap-2 text-sm font-medium text-slate-600"><Zap className="h-4 w-4 text-blue-500" /> Credits added</span>
+                  <strong className="text-xl text-slate-900">{formatCredits(calculateCredits(customAmount))}</strong>
+                </div>
+                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <span className="flex items-center gap-2 text-sm font-medium text-slate-600"><Phone className="h-4 w-4 text-blue-500" /> Estimated talk time</span>
+                  <strong className="text-xl text-slate-900">{formatCredits(calculateCredits(customAmount) / userInfo.callRatePerMinute)} min</strong>
+                </div>
+                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <span className="text-sm font-medium text-slate-600">Your rate</span>
+                  <strong className="text-xl text-slate-900">₹{userInfo.callRatePerMinute}/min</strong>
+                </div>
+              </div>
+              <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                Credits are added immediately after Razorpay confirms your payment and never expire.
+              </div>
             </div>
           </div>
 
-          {/* Proceed to Payment Button */}
-          {selectedPlan && !isCustom && mounted && (
-            <div className="mb-6">
-              <button
-                onClick={() => setShowPaymentModal(true)}
-                className="w-full bg-gradient-to-r from-orange-500 via-orange-600 to-cyan-600 hover:from-orange-600 hover:via-orange-700 hover:to-cyan-700 text-white font-semibold py-3 rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm"
-              >
-                <CreditCard className="w-4 h-4" />
-                Proceed to Payment
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          )}
-
           {/* Transaction History */}
           {mounted && (
-            <div className="mb-6">
-              <h2 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <History className="w-5 h-5 text-orange-600" />
-                Transaction History
-              </h2>
-              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4 sm:px-6">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-slate-100 text-slate-700"><History className="h-5 w-5" /></div>
+                <div><h2 className="font-bold text-slate-900">Payment history</h2><p className="text-xs text-slate-500">Completed recharges and downloadable invoices</p></div>
+              </div>
+              <div className="overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead className="bg-slate-50 border-b border-slate-200">
                       <tr>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">ID</th>
+                        <th className="hidden px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide lg:table-cell">ID</th>
                         <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Date</th>
                         <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Credits</th>
                         <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Amount</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Method</th>
+                        <th className="hidden px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide md:table-cell">Method</th>
                         <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Status</th>
                         <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Invoice</th>
                       </tr>
@@ -1713,20 +1466,20 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                       {recentTransactions.length > 0 ? (
                         recentTransactions.map((txn) => (
                           <tr key={txn.id} className="hover:bg-slate-50 transition-colors">
-                            <td className="px-6 py-4">
-                              <span className="text-sm font-bold text-slate-900">{txn.id}</span>
+                            <td className="hidden px-6 py-4 lg:table-cell">
+                              <span className="font-mono text-xs font-bold text-slate-500">…{txn.id.slice(-8)}</span>
                             </td>
                             <td className="px-6 py-4">
                               <span className="text-sm text-slate-600 font-medium">{txn.date}</span>
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-1">
-                                <Zap className="w-4 h-4 text-orange-600" />
-                                <span className="text-sm font-bold text-orange-600">{txn.credits}</span>
+                                <Zap className="w-4 h-4 text-blue-600" />
+                                <span className="text-sm font-bold text-blue-600">{formatCredits(txn.credits)}</span>
                               </div>
                             </td>
-                            <td className="px-6 py-4">
-                              <span className="text-sm font-bold text-slate-900">${txn.amount}</span>
+                            <td className="hidden px-6 py-4 md:table-cell">
+                              <span className="text-sm font-bold text-slate-900">{formatInr(txn.amount)}</span>
                             </td>
                             <td className="px-6 py-4">
                               <span className="text-sm text-slate-600 font-medium">{txn.paymentMethod}</span>
@@ -1754,7 +1507,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                                     status: txn.status,
                                     paymentMethod: txn.paymentMethod,
                                   })}
-                                  className="text-orange-600 hover:text-orange-800 font-bold flex items-center gap-1"
+                                  className="flex items-center gap-1 rounded-lg border border-blue-200 px-2.5 py-1.5 text-xs font-bold text-blue-700 hover:bg-blue-50"
                                 >
                                   <Download className="w-4 h-4" />
                                   Invoice
@@ -1782,33 +1535,18 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           {/* FAQ Section */}
           {mounted && (
             <div className="mb-6">
-              <h2 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-green-600" />
+              <h2 className="mb-4 flex items-center gap-2 text-base font-bold text-slate-900">
+                <MessageSquare className="h-5 w-5 text-blue-600" />
                 Frequently Asked Questions
               </h2>
-              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                {faqs.map((faq, idx) => (
-                  <div key={idx} className="border-b border-slate-200 last:border-b-0">
-                    <button
-                      onClick={() => setExpandedFAQ(expandedFAQ === idx ? null : idx)}
-                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50 transition-colors text-left"
-                    >
-                      <span className="font-semibold text-slate-900 text-sm pr-3">
-                        {faq.question}
-                      </span>
-                      {expandedFAQ === idx ? (
-                        <ChevronUp className="w-4 h-4 text-orange-600 shrink-0" />
-                      ) : (
-                        <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
-                      )}
+              <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                {faqs.map((faq, index) => (
+                  <div key={faq.question} className="border-b border-slate-200 last:border-b-0">
+                    <button type="button" onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)} className="flex w-full items-center justify-between px-5 py-4 text-left transition hover:bg-blue-50/60">
+                      <span className="pr-3 text-sm font-semibold text-slate-900">{faq.question}</span>
+                      {expandedFAQ === index ? <ChevronUp className="h-4 w-4 shrink-0 text-blue-600" /> : <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />}
                     </button>
-                    {expandedFAQ === idx && (
-                      <div className="px-4 pb-3">
-                        <p className="text-slate-600 leading-relaxed text-xs">
-                          {faq.answer}
-                        </p>
-                      </div>
-                    )}
+                    {expandedFAQ === index && <p className="px-5 pb-4 text-sm leading-relaxed text-slate-600">{faq.answer}</p>}
                   </div>
                 ))}
               </div>
@@ -1816,70 +1554,35 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           )}
 
           {/* Customer Support */}
-          <div className="bg-gradient-to-br from-orange-600 via-orange-600 to-pink-600 rounded-xl p-6 text-center shadow-lg mb-6">
-            <div className="max-w-2xl mx-auto">
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Headphones className="w-6 h-6 text-white" />
+          <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <div className="grid h-11 w-11 place-items-center rounded-xl bg-white text-blue-600 shadow-sm"><Headphones className="h-5 w-5" /></div>
+                <div><h2 className="font-bold">Need help with billing?</h2><p className="text-sm text-slate-600">Our support team can help with payments and invoices.</p></div>
               </div>
-              <h2 className="text-lg font-bold text-white mb-2">
-                Need Help?
-              </h2>
-              <p className="text-white/90 text-xs mb-4">
-                Our support team is available 24/7 to assist you
-              </p>
-              <div className="flex flex-col sm:flex-row gap-2 justify-center">
-                <a
-                  href="tel:+15551234567"
-                  className="bg-white hover:bg-slate-50 text-orange-600 font-semibold py-2 px-4 rounded-lg transition-all shadow-md text-xs inline-flex items-center justify-center gap-1.5"
-                >
-                  <Phone className="w-3.5 h-3.5" />
-                  +1 (555) 123-4567
-                </a>
-                <a
-                  href="mailto:support@digitalbot.com"
-                  className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-2 px-4 rounded-lg transition-all border border-white/50 text-xs inline-flex items-center justify-center gap-1.5"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  support@digitalbot.com
-                </a>
-              </div>
-
-              <div className="mt-4 pt-4 border-t border-white/30">
-                <div className="grid grid-cols-3 gap-3 text-white">
-                  <div className="text-center">
-                    <div className="text-sm font-bold mb-0.5">24/7</div>
-                    <div className="text-[10px] font-medium text-white/80">Support</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-sm font-bold mb-0.5">&lt;2min</div>
-                    <div className="text-[10px] font-medium text-white/80">Response</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-sm font-bold mb-0.5">98%</div>
-                    <div className="text-[10px] font-medium text-white/80">Satisfaction</div>
-                  </div>
-                </div>
+              <div className="flex flex-wrap gap-2">
+                <a href="tel:+15551234567" className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-white px-3 py-2 text-xs font-bold text-blue-700"><Phone className="h-3.5 w-3.5" /> Call support</a>
+                <a href="mailto:support@digitalbot.com" className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-white px-3 py-2 text-xs font-bold text-blue-700"><Mail className="h-3.5 w-3.5" /> Email support</a>
               </div>
             </div>
           </div>
 
           {/* Trust Badges */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
             {[
-              { icon: Shield, title: 'Secure Payment', desc: '256-bit SSL' },
-              { icon: Clock, title: 'Instant Access', desc: 'Credits added instantly' },
-              { icon: Award, title: 'No Expiry', desc: 'Credits never expire' },
-              { icon: RefreshCw, title: 'AutoPay', desc: 'Never run out' }
-            ].map((item, idx) => (
-              <div key={idx} className="bg-white rounded-lg p-4 text-center border border-slate-200 shadow-sm hover:shadow-md transition-all">
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mx-auto mb-2">
-                  <item.icon className="w-5 h-5 text-white" />
-                </div>
-                <h4 className="font-bold text-slate-900 mb-0.5 text-xs">{item.title}</h4>
-                <p className="text-[10px] text-slate-600">{item.desc}</p>
+              { icon: Shield, title: 'Secure Payment', desc: 'Razorpay protected' },
+              { icon: Clock, title: 'Instant Access', desc: 'Credits added quickly' },
+              { icon: Award, title: 'No Expiry', desc: 'Use credits anytime' },
+              { icon: Plus, title: 'Flexible Top-up', desc: 'Choose any amount' }
+            ].map((item) => (
+              <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <div className="mx-auto mb-2 grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-700"><item.icon className="h-5 w-5" /></div>
+                <h4 className="text-xs font-bold text-slate-900">{item.title}</h4>
+                <p className="mt-0.5 text-[10px] text-slate-500">{item.desc}</p>
               </div>
             ))}
           </div>
+
             </>
           )}
 
@@ -1890,9 +1593,9 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
               {/* Recent Calls Table */}
               <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-xl overflow-hidden mb-8">
-                <div className="px-6 py-4 border-b-2 border-slate-200 bg-gradient-to-r from-slate-50 to-orange-50">
+                <div className="px-6 py-4 border-b-2 border-slate-200 bg-slate-50">
                   <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                    <Phone className="w-6 h-6 text-orange-600" />
+                    <Phone className="w-6 h-6 text-blue-600" />
                     Recent Calls
                   </h2>
                 </div>
@@ -1919,7 +1622,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                             <td className="px-6 py-4">
                               <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
                                 call.type === 'Outbound'
-                                  ? 'bg-orange-100 text-orange-700'
+                                  ? 'bg-blue-100 text-blue-700'
                                   : 'bg-green-100 text-green-700'
                               }`}>
                                 {call.type}
@@ -1930,8 +1633,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-1">
-                                <Zap className="w-4 h-4 text-orange-600" />
-                                <span className="text-sm font-black text-orange-600">{call.credits}</span>
+                                <Zap className="w-4 h-4 text-blue-600" />
+                                <span className="text-sm font-black text-blue-600">{call.credits}</span>
                               </div>
                             </td>
                             <td className="px-6 py-4">
@@ -1957,7 +1660,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               {/* Call Analytics */}
               <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-xl p-6">
                 <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                  <BarChart3 className="w-6 h-6 text-orange-600" />
+                  <BarChart3 className="w-6 h-6 text-blue-600" />
                   Call Analytics
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1967,10 +1670,10 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                       <div>
                         <div className="flex justify-between mb-1">
                           <span className="text-sm font-medium text-slate-700">Outbound</span>
-                          <span className="text-sm font-black text-orange-600">{callStats.callTypes.outbound.percentage}%</span>
+                          <span className="text-sm font-black text-blue-600">{callStats.callTypes.outbound.percentage}%</span>
                         </div>
                         <div className="bg-slate-200 rounded-full h-2">
-                          <div className="bg-gradient-to-r from-orange-500 to-orange-600 h-2 rounded-full" style={{width: `${callStats.callTypes.outbound.percentage}%`}}></div>
+                          <div className="bg-blue-600 h-2 rounded-full" style={{width: `${callStats.callTypes.outbound.percentage}%`}}></div>
                         </div>
                       </div>
                       <div>
@@ -1989,15 +1692,15 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center justify-between">
                         <span className="text-slate-700 font-medium">Morning (9 AM - 12 PM)</span>
-                        <span className="font-black text-orange-600">{callStats.peakHours.morning.percentage}%</span>
+                        <span className="font-black text-blue-600">{callStats.peakHours.morning.percentage}%</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-700 font-medium">Afternoon (12 PM - 5 PM)</span>
-                        <span className="font-black text-orange-600">{callStats.peakHours.afternoon.percentage}%</span>
+                        <span className="font-black text-blue-600">{callStats.peakHours.afternoon.percentage}%</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-700 font-medium">Evening (5 PM - 9 PM)</span>
-                        <span className="font-black text-orange-600">{callStats.peakHours.evening.percentage}%</span>
+                        <span className="font-black text-blue-600">{callStats.peakHours.evening.percentage}%</span>
                       </div>
                     </div>
                   </div>
