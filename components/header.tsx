@@ -62,7 +62,7 @@ export function Header() {
         { href: "/contact", label: "Contact" },
     ]
 
-    // Solutions — WhatsApp Bot Services industry grid
+    // Solutions - WhatsApp Bot Services industry grid
     const solutions = [
         { href: "/solutions/education", label: "Education", icon: GraduationCap },
         { href: "/solutions/car-dealership", label: "Car Dealership", icon: Car },
@@ -244,7 +244,7 @@ export function Header() {
                                     src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
                                     alt="DigitalBot.AI"
                                     width={1450} height={460} priority
-                                    className="h-11 w-auto transition-transform duration-300 group-hover:scale-105"
+                                    className="h-14 w-auto sm:h-16 transition-transform duration-300 group-hover:scale-105"
                                 />
                             </Link>
                         </motion.div>
@@ -403,8 +403,14 @@ export function Header() {
 
                         {/* Right: CTA */}
                         <div className="hidden lg:flex items-center gap-2.5">
-                            <Link href="/login" className="hdr-cta">
-                                <Sparkles className="w-3.5 h-3.5" /> Login
+                            <Link
+                                href="/login"
+                                className="inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-700 hover:text-orange-600 transition-colors"
+                            >
+                                Login
+                            </Link>
+                            <Link href="/get-started" className="hdr-cta">
+                                <Sparkles className="w-3.5 h-3.5" /> Get Started
                             </Link>
                         </div>
 
@@ -546,14 +552,20 @@ export function Header() {
                                     </div>
 
                                     {/* Mobile CTA */}
-                                    <div className="pt-2 px-2 pb-2">
+                                    <div className="grid grid-cols-2 gap-2 px-2 pb-2 pt-2">
                                         <Link
-                                            href="/login"
-                                            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold text-white"
-                                            style={{ background: "linear-gradient(135deg,#f97316,#ea580c)", boxShadow: "0 4px 14px rgba(234,88,12,.3)" }}
+                                            href="/get-started"
+                                            className="flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-3 py-3 text-sm font-semibold text-white shadow-md shadow-orange-600/20"
                                             onClick={() => setIsMenuOpen(false)}
                                         >
-                                            <Sparkles className="w-4 h-4" /> Get Started Free
+                                            <Sparkles className="h-4 w-4" /> Get Started
+                                        </Link>
+                                        <Link
+                                            href="/login"
+                                            className="flex items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm font-semibold text-slate-700"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            Login
                                         </Link>
                                     </div>
                                 </nav>

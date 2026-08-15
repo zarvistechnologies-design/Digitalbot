@@ -1,9 +1,10 @@
 'use client'
 
-import { PageBackground } from '@/components/page-background'
 import axios from 'axios'
 import { motion } from 'framer-motion'
-import { Lock, Mail, Sparkles, User } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Lock, Mail, Sparkles, User } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -11,17 +12,7 @@ interface SignupFormProps {
   initialService?: string
 }
 
-type ServiceKey = 'lead-analysis' | 'appointment' | 'appointment-whatsapp' | 'doctor-dashboard' | 'customer-support' | 'tankro' | 'pathology-diagnostic' | ''
-
-const SERVICE_OPTIONS: Array<{ value: Exclude<ServiceKey, ''>; label: string }> = [
-  { value: 'doctor-dashboard', label: 'Doctor Dashboard' },
-  { value: 'appointment-whatsapp', label: 'Doctor Desk' },
-  { value: 'appointment', label: 'Appointment Service' },
-  { value: 'lead-analysis', label: 'Lead Analysis' },
-  { value: 'customer-support', label: 'Customer Support AI' },
-  { value: 'tankro', label: 'Tankro Dashboard' },
-  { value: 'pathology-diagnostic', label: 'Pathology Diagnostic Center' },
-]
+type ServiceKey = 'event-booking-crm' | 'pathology-diagnostic' | 'lead-analysis' | 'customer-support' | 'doctor-dashboard' | 'appointment' | 'appointment-whatsapp' | 'tankro' | ''
 
 export function SignupForm({ initialService }: SignupFormProps) {
   const router = useRouter()
@@ -36,6 +27,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     const serviceFromUrl = searchParams.get('service') || initialService
     if (!serviceFromUrl) return
     if (serviceFromUrl === 'lead' || serviceFromUrl === 'lead-analysis') setSelectedService('lead-analysis')
+    else if (['event-booking-crm', 'event-booking', 'event booking crm', 'events'].includes(serviceFromUrl)) setSelectedService('event-booking-crm')
     else if (serviceFromUrl === 'appointment') setSelectedService('appointment')
     else if (['doctor', 'doctor-dashboard', 'doctor dashboard', 'clinic', 'healthcare'].includes(serviceFromUrl)) setSelectedService('doctor-dashboard')
     else if (['doctor-desk', 'doctor desk', 'appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp', 'doctor whatsapp', 'doctor+whatsapp', 'doctor + whatsapp'].includes(serviceFromUrl)) setSelectedService('appointment-whatsapp')
@@ -82,7 +74,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
       })
 
       alert('Registration successful! Please login to continue.')
-      router.push('/login')
+      router.push(`/login?service=${service}`)
     } catch (err: any) {
       console.error(err)
       alert(err.response?.data?.error || 'Registration failed')
@@ -93,6 +85,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
 
   const getServiceInfo = () => {
     switch (selectedService) {
+      case 'event-booking-crm':
+        return { title: 'Event Booking CRM', gradient: 'from-amber-500 to-orange-600' }
       case 'lead-analysis':
         return { title: 'Lead Analysis Service', gradient: 'from-orange-500 to-violet-500' }
       case 'appointment':
@@ -112,106 +106,168 @@ export function SignupForm({ initialService }: SignupFormProps) {
     }
   }
 
-  const { title, gradient } = getServiceInfo()
+  const { title } = getServiceInfo()
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-[#fafbff] via-white to-[#f0f0ff] relative overflow-hidden px-4">
-      <PageBackground />
-
-      {/* Animated glow */}
-      <div className="absolute w-[700px] h-[700px] bg-orange-500/10 blur-[180px] rounded-full -top-40 -left-20 animate-pulse" />
-
-      <motion.form
-        onSubmit={handleSubmit}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="relative z-10 glass-strong p-10 rounded-3xl shadow-2xl shadow-orange-500/10 w-full max-w-md border border-white/40 hover:shadow-orange-500/15 hover:scale-[1.02] transition-all duration-300"
-      >
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-6">
-          <Sparkles className="w-5 h-5 text-orange-500" />
-          <h2 className={`text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${gradient}`}>
-            Sign Up for {title}
-          </h2>
-        </div>
-
-        <label className="mb-4 block">
-          <span className="mb-2 block text-sm font-medium text-slate-600">Service</span>
-          <select
-            value={selectedService}
-            onChange={(event) => {
-              setSelectedService(event.target.value as ServiceKey)
-              if (errors.service) setErrors((prev) => ({ ...prev, service: '' }))
-            }}
-            className="h-11 w-full rounded-xl border border-slate-200/60 bg-white/60 px-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-500/40"
-          >
-            <option value="">Select a service</option>
-            {SERVICE_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-          {errors.service && <p className="mt-1 text-sm text-red-500">{errors.service}</p>}
-        </label>
-
-        {/* Name */}
-        <div className="mb-4">
-          <div className="flex items-center gap-2 border border-slate-200/60 rounded-xl px-3 py-2 bg-white/60 backdrop-blur-sm">
-            <User className="w-5 h-5 text-slate-400" />
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none"
+    <main className="min-h-screen bg-[#f8fafc] text-slate-950">
+      <div className="grid min-h-screen lg:h-screen lg:grid-cols-[minmax(0,1.08fr)_minmax(500px,0.92fr)] lg:overflow-hidden">
+        <section className="hidden h-screen overflow-hidden bg-slate-950 lg:flex lg:flex-col">
+          <div className="px-10 pb-5 pt-9 xl:px-14 xl:pt-11">
+            <div className="flex items-center justify-between gap-6">
+              <Link href="/" className="inline-flex items-center">
+                <Image
+                  src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
+                  alt="DigitalBot.AI"
+                  width={1450}
+                  height={460}
+                  priority
+                  className="h-14 w-auto sm:h-16 drop-shadow-[0_2px_8px_rgba(255,255,255,0.2)]"
+                />
+              </Link>
+              <span className="inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white ring-1 ring-white/15">
+                <Sparkles className="h-4 w-4 text-orange-300" />
+                New service workspace
+              </span>
+            </div>
+            <div className="mt-7 max-w-2xl">
+              <h1 className="text-4xl font-bold leading-tight text-white">
+                Start with the workspace your team needs.
+              </h1>
+              <p className="mt-3 max-w-xl text-base leading-7 text-slate-300">
+                Create a secure account for your selected service, then connect your team and voice workflow.
+              </p>
+            </div>
+          </div>
+          <div className="min-h-0 flex-1 px-10 pb-8 xl:px-14">
+            <img
+              src="/images/signup-professionals.png"
+              alt="Healthcare, events, support, and business professionals"
+              className="h-full w-full rounded-lg object-contain object-top"
             />
           </div>
-          {errors.name && <p className="text-sm text-red-500 mt-1">{errors.name}</p>}
-        </div>
+        </section>
 
-        {/* Email */}
-        <div className="mb-4">
-          <div className="flex items-center gap-2 border border-slate-200/60 rounded-xl px-3 py-2 bg-white/60 backdrop-blur-sm">
-            <Mail className="w-5 h-5 text-slate-400" />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none"
-            />
+        <section className="flex min-h-screen items-center justify-center px-4 py-6 sm:px-8 lg:h-screen lg:min-h-0 lg:px-12">
+          <div className="w-full max-w-lg">
+            <div className="mb-6 flex items-center justify-between gap-4">
+              <Link
+                href="/get-started"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-orange-700"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to services
+              </Link>
+              <Link
+                href="/login"
+                className="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-orange-300 hover:text-orange-700"
+              >
+                Login
+              </Link>
+            </div>
+
+            <div className="mb-5 overflow-hidden rounded-lg bg-slate-100 lg:hidden">
+              <img
+                src="/images/signup-professionals.png"
+                alt="Healthcare, events, support, and business professionals"
+                className="aspect-[3/2] h-auto w-full object-contain"
+              />
+            </div>
+
+            <motion.form
+              onSubmit={handleSubmit}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
+              className="rounded-lg border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/70 sm:p-8"
+            >
+              <div className="mb-4">
+                <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-orange-700">
+                  <Sparkles className="h-4 w-4" />
+                  Sign Up
+                </span>
+                <h1 className="mt-2 text-2xl font-bold text-slate-950">Create your account</h1>
+                <p className="mt-1 text-sm leading-6 text-slate-500">
+                  Your account opens directly in the selected workspace.
+                </p>
+              </div>
+
+              <div className="mb-4 flex items-center gap-3 rounded-md border border-orange-200 bg-orange-50 px-4 py-2.5">
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-orange-600" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-orange-700">Selected workspace</p>
+                  <p className="mt-1 truncate text-sm font-bold text-slate-950">
+                    {selectedService ? title : 'No workspace selected'}
+                  </p>
+                </div>
+                {!selectedService && (
+                  <Link href="/get-started" className="text-sm font-bold text-orange-700">
+                    Choose
+                  </Link>
+                )}
+              </div>
+
+              <div className="grid gap-3">
+                <label className="block">
+                  <span className="mb-1.5 block text-sm font-semibold text-slate-700">Full Name</span>
+                  <span className="flex h-11 items-center gap-3 rounded-md border border-slate-300 bg-white px-3 focus-within:border-orange-400 focus-within:ring-2 focus-within:ring-orange-100">
+                    <User className="h-5 w-5 shrink-0 text-slate-400" />
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Enter your full name"
+                      value={form.name}
+                      onChange={handleChange}
+                      className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                    />
+                  </span>
+                  {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                </label>
+
+                <label className="block">
+                  <span className="mb-1.5 block text-sm font-semibold text-slate-700">Email Address</span>
+                  <span className="flex h-11 items-center gap-3 rounded-md border border-slate-300 bg-white px-3 focus-within:border-orange-400 focus-within:ring-2 focus-within:ring-orange-100">
+                    <Mail className="h-5 w-5 shrink-0 text-slate-400" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="your.email@company.com"
+                      value={form.email}
+                      onChange={handleChange}
+                      className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                    />
+                  </span>
+                  {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+                </label>
+
+                <label className="block">
+                  <span className="mb-1.5 block text-sm font-semibold text-slate-700">Password</span>
+                  <span className="flex h-11 items-center gap-3 rounded-md border border-slate-300 bg-white px-3 focus-within:border-orange-400 focus-within:ring-2 focus-within:ring-orange-100">
+                    <Lock className="h-5 w-5 shrink-0 text-slate-400" />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Minimum 6 characters"
+                      value={form.password}
+                      onChange={handleChange}
+                      className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                    />
+                  </span>
+                  {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
+                </label>
+              </div>
+
+              <motion.button
+                type="submit"
+                whileTap={{ scale: 0.98 }}
+                disabled={loading || !selectedService}
+                className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-md bg-orange-600 px-4 text-sm font-bold text-white shadow-lg shadow-orange-600/20 transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {loading ? 'Creating account...' : 'Create Account'}
+              </motion.button>
+            </motion.form>
           </div>
-          {errors.email && <p className="text-sm text-red-500 mt-1">{errors.email}</p>}
-        </div>
-
-        {/* Password */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2 border border-slate-200/60 rounded-xl px-3 py-2 bg-white/60 backdrop-blur-sm">
-            <Lock className="w-5 h-5 text-slate-400" />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={form.password}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none"
-            />
-          </div>
-          {errors.password && <p className="text-sm text-red-500 mt-1">{errors.password}</p>}
-        </div>
-
-        {/* Button */}
-        <motion.button
-          type="submit"
-          whileTap={{ scale: 0.97 }}
-          disabled={loading}
-          className="bg-gradient-to-r from-orange-500 to-violet-500 text-white w-full py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-violet-600 hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300 disabled:opacity-60 btn-glow"
-        >
-          {loading ? 'Registering...' : 'Create Account'}
-        </motion.button>
-      </motion.form>
-    </div>
+        </section>
+      </div>
+    </main>
   )
 }

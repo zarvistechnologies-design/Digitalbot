@@ -2199,7 +2199,7 @@ export default function Hero() {
                             {/* CTA Buttons */}
                             <div className="flex flex-wrap gap-4">
                                 <a
-                                    href="/signup"
+                                    href="/get-started"
                                     className="inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/30 text-sm"
                                 >
                                     Get Started Free

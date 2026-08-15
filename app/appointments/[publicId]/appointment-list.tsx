@@ -127,7 +127,7 @@ export default function AppointmentList({ publicId }: { publicId: string }) {
             width={1450}
             height={460}
             priority
-            className="h-10 w-auto sm:h-12"
+            className="h-14 w-auto sm:h-16"
           />
           <div className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />

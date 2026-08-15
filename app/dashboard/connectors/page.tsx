@@ -36,12 +36,24 @@ const DEFAULT_PERMISSIONS = [
   "appointments:create",
 ];
 
-const DOCTOR_SERVICES = new Set([
+const CONNECTOR_SERVICES = new Set([
   "doctor-dashboard",
   "doctor dashboard",
   "doctor",
   "clinic-dashboard",
   "healthcare",
+  "pathology-diagnostic",
+  "lead-analysis",
+  "lead",
+  "customer-support",
+  "event-booking-crm",
+  "event booking crm",
+  "event-booking",
+  "event",
+  "events",
+  "booking-crm",
+  "booking crm",
+  "booking",
 ]);
 
 function errorMessage(error: unknown, fallback: string) {
@@ -107,7 +119,7 @@ export default function ConnectorsPage() {
     const rawUser = localStorage.getItem("user");
     const user = rawUser ? JSON.parse(rawUser) as { selectedService?: string } : null;
     const selectedService = String(user?.selectedService || "").toLowerCase();
-    if (!DOCTOR_SERVICES.has(selectedService)) {
+    if (!CONNECTOR_SERVICES.has(selectedService)) {
       router.replace("/dashboard");
       return;
     }
@@ -227,7 +239,7 @@ export default function ConnectorsPage() {
       <main className="lg:pl-64">
         <header className="border-b border-zinc-200 bg-white">
           <div className="px-4 pb-6 pt-20 sm:px-6 lg:px-8 lg:pt-7">
-            <p className="text-xs font-semibold uppercase text-orange-700">Doctor Dashboard</p>
+            <p className="text-xs font-semibold uppercase text-orange-700">Service Dashboard</p>
             <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <h1 className="text-2xl font-bold sm:text-3xl">Voice connectors</h1>
