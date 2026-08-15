@@ -104,6 +104,28 @@
 }
 
 /* ─── Glassmorphism Utility Classes ─── */
+/* Keep dashboard typography consistent across all service workspaces. */
+.dashboard-shell {
+  color: #000000;
+}
+
+.dashboard-shell :is(h1, h2, h3, h4, h5, h6, p, label, dt, dd, th, td, li, input, select, textarea) {
+  color: #000000;
+}
+
+.dashboard-shell [class*="text-slate-"],
+.dashboard-shell [class*="text-zinc-"],
+.dashboard-shell [class*="text-gray-"],
+.dashboard-shell [class*="text-orange-"],
+.dashboard-shell [class*="text-emerald-"],
+.dashboard-shell [class*="text-green-"],
+.dashboard-shell [class*="text-red-"],
+.dashboard-shell [class*="text-purple-"],
+.dashboard-shell [class*="text-violet-"],
+.dashboard-shell [class*="text-sky-"],
+.dashboard-shell [class*="text-yellow-"] {
+  color: #000000 !important;
+}
 @layer utilities {
   .glass {
     background: var(--glass-bg);

@@ -138,11 +138,15 @@ export function SignupForm({ initialService }: SignupFormProps) {
               </p>
             </div>
           </div>
-          <div className="min-h-0 flex-1 px-10 pb-8 xl:px-14">
-            <img
+          <div className="relative min-h-0 flex-1">
+            <Image
               src="/images/signup-professionals.png"
               alt="Healthcare, events, support, and business professionals"
-              className="h-full w-full rounded-lg object-contain object-top"
+              fill
+              priority
+              sizes="(min-width: 1280px) 55vw, 50vw"
+              quality={82}
+              className="object-cover object-center"
             />
           </div>
         </section>
@@ -166,10 +170,14 @@ export function SignupForm({ initialService }: SignupFormProps) {
             </div>
 
             <div className="mb-5 overflow-hidden rounded-lg bg-slate-100 lg:hidden">
-              <img
+              <Image
                 src="/images/signup-professionals.png"
                 alt="Healthcare, events, support, and business professionals"
-                className="aspect-[3/2] h-auto w-full object-contain"
+                width={1440}
+                height={960}
+                sizes="100vw"
+                quality={82}
+                className="aspect-[3/2] h-auto w-full object-cover"
               />
             </div>
 
