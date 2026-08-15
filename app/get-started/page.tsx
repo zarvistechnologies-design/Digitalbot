@@ -82,16 +82,18 @@ export default function GetStartedPage() {
             </div>
           </div>
 
-          <div className="relative min-h-0 flex-1">
-            <Image
+          <div className="min-h-0 flex-1 px-10 pb-8 xl:px-14">
+            <div className="relative h-full overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] shadow-2xl shadow-black/20">
+              <Image
               src="/images/get-started-team-v2.png"
               alt="A service operations team collaborating in a modern office"
               fill
               priority
               sizes="(min-width: 1280px) 50vw, 50vw"
               quality={82}
-              className="object-cover object-center"
-            />
+              className="object-contain object-top"
+              />
+            </div>
           </div>
         </section>
 

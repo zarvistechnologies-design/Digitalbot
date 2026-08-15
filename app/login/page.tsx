@@ -119,16 +119,18 @@ export default function LoginPage(): JSX.Element {
               </p>
             </div>
           </div>
-          <div className="relative min-h-0 flex-1">
-            <Image
+          <div className="min-h-0 flex-1 px-10 pb-8 xl:px-14">
+            <div className="relative h-full overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] shadow-2xl shadow-black/20">
+              <Image
               src="/images/login-professionals.png"
               alt="Doctors, engineers, and business professionals"
               fill
               priority
               sizes="(min-width: 1280px) 55vw, 50vw"
               quality={82}
-              className="object-cover object-center"
-            />
+              className="object-contain object-top"
+              />
+            </div>
           </div>
         </section>
 
