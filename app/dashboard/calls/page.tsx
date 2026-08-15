@@ -9,6 +9,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
+type AgentOption = {
+  id: string;
+  name: string;
+};
+
 const ALL_CALLS_LIMIT = 0;
 
 const Dashboard = () => {
@@ -29,7 +34,7 @@ const Dashboard = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [showFilters, setShowFilters] = useState(true);
-  const [availableAgents, setAvailableAgents] = useState<string[]>([]);
+  const [availableAgents, setAvailableAgents] = useState<AgentOption[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = useState(true);
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
@@ -57,7 +62,7 @@ const Dashboard = () => {
     if (cachedStats) {
       setStats(cachedStats);
     }
-    const cachedAgents = getStaleCache<string[]>(CACHE_KEYS.CALLS_AGENTS);
+    const cachedAgents = getStaleCache<AgentOption[]>(CACHE_KEYS.CALLS_AGENTS);
     if (cachedAgents) {
       setAvailableAgents(cachedAgents);
     }
@@ -266,16 +271,25 @@ const Dashboard = () => {
 
   const fetchAgents = async () => {
     try {
-      const agentNames = await cachedFetch(CACHE_KEYS.CALLS_AGENTS, async () => {
+      const agentOptions = await cachedFetch<AgentOption[]>(CACHE_KEYS.CALLS_AGENTS, async () => {
         const response = await callsAPI.getAgents();
         const agentList = response.data.data || [];
-        return agentList.map((agent: any) => agent.name);
+        return agentList.map((agent: any) => ({
+          id: String(agent.id || agent.name),
+          name: String(agent.name || agent.id || 'Unknown agent'),
+        }));
       }, 120000); // 2 min cache for agents
-      setAvailableAgents(agentNames);
+      setAvailableAgents(agentOptions);
     } catch (err: any) {
       console.warn('Could not fetch agents:', err.message);
-      const agents = [...new Set(calls.map((call: Call) => call.agent_id || call.agent_name).filter(Boolean))];
-      setAvailableAgents(agents as string[]);
+      const agents = new Map<string, AgentOption>();
+      calls.forEach((call: Call) => {
+        const id = String(call.agent_id || call.agent_name || '').trim();
+        if (id && !agents.has(id)) {
+          agents.set(id, { id, name: String(call.agent_name || call.agent_id) });
+        }
+      });
+      setAvailableAgents([...agents.values()]);
     }
   };
 
@@ -294,7 +308,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (mounted) {
-      if (!getCache<Call[]>(CACHE_KEYS.CALLS)) {
+      const cachedCalls = getCache<Call[]>(CACHE_KEYS.CALLS);
+      if (!cachedCalls || cachedCalls.length === 0) {
         void syncBookingWorkspaceCalls().finally(() => {
           fetchCalls();
           fetchStats();
@@ -727,8 +742,8 @@ const Dashboard = () => {
                         >
                           <option value="">All Agents</option>
                           {availableAgents.map((agent) => (
-                            <option key={agent} value={agent}>
-                              {agent}
+                            <option key={agent.id} value={agent.id}>
+                              {agent.name}
                             </option>
                           ))}
                         </select>

@@ -1,6 +1,7 @@
 'use client';
 import { PageBackground } from '@/components/page-background';
 import { clearCache } from '@/lib/cache';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
@@ -171,8 +172,11 @@ export default function LoginPage(): JSX.Element {
           </button>
         </form>
 
-        <p className="text-center text-sm text-slate-400 mt-6">
-          Don't have an account? Contact your administrator
+        <p className="mt-6 text-center text-sm text-slate-500">
+          Don't have an account?{' '}
+          <Link href="/signup" className="font-semibold text-orange-600 hover:text-orange-700 hover:underline">
+            Create account
+          </Link>
         </p>
       </div>
     </div>

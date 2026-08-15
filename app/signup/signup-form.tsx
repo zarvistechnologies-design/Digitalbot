@@ -13,6 +13,16 @@ interface SignupFormProps {
 
 type ServiceKey = 'lead-analysis' | 'appointment' | 'appointment-whatsapp' | 'doctor-dashboard' | 'customer-support' | 'tankro' | 'pathology-diagnostic' | ''
 
+const SERVICE_OPTIONS: Array<{ value: Exclude<ServiceKey, ''>; label: string }> = [
+  { value: 'doctor-dashboard', label: 'Doctor Dashboard' },
+  { value: 'appointment-whatsapp', label: 'Doctor Desk' },
+  { value: 'appointment', label: 'Appointment Service' },
+  { value: 'lead-analysis', label: 'Lead Analysis' },
+  { value: 'customer-support', label: 'Customer Support AI' },
+  { value: 'tankro', label: 'Tankro Dashboard' },
+  { value: 'pathology-diagnostic', label: 'Pathology Diagnostic Center' },
+]
+
 export function SignupForm({ initialService }: SignupFormProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -40,17 +50,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }))
   }
 
-  const getServiceFromUrl = (): ServiceKey => {
-    const serviceFromUrl = searchParams.get('service') || initialService
-    if (serviceFromUrl === 'lead' || serviceFromUrl === 'lead-analysis') return 'lead-analysis'
-    if (serviceFromUrl === 'appointment') return 'appointment'
-    if (serviceFromUrl && ['doctor', 'doctor-dashboard', 'doctor dashboard', 'clinic', 'healthcare'].includes(serviceFromUrl)) return 'doctor-dashboard'
-    if (serviceFromUrl && ['doctor-desk', 'doctor desk', 'appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp', 'doctor whatsapp', 'doctor+whatsapp', 'doctor + whatsapp'].includes(serviceFromUrl)) return 'appointment-whatsapp'
-    if (serviceFromUrl === 'customer-support') return 'customer-support'
-    if (serviceFromUrl && ['tankro', 'tankro-dashboard', 'tankro dashboard', 'tank', 'tank cleaning'].includes(serviceFromUrl)) return 'tankro'
-    if (serviceFromUrl && ['pathology', 'pathology-diagnostic', 'diagnostic', 'diagnostic-center', 'diagnostic center'].includes(serviceFromUrl)) return 'pathology-diagnostic'
-    return selectedService
-  }
+  const getSelectedService = (): ServiceKey => selectedService
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -60,7 +60,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     if (!form.password) newErrors.password = 'Password is required'
     else if (form.password.length < 6) newErrors.password = 'Password must be at least 6 characters'
     
-    const service = getServiceFromUrl()
+    const service = getSelectedService()
     if (!service) newErrors.service = 'Invalid service selected'
 
     setErrors(newErrors)
@@ -73,8 +73,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
 
     setLoading(true)
     
-    // Get service directly from URL to ensure we have it
-    const service = getServiceFromUrl()
+    const service = getSelectedService()
 
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api'}/auth/register`, {
@@ -137,6 +136,24 @@ export function SignupForm({ initialService }: SignupFormProps) {
           </h2>
         </div>
 
+        <label className="mb-4 block">
+          <span className="mb-2 block text-sm font-medium text-slate-600">Service</span>
+          <select
+            value={selectedService}
+            onChange={(event) => {
+              setSelectedService(event.target.value as ServiceKey)
+              if (errors.service) setErrors((prev) => ({ ...prev, service: '' }))
+            }}
+            className="h-11 w-full rounded-xl border border-slate-200/60 bg-white/60 px-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-500/40"
+          >
+            <option value="">Select a service</option>
+            {SERVICE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+          {errors.service && <p className="mt-1 text-sm text-red-500">{errors.service}</p>}
+        </label>
+
         {/* Name */}
         <div className="mb-4">
           <div className="flex items-center gap-2 border border-slate-200/60 rounded-xl px-3 py-2 bg-white/60 backdrop-blur-sm">
@@ -184,9 +201,6 @@ export function SignupForm({ initialService }: SignupFormProps) {
           </div>
           {errors.password && <p className="text-sm text-red-500 mt-1">{errors.password}</p>}
         </div>
-
-        {/* Service error */}
-        {errors.service && <p className="text-sm text-red-500 mb-4">{errors.service}</p>}
 
         {/* Button */}
         <motion.button

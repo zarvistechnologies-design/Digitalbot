@@ -5,7 +5,7 @@ import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/ap
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertTriangle, BarChart3, BookOpen, Bot, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
+import { AlertTriangle, BarChart3, BookOpen, Bot, Cable, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -164,16 +164,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
     }
     if (user?.selectedService === 'appointment' || isAppointmentWhatsApp || isDoctorDashboard) {
-      if (isDoctorDashboard) {
-        serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
-        serviceItems.push({ name: 'Lead Analysis', href: '/dashboard/lead-analysis', icon: Users });
-        serviceItems.push({ name: 'System Agent', href: '/dashboard/system-agent', icon: Settings });
-      }
       serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
       serviceItems.push({ name: 'Book Appointment', href: '/dashboard/book-appointment', icon: PlusCircle });
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
       serviceItems.push({ name: 'Share Schedule', href: '/dashboard/share-schedule', icon: Share2 });
+      if (isDoctorDashboard) {
+        serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });
+      }
       if (isAppointmentWhatsApp) {
         serviceItems.push({ name: 'Patient Inbox', href: '/dashboard/doctor-whatsapp', icon: MessageSquare });
       }
