@@ -13,12 +13,14 @@ import {
     Download,
     Headphones,
     History,
+    Info,
     Loader2,
     Mail,
     Menu,
     MessageSquare,
     Phone,
     Plus,
+    RefreshCw,
     Shield,
     TrendingUp,
     Wallet,
@@ -64,6 +66,18 @@ interface UsageSummary {
   creditsPurchased: number;
   amountPaid: number;
   purchaseCount: number;
+}
+
+interface AutoRechargeSettings {
+  enabled: boolean;
+  thresholdCredits: number;
+  rechargeAmount: number;
+  providerReady: boolean;
+  canAutoCharge: boolean;
+  status: 'disabled' | 'provider_not_configured' | 'authorization_required' | 'mandate_pending' | 'active';
+  tokenStatus?: string;
+  lastTriggeredAt: string | null;
+  lastError: string;
 }
 
 const toDateInputValue = (date: Date) => {
@@ -117,6 +131,8 @@ export default function Billing() {
   const [usageLoading, setUsageLoading] = useState(false);
   const usageRequestId = useRef(0);
   const [usageError, setUsageError] = useState('');
+  const [autoRechargeSaving, setAutoRechargeSaving] = useState(false);
+  const [autoRechargeMessage, setAutoRechargeMessage] = useState('');
   const [usageSummary, setUsageSummary] = useState<UsageSummary>({
     creditsSpent: 0,
     callCount: 0,
@@ -125,6 +141,16 @@ export default function Billing() {
     creditsPurchased: 0,
     amountPaid: 0,
     purchaseCount: 0
+  });
+  const [autoRecharge, setAutoRecharge] = useState<AutoRechargeSettings>({
+    enabled: false,
+    thresholdCredits: 50,
+    rechargeAmount: 500,
+    providerReady: false,
+    canAutoCharge: false,
+    status: 'disabled',
+    lastTriggeredAt: null,
+    lastError: ''
   });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successData, setSuccessData] = useState<{
@@ -188,6 +214,10 @@ export default function Billing() {
     {
       question: "What payment methods are accepted?",
       answer: "Razorpay supports cards, UPI, net banking and supported digital wallets."
+    },
+    {
+      question: "Can AutoPay recharge automatically?",
+      answer: "AutoPay settings can be saved here. Automatic debit starts only after Razorpay mandate support is configured and authorised for the customer."
     }
   ];
 
@@ -196,6 +226,7 @@ export default function Billing() {
     fetchUserInfo();
     fetchCreditBalance();
     fetchTransactions();
+    fetchAutoRechargeSettings();
     if (activeView === 'calls') {
       fetchCallHistory();
       fetchCallStatistics();
@@ -281,7 +312,10 @@ export default function Billing() {
         setUserCredits(cached);
         return;
       }
-      const response = await fetch(`${API_BASE_URL}/billing/credits/balance?userId=${userId}`);
+      const token = getAuthToken();
+      const response = await fetch(`${API_BASE_URL}/billing/credits/balance?userId=${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         if (response.status === 403) {
@@ -303,6 +337,165 @@ export default function Billing() {
       }
     } catch (error) {
       console.error('❌ Error fetching credit balance:', error);
+    }
+  };
+
+  const fetchAutoRechargeSettings = async () => {
+    try {
+      const token = getAuthToken();
+      if (!token) return;
+
+      const cached = readFreshCache<AutoRechargeSettings>(['billing', 'autoRecharge'], 30_000);
+      if (cached) {
+        setAutoRecharge(cached);
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}/billing/auto-recharge/settings`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Unable to load AutoPay settings');
+      }
+
+      setAutoRecharge(result.data);
+      queryClient.setQueryData(['billing', 'autoRecharge'], result.data);
+    } catch (error) {
+      console.error('Error fetching AutoPay settings:', error);
+    }
+  };
+
+  const saveAutoRechargeSettings = async () => {
+    try {
+      setAutoRechargeSaving(true);
+      setAutoRechargeMessage('');
+
+      const token = getAuthToken();
+      if (!token) throw new Error('Please log in again');
+
+      const response = await fetch(`${API_BASE_URL}/billing/auto-recharge/settings`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          enabled: autoRecharge.enabled,
+          thresholdCredits: autoRecharge.thresholdCredits,
+          rechargeAmount: autoRecharge.rechargeAmount
+        })
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Unable to save AutoPay settings');
+      }
+
+      setAutoRecharge(result.data);
+      queryClient.setQueryData(['billing', 'autoRecharge'], result.data);
+      setAutoRechargeMessage(
+        result.data.canAutoCharge
+          ? 'AutoPay is active.'
+          : result.data.enabled
+            ? 'Settings saved. Razorpay mandate setup is still required before automatic debit can run.'
+            : 'AutoPay is turned off.'
+      );
+    } catch (error) {
+      setAutoRechargeMessage(error instanceof Error ? error.message : 'Unable to save AutoPay settings');
+    } finally {
+      setAutoRechargeSaving(false);
+    }
+  };
+
+  const authorizeAutoPay = async () => {
+    try {
+      setAutoRechargeSaving(true);
+      setAutoRechargeMessage('');
+
+      const token = getAuthToken();
+      if (!token) throw new Error('Please log in again');
+
+      const res = await initializeRazorpay();
+      if (!res) {
+        throw new Error('Razorpay SDK failed to load. Please check your internet connection.');
+      }
+
+      const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/autopay/create-authorization-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          thresholdCredits: autoRecharge.thresholdCredits,
+          rechargeAmount: autoRecharge.rechargeAmount
+        })
+      });
+      const orderResult = await orderResponse.json();
+      if (!orderResponse.ok || !orderResult.success) {
+        throw new Error(orderResult.message || 'Unable to start AutoPay authorization');
+      }
+
+      const options = {
+        key: orderResult.data.keyId,
+        order_id: orderResult.data.orderId,
+        customer_id: orderResult.data.customerId,
+        recurring: '1',
+        name: 'DigitalBot',
+        description: `Authorize AutoPay up to ${formatInr(orderResult.data.maxAmount)}`,
+        handler: async function (response: any) {
+          try {
+            const verifyResponse = await fetch(`${API_BASE_URL}/billing/razorpay/autopay/verify-authorization`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            });
+            const verifyResult = await verifyResponse.json();
+            if (!verifyResponse.ok || !verifyResult.success) {
+              throw new Error(verifyResult.message || 'AutoPay authorization failed');
+            }
+
+            setAutoRecharge(verifyResult.data);
+            queryClient.setQueryData(['billing', 'autoRecharge'], verifyResult.data);
+            setAutoRechargeMessage(
+              verifyResult.data.canAutoCharge
+                ? 'AutoPay mandate is active.'
+                : 'Mandate saved. Razorpay may take time to confirm it before automatic debit starts.'
+            );
+          } catch (error) {
+            setAutoRechargeMessage(error instanceof Error ? error.message : 'AutoPay authorization failed');
+          } finally {
+            setAutoRechargeSaving(false);
+          }
+        },
+        prefill: {
+          name: userInfo.name || 'Customer',
+          email: userInfo.email,
+          contact: userInfo.assignedPhoneNumber,
+        },
+        theme: {
+          color: '#2563eb',
+        },
+        modal: {
+          ondismiss: function () {
+            setAutoRechargeSaving(false);
+          },
+        },
+      };
+
+      // @ts-ignore
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } catch (error) {
+      setAutoRechargeMessage(error instanceof Error ? error.message : 'Unable to authorize AutoPay');
+      setAutoRechargeSaving(false);
     }
   };
 
@@ -350,7 +543,10 @@ export default function Billing() {
         params.set('endDate', range.endDate);
         params.set('timezoneOffset', String(new Date().getTimezoneOffset()));
       }
-      const response = await fetch(`${API_BASE_URL}/billing/credits/usage-summary?${params}`);
+      const token = getAuthToken();
+      const response = await fetch(`${API_BASE_URL}/billing/credits/usage-summary?${params}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       const result = await response.json();
       if (!response.ok || !result.success) {
         throw new Error(result.message || 'Unable to load usage');
@@ -475,7 +671,10 @@ export default function Billing() {
         setRecentTransactions(cached);
         return;
       }
-      const response = await fetch(`${API_BASE_URL}/billing/transactions/history?userId=${userId}&limit=10`);
+      const token = getAuthToken();
+      const response = await fetch(`${API_BASE_URL}/billing/transactions/history?userId=${userId}&limit=10`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
       
 
@@ -504,7 +703,10 @@ export default function Billing() {
         setCallHistory(cached);
         return;
       }
-      const response = await fetch(`${API_BASE_URL}/billing/calls/history?userId=${userId}&limit=10`);
+      const token = getAuthToken();
+      const response = await fetch(`${API_BASE_URL}/billing/calls/history?userId=${userId}&limit=10`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         return;
@@ -531,7 +733,10 @@ export default function Billing() {
         setCallStats(cached);
         return;
       }
-      const response = await fetch(`${API_BASE_URL}/billing/calls/statistics?userId=${userId}`);
+      const token = getAuthToken();
+      const response = await fetch(`${API_BASE_URL}/billing/calls/statistics?userId=${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       if (!response.ok) {
         console.error('❌ HTTP Error:', response.status);
         return;
@@ -1313,15 +1518,15 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       </div>
 
-      <main className="flex-1 lg:ml-60 p-4 sm:p-8 pt-20 lg:pt-8">
-        <div className="max-w-7xl mx-auto">
+      <main className="flex-1 lg:ml-60 bg-slate-50 p-4 pt-20 sm:p-8 lg:pt-8">
+        <div className="mx-auto max-w-7xl">
 
           {/* Header */}
-          <div className="mb-6">
+          <div className="mb-6 rounded-lg border border-slate-200 bg-white px-5 py-4 shadow-sm">
             {/* View Toggle Buttons */}
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-3xl font-black tracking-tight text-slate-900">
+                <h1 className="text-2xl font-bold tracking-normal text-slate-800">
                   {activeView === 'credits' ? 'Billing' : 'Call usage'}
                 </h1>
                 <p className="mt-1 text-sm text-slate-500">
@@ -1332,10 +1537,10 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                 </p>
               </div>
 
-              <div className="flex w-full gap-1 rounded-xl border border-slate-200 bg-slate-100 p-1 sm:w-auto">
+              <div className="flex w-full gap-1 rounded-lg border border-slate-200 bg-slate-100 p-1 sm:w-auto">
                 <button
                   onClick={() => setActiveView('credits')}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
                     activeView === 'credits'
                       ? 'bg-white text-blue-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900'
@@ -1346,7 +1551,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                 </button>
                 <button
                   onClick={() => setActiveView('calls')}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
                     activeView === 'calls'
                       ? 'bg-white text-blue-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900'
@@ -1439,6 +1644,112 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                 Credits are added immediately after Razorpay confirms your payment and never expire.
               </div>
             </div>
+          </div>
+
+          <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <div className="mb-2 flex items-center gap-2">
+                  <RefreshCw className="h-5 w-5 text-blue-600" />
+                  <h2 className="text-lg font-bold text-slate-900">AutoPay</h2>
+                </div>
+                <p className="text-sm text-slate-500">
+                  Recharge automatically when credits fall below your selected balance.
+                </p>
+              </div>
+
+              <label className="inline-flex cursor-pointer items-center gap-3">
+                <span className="text-sm font-semibold text-slate-600">{autoRecharge.enabled ? 'On' : 'Off'}</span>
+                <input
+                  type="checkbox"
+                  checked={autoRecharge.enabled}
+                  onChange={(event) => setAutoRecharge((current) => ({ ...current, enabled: event.target.checked }))}
+                  className="sr-only"
+                />
+                <span className={`h-7 w-12 rounded-full p-1 transition ${autoRecharge.enabled ? 'bg-blue-600' : 'bg-slate-200'}`}>
+                  <span className={`block h-5 w-5 rounded-full bg-white shadow transition ${autoRecharge.enabled ? 'translate-x-5' : ''}`} />
+                </span>
+              </label>
+            </div>
+
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <label className="block">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Trigger below</span>
+                <div className="mt-2 flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4">
+                  <input
+                    type="number"
+                    min="1"
+                    max="1000000"
+                    step="1"
+                    value={autoRecharge.thresholdCredits}
+                    onChange={(event) => setAutoRecharge((current) => ({
+                      ...current,
+                      thresholdCredits: Math.max(1, Number(event.target.value) || 1)
+                    }))}
+                    className="h-12 w-full bg-transparent text-base font-bold text-slate-900 outline-none"
+                  />
+                  <span className="text-sm font-medium text-slate-500">credits</span>
+                </div>
+              </label>
+
+              <label className="block">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Recharge amount</span>
+                <div className="mt-2 flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4">
+                  <span className="text-base font-bold text-slate-400">₹</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max="1000000"
+                    step="1"
+                    value={autoRecharge.rechargeAmount}
+                    onChange={(event) => setAutoRecharge((current) => ({
+                      ...current,
+                      rechargeAmount: Math.max(1, Number(event.target.value) || 1)
+                    }))}
+                    className="h-12 w-full bg-transparent pl-2 text-base font-bold text-slate-900 outline-none"
+                  />
+                </div>
+              </label>
+            </div>
+
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600 sm:max-w-2xl">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
+                <span>
+                  {autoRecharge.canAutoCharge
+                    ? 'AutoPay can debit automatically when the balance is below your threshold.'
+                    : autoRecharge.enabled
+                      ? autoRecharge.status === 'mandate_pending'
+                        ? 'Mandate is saved but still pending at Razorpay. Automatic debit starts after it is confirmed.'
+                        : 'Authorize the Razorpay mandate once. After that, automatic debit can run when balance is low.'
+                      : 'Turn on AutoPay to save your preferred threshold and recharge amount.'}
+                </span>
+              </div>
+              <div className="flex flex-col gap-2 sm:min-w-56">
+                <button
+                  type="button"
+                  onClick={saveAutoRechargeSettings}
+                  disabled={autoRechargeSaving}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 text-sm font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {autoRechargeSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
+                  Save settings
+                </button>
+                <button
+                  type="button"
+                  onClick={authorizeAutoPay}
+                  disabled={autoRechargeSaving || !autoRecharge.enabled}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {autoRechargeSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+                  Authorize mandate
+                </button>
+              </div>
+            </div>
+
+            {autoRechargeMessage && (
+              <p className="mt-3 text-sm font-medium text-slate-600">{autoRechargeMessage}</p>
+            )}
           </div>
 
           {/* Transaction History */}
