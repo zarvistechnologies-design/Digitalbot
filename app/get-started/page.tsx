@@ -7,7 +7,6 @@ import {
   CalendarDays,
   Headphones,
   Microscope,
-  Sparkles,
   Stethoscope,
 } from "lucide-react";
 
@@ -51,49 +50,37 @@ const services = [
 
 export default function GetStartedPage() {
   return (
-    <main className="min-h-screen bg-[#f8fafc] text-slate-950 lg:h-screen lg:overflow-hidden">
+    <main className="min-h-screen bg-white text-slate-950 lg:h-screen lg:overflow-hidden">
       <div className="grid min-h-screen lg:h-screen lg:grid-cols-[minmax(0,0.98fr)_minmax(560px,1.02fr)]">
-        <section className="hidden h-screen overflow-hidden bg-slate-950 lg:flex lg:flex-col">
-          <div className="px-10 pb-5 pt-9 xl:px-14 xl:pt-11">
-            <div className="flex items-center justify-between gap-6">
-              <Link href="/" className="inline-flex items-center">
-                <Image
-                  src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
-                  alt="DigitalBot.AI"
-                  width={1450}
-                  height={460}
-                  priority
-                  className="h-14 w-auto sm:h-16 drop-shadow-[0_2px_8px_rgba(255,255,255,0.2)]"
-                />
-              </Link>
-              <span className="inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white ring-1 ring-white/15">
-                <Sparkles className="h-4 w-4 text-orange-300" />
-                Service workspaces
-              </span>
-            </div>
-
-            <div className="mt-7 max-w-2xl">
-              <h1 className="text-4xl font-bold leading-tight text-white">
-                Choose the workspace built for your team.
-              </h1>
-              <p className="mt-3 max-w-xl text-base leading-7 text-slate-300">
-                Start with one focused dashboard, then connect your team, records, and voice workflow.
-              </p>
-            </div>
-          </div>
-
-          <div className="min-h-0 flex-1 px-10 pb-8 xl:px-14">
-            <div className="relative h-full overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] shadow-2xl shadow-black/20">
-              <Image
+        <section className="hidden h-screen overflow-hidden border-r border-slate-200 bg-white lg:flex lg:flex-col">
+          <div className="relative min-h-0 flex-1">
+            <Image
               src="/images/get-started-team-v2.png"
               alt="A service operations team collaborating in a modern office"
               fill
               priority
               sizes="(min-width: 1280px) 50vw, 50vw"
               quality={82}
-              className="object-contain object-top"
+              className="object-cover object-center"
+            />
+            <Link href="/" className="absolute left-8 top-5 z-10 inline-flex">
+              <Image
+                src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
+                alt="DigitalBot.AI"
+                width={1450}
+                height={460}
+                priority
+                className="h-9 w-auto"
               />
-            </div>
+            </Link>
+          </div>
+          <div className="shrink-0 px-10 py-7 xl:px-12 xl:py-8">
+            <h1 className="max-w-xl text-3xl font-bold leading-tight text-slate-950 xl:text-4xl">
+              Choose the workspace built for your team.
+            </h1>
+            <p className="mt-3 max-w-xl text-base leading-7 text-slate-600">
+              Start with one focused dashboard, then connect your team, records, and voice workflow.
+            </p>
           </div>
         </section>
 

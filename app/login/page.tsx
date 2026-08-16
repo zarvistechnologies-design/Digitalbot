@@ -1,6 +1,6 @@
 'use client';
 import { clearCache } from '@/lib/cache';
-import { ArrowLeft, ArrowRight, Building2, Lock, Mail } from 'lucide-react';
+import { ArrowLeft, Lock, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -90,53 +90,43 @@ export default function LoginPage(): JSX.Element {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
 
   return (
-    <main className="min-h-screen bg-[#f8fafc] text-slate-950">
+    <main className="min-h-screen bg-white text-slate-950">
       <div className="grid min-h-screen lg:h-screen lg:grid-cols-[minmax(0,1.08fr)_minmax(460px,0.92fr)] lg:overflow-hidden">
-        <section className="hidden h-screen overflow-hidden bg-slate-950 lg:flex lg:flex-col">
-          <div className="relative z-10 px-10 pb-6 pt-10 xl:px-14 xl:pt-12">
-            <div className="flex items-center justify-between gap-6">
-              <Link href="/" className="inline-flex items-center">
-                <Image
-                  src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
-                  alt="DigitalBot.AI"
-                  width={1450}
-                  height={460}
-                  priority
-                  className="h-14 w-auto sm:h-16 drop-shadow-[0_2px_8px_rgba(255,255,255,0.2)]"
-                />
-              </Link>
-              <span className="inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white ring-1 ring-white/15">
-                <Building2 className="h-4 w-4 text-orange-300" />
-                Multi-service workspaces
-              </span>
-            </div>
-            <div className="mt-8 max-w-2xl">
-              <h1 className="text-4xl font-bold leading-tight text-white">
-                One login for every DigitalBot dashboard.
-              </h1>
-              <p className="mt-3 max-w-xl text-base leading-7 text-slate-300">
-                Access your doctors, diagnostics, events, leads, and support workspace from one secure account.
-              </p>
-            </div>
-          </div>
-          <div className="min-h-0 flex-1 px-10 pb-8 xl:px-14">
-            <div className="relative h-full overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] shadow-2xl shadow-black/20">
-              <Image
+        <section className="hidden h-screen overflow-hidden border-r border-slate-200 bg-white lg:flex lg:flex-col">
+          <div className="relative min-h-0 flex-1">
+            <Image
               src="/images/login-professionals.png"
               alt="Doctors, engineers, and business professionals"
               fill
               priority
               sizes="(min-width: 1280px) 55vw, 50vw"
               quality={82}
-              className="object-contain object-top"
+              className="object-cover object-center"
+            />
+            <Link href="/" className="absolute left-8 top-5 z-10 inline-flex">
+              <Image
+                src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
+                alt="DigitalBot.AI"
+                width={1450}
+                height={460}
+                priority
+                className="h-9 w-auto"
               />
-            </div>
+            </Link>
+          </div>
+          <div className="shrink-0 px-10 py-7 xl:px-12 xl:py-8">
+            <h1 className="max-w-xl text-3xl font-bold leading-tight text-slate-950 xl:text-4xl">
+              One login for every DigitalBot dashboard.
+            </h1>
+            <p className="mt-3 max-w-xl text-base leading-7 text-slate-600">
+              Access your doctors, diagnostics, events, leads, and support workspace from one secure account.
+            </p>
           </div>
         </section>
 
-        <section className="flex items-center justify-center px-4 py-8 sm:px-6 lg:px-10">
+        <section className="flex min-h-screen items-center justify-center bg-white px-5 py-8 sm:px-8 lg:min-h-0 lg:px-12">
           <div className="w-full max-w-md">
-            <div className="mb-8 flex items-center justify-between gap-4">
+            <div className="mb-8 flex items-center gap-4">
               <Link
                 href="/"
                 className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-orange-700"
@@ -144,16 +134,9 @@ export default function LoginPage(): JSX.Element {
                 <ArrowLeft className="h-4 w-4" />
                 Back
               </Link>
-              <Link
-                href="/get-started"
-                className="inline-flex items-center gap-2 rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-orange-300 hover:text-orange-700"
-              >
-                Get Started
-                <ArrowRight className="h-4 w-4" />
-              </Link>
             </div>
 
-            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/70 sm:p-8">
+            <div className="w-full rounded-xl border border-slate-200 bg-white p-6 shadow-[0_12px_36px_rgba(15,23,42,0.07)] sm:p-8">
               <div className="mb-7">
                 <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Login</p>
                 <h2 className="mt-3 text-3xl font-bold text-slate-950">Welcome back</h2>
@@ -210,7 +193,7 @@ export default function LoginPage(): JSX.Element {
 
               <p className="mt-6 text-center text-sm text-slate-500">
                 New here?{' '}
-                <Link href="/get-started" className="font-bold text-orange-700 hover:text-orange-800">
+                <Link href="/get-started" className="ml-2 inline-flex items-center rounded-md border border-orange-600 bg-white px-3 py-1.5 font-bold text-orange-700 transition hover:bg-orange-50">
                   Choose a service
                 </Link>
               </p>

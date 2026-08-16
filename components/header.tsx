@@ -409,9 +409,6 @@ export function Header() {
                             >
                                 Login
                             </Link>
-                            <Link href="/get-started" className="hdr-cta">
-                                <Sparkles className="w-3.5 h-3.5" /> Get Started
-                            </Link>
                         </div>
 
                         {/* Mobile hamburger */}
@@ -552,14 +549,7 @@ export function Header() {
                                     </div>
 
                                     {/* Mobile CTA */}
-                                    <div className="grid grid-cols-2 gap-2 px-2 pb-2 pt-2">
-                                        <Link
-                                            href="/get-started"
-                                            className="flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-3 py-3 text-sm font-semibold text-white shadow-md shadow-orange-600/20"
-                                            onClick={() => setIsMenuOpen(false)}
-                                        >
-                                            <Sparkles className="h-4 w-4" /> Get Started
-                                        </Link>
+                                    <div className="grid grid-cols-1 gap-2 px-2 pb-2 pt-2">
                                         <Link
                                             href="/login"
                                             className="flex items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm font-semibold text-slate-700"
