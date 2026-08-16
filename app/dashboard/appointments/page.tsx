@@ -1225,33 +1225,30 @@ export default function AppointmentsPage() {
         <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 pt-20 lg:pt-8">
           <div className="max-w-[1400px] mx-auto space-y-8">
             {/* Hospital Header */}
-            <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-600 via-orange-600 to-pink-500 opacity-90"></div>
-              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20"></div>
-
-              <div className="relative z-10 p-4 sm:p-6 md:p-8">
-                <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
-                  <div className="flex items-start gap-3 sm:gap-5">
-                    <div className="bg-white/20 backdrop-blur-md p-3 sm:p-5 rounded-2xl border border-white/30 shadow-xl">
-                      <Building2 className="w-8 h-8 sm:w-12 sm:h-12 text-white" />
+            <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+              <div className="p-5 sm:p-6 md:p-8">
+                <div className="flex flex-col items-start justify-between gap-5 sm:flex-row">
+                  <div className="flex items-start gap-4 sm:gap-5">
+                    <div className="rounded-xl border border-orange-100 bg-orange-50 p-3 shadow-sm sm:p-4">
+                      <Building2 className="h-8 w-8 text-orange-600 sm:h-10 sm:w-10" />
                     </div>
                     <div>
-                      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">{clinicName}</h1>
-                      <p className="text-orange-100 text-sm sm:text-lg font-medium mb-4">
+                      <h1 className="clinic-banner-title mb-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl md:text-4xl">{clinicName}</h1>
+                      <p className="mb-5 text-sm font-medium text-slate-500 sm:text-base">
                         Advanced Appointment Management System
                       </p>
-                      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3">
-                        <div className="bg-white/20 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border border-white/30">
-                          <div className="text-white/80 text-[10px] sm:text-xs font-medium mb-0.5">Total Appointments</div>
-                          <div className="text-white text-lg sm:text-2xl font-bold">{appointments.length}</div>
+                      <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
+                        <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+                          <div className="mb-1 text-[11px] font-semibold text-slate-500 sm:text-xs">Total Appointments</div>
+                          <div className="text-xl font-bold text-slate-950 sm:text-2xl">{appointments.length}</div>
                         </div>
-                        <div className="bg-white/20 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border border-white/30">
-                          <div className="text-white/80 text-[10px] sm:text-xs font-medium mb-0.5">Active Doctors</div>
-                          <div className="text-white text-lg sm:text-2xl font-bold">{doctors.length}</div>
+                        <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+                          <div className="mb-1 text-[11px] font-semibold text-slate-500 sm:text-xs">Active Doctors</div>
+                          <div className="text-xl font-bold text-slate-950 sm:text-2xl">{doctors.length}</div>
                         </div>
-                        <div className="bg-white/20 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border border-white/30">
-                          <div className="text-white/80 text-[10px] sm:text-xs font-medium mb-0.5">Today's Schedule</div>
-                          <div className="text-white text-lg sm:text-2xl font-bold">
+                        <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+                          <div className="mb-1 text-[11px] font-semibold text-slate-500 sm:text-xs">Today&apos;s Schedule</div>
+                          <div className="text-xl font-bold text-slate-950 sm:text-2xl">
                             {
                               appointments.filter(
                                 (a) => new Date(a.date).toDateString() === new Date().toDateString()
@@ -1259,10 +1256,10 @@ export default function AppointmentsPage() {
                             }
                           </div>
                         </div>
-                        <div className="bg-white/20 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border border-white/30">
-                          <div className="text-white/80 text-[10px] sm:text-xs font-medium mb-0.5">AI Auto-Created</div>
-                          <div className="text-white text-lg sm:text-2xl font-bold flex items-center gap-1">
-                            <Zap className="w-5 h-5" />
+                        <div className="rounded-lg border border-orange-100 bg-orange-50 px-4 py-3">
+                          <div className="mb-1 text-[11px] font-semibold text-orange-700 sm:text-xs">AI Auto-Created</div>
+                          <div className="flex items-center gap-1 text-xl font-bold text-slate-950 sm:text-2xl">
+                            <Zap className="h-5 w-5 text-orange-600" />
                             {appointments.filter((a) => a.source === "millis_ai_auto").length}
                           </div>
                         </div>
@@ -1270,11 +1267,13 @@ export default function AppointmentsPage() {
                     </div>
                   </div>
                   <button
+                    type="button"
                     onClick={() => void fetchAppointments()}
                     disabled={isFetching}
-                    className="bg-white/20 backdrop-blur-md hover:bg-white/30 p-3 rounded-xl transition border border-white/30 disabled:opacity-50"
+                    aria-label="Refresh appointments"
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-slate-200 bg-white text-orange-600 shadow-sm transition hover:border-orange-200 hover:bg-orange-50 disabled:opacity-50"
                   >
-                    <RefreshCw className={`w-6 h-6 text-white ${isFetching ? "animate-spin" : ""}`} />
+                    <RefreshCw className={`h-5 w-5 ${isFetching ? "animate-spin" : ""}`} />
                   </button>
                 </div>
               </div>

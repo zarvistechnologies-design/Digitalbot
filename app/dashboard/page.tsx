@@ -322,7 +322,7 @@ export default function AnalyticsOverview() {
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       </div>
 
-      <main className="flex-1 lg:ml-60 p-4 sm:p-6 md:p-8 pt-20 lg:pt-8">
+      <main className="flex-1 lg:ml-60 p-4 sm:p-6 lg:p-6 pt-20 lg:pt-8">
         <div className="container mx-auto max-w-7xl">
 
           {/* Header */}

@@ -45,7 +45,7 @@ export function Footer() {
                   height={70}
                   loading="lazy"
                   quality={95}
-                  className="h-16 w-auto relative z-10 transition-all duration-500 group-hover:scale-110"
+                  className="h-20 w-auto relative z-10 transition-all duration-500 group-hover:scale-110"
                 />
               </Link>
             </div>

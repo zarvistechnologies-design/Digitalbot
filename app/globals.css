@@ -104,6 +104,12 @@
 }
 
 /* ─── Glassmorphism Utility Classes ─── */
+.dashboard-shell h1:not(.clinic-banner-title) {
+  color: #ea580c !important;
+  background-image: none !important;
+  -webkit-text-fill-color: #ea580c !important;
+}
+
 @layer utilities {
   .glass {
     background: var(--glass-bg);

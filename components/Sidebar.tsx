@@ -1,11 +1,12 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { akiaraAPI, callsAPI, doctorsAPI, promptsAPI, tankroAPI } from '@/lib/api';
+import { akiaraAPI, callsAPI, connectorsAPI, doctorsAPI, promptsAPI, tankroAPI, type VoiceConnector } from '@/lib/api';
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertTriangle, BarChart3, BookOpen, Bot, Cable, Calendar, CalendarCheck, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
+import { AlertTriangle, BarChart3, BookOpen, Bot, Cable, Calendar, CalendarCheck, ChevronDown, ChevronUp, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -26,12 +27,47 @@ interface User {
 
 let cachedDashboardUser: User | null = null;
 
+const CONNECTOR_SERVICES = new Set([
+  'doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare',
+  'pathology-diagnostic', 'lead-analysis', 'lead', 'customer-support',
+  'event-booking-crm', 'event booking crm', 'event-booking', 'event', 'events',
+  'booking-crm', 'booking crm', 'booking',
+]);
+
+function ConnectedAgentNumbers({ connectors }: { connectors: VoiceConnector[] }) {
+  if (connectors.length === 0) return null;
+
+  return (
+    <div className="mt-3 border-t border-zinc-200 pt-3">
+      <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase text-emerald-700">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        Voice connected
+      </div>
+      <div className="space-y-2.5">
+        {connectors.map((connector) => (
+          <div key={connector.id} className="flex min-w-0 items-start gap-2.5">
+            <PhoneCall className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" />
+            <div className="min-w-0">
+              <p className="truncate text-xs font-bold text-zinc-900">{connector.externalPhoneNumber}</p>
+              <p className="truncate text-[11px] text-zinc-500">
+                {connector.externalAgentName || connector.name}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const [user, setUser] = useState<User | null>(cachedDashboardUser);
+  const [connectedAgents, setConnectedAgents] = useState<VoiceConnector[]>([]);
   const [mounted, setMounted] = useState(Boolean(cachedDashboardUser));
+  const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -41,6 +77,36 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       setUser(cachedDashboardUser);
     }
   }, []);
+
+  useEffect(() => {
+    const selectedService = String(user?.selectedService || '').toLowerCase();
+    if (!CONNECTOR_SERVICES.has(selectedService)) {
+      setConnectedAgents([]);
+      return;
+    }
+
+    let cancelled = false;
+    const loadConnectedAgents = async () => {
+      try {
+        const response = await connectorsAPI.list();
+        if (cancelled) return;
+        setConnectedAgents((response.data.connectors || []).filter(
+          (connector) => connector.status === 'active' && Boolean(connector.externalAgentId) && Boolean(connector.externalPhoneNumber)
+        ));
+      } catch {
+        if (!cancelled) setConnectedAgents([]);
+      }
+    };
+
+    void loadConnectedAgents();
+    const refreshTimer = window.setInterval(loadConnectedAgents, 30_000);
+    window.addEventListener('focus', loadConnectedAgents);
+    return () => {
+      cancelled = true;
+      window.clearInterval(refreshTimer);
+      window.removeEventListener('focus', loadConnectedAgents);
+    };
+  }, [user?.selectedService]);
 
   const prefetchDashboardData = (href: string) => {
     router.prefetch(href);
@@ -125,6 +191,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     { name: 'Dashboard', href: '/dashboard/pathology', icon: LayoutDashboard },
     { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
     { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
+    { name: 'Connectors', href: '/dashboard/connectors', icon: Cable },
     { name: 'Bookings', href: '/dashboard/pathology/bookings', icon: ClipboardList },
     { name: 'Patients', href: '/dashboard/pathology/patients', icon: Users },
     { name: 'Sample Tracking', href: '/dashboard/pathology/samples', icon: TestTube2 },
@@ -157,6 +224,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     const selectedService = (user?.selectedService || '').toLowerCase();
     const isAppointmentWhatsApp = ['appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp'].includes(selectedService);
     const isDoctorDashboard = ['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare'].includes(selectedService);
+    const connectorServices = new Set(['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare', 'lead-analysis', 'lead', 'customer-support', 'event-booking-crm', 'event booking crm', 'event-booking', 'event', 'events', 'booking-crm', 'booking crm', 'booking']);
     const serviceItems = [];
     if (user?.selectedService === 'lead-analysis' || user?.selectedService === 'lead') {
       serviceItems.push({ name: 'Analyzer', href: '/dashboard/leads', icon: BarChart3 });
@@ -217,6 +285,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Bulk Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Follow-ups', href: '/dashboard/booking-crm/follow-ups', icon: ClipboardList });
     }
+    if (connectorServices.has(selectedService) && !serviceItems.some((item) => item.href === '/dashboard/connectors')) {
+      serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });
+    }
     if (['casino', 'ballys', "bally's casino", 'ballys-casino'].includes(selectedService)) {
       serviceItems.push({ name: 'Reservations', href: '/dashboard/casino-reservations', icon: CalendarCheck });
       serviceItems.push({ name: 'VIP Guests', href: '/dashboard/casino-vip-guests', icon: Crown });
@@ -246,196 +317,159 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     router.push('/');
   };
 
-  // Wait for client-side mount to prevent hydration mismatch
-  if (!mounted) {
-    // Return a loading skeleton that matches the structure
-    return (
-      <>
-        {/* Desktop Sidebar Skeleton */}
-        <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:z-40">
-          <div className="flex flex-col grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
-            <div className="flex items-center shrink-0 px-4">
-              <h1 className="text-2xl font-bold text-orange-600">
-                DigitalBot
-              </h1>
+  const isNavigationActive = (href: string) =>
+    href === '/dashboard'
+      ? pathname === href
+      : pathname === href || pathname.startsWith(`${href}/`);
+
+  const renderSidebarContent = (mobile = false) => (
+    <div className="flex h-full min-h-0 flex-col bg-white">
+      <div className="flex h-16 shrink-0 items-center justify-between border-b border-zinc-200 px-6">
+        <Link href="/dashboard" aria-label="DigitalBot dashboard" className="text-xl font-bold tracking-tight text-zinc-950">
+          <span className="text-orange-600">Digital</span>Bot
+        </Link>
+        {mobile && (
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close navigation"
+            className="grid h-9 w-9 place-items-center rounded-md text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
+      </div>
+
+      <div className="shrink-0 px-6 pb-2 pt-4">
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400">Workspace</p>
+      </div>
+
+      <nav className="min-h-0 flex-1 space-y-1 overflow-y-auto px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {navigation.map((item) => {
+          const isActive = isNavigationActive(item.href);
+          return (
+            <Link
+              key={`${item.name}-${item.href}`}
+              href={item.href}
+              onMouseEnter={() => prefetchDashboardData(item.href)}
+              onFocus={() => prefetchDashboardData(item.href)}
+              onClick={() => mobile && setSidebarOpen(false)}
+              className={cn(
+                'group relative flex min-h-10 items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold transition-colors',
+                isActive
+                  ? 'bg-orange-50 text-orange-700'
+                  : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950'
+              )}
+            >
+              {isActive && <span className="absolute inset-y-2 left-0 w-1 rounded-r-full bg-orange-600" />}
+              <item.icon
+                className={cn(
+                  'h-[18px] w-[18px] shrink-0',
+                  isActive ? 'text-orange-600' : 'text-zinc-400 group-hover:text-zinc-700'
+                )}
+              />
+              <span className="truncate">{item.name}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      {user && (
+        <div className="relative shrink-0 border-t border-zinc-200 px-6 py-3">
+          {profileOpen && (
+            <div className="absolute bottom-[calc(100%+8px)] left-6 right-6 z-10 rounded-lg border border-zinc-200 bg-white p-3 shadow-xl">
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-zinc-900 text-xs font-bold text-white">
+                  {String(user.name || user.email || 'DB').slice(0, 2).toUpperCase()}
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-bold text-zinc-950">{user.name || 'Workspace user'}</p>
+                  <p className="truncate text-xs text-zinc-500">{user.email}</p>
+                </div>
+              </div>
+              <p className="mt-3 truncate text-[10px] font-semibold uppercase tracking-wide text-orange-700">
+                {getAssignedServiceLabel()}
+              </p>
+              {user.assignedPhoneNumber && (
+                <div className="mt-2 flex min-w-0 items-center gap-2 text-xs text-zinc-600">
+                  <PhoneCall className="h-3.5 w-3.5 shrink-0" />
+                  <span className="truncate font-semibold">{user.assignedPhoneNumber}</span>
+                </div>
+              )}
+              <ConnectedAgentNumbers connectors={connectedAgents} />
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="mt-3 flex h-9 w-full items-center justify-center gap-2 rounded-md bg-zinc-900 px-3 text-xs font-semibold text-white transition-colors hover:bg-rose-700"
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </button>
             </div>
-            <div className="mt-8 flex-1 px-2 space-y-2">
-              {/* Loading skeleton */}
-              <div className="h-10 bg-gray-200 rounded-lg animate-pulse"></div>
-              <div className="h-10 bg-gray-200 rounded-lg animate-pulse"></div>
-              <div className="h-10 bg-gray-200 rounded-lg animate-pulse"></div>
+          )}
+          <button
+            type="button"
+            onClick={() => setProfileOpen((open) => !open)}
+            aria-expanded={profileOpen}
+            className="flex w-full items-center gap-3 rounded-md px-2 py-2 text-left transition-colors hover:bg-zinc-100"
+          >
+            <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-zinc-900 text-[11px] font-bold text-white">
+              {String(user.name || user.email || 'DB').slice(0, 2).toUpperCase()}
             </div>
-          </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold text-zinc-900">{user.name || 'Workspace user'}</p>
+              <p className="truncate text-[11px] text-zinc-500">View profile</p>
+            </div>
+            {profileOpen ? <ChevronDown className="h-4 w-4 shrink-0 text-zinc-400" /> : <ChevronUp className="h-4 w-4 shrink-0 text-zinc-400" />}
+          </button>
         </div>
-      </>
+      )}
+    </div>
+  );
+  if (!mounted) {
+    return (
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-zinc-200 bg-white lg:flex lg:flex-col">
+        <div className="flex h-16 items-center border-b border-zinc-200 px-4">
+          <div className="h-9 w-36 animate-pulse rounded-md bg-zinc-100" />
+        </div>
+        <div className="space-y-3 p-4">
+          <div className="h-28 animate-pulse rounded-lg bg-zinc-100" />
+          <div className="h-10 animate-pulse rounded-md bg-zinc-100" />
+          <div className="h-10 animate-pulse rounded-md bg-zinc-100" />
+          <div className="h-10 animate-pulse rounded-md bg-zinc-100" />
+        </div>
+      </aside>
     );
   }
 
   return (
     <>
-      {/* Mobile overlay */}
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-zinc-200 bg-white shadow-[4px_0_18px_rgba(24,24,27,0.03)] lg:block">
+        {renderSidebarContent()}
+      </aside>
+
       <AnimatePresence>
         {sidebarOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-gray-700 bg-opacity-60 z-40 lg:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:z-40">
-        <div className="flex flex-col grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
-
-          {/* Logo */}
-          <div className="flex items-center shrink-0 px-4">
-            <h1 className="text-2xl font-bold text-orange-600">
-              DigitalBot
-            </h1>
-          </div>
-
-          {/* User Info */}
-          {user && (
-            <div className="mt-6 px-4">
-              <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <p className="text-sm font-semibold text-gray-900">{user.name}</p>
-                <p className="text-xs text-gray-600">{user.email}</p>
-                {user.assignedPhoneNumber && (
-                  <p className="text-xs text-gray-700 mt-1">
-                    <span className="font-semibold">Assigned Number:</span> {user.assignedPhoneNumber}
-                  </p>
-                )}
-                <p className="text-xs text-orange-600 mt-1 capitalize">
-                  {getAssignedServiceLabel()}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Navigation */}
-          <nav className="mt-8 flex-1 px-2 space-y-2">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onMouseEnter={() => prefetchDashboardData(item.href)}
-                  onFocus={() => prefetchDashboardData(item.href)}
-                  className={cn(
-                    isActive
-                      ? 'bg-orange-600 text-white shadow-md'
-                      : 'text-gray-700 hover:text-orange-600 hover:bg-white',
-                    'group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all'
-                  )}
-                >
-                  <item.icon
-                    className={cn(
-                      isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-500',
-                      'mr-3 shrink-0 h-5 w-5'
-                    )}
-                  />
-                  {item.name}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Logout */}
-          <div className="shrink-0 flex border-t border-gray-200 p-4 mt-auto">
-            <button
-              onClick={handleLogout}
-              className="flex items-center justify-center w-full gap-2 px-4 py-2 rounded-xl bg-orange-600 text-white font-semibold shadow-lg hover:bg-orange-700 hover:shadow-xl transition transform hover:-translate-y-1"
+          <>
+            <motion.button
+              type="button"
+              aria-label="Close navigation"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-40 bg-zinc-950/45 backdrop-blur-[2px] lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+            <motion.aside
+              initial={{ x: -300 }}
+              animate={{ x: 0 }}
+              exit={{ x: -300 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 240 }}
+              className="fixed inset-y-0 left-0 z-50 w-[280px] max-w-[86vw] border-r border-zinc-200 bg-white shadow-2xl lg:hidden"
             >
-              <LogOut className="h-5 w-5" />
-              Logout
-            </button>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Mobile Sidebar */}
-      <AnimatePresence>
-        {sidebarOpen && (
-          <motion.div
-            initial={{ x: -300 }}
-            animate={{ x: 0 }}
-            exit={{ x: -300 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="lg:hidden fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 shadow-lg"
-          >
-            <div className="flex flex-col h-full">
-              <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-                <h1 className="text-2xl font-bold text-orange-600">
-                  DigitalBot
-                </h1>
-                <button
-                  onClick={() => setSidebarOpen(false)}
-                  className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-                >
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-
-              {user && (
-                <div className="mt-4 px-4">
-                  <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <p className="text-sm font-semibold text-gray-900">{user.name}</p>
-                    <p className="text-xs text-gray-600">{user.email}</p>
-                    <p className="text-xs text-gray-600 mt-1">
-                      Assigned Number:{user.assignedPhoneNumber}
-                    </p>
-                    <p className="text-xs text-orange-600 mt-1 capitalize">
-                      {getAssignedServiceLabel()}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              <nav className="mt-8 flex-1 px-2 space-y-2">
-                {navigation.map((item) => {
-                  const isActive = pathname === item.href;
-                  return (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onMouseEnter={() => prefetchDashboardData(item.href)}
-                      onFocus={() => prefetchDashboardData(item.href)}
-                      onClick={() => setSidebarOpen(false)}
-                      className={cn(
-                        isActive
-                          ? 'bg-orange-600 text-white shadow-md'
-                          : 'text-gray-700 hover:text-orange-600 hover:bg-white',
-                        'group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all'
-                      )}
-                    >
-                      <item.icon
-                        className={cn(
-                          isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-500',
-                          'mr-3 shrink-0 h-5 w-5'
-                        )}
-                      />
-                      {item.name}
-                    </Link>
-                  );
-                })}
-              </nav>
-
-              <div className="shrink-0 flex border-t border-gray-200 p-4 mt-auto">
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center justify-center w-full gap-2 px-4 py-2 rounded-xl bg-orange-600 text-white font-semibold shadow-lg hover:bg-orange-700 transition"
-                >
-                  <LogOut className="h-5 w-5" />
-                  Logout
-                </button>
-              </div>
-            </div>
-          </motion.div>
+              {renderSidebarContent(true)}
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
     </>
