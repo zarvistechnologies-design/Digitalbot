@@ -405,7 +405,7 @@ export function Header() {
                         <div className="hidden lg:flex items-center gap-2.5">
                             <Link
                                 href="/login"
-                                className="inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-700 hover:text-orange-600 transition-colors"
+                                className="inline-flex items-center justify-center rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm shadow-orange-500/20 transition-all hover:-translate-y-0.5 hover:bg-orange-700 hover:shadow-md hover:shadow-orange-500/25"
                             >
                                 Login
                             </Link>
@@ -552,7 +552,7 @@ export function Header() {
                                     <div className="grid grid-cols-1 gap-2 px-2 pb-2 pt-2">
                                         <Link
                                             href="/login"
-                                            className="flex items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm font-semibold text-slate-700"
+                                            className="flex items-center justify-center rounded-lg bg-orange-600 px-3 py-3 text-sm font-bold text-white shadow-sm shadow-orange-500/20 transition-colors hover:bg-orange-700"
                                             onClick={() => setIsMenuOpen(false)}
                                         >
                                             Login
