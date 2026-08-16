@@ -3,11 +3,11 @@
 import Sidebar from '@/components/Sidebar';
 import { useWebSocket } from '@/components/hooks/use-websocket';
 import { callsAPI } from '@/lib/api';
-import { CACHE_KEYS, cachedFetch, getCache, getStaleCache, invalidateCache, setCache } from '@/lib/cache';
+import { CACHE_KEYS, cachedFetch, getStaleCache, invalidateCache, setCache } from '@/lib/cache';
 import { Call, CallStats } from '@/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type AgentOption = {
   id: string;
@@ -38,10 +38,11 @@ const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = useState(true);
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
-  const [refreshInterval, setRefreshInterval] = useState(30000);
+  const [refreshInterval, setRefreshInterval] = useState(10000);
   const [isBackgroundFetching, setIsBackgroundFetching] = useState(false);
   const [newCallsCount, setNewCallsCount] = useState(0);
   const [recordingErrors, setRecordingErrors] = useState<Record<string, string>>({});
+  const syncInFlightRef = useRef(false);
 
   const getCallId = (call: any): string => {
     return String(call?.id || call?.session_id || call?.call_id || call?._id || '');
@@ -190,22 +191,22 @@ const Dashboard = () => {
     return '';
   };
 
-  const syncBookingWorkspaceCalls = async () => {
-    const rawUser = localStorage.getItem('user');
-    const user = rawUser ? JSON.parse(rawUser) : null;
-    const service = String(user?.selectedService || '').toLowerCase();
-    if (!['booking-crm', 'event-booking-crm'].includes(service)) return;
+  const syncConnectedWorkspaceCalls = async () => {
+    if (syncInFlightRef.current) return;
+    syncInFlightRef.current = true;
 
     try {
-      await callsAPI.syncVozonCalls(50);
+      await callsAPI.syncVozonCalls(25);
       invalidateCache(CACHE_KEYS.CALLS);
       invalidateCache(CACHE_KEYS.CALLS_STATS);
       invalidateCache(CACHE_KEYS.CALLS_AGENTS);
     } catch (syncError: any) {
       console.warn(
-        'Vozon call history sync failed:',
+        'Connected Vozon call sync failed:',
         syncError.response?.data?.details || syncError.message
       );
+    } finally {
+      syncInFlightRef.current = false;
     }
   };
   const fetchCalls = async (page = 1, limit = ALL_CALLS_LIMIT, search = '', isBackground = false) => {
@@ -307,19 +308,15 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (mounted) {
-      const cachedCalls = getCache<Call[]>(CACHE_KEYS.CALLS);
-      if (!cachedCalls || cachedCalls.length === 0) {
-        void syncBookingWorkspaceCalls().finally(() => {
-          fetchCalls();
-          fetchStats();
-          fetchAgents();
-        });
-      } else {
-        fetchStats();
-        fetchAgents();
-      }
-    }
+    if (!mounted) return;
+
+    // Always reconcile the connected provider on entry. Cached rows remain
+    // visible while the sync runs, then the workspace receives fresh details.
+    void syncConnectedWorkspaceCalls().finally(() => {
+      fetchCalls();
+      fetchStats();
+      fetchAgents();
+    });
   }, [mounted]);
 
   // WebSocket: instant update when new calls arrive
@@ -339,9 +336,11 @@ const Dashboard = () => {
 
     const interval = setInterval(() => {
       if (!loading) {
-        fetchCalls(1, ALL_CALLS_LIMIT, searchQuery, true);
-        invalidateCache(CACHE_KEYS.CALLS_STATS);
-        fetchStats();
+        void syncConnectedWorkspaceCalls().finally(() => {
+          fetchCalls(1, ALL_CALLS_LIMIT, searchQuery, true);
+          invalidateCache(CACHE_KEYS.CALLS_STATS);
+          fetchStats();
+        });
       }
     }, refreshInterval);
 
@@ -483,7 +482,7 @@ const Dashboard = () => {
     invalidateCache(CACHE_KEYS.CALLS);
     invalidateCache(CACHE_KEYS.CALLS_STATS);
     invalidateCache(CACHE_KEYS.CALLS_AGENTS);
-    await syncBookingWorkspaceCalls();
+    await syncConnectedWorkspaceCalls();
     fetchCalls();
     fetchStats();
     fetchAgents();

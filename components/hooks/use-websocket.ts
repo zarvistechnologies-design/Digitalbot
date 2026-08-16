@@ -2,7 +2,25 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-const WS_BASE_URL = process.env.NEXT_PUBLIC_WS_URL || 'wss://digital-api-46ss.onrender.com/ws';
+const DEFAULT_WS_URL = 'wss://digital-api-46ss.onrender.com/ws';
+
+function getWebSocketUrl() {
+  if (process.env.NEXT_PUBLIC_WS_URL) return process.env.NEXT_PUBLIC_WS_URL;
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!apiUrl) return DEFAULT_WS_URL;
+
+  try {
+    const url = new URL(apiUrl);
+    url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+    url.pathname = '/ws';
+    url.search = '';
+    url.hash = '';
+    return url.toString();
+  } catch {
+    return DEFAULT_WS_URL;
+  }
+}
 
 interface UseWebSocketOptions {
   /** Event types to listen for */
@@ -26,7 +44,7 @@ export function useWebSocket({ onMessage, reconnect = true }: UseWebSocketOption
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
     try {
-      const ws = new WebSocket(WS_BASE_URL);
+      const ws = new WebSocket(getWebSocketUrl());
       wsRef.current = ws;
 
       ws.onopen = () => {
