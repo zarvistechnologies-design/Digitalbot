@@ -54,39 +54,39 @@ type Lead = {
   createdAt?: string;
 };
 
+// Professional "clinical ledger" theme — muted, flat, high-legibility.
+// Every quality token pairs a soft surface with a saturated 600/700-weight
+// ink so the ledger stays scannable without leaning on gradients or fills.
 const qualityMeta = {
   hot: {
     label: "Hot leads",
     description: "High-intent opportunities requiring immediate follow-up",
     icon: Flame,
-    iconClass: "bg-rose-100 text-rose-700",
+    badgeClass: "bg-rose-50 text-rose-700 border-rose-200",
     dotClass: "bg-rose-500",
-    scoreClass: "bg-rose-50 text-rose-700",
-    cardClass: "from-rose-500 to-orange-500 text-white",
-    sectionClass: "border-rose-200 bg-gradient-to-r from-rose-50 to-orange-50",
-    rowClass: "hover:bg-rose-50/60",
+    railClass: "bg-rose-400",
+    iconClass: "bg-rose-50 text-rose-600",
+    sectionIconClass: "bg-rose-50 text-rose-600",
   },
   warm: {
     label: "Warm leads",
     description: "Interested prospects that need continued engagement",
     icon: Sun,
-    iconClass: "bg-amber-100 text-amber-700",
+    badgeClass: "bg-amber-50 text-amber-700 border-amber-200",
     dotClass: "bg-amber-500",
-    scoreClass: "bg-amber-50 text-amber-700",
-    cardClass: "from-amber-400 to-yellow-500 text-white",
-    sectionClass: "border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50",
-    rowClass: "hover:bg-amber-50/60",
+    railClass: "bg-amber-400",
+    iconClass: "bg-amber-50 text-amber-600",
+    sectionIconClass: "bg-amber-50 text-amber-600",
   },
   cold: {
     label: "Cold leads",
     description: "Early-stage prospects for long-term nurturing",
     icon: Snowflake,
-    iconClass: "bg-sky-100 text-sky-700",
+    badgeClass: "bg-sky-50 text-sky-700 border-sky-200",
     dotClass: "bg-sky-500",
-    scoreClass: "bg-sky-50 text-sky-700",
-    cardClass: "from-sky-500 to-cyan-500 text-white",
-    sectionClass: "border-sky-200 bg-gradient-to-r from-sky-50 to-cyan-50",
-    rowClass: "hover:bg-sky-50/60",
+    railClass: "bg-sky-400",
+    iconClass: "bg-sky-50 text-sky-600",
+    sectionIconClass: "bg-sky-50 text-sky-600",
   },
 } as const;
 
@@ -157,45 +157,50 @@ function LeadRow({ lead }: { lead: Lead }) {
 
   return (
     <article className="border-b border-slate-100 last:border-b-0">
-      <div className={`grid gap-4 px-4 py-4 transition-colors sm:px-5 lg:grid-cols-[1.25fr_1fr_1fr_100px_110px] lg:items-center ${meta.rowClass}`}>
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <span className={`h-2.5 w-2.5 shrink-0 rounded-full shadow-sm ${meta.dotClass}`} />
-            <h3 className="truncate font-bold text-slate-900">{lead.customerName || "Unknown customer"}</h3>
-            <span className={`rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-wide ${meta.scoreClass}`}>{quality}</span>
+      <div className="flex items-stretch gap-3 pl-3 pr-4 py-4 transition-colors hover:bg-slate-50 sm:pl-4 sm:pr-5">
+        {/* Status rail */}
+        <div className={`w-1 self-stretch rounded-full flex-shrink-0 ${meta.railClass}`} />
+
+        <div className="grid flex-1 gap-4 lg:grid-cols-[1.25fr_1fr_1fr_100px_110px] lg:items-center">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className={`h-2 w-2 shrink-0 rounded-full ${meta.dotClass}`} />
+              <h3 className="truncate font-bold text-slate-900">{lead.customerName || "Unknown customer"}</h3>
+              <span className={`rounded border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${meta.badgeClass}`}>{quality}</span>
+            </div>
+            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 pl-4 text-xs text-slate-500">
+              <span className="inline-flex items-center gap-1"><Phone className="h-3.5 w-3.5" />{formatPhone(lead.phoneNumber)}</span>
+              {lead.alternatePhoneNumber && <span className="inline-flex items-center gap-1"><Phone className="h-3.5 w-3.5" />Alt: {formatPhone(lead.alternatePhoneNumber)}</span>}
+              {lead.email && <span className="inline-flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{lead.email}</span>}
+            </div>
           </div>
-          <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 pl-4 text-xs text-slate-500">
-            <span className="inline-flex items-center gap-1"><Phone className="h-3.5 w-3.5" />{formatPhone(lead.phoneNumber)}</span>
-            {lead.alternatePhoneNumber && <span className="inline-flex items-center gap-1"><Phone className="h-3.5 w-3.5" />Alt: {formatPhone(lead.alternatePhoneNumber)}</span>}
-            {lead.email && <span className="inline-flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{lead.email}</span>}
+
+          <div className="min-w-0">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Interest</p>
+            <p className="mt-1 truncate text-sm text-slate-700">{interest}</p>
           </div>
-        </div>
 
-        <div className="min-w-0">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">Interest</p>
-          <p className="mt-1 truncate text-sm text-slate-700">{interest}</p>
-        </div>
+          <div className="min-w-0">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Customer need</p>
+            <p className="mt-1 truncate text-sm text-slate-700">{need}</p>
+          </div>
 
-        <div className="min-w-0">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">Customer need</p>
-          <p className="mt-1 truncate text-sm text-slate-700">{need}</p>
-        </div>
+          <div>
+            <span className="inline-flex rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 font-mono">
+              {Math.round(Number(lead.leadScore || 0))}/100
+            </span>
+          </div>
 
-        <div>
-          <span className={`inline-flex rounded-full px-3 py-1.5 text-xs font-black shadow-sm ${meta.scoreClass}`}>
-            {Math.round(Number(lead.leadScore || 0))}/100
-          </span>
+          <button
+            type="button"
+            onClick={() => setExpanded((value) => !value)}
+            className="inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-slate-600 transition-colors hover:text-teal-700 lg:justify-end"
+            aria-expanded={expanded}
+          >
+            {expanded ? "Hide details" : "View details"}
+            {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </button>
         </div>
-
-        <button
-          type="button"
-          onClick={() => setExpanded((value) => !value)}
-          className="inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-slate-600 transition-colors hover:text-orange-700 lg:justify-end"
-          aria-expanded={expanded}
-        >
-          {expanded ? "Hide details" : "View details"}
-          {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </button>
       </div>
 
       {expanded && (
@@ -242,7 +247,7 @@ function LeadRow({ lead }: { lead: Lead }) {
                     href={recordingUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center rounded-lg bg-orange-600 px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-700"
+                    className="inline-flex items-center rounded-lg bg-slate-900 px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
                   >
                     Open recording
                   </a>
@@ -360,100 +365,149 @@ export default function QualifiedLeadsPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50">
+    <div className="flex min-h-screen bg-slate-50">
       <button onClick={() => setSidebarOpen((value) => !value)} className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm md:hidden" aria-label="Toggle navigation"><Menu className="h-5 w-5" /></button>
-      {sidebarOpen && <div className="fixed inset-0 z-30 bg-black/40 md:hidden" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="fixed inset-0 z-30 bg-slate-950/50 md:hidden" onClick={() => setSidebarOpen(false)} />}
       <div className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} fixed inset-y-0 left-0 z-40 w-60 transition-transform duration-300 md:translate-x-0`}><Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /></div>
 
       <main className="w-full p-4 pt-20 md:ml-60 md:pt-8 sm:p-6 lg:p-8">
         <div className="mx-auto max-w-7xl space-y-6">
-          <header className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-            <div className="relative grid gap-6 bg-gradient-to-r from-indigo-600 via-sky-600 to-emerald-500 p-6 text-white sm:p-8 lg:grid-cols-[1.4fr_auto] lg:items-end">
-              <div className="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-white/15 blur-2xl" />
-              <div className="absolute -bottom-24 left-1/3 h-52 w-52 rounded-full bg-cyan-200/20 blur-2xl" />
-              <div className="relative">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-white/90">
-                  <Users className="h-4 w-4" />
-                  Lead service dashboard
-                </div>
-                <h1 className="text-3xl font-black tracking-tight sm:text-4xl">Qualified Leads</h1>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-white/85 sm:text-base">
-                  Track hot prospects, follow-up priorities, customer intent, and call recordings in one colorful sales pipeline.
-                </p>
-                <div className="mt-5 flex flex-wrap gap-2 text-xs font-bold">
-                  <span className="rounded-full bg-white/15 px-3 py-1">AI scored</span>
-                  <span className="rounded-full bg-white/15 px-3 py-1">CSV export</span>
-                  <span className="rounded-full bg-white/15 px-3 py-1">Call recording</span>
-                </div>
-              </div>
-              <div className="relative flex gap-2">
-                <button onClick={fetchLeads} disabled={loading} className="inline-flex items-center gap-2 rounded-xl bg-white/15 px-4 py-2.5 text-sm font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25 disabled:opacity-50">
-                  <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-                  Refresh
-                </button>
-                <button onClick={exportCsv} disabled={!filteredLeads.length} className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-slate-100 disabled:opacity-50">
-                  <Download className="h-4 w-4" />
-                  Export CSV
-                </button>
-              </div>
-            </div>
-            <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                <p className="text-xs font-bold uppercase tracking-wide text-slate-500">All leads</p>
-                <p className="mt-2 text-3xl font-black text-slate-950">{leads.length}</p>
-                <p className="mt-1 text-xs text-slate-500">Total qualified records</p>
-              </div>
-              <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
-                <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">Average score</p>
-                <p className="mt-2 text-3xl font-black text-emerald-700">{averageScore}/100</p>
-                <p className="mt-1 text-xs text-emerald-700/75">Lead quality health</p>
-              </div>
-              <div className="rounded-2xl border border-violet-100 bg-violet-50 p-4">
-                <p className="text-xs font-bold uppercase tracking-wide text-violet-700">Follow-ups</p>
-                <p className="mt-2 text-3xl font-black text-violet-700">{followUpCount}</p>
-                <p className="mt-1 text-xs text-violet-700/75">Require next action</p>
-              </div>
-              <div className="rounded-2xl border border-sky-100 bg-sky-50 p-4">
-                <p className="text-xs font-bold uppercase tracking-wide text-sky-700">Visible now</p>
-                <p className="mt-2 text-3xl font-black text-sky-700">{filteredLeads.length}</p>
-                <p className="mt-1 text-xs text-sky-700/75">After filters/search</p>
-              </div>
-            </div>
-          </header>
+          {/* Header — flat, dark ledger bar with a single stats strip, no gradients */}
+          <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+            <div className="p-5 sm:p-6 md:p-8">
+              <div className="flex flex-col items-start justify-between gap-5 sm:flex-row">
+                <div className="flex items-start gap-4 sm:gap-5">
+                  <div className="rounded-lg border border-slate-200 bg-slate-900 p-3 sm:p-4">
+                    <Users className="h-7 w-7 text-white sm:h-8 sm:w-8" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5">
+                      Lead Service Dashboard
+                    </p>
+                    <h1 className="mb-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Qualified Leads</h1>
+                    <p className="mb-5 max-w-2xl text-sm font-medium text-slate-500">
+                      Track hot prospects, follow-up priorities, customer intent, and call recordings in one ledger.
+                    </p>
 
+                    <div className="inline-flex flex-wrap sm:flex-nowrap items-stretch rounded-lg border border-slate-200 bg-white shadow-sm overflow-hidden">
+                      <div className="flex items-center gap-2.5 px-4 py-3 border-b sm:border-b-0 sm:border-r border-slate-200 w-1/2 sm:w-auto">
+                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-slate-100">
+                          <Users className="h-4 w-4 text-slate-500" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500 whitespace-nowrap">All Leads</div>
+                          <div className="text-lg font-bold leading-tight text-slate-950 font-mono">{leads.length}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2.5 px-4 py-3 border-b sm:border-b-0 sm:border-r border-slate-200 w-1/2 sm:w-auto">
+                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-teal-50">
+                          <Flame className="h-4 w-4 text-teal-600" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500 whitespace-nowrap">Average Score</div>
+                          <div className="text-lg font-bold leading-tight text-slate-950 font-mono">{averageScore}/100</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2.5 px-4 py-3 border-b sm:border-b-0 sm:border-r border-slate-200 w-1/2 sm:w-auto">
+                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-slate-100">
+                          <Headphones className="h-4 w-4 text-slate-500" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500 whitespace-nowrap">Follow-ups</div>
+                          <div className="text-lg font-bold leading-tight text-slate-950 font-mono">{followUpCount}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2.5 px-4 py-3 w-1/2 sm:w-auto bg-slate-50/60">
+                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-slate-100">
+                          <Search className="h-4 w-4 text-slate-500" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-[10px] font-semibold uppercase tracking-wide text-slate-500 whitespace-nowrap">Visible Now</div>
+                          <div className="text-lg font-bold leading-tight text-slate-950 font-mono">{filteredLeads.length}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={fetchLeads} disabled={loading} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50">
+                    <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+                    Refresh
+                  </button>
+                  <button onClick={exportCsv} disabled={!filteredLeads.length} className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-50">
+                    <Download className="h-4 w-4" />
+                    Export CSV
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Quality filter cards — flat surfaces, colored icon chip only */}
           <div className="grid gap-4 sm:grid-cols-3">
             {(["hot", "warm", "cold"] as LeadQuality[]).map((quality) => {
               const meta = qualityMeta[quality];
               const Icon = meta.icon;
+              const isActive = qualityFilter === quality;
               return (
                 <button
                   key={quality}
                   type="button"
-                  onClick={() => setQualityFilter(quality)}
-                  className={`rounded-2xl bg-gradient-to-br p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg ${meta.cardClass}`}
+                  onClick={() => setQualityFilter(isActive ? "all" : quality)}
+                  className={`rounded-xl border bg-white p-5 text-left shadow-sm transition hover:border-teal-300 hover:shadow-md ${isActive ? "border-slate-900 ring-1 ring-slate-900" : "border-slate-200"}`}
                 >
                   <div className="flex items-start justify-between">
-                    <span className="rounded-xl bg-white/20 p-2"><Icon className="h-5 w-5" /></span>
-                    <span className="rounded-full bg-white/20 px-2.5 py-1 text-xs font-black">{totalByQuality[quality]}</span>
+                    <span className={`rounded-lg p-2.5 ${meta.iconClass}`}><Icon className="h-5 w-5" /></span>
+                    <span className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-700 font-mono">{totalByQuality[quality]}</span>
                   </div>
-                  <p className="mt-5 text-xl font-black">{meta.label}</p>
-                  <p className="mt-1 text-sm leading-5 text-white/80">{meta.description}</p>
+                  <p className="mt-4 text-lg font-bold text-slate-900">{meta.label}</p>
+                  <p className="mt-1 text-sm leading-5 text-slate-500">{meta.description}</p>
                 </button>
               );
             })}
           </div>
 
-          <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
-            <div className="relative w-full lg:max-w-md"><Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search name, phone, company or interest" className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100" /></div>
-            <div className="flex flex-wrap gap-2">{(["all", "hot", "warm", "cold"] as const).map((quality) => <button key={quality} onClick={() => setQualityFilter(quality)} className={`rounded-lg border px-3.5 py-2 text-sm font-semibold capitalize ${qualityFilter === quality ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"}`}>{quality === "all" ? "All leads" : quality}</button>)}</div>
+          {/* Search & filters */}
+          <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative w-full lg:max-w-md">
+              <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Search name, phone, company or interest"
+                className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {(["all", "hot", "warm", "cold"] as const).map((quality) => (
+                <button
+                  key={quality}
+                  onClick={() => setQualityFilter(quality)}
+                  className={`rounded-lg border px-3.5 py-2 text-sm font-semibold capitalize transition ${qualityFilter === quality ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"}`}
+                >
+                  {quality === "all" ? "All leads" : quality}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {error && <div className="border-l-4 border-rose-500 bg-rose-50 px-4 py-3 text-sm text-rose-800">{error}</div>}
+          {error && (
+            <div className="flex items-center gap-3 rounded-lg border border-rose-200 bg-rose-50 px-5 py-3.5 text-sm text-rose-800">
+              {error}
+            </div>
+          )}
 
           {loading ? (
-            <div className="py-20 text-center"><div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-orange-600" /><p className="mt-3 text-sm text-slate-500">Loading qualified leads...</p></div>
+            <div className="py-20 text-center">
+              <RefreshCw className="mx-auto h-8 w-8 animate-spin text-teal-600" />
+              <p className="mt-3 text-sm text-slate-500">Loading qualified leads...</p>
+            </div>
           ) : filteredLeads.length === 0 ? (
-            <div className="py-20 text-center"><Users className="mx-auto h-10 w-10 text-slate-300" /><h2 className="mt-4 font-bold text-slate-900">No qualified leads found</h2><p className="mt-1 text-sm text-slate-500">Analyze calls or change the current search filters.</p></div>
+            <div className="rounded-xl border border-slate-200 bg-white py-20 text-center">
+              <Users className="mx-auto h-10 w-10 text-slate-300" />
+              <h2 className="mt-4 font-bold text-slate-900">No qualified leads found</h2>
+              <p className="mt-1 text-sm text-slate-500">Analyze calls or change the current search filters.</p>
+            </div>
           ) : (
             <div className="space-y-8">
               {(["hot", "warm", "cold"] as LeadQuality[]).map((quality) => {
@@ -463,17 +517,19 @@ export default function QualifiedLeadsPage() {
                 const Icon = meta.icon;
                 return (
                   <section key={quality}>
-                    <div className={`mb-3 flex items-center justify-between rounded-2xl border px-4 py-3 ${meta.sectionClass}`}>
+                    <div className="mb-3 flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <span className={`rounded-xl p-2 shadow-sm ${meta.iconClass}`}><Icon className="h-4 w-4" /></span>
+                        <span className={`rounded-lg p-2 ${meta.sectionIconClass}`}><Icon className="h-4 w-4" /></span>
                         <div>
-                          <h2 className="font-black text-slate-900">{meta.label}</h2>
-                          <p className="text-xs text-slate-600">{meta.description}</p>
+                          <h2 className="font-bold text-slate-900">{meta.label}</h2>
+                          <p className="text-xs text-slate-500">{meta.description}</p>
                         </div>
                       </div>
-                      <span className="rounded-full bg-white px-3 py-1 text-sm font-black text-slate-700 shadow-sm">{group.length}</span>
+                      <span className="rounded-md border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-bold text-slate-700 font-mono">{group.length}</span>
                     </div>
-                    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">{group.map((lead) => <LeadRow key={lead._id} lead={lead} />)}</div>
+                    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+                      {group.map((lead) => <LeadRow key={lead._id} lead={lead} />)}
+                    </div>
                   </section>
                 );
               })}
