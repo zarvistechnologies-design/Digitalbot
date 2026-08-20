@@ -27,13 +27,6 @@ interface User {
 
 let cachedDashboardUser: User | null = null;
 
-const CONNECTOR_SERVICES = new Set([
-  'doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare',
-  'pathology-diagnostic', 'lead-analysis', 'lead', 'customer-support',
-  'event-booking-crm', 'event booking crm', 'event-booking', 'event', 'events',
-  'booking-crm', 'booking crm', 'booking',
-]);
-
 function ConnectedAgentNumbers({ connectors }: { connectors: VoiceConnector[] }) {
   if (connectors.length === 0) return null;
 
@@ -79,8 +72,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   }, []);
 
   useEffect(() => {
-    const selectedService = String(user?.selectedService || '').toLowerCase();
-    if (!CONNECTOR_SERVICES.has(selectedService)) {
+    if (!user) {
       setConnectedAgents([]);
       return;
     }
@@ -224,7 +216,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     const selectedService = (user?.selectedService || '').toLowerCase();
     const isAppointmentWhatsApp = ['appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp'].includes(selectedService);
     const isDoctorDashboard = ['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare'].includes(selectedService);
-    const connectorServices = new Set(['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare', 'lead-analysis', 'lead', 'customer-support', 'event-booking-crm', 'event booking crm', 'event-booking', 'event', 'events', 'booking-crm', 'booking crm', 'booking']);
     const serviceItems = [];
     if (user?.selectedService === 'lead-analysis' || user?.selectedService === 'lead') {
       serviceItems.push({ name: 'Analyzer', href: '/dashboard/leads', icon: BarChart3 });
@@ -285,7 +276,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Bulk Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Follow-ups', href: '/dashboard/booking-crm/follow-ups', icon: ClipboardList });
     }
-    if (connectorServices.has(selectedService) && !serviceItems.some((item) => item.href === '/dashboard/connectors')) {
+    if (!serviceItems.some((item) => item.href === '/dashboard/connectors')) {
       serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });
     }
     if (['casino', 'ballys', "bally's casino", 'ballys-casino'].includes(selectedService)) {

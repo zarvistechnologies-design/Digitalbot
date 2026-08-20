@@ -19,7 +19,6 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 const PROVIDERS: Array<{ value: ConnectorProvider; label: string }> = [
@@ -35,26 +34,6 @@ const DEFAULT_PERMISSIONS = [
   "availability:read",
   "appointments:create",
 ];
-
-const CONNECTOR_SERVICES = new Set([
-  "doctor-dashboard",
-  "doctor dashboard",
-  "doctor",
-  "clinic-dashboard",
-  "healthcare",
-  "pathology-diagnostic",
-  "lead-analysis",
-  "lead",
-  "customer-support",
-  "event-booking-crm",
-  "event booking crm",
-  "event-booking",
-  "event",
-  "events",
-  "booking-crm",
-  "booking crm",
-  "booking",
-]);
 
 function errorMessage(error: unknown, fallback: string) {
   const responseMessage = (error as { response?: { data?: { message?: string; error?: string } } })
@@ -100,12 +79,10 @@ function providerLabel(provider: ConnectorProvider) {
 }
 
 export default function ConnectorsPage() {
-  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [checkingAccess, setCheckingAccess] = useState(true);
   const [connections, setConnections] = useState<VoiceConnector[]>([]);
   const [provider, setProvider] = useState<ConnectorProvider>("vozon");
-  const [name, setName] = useState("Vozon appointment connection");
+  const [name, setName] = useState("Vozon voice connection");
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [busyId, setBusyId] = useState("");
@@ -114,17 +91,6 @@ export default function ConnectorsPage() {
   const [tokenLabel, setTokenLabel] = useState("");
   const [tokenProvider, setTokenProvider] = useState<ConnectorProvider>("vozon");
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    const rawUser = localStorage.getItem("user");
-    const user = rawUser ? JSON.parse(rawUser) as { selectedService?: string } : null;
-    const selectedService = String(user?.selectedService || "").toLowerCase();
-    if (!CONNECTOR_SERVICES.has(selectedService)) {
-      router.replace("/dashboard");
-      return;
-    }
-    setCheckingAccess(false);
-  }, [router]);
 
   const loadConnections = useCallback(async () => {
     try {
@@ -140,8 +106,8 @@ export default function ConnectorsPage() {
   }, []);
 
   useEffect(() => {
-    if (!checkingAccess) void loadConnections();
-  }, [checkingAccess, loadConnections]);
+    void loadConnections();
+  }, [loadConnections]);
 
   const activeCount = useMemo(
     () => connections.filter((connection) => connection.status === "active").length,
@@ -219,10 +185,6 @@ export default function ConnectorsPage() {
       setBusyId("");
     }
   };
-
-  if (checkingAccess) {
-    return <div className="grid min-h-screen place-items-center bg-zinc-50"><Loader2 className="h-8 w-8 animate-spin text-orange-600" /></div>;
-  }
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950">
