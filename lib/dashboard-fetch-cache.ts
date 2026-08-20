@@ -1,6 +1,7 @@
 import { getDashboardQueryClient } from "@/lib/query-client";
+import { invalidateDashboardResource } from "@/lib/dashboard-query";
 
-const CACHE_TTL = 30_000;
+const CACHE_TTL = 60_000;
 let installed = false;
 
 interface CachedResponse {
@@ -71,7 +72,7 @@ export function installDashboardFetchCache() {
 
     if (method !== "GET") {
       const response = await nativeFetch(input, init);
-      if (response.ok) await queryClient.invalidateQueries();
+      if (response.ok) await invalidateDashboardResource(queryClient, url);
       return response;
     }
 

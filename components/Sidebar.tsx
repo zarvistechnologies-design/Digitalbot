@@ -1,9 +1,10 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { akiaraAPI, authAPI, callsAPI, connectorsAPI, doctorsAPI, promptsAPI, tankroAPI, type VoiceConnector } from '@/lib/api';
+import { akiaraAPI, authAPI, callsAPI, campaignsAPI, connectorsAPI, doctorsAPI, promptsAPI, tankroAPI, type VoiceConnector } from '@/lib/api';
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
-import { useQueryClient } from '@tanstack/react-query';
+import { DASHBOARD_QUERY_KEYS } from '@/lib/dashboard-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle, BarChart3, BookOpen, Bot, Cable, Calendar, CalendarCheck, ChevronDown, ChevronUp, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
 import Image from 'next/image';
@@ -26,9 +27,12 @@ interface User {
 }
 
 let cachedDashboardUser: User | null = null;
+let cachedVerifiedSelectedService: string | null = null;
+let cachedConnectedAgents: VoiceConnector[] = [];
 
 function ConnectedAgentNumbers({ connectors }: { connectors: VoiceConnector[] }) {
-  if (connectors.length === 0) return null;
+  const visibleConnectors = connectors.filter((connector) => Boolean(connector.externalPhoneNumber));
+  if (visibleConnectors.length === 0) return null;
 
   return (
     <div className="mt-3 border-t border-zinc-200 pt-3">
@@ -37,7 +41,7 @@ function ConnectedAgentNumbers({ connectors }: { connectors: VoiceConnector[] })
         Voice connected
       </div>
       <div className="space-y-2.5">
-        {connectors.map((connector) => (
+        {visibleConnectors.map((connector) => (
           <div key={connector.id} className="flex min-w-0 items-start gap-2.5">
             <PhoneCall className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" />
             <div className="min-w-0">
@@ -58,17 +62,35 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const [user, setUser] = useState<User | null>(cachedDashboardUser);
-  const [connectedAgents, setConnectedAgents] = useState<VoiceConnector[]>([]);
   const [mounted, setMounted] = useState(Boolean(cachedDashboardUser));
-  const [verifiedSelectedService, setVerifiedSelectedService] = useState<string | null>(null);
+  const [verifiedSelectedService, setVerifiedSelectedService] = useState<string | null>(cachedVerifiedSelectedService);
   const [profileOpen, setProfileOpen] = useState(false);
+  const { data: connectedAgents = cachedConnectedAgents } = useQuery({
+    queryKey: DASHBOARD_QUERY_KEYS.connectors,
+    queryFn: async () => {
+      const response = await connectorsAPI.list();
+      return response.data.connectors || [];
+    },
+    enabled: Boolean(user),
+    initialData: cachedConnectedAgents.length ? cachedConnectedAgents : undefined,
+    select: (connectors) => connectors.filter(
+      (connector) => connector.status === 'active' && Boolean(connector.externalAgentId)
+    ),
+    staleTime: 60_000,
+    refetchInterval: 120_000,
+    refetchOnWindowFocus: true,
+  });
 
   useEffect(() => {
     setMounted(true);
     const userData = localStorage.getItem('user');
     if (userData) {
-      cachedDashboardUser = JSON.parse(userData);
-      setUser(cachedDashboardUser);
+      try {
+        cachedDashboardUser = JSON.parse(userData);
+        setUser(cachedDashboardUser);
+      } catch {
+        localStorage.removeItem('user');
+      }
     }
   }, []);
 
@@ -82,13 +104,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         if (cancelled) return;
         const currentUser = response.data;
         const nextUser = { ...(cachedDashboardUser || {}), ...currentUser };
+        const selectedService = String(currentUser.selectedService || '').trim().toLowerCase();
         cachedDashboardUser = nextUser;
+        cachedVerifiedSelectedService = selectedService;
         setUser(nextUser);
-        setVerifiedSelectedService(String(currentUser.selectedService || '').trim().toLowerCase());
+        setVerifiedSelectedService(selectedService);
         localStorage.setItem('user', JSON.stringify(nextUser));
-      } catch {
-        if (!cancelled) setVerifiedSelectedService(null);
-      }
+      } catch {}
     };
 
     void verifyWorkspace();
@@ -98,33 +120,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   }, [mounted]);
 
   useEffect(() => {
-    if (!user) {
-      setConnectedAgents([]);
-      return;
-    }
-
-    let cancelled = false;
-    const loadConnectedAgents = async () => {
-      try {
-        const response = await connectorsAPI.list();
-        if (cancelled) return;
-        setConnectedAgents((response.data.connectors || []).filter(
-          (connector) => connector.status === 'active' && Boolean(connector.externalAgentId) && Boolean(connector.externalPhoneNumber)
-        ));
-      } catch {
-        if (!cancelled) setConnectedAgents([]);
-      }
-    };
-
-    void loadConnectedAgents();
-    const refreshTimer = window.setInterval(loadConnectedAgents, 30_000);
-    window.addEventListener('focus', loadConnectedAgents);
-    return () => {
-      cancelled = true;
-      window.clearInterval(refreshTimer);
-      window.removeEventListener('focus', loadConnectedAgents);
-    };
-  }, [user?.selectedService]);
+    cachedConnectedAgents = user ? connectedAgents : [];
+  }, [connectedAgents, user]);
 
   const prefetchDashboardData = (href: string) => {
     router.prefetch(href);
@@ -135,6 +132,15 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         queryFn: async () => {
           const response = await callsAPI.getCalls({ limit: 1000 });
           return response.data.data?.calls || response.data.calls || [];
+        },
+        staleTime: 60_000,
+      });
+    } else if (href === '/dashboard/campaigns') {
+      void queryClient.prefetchQuery({
+        queryKey: DASHBOARD_QUERY_KEYS.campaigns,
+        queryFn: async () => {
+          const response = await campaignsAPI.getCampaigns({ type: 'voice' });
+          return response.data.data?.campaigns || response.data.campaigns || [];
         },
         staleTime: 60_000,
       });
@@ -250,7 +256,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Analyzer', href: '/dashboard/leads', icon: BarChart3 });
       serviceItems.push({ name: 'Leads', href: '/dashboard/qualified-leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
-      serviceItems.push({ name: 'Agent Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
+      if (connectedAgents.some((connector) => connector.provider === 'vozon')) {
+        serviceItems.push({ name: 'Agent Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
+      }
     }
     if (user?.selectedService === 'appointment' || isAppointmentWhatsApp || isDoctorDashboard) {
       serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
@@ -330,6 +338,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
   const handleLogout = () => {
     cachedDashboardUser = null;
+    cachedVerifiedSelectedService = null;
+    cachedConnectedAgents = [];
     queryClient.clear();
     clearCache();
     sessionStorage.removeItem('digitalbot-query-cache-v1');

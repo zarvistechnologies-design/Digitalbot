@@ -10,6 +10,8 @@ import { useEffect, useState, type ReactNode } from "react";
 
 const STORAGE_KEY = "digitalbot-query-cache-v1";
 const shouldPersistQuery = (queryKey: readonly unknown[]) =>
+  queryKey[0] === "campaigns" ||
+  queryKey[0] === "connectors" ||
   queryKey[0] === "doctors" ||
   queryKey[0] === "prompts" ||
   (queryKey[0] === "akiara" && queryKey[1] === "analytics") ||
