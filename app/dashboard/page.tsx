@@ -136,7 +136,6 @@ export default function AnalyticsOverview() {
   // Compute all analytics from raw calls using useMemo — instant on filter change
   const { analytics, recentCalls, agentLeaderboard, heatmapData, qualityTrend } = useMemo(() => {
     const calls = rawCalls || [];
-    if (calls.length === 0) return { analytics: null, recentCalls: [] };
 
     const now = new Date();
     const filterDays = parseInt(dateFilter);
