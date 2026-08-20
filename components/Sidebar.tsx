@@ -25,6 +25,7 @@ interface User {
   email?: string;
   assignedPhoneNumber?: string;
   legacyAgentKnowledgeEnabled?: boolean;
+  connectorManagementEnabled?: boolean;
 }
 
 let cachedDashboardUser: User | null = null;
@@ -72,7 +73,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       const response = await connectorsAPI.list();
       return response.data.connectors || [];
     },
-    enabled: Boolean(user),
+    enabled: Boolean(user) && user?.connectorManagementEnabled !== false,
     initialData: cachedConnectedAgents.length ? cachedConnectedAgents : undefined,
     select: (connectors) => connectors.filter(
       (connector) => connector.status === 'active' && Boolean(connector.externalAgentId)
@@ -207,6 +208,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   };
 
   const isPathologyService = String(user?.selectedService || '').toLowerCase() === 'pathology-diagnostic';
+  const connectorNavigationEnabled = user?.connectorManagementEnabled === true;
   const baseNavigation = [
     { name: isPathologyService ? 'Diagnostic Center' : 'Dashboard', href: isPathologyService ? '/dashboard/pathology' : '/dashboard', icon: LayoutDashboard },
     { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
@@ -216,7 +218,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     { name: 'Dashboard', href: '/dashboard/pathology', icon: LayoutDashboard },
     { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
     { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
-    { name: 'Connectors', href: '/dashboard/connectors', icon: Cable },
+    ...(connectorNavigationEnabled ? [{ name: 'Connectors', href: '/dashboard/connectors', icon: Cable }] : []),
     { name: 'Bookings', href: '/dashboard/pathology/bookings', icon: ClipboardList },
     { name: 'Patients', href: '/dashboard/pathology/patients', icon: Users },
     { name: 'Sample Tracking', href: '/dashboard/pathology/samples', icon: TestTube2 },
@@ -270,7 +272,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
       serviceItems.push({ name: 'Share Schedule', href: '/dashboard/share-schedule', icon: Share2 });
-      if (isDoctorDashboard) {
+      if (isDoctorDashboard && connectorNavigationEnabled) {
         serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });
       }
       if (isAppointmentWhatsApp) {
@@ -318,7 +320,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Bulk Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Follow-ups', href: '/dashboard/booking-crm/follow-ups', icon: ClipboardList });
     }
-    if (!serviceItems.some((item) => item.href === '/dashboard/connectors')) {
+    if (connectorNavigationEnabled && !serviceItems.some((item) => item.href === '/dashboard/connectors')) {
       serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });
     }
     if (['casino', 'ballys', "bally's casino", 'ballys-casino'].includes(selectedService)) {

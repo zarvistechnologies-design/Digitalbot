@@ -168,6 +168,7 @@ export interface AuthenticatedUser {
   email?: string;
   assignedPhoneNumber?: string;
   legacyAgentKnowledgeEnabled?: boolean;
+  connectorManagementEnabled?: boolean;
 }
 
 export const authAPI = {

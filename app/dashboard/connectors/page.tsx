@@ -3,6 +3,7 @@
 import Sidebar from "@/components/Sidebar";
 import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
 import {
+  authAPI,
   connectorsAPI,
   type ConnectorProvider,
   type VoiceConnector,
@@ -21,6 +22,7 @@ import {
   X,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 const PROVIDERS: Array<{ value: ConnectorProvider; label: string }> = [
@@ -81,6 +83,7 @@ function providerLabel(provider: ConnectorProvider) {
 }
 
 export default function ConnectorsPage() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const cachedConnections = queryClient.getQueryData<VoiceConnector[]>(DASHBOARD_QUERY_KEYS.connectors);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -95,6 +98,7 @@ export default function ConnectorsPage() {
   const [tokenLabel, setTokenLabel] = useState("");
   const [tokenProvider, setTokenProvider] = useState<ConnectorProvider>("vozon");
   const [copied, setCopied] = useState(false);
+  const [accessAllowed, setAccessAllowed] = useState<boolean | null>(null);
 
   const updateConnections = useCallback((updater: (current: VoiceConnector[]) => VoiceConnector[]) => {
     setConnections((current) => {
@@ -126,8 +130,27 @@ export default function ConnectorsPage() {
   }, [queryClient, updateConnections]);
 
   useEffect(() => {
-    void loadConnections();
-  }, [loadConnections]);
+    let cancelled = false;
+    const verifyAccess = async () => {
+      try {
+        const response = await authAPI.getCurrentUser();
+        if (cancelled) return;
+        if (!response.data.connectorManagementEnabled) {
+          router.replace('/dashboard');
+          return;
+        }
+        setAccessAllowed(true);
+      } catch {
+        if (!cancelled) router.replace('/dashboard');
+      }
+    };
+    void verifyAccess();
+    return () => { cancelled = true; };
+  }, [router]);
+
+  useEffect(() => {
+    if (accessAllowed) void loadConnections();
+  }, [accessAllowed, loadConnections]);
 
   const activeCount = useMemo(
     () => connections.filter((connection) => connection.status === "active").length,
@@ -205,6 +228,10 @@ export default function ConnectorsPage() {
       setBusyId("");
     }
   };
+
+  if (accessAllowed !== true) {
+    return <div className="grid min-h-screen place-items-center bg-zinc-50"><Loader2 className="h-8 w-8 animate-spin text-orange-600" /></div>;
+  }
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950">
