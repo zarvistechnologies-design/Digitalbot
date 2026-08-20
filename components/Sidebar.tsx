@@ -1,9 +1,10 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { akiaraAPI, callsAPI, connectorsAPI, doctorsAPI, promptsAPI, tankroAPI, type VoiceConnector } from '@/lib/api';
+import { agentKnowledgeAPI, akiaraAPI, authAPI, callsAPI, campaignsAPI, connectorsAPI, doctorsAPI, promptsAPI, tankroAPI, type VoiceConnector } from '@/lib/api';
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
-import { useQueryClient } from '@tanstack/react-query';
+import { DASHBOARD_QUERY_KEYS } from '@/lib/dashboard-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle, BarChart3, BookOpen, Bot, Cable, Calendar, CalendarCheck, ChevronDown, ChevronUp, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
@@ -22,19 +23,18 @@ interface User {
   name?: string;
   email?: string;
   assignedPhoneNumber?: string;
+  legacyPhoneFallback?: boolean;
+  legacyAgentKnowledgeEnabled?: boolean;
+  connectorManagementEnabled?: boolean;
 }
 
 let cachedDashboardUser: User | null = null;
-
-const CONNECTOR_SERVICES = new Set([
-  'doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare',
-  'pathology-diagnostic', 'lead-analysis', 'lead', 'customer-support',
-  'event-booking-crm', 'event booking crm', 'event-booking', 'event', 'events',
-  'booking-crm', 'booking crm', 'booking',
-]);
+let cachedVerifiedSelectedService: string | null = null;
+let cachedConnectedAgents: VoiceConnector[] = [];
 
 function ConnectedAgentNumbers({ connectors }: { connectors: VoiceConnector[] }) {
-  if (connectors.length === 0) return null;
+  const visibleConnectors = connectors.filter((connector) => Boolean(connector.externalPhoneNumber));
+  if (visibleConnectors.length === 0) return null;
 
   return (
     <div className="mt-3 border-t border-slate-200 pt-3">
@@ -43,7 +43,7 @@ function ConnectedAgentNumbers({ connectors }: { connectors: VoiceConnector[] })
         Voice connected
       </div>
       <div className="space-y-2.5">
-        {connectors.map((connector) => (
+        {visibleConnectors.map((connector) => (
           <div key={connector.id} className="flex min-w-0 items-start gap-2.5">
             <PhoneCall className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
             <div className="min-w-0">
@@ -64,58 +64,94 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const [user, setUser] = useState<User | null>(cachedDashboardUser);
-  const [connectedAgents, setConnectedAgents] = useState<VoiceConnector[]>([]);
   const [mounted, setMounted] = useState(Boolean(cachedDashboardUser));
+  const [verifiedSelectedService, setVerifiedSelectedService] = useState<string | null>(cachedVerifiedSelectedService);
   const [profileOpen, setProfileOpen] = useState(false);
+  const { data: connectedAgents = cachedConnectedAgents } = useQuery({
+    queryKey: DASHBOARD_QUERY_KEYS.connectors,
+    queryFn: async () => {
+      const response = await connectorsAPI.list();
+      return response.data.connectors || [];
+    },
+    enabled: Boolean(user) && user?.connectorManagementEnabled !== false,
+    initialData: cachedConnectedAgents.length ? cachedConnectedAgents : undefined,
+    select: (connectors) => connectors.filter(
+      (connector) => connector.status === 'active' && Boolean(connector.externalAgentId)
+    ),
+    staleTime: 60_000,
+    refetchInterval: 120_000,
+    refetchOnWindowFocus: true,
+  });
 
   useEffect(() => {
     setMounted(true);
     const userData = localStorage.getItem('user');
     if (userData) {
-      cachedDashboardUser = JSON.parse(userData);
-      setUser(cachedDashboardUser);
+      try {
+        cachedDashboardUser = JSON.parse(userData);
+        setUser(cachedDashboardUser);
+      } catch {
+        localStorage.removeItem('user');
+      }
     }
   }, []);
 
   useEffect(() => {
-    const selectedService = String(user?.selectedService || '').toLowerCase();
-    if (!CONNECTOR_SERVICES.has(selectedService)) {
-      setConnectedAgents([]);
-      return;
-    }
+    if (!mounted) return;
 
     let cancelled = false;
-    const loadConnectedAgents = async () => {
+    const verifyWorkspace = async () => {
       try {
-        const response = await connectorsAPI.list();
+        const response = await authAPI.getCurrentUser();
         if (cancelled) return;
-        setConnectedAgents((response.data.connectors || []).filter(
-          (connector) => connector.status === 'active' && Boolean(connector.externalAgentId) && Boolean(connector.externalPhoneNumber)
-        ));
-      } catch {
-        if (!cancelled) setConnectedAgents([]);
-      }
+        const currentUser = response.data;
+        const nextUser = { ...(cachedDashboardUser || {}), ...currentUser };
+        const selectedService = String(currentUser.selectedService || '').trim().toLowerCase();
+        cachedDashboardUser = nextUser;
+        cachedVerifiedSelectedService = selectedService;
+        setUser(nextUser);
+        setVerifiedSelectedService(selectedService);
+        localStorage.setItem('user', JSON.stringify(nextUser));
+      } catch {}
     };
 
-    void loadConnectedAgents();
-    const refreshTimer = window.setInterval(loadConnectedAgents, 30_000);
-    window.addEventListener('focus', loadConnectedAgents);
+    void verifyWorkspace();
     return () => {
       cancelled = true;
-      window.clearInterval(refreshTimer);
-      window.removeEventListener('focus', loadConnectedAgents);
     };
-  }, [user?.selectedService]);
+  }, [mounted]);
+
+  useEffect(() => {
+    cachedConnectedAgents = user ? connectedAgents : [];
+  }, [connectedAgents, user]);
 
   const prefetchDashboardData = (href: string) => {
     router.prefetch(href);
 
-    if (href === '/dashboard' || href === '/dashboard/calls') {
+    if (href === '/dashboard') {
+      void queryClient.prefetchQuery({
+        queryKey: [CACHE_KEYS.DASHBOARD_CALLS_SUMMARY],
+        queryFn: async () => {
+          const response = await callsAPI.getCalls({ limit: 1000, view: 'summary' });
+          return response.data.data?.calls || response.data.calls || [];
+        },
+        staleTime: 60_000,
+      });
+    } else if (href === '/dashboard/calls') {
       void queryClient.prefetchQuery({
         queryKey: [CACHE_KEYS.CALLS],
         queryFn: async () => {
-          const response = await callsAPI.getCalls({ limit: 1000 });
+          const response = await callsAPI.getCalls({ limit: 50 });
           return response.data.data?.calls || response.data.calls || [];
+        },
+        staleTime: 60_000,
+      });
+    } else if (href === '/dashboard/campaigns') {
+      void queryClient.prefetchQuery({
+        queryKey: DASHBOARD_QUERY_KEYS.campaigns,
+        queryFn: async () => {
+          const response = await campaignsAPI.getCampaigns({ type: 'voice' });
+          return response.data.data?.campaigns || response.data.campaigns || [];
         },
         staleTime: 60_000,
       });
@@ -139,6 +175,15 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           const response = await promptsAPI.getAll();
           return response.data.prompts || [];
         },
+      });
+    } else if (href === '/dashboard/agent-knowledge') {
+      void queryClient.prefetchQuery({
+        queryKey: ['agent-knowledge'],
+        queryFn: async () => {
+          const response = await agentKnowledgeAPI.list();
+          return response.data.connections || [];
+        },
+        staleTime: 15_000,
       });
     } else if (href === '/dashboard/tankro-locations') {
       void queryClient.prefetchQuery({
@@ -181,6 +226,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   };
 
   const isPathologyService = String(user?.selectedService || '').toLowerCase() === 'pathology-diagnostic';
+  const connectorNavigationEnabled = user?.connectorManagementEnabled === true;
   const baseNavigation = [
     { name: isPathologyService ? 'Diagnostic Center' : 'Dashboard', href: isPathologyService ? '/dashboard/pathology' : '/dashboard', icon: LayoutDashboard },
     { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
@@ -190,6 +236,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     { name: 'Dashboard', href: '/dashboard/pathology', icon: LayoutDashboard },
     { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
     { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
+    ...(connectorNavigationEnabled ? [{ name: 'Connectors', href: '/dashboard/connectors', icon: Cable }] : []),
     { name: 'Bookings', href: '/dashboard/pathology/bookings', icon: ClipboardList },
     { name: 'Patients', href: '/dashboard/pathology/patients', icon: Users },
     { name: 'Sample Tracking', href: '/dashboard/pathology/samples', icon: TestTube2 },
@@ -223,10 +270,19 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     const isAppointmentWhatsApp = ['appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp'].includes(selectedService);
     const isDoctorDashboard = ['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare'].includes(selectedService);
     const serviceItems = [];
-    if (user?.selectedService === 'lead-analysis' || user?.selectedService === 'lead') {
+    if (
+      (selectedService === 'lead-analysis' || selectedService === 'lead') &&
+      (verifiedSelectedService === 'lead-analysis' || verifiedSelectedService === 'lead')
+    ) {
       serviceItems.push({ name: 'Analyzer', href: '/dashboard/leads', icon: BarChart3 });
       serviceItems.push({ name: 'Leads', href: '/dashboard/qualified-leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
+      if (
+        user?.legacyPhoneFallback === false
+        || user?.legacyAgentKnowledgeEnabled
+      ) {
+        serviceItems.push({ name: 'Agent Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
+      }
     }
     if (user?.selectedService === 'appointment' || isAppointmentWhatsApp || isDoctorDashboard) {
       serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
@@ -234,7 +290,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Doctors', href: '/dashboard/doctors', icon: Stethoscope });
       serviceItems.push({ name: 'Availability', href: '/dashboard/availability', icon: CalendarCheck });
       serviceItems.push({ name: 'Share Schedule', href: '/dashboard/share-schedule', icon: Share2 });
-      if (isDoctorDashboard) {
+      if (isDoctorDashboard && connectorNavigationEnabled) {
         serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });
       }
       if (isAppointmentWhatsApp) {
@@ -282,6 +338,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Bulk Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Follow-ups', href: '/dashboard/booking-crm/follow-ups', icon: ClipboardList });
     }
+    if (connectorNavigationEnabled && !serviceItems.some((item) => item.href === '/dashboard/connectors')) {
+      serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });
+    }
     if (['casino', 'ballys', "bally's casino", 'ballys-casino'].includes(selectedService)) {
       serviceItems.push({ name: 'Reservations', href: '/dashboard/casino-reservations', icon: CalendarCheck });
       serviceItems.push({ name: 'VIP Guests', href: '/dashboard/casino-vip-guests', icon: Crown });
@@ -300,9 +359,26 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     : isAkiara || ishealthiQurepatientnavigation
       ? getServiceNavigation()
       : [...baseNavigation, ...getServiceNavigation()];
+  const navigationKey = navigation.map((item) => item.href).join('|');
+
+  useEffect(() => {
+    if (!mounted || !navigationKey) return;
+    const routeTimer = window.setTimeout(() => {
+      navigation.forEach((item) => router.prefetch(item.href));
+    }, 300);
+    const dataTimer = window.setTimeout(() => {
+      navigation.forEach((item) => prefetchDashboardData(item.href));
+    }, 1200);
+    return () => {
+      window.clearTimeout(routeTimer);
+      window.clearTimeout(dataTimer);
+    };
+  }, [mounted, navigationKey, router]);
 
   const handleLogout = () => {
     cachedDashboardUser = null;
+    cachedVerifiedSelectedService = null;
+    cachedConnectedAgents = [];
     queryClient.clear();
     clearCache();
     sessionStorage.removeItem('digitalbot-query-cache-v1');

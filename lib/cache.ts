@@ -108,6 +108,7 @@ export async function cachedFetch<T>(
 // Cache keys
 export const CACHE_KEYS = {
   CALLS: 'calls',
+  DASHBOARD_CALLS_SUMMARY: 'dashboard_calls_summary',
   CALLS_STATS: 'calls_stats',
   CALLS_AGENTS: 'calls_agents',
   DASHBOARD_ANALYTICS: 'dashboard_analytics',

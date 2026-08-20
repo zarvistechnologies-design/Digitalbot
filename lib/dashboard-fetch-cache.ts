@@ -1,10 +1,11 @@
 import { getDashboardQueryClient } from "@/lib/query-client";
+import { invalidateDashboardResource } from "@/lib/dashboard-query";
 
-const CACHE_TTL = 30_000;
+const CACHE_TTL = 60_000;
 let installed = false;
 
 interface CachedResponse {
-  body: ArrayBuffer | null;
+  body: string | ArrayBuffer | null;
   headers: [string, string][];
   status: number;
   statusText: string;
@@ -35,7 +36,7 @@ function requestHeaders(input: RequestInfo | URL, init?: RequestInit) {
 function isDashboardApiRequest(url: string) {
   const configuredApi = process.env.NEXT_PUBLIC_API_URL;
   if (configuredApi && url.startsWith(configuredApi)) return true;
-  return /\/api\/(auth|calls|billing|appointments|leads|campaigns|customer-campaigns)(\/|\?|$)/.test(url);
+  return /\/api(?:\/v1)?\/[a-z0-9-]+(?:\/|\?|$)/i.test(url);
 }
 
 function hashScope(value: string) {
@@ -47,7 +48,8 @@ function hashScope(value: string) {
 }
 
 function toResponse(cached: CachedResponse) {
-  return new Response(cached.body?.slice(0) || null, {
+  const body = cached.body instanceof ArrayBuffer ? cached.body.slice(0) : cached.body;
+  return new Response(body, {
     headers: cached.headers,
     status: cached.status,
     statusText: cached.statusText,
@@ -71,28 +73,39 @@ export function installDashboardFetchCache() {
 
     if (method !== "GET") {
       const response = await nativeFetch(input, init);
-      if (response.ok) await queryClient.invalidateQueries();
+      if (response.ok) await invalidateDashboardResource(queryClient, url);
       return response;
     }
 
     const headers = requestHeaders(input, init);
     const authScope = headers.get("authorization") || "anonymous";
     const queryKey = ["network", "fetch", method, url, hashScope(authScope)] as const;
-    const cached = await queryClient.fetchQuery<CachedResponse>({
+    const queryOptions = {
       queryKey,
       staleTime: CACHE_TTL,
       gcTime: 5 * 60_000,
       queryFn: async () => {
         const response = await nativeFetch(input, init);
         const bodyless = [204, 205, 304].includes(response.status);
+        const contentType = response.headers.get("content-type") || "";
+        const textResponse = /(?:json|text|xml|javascript)/i.test(contentType);
         return {
-          body: bodyless ? null : await response.arrayBuffer(),
+          body: bodyless ? null : textResponse ? await response.text() : await response.arrayBuffer(),
           headers: Array.from(response.headers.entries()),
           status: response.status,
           statusText: response.statusText,
         };
       },
-    });
+    } as const;
+    const state = queryClient.getQueryState<CachedResponse>(queryKey);
+    let cached = state?.data;
+    if (cached && state && !state.isInvalidated) {
+      if (Date.now() - state.dataUpdatedAt >= CACHE_TTL) {
+        void queryClient.fetchQuery<CachedResponse>(queryOptions).catch(() => {});
+      }
+    } else {
+      cached = await queryClient.fetchQuery<CachedResponse>(queryOptions);
+    }
     if (cached.status < 200 || cached.status >= 300) {
       queryClient.removeQueries({ queryKey, exact: true });
     }

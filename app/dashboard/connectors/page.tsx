@@ -1,7 +1,9 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
+import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
 import {
+  authAPI,
   connectorsAPI,
   type ConnectorProvider,
   type VoiceConnector,
@@ -19,6 +21,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -35,26 +38,6 @@ const DEFAULT_PERMISSIONS = [
   "availability:read",
   "appointments:create",
 ];
-
-const CONNECTOR_SERVICES = new Set([
-  "doctor-dashboard",
-  "doctor dashboard",
-  "doctor",
-  "clinic-dashboard",
-  "healthcare",
-  "pathology-diagnostic",
-  "lead-analysis",
-  "lead",
-  "customer-support",
-  "event-booking-crm",
-  "event booking crm",
-  "event-booking",
-  "event",
-  "events",
-  "booking-crm",
-  "booking crm",
-  "booking",
-]);
 
 function errorMessage(error: unknown, fallback: string) {
   const responseMessage = (error as { response?: { data?: { message?: string; error?: string } } })
@@ -101,12 +84,13 @@ function providerLabel(provider: ConnectorProvider) {
 
 export default function ConnectorsPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const cachedConnections = queryClient.getQueryData<VoiceConnector[]>(DASHBOARD_QUERY_KEYS.connectors);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [checkingAccess, setCheckingAccess] = useState(true);
-  const [connections, setConnections] = useState<VoiceConnector[]>([]);
+  const [connections, setConnections] = useState<VoiceConnector[]>(() => cachedConnections || []);
   const [provider, setProvider] = useState<ConnectorProvider>("vozon");
-  const [name, setName] = useState("Vozon appointment connection");
-  const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("Vozon voice connection");
+  const [loading, setLoading] = useState(() => !cachedConnections);
   const [creating, setCreating] = useState(false);
   const [busyId, setBusyId] = useState("");
   const [error, setError] = useState("");
@@ -114,34 +98,59 @@ export default function ConnectorsPage() {
   const [tokenLabel, setTokenLabel] = useState("");
   const [tokenProvider, setTokenProvider] = useState<ConnectorProvider>("vozon");
   const [copied, setCopied] = useState(false);
+  const [accessAllowed, setAccessAllowed] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    const rawUser = localStorage.getItem("user");
-    const user = rawUser ? JSON.parse(rawUser) as { selectedService?: string } : null;
-    const selectedService = String(user?.selectedService || "").toLowerCase();
-    if (!CONNECTOR_SERVICES.has(selectedService)) {
-      router.replace("/dashboard");
-      return;
-    }
-    setCheckingAccess(false);
-  }, [router]);
+  const updateConnections = useCallback((updater: (current: VoiceConnector[]) => VoiceConnector[]) => {
+    setConnections((current) => {
+      const next = updater(current);
+      queryClient.setQueryData(DASHBOARD_QUERY_KEYS.connectors, next);
+      return next;
+    });
+  }, [queryClient]);
 
-  const loadConnections = useCallback(async () => {
+  const loadConnections = useCallback(async (force = false) => {
     try {
       setLoading(true);
       setError("");
-      const response = await connectorsAPI.list();
-      setConnections(response.data.connectors || []);
+      if (force) await queryClient.invalidateQueries({ queryKey: DASHBOARD_QUERY_KEYS.connectors, exact: true });
+      const next = await queryClient.fetchQuery({
+        queryKey: DASHBOARD_QUERY_KEYS.connectors,
+        queryFn: async () => {
+          const response = await connectorsAPI.list();
+          return response.data.connectors || [];
+        },
+        staleTime: 60_000,
+      });
+      updateConnections(() => next);
     } catch (loadError) {
       setError(errorMessage(loadError, "Could not load voice connectors."));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [queryClient, updateConnections]);
 
   useEffect(() => {
-    if (!checkingAccess) void loadConnections();
-  }, [checkingAccess, loadConnections]);
+    let cancelled = false;
+    const verifyAccess = async () => {
+      try {
+        const response = await authAPI.getCurrentUser();
+        if (cancelled) return;
+        if (!response.data.connectorManagementEnabled) {
+          router.replace('/dashboard');
+          return;
+        }
+        setAccessAllowed(true);
+      } catch {
+        if (!cancelled) router.replace('/dashboard');
+      }
+    };
+    void verifyAccess();
+    return () => { cancelled = true; };
+  }, [router]);
+
+  useEffect(() => {
+    if (accessAllowed) void loadConnections();
+  }, [accessAllowed, loadConnections]);
 
   const activeCount = useMemo(
     () => connections.filter((connection) => connection.status === "active").length,
@@ -163,7 +172,7 @@ export default function ConnectorsPage() {
         provider,
         permissions: DEFAULT_PERMISSIONS,
       });
-      setConnections((current) => [response.data.connector, ...current]);
+      updateConnections((current) => [response.data.connector, ...current]);
       setToken(response.data.token);
       setTokenLabel(response.data.connector.name);
       setTokenProvider(response.data.connector.provider);
@@ -190,7 +199,7 @@ export default function ConnectorsPage() {
       setBusyId(connection.id);
       setError("");
       const response = await connectorsAPI.rotate(connection.id);
-      setConnections((current) => current.map((item) =>
+      updateConnections((current) => current.map((item) =>
         item.id === connection.id ? response.data.connector : item
       ));
       setToken(response.data.token);
@@ -210,7 +219,7 @@ export default function ConnectorsPage() {
       setBusyId(connection.id);
       setError("");
       const response = await connectorsAPI.revoke(connection.id);
-      setConnections((current) => current.map((item) =>
+      updateConnections((current) => current.map((item) =>
         item.id === connection.id ? response.data.connector : item
       ));
     } catch (revokeError) {
@@ -220,7 +229,7 @@ export default function ConnectorsPage() {
     }
   };
 
-  if (checkingAccess) {
+  if (accessAllowed !== true) {
     return <div className="grid min-h-screen place-items-center bg-zinc-50"><Loader2 className="h-8 w-8 animate-spin text-orange-600" /></div>;
   }
 
@@ -319,7 +328,7 @@ export default function ConnectorsPage() {
                   <h2 className="text-lg font-bold">Connections</h2>
                   <p className="mt-1 text-sm text-zinc-500">Provider agent details appear after the token is verified and bound.</p>
                 </div>
-                <button type="button" onClick={() => void loadConnections()} disabled={loading} title="Refresh connections" aria-label="Refresh connections" className="grid h-10 w-10 shrink-0 place-items-center rounded-md border border-zinc-300 bg-white hover:bg-zinc-100 disabled:opacity-50">
+                <button type="button" onClick={() => void loadConnections(true)} disabled={loading} title="Refresh connections" aria-label="Refresh connections" className="grid h-10 w-10 shrink-0 place-items-center rounded-md border border-zinc-300 bg-white hover:bg-zinc-100 disabled:opacity-50">
                   <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
                 </button>
               </div>

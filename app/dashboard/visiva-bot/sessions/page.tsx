@@ -11,7 +11,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
+} from "@/components/dashboard/LazyRecharts";
 import { visivaBotAPI } from "@/lib/api";
 import {
   Activity,

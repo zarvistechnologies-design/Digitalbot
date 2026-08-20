@@ -10,7 +10,7 @@ function createQueryClient() {
         gcTime: 30 * 60 * 1000,
         refetchOnMount: true,
         refetchOnReconnect: true,
-        refetchOnWindowFocus: false,
+        refetchOnWindowFocus: true,
         retry: 1,
       },
       mutations: { retry: 0 },

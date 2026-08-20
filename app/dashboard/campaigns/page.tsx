@@ -1,7 +1,9 @@
 "use client"
 import Sidebar from "@/components/Sidebar";
+import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Edit3, Eye, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 const getAuthToken = () => {
     if (typeof window !== 'undefined') {
         return localStorage.getItem('token');
@@ -248,9 +250,10 @@ userPhone ?: string;
 }
 
 export default function CampaignsPage() {
-    const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-    const [filteredCampaigns, setFilteredCampaigns] = useState<Campaign[]>([]);
-    const [loading, setLoading] = useState(true);
+    const queryClient = useQueryClient();
+    const cachedCampaigns = queryClient.getQueryData<Campaign[]>(DASHBOARD_QUERY_KEYS.campaigns);
+    const [campaigns, setCampaigns] = useState<Campaign[]>(() => cachedCampaigns || []);
+    const [loading, setLoading] = useState(() => !cachedCampaigns);
     const [creating, setCreating] = useState(false);
     const [launchingCampaignId, setLaunchingCampaignId] = useState<string | null>(null);
     const [togglingCampaignId, setTogglingCampaignId] = useState<string | null>(null);
@@ -284,6 +287,14 @@ export default function CampaignsPage() {
     const [uploadStep, setUploadStep] = useState<'form' | 'upload' | 'review'>('form');
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    const updateCampaigns = useCallback((updater: (current: Campaign[]) => Campaign[]) => {
+        setCampaigns((current) => {
+            const next = updater(current);
+            queryClient.setQueryData(DASHBOARD_QUERY_KEYS.campaigns, next);
+            return next;
+        });
+    }, [queryClient]);
+
     // Get user info on mount
     useEffect(() => {
         const user = getUserFromToken();
@@ -299,11 +310,17 @@ export default function CampaignsPage() {
         const fetchCampaigns = async (silent = false) => {
             try {
                 if (!silent) setLoading(true);
+                const prefetchedCampaigns = queryClient.getQueryData<Campaign[]>(DASHBOARD_QUERY_KEYS.campaigns);
+                if (!silent && prefetchedCampaigns) {
+                    updateCampaigns(() => prefetchedCampaigns);
+                    setLoading(false);
+                    return;
+                }
                 const token = getAuthToken();
 
                 if (!token) {
                     console.warn('⚠️ No authentication token found');
-                    if (mounted) setCampaigns([]);
+                    if (mounted) updateCampaigns(() => []);
                     if (mounted && !silent) setLoading(false);
                     return;
                 }
@@ -322,33 +339,33 @@ export default function CampaignsPage() {
                         // window.location.href = '/login';
                     }
                     console.warn('Failed to fetch campaigns');
-                    if (mounted && !silent) setCampaigns([]);
+                    if (mounted && !silent) updateCampaigns(() => []);
                     return;
                 }
 
                 const data = await response.json();
                 const fetchedCampaigns = data.data?.campaigns || data.campaigns || [];
-                if (mounted) setCampaigns(fetchedCampaigns);
+                if (mounted) updateCampaigns(() => fetchedCampaigns);
 
                 console.log(`✅ Fetched ${fetchedCampaigns.length} campaigns from backend`);
 
             } catch (error) {
                 console.error('Error fetching campaigns:', error);
-                if (mounted && !silent) setCampaigns([]);
+                if (mounted && !silent) updateCampaigns(() => []);
             } finally {
                 if (mounted && !silent) setLoading(false);
             }
         };
 
         void fetchCampaigns();
-        const refreshTimer = window.setInterval(() => void fetchCampaigns(true), 15000);
+        const refreshTimer = window.setInterval(() => void fetchCampaigns(true), 60_000);
         return () => {
             mounted = false;
             window.clearInterval(refreshTimer);
         };
-    }, []);
+    }, [queryClient, updateCampaigns]);
 
-    useEffect(() => {
+    const filteredCampaigns = useMemo(() => {
         let filtered = campaigns.filter((campaign) => campaign.type === 'voice');
 
         if (filterStatus !== 'all') {
@@ -364,7 +381,7 @@ export default function CampaignsPage() {
             );
         }
 
-        setFilteredCampaigns(filtered);
+        return filtered;
     }, [campaigns, filterStatus, searchTerm]);
 
     const totalCampaigns = campaigns.length;
@@ -403,7 +420,7 @@ export default function CampaignsPage() {
 
             if (response.ok) {
                 const data = await response.json();
-                setCampaigns(current => current.map(c =>
+                updateCampaigns(current => current.map(c =>
                     c._id === campaignId ? data.data : c
                 ));
                 alert(`✅ Campaign ${endpoint}d successfully!`);
@@ -446,7 +463,7 @@ export default function CampaignsPage() {
             });
             const data = await response.json().catch(() => null);
             if (!response.ok) throw new Error(data?.error || data?.message || 'Failed to update campaign');
-            setCampaigns(current => current.map(item => item._id === editingCampaign._id ? data.data : item));
+            updateCampaigns(current => current.map(item => item._id === editingCampaign._id ? data.data : item));
             setSelectedCampaign(current => current?._id === editingCampaign._id ? data.data : current);
             setEditingCampaign(null);
             alert('✅ Campaign updated successfully!');
@@ -714,7 +731,7 @@ export default function CampaignsPage() {
                 console.log('✅ Campaign created:', data);
 
                 // Add to campaigns list
-                setCampaigns(current => [data.data.campaign, ...current]);
+                updateCampaigns(current => [data.data.campaign, ...current]);
 
                 // Reset form
                 setShowCreateModal(false);
@@ -808,7 +825,7 @@ export default function CampaignsPage() {
                 console.log('✅ Campaign launched:', data);
 
                 // Update campaign in list
-                setCampaigns(current => current.map(c =>
+                updateCampaigns(current => current.map(c =>
                     c._id === campaignId
                         ? { ...c, status: 'active', ...data.data.campaign }
                         : c

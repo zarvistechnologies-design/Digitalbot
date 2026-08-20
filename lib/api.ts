@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getDashboardQueryClient } from '@/lib/query-client';
+import { invalidateDashboardResource } from '@/lib/dashboard-query';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
 
@@ -11,7 +12,7 @@ const api = axios.create({
   },
 });
 
-const API_CACHE_TTL = 30_000;
+const API_CACHE_TTL = 60_000;
 const defaultAxiosAdapter = axios.getAdapter(axios.defaults.adapter);
 
 const hashScope = (value: string) => {
@@ -71,7 +72,7 @@ api.interceptors.response.use(
       typeof window !== 'undefined' &&
       response.config.method?.toLowerCase() !== 'get'
     ) {
-      void getDashboardQueryClient().invalidateQueries();
+      void invalidateDashboardResource(getDashboardQueryClient(), response.config.url || '');
     }
     return response;
   },
@@ -157,6 +158,22 @@ export const callsAPI = {
   syncVozonCalls: (limit = 50) => {
     return api.post('/vozon-calls/sync', { limit });
   },
+};
+
+export interface AuthenticatedUser {
+  selectedService?: string;
+  bookingBusinessType?: string;
+  bookingOnboardingComplete?: boolean;
+  name?: string;
+  email?: string;
+  assignedPhoneNumber?: string;
+  legacyPhoneFallback?: boolean;
+  legacyAgentKnowledgeEnabled?: boolean;
+  connectorManagementEnabled?: boolean;
+}
+
+export const authAPI = {
+  getCurrentUser: () => api.get<AuthenticatedUser>('/auth/me'),
 };
 
 export const campaignsAPI = {
@@ -310,6 +327,29 @@ export const connectorsAPI = {
 
   revoke: (id: string) =>
     api.post<{ success: true; connector: VoiceConnector }>(`/v1/connectors/${encodeURIComponent(id)}/revoke`),
+};
+
+export interface AgentKnowledgeConnection {
+  connectorId: string;
+  connectorName: string;
+  agentName: string;
+  phoneNumber?: string | null;
+  available: boolean;
+  instructions: string;
+  promptField?: string | null;
+  agentUpdatedAt?: string | null;
+}
+
+export const agentKnowledgeAPI = {
+  list: (fresh = false) => api.get<{ success: true; connections: AgentKnowledgeConnection[] }>(
+    '/agent-knowledge',
+    fresh ? { params: { refresh: Date.now() } } : undefined
+  ),
+  update: (connectorId: string, instructions: string) =>
+    api.put<{ success: true; connection: AgentKnowledgeConnection; message: string }>(
+      `/agent-knowledge/${encodeURIComponent(connectorId)}`,
+      { instructions }
+    ),
 };
 
 // ========================================

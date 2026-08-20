@@ -1,11 +1,12 @@
 import AppProviders from "@/components/providers/AppProviders"
-import { Analytics } from "@vercel/analytics/next"
 import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
 import type { Metadata } from "next"
-import Script from "next/script"
 import type React from "react"
 import "./globals.css"
+
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "https://digital-api-46ss.onrender.com/api";
+const apiOrigin = new URL(apiBaseUrl).origin;
 
 export const metadata: Metadata = {
   title: "AI Voice Agent | AI Voice Assistant Platform - DigitalBot.ai 2025",
@@ -231,26 +232,22 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="dns-prefetch" href={apiOrigin} />
+        <link rel="preconnect" href={apiOrigin} crossOrigin="anonymous" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "DigitalBot.ai",
+              url: "https://www.digitalbot.ai",
+              logo: "https://www.digitalbot.ai/logo.png",
+            }),
+          }}
         />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased relative bg-white`} suppressHydrationWarning>
-        {/* Google Ads Script */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17791353502"
-          strategy="afterInteractive"
-        />
-        <Script id="google-ads" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-17791353502');
-          `}
-        </Script>
-        
         {/* Mobile Performance Optimization */}
         <style dangerouslySetInnerHTML={{
           __html: `
@@ -276,7 +273,6 @@ export default function RootLayout({
         }} />
         
         <AppProviders>{children}</AppProviders>
-        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
   )
