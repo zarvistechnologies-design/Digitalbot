@@ -8,6 +8,26 @@ import { Call, CallStats } from '@/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  AlertCircle,
+  Bot,
+  Clock,
+  Download,
+  FileText,
+  Filter,
+  Hash,
+  Headphones,
+  Menu,
+  Mic,
+  PhoneCall,
+  PhoneIncoming,
+  PhoneOutgoing,
+  RefreshCw,
+  Search,
+  Sparkles,
+  User,
+  X,
+} from 'lucide-react';
 
 type AgentOption = {
   id: string;
@@ -15,6 +35,38 @@ type AgentOption = {
 };
 
 const ALL_CALLS_LIMIT = 0;
+
+// "Switchboard" theme — a dark slate header rail with teal for live/primary
+// actions, sky for inbound, violet for outbound, and status categories that
+// map many raw provider strings onto four legible buckets.
+const statusBucket = (raw?: string): 'completed' | 'live' | 'missed' | 'other' => {
+  const s = (raw || '').toLowerCase();
+  if (['completed', 'user-ended', 'agent-ended', 'ended'].includes(s)) return 'completed';
+  if (['ongoing', 'in-progress', 'ringing'].includes(s)) return 'live';
+  if (['missed', 'no-answer', 'busy'].includes(s)) return 'missed';
+  return 'other';
+};
+
+const statusStyles: Record<string, string> = {
+  completed: 'bg-teal-50 text-teal-700 border-teal-200',
+  live: 'bg-amber-50 text-amber-700 border-amber-200',
+  missed: 'bg-rose-50 text-rose-700 border-rose-200',
+  other: 'bg-slate-100 text-slate-600 border-slate-300',
+};
+
+const statusDotColors: Record<string, string> = {
+  completed: 'bg-teal-500',
+  live: 'bg-amber-500 animate-pulse',
+  missed: 'bg-rose-500',
+  other: 'bg-slate-400',
+};
+
+const statusRailColors: Record<string, string> = {
+  completed: 'bg-teal-400',
+  live: 'bg-amber-400',
+  missed: 'bg-rose-400',
+  other: 'bg-slate-300',
+};
 
 const Dashboard = () => {
   const router = useRouter();
@@ -78,10 +130,10 @@ const Dashboard = () => {
   // Helper function to get display phone with direction indicator
   const getPhoneDisplay = (call: any): { phone: string; isInbound: boolean } => {
     const isInbound = call.direction === 'inbound';
-    const phone = isInbound 
+    const phone = isInbound
       ? (call.from_number || call.phone_number || 'Unknown')
       : (call.to_number || call.phone_number || 'Unknown');
-    
+
     return { phone, isInbound };
   };
 
@@ -359,7 +411,7 @@ const Dashboard = () => {
     let filteredCalls = [...allCalls];
 
     if (selectedAgent) {
-      filteredCalls = filteredCalls.filter(call => 
+      filteredCalls = filteredCalls.filter(call =>
         call.agent_id === selectedAgent || call.agent_name === selectedAgent
       );
     }
@@ -552,414 +604,371 @@ const Dashboard = () => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const getStatusColor = (status?: string) => {
-    switch (status?.toLowerCase()) {
-      case 'completed':
-      case 'user-ended':
-      case 'agent-ended':
-        return 'bg-white text-orange-700 border-orange-500';
-      case 'missed':
-      case 'no-answer':
-      case 'busy':
-        return 'bg-white text-orange-700 border-orange-500';
-      case 'ongoing':
-      case 'in-progress':
-      case 'ringing':
-        return 'bg-white text-orange-700 border-orange-500';
-      default:
-        return 'bg-white text-gray-800 border-gray-300';
-    }
-  };
-
   if (!mounted) {
-    return null;
+    return (
+      <div className="flex min-h-screen bg-slate-50">
+        <div className="hidden lg:block w-64 bg-slate-900" />
+        <main className="flex-1 lg:ml-64" />
+      </div>
+    );
   }
 
   return (
     <div className="flex min-h-screen bg-slate-50">
+      {/* Mobile Menu Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="lg:hidden fixed top-4 left-4 z-[1300] rounded-lg bg-orange-600 p-2.5 text-white shadow-lg transition-colors hover:bg-orange-700"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-lg shadow-sm border border-slate-200"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        {sidebarOpen ? <X className="w-6 h-6 text-slate-700" /> : <Menu className="w-6 h-6 text-slate-700" />}
       </button>
 
+      {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
-        <div
-          onClick={() => setSidebarOpen(false)}
-          className="lg:hidden fixed inset-0 bg-black/30 backdrop-blur-sm z-[1200]"
-        />
+        <div className="lg:hidden fixed inset-0 bg-slate-950/50 z-40" onClick={() => setSidebarOpen(false)}>
+          <div className="w-64 h-full" onClick={(e) => e.stopPropagation()}>
+            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          </div>
+        </div>
       )}
 
-      <div
-        className={`fixed left-0 top-0 bottom-0 w-64 transform transition-transform duration-300 ease-in-out z-[1250] ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0`}
-      >
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       </div>
 
-      <div className="min-w-0 flex-1 lg:ml-64 pt-16 lg:pt-0">
-        {loading ? (
-          <div className="flex justify-center items-center min-h-screen">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-600"></div>
-          </div>
-        ) : (
-          <>
-            <div className="border-b border-slate-200 bg-white">
-              <div className="mx-auto w-full max-w-7xl px-5 py-6 sm:px-6 lg:py-7">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                  <div>
-                    <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 font-semibold text-emerald-700">
+      <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 pt-20 lg:pt-8">
+        <div className="max-w-[1600px] mx-auto space-y-3">
+          {loading ? (
+            <div className="flex justify-center items-center py-32">
+              <RefreshCw className="w-8 h-8 text-teal-600 animate-spin" />
+            </div>
+          ) : (
+            <>
+              {/* ============ Compact Header Bar ============ */}
+              <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="hidden sm:grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg bg-slate-900">
+                    <Headphones className="h-4.5 w-4.5 text-white" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h1 className="text-lg font-bold tracking-tight text-slate-950 truncate">Call Ledger</h1>
+                      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700 flex-shrink-0">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                         Live
                       </span>
-                      <span className="text-slate-500">Last updated: {formatLastRefreshTime() || 'Just now'}</span>
                     </div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-950 md:text-4xl">Call Management</h1>
-                    <p className="mt-2 text-sm text-slate-600 md:text-base">Track and analyze your AI-powered conversations.</p>
+                    <p className="text-xs text-slate-400 font-mono">Updated {formatLastRefreshTime() || 'just now'}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 sm:gap-5 flex-shrink-0 pl-0 sm:pl-4 sm:border-l sm:border-slate-200">
+                  <div className="text-center">
+                    <div className="text-base font-bold text-slate-900 font-mono leading-none">{callSummary.total}</div>
+                    <div className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">Total</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-base font-bold text-teal-700 font-mono leading-none">{callSummary.completed}</div>
+                    <div className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">Done</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-base font-bold text-slate-900 font-mono leading-none">{formatDuration(callSummary.averageDuration)}</div>
+                    <div className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">Avg</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-base font-bold text-sky-700 font-mono leading-none">{callSummary.inbound}</div>
+                    <div className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">In</div>
                   </div>
                   <button
                     type="button"
                     onClick={handleRefresh}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 shadow-sm transition-colors hover:border-orange-200 hover:bg-orange-50 hover:text-orange-700"
                     aria-label="Refresh calls"
+                    className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-700"
                   >
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
+                    <RefreshCw className={`h-4 w-4 ${isBackgroundFetching ? 'animate-spin' : ''}`} />
                   </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="mx-auto w-full max-w-7xl px-5 py-6 sm:px-6 lg:py-7">              {/* Stats Cards */}
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4 mb-6">
-                <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-gray-500 text-sm font-medium mb-1">Total Calls</p>
-                      <p className="text-3xl font-bold text-gray-900">{callSummary.total}</p>
-                    </div>
-                    <div className="grid h-11 w-11 place-items-center rounded-lg bg-orange-50">
-                      <svg className="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-gray-500 text-sm font-medium mb-1">Completed</p>
-                      <p className="text-3xl font-bold text-gray-900">{callSummary.completed}</p>
-                    </div>
-                    <div className="grid h-11 w-11 place-items-center rounded-lg bg-orange-50">
-                      <svg className="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-gray-500 text-sm font-medium mb-1">Avg Duration</p>
-                      <p className="text-3xl font-bold text-gray-900">{formatDuration(callSummary.averageDuration)}</p>
-                    </div>
-                    <div className="grid h-11 w-11 place-items-center rounded-lg bg-orange-50">
-                      <svg className="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-gray-500 text-sm font-medium mb-1">Inbound</p>
-                      <p className="text-3xl font-bold text-gray-900">{callSummary.inbound}</p>
-                    </div>
-                    <div className="grid h-11 w-11 place-items-center rounded-lg bg-orange-50">
-                      <svg className="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
               </div>
 
               {/* Alert */}
               {error && (
-                <div className="mb-6 rounded-lg border border-orange-200 bg-orange-50 p-4">
-                  <div className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    <div>
-                      <p className="font-semibold text-orange-700">Calls API Error</p>
-                      <p className="text-sm text-gray-700 mt-1">{error}</p>
-                    </div>
+                <div className="rounded-lg border border-rose-200 bg-rose-50 px-5 py-3.5 flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-bold text-rose-800">Calls API error</p>
+                    <p className="text-sm text-rose-700 mt-0.5">{error}</p>
                   </div>
                 </div>
               )}
 
-              {/* Filters */}
-              <div className="mb-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-                <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="grid h-9 w-9 place-items-center rounded-lg bg-orange-50">
-                      <svg className="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                      </svg>
-                    </div>
-                    <h2 className="text-xl font-bold text-gray-900">Advanced Filters</h2>
+              {/* ============ Compact Filter Toolbar ============ */}
+              <div className="rounded-xl border border-slate-200 bg-white p-2.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex-1 min-w-[160px] relative">
+                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                      placeholder="Search ID, number, agent..."
+                      className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm text-slate-900"
+                    />
                   </div>
+
+                  <select
+                    value={selectedAgent}
+                    onChange={(e) => setSelectedAgent(e.target.value)}
+                    className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                  >
+                    <option value="">All Agents</option>
+                    {availableAgents.map((agent) => (
+                      <option key={agent.id} value={agent.id}>{agent.name}</option>
+                    ))}
+                  </select>
+
+                  <select
+                    value={selectedStatus}
+                    onChange={(e) => setSelectedStatus(e.target.value)}
+                    className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                  >
+                    <option value="">All Status</option>
+                    <option value="completed">Completed</option>
+                    <option value="agent-ended">Agent Ended</option>
+                    <option value="user-ended">User Ended</option>
+                    <option value="missed">Missed</option>
+                    <option value="no-answer">No Answer</option>
+                  </select>
+
+                  <select
+                    value={selectedDirection}
+                    onChange={(e) => setSelectedDirection(e.target.value)}
+                    className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                  >
+                    <option value="">In &amp; Out</option>
+                    <option value="inbound">Inbound</option>
+                    <option value="outbound">Outbound</option>
+                    <option value="unknown">Unknown</option>
+                  </select>
+
+                  <button
+                    onClick={handleSearch}
+                    className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-slate-800"
+                  >
+                    Search
+                  </button>
                   <button
                     onClick={() => setShowFilters(!showFilters)}
-                    className="rounded-lg px-3 py-2 text-sm font-semibold text-orange-700 transition-colors hover:bg-orange-50"
+                    aria-expanded={showFilters}
+                    className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                      showFilters ? 'border-teal-200 bg-teal-50 text-teal-700' : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                    }`}
                   >
-                    {showFilters ? 'Hide Filters' : 'Show Filters'}
+                    <Filter className="w-3.5 h-3.5" />
+                    More
                   </button>
                 </div>
 
                 {showFilters && (
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Agent</label>
+                  <div className="mt-2.5 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-2.5">
+                    <input
+                      type="text"
+                      value={phoneFilter}
+                      onChange={(e) => setPhoneFilter(e.target.value)}
+                      placeholder="Phone number"
+                      className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500 w-[140px]"
+                    />
+                    <input
+                      type="datetime-local"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500 font-mono"
+                    />
+                    <span className="text-xs text-slate-400">to</span>
+                    <input
+                      type="datetime-local"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500 font-mono"
+                    />
+
+                    <label className="ml-1 flex items-center gap-1.5 text-xs font-medium text-slate-600">
+                      <input
+                        type="checkbox"
+                        checked={isAutoRefreshEnabled}
+                        onChange={toggleAutoRefresh}
+                        className="h-3.5 w-3.5 rounded border-slate-300 text-teal-600 focus:ring-teal-500"
+                      />
+                      Auto-refresh
+                      {isAutoRefreshEnabled && (
                         <select
-                          value={selectedAgent}
-                          onChange={(e) => setSelectedAgent(e.target.value)}
-                          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm shadow-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                          value={refreshInterval}
+                          onChange={(e) => changeRefreshInterval(Number(e.target.value))}
+                          className="rounded-md border border-slate-200 bg-white px-1.5 py-1 text-xs text-slate-700"
                         >
-                          <option value="">All Agents</option>
-                          {availableAgents.map((agent) => (
-                            <option key={agent.id} value={agent.id}>
-                              {agent.name}
-                            </option>
-                          ))}
+                          <option value={5000}>5s</option>
+                          <option value={10000}>10s</option>
+                          <option value={30000}>30s</option>
+                          <option value={60000}>60s</option>
                         </select>
-                      </div>
+                      )}
+                    </label>
 
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Status</label>
-                        <select
-                          value={selectedStatus}
-                          onChange={(e) => setSelectedStatus(e.target.value)}
-                          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm shadow-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
-                        >
-                          <option value="">All Status</option>
-                          <option value="completed">Completed</option>
-                          <option value="agent-ended">Agent Ended</option>
-                          <option value="user-ended">User Ended</option>
-                          <option value="missed">Missed</option>
-                          <option value="no-answer">No Answer</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Direction</label>
-                        <select
-                          value={selectedDirection}
-                          onChange={(e) => setSelectedDirection(e.target.value)}
-                          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm shadow-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
-                        >
-                          <option value="">Inbound & Outbound</option>
-                          <option value="inbound">Inbound</option>
-                          <option value="outbound">Outbound</option>
-                          <option value="unknown">Unknown</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
-                        <input
-                          type="text"
-                          value={phoneFilter}
-                          onChange={(e) => setPhoneFilter(e.target.value)}
-                          placeholder="Enter phone number"
-                          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm shadow-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Start Time</label>
-                        <input
-                          type="datetime-local"
-                          value={startDate}
-                          onChange={(e) => setStartDate(e.target.value)}
-                          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm shadow-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">End Time</label>
-                        <input
-                          type="datetime-local"
-                          value={endDate}
-                          onChange={(e) => setEndDate(e.target.value)}
-                          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm shadow-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex gap-3 justify-end pt-2">
+                    <div className="ml-auto flex gap-2">
                       <button
                         onClick={handleClearFilters}
-                        className="rounded-lg border border-orange-600 px-5 py-2.5 font-semibold text-orange-700 transition-colors hover:bg-orange-50"
+                        className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50"
                       >
-                        Clear All
+                        Clear
                       </button>
                       <button
                         onClick={handleApplyFilters}
-                        className="rounded-lg bg-orange-600 px-5 py-2.5 font-semibold text-white shadow-sm transition-colors hover:bg-orange-700"
+                        className="rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-teal-700"
                       >
-                        Apply Filters
+                        Apply
                       </button>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Call History Header */}
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900">All Calls</h2>
-                  <p className="text-gray-500 mt-1">Showing {calls.length} call(s)</p>
+              {/* ============ Call List ============ */}
+              <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+                <div className="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-slate-200">
+                  <p className="text-xs text-slate-500">
+                    <span className="font-mono font-semibold text-slate-700">{calls.length}</span> call{calls.length === 1 ? '' : 's'}
+                    {newCallsCount > 0 && (
+                      <span className="ml-2 inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                        <Sparkles className="w-3 h-3" /> {newCallsCount} new
+                      </span>
+                    )}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleDownloadCsv}
+                    disabled={calls.length === 0}
+                    className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+                    title={calls.length === 0 ? 'No calls available to download' : 'Download the currently displayed calls'}
+                  >
+                    <Download className="w-3.5 h-3.5" aria-hidden="true" />
+                    Export CSV
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleDownloadCsv}
-                  disabled={calls.length === 0}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-orange-600 px-5 py-2.5 font-semibold text-white shadow-sm transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
-                  title={calls.length === 0 ? 'No calls available to download' : 'Download the currently displayed calls'}
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14a2 2 0 002-2v-2" />
-                  </svg>
-                  Download CSV ({calls.length})
-                </button>
-              </div>
 
-              {/* Calls List */}
-              <div className="space-y-4">
-                {calls.map((call: any) => {
-                  const callId = getCallId(call);
-                  const { phone, isInbound } = getPhoneDisplay(call);
-                  const recordingUrl = getRecordingUrl(call);
-                  const recordingError = recordingErrors[callId];
-                  
-                  return (
-                    <div key={callId} className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-                      <div
-                        onClick={() => handleCallClick(callId)}
-                        className="cursor-pointer p-5 transition-colors hover:bg-slate-50"
-                      >
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-                          <div>
-                            <p className="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">ID</p>
-                            <p className="text-sm text-gray-900 font-mono font-medium">{call.session_id || call.id}</p>
+                {/* Rows */}
+                <div className="divide-y divide-slate-100">
+                  {calls.map((call: any) => {
+                    const callId = getCallId(call);
+                    const { phone, isInbound } = getPhoneDisplay(call);
+                    const recordingUrl = getRecordingUrl(call);
+                    const recordingError = recordingErrors[callId];
+                    const bucket = statusBucket(call.status || call.call_status);
+                    const isOpen = expandedCall === callId;
+
+                    return (
+                      <div key={callId} className="bg-white">
+                        <div
+                          onClick={() => handleCallClick(callId)}
+                          className="group relative flex flex-col gap-2 sm:flex-row sm:items-center pl-3 pr-4 sm:pr-5 py-2.5 cursor-pointer hover:bg-slate-50 transition-colors"
+                        >
+                          {/* Status rail */}
+                          <div className={`hidden sm:block w-1 self-stretch rounded-full flex-shrink-0 ${statusRailColors[bucket]}`} />
+
+                          {/* Direction avatar */}
+                          <div className={`flex-shrink-0 p-2.5 rounded-lg transition-colors ${
+                            isInbound ? 'bg-sky-50 text-sky-600 group-hover:bg-sky-100' : 'bg-violet-50 text-violet-600 group-hover:bg-violet-100'
+                          }`}>
+                            {isInbound ? <PhoneIncoming className="w-4 h-4" /> : <PhoneOutgoing className="w-4 h-4" />}
                           </div>
 
-                          <div>
-                            <p className="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Agent</p>
-                            <p className="text-sm text-gray-900 font-medium">{getAgentDisplay(call)}</p>
-                          </div>
+                          <div className="grid flex-1 grid-cols-2 sm:grid-cols-6 gap-3 sm:gap-4 items-center min-w-0">
+                            <div className="min-w-0">
+                              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-0.5">ID</p>
+                              <p className="text-sm text-slate-900 font-mono font-semibold truncate">{call.session_id || call.id}</p>
+                            </div>
 
-                          <div>
-                            <p className="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">
-                              {isInbound ? 'Caller' : 'Called To'}
-                            </p>
-                            <div className="flex items-center gap-2">
-                              <p className="text-sm text-gray-900 font-medium">{phone}</p>
-                              {isInbound ? (
-                                <span className="px-2 py-0.5 text-xs bg-white text-orange-700 border border-orange-500 rounded-full font-semibold" title="Inbound">
-                                  â†“ IN
-                                </span>
-                              ) : (
-                                <span className="px-2 py-0.5 text-xs bg-white text-orange-700 border border-orange-500 rounded-full font-semibold" title="Outbound">
-                                  â†‘ OUT
-                                </span>
-                              )}
+                            <div className="min-w-0">
+                              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-0.5">Agent</p>
+                              <p className="text-sm text-slate-800 font-medium truncate flex items-center gap-1.5">
+                                <Bot className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0" />
+                                <span className="truncate">{getAgentDisplay(call)}</span>
+                              </p>
+                            </div>
+
+                            <div className="min-w-0">
+                              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-0.5">
+                                {isInbound ? 'Caller' : 'Called To'}
+                              </p>
+                              <p className="text-sm text-slate-900 font-mono font-medium truncate">{phone}</p>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-0.5">Status</p>
+                              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-wide border ${statusStyles[bucket]}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${statusDotColors[bucket]}`} />
+                                {call.status || call.call_status || 'completed'}
+                              </span>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-0.5">Duration</p>
+                              <p className="text-sm text-slate-800 font-mono font-medium flex items-center gap-1.5">
+                                <Clock className="w-3.5 h-3.5 text-slate-400" />
+                                {formatDuration(call.duration)}
+                              </p>
+                            </div>
+
+                            <div className="sm:text-right">
+                              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-0.5">Timestamp</p>
+                              <p className="text-xs text-slate-600 font-mono font-medium">
+                                {call.start_time ? new Date(call.start_time).toLocaleString() : 'N/A'}
+                              </p>
                             </div>
                           </div>
 
-                          <div>
-                            <p className="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Status</p>
-                            <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(call.status || call.call_status || 'completed')}`}>
-                              {call.status || call.call_status || 'completed'}
-                            </span>
-                          </div>
-
-                          <div>
-                            <p className="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Duration</p>
-                            <p className="text-sm text-gray-900 font-medium">{formatDuration(call.duration)}</p>
-                          </div>
-
-                          <div className="text-right">
-                            <p className="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Timestamp</p>
-                            <p className="text-xs text-gray-600 font-medium">
-                              {call.start_time ? new Date(call.start_time).toLocaleString() : 'N/A'}
-                            </p>
-                          </div>
+                          {recordingUrl && (
+                            <Mic className="hidden sm:block w-4 h-4 text-teal-500 flex-shrink-0" />
+                          )}
                         </div>
-                      </div>
 
-                      {expandedCall === callId && (
-                        <>
-                          <div className="border-t border-gray-200"></div>
-                          <div className="p-6 bg-white">
-                            {/* Call Details Section */}
-                            <div className="mb-6 bg-white rounded-xl border-2 border-gray-200 p-5">
-                              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <div className="grid h-9 w-9 place-items-center rounded-lg bg-orange-50">
-                                  <svg className="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                  </svg>
-                                </div>
+                        {isOpen && (
+                          <div className="border-t border-slate-100 bg-slate-50 p-4 sm:p-6 space-y-5">
+                            {/* Call Details */}
+                            <div className="bg-white rounded-xl border border-slate-200 p-5">
+                              <h3 className="text-xs font-bold uppercase tracking-widest mb-4 text-slate-500 flex items-center gap-2">
+                                <PhoneCall className="w-4 h-4 text-teal-600" />
                                 Call Details
                               </h3>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 <div>
-                                  <p className="text-xs font-semibold text-gray-500 mb-1 uppercase">From Number</p>
-                                  <p className="text-sm text-gray-900 font-mono">{call.from_number || 'Unknown'}</p>
+                                  <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-1">From Number</p>
+                                  <p className="text-sm text-slate-900 font-mono">{call.from_number || 'Unknown'}</p>
                                 </div>
                                 <div>
-                                  <p className="text-xs font-semibold text-gray-500 mb-1 uppercase">To Number</p>
-                                  <p className="text-sm text-gray-900 font-mono">{call.to_number || 'Unknown'}</p>
+                                  <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-1">To Number</p>
+                                  <p className="text-sm text-slate-900 font-mono">{call.to_number || 'Unknown'}</p>
                                 </div>
                                 <div>
-                                  <p className="text-xs font-semibold text-gray-500 mb-1 uppercase">Direction</p>
-                                  <p className="text-sm text-gray-900 capitalize">{call.direction || 'Unknown'}</p>
+                                  <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-1">Direction</p>
+                                  <p className="text-sm text-slate-900 capitalize">{call.direction || 'Unknown'}</p>
                                 </div>
                                 <div>
-                                  <p className="text-xs font-semibold text-gray-500 mb-1 uppercase">Call ID</p>
-                                  <p className="text-sm text-gray-900 font-mono">{call.call_id || call.id}</p>
+                                  <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-1">Call ID</p>
+                                  <p className="text-sm text-slate-900 font-mono">{call.call_id || call.id}</p>
                                 </div>
                               </div>
                             </div>
 
-                            {/* Recordings Section */}
-                            <div className="mb-6">
-                              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <div className="grid h-9 w-9 place-items-center rounded-lg bg-orange-50">
-                                  <svg className="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                  </svg>
-                                </div>
-                                Recordings & AI Analysis
+                            {/* Recordings */}
+                            <div>
+                              <h3 className="text-xs font-bold uppercase tracking-widest mb-3 text-slate-500 flex items-center gap-2">
+                                <Headphones className="w-4 h-4 text-teal-600" />
+                                Recording &amp; AI Analysis
                               </h3>
 
                               {recordingUrl ? (
-                                <div className="bg-white rounded-xl border-2 border-gray-200 p-5 shadow-sm">
+                                <div className="bg-white rounded-xl border border-slate-200 p-5">
                                   <audio
                                     controls
                                     className="w-full"
@@ -979,36 +988,32 @@ const Dashboard = () => {
                                       href={recordingUrl}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="inline-flex items-center px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm font-semibold transition-colors"
+                                      className="inline-flex items-center px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm font-semibold transition-colors"
                                     >
                                       Open Recording
                                     </a>
                                     <a
                                       href={recordingUrl}
                                       download
-                                      className="inline-flex items-center px-4 py-2 border border-orange-600 text-orange-600 hover:bg-orange-50 rounded-lg text-sm font-semibold transition-colors"
+                                      className="inline-flex items-center px-4 py-2 border border-teal-600 text-teal-700 hover:bg-teal-50 rounded-lg text-sm font-semibold transition-colors"
                                     >
                                       Download
                                     </a>
                                     {recordingError && (
-                                      <span className="text-sm font-medium text-orange-700">
-                                        {recordingError}
-                                      </span>
+                                      <span className="text-sm font-medium text-rose-600">{recordingError}</span>
                                     )}
                                   </div>
                                 </div>
                               ) : call.agent_config?.call_settings?.enable_recording ? (
-                                <div className="bg-white border-2 border-orange-500 rounded-xl p-4">
+                                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
                                   <div className="flex items-start gap-3">
-                                    <svg className="w-6 h-6 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
+                                    <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                                     <div>
-                                      <p className="font-bold text-orange-700 mb-1">Recording Enabled - Processing</p>
-                                      <p className="text-sm text-gray-700">
+                                      <p className="font-bold text-amber-800 mb-1 text-sm">Recording enabled — processing</p>
+                                      <p className="text-sm text-amber-700">
                                         Recording is enabled for this call. It may still be processing. Check your{' '}
-                                        <a href="https://dashboard.millis.ai" target="_blank" rel="noopener noreferrer" className="text-orange-600 font-bold underline hover:text-orange-700">
-                                           Dashboard
+                                        <a href="https://dashboard.millis.ai" target="_blank" rel="noopener noreferrer" className="font-bold underline hover:text-amber-900">
+                                          Dashboard
                                         </a>{' '}
                                         for the recording.
                                       </p>
@@ -1016,15 +1021,15 @@ const Dashboard = () => {
                                   </div>
                                 </div>
                               ) : (
-                                <div className="bg-white border-2 border-orange-500 rounded-xl p-4">
+                                <div className="bg-slate-100 border border-slate-200 rounded-xl p-4">
                                   <div className="flex items-start gap-3">
-                                    <svg className="w-6 h-6 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
+                                    <AlertCircle className="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" />
                                     <div>
-                                      <p className="font-bold text-orange-700 mb-1">No Recording Available</p>
-                                      <p className="text-sm text-gray-700">
-                                        Recording was not enabled for this call. Enable <code className="bg-gray-800 text-white px-2 py-1 rounded text-xs font-mono">enable_recording: true</code> in agent settings.
+                                      <p className="font-bold text-slate-700 mb-1 text-sm">No recording available</p>
+                                      <p className="text-sm text-slate-600">
+                                        Recording was not enabled for this call. Enable{' '}
+                                        <code className="bg-slate-800 text-white px-1.5 py-0.5 rounded text-xs font-mono">enable_recording: true</code>{' '}
+                                        in agent settings.
                                       </p>
                                     </div>
                                   </div>
@@ -1032,18 +1037,14 @@ const Dashboard = () => {
                               )}
                             </div>
 
-                            {/* Transcription Section */}
+                            {/* Transcription */}
                             {(call.chat || call.transcription) && (
                               <div>
-                                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                  <div className="grid h-9 w-9 place-items-center rounded-lg bg-orange-50">
-                                    <svg className="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                                    </svg>
-                                  </div>
+                                <h3 className="text-xs font-bold uppercase tracking-widest mb-3 text-slate-500 flex items-center gap-2">
+                                  <FileText className="w-4 h-4 text-slate-500" />
                                   Call Transcription
                                 </h3>
-                                <div className="bg-white border-2 border-gray-200 rounded-xl p-4 max-h-96 overflow-auto shadow-sm">
+                                <div className="bg-white border border-slate-200 rounded-xl p-4 max-h-96 overflow-auto">
                                   {(() => {
                                     try {
                                       let chatData = call.chat || call.transcription;
@@ -1051,7 +1052,7 @@ const Dashboard = () => {
                                       if (typeof chatData === 'string') {
                                         if (!chatData.trim().startsWith('[') && !chatData.trim().startsWith('{')) {
                                           return (
-                                            <p className="text-gray-800 whitespace-pre-wrap leading-relaxed">
+                                            <p className="text-slate-800 whitespace-pre-wrap leading-relaxed text-sm">
                                               {chatData}
                                             </p>
                                           );
@@ -1061,7 +1062,7 @@ const Dashboard = () => {
                                           chatData = JSON.parse(chatData);
                                         } catch (parseError) {
                                           return (
-                                            <div className="bg-white border-2 border-orange-500 rounded-lg p-3 text-gray-800">
+                                            <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-rose-700 text-sm">
                                               Failed to parse transcription
                                             </div>
                                           );
@@ -1077,23 +1078,22 @@ const Dashboard = () => {
 
                                           if (!String(messageText).trim()) return null;
 
+                                          const isAssistant = message.role === 'assistant';
+
                                           return (
                                             <div
                                               key={index}
-                                              className={`mb-3 p-4 rounded-xl border-2 ${
-                                                message.role === 'assistant'
-                                                  ? 'bg-white border-orange-500'
-                                                  : 'bg-white border-gray-300'
+                                              className={`mb-2.5 p-3 rounded-lg border-l-2 ${
+                                                isAssistant ? 'bg-indigo-50/60 border-indigo-400' : 'bg-slate-50 border-teal-400'
                                               }`}
                                             >
-                                              <p className={`text-xs font-bold mb-2 uppercase tracking-wide ${
-                                                message.role === 'assistant' ? 'text-orange-700' : 'text-gray-700'
+                                              <p className={`text-[10px] font-bold mb-1 uppercase tracking-wide flex items-center gap-1.5 ${
+                                                isAssistant ? 'text-indigo-700' : 'text-teal-700'
                                               }`}>
-                                                {message.role === 'assistant' ? 'ðŸ¤– AI Agent' : 'ðŸ‘¤ User'}
+                                                {isAssistant ? <Bot className="w-3 h-3" /> : <User className="w-3 h-3" />}
+                                                {isAssistant ? 'AI Agent' : 'Caller'}
                                               </p>
-                                              <p className={`text-sm whitespace-pre-wrap leading-relaxed ${
-                                                message.role === 'assistant' ? 'text-orange-700' : 'text-gray-800'
-                                              }`}>
+                                              <p className="text-sm whitespace-pre-wrap leading-relaxed text-slate-800">
                                                 {messageText}
                                               </p>
                                             </div>
@@ -1102,13 +1102,13 @@ const Dashboard = () => {
                                       }
 
                                       return (
-                                        <div className="bg-white border-2 border-orange-500 rounded-lg p-3 text-gray-800">
+                                        <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-rose-700 text-sm">
                                           Unexpected transcription format
                                         </div>
                                       );
                                     } catch (e) {
                                       return (
-                                        <div className="bg-white border-2 border-orange-500 rounded-lg p-3 text-gray-800">
+                                        <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 text-rose-700 text-sm">
                                           Failed to display transcription
                                         </div>
                                       );
@@ -1119,40 +1119,34 @@ const Dashboard = () => {
                             )}
 
                             {!call.chat && !call.transcription && (
-                              <div className="bg-white border-2 border-orange-500 rounded-xl p-4 mt-6">
+                              <div className="bg-slate-100 border border-slate-200 rounded-xl p-4">
                                 <div className="flex items-center gap-3">
-                                  <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                  </svg>
-                                  <p className="text-gray-800 font-medium">No transcription available for this call</p>
+                                  <FileText className="w-5 h-5 text-slate-400" />
+                                  <p className="text-slate-600 font-medium text-sm">No transcription available for this call</p>
                                 </div>
                               </div>
                             )}
                           </div>
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
+                        )}
+                      </div>
+                    );
+                  })}
 
-                {calls.length === 0 && (
-                  <div className="bg-white rounded-2xl border-2 border-gray-200 shadow-lg p-12 text-center">
-                    <div className="bg-white border-2 border-orange-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
+                  {calls.length === 0 && (
+                    <div className="p-12 text-center">
+                      <div className="bg-slate-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <PhoneCall className="w-7 h-7 text-slate-400" />
+                      </div>
+                      <h3 className="text-base font-bold text-slate-900 mb-1">No calls found</h3>
+                      <p className="text-slate-500 text-sm">No calls found for the assigned number.</p>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">No calls found</h3>
-                    <p className="text-gray-600">
-                      No Millis calls found for the assigned number.
-                    </p>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          </>
-        )}
-      </div>
+            </>
+          )}
+        </div>
+      </main>
     </div>
   );
 };

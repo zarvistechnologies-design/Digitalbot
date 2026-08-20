@@ -103,40 +103,44 @@ type Campaign = {
 
 type FilterStatus = 'all' | 'active' | 'scheduled' | 'completed' | 'draft' | 'paused';
 
+// Professional "clinical ledger" theme — muted, flat, high-legibility.
+// Status tokens pair a soft surface with a saturated ink; the accent used
+// for the row rail and progress bar is a FLAT color, never a gradient, and
+// blue-600 is the single interface accent used everywhere else on the page.
 const campaignStatusMeta = {
     active: {
         label: 'Active',
         badge: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20',
         dot: 'bg-emerald-500',
-        accent: 'from-emerald-500 to-emerald-600',
+        accent: 'bg-emerald-500',
         row: 'hover:bg-slate-50'
     },
     scheduled: {
         label: 'Scheduled',
         badge: 'bg-sky-50 text-sky-700 ring-1 ring-sky-600/20',
         dot: 'bg-sky-500',
-        accent: 'from-sky-500 to-sky-600',
+        accent: 'bg-sky-500',
         row: 'hover:bg-slate-50'
     },
     paused: {
         label: 'Paused',
         badge: 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20',
         dot: 'bg-amber-500',
-        accent: 'from-amber-500 to-amber-600',
+        accent: 'bg-amber-500',
         row: 'hover:bg-slate-50'
     },
     completed: {
         label: 'Completed',
         badge: 'bg-slate-100 text-slate-700 ring-1 ring-slate-600/15',
         dot: 'bg-slate-500',
-        accent: 'from-slate-600 to-slate-700',
+        accent: 'bg-slate-500',
         row: 'hover:bg-slate-50'
     },
     draft: {
         label: 'Draft',
         badge: 'bg-slate-50 text-slate-600 ring-1 ring-slate-600/15',
         dot: 'bg-slate-400',
-        accent: 'from-slate-400 to-slate-500',
+        accent: 'bg-slate-400',
         row: 'hover:bg-slate-50'
     }
 } as const;
@@ -185,7 +189,7 @@ userPhone ?: string;
 
     return (
         <article className={`relative overflow-hidden px-5 py-5 transition-colors sm:px-6 ${statusMeta.row}`}>
-            <div className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${statusMeta.accent}`} />
+            <div className={`absolute inset-y-0 left-0 w-1 ${statusMeta.accent}`} />
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-[minmax(260px,1.6fr)_minmax(180px,1fr)_90px_90px_auto] xl:items-center">
                 <div className="flex min-w-0 items-start gap-3 sm:col-span-2 xl:col-span-1">
                     <span className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700">
@@ -211,7 +215,7 @@ userPhone ?: string;
                         <span className="font-semibold text-slate-700">{attempted.toLocaleString()}/{campaign.totalContacts.toLocaleString()}</span>
                     </div>
                     <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
-                        <div className={`h-full rounded-full bg-gradient-to-r transition-all ${statusMeta.accent}`} style={{ width: `${progress}%` }} />
+                        <div className={`h-full rounded-full transition-all ${statusMeta.accent}`} style={{ width: `${progress}%` }} />
                     </div>
                     <p className="mt-2 text-xs text-slate-500">Answer rate <strong className="text-slate-700">{formatPercent(campaign.operational?.answerRate)}</strong></p>
                 </div>
@@ -857,7 +861,7 @@ export default function CampaignsPage() {
                 </div>
                 <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8 flex items-center justify-center">
                     <div className="text-center">
-                        <Loader2 className="mx-auto mb-4 h-8 w-8 animate-spin text-orange-600" />
+                        <Loader2 className="mx-auto mb-4 h-8 w-8 animate-spin text-blue-600" />
                         <p className="text-lg font-semibold text-slate-900">Loading campaigns</p>
                         <p className="mt-1 text-sm text-slate-500">Fetching your campaign data</p>
                     </div>
@@ -871,7 +875,7 @@ export default function CampaignsPage() {
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border border-slate-200 hover:border-orange-300 transition-all"
+                className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border border-slate-200 hover:border-blue-300 transition-all"
                 aria-label="Toggle menu"
             >
                 <MenuIcon />
@@ -1063,7 +1067,7 @@ export default function CampaignsPage() {
                     <div className="w-full max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl" onMouseDown={(event) => event.stopPropagation()}>
                         <div className="flex items-start justify-between bg-slate-950 p-6 text-white sm:p-8">
                             <div>
-                                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-orange-200"><Eye className="h-3.5 w-3.5" /> Campaign details</div>
+                                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-200"><Eye className="h-3.5 w-3.5" /> Campaign details</div>
                                 <h2 className="text-2xl font-semibold sm:text-3xl">{selectedCampaign.name}</h2>
                                 <p className="mt-2 text-sm text-slate-300">{selectedCampaign.targetAudience}</p>
                             </div>
@@ -1124,7 +1128,7 @@ export default function CampaignsPage() {
                                 </div>
                             </div>
                             <div className="flex justify-end gap-3">
-                                <button type="button" onClick={() => { handleEditCampaign(selectedCampaign._id); setSelectedCampaign(null); }} className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-orange-600"><Edit3 className="h-4 w-4" /> Edit campaign</button>
+                                <button type="button" onClick={() => { handleEditCampaign(selectedCampaign._id); setSelectedCampaign(null); }} className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-blue-600"><Edit3 className="h-4 w-4" /> Edit campaign</button>
                             </div>
                         </div>
                     </div>
@@ -1136,17 +1140,17 @@ export default function CampaignsPage() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 p-4 backdrop-blur-sm" onMouseDown={() => !savingEdit && setEditingCampaign(null)}>
                     <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl sm:p-8" onMouseDown={(event) => event.stopPropagation()}>
                         <div className="flex items-start justify-between">
-                            <div><p className="text-sm font-semibold text-orange-600">Edit campaign</p><h2 className="mt-1 text-2xl font-semibold text-slate-950">Campaign information</h2></div>
+                            <div><p className="text-sm font-semibold text-blue-600">Edit campaign</p><h2 className="mt-1 text-2xl font-semibold text-slate-950">Campaign information</h2></div>
                             <button type="button" disabled={savingEdit} onClick={() => setEditingCampaign(null)} className="rounded-xl p-2 text-slate-500 hover:bg-slate-100" aria-label="Close campaign editor"><X className="h-5 w-5" /></button>
                         </div>
                         <div className="mt-7 space-y-5">
-                            <label className="block"><span className="mb-2 block text-sm font-bold text-slate-700">Campaign name</span><input value={editName} onChange={(event) => setEditName(event.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" /></label>
-                            <label className="block"><span className="mb-2 block text-sm font-bold text-slate-700">Target audience</span><input value={editTargetAudience} onChange={(event) => setEditTargetAudience(event.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" /></label>
+                            <label className="block"><span className="mb-2 block text-sm font-bold text-slate-700">Campaign name</span><input value={editName} onChange={(event) => setEditName(event.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" /></label>
+                            <label className="block"><span className="mb-2 block text-sm font-bold text-slate-700">Target audience</span><input value={editTargetAudience} onChange={(event) => setEditTargetAudience(event.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" /></label>
                             <p className="rounded-xl bg-sky-50 p-3 text-xs leading-5 text-sky-700">Provider, agent and phone-number settings stay locked after creation so the linked Vozon campaign remains consistent.</p>
                         </div>
                         <div className="mt-7 flex gap-3">
                             <button type="button" disabled={savingEdit} onClick={() => setEditingCampaign(null)} className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50">Cancel</button>
-                            <button type="button" disabled={savingEdit || !editName.trim() || !editTargetAudience.trim()} onClick={handleSaveCampaign} className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50">{savingEdit ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}{savingEdit ? 'Saving...' : 'Save changes'}</button>
+                            <button type="button" disabled={savingEdit || !editName.trim() || !editTargetAudience.trim()} onClick={handleSaveCampaign} className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50">{savingEdit ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}{savingEdit ? 'Saving...' : 'Save changes'}</button>
                         </div>
                     </div>
                 </div>
@@ -1250,7 +1254,7 @@ export default function CampaignsPage() {
                                                     value={campaignName}
                                                     onChange={(e) => setCampaignName(e.target.value)}
                                                     placeholder="e.g., August appointment follow-up"
-                                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                                                 />
                                             </label>
                                             <label className="block">
@@ -1260,7 +1264,7 @@ export default function CampaignsPage() {
                                                     value={targetAudience}
                                                     onChange={(e) => setTargetAudience(e.target.value)}
                                                     placeholder="e.g., New leads, missed patients"
-                                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                                                 />
                                             </label>
                                         </div>
@@ -1286,7 +1290,7 @@ export default function CampaignsPage() {
                                                     value={agentId}
                                                     onChange={(e) => setAgentId(e.target.value)}
                                                     placeholder="Enter Vozon agent ID"
-                                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                                                 />
                                             </label>
                                             <label className="block md:col-span-2">
@@ -1296,7 +1300,7 @@ export default function CampaignsPage() {
                                                     value={phoneNumberId}
                                                     onChange={(e) => setPhoneNumberId(e.target.value)}
                                                     placeholder="e.g., +919876543210 or Vozon phone-number ID"
-                                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                                                 />
                                                 <p className="mt-1 text-xs text-gray-500">If you enter a phone number, Digitalbot will resolve its internal Vozon ID automatically.</p>
                                             </label>
@@ -1311,19 +1315,19 @@ export default function CampaignsPage() {
                                         <div className="grid gap-4 md:grid-cols-4">
                                             <label className="block">
                                                 <span className="mb-2 block text-sm font-bold text-gray-700">Daily call limit *</span>
-                                                <input type="number" min={1} max={100000} step={1} value={dailyLimit} onChange={(e) => setDailyLimit(Number(e.target.value))} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" />
+                                                <input type="number" min={1} max={100000} step={1} value={dailyLimit} onChange={(e) => setDailyLimit(Number(e.target.value))} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
                                             </label>
                                             <label className="block">
                                                 <span className="mb-2 block text-sm font-bold text-gray-700">Concurrent calls *</span>
-                                                <input type="number" min={1} max={100} step={1} value={concurrency} onChange={(e) => setConcurrency(Number(e.target.value))} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" />
+                                                <input type="number" min={1} max={100} step={1} value={concurrency} onChange={(e) => setConcurrency(Number(e.target.value))} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
                                             </label>
                                             <label className="block">
                                                 <span className="mb-2 block text-sm font-bold text-gray-700">Start time *</span>
-                                                <input type="time" value={windowStart} onChange={(e) => setWindowStart(e.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" />
+                                                <input type="time" value={windowStart} onChange={(e) => setWindowStart(e.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
                                             </label>
                                             <label className="block">
                                                 <span className="mb-2 block text-sm font-bold text-gray-700">End time *</span>
-                                                <input type="time" value={windowEnd} onChange={(e) => setWindowEnd(e.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" />
+                                                <input type="time" value={windowEnd} onChange={(e) => setWindowEnd(e.target.value)} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
                                             </label>
                                         </div>
                                     </section>
@@ -1335,12 +1339,12 @@ export default function CampaignsPage() {
                                             <div className="mt-4 grid gap-4 sm:grid-cols-2">
                                                 <label className="block">
                                                     <span className="mb-2 block text-sm font-bold text-gray-700">Total attempts *</span>
-                                                    <input type="number" min={1} max={10} step={1} value={retryAttempts} onChange={(e) => setRetryAttempts(Number(e.target.value))} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" />
+                                                    <input type="number" min={1} max={10} step={1} value={retryAttempts} onChange={(e) => setRetryAttempts(Number(e.target.value))} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
                                                     <span className="mt-1 block text-xs text-gray-500">1 means no retry.</span>
                                                 </label>
                                                 <label className="block">
                                                     <span className="mb-2 block text-sm font-bold text-gray-700">Retry after hours *</span>
-                                                    <input type="number" min={0.02} max={720} step={0.25} value={retryDelayHours} onChange={(e) => setRetryDelayHours(Number(e.target.value))} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100" />
+                                                    <input type="number" min={0.02} max={720} step={0.25} value={retryDelayHours} onChange={(e) => setRetryDelayHours(Number(e.target.value))} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
                                                     <span className="mt-1 block text-xs text-gray-500">Example: 24 = next day.</span>
                                                 </label>
                                             </div>
@@ -1351,14 +1355,14 @@ export default function CampaignsPage() {
                                             <p className="mt-1 text-xs text-slate-500">Choose how the agent starts and handles voicemail.</p>
                                             <label className="mt-4 block">
                                                 <span className="mb-2 block text-sm font-bold text-gray-700">Opening Mode *</span>
-                                                <select value={firstMessageMode} onChange={(e) => setFirstMessageMode(e.target.value as FirstMessageMode)} className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100">
+                                                <select value={firstMessageMode} onChange={(e) => setFirstMessageMode(e.target.value as FirstMessageMode)} className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
                                                     <option value="assistant-speaks-first">Agent speaks first</option>
                                                     <option value="model-generated">AI generates opening</option>
                                                     <option value="user-speaks-first">Customer speaks first</option>
                                                 </select>
                                             </label>
                                             <label className="mt-4 flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                                                <input type="checkbox" checked={detectVoicemail} onChange={(e) => setDetectVoicemail(e.target.checked)} className="mt-1 h-4 w-4 rounded border-slate-300 text-orange-600 focus:ring-orange-500" />
+                                                <input type="checkbox" checked={detectVoicemail} onChange={(e) => setDetectVoicemail(e.target.checked)} className="mt-1 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
                                                 <span>
                                                     <span className="block text-sm font-bold text-gray-700">Detect voicemail</span>
                                                     <span className="mt-1 block text-xs leading-5 text-gray-500">Keep off for normal campaigns if you want the agent to speak immediately.</span>
@@ -1369,7 +1373,7 @@ export default function CampaignsPage() {
                                     <button
                                         onClick={() => setUploadStep('upload')}
                                         disabled={!campaignName.trim() || !targetAudience.trim() || !agentId.trim() || (outboundProvider === 'vozon' && !phoneNumberId.trim())}
-                                        className="w-full rounded-lg bg-orange-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                        className="w-full rounded-lg bg-blue-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                                     >
                                         Next: upload contacts
                                     </button>
@@ -1385,7 +1389,7 @@ export default function CampaignsPage() {
                                     </div>
 
                                     {/* CSV Upload */}
-                                    <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center transition-colors hover:border-orange-400">
+                                    <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center transition-colors hover:border-blue-400">
                                         <input
                                             ref={fileInputRef}
                                             type="file"
@@ -1473,7 +1477,7 @@ export default function CampaignsPage() {
                                             </div>
                                             <div>
                                                 <p className="text-sm text-gray-600 font-semibold">Total Contacts</p>
-                                                <p className="text-lg font-bold text-orange-600">{contacts.length}</p>
+                                                <p className="text-lg font-bold text-blue-600">{contacts.length}</p>
                                             </div>
                                             <div>
                                                 <p className="text-sm text-gray-600 font-semibold">Provider</p>
@@ -1540,7 +1544,7 @@ export default function CampaignsPage() {
                                             {userInfo?.assignedPhoneNumber && (
                                                 <div className="col-span-2">
                                                     <p className="text-sm text-gray-600 font-semibold">Calling From</p>
-                                                    <p className="inline-flex items-center gap-2 text-lg font-bold text-slate-900"><Phone className="h-4 w-4 text-orange-600" /> {userInfo.assignedPhoneNumber}</p>
+                                                    <p className="inline-flex items-center gap-2 text-lg font-bold text-slate-900"><Phone className="h-4 w-4 text-blue-600" /> {userInfo.assignedPhoneNumber}</p>
                                                 </div>
                                             )}
                                         </div>
@@ -1587,7 +1591,7 @@ export default function CampaignsPage() {
                                         <button
                                             onClick={handleCreateCampaign}
                                             disabled={creating}
-                                            className="flex-1 rounded-lg bg-orange-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                            className="flex-1 rounded-lg bg-blue-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                                         >
                                             {creating ? 'Creating...' : 'Create campaign'}
                                         </button>

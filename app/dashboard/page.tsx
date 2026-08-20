@@ -4,7 +4,7 @@ import { useCachedFetch } from "@/components/hooks/use-cached-fetch";
 import { useWebSocket } from "@/components/hooks/use-websocket";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { CACHE_KEYS, invalidateCache } from "@/lib/cache";
-import { Activity, AlertCircle, ArrowDown, ArrowUp, BarChart3, Brain, CheckCircle, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, TrendingUp, X, XCircle, Zap } from "lucide-react";
+import { Activity, AlertCircle, ArrowDown, ArrowRight, ArrowUp, BarChart3, Brain, CheckCircle2, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, Sparkles, TrendingUp, X, XCircle, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -47,13 +47,33 @@ interface Analytics {
   weeklyComparison: { week: string; calls: number; successRate: number }[];
 }
 
+// Ledger palette — teal for primary/positive, sky for inbound, violet for
+// outbound, amber for caution, rose for failure, indigo for AI/analysis.
+const chartColors = ['#0d9488', '#0284c7', '#f59e0b', '#e11d48', '#7c3aed', '#4f46e5'];
+
+const statusTone = (status: string) => {
+  const s = status.toLowerCase();
+  if (['completed', 'user-ended', 'agent-ended'].includes(s)) return { text: 'text-teal-700', bg: 'bg-teal-50', border: 'border-teal-200', dot: 'bg-teal-500' };
+  if (['failed', 'error'].includes(s)) return { text: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200', dot: 'bg-rose-500' };
+  if (['busy', 'no-answer'].includes(s)) return { text: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-200', dot: 'bg-amber-500' };
+  return { text: 'text-slate-600', bg: 'bg-slate-100', border: 'border-slate-300', dot: 'bg-slate-400' };
+};
+
+const metricTones: Record<string, { chip: string; icon: string; ring: string }> = {
+  teal: { chip: 'bg-teal-50', icon: 'text-teal-600', ring: 'border-teal-200' },
+  sky: { chip: 'bg-sky-50', icon: 'text-sky-600', ring: 'border-sky-200' },
+  violet: { chip: 'bg-violet-50', icon: 'text-violet-600', ring: 'border-violet-200' },
+  amber: { chip: 'bg-amber-50', icon: 'text-amber-600', ring: 'border-amber-200' },
+  rose: { chip: 'bg-rose-50', icon: 'text-rose-600', ring: 'border-rose-200' },
+  indigo: { chip: 'bg-indigo-50', icon: 'text-indigo-600', ring: 'border-indigo-200' },
+  slate: { chip: 'bg-slate-100', icon: 'text-slate-600', ring: 'border-slate-200' },
+};
+
 export default function AnalyticsOverview() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [dateFilter, setDateFilter] = useState("7");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const chartColors = ['#f97316', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
 
   useEffect(() => {
     setMounted(true);
@@ -251,43 +271,76 @@ export default function AnalyticsOverview() {
 
   const heatmapMax = heatmapData ? heatmapData.flat().reduce((m, v) => Math.max(m, v), 0) : 0;
 
-
-
-  const MetricCard = ({ title, value, icon: Icon, trend, trendValue, color = "orange", subtitle }: any) => (
-    <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-300 group">
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex-1 min-w-0">
-          <p className="text-slate-600 text-xs sm:text-sm font-medium mb-1 truncate">{title}</p>
-          <p className="text-2xl sm:text-3xl font-bold text-slate-800 mb-1">{value}</p>
-          {subtitle && <p className="text-slate-500 text-xs truncate">{subtitle}</p>}
+  const MetricCard = ({ title, value, icon: Icon, trend, trendValue, color = "teal", subtitle }: any) => {
+    const tone = metricTones[color] || metricTones.slate;
+    return (
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex-1 min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500 mb-1.5 truncate">{title}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-slate-950 font-mono leading-none">{value}</p>
+            {subtitle && <p className="text-slate-500 text-xs mt-1.5 truncate">{subtitle}</p>}
+          </div>
+          <div className={`grid h-11 w-11 sm:h-12 sm:w-12 flex-shrink-0 place-items-center rounded-lg border ${tone.chip} ${tone.ring}`}>
+            <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${tone.icon}`} />
+          </div>
         </div>
-        <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-${color}-400 to-${color}-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-lg shrink-0`}>
-          <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
-        </div>
+        {trend && trendValue && (
+          <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-slate-100">
+            {trend === "up" && <ArrowUp className="w-3.5 h-3.5 text-teal-600" />}
+            {trend === "down" && <ArrowDown className="w-3.5 h-3.5 text-rose-600" />}
+            {trend === "neutral" && <Minus className="w-3.5 h-3.5 text-slate-400" />}
+            <span className={`text-xs font-bold font-mono ${trend === "up" ? "text-teal-700" : trend === "down" ? "text-rose-700" : "text-slate-500"}`}>{trendValue}</span>
+            <span className="text-slate-400 text-[11px] hidden sm:inline">vs last period</span>
+          </div>
+        )}
       </div>
-      {trend && trendValue && (
-        <div className="flex items-center gap-1 mt-3 pt-3 border-t border-slate-200">
-          {trend === "up" && <ArrowUp className="w-3 h-3 sm:w-4 sm:h-4 text-green-500" />}
-          {trend === "down" && <ArrowDown className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />}
-          {trend === "neutral" && <Minus className="w-3 h-3 sm:w-4 sm:h-4 text-slate-500" />}
-          <span className={`text-xs sm:text-sm font-semibold ${trend === "up" ? "text-green-600" : trend === "down" ? "text-red-600" : "text-slate-600"}`}>{trendValue}</span>
-          <span className="text-slate-500 text-xs ml-1 hidden sm:inline">vs last period</span>
-        </div>
-      )}
+    );
+  };
+
+  const SectionHeading = ({ icon: Icon, title, subtitle }: any) => (
+    <div className="mb-4 flex items-center gap-2.5">
+      <div className="grid h-8 w-8 place-items-center rounded-lg bg-slate-900">
+        <Icon className="w-4 h-4 text-white" />
+      </div>
+      <div>
+        <h2 className="text-base font-bold text-slate-900 leading-none">{title}</h2>
+        {subtitle && <p className="text-xs text-slate-400 mt-1">{subtitle}</p>}
+      </div>
     </div>
   );
 
+  const ChartCard = ({ icon: Icon, title, tag, tagColor = 'slate', children }: any) => {
+    const tone = metricTones[tagColor] || metricTones.slate;
+    return (
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+          <div className="flex items-center gap-2">
+            <Icon className="w-4 h-4 text-slate-400 shrink-0" />
+            <h3 className="text-sm font-bold text-slate-900">{title}</h3>
+          </div>
+          {tag && (
+            <span className={`text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wide self-start sm:self-auto ${tone.chip} ${tone.icon}`}>
+              {tag}
+            </span>
+          )}
+        </div>
+        {children}
+      </div>
+    );
+  };
+
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
+      <div className="flex min-h-screen bg-slate-50">
         <div className="hidden lg:block">
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         </div>
         <main className="flex-1 lg:ml-60 p-4 sm:p-8">
           <div className="flex justify-center items-center h-96">
             <div className="text-center">
-              <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
-              <p className="text-base sm:text-lg text-slate-600 font-medium">Loading analytics...</p>
+              <Loader2 className="w-8 h-8 text-teal-600 animate-spin mx-auto mb-3" />
+              <p className="text-sm text-slate-500 font-medium">Loading analytics...</p>
             </div>
           </div>
         </main>
@@ -296,11 +349,11 @@ export default function AnalyticsOverview() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-orange-100">
+    <div className="flex min-h-screen bg-slate-50">
       {/* Mobile Menu Button - Fixed */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-xl shadow-lg border border-slate-200"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-lg shadow-sm border border-slate-200"
       >
         {sidebarOpen ? <X className="w-6 h-6 text-slate-700" /> : <Menu className="w-6 h-6 text-slate-700" />}
       </button>
@@ -308,7 +361,7 @@ export default function AnalyticsOverview() {
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="lg:hidden fixed inset-0 bg-slate-950/50 z-40"
           onClick={() => setSidebarOpen(false)}
         >
           <div className="w-64 h-full" onClick={(e) => e.stopPropagation()}>
@@ -323,64 +376,58 @@ export default function AnalyticsOverview() {
       </div>
 
       <main className="flex-1 lg:ml-60 p-4 sm:p-6 lg:p-6 pt-20 lg:pt-8">
-        <div className="container mx-auto max-w-7xl">
+        <div className="container mx-auto max-w-7xl space-y-5">
 
-          {/* Header */}
-          <header className="mb-6 sm:mb-8">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 via-orange-600 to-purple-600 bg-clip-text text-transparent mb-2">
-                  Analytics Dashboard
-                </h1>
-                <p className="text-slate-600 text-sm sm:text-base md:text-lg">Real-time insights into your AI call center performance</p>
+          {/* Header — compact bar, matches Call Ledger / Appointments */}
+          <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="hidden sm:grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg bg-slate-900">
+                <BarChart3 className="h-4.5 w-4.5 text-white" />
               </div>
-              <div className="flex items-center gap-3">
-                <select
-                  value={dateFilter}
-                  onChange={(e) => setDateFilter(e.target.value)}
-                  className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-3 bg-white rounded-xl border border-slate-300 shadow-md focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all text-slate-700 font-medium text-sm sm:text-base"
-                >
-                  <option value="1">Last 24 hours</option>
-                  <option value="7">Last 7 days</option>
-                  <option value="30">Last 30 days</option>
-                  <option value="90">Last 90 days</option>
-                </select>
+              <div className="min-w-0">
+                <h1 className="text-lg font-bold tracking-tight text-slate-950 truncate">Analytics</h1>
+                <p className="text-xs text-slate-400">Performance across your AI call center</p>
               </div>
             </div>
-          </header>
-
-          {/* Quick Call section removed */}
+            <select
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+            >
+              <option value="1">Last 24 hours</option>
+              <option value="7">Last 7 days</option>
+              <option value="30">Last 30 days</option>
+              <option value="90">Last 90 days</option>
+            </select>
+          </div>
 
           {analytics && (
             <>
               {/* Key Metrics */}
-              <section className="mb-6 sm:mb-8">
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-5 flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
-                  <span>Key Performance Metrics</span>
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              <section>
+                <SectionHeading icon={TrendingUp} title="Key Performance Metrics" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                   <MetricCard
                     title="Total Calls"
                     value={analytics.totalCalls}
                     icon={PhoneCall}
                     trend={analytics.weeklyGrowth > 0 ? "up" : analytics.weeklyGrowth < 0 ? "down" : "neutral"}
                     trendValue={`${Math.abs(analytics.weeklyGrowth).toFixed(1)}%`}
-                    color="orange"
+                    color="teal"
                   />
                   <MetricCard
                     title="Success Rate"
                     value={`${analytics.totalCalls > 0 ? ((analytics.completedCalls / analytics.totalCalls) * 100).toFixed(1) : 0}%`}
-                    icon={CheckCircle}
+                    icon={CheckCircle2}
                     subtitle={`${analytics.completedCalls} completed`}
-                    color="green"
+                    color="teal"
                   />
                   <MetricCard
                     title="Average Duration"
                     value={`${Math.round(analytics.avgDuration)}s`}
                     icon={Clock}
                     subtitle="Per call"
-                    color="purple"
+                    color="indigo"
                   />
                   <MetricCard
                     title="Today's Calls"
@@ -393,490 +440,396 @@ export default function AnalyticsOverview() {
                 </div>
               </section>
 
-                {/* New Widgets: Agent Leaderboard, Hourly Heatmap, Quality Trend */}
-                <section className="mb-6 sm:mb-8">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                    {/* Agent Leaderboard - compact, non-card */}
-                    <div className="p-1 sm:p-2 bg-white rounded-xl">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-bold text-slate-800">Agent Leaderboard</h3>
-                        <span className="text-xs text-slate-500">Top performers</span>
-                      </div>
-                      {agentLeaderboard && agentLeaderboard.length > 0 ? (
-                        <div className="space-y-3">
-                          {agentLeaderboard.map((a: any, idx: number) => (
-                            <div key={a.name} className="flex items-center justify-between gap-3">
-                              <div className="flex items-center gap-3 min-w-0">
-                                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center font-bold text-orange-700">{idx+1}</div>
-                                <div className="min-w-0">
-                                  <div className="font-semibold text-slate-800 truncate">{a.name}</div>
-                                  <div className="text-xs text-slate-500">{a.calls} calls • {a.avgDuration}s avg</div>
-                                </div>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-sm font-bold text-slate-800">{a.calls}</div>
-                                <div className="text-xs text-slate-500">{a.successRate}% success</div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-sm text-slate-500">No agent data</div>
-                      )}
+              {/* Agent Leaderboard, Hourly Heatmap, Quality Trend */}
+              <section>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
+                  {/* Agent Leaderboard */}
+                  <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-bold text-slate-900">Agent Leaderboard</h3>
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Top performers</span>
                     </div>
-
-                    {/* Hourly Heatmap - compact, non-card */}
-                    <div className="p-1 sm:p-2 bg-white rounded-xl">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-bold text-slate-800">Hourly Heatmap</h3>
-                        <span className="text-xs text-slate-500">Calls by weekday/hour</span>
-                      </div>
-                      {heatmapData ? (
-                        <div className="text-xs text-slate-600">
-                          <div className="overflow-auto">
-                            <div className="inline-grid" style={{ gridTemplateColumns: `6rem repeat(24, 28px)`, gap: '6px', alignItems: 'center' }}>
-                              <div />
-                              {Array.from({ length: 24 }).map((_, h) => (
-                                <div key={`h-${h}`} className="text-center text-xs text-slate-400" style={{ fontSize: 12 }}>{h}</div>
-                              ))}
-
-                              {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((wd, i) => {
-                                const row = heatmapData[i] || Array.from({ length: 24 }, () => 0);
-                                return (
-                                  <React.Fragment key={`row-${i}`}>
-                                    <div className="flex items-center text-sm font-semibold text-slate-700" style={{ paddingLeft: 6 }}>{wd}</div>
-                                    {row.map((val: number, j: number) => {
-                                      const alpha = heatmapMax > 0 ? Math.max(0.06, (val / heatmapMax) * 0.95) : 0;
-                                      const style: any = val === 0 ? { width: 28, height: 20, borderRadius: 6, background: 'transparent' } : { width: 28, height: 20, borderRadius: 6, background: `rgba(249,115,22,${alpha})` };
-                                      return <div key={`cell-${i}-${j}`} title={`${val} calls`} style={style} />;
-                                    })}
-                                  </React.Fragment>
-                                );
-                              })}
+                    {agentLeaderboard && agentLeaderboard.length > 0 ? (
+                      <div className="space-y-2.5">
+                        {agentLeaderboard.map((a: any, idx: number) => (
+                          <div key={a.name} className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center font-mono font-bold text-xs text-slate-600 flex-shrink-0">{idx + 1}</div>
+                              <div className="min-w-0">
+                                <div className="font-semibold text-slate-800 text-sm truncate">{a.name}</div>
+                                <div className="text-[11px] text-slate-400 font-mono">{a.calls} calls · {a.avgDuration}s avg</div>
+                              </div>
                             </div>
-                            <div className="mt-2 text-xs text-slate-500">Legend: darker = more calls</div>
+                            <div className="text-right flex-shrink-0">
+                              <div className="text-sm font-bold text-slate-900 font-mono">{a.calls}</div>
+                              <div className="text-[11px] text-teal-600 font-semibold">{a.successRate}%</div>
+                            </div>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="text-sm text-slate-500">No heatmap data</div>
-                      )}
-                    </div>
-
-                    {/* Call Quality Trend - compact, non-card */}
-                    <div className="p-1 sm:p-2 bg-white rounded-xl">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-bold text-slate-800">Call Quality Trend</h3>
-                        <span className="text-xs text-slate-500">Quality (heuristic)</span>
+                        ))}
                       </div>
-                      {qualityTrend && qualityTrend.length > 0 ? (
-                        <div style={{ height: 180 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={qualityTrend}>
-                              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                              <XAxis dataKey="date" tickFormatter={(d: string) => new Date(d).toLocaleDateString()} hide />
-                              <YAxis domain={[0, 100]} tickFormatter={(v: number) => `${v}%`} />
-                              <Tooltip formatter={(v: any) => `${v}%`} />
-                              <Line type="monotone" dataKey="score" stroke="#10b981" strokeWidth={3} dot={{ r: 2 }} />
-                            </LineChart>
-                          </ResponsiveContainer>
-                        </div>
-                      ) : (
-                        <div className="text-sm text-slate-500">No quality data</div>
-                      )}
-                    </div>
+                    ) : (
+                      <div className="text-sm text-slate-400">No agent data</div>
+                    )}
                   </div>
-                </section>
+
+                  {/* Hourly Heatmap */}
+                  <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-bold text-slate-900">Hourly Heatmap</h3>
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Weekday × hour</span>
+                    </div>
+                    {heatmapData ? (
+                      <div className="text-xs text-slate-600">
+                        <div className="overflow-auto">
+                          <div className="inline-grid" style={{ gridTemplateColumns: `3.5rem repeat(24, 22px)`, gap: '4px', alignItems: 'center' }}>
+                            <div />
+                            {Array.from({ length: 24 }).map((_, h) => (
+                              <div key={`h-${h}`} className="text-center text-slate-300 font-mono" style={{ fontSize: 9 }}>{h}</div>
+                            ))}
+
+                            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((wd, i) => {
+                              const row = heatmapData[i] || Array.from({ length: 24 }, () => 0);
+                              return (
+                                <React.Fragment key={`row-${i}`}>
+                                  <div className="flex items-center text-[11px] font-bold text-slate-500">{wd}</div>
+                                  {row.map((val: number, j: number) => {
+                                    const alpha = heatmapMax > 0 ? Math.max(0.06, (val / heatmapMax) * 0.95) : 0;
+                                    const style: any = val === 0
+                                      ? { width: 22, height: 16, borderRadius: 4, background: '#f1f5f9' }
+                                      : { width: 22, height: 16, borderRadius: 4, background: `rgba(13,148,136,${alpha})` };
+                                    return <div key={`cell-${i}-${j}`} title={`${val} calls`} style={style} />;
+                                  })}
+                                </React.Fragment>
+                              );
+                            })}
+                          </div>
+                          <div className="mt-2 text-[11px] text-slate-400">Darker = more calls</div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-sm text-slate-400">No heatmap data</div>
+                    )}
+                  </div>
+
+                  {/* Call Quality Trend */}
+                  <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-bold text-slate-900">Call Quality Trend</h3>
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">Heuristic</span>
+                    </div>
+                    {qualityTrend && qualityTrend.length > 0 ? (
+                      <div style={{ height: 160 }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart data={qualityTrend}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                            <XAxis dataKey="date" tickFormatter={(d: string) => new Date(d).toLocaleDateString()} hide />
+                            <YAxis domain={[0, 100]} tickFormatter={(v: number) => `${v}%`} stroke="#94a3b8" fontSize={10} />
+                            <Tooltip formatter={(v: any) => `${v}%`} contentStyle={{ backgroundColor: 'rgba(255,255,255,0.97)', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '12px' }} />
+                            <Line type="monotone" dataKey="score" stroke="#0d9488" strokeWidth={2.5} dot={{ r: 2, fill: '#0d9488' }} />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </div>
+                    ) : (
+                      <div className="text-sm text-slate-400">No quality data</div>
+                    )}
+                  </div>
+                </div>
+              </section>
 
               {/* Call Direction & Status */}
-              <section className="mb-6 sm:mb-8">
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-5 flex items-center gap-2">
-                  <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500 shrink-0" />
-                  <span>Call Analytics</span>
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <section>
+                <SectionHeading icon={BarChart3} title="Call Analytics" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   <MetricCard
                     title="Inbound Calls"
                     value={analytics.inboundCalls}
                     icon={PhoneIncoming}
                     subtitle={`${analytics.totalCalls > 0 ? ((analytics.inboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total`}
-                    color="orange"
+                    color="sky"
                   />
                   <MetricCard
                     title="Outbound Calls"
                     value={analytics.outboundCalls}
                     icon={PhoneOutgoing}
                     subtitle={`${analytics.totalCalls > 0 ? ((analytics.outboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total`}
-                    color="purple"
+                    color="violet"
                   />
                   <MetricCard
                     title="Busy Calls"
                     value={analytics.busyCalls}
                     icon={AlertCircle}
                     subtitle={`${analytics.totalCalls > 0 ? ((analytics.busyCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total`}
-                    color="yellow"
+                    color="amber"
                   />
                 </div>
               </section>
 
               {/* Charts Grid 1 */}
-              <section className="mb-6 sm:mb-8">
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-5 flex items-center gap-2">
-                  <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-green-500 shrink-0" />
-                  <span>Trend Analysis</span>
-                </h2>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+              <section>
+                <SectionHeading icon={Activity} title="Trend Analysis" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                  <ChartCard icon={TrendingUp} title="Call Volume Trend" tag="Area Chart" tagColor="teal">
+                    {mounted && (
+                      <ResponsiveContainer width="100%" height={260}>
+                        <AreaChart data={analytics.dailyStats}>
+                          <defs>
+                            <linearGradient id="callsGradient" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#0d9488" stopOpacity={0.35} />
+                              <stop offset="95%" stopColor="#0d9488" stopOpacity={0} />
+                            </linearGradient>
+                            <linearGradient id="completedGradient" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.25} />
+                              <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                          <XAxis dataKey="date" stroke="#94a3b8" fontSize={10} angle={-45} textAnchor="end" height={55} />
+                          <YAxis stroke="#94a3b8" fontSize={10} />
+                          <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.97)', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '12px' }} />
+                          <Legend wrapperStyle={{ paddingTop: '8px', fontSize: '11px' }} />
+                          <Area type="monotone" dataKey="calls" stroke="#0d9488" fillOpacity={1} fill="url(#callsGradient)" strokeWidth={2} name="Total Calls" />
+                          <Area type="monotone" dataKey="completed" stroke="#4f46e5" fillOpacity={1} fill="url(#completedGradient)" strokeWidth={2} name="Completed" />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    )}
+                  </ChartCard>
 
-                  {/* Area Chart */}
-                  <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
-                        <h3 className="text-lg sm:text-xl font-bold text-slate-800">Call Volume Trend</h3>
-                      </div>
-                    <span className="text-xs px-3 py-1 bg-orange-100 text-orange-700 rounded-full font-semibold self-start sm:self-auto">Area Chart</span>
-                  </div>
-                  {mounted && (
-                    <ResponsiveContainer width="100%" height={280}>
-                      <AreaChart data={analytics.dailyStats}>
-                        <defs>
-                          <linearGradient id="callsGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#f97316" stopOpacity={0.4} />
-                            <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
-                          </linearGradient>
-                          <linearGradient id="completedGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                            <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                          </linearGradient>
-                        </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                        <XAxis dataKey="date" stroke="#64748b" fontSize={10} angle={-45} textAnchor="end" height={60} />
-                        <YAxis stroke="#64748b" fontSize={10} />
-                        <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.95)', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '12px' }} />
-                        <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }} />
-                        <Area type="monotone" dataKey="calls" stroke="#f97316" fillOpacity={1} fill="url(#callsGradient)" strokeWidth={2} name="Total Calls" />
-                        <Area type="monotone" dataKey="completed" stroke="#10b981" fillOpacity={1} fill="url(#completedGradient)" strokeWidth={2} name="Completed" />
-                      </AreaChart>
-                    </ResponsiveContainer>
-                  )}
-                </div>
-
-                  {/* Bar Chart */}
-                  <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg overflow-hidden">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500 shrink-0" />
-                        <h3 className="text-lg sm:text-xl font-bold text-slate-800">Hourly Distribution</h3>
-                      </div>
-                      <span className="text-xs px-3 py-1 bg-purple-100 text-purple-700 rounded-full font-semibold self-start sm:self-auto">Column Chart</span>
-                    </div>
+                  <ChartCard icon={Clock} title="Hourly Distribution" tag="Column Chart" tagColor="indigo">
                     <div className="overflow-x-auto -mx-4 sm:mx-0">
                       <div className="min-w-[500px] px-4 sm:px-0">
                         {mounted && (
-                          <ResponsiveContainer width="100%" height={280}>
+                          <ResponsiveContainer width="100%" height={260}>
                             <BarChart data={analytics.hourlyDistribution}>
-                              <defs>
-                                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity={1} />
-                                  <stop offset="100%" stopColor="#f97316" stopOpacity={0.8} />
-                                </linearGradient>
-                              </defs>
                               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                              <XAxis dataKey="hour" stroke="#64748b" fontSize={9} angle={-45} textAnchor="end" height={60} />
-                              <YAxis stroke="#64748b" fontSize={10} />
-                              <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.95)', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '12px' }} />
-                              <Bar dataKey="calls" fill="url(#barGradient)" radius={[6, 6, 0, 0]} />
+                              <XAxis dataKey="hour" stroke="#94a3b8" fontSize={9} angle={-45} textAnchor="end" height={55} />
+                              <YAxis stroke="#94a3b8" fontSize={10} />
+                              <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.97)', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '12px' }} />
+                              <Bar dataKey="calls" fill="#4f46e5" radius={[4, 4, 0, 0]} />
                             </BarChart>
                           </ResponsiveContainer>
                         )}
                       </div>
                     </div>
-                  </div>
-
+                  </ChartCard>
                 </div>
               </section>
 
               {/* Charts Grid 2 */}
-              <section className="mb-6 sm:mb-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-
-                  {/* Duration Analysis */}
-                  <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
-                      <div className="flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
-                        <h3 className="text-lg sm:text-xl font-bold text-slate-800">Duration Analysis</h3>
-                      </div>
-                      <span className="text-xs px-3 py-1 bg-orange-100 text-orange-700 rounded-full font-semibold self-start sm:self-auto">Bar Chart</span>
-                    </div>
-                    <ResponsiveContainer width="100%" height={280}>
+              <section>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                  <ChartCard icon={BarChart3} title="Duration Analysis" tag="Bar Chart" tagColor="slate">
+                    <ResponsiveContainer width="100%" height={260}>
                       <BarChart data={analytics.durationAnalysis} layout="vertical">
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                        <XAxis type="number" stroke="#64748b" fontSize={10} />
-                        <YAxis type="category" dataKey="range" stroke="#64748b" fontSize={10} width={60} />
-                        <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.95)', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '12px' }} />
-                        <Bar dataKey="count" fill="#6366f1" radius={[0, 6, 6, 0]}>
+                        <XAxis type="number" stroke="#94a3b8" fontSize={10} />
+                        <YAxis type="category" dataKey="range" stroke="#94a3b8" fontSize={10} width={55} />
+                        <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.97)', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '12px' }} />
+                        <Bar dataKey="count" radius={[0, 4, 4, 0]}>
                           {analytics.durationAnalysis.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
                           ))}
                         </Bar>
                       </BarChart>
                     </ResponsiveContainer>
-                  </div>
+                  </ChartCard>
 
-                  {/* Weekly Performance */}
-                  <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-green-500 shrink-0" />
-                        <h3 className="text-lg sm:text-xl font-bold text-slate-800">Weekly Performance</h3>
-                      </div>
-                      <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full font-semibold self-start sm:self-auto">Line Chart</span>
-                    </div>
+                  <ChartCard icon={TrendingUp} title="Weekly Performance" tag="Line Chart" tagColor="teal">
                     {mounted && (
-                      <ResponsiveContainer width="100%" height={280}>
+                      <ResponsiveContainer width="100%" height={260}>
                         <LineChart data={analytics.weeklyComparison}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                          <XAxis dataKey="week" stroke="#64748b" fontSize={10} />
-                          <YAxis stroke="#64748b" fontSize={10} />
-                          <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.95)', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '12px' }} />
-                          <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }} />
-                          <Line type="monotone" dataKey="calls" stroke="#f97316" strokeWidth={2} dot={{ fill: '#f97316', r: 4 }} activeDot={{ r: 6 }} name="Total Calls" />
-                          <Line type="monotone" dataKey="successRate" stroke="#10b981" strokeWidth={2} dot={{ fill: '#10b981', r: 4 }} activeDot={{ r: 6 }} name="Success Rate %" strokeDasharray="5 5" />
+                          <XAxis dataKey="week" stroke="#94a3b8" fontSize={10} />
+                          <YAxis stroke="#94a3b8" fontSize={10} />
+                          <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.97)', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '12px' }} />
+                          <Legend wrapperStyle={{ paddingTop: '8px', fontSize: '11px' }} />
+                          <Line type="monotone" dataKey="calls" stroke="#0d9488" strokeWidth={2} dot={{ fill: '#0d9488', r: 3 }} activeDot={{ r: 5 }} name="Total Calls" />
+                          <Line type="monotone" dataKey="successRate" stroke="#4f46e5" strokeWidth={2} dot={{ fill: '#4f46e5', r: 3 }} activeDot={{ r: 5 }} name="Success Rate %" strokeDasharray="5 5" />
                         </LineChart>
                       </ResponsiveContainer>
                     )}
-                  </div>
-
+                  </ChartCard>
                 </div>
               </section>
 
               {/* Donut Chart & Call Direction */}
-              <section className="mb-6 sm:mb-8">
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-5 flex items-center gap-2">
-                  <PieChart className="w-5 h-5 sm:w-6 sm:h-6 text-pink-500" />
-                  <span>Distribution & Breakdown</span>
-                </h2>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-
-                  {/* Donut Chart */}
-                  <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
-                      <div className="flex items-center gap-2">
-                        <PieChart className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
-                        <h3 className="text-base sm:text-xl font-bold text-slate-800">Call Status Distribution</h3>
-                      </div>
-                      <span className="text-xs px-3 py-1 bg-orange-100 text-orange-700 rounded-full font-semibold self-start sm:self-auto">Donut Chart</span>
-                    </div>
+              <section>
+                <SectionHeading icon={PieChart} title="Distribution & Breakdown" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                  <ChartCard icon={PieChart} title="Call Status Distribution" tag="Donut Chart" tagColor="teal">
                     {mounted && (
-                      <ResponsiveContainer width="100%" height={280}>
+                      <ResponsiveContainer width="100%" height={260}>
                         <RechartsPieChart>
                           <Pie
                             dataKey="count"
                             data={analytics.statusDistribution}
                             cx="50%"
                             cy="50%"
-                            innerRadius={50}
-                            outerRadius={90}
-                            paddingAngle={5}
+                            innerRadius={48}
+                            outerRadius={85}
+                            paddingAngle={4}
                             label={(entry: any) => `${entry.payload.status}: ${entry.value}`}
-                            labelLine={{ stroke: '#64748b', strokeWidth: 1 }}
+                            labelLine={{ stroke: '#94a3b8', strokeWidth: 1 }}
                           >
                             {analytics.statusDistribution.map((entry, index) => (
                               <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
                             ))}
                           </Pie>
-                          <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.95)', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '12px' }} />
+                          <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.97)', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '12px' }} />
                         </RechartsPieChart>
                       </ResponsiveContainer>
                     )}
-                    <div className="text-center mt-4">
-                      <div className="text-2xl sm:text-3xl font-black text-slate-800">{analytics.totalCalls}</div>
-                      <div className="text-xs sm:text-sm text-slate-500 font-medium">Total Calls</div>
+                    <div className="text-center mt-3 pt-3 border-t border-slate-100">
+                      <div className="text-2xl font-bold text-slate-950 font-mono">{analytics.totalCalls}</div>
+                      <div className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">Total Calls</div>
                     </div>
-                  </div>
+                  </ChartCard>
 
-                  {/* Call Direction Breakdown */}
-                  <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
-                      <div className="flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-green-500 shrink-0" />
-                        <h3 className="text-base sm:text-xl font-bold text-slate-800">Call Direction Breakdown</h3>
-                      </div>
-                      <span className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full font-semibold self-start sm:self-auto">Progress Bars</span>
-                    </div>
-                    <div className="space-y-4 sm:space-y-6 mb-4 sm:mb-6">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 sm:p-5 bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl border border-orange-200 shadow-sm">
-                        <div className="flex items-center gap-3">
-                          <PhoneIncoming className="w-6 h-6 sm:w-7 sm:h-7 text-orange-600 shrink-0" />
-                          <span className="font-bold text-slate-800 text-base sm:text-lg">Inbound</span>
+                  <ChartCard icon={BarChart3} title="Call Direction Breakdown" tag="Progress" tagColor="slate">
+                    <div className="space-y-3 mb-4">
+                      <div className="flex items-center justify-between gap-3 p-3.5 bg-sky-50 rounded-lg border border-sky-200">
+                        <div className="flex items-center gap-2.5">
+                          <PhoneIncoming className="w-5 h-5 text-sky-600 shrink-0" />
+                          <span className="font-bold text-slate-800 text-sm">Inbound</span>
                         </div>
-                        <div className="text-left sm:text-right">
-                          <div className="text-2xl sm:text-3xl font-black text-orange-600">{analytics.inboundCalls}</div>
-                          <div className="text-xs sm:text-sm font-semibold text-slate-600">
-                            {analytics.totalCalls > 0 ? ((analytics.inboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 sm:p-5 bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl border border-purple-200 shadow-sm">
-                        <div className="flex items-center gap-3">
-                          <PhoneOutgoing className="w-6 h-6 sm:w-7 sm:h-7 text-green-600 shrink-0" />
-                          <span className="font-bold text-slate-800 text-base sm:text-lg">Outbound</span>
-                        </div>
-                        <div className="text-left sm:text-right">
-                          <div className="text-2xl sm:text-3xl font-black text-purple-600">{analytics.outboundCalls}</div>
-                          <div className="text-xs sm:text-sm font-semibold text-slate-600">
-                            {analytics.totalCalls > 0 ? ((analytics.outboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="space-y-4">
-                      <div className="relative pt-1">
-                        <div className="flex mb-2 items-center justify-between">
-                          <div className="text-xs font-semibold text-orange-600">Inbound</div>
-                          <div className="text-xs font-semibold text-orange-600">
+                        <div className="text-right">
+                          <div className="text-xl font-bold text-sky-700 font-mono leading-none">{analytics.inboundCalls}</div>
+                          <div className="text-[11px] font-semibold text-slate-500 mt-0.5">
                             {analytics.totalCalls > 0 ? ((analytics.inboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}%
                           </div>
                         </div>
-                        <div className="overflow-hidden h-2 sm:h-3 text-xs flex rounded-full bg-orange-100">
-                          <div
-                            style={{ width: `${analytics.totalCalls > 0 ? (analytics.inboundCalls / analytics.totalCalls) * 100 : 0}%` }}
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-orange-400 to-orange-600 rounded-full transition-all duration-500"
-                          ></div>
-                        </div>
                       </div>
-                      <div className="relative pt-1">
-                        <div className="flex mb-2 items-center justify-between">
-                          <div className="text-xs font-semibold text-purple-600">Outbound</div>
-                          <div className="text-xs font-semibold text-purple-600">
+                      <div className="flex items-center justify-between gap-3 p-3.5 bg-violet-50 rounded-lg border border-violet-200">
+                        <div className="flex items-center gap-2.5">
+                          <PhoneOutgoing className="w-5 h-5 text-violet-600 shrink-0" />
+                          <span className="font-bold text-slate-800 text-sm">Outbound</span>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-xl font-bold text-violet-700 font-mono leading-none">{analytics.outboundCalls}</div>
+                          <div className="text-[11px] font-semibold text-slate-500 mt-0.5">
                             {analytics.totalCalls > 0 ? ((analytics.outboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}%
                           </div>
                         </div>
-                        <div className="overflow-hidden h-2 sm:h-3 text-xs flex rounded-full bg-purple-100">
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <div>
+                        <div className="flex mb-1.5 items-center justify-between text-[11px] font-bold text-sky-700">
+                          <span>Inbound</span>
+                          <span className="font-mono">{analytics.totalCalls > 0 ? ((analytics.inboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}%</span>
+                        </div>
+                        <div className="overflow-hidden h-2 rounded-full bg-sky-100">
+                          <div
+                            style={{ width: `${analytics.totalCalls > 0 ? (analytics.inboundCalls / analytics.totalCalls) * 100 : 0}%` }}
+                            className="h-full bg-sky-500 rounded-full transition-all duration-500"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex mb-1.5 items-center justify-between text-[11px] font-bold text-violet-700">
+                          <span>Outbound</span>
+                          <span className="font-mono">{analytics.totalCalls > 0 ? ((analytics.outboundCalls / analytics.totalCalls) * 100).toFixed(1) : 0}%</span>
+                        </div>
+                        <div className="overflow-hidden h-2 rounded-full bg-violet-100">
                           <div
                             style={{ width: `${analytics.totalCalls > 0 ? (analytics.outboundCalls / analytics.totalCalls) * 100 : 0}%` }}
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-purple-400 to-purple-600 rounded-full transition-all duration-500"
-                          ></div>
+                            className="h-full bg-violet-500 rounded-full transition-all duration-500"
+                          />
                         </div>
                       </div>
                     </div>
-                  </div>
-
+                  </ChartCard>
                 </div>
               </section>
 
               {/* AI Analysis Performance */}
-              <section className="mb-6 sm:mb-8">
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-5 flex items-center gap-2">
-                  <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-violet-500" />
-                  <span>AI Analysis Performance</span>
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-
+              <section>
+                <SectionHeading icon={Brain} title="AI Analysis Performance" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {/* Transcribed Calls */}
-                  <div className="bg-gradient-to-br from-violet-50 to-violet-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-violet-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-violet-400 to-violet-600 rounded-xl flex items-center justify-center shadow-md shrink-0">
-                        <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                  <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-4 sm:p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="grid h-11 w-11 place-items-center rounded-lg bg-indigo-600">
+                        <FileText className="w-5 h-5 text-white" />
                       </div>
-                      <div className="text-right">
-                        <div className="text-3xl sm:text-4xl font-black text-violet-600">{analytics.transcribedCalls}</div>
-                      </div>
+                      <div className="text-2xl font-bold text-indigo-700 font-mono">{analytics.transcribedCalls}</div>
                     </div>
-                    <div>
-                      <p className="text-slate-700 font-bold text-base sm:text-lg mb-1">Transcribed Calls</p>
-                      <p className="text-slate-600 text-xs sm:text-sm font-semibold">
-                        {analytics.totalCalls > 0 ? ((analytics.transcribedCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total calls processed
-                      </p>
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-violet-200">
-                      <div className="relative pt-1">
-                        <div className="overflow-hidden h-2 text-xs flex rounded-full bg-violet-200">
-                          <div
-                            style={{ width: `${analytics.totalCalls > 0 ? (analytics.transcribedCalls / analytics.totalCalls) * 100 : 0}%` }}
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-violet-400 to-violet-600 rounded-full transition-all duration-500"
-                          ></div>
-                        </div>
+                    <p className="text-slate-800 font-bold text-sm mb-1">Transcribed Calls</p>
+                    <p className="text-slate-500 text-xs font-medium">
+                      {analytics.totalCalls > 0 ? ((analytics.transcribedCalls / analytics.totalCalls) * 100).toFixed(1) : 0}% of total calls processed
+                    </p>
+                    <div className="mt-3 pt-3 border-t border-indigo-200/70">
+                      <div className="overflow-hidden h-1.5 rounded-full bg-indigo-200">
+                        <div
+                          style={{ width: `${analytics.totalCalls > 0 ? (analytics.transcribedCalls / analytics.totalCalls) * 100 : 0}%` }}
+                          className="h-full bg-indigo-600 rounded-full transition-all duration-500"
+                        />
                       </div>
                     </div>
                   </div>
 
                   {/* Summarized Calls */}
-                  <div className="bg-gradient-to-br from-sky-50 to-sky-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-sky-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-sky-400 to-sky-600 rounded-xl flex items-center justify-center shadow-md shrink-0">
-                        <Brain className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                  <div className="rounded-xl border border-sky-200 bg-sky-50/50 p-4 sm:p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="grid h-11 w-11 place-items-center rounded-lg bg-sky-600">
+                        <Brain className="w-5 h-5 text-white" />
                       </div>
-                      <div className="text-right">
-                        <div className="text-3xl sm:text-4xl font-black text-sky-600">{analytics.summarizedCalls}</div>
-                      </div>
+                      <div className="text-2xl font-bold text-sky-700 font-mono">{analytics.summarizedCalls}</div>
                     </div>
-                    <div>
-                      <p className="text-slate-700 font-bold text-base sm:text-lg mb-1">Summarized Calls</p>
-                      <p className="text-slate-600 text-xs sm:text-sm font-semibold">
-                        {analytics.transcribedCalls > 0 ? ((analytics.summarizedCalls / analytics.transcribedCalls) * 100).toFixed(1) : 0}% of transcribed calls
-                      </p>
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-sky-200">
-                      <div className="relative pt-1">
-                        <div className="overflow-hidden h-2 text-xs flex rounded-full bg-sky-200">
-                          <div
-                            style={{ width: `${analytics.transcribedCalls > 0 ? (analytics.summarizedCalls / analytics.transcribedCalls) * 100 : 0}%` }}
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-sky-400 to-sky-600 rounded-full transition-all duration-500"
-                          ></div>
-                        </div>
+                    <p className="text-slate-800 font-bold text-sm mb-1">Summarized Calls</p>
+                    <p className="text-slate-500 text-xs font-medium">
+                      {analytics.transcribedCalls > 0 ? ((analytics.summarizedCalls / analytics.transcribedCalls) * 100).toFixed(1) : 0}% of transcribed calls
+                    </p>
+                    <div className="mt-3 pt-3 border-t border-sky-200/70">
+                      <div className="overflow-hidden h-1.5 rounded-full bg-sky-200">
+                        <div
+                          style={{ width: `${analytics.transcribedCalls > 0 ? (analytics.summarizedCalls / analytics.transcribedCalls) * 100 : 0}%` }}
+                          className="h-full bg-sky-600 rounded-full transition-all duration-500"
+                        />
                       </div>
                     </div>
                   </div>
 
                   {/* Processing Rate */}
-                  <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300 sm:col-span-2 lg:col-span-1">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-md shrink-0">
-                        <Zap className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                  <div className="rounded-xl border border-teal-200 bg-teal-50/50 p-4 sm:p-5 sm:col-span-2 lg:col-span-1">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="grid h-11 w-11 place-items-center rounded-lg bg-teal-600">
+                        <Zap className="w-5 h-5 text-white" />
                       </div>
-                      <div className="text-right">
-                        <div className="text-3xl sm:text-4xl font-black text-emerald-600">
-                          {analytics.transcribedCalls > 0 ? ((analytics.summarizedCalls / analytics.transcribedCalls) * 100).toFixed(1) : 0}%
-                        </div>
+                      <div className="text-2xl font-bold text-teal-700 font-mono">
+                        {analytics.transcribedCalls > 0 ? ((analytics.summarizedCalls / analytics.transcribedCalls) * 100).toFixed(1) : 0}%
                       </div>
                     </div>
-                    <div>
-                      <p className="text-slate-700 font-bold text-base sm:text-lg mb-1">Processing Rate</p>
-                      <p className="text-slate-600 text-xs sm:text-sm font-semibold">AI summary completion rate</p>
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-emerald-200">
-                      <div className="relative pt-1">
-                        <div className="overflow-hidden h-2 text-xs flex rounded-full bg-emerald-200">
-                          <div
-                            style={{ width: `${analytics.transcribedCalls > 0 ? (analytics.summarizedCalls / analytics.transcribedCalls) * 100 : 0}%` }}
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full transition-all duration-500"
-                          ></div>
-                        </div>
+                    <p className="text-slate-800 font-bold text-sm mb-1">Processing Rate</p>
+                    <p className="text-slate-500 text-xs font-medium">AI summary completion rate</p>
+                    <div className="mt-3 pt-3 border-t border-teal-200/70">
+                      <div className="overflow-hidden h-1.5 rounded-full bg-teal-200">
+                        <div
+                          style={{ width: `${analytics.transcribedCalls > 0 ? (analytics.summarizedCalls / analytics.transcribedCalls) * 100 : 0}%` }}
+                          className="h-full bg-teal-600 rounded-full transition-all duration-500"
+                        />
                       </div>
                     </div>
                   </div>
-
                 </div>
               </section>
 
               {/* Peak Hours */}
               {analytics.peakHours.length > 0 && (
-                <section className="mb-6 sm:mb-8">
-                  <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
-                    <div className="flex items-center gap-2 mb-4 sm:mb-6">
-                      <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500 shrink-0" />
-                      <h3 className="text-xl sm:text-2xl font-bold text-slate-800">Peak Call Hours</h3>
+                <section>
+                  <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Clock className="w-4 h-4 text-slate-400" />
+                      <h3 className="text-sm font-bold text-slate-900">Peak Call Hours</h3>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                       {analytics.peakHours.map((peak, index) => (
                         <div
                           key={peak.hour}
-                          className="text-center p-4 sm:p-5 bg-gradient-to-br from-orange-50 to-purple-50 rounded-xl border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300"
+                          className="text-center p-3.5 bg-slate-50 rounded-lg border border-slate-200"
                         >
-                          <div className="text-2xl sm:text-3xl font-black text-orange-600 mb-2">{peak.hour}:00</div>
-                          <div className="text-slate-700 text-base sm:text-lg font-bold">{peak.count} calls</div>
-                          <div className="text-xs text-slate-500 mt-2 font-semibold">Rank #{index + 1}</div>
+                          <div className="text-xl font-bold text-slate-950 font-mono mb-1">{peak.hour}:00</div>
+                          <div className="text-slate-600 text-xs font-semibold">{peak.count} calls</div>
+                          <div className="text-[10px] text-teal-600 font-bold mt-1.5 uppercase tracking-wide">Rank #{index + 1}</div>
                         </div>
                       ))}
                     </div>
@@ -885,67 +838,62 @@ export default function AnalyticsOverview() {
               )}
 
               {/* Recent Calls */}
-              <section className="mb-6 sm:mb-8">
-                <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-lg">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
+              <section>
+                <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+                  <div className="flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 border-b border-slate-200">
                     <div className="flex items-center gap-2">
-                      <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-green-500 shrink-0" />
-                      <h3 className="text-xl sm:text-2xl font-bold text-slate-800">Recent Calls</h3>
+                      <MessageSquare className="w-4 h-4 text-slate-400" />
+                      <h3 className="text-sm font-bold text-slate-900">Recent Calls</h3>
                     </div>
                     <a
                       href="/calls"
-                      className="text-orange-600 hover:text-orange-800 font-semibold text-sm transition-colors flex items-center gap-1 self-start sm:self-auto"
+                      className="text-teal-700 hover:text-teal-800 font-semibold text-xs transition-colors flex items-center gap-1"
                     >
                       View All
-                      <ArrowUp className="w-4 h-4 rotate-45" />
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </a>
                   </div>
                   {recentCalls.length > 0 ? (
-                    <div className="space-y-3">
-                      {recentCalls.map((call) => (
-                        <div
-                          key={call.id}
-                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 sm:p-5 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors border border-slate-200"
-                        >
-                          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 min-w-0">
-                            <div className="flex items-center gap-2 min-w-0">
+                    <div className="divide-y divide-slate-100">
+                      {recentCalls.map((call) => {
+                        const tone = statusTone(call.status);
+                        return (
+                          <div
+                            key={call.id}
+                            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-4 sm:px-5 py-3 hover:bg-slate-50 transition-colors"
+                          >
+                            <div className="flex items-center gap-3 min-w-0">
                               {call.direction === 'inbound' ? (
-                                <PhoneIncoming className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 shrink-0" />
+                                <PhoneIncoming className="w-4 h-4 text-sky-600 shrink-0" />
                               ) : (
-                                <PhoneOutgoing className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 shrink-0" />
+                                <PhoneOutgoing className="w-4 h-4 text-violet-600 shrink-0" />
                               )}
-                              <span className="font-semibold text-slate-800 text-sm sm:text-base truncate">{call.from_number} → {call.to_number}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {(call.status === 'completed' || call.status === 'user-ended' || call.status === 'agent-ended') && <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />}
-                              {(call.status === 'failed' || call.status === 'error') && <XCircle className="w-4 h-4 text-red-500 shrink-0" />}
-                              {(call.status === 'busy' || call.status === 'no-answer') && <AlertCircle className="w-4 h-4 text-yellow-500 shrink-0" />}
-                              <span
-                                className={`px-2 sm:px-3 py-1 rounded-full text-xs font-bold ${
-                                  (call.status === 'completed' || call.status === 'user-ended' || call.status === 'agent-ended')
-                                    ? 'bg-green-100 text-green-700'
-                                    : (call.status === 'failed' || call.status === 'error')
-                                    ? 'bg-red-100 text-red-700'
-                                    : 'bg-yellow-100 text-yellow-700'
-                                }`}
-                              >
+                              <span className="font-medium text-slate-800 text-sm font-mono truncate">{call.from_number} → {call.to_number}</span>
+                              <span className={`hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide border ${tone.bg} ${tone.text} ${tone.border}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${tone.dot}`} />
                                 {call.status}
                               </span>
                             </div>
-                          </div>
-                          <div className="text-left sm:text-right shrink-0">
-                            <div className="text-sm font-bold text-slate-800">{call.duration}s</div>
-                            <div className="text-xs text-slate-500" suppressHydrationWarning>
-                              {mounted ? new Date(call.start_time).toLocaleTimeString() : ''}
+                            <div className="flex items-center gap-3 flex-shrink-0 pl-7 sm:pl-0">
+                              <span className={`sm:hidden inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide border ${tone.bg} ${tone.text} ${tone.border}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${tone.dot}`} />
+                                {call.status}
+                              </span>
+                              <div className="text-right">
+                                <div className="text-sm font-bold text-slate-800 font-mono">{call.duration}s</div>
+                                <div className="text-[11px] text-slate-400 font-mono" suppressHydrationWarning>
+                                  {mounted ? new Date(call.start_time).toLocaleTimeString() : ''}
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="text-center py-12">
-                      <PhoneCall className="w-12 h-12 sm:w-16 sm:h-16 text-slate-300 mx-auto mb-4" />
-                      <p className="text-slate-500 text-base sm:text-lg font-medium">No recent calls found</p>
+                      <PhoneCall className="w-10 h-10 text-slate-200 mx-auto mb-3" />
+                      <p className="text-slate-400 text-sm font-medium">No recent calls found</p>
                     </div>
                   )}
                 </div>
@@ -958,6 +906,3 @@ export default function AnalyticsOverview() {
     </div>
   );
 }
-
-
-

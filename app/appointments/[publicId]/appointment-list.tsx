@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertCircle, CalendarDays, Clock3, Phone, RefreshCw, Stethoscope, UserRound } from "lucide-react";
+import { AlertCircle, Building2, CalendarDays, CheckCircle2, Clock3, Phone, RefreshCw, Stethoscope, UserRound } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -158,35 +158,55 @@ export default function AppointmentList({ publicId }: { publicId: string }) {
           </div>
         ) : data ? (
           <>
-            <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-orange-600 via-orange-500 to-amber-400 p-5 text-white shadow-2xl shadow-orange-200/60 sm:p-7">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/20 ring-1 ring-white/30 backdrop-blur-sm">
-                    <Stethoscope className="h-7 w-7" />
+            <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-600 via-orange-500 to-amber-500 p-6 text-white shadow-2xl shadow-orange-500/20 sm:p-8">
+              {/* Decorative background glow circles */}
+              <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
+              <div className="pointer-events-none absolute -left-16 -bottom-16 h-64 w-64 rounded-full bg-amber-400/20 blur-2xl" />
+
+              <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
+                  {/* Doctor / Clinic Avatar Icon */}
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/20 ring-2 ring-white/40 backdrop-blur-md shadow-inner">
+                    <Stethoscope className="h-8 w-8 text-white" />
                   </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-orange-100">
-                      {data.clinicName}
-                    </p>
-                    <h1 className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl">
+
+                  <div className="min-w-0">
+                    {/* Clinic Branding Badge */}
+                    <div className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-orange-100 ring-1 ring-white/25 backdrop-blur-sm mb-2">
+                      <Building2 className="h-3.5 w-3.5" />
+                      <span>{data.clinicName}</span>
+                    </div>
+
+                    <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl lg:text-4xl text-white flex flex-wrap items-center gap-2">
                       Dr. {data.doctorName.replace(/^(doctor\.?\s*|dr\.?\s*)/i, "")}
+                      <span className="inline-flex items-center text-xs font-semibold bg-white/20 text-orange-50 px-2 py-0.5 rounded-md ring-1 ring-white/30">
+                        <CheckCircle2 className="h-3 w-3 mr-1 text-emerald-300" />
+                        Verified Doctor
+                      </span>
                     </h1>
-                    <p className="mt-1 text-sm text-orange-50">Upcoming appointments in chronological order</p>
+                    <p className="mt-1 text-xs sm:text-sm text-orange-100/90 font-medium">
+                      Live Queue &amp; Scheduled Appointments (Chronological)
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end">
-                  <div className="rounded-2xl bg-white/15 px-4 py-2.5 text-center ring-1 ring-white/20 backdrop-blur-sm">
-                    <span className="block text-2xl font-black">{data.appointments.length}</span>
-                    <span className="text-xs font-semibold text-orange-50">Upcoming</span>
+
+                {/* Counter & Action Box */}
+                <div className="flex items-center justify-between gap-3 border-t border-white/20 pt-4 sm:border-t-0 sm:pt-0 lg:flex-col lg:items-end">
+                  <div className="flex items-center gap-3 rounded-2xl bg-white/15 px-4 py-2.5 ring-1 ring-white/25 backdrop-blur-md">
+                    <div className="text-right">
+                      <span className="block text-2xl sm:text-3xl font-black leading-none font-mono">{data.appointments.length}</span>
+                      <span className="text-[11px] font-semibold text-orange-100 uppercase tracking-wide">Upcoming</span>
+                    </div>
                   </div>
+
                   <button
                     onClick={() => void loadAppointments(true)}
                     disabled={refreshing}
-                    className="inline-flex items-center gap-2 rounded-xl bg-white/15 px-3 py-2 text-xs font-semibold ring-1 ring-white/20 transition hover:bg-white/25 disabled:opacity-60"
+                    className="inline-flex items-center gap-2 rounded-xl bg-white/20 px-3.5 py-2 text-xs font-bold text-white ring-1 ring-white/30 transition hover:bg-white/30 active:scale-95 disabled:opacity-60 backdrop-blur-sm"
                     aria-label="Refresh appointments"
                   >
                     <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin" : ""}`} />
-                    Refresh
+                    <span>{refreshing ? "Updating..." : "Refresh Queue"}</span>
                   </button>
                 </div>
               </div>

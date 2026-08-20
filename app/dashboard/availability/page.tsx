@@ -411,29 +411,34 @@ export default function AvailabilityPage() {
   ].sort((left, right) => left.sortTime.localeCompare(right.sortTime));
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-50">
       {/* Mobile Menu Button */}
       {!sidebarOpen && (
         <button
           onClick={() => setSidebarOpen(true)}
-          className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-xl shadow-lg border border-gray-200"
+          className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-lg shadow-sm border border-slate-200"
         >
-          <Menu className="w-6 h-6 text-gray-700" />
+          <Menu className="w-6 h-6 text-slate-700" />
         </button>
       )}
 
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="lg:pl-64">
-        <div className="p-4 lg:p-8 pt-20 lg:pt-8">
+        <div className="p-4 lg:p-8 pt-20 lg:pt-8 max-w-[1400px] mx-auto">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <Calendar className="w-8 h-8 text-green-600" />
+              <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5">
+                Schedule Ledger
+              </p>
+              <h1 className="text-2xl lg:text-3xl font-bold text-slate-950 flex items-center gap-3">
+                <div className="bg-slate-900 p-2 rounded-lg">
+                  <Calendar className="w-6 h-6 text-white" />
+                </div>
                 Availability Management
               </h1>
-              <p className="text-gray-600 mt-1">View and manage doctor schedules and appointments</p>
+              <p className="text-slate-500 mt-2 text-sm">View and manage doctor schedules and appointments</p>
             </div>
 
             <button
@@ -442,7 +447,7 @@ export default function AvailabilityPage() {
                 fetchAvailability();
               }}
               disabled={loading || loadingAvailability}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors text-sm font-semibold text-slate-700 disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${loading || loadingAvailability ? "animate-spin" : ""}`} />
               Refresh
@@ -451,26 +456,26 @@ export default function AvailabilityPage() {
 
           {/* Error */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3 text-red-700">
-              <AlertCircle className="w-5 h-5" />
-              {error}
+            <div className="mb-6 p-4 bg-rose-50 border border-rose-200 rounded-lg flex items-center gap-3 text-rose-800">
+              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              <span className="text-sm font-medium">{error}</span>
             </div>
           )}
           {successMessage && (
-            <div className="mb-6 flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 p-4 text-green-700">
+            <div className="mb-6 flex items-center gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-emerald-800">
               <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
-              <span>{successMessage}</span>
+              <span className="text-sm font-medium">{successMessage}</span>
             </div>
           )}
 
           {/* Doctor Selection */}
-          <div className="bg-white rounded-xl p-4 mb-6 border border-gray-200">
-            <h3 className="text-sm font-medium text-gray-600 mb-3">Select Doctor</h3>
+          <div className="bg-white rounded-xl p-5 mb-6 border border-slate-200">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">Select Doctor</h3>
             <div className="flex flex-wrap gap-2">
               {loading ? (
                 <div className="flex gap-2">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-10 w-32 bg-gray-200 rounded-lg animate-pulse"></div>
+                    <div key={i} className="h-10 w-32 bg-slate-100 rounded-lg animate-pulse"></div>
                   ))}
                 </div>
               ) : (
@@ -478,10 +483,10 @@ export default function AvailabilityPage() {
                   <button
                     key={doctor._id}
                     onClick={() => setSelectedDoctor(doctor)}
-                    className={`px-4 py-2 rounded-lg border transition-colors flex items-center gap-2 ${
+                    className={`px-4 py-2 rounded-lg border transition-colors flex items-center gap-2 text-sm font-semibold ${
                       selectedDoctor?._id === doctor._id
-                        ? "bg-green-600 text-white border-green-600"
-                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                        ? "bg-slate-900 text-white border-slate-900"
+                        : "bg-white text-slate-700 border-slate-200 hover:border-teal-300 hover:bg-teal-50"
                     }`}
                   >
                     <User className="w-4 h-4" />
@@ -490,29 +495,29 @@ export default function AvailabilityPage() {
                 ))
               )}
               {!loading && doctors.length === 0 && (
-                <p className="text-gray-500">No active doctors found. Add doctors first.</p>
+                <p className="text-slate-500 text-sm">No active doctors found. Add doctors first.</p>
               )}
             </div>
           </div>
 
           {/* Date Navigation */}
-          <div className="bg-white rounded-xl p-4 mb-6 border border-gray-200">
+          <div className="bg-white rounded-xl p-5 mb-6 border border-slate-200">
             <div className="flex items-center justify-between mb-4">
               <button
                 onClick={goToPreviousDay}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-5 h-5 text-slate-500" />
               </button>
 
               <div className="text-center">
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-base font-bold text-slate-900">
                   {getDayName(selectedDate)}, {selectedDate.getDate()} {getMonthYear(selectedDate)}
                 </h2>
                 {!isToday && (
                   <button
                     onClick={goToToday}
-                    className="text-sm text-orange-600 hover:underline mt-1"
+                    className="text-xs font-semibold text-teal-700 hover:underline mt-1"
                   >
                     Go to Today
                   </button>
@@ -521,9 +526,9 @@ export default function AvailabilityPage() {
 
               <button
                 onClick={goToNextDay}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-5 h-5 text-slate-500" />
               </button>
             </div>
 
@@ -538,16 +543,16 @@ export default function AvailabilityPage() {
                     onClick={() => setSelectedDate(date)}
                     className={`py-2 px-1 rounded-lg text-center transition-colors ${
                       isSelected
-                        ? "bg-green-600 text-white"
+                        ? "bg-slate-900 text-white"
                         : isTodayDate
-                        ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
-                        : "hover:bg-gray-100"
+                        ? "bg-teal-50 text-teal-700 ring-1 ring-teal-300 hover:bg-teal-100"
+                        : "hover:bg-slate-50 text-slate-600"
                     }`}
                   >
-                    <div className="text-xs font-medium">
+                    <div className="text-[10px] font-semibold uppercase tracking-wide">
                       {date.toLocaleDateString("en-US", { weekday: "short" })}
                     </div>
-                    <div className="text-lg font-bold">{date.getDate()}</div>
+                    <div className="text-lg font-bold font-mono">{date.getDate()}</div>
                   </button>
                 );
               })}
@@ -556,14 +561,14 @@ export default function AvailabilityPage() {
 
           {/* Availability View */}
           {selectedDoctor && (
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
               {/* Header */}
-              <div className="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="px-4 sm:px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900">
                 <div>
-                  <h3 className="font-semibold text-gray-900">
-                    Dr. {selectedDoctor.name} - {selectedDoctor.specialization}
+                  <h3 className="font-bold text-white">
+                    Dr. {selectedDoctor.name} <span className="text-slate-400 font-normal">— {selectedDoctor.specialization}</span>
                   </h3>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-slate-400 font-mono">
                     {queueMode ? "OPD queue mode" : `${selectedDoctor.slotDuration} min slots`} |{" "}
                     Today: {(() => {
                       const periods = availability?.workingPeriods?.length
@@ -573,13 +578,13 @@ export default function AvailabilityPage() {
                     })()}
                   </p>
                   {hasWeeklySchedule(selectedDoctor) && (
-                    <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1">
+                    <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5">
                       {(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const).map((dayLabel, idx) => {
                         const periods = getDayPeriods(selectedDoctor, (() => { const d = new Date(selectedDate); d.setDate(d.getDate() - d.getDay() + idx); return d; })());
                         if (periods.length === 0) return null;
                         const isSelectedDay = selectedDate.getDay() === idx;
                         return (
-                          <span key={idx} className={`text-xs ${isSelectedDay ? "text-orange-700 font-semibold" : "text-gray-400"}`}>
+                          <span key={idx} className={`text-[11px] font-mono ${isSelectedDay ? "text-teal-300 font-semibold" : "text-slate-500"}`}>
                             {dayLabel} {periods.map(period => `${period.start}-${period.end}`).join(", ")}
                           </span>
                         );
@@ -592,7 +597,7 @@ export default function AvailabilityPage() {
                   {availability?.isOnLeave ? (
                     <button
                       onClick={handleRemoveLeave}
-                      className="px-4 py-2 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors flex items-center gap-2"
+                      className="px-4 py-2 bg-white/10 hover:bg-white/15 text-white rounded-lg transition-colors flex items-center gap-2 text-sm font-semibold"
                     >
                       <Calendar className="w-4 h-4" />
                       Remove Leave
@@ -600,7 +605,7 @@ export default function AvailabilityPage() {
                   ) : (
                     <button
                       onClick={() => setShowLeaveModal(true)}
-                      className="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors flex items-center gap-2"
+                      className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg transition-colors flex items-center gap-2 text-sm font-semibold"
                     >
                       <CalendarX className="w-4 h-4" />
                       Mark as Leave
@@ -614,10 +619,10 @@ export default function AvailabilityPage() {
                 !isPast &&
                 queueMode &&
                 Boolean(availability?.manualBlockedTimes?.length) && (
-                  <div className="border-b border-gray-200 bg-red-50/40 px-4 py-5 sm:px-6">
+                  <div className="border-b border-slate-200 bg-rose-50/50 px-4 py-5 sm:px-6">
                     <div className="mb-3 flex items-center gap-2">
-                      <Ban className="h-5 w-5 text-red-600" />
-                      <h4 className="font-semibold text-gray-900">Blocked Periods</h4>
+                      <Ban className="h-4 w-4 text-rose-600" />
+                      <h4 className="text-xs font-bold uppercase tracking-widest text-slate-700">Blocked Periods</h4>
                     </div>
                     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                       {availability?.manualBlockedTimes?.map((blockedTime) => (
@@ -625,16 +630,16 @@ export default function AvailabilityPage() {
                           key={`${blockedTime.start}-${blockedTime.end}-${blockedTime.reason}`}
                           type="button"
                           onClick={() => setBlockedTimeToUnblock(blockedTime)}
-                          className="rounded-xl border border-red-200 bg-red-50 p-4 text-left transition-colors hover:border-red-400 hover:bg-red-100"
+                          className="rounded-lg border border-rose-200 bg-white p-4 text-left transition-colors hover:border-rose-300 hover:bg-rose-50"
                         >
-                          <div className="flex items-center gap-2 font-bold text-red-700">
-                            <Clock className="h-4 w-4" />
+                          <div className="flex items-center gap-2 font-bold text-rose-700 text-sm font-mono">
+                            <Clock className="h-3.5 w-3.5" />
                             {blockedTime.start}-{blockedTime.end}
                           </div>
-                          <p className="mt-1 text-sm text-red-600">
+                          <p className="mt-1 text-xs text-rose-600">
                             {blockedTime.reason || "Doctor unavailable"}
                           </p>
-                          <p className="mt-2 text-xs font-medium text-red-500">Click to unblock</p>
+                          <p className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-rose-500">Click to unblock</p>
                         </button>
                       ))}
                     </div>
@@ -645,49 +650,51 @@ export default function AvailabilityPage() {
               <div className="p-6">
                 {loadingAvailability ? (
                   <div className="flex justify-center py-12">
-                    <RefreshCw className="w-8 h-8 animate-spin text-gray-400" />
+                    <RefreshCw className="w-8 h-8 animate-spin text-teal-600" />
                   </div>
                 ) : availability?.isOnLeave ? (
                   <div className="text-center py-8">
-                    <CalendarX className="w-16 h-16 text-red-300 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900">Doctor on Leave</h3>
-                    <p className="text-gray-500 mt-2">
+                    <div className="bg-rose-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CalendarX className="w-7 h-7 text-rose-500" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900">Doctor on Leave</h3>
+                    <p className="text-slate-500 mt-2 text-sm">
                       Dr. {selectedDoctor.name} is on leave for this date.
                     </p>
-                    
+
                     {/* Alternate Doctors Section */}
                     {availability.alternateDoctors && availability.alternateDoctors.length > 0 && (
-                      <div className="mt-6 border-t pt-6">
-                        <h4 className="text-lg font-semibold text-gray-800 mb-4">
-                          🔄 Available Alternate Doctors ({availability.alternateDoctors[0].specialization})
+                      <div className="mt-6 border-t border-slate-200 pt-6">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">
+                          Available Alternate Doctors · {availability.alternateDoctors[0].specialization}
                         </h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
                           {availability.alternateDoctors.map((altDoc) => (
                             <div
                               key={altDoc.doctorId}
-                              className="bg-green-50 border border-green-200 rounded-xl p-4 text-left"
+                              className="bg-white border border-slate-200 rounded-xl p-4 text-left"
                             >
                               <div className="flex items-center justify-between mb-2">
-                                <h5 className="font-semibold text-gray-900">
+                                <h5 className="font-bold text-slate-900 text-sm">
                                   Dr. {altDoc.doctorName}
                                 </h5>
-                                <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                                  {altDoc.availableSlotsCount} slots available
+                                <span className="text-[11px] bg-teal-50 text-teal-700 border border-teal-200 px-2 py-0.5 rounded-full font-semibold font-mono">
+                                  {altDoc.availableSlotsCount} slots
                                 </span>
                               </div>
-                              <p className="text-sm text-gray-600 mb-3">{altDoc.specialization}</p>
+                              <p className="text-xs text-slate-500 mb-3">{altDoc.specialization}</p>
                               {altDoc.availableSlots && altDoc.availableSlots.length > 0 && (
                                 <div className="flex flex-wrap gap-1">
                                   {altDoc.availableSlots.map((slot) => (
                                     <span
                                       key={slot.start}
-                                      className="text-xs bg-white border border-green-300 text-green-700 px-2 py-1 rounded"
+                                      className="text-[11px] bg-slate-50 border border-slate-200 text-slate-600 px-2 py-1 rounded font-mono"
                                     >
                                       {slot.time}
                                     </span>
                                   ))}
                                   {altDoc.availableSlotsCount > 5 && (
-                                    <span className="text-xs text-gray-500 px-2 py-1">
+                                    <span className="text-[11px] text-slate-400 px-2 py-1">
                                       +{altDoc.availableSlotsCount - 5} more
                                     </span>
                                   )}
@@ -698,43 +705,45 @@ export default function AvailabilityPage() {
                                   const altDoctor = doctors.find(d => d._id === altDoc.doctorId);
                                   if (altDoctor) setSelectedDoctor(altDoctor);
                                 }}
-                                className="mt-3 w-full py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
+                                className="mt-3 w-full py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition-colors"
                               >
                                 View Dr. {altDoc.doctorName}&apos;s Schedule
                               </button>
                             </div>
                           ))}
                         </div>
-                        <p className="text-sm text-gray-500 mt-4">
-                          💡 The AI agent will automatically suggest these doctors to callers
+                        <p className="text-xs text-slate-400 mt-4">
+                          The AI agent will automatically suggest these doctors to callers
                         </p>
                       </div>
                     )}
-                    
+
                     {(!availability.alternateDoctors || availability.alternateDoctors.length === 0) && (
-                      <p className="text-sm text-sky-600 mt-4">
-                        ⚠️ No alternate doctors with same specialization available
+                      <p className="text-sm text-sky-700 mt-4">
+                        No alternate doctors with same specialization available
                       </p>
                     )}
                   </div>
                 ) : isPast ? (
                   <div className="text-center py-12">
-                    <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900">Past Date</h3>
-                    <p className="text-gray-500 mt-2">
+                    <div className="bg-slate-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Calendar className="w-7 h-7 text-slate-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900">Past Date</h3>
+                    <p className="text-slate-500 mt-2 text-sm">
                       Appointments cannot be managed for past dates.
                     </p>
                   </div>
                 ) : queueMode ? (
                   <div className="space-y-5">
-                    <div className="flex flex-col gap-4 border-b border-gray-100 pb-5 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-col gap-4 border-b border-slate-100 pb-5 lg:flex-row lg:items-center lg:justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-green-100 bg-green-50 text-green-700">
-                          <Hash className="h-5 w-5" />
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-teal-200 bg-teal-50 text-teal-700">
+                          <Hash className="h-4 w-4" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-gray-900">OPD Queue</h4>
-                          <p className="text-sm text-gray-500">
+                          <h4 className="font-bold text-slate-900 text-sm">OPD Queue</h4>
+                          <p className="text-xs text-slate-500 font-mono">
                             {visibleBookedSlots.length} {visibleBookedSlots.length === 1 ? "patient" : "patients"} for{" "}
                             {selectedDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                           </p>
@@ -742,19 +751,19 @@ export default function AvailabilityPage() {
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 sm:flex">
-                        <div className="rounded-lg border border-green-200 bg-green-50 px-3 py-2">
-                          <p className="text-xs font-medium text-green-700">Mode</p>
-                          <p className="text-sm font-semibold text-green-900">Queue</p>
+                        <div className="rounded-lg border border-teal-200 bg-teal-50 px-3 py-2">
+                          <p className="text-[11px] font-semibold uppercase tracking-wide text-teal-700">Mode</p>
+                          <p className="text-sm font-bold text-teal-900">Queue</p>
                         </div>
-                        <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
-                          <p className="text-xs font-medium text-gray-500">Time Slots</p>
-                          <p className="text-sm font-semibold text-gray-900">Hidden</p>
+                        <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                          <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Time Slots</p>
+                          <p className="text-sm font-bold text-slate-900">Hidden</p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="overflow-hidden rounded-lg border border-gray-200">
-                      <div className="hidden bg-gray-50 px-4 py-3 text-xs font-semibold uppercase text-gray-500 sm:grid sm:grid-cols-[140px_minmax(0,1fr)_140px_52px]">
+                    <div className="overflow-hidden rounded-lg border border-slate-200">
+                      <div className="hidden bg-slate-50 px-4 py-3 text-[11px] font-bold uppercase tracking-wide text-slate-500 sm:grid sm:grid-cols-[140px_minmax(0,1fr)_140px_52px]">
                         <span>Token</span>
                         <span>Patient</span>
                         <span>Type</span>
@@ -762,34 +771,34 @@ export default function AvailabilityPage() {
                       </div>
 
                       {visibleBookedSlots.length > 0 ? (
-                        <div className="divide-y divide-gray-100">
+                        <div className="divide-y divide-slate-100">
                           {visibleBookedSlots.map((slot, index) => (
                             <div
                               key={slot.appointmentId || `${slot.queueNumber || "queue"}-${index}`}
-                              className="grid grid-cols-1 gap-3 px-4 py-3 transition-colors hover:bg-gray-50 sm:grid-cols-[140px_minmax(0,1fr)_140px_52px] sm:items-center"
+                              className="grid grid-cols-1 gap-3 px-4 py-3 transition-colors hover:bg-slate-50 sm:grid-cols-[140px_minmax(0,1fr)_140px_52px] sm:items-center"
                             >
                               <div className="flex items-center gap-2">
-                                <span className="inline-flex min-w-16 items-center justify-center rounded-md border border-green-200 bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700">
+                                <span className="inline-flex min-w-16 items-center justify-center rounded-md border border-teal-200 bg-teal-50 px-3 py-1.5 text-sm font-bold text-teal-700 font-mono">
                                   {slot.queueNumber || `#${index + 1}`}
                                 </span>
                               </div>
 
                               <div className="flex min-w-0 items-center gap-3">
-                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-900 text-xs font-semibold text-white">
+                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
                                   {getPatientInitials(slot.patientName)}
                                 </div>
                                 <div className="min-w-0">
-                                  <p className="truncate font-medium text-gray-900">{slot.patientName || "Patient"}</p>
-                                  <p className="truncate text-sm text-gray-500">{slot.patientPhone || "No phone"}</p>
+                                  <p className="truncate font-semibold text-slate-900 text-sm">{slot.patientName || "Patient"}</p>
+                                  <p className="truncate text-xs text-slate-500 font-mono">{slot.patientPhone || "No phone"}</p>
                                 </div>
                               </div>
 
                               <div>
                                 <span
-                                  className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+                                  className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold ${
                                     slot.patientType === "follow_up"
-                                      ? "bg-sky-50 text-sky-700"
-                                      : "bg-gray-100 text-gray-700"
+                                      ? "bg-sky-50 text-sky-700 border border-sky-200"
+                                      : "bg-slate-100 text-slate-600 border border-slate-200"
                                   }`}
                                 >
                                   {getPatientTypeLabel(slot.patientType)}
@@ -798,7 +807,7 @@ export default function AvailabilityPage() {
 
                               <button
                                 onClick={() => handleCancelAppointment(slot)}
-                                className="justify-self-start rounded-lg p-2 text-red-600 transition-colors hover:bg-red-50 sm:justify-self-end"
+                                className="justify-self-start rounded-lg p-2 text-rose-600 transition-colors hover:bg-rose-50 sm:justify-self-end"
                                 title="Cancel Appointment"
                               >
                                 <XCircle className="h-5 w-5" />
@@ -809,9 +818,9 @@ export default function AvailabilityPage() {
                         </div>
                       ) : (
                         <div className="px-4 py-10 text-center">
-                          <Hash className="mx-auto h-10 w-10 text-gray-300" />
-                          <h4 className="mt-3 font-medium text-gray-900">No queue bookings</h4>
-                          <p className="mt-1 text-sm text-gray-500">Patients booked for this date will appear here.</p>
+                          <Hash className="mx-auto h-8 w-8 text-slate-300" />
+                          <h4 className="mt-3 font-bold text-slate-900 text-sm">No queue bookings</h4>
+                          <p className="mt-1 text-xs text-slate-500">Patients booked for this date will appear here.</p>
                         </div>
                       )}
                     </div>
@@ -819,48 +828,48 @@ export default function AvailabilityPage() {
                 ) : (
                   <>
                     {/* Stats */}
-                    <div className="grid grid-cols-3 gap-4 mb-6">
-                      <div className="bg-green-50 rounded-xl p-4 text-center">
-                        <div className="text-2xl font-bold text-green-700">
+                    <div className="grid grid-cols-3 gap-3 mb-6">
+                      <div className="bg-teal-50 border border-teal-100 rounded-xl p-4 text-center">
+                        <div className="text-2xl font-bold text-teal-700 font-mono">
                           {queueMode ? "ON" : (availability?.availableSlots?.length || 0)}
                         </div>
-                        <div className="text-sm text-green-600">{queueMode ? "Queue Mode" : "Available Slots"}</div>
+                        <div className="text-[11px] font-semibold uppercase tracking-wide text-teal-700">{queueMode ? "Queue Mode" : "Available Slots"}</div>
                       </div>
-                      <div className="bg-orange-50 rounded-xl p-4 text-center">
-                        <div className="text-2xl font-bold text-orange-700">
+                      <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 text-center">
+                        <div className="text-2xl font-bold text-amber-700 font-mono">
                           {availability?.bookedSlots?.length || 0}
                         </div>
-                        <div className="text-sm text-orange-600">{queueMode ? "Queue Bookings" : "Booked"}</div>
+                        <div className="text-[11px] font-semibold uppercase tracking-wide text-amber-700">{queueMode ? "Queue Bookings" : "Booked"}</div>
                       </div>
-                      <div className="bg-gray-50 rounded-xl p-4 text-center">
-                        <div className="text-2xl font-bold text-gray-700">
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+                        <div className="text-2xl font-bold text-slate-700 font-mono">
                           {queueMode
                             ? (availability?.bookedSlots?.length || 0)
                             : (availability?.availableSlots?.length || 0) + (availability?.bookedSlots?.length || 0)}
                         </div>
-                        <div className="text-sm text-gray-600">{queueMode ? "Total Tokens" : "Total Slots"}</div>
+                        <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{queueMode ? "Total Tokens" : "Total Slots"}</div>
                       </div>
                     </div>
 
                     {/* Booked Appointments */}
                     {availability?.bookedSlots && availability.bookedSlots.length > 0 && (
                       <div className="mb-6">
-                        <h4 className="font-medium text-gray-900 mb-3">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
                           {queueMode ? "OPD Queue Bookings" : "Booked Appointments"}
                         </h4>
                         <div className="space-y-2">
                           {getDisplayBookedSlots(availability.bookedSlots, queueMode).map((slot) => (
                             <div
                               key={slot.appointmentId || slot.queueNumber || slot.time}
-                              className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-orange-50 rounded-xl border border-orange-200 gap-3">
+                              className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-amber-50 rounded-lg border border-amber-200 gap-3">
                               <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2 text-orange-700">
+                                <div className="flex items-center gap-2 text-amber-700">
                                   {queueMode ? <Hash className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
-                                  <span className="font-semibold">{getSlotDisplay(slot, queueMode)}</span>
+                                  <span className="font-bold text-sm font-mono">{getSlotDisplay(slot, queueMode)}</span>
                                 </div>
                                 <div>
-                                  <p className="font-medium text-gray-900">{slot.patientName}</p>
-                                  <p className="text-sm text-gray-500">
+                                  <p className="font-semibold text-slate-900 text-sm">{slot.patientName}</p>
+                                  <p className="text-xs text-slate-500 font-mono">
                                     {slot.patientPhone}
                                     {queueMode && slot.patientType ? ` • ${getPatientTypeLabel(slot.patientType)}` : ""}
                                   </p>
@@ -868,7 +877,7 @@ export default function AvailabilityPage() {
                               </div>
                               <button
                                 onClick={() => handleCancelAppointment(slot)}
-                                className="p-2 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
+                                className="p-2 hover:bg-rose-100 text-rose-600 rounded-lg transition-colors"
                                 title="Cancel Appointment"
                               >
                                 <XCircle className="w-5 h-5" />
@@ -881,11 +890,11 @@ export default function AvailabilityPage() {
 
                     {/* Available Slots */}
                     <div>
-                      <h4 className="font-medium text-gray-900 mb-3">
+                      <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
                         {queueMode ? "Queue Availability" : "Time Slots"}
                       </h4>
                       {queueMode ? (
-                        <div className="rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-800">
+                        <div className="rounded-lg border border-sky-200 bg-sky-50 p-4 text-sm text-sky-800">
                           OPD queue is enabled for this doctor. Fixed time slots are hidden; patients are managed by queue/token number.
                         </div>
                       ) : scheduleTimeCards.length > 0 ? (
@@ -897,15 +906,15 @@ export default function AvailabilityPage() {
                                 type="button"
                                 onClick={() => setBlockedTimeToUnblock(card.blockedTime)}
                                 title={`${card.blockedTime.reason || "Doctor unavailable"} — click to unblock`}
-                                className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-center transition-colors hover:border-red-500 hover:bg-red-100"
+                                className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-center transition-colors hover:border-rose-300 hover:bg-rose-100"
                               >
-                                <span className="block text-sm font-bold text-red-700">{card.label}</span>
-                                <span className="block truncate text-xs text-red-500">Blocked · Unblock</span>
+                                <span className="block text-sm font-bold text-rose-700 font-mono">{card.label}</span>
+                                <span className="block truncate text-[10px] font-semibold uppercase tracking-wide text-rose-500">Blocked · Unblock</span>
                               </button>
                             ) : (
                               <div
                                 key={card.key}
-                                className="rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-center text-sm font-medium text-green-700"
+                                className="rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-center text-sm font-semibold text-teal-700 font-mono"
                               >
                                 {card.label}
                               </div>
@@ -913,7 +922,7 @@ export default function AvailabilityPage() {
                           )}
                         </div>
                       ) : (
-                        <p className="text-gray-500 text-center py-4">
+                        <p className="text-slate-500 text-center py-4 text-sm">
                           No available or manually blocked slots for this date
                         </p>
                       )}
@@ -925,10 +934,12 @@ export default function AvailabilityPage() {
           )}
 
           {!selectedDoctor && !loading && (
-            <div className="bg-white rounded-xl p-12 text-center border border-gray-200">
-              <User className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900">No Doctor Selected</h3>
-              <p className="text-gray-500 mt-2">
+            <div className="bg-white rounded-xl p-12 text-center border border-slate-200">
+              <div className="bg-slate-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <User className="w-7 h-7 text-slate-400" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900">No Doctor Selected</h3>
+              <p className="text-slate-500 mt-2 text-sm">
                 {doctors.length > 0
                   ? "Select a doctor to view their availability"
                   : "Add doctors first to manage availability"}
@@ -941,17 +952,17 @@ export default function AvailabilityPage() {
       {/* Unblock Time Modal */}
       {blockedTimeToUnblock && selectedDoctor && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4"
           onClick={() => !unblockingTime && setBlockedTimeToUnblock(null)}
         >
           <div
-            className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl"
+            className="w-full max-w-md overflow-hidden rounded-xl bg-white shadow-2xl border border-slate-200"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="flex items-start justify-between border-b border-gray-200 p-6">
+            <div className="flex items-start justify-between border-b border-slate-200 p-5 sm:p-6">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900">Unblock This Time?</h2>
-                <p className="mt-1 text-sm text-gray-500">
+                <h2 className="text-lg font-bold text-slate-900">Unblock This Time?</h2>
+                <p className="mt-1 text-sm text-slate-500 font-mono">
                   Dr. {selectedDoctor.name} · {blockedTimeToUnblock.start}-
                   {blockedTimeToUnblock.end}
                 </p>
@@ -960,29 +971,29 @@ export default function AvailabilityPage() {
                 type="button"
                 onClick={() => setBlockedTimeToUnblock(null)}
                 disabled={unblockingTime}
-                className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 disabled:opacity-50"
+                className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 disabled:opacity-50"
                 aria-label="Close"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="space-y-4 p-6">
-              <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+            <div className="space-y-4 p-5 sm:p-6">
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
                 This manual block will be removed and newly free slots can be booked again.
               </div>
-              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+              <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
                 Previously cancelled appointments will remain cancelled. Other overlapping schedule
                 blocks will still apply.
               </div>
             </div>
 
-            <div className="flex flex-col-reverse gap-3 border-t border-gray-200 bg-gray-50 p-6 sm:flex-row sm:justify-end">
+            <div className="flex flex-col-reverse gap-3 border-t border-slate-200 bg-slate-50 p-5 sm:flex-row sm:justify-end sm:p-6">
               <button
                 type="button"
                 onClick={() => setBlockedTimeToUnblock(null)}
                 disabled={unblockingTime}
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                className="rounded-lg border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-50"
               >
                 Keep Blocked
               </button>
@@ -990,7 +1001,7 @@ export default function AvailabilityPage() {
                 type="button"
                 onClick={() => void handleUnblockTime()}
                 disabled={unblockingTime}
-                className="flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700 disabled:opacity-50"
+                className="flex items-center justify-center gap-2 rounded-lg bg-teal-600 px-4 py-2.5 font-semibold text-white hover:bg-teal-700 disabled:opacity-50"
               >
                 {unblockingTime && <RefreshCw className="h-4 w-4 animate-spin" />}
                 {unblockingTime ? "Unblocking..." : "Unblock Time"}
@@ -1002,49 +1013,53 @@ export default function AvailabilityPage() {
 
       {/* Leave Modal */}
       {showLeaveModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md p-6">
-            <h2 className="text-xl font-semibold mb-4">Mark as Leave</h2>
-            <p className="text-gray-600 mb-4">
-              Mark Dr. {selectedDoctor?.name} as on leave for{" "}
-              {selectedDate.toLocaleDateString("en-US", {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Reason (optional)
-              </label>
-              <textarea
-                value={leaveReason}
-                onChange={(e) => setLeaveReason(e.target.value)}
-                placeholder="e.g., Personal leave, Conference, Sick leave..."
-                rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4">
+          <div className="bg-white rounded-xl w-full max-w-md border border-slate-200 shadow-2xl overflow-hidden">
+            <div className="bg-slate-900 px-6 py-5">
+              <h2 className="text-lg font-bold text-white">Mark as Leave</h2>
+              <p className="text-slate-400 text-sm mt-1">
+                Dr. {selectedDoctor?.name} ·{" "}
+                {selectedDate.toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
             </div>
 
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setShowLeaveModal(false);
-                  setLeaveReason("");
-                }}
-                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSetLeave}
-                disabled={savingLeave}
-                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
-              >
-                {savingLeave ? "Saving..." : "Confirm Leave"}
-              </button>
+            <div className="p-6">
+              <div className="mb-5">
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                  Reason (optional)
+                </label>
+                <textarea
+                  value={leaveReason}
+                  onChange={(e) => setLeaveReason(e.target.value)}
+                  placeholder="e.g., Personal leave, Conference, Sick leave..."
+                  rows={3}
+                  className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-rose-100 focus:border-rose-500 outline-none text-sm text-slate-900"
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowLeaveModal(false);
+                    setLeaveReason("");
+                  }}
+                  className="flex-1 px-4 py-2.5 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors font-semibold text-sm"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSetLeave}
+                  disabled={savingLeave}
+                  className="flex-1 px-4 py-2.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors disabled:opacity-50 font-semibold text-sm"
+                >
+                  {savingLeave ? "Saving..." : "Confirm Leave"}
+                </button>
+              </div>
             </div>
           </div>
         </div>

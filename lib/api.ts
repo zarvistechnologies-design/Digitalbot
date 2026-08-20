@@ -322,6 +322,16 @@ export const doctorWhatsappAPI = {
   getMessages: (phone: string, params: { metaPhoneNumberId: string; page?: number; limit?: number }) =>
     api.get(`/doctor-whatsapp/conversations/${encodeURIComponent(phone)}/messages`, { params }),
 
+  getMorningFollowup: () => api.get('/doctor-whatsapp/morning-followup'),
+
+  saveMorningFollowup: (data: {
+    enabled: boolean;
+    templateName: string;
+    templateLanguage: string;
+    sendTime: string;
+    variables: string[];
+  }) => api.put('/doctor-whatsapp/morning-followup', data),
+
   getMediaUrl: (mediaId: string) => {
     const base = api.defaults.baseURL || '';
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';

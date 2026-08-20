@@ -80,6 +80,19 @@ interface AutoRechargeSettings {
   lastError: string;
 }
 
+// Matches the "clinical ledger" status token system used on the Appointments page:
+// a soft surface, a saturated 700-weight ink, and a hairline border.
+const transactionStatusStyles: Record<Transaction['status'], string> = {
+  completed: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  pending: "bg-amber-50 text-amber-700 border-amber-200",
+  failed: "bg-rose-50 text-rose-700 border-rose-200",
+};
+const transactionStatusDot: Record<Transaction['status'], string> = {
+  completed: "bg-emerald-500",
+  pending: "bg-amber-500",
+  failed: "bg-rose-500",
+};
+
 const toDateInputValue = (date: Date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -481,7 +494,7 @@ export default function Billing() {
           contact: userInfo.assignedPhoneNumber,
         },
         theme: {
-          color: '#2563eb',
+          color: '#0f172a',
         },
         modal: {
           ondismiss: function () {
@@ -569,20 +582,20 @@ export default function Billing() {
   };
 
   const UsageByPeriodCard = () => (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-lg mb-8 p-6">
+    <div className="bg-white rounded-xl border border-slate-200 mb-8 p-6">
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <CalendarDays className="w-5 h-5 text-blue-600" />
-            <h2 className="text-base font-bold text-slate-900">Usage by period</h2>
-          </div>
+          <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5 flex items-center gap-2">
+            <CalendarDays className="w-4 h-4" />
+            Usage by period
+          </p>
           <p className="text-xs text-slate-500">Choose a period to see exactly what you spent during those dates.</p>
         </div>
         <select
           value={usagePeriod}
           onChange={(event) => setUsagePeriod(event.target.value as UsagePeriod)}
           aria-label="Usage period"
-          className="w-full lg:w-52 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          className="w-full lg:w-52 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
         >
           <option value="this_month">This month</option>
           <option value="last_month">Last month</option>
@@ -592,10 +605,10 @@ export default function Billing() {
         </select>
       </div>
 
-      <p className="text-xs font-semibold text-slate-600 mb-4">Showing: {getUsageRangeLabel()}</p>
+      <p className="text-xs font-semibold text-slate-600 mb-4 font-mono">Showing: {getUsageRangeLabel()}</p>
 
       {usagePeriod === 'custom' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 mb-5 rounded-xl bg-slate-50 border border-slate-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 mb-5 rounded-lg bg-slate-50 border border-slate-200">
           <label className="text-xs font-bold text-slate-600">
             From
             <input
@@ -621,32 +634,32 @@ export default function Billing() {
       )}
 
       {usageError ? (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{usageError}</div>
+        <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-700">{usageError}</div>
       ) : usageLoading ? (
-        <div className="flex min-h-32 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold text-slate-600">
-          <Loader2 className="w-4 h-4 mr-2 animate-spin text-blue-600" />
+        <div className="flex min-h-32 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-sm font-semibold text-slate-600">
+          <Loader2 className="w-4 h-4 mr-2 animate-spin text-teal-600" />
           Updating usage for this period…
         </div>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
-            <p className="text-xs font-bold text-blue-700 uppercase tracking-wide">Credits spent</p>
-            <p className="text-2xl font-black text-slate-900 mt-2">{formatCredits(usageSummary.creditsSpent)}</p>
+          <div className="rounded-lg border border-teal-200 bg-teal-50 p-4">
+            <p className="text-[11px] font-bold text-teal-700 uppercase tracking-wide">Credits spent</p>
+            <p className="text-2xl font-bold text-slate-900 mt-2 font-mono">{formatCredits(usageSummary.creditsSpent)}</p>
             <p className="text-xs text-slate-500 mt-1">Deducted for billed calls</p>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <p className="text-xs font-bold text-slate-600 uppercase tracking-wide">Billed calls</p>
-            <p className="text-2xl font-black text-slate-900 mt-2">{usageSummary.callCount.toLocaleString()}</p>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wide">Billed calls</p>
+            <p className="text-2xl font-bold text-slate-900 mt-2 font-mono">{usageSummary.callCount.toLocaleString()}</p>
             <p className="text-xs text-slate-500 mt-1">Connected, chargeable calls</p>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <p className="text-xs font-bold text-slate-600 uppercase tracking-wide">Call minutes</p>
-            <p className="text-2xl font-black text-slate-900 mt-2">{formatCredits(usageSummary.durationMinutes)}</p>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wide">Call minutes</p>
+            <p className="text-2xl font-bold text-slate-900 mt-2 font-mono">{formatCredits(usageSummary.durationMinutes)}</p>
             <p className="text-xs text-slate-500 mt-1">Total billed duration</p>
           </div>
-          <div className="rounded-xl border border-green-200 bg-green-50 p-4">
-            <p className="text-xs font-bold text-green-700 uppercase tracking-wide">Credits purchased</p>
-            <p className="text-2xl font-black text-slate-900 mt-2">{formatCredits(usageSummary.creditsPurchased)}</p>
+          <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
+            <p className="text-[11px] font-bold text-emerald-700 uppercase tracking-wide">Credits purchased</p>
+            <p className="text-2xl font-bold text-slate-900 mt-2 font-mono">{formatCredits(usageSummary.creditsPurchased)}</p>
             <p className="text-xs text-slate-500 mt-1">From completed payments</p>
           </div>
         </div>
@@ -654,8 +667,8 @@ export default function Billing() {
 
       {!usageLoading && !usageError && (
         <div className="flex flex-wrap gap-x-6 gap-y-2 mt-5 pt-4 border-t border-slate-200 text-xs text-slate-600">
-          <span>Payments in period: <strong className="text-slate-900">{usageSummary.purchaseCount}</strong></span>
-          <span>Amount paid: <strong className="text-slate-900">{formatInr(usageSummary.amountPaid)}</strong></span>
+          <span>Payments in period: <strong className="text-slate-900 font-mono">{usageSummary.purchaseCount}</strong></span>
+          <span>Amount paid: <strong className="text-slate-900 font-mono">{formatInr(usageSummary.amountPaid)}</strong></span>
         </div>
       )}
     </div>
@@ -868,7 +881,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           contact: userInfo.assignedPhoneNumber,
         },
         theme: {
-          color: "#2563eb",
+          color: "#0f172a",
         },
         modal: {
           ondismiss: function () {
@@ -894,72 +907,74 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
     const credits = calculateCredits(customAmount);
 
     return (
-      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-        <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-8 transform transition-all animate-slideUp">
-          <div className="text-center mb-6">
-            <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <CreditCard className="w-10 h-10 text-white" />
-            </div>
-            <h3 className="text-xl font-black text-slate-900 mb-2">
-              Complete Your Purchase
+      <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-200">
+          <div className="bg-slate-900 px-6 py-5">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-1.5">
+              Secure checkout
+            </p>
+            <h3 className="text-xl font-bold text-white">
+              Complete your purchase
             </h3>
-            <p className="text-slate-600 font-medium">Secure payment via Razorpay</p>
+            <p className="text-slate-400 text-sm mt-1">Payment processed by Razorpay</p>
           </div>
 
-          <div className="bg-white border-2 border-slate-200 rounded-2xl p-6 mb-6">
-            <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-200">
-              <span className="text-slate-700 font-bold">Purchase:</span>
-              <span className="font-black text-slate-900">Credit Top-up</span>
+          <div className="p-6">
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-5 mb-6">
+              <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-200">
+                <span className="text-slate-600 text-sm font-semibold">Purchase</span>
+                <span className="font-bold text-slate-900 text-sm">Credit Top-up</span>
+              </div>
+              <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-200">
+                <span className="text-slate-600 text-sm font-semibold">Credits</span>
+                <span className="font-bold text-teal-700 flex items-center gap-1 font-mono">
+                  <Zap className="w-4 h-4" />
+                  {credits.toLocaleString()}
+                </span>
+              </div>
+              <div className="flex justify-between items-center pt-2">
+                <span className="text-base font-bold text-slate-900">Total</span>
+                <span className="text-2xl font-bold text-teal-700 font-mono">
+                  ₹{amount.toLocaleString('en-IN')}
+                </span>
+              </div>
             </div>
-            <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-200">
-              <span className="text-slate-700 font-bold">Credits:</span>
-              <span className="font-black text-blue-600 flex items-center gap-1">
-                <Zap className="w-4 h-4" />
-                {credits.toLocaleString()}
-              </span>
+
+            <div className="space-y-3">
+              <button
+                onClick={handlePayment}
+                disabled={loading}
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3.5 rounded-lg transition flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-5 h-5" />
+                    Pay with Razorpay
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowPaymentModal(false);
+                }}
+                disabled={loading}
+                className="w-full bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold py-3 rounded-lg transition disabled:opacity-50"
+              >
+                Cancel
+              </button>
             </div>
-            <div className="flex justify-between items-center pt-2">
-              <span className="text-lg font-black text-slate-900">Total:</span>
-              <span className="text-2xl font-black text-blue-700">
-                ₹{amount.toLocaleString('en-IN')}
-              </span>
-            </div>
-          </div>
 
-          <div className="space-y-3">
-            <button
-              onClick={handlePayment}
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>
-                  <CreditCard className="w-5 h-5" />
-                  Pay with Razorpay
-                </>
-              )}
-            </button>
-
-            <button
-              onClick={() => {
-                setShowPaymentModal(false);
-              }}
-              disabled={loading}
-              className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-all disabled:opacity-50"
-            >
-              Cancel
-            </button>
-          </div>
-
-          <div className="mt-6 pt-6 border-t border-slate-200">
-            <div className="flex items-center justify-center gap-3 text-xs text-slate-500">
-              <Shield className="w-4 h-4" />
-              <span>Secured by Razorpay • 256-bit SSL Encrypted</span>
+            <div className="mt-6 pt-5 border-t border-slate-200">
+              <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+                <Shield className="w-4 h-4" />
+                <span>Secured by Razorpay • 256-bit SSL Encrypted</span>
+              </div>
             </div>
           </div>
         </div>
@@ -997,64 +1012,57 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
   /* === HERO HEADER === */
   .hero {
-    background: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
+    background: #0f172a;
     padding: 28px 36px 40px;
     position: relative;
     overflow: hidden;
-  }
-  .hero::before {
-    display: none;
-  }
-  .hero::after {
-    display: none;
   }
   .hero-content { position: relative; z-index: 1; }
   .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
   .logo-group { display: flex; align-items: center; gap: 10px; }
   .logo-circle {
     width: 40px; height: 40px;
-    background: #2563eb;
+    background: #0d9488;
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 18px rgba(37,99,235,0.18);
+    box-shadow: 0 6px 18px rgba(13,148,136,0.28);
   }
   .logo-circle svg { width: 20px; height: 20px; fill: white; }
-  .logo-text { color: #0f172a; }
+  .logo-text { color: #ffffff; }
   .logo-title { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
-  .logo-title em { font-style: normal; color: #2563eb; }
-  .logo-sub { font-size: 9px; color: #64748b; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
+  .logo-title em { font-style: normal; color: #2dd4bf; }
+  .logo-sub { font-size: 9px; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
 
   .inv-tag {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 10px;
     padding: 10px 16px;
     text-align: right;
   }
-  .inv-tag-label { font-size: 9px; color: #64748b; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
-  .inv-tag-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0f172a; font-weight: 700; margin-top: 2px; }
+  .inv-tag-label { font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+  .inv-tag-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #ffffff; font-weight: 700; margin-top: 2px; }
 
   /* Amount showcase */
   .amount-showcase {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 12px;
     padding: 18px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .amount-label { font-size: 9px; color: #64748b; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 4px; }
-  .amount-value { font-size: 36px; font-weight: 800; color: #0f172a; letter-spacing: -2px; line-height: 1; }
-  .amount-value .currency { font-size: 20px; color: #2563eb; vertical-align: top; margin-right: 2px; }
+  .amount-label { font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 4px; }
+  .amount-value { font-size: 36px; font-weight: 800; color: #ffffff; letter-spacing: -2px; line-height: 1; }
+  .amount-value .currency { font-size: 20px; color: #2dd4bf; vertical-align: top; margin-right: 2px; }
   .amount-meta { display: flex; gap: 18px; margin-top: 8px; }
   .amount-meta-item { display: flex; align-items: center; gap: 5px; }
   .meta-dot { width: 6px; height: 6px; border-radius: 50%; }
   .meta-dot.green { background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,0.5); }
-  .meta-dot.blue { background: #2563eb; box-shadow: 0 0 6px rgba(37,99,235,0.25); }
+  .meta-dot.blue { background: #2dd4bf; box-shadow: 0 0 6px rgba(45,212,191,0.35); }
   .meta-text { font-size: 10px; color: #94a3b8; }
-  .meta-text strong { color: #0f172a; }
+  .meta-text strong { color: #ffffff; }
 
   .paid-stamp { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .stamp-circle {
@@ -1094,10 +1102,10 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   .info-tile:last-child { border-radius: 0 10px 10px 0; border-left: none; }
   .tile-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
   .tile-icon svg { width: 14px; height: 14px; }
-  .tile-icon.purple { background: #f3e8ff; }
-  .tile-icon.purple svg { fill: #7c3aed; }
-  .tile-icon.blue { background: #dbeafe; }
-  .tile-icon.blue svg { fill: #2563eb; }
+  .tile-icon.purple { background: #ccfbf1; }
+  .tile-icon.purple svg { fill: #0f766e; }
+  .tile-icon.blue { background: #ccfbf1; }
+  .tile-icon.blue svg { fill: #0d9488; }
   .tile-icon.emerald { background: #d1fae5; }
   .tile-icon.emerald svg { fill: #059669; }
   .tile-label { font-size: 8px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; margin-bottom: 3px; }
@@ -1125,11 +1133,11 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   }
   .item-icon-wrap {
     width: 42px; height: 42px;
-    background: #2563eb;
+    background: #0d9488;
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 3px 12px rgba(124,58,237,0.25);
+    box-shadow: 0 3px 12px rgba(13,148,136,0.25);
   }
   .item-icon-wrap svg { width: 20px; height: 20px; fill: white; }
   .item-info { flex: 1; }
@@ -1138,12 +1146,12 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   .item-right { text-align: right; }
   .item-credits {
     display: inline-flex; align-items: center; gap: 4px;
-    background: white; border: 1.5px solid #e9d5ff;
+    background: white; border: 1.5px solid #99f6e4;
     padding: 3px 10px; border-radius: 16px;
-    font-weight: 800; font-size: 12px; color: #7c3aed;
+    font-weight: 800; font-size: 12px; color: #0f766e;
     margin-bottom: 4px;
   }
-  .item-credits svg { width: 12px; height: 12px; fill: #7c3aed; }
+  .item-credits svg { width: 12px; height: 12px; fill: #0f766e; }
   .item-price { font-size: 18px; font-weight: 800; color: #1e293b; }
   .item-rate { font-size: 9px; color: #94a3b8; margin-top: 1px; }
 
@@ -1160,12 +1168,11 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   .brk-label { font-size: 11px; color: #64748b; }
   .brk-value { font-size: 11px; font-weight: 700; color: #1e293b; }
   .brk-value.muted { color: #cbd5e1; }
-  .brk-total { padding-top: 10px !important; margin-top: 2px; border-top: 2px solid #7c3aed !important; border-bottom: none !important; }
+  .brk-total { padding-top: 10px !important; margin-top: 2px; border-top: 2px solid #0d9488 !important; border-bottom: none !important; }
   .brk-total .brk-label { font-size: 13px; font-weight: 800; color: #0f172a; }
   .brk-total .brk-value {
     font-size: 20px; font-weight: 800; letter-spacing: -1px;
-    background: linear-gradient(135deg, #7c3aed, #2563eb);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    color: #0f766e;
   }
 
   /* Transaction bar */
@@ -1197,7 +1204,6 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
   /* === FOOTER === */
   .footer-wave { height: 24px; background: white; position: relative; }
-  .footer-wave::after { display: none; }
   .footer-main {
     background: #ffffff;
     border-top: 1px solid #e2e8f0;
@@ -1206,10 +1212,10 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   }
   .footer-left {}
   .footer-brand2 { font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
-  .footer-brand2 em { font-style: normal; color: #2563eb; }
+  .footer-brand2 em { font-style: normal; color: #0d9488; }
   .footer-desc { font-size: 10px; color: #64748b; line-height: 1.5; }
   .footer-right2 { text-align: right; }
-  .footer-link { font-size: 10px; color: #818cf8; text-decoration: none; display: block; line-height: 1.8; }
+  .footer-link { font-size: 10px; color: #0d9488; text-decoration: none; display: block; line-height: 1.8; }
   .footer-note2 {
     background: #f8fafc;
     padding: 8px 36px;
@@ -1401,75 +1407,77 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   const SuccessModal = () => {
     if (!showSuccessModal || !successData) return null;
     return (
-      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-        <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 text-center transform transition-all animate-slideUp">
-          {/* Success Icon */}
-          <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg">
-            <CheckCircle2 className="w-10 h-10 text-white" />
+      <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-200">
+          <div className="bg-slate-900 px-6 py-6 text-center">
+            <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle2 className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-1">Transaction successful</h3>
+            <p className="text-slate-400 text-sm">Your credits have been added to your account</p>
           </div>
 
-          <h3 className="text-2xl font-black text-slate-900 mb-2">Transaction Successful!</h3>
-          <p className="text-slate-500 font-medium mb-6">Your credits have been added to your account</p>
+          <div className="p-6 text-center">
+            {/* Transaction Details */}
+            <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-5 mb-6 text-left space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600 font-medium">Purchase</span>
+                <span className="text-sm font-bold text-slate-900">{successData.planName}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600 font-medium">Amount Paid</span>
+                <span className="text-sm font-bold text-slate-900 font-mono">{formatInr(successData.amount)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600 font-medium">Credits Added</span>
+                <span className="text-sm font-bold text-emerald-700 flex items-center gap-1 font-mono">
+                  <Zap className="w-4 h-4" />
+                  +{successData.creditsAdded.toLocaleString()}
+                </span>
+              </div>
+              <div className="border-t border-emerald-200 pt-3 flex justify-between items-center">
+                <span className="text-sm text-slate-600 font-medium">New Balance</span>
+                <span className="text-lg font-bold text-teal-700 font-mono">
+                  {successData.newBalance.toLocaleString()} credits
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600 font-medium">Transaction ID</span>
+                <span className="text-xs font-mono text-slate-500">{successData.transactionId.slice(-10)}</span>
+              </div>
+            </div>
 
-          {/* Transaction Details */}
-          <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-5 mb-6 text-left space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-600 font-medium">Purchase</span>
-              <span className="text-sm font-bold text-slate-900">{successData.planName}</span>
+            <div className="flex gap-3 mb-3">
+              <button
+                onClick={() => {
+                  generateInvoice({
+                    transactionId: successData.transactionId,
+                    date: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }),
+                    planName: successData.planName,
+                    credits: successData.creditsAdded,
+                    amount: successData.amount,
+                    status: 'completed',
+                  });
+                }}
+                className="flex-1 bg-white border border-slate-300 hover:border-teal-400 hover:bg-teal-50 text-teal-700 font-bold py-3 rounded-lg transition flex items-center justify-center gap-2"
+              >
+                <Download className="w-5 h-5" />
+                Download Invoice
+              </button>
+              <button
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  setSuccessData(null);
+                }}
+                className="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2"
+              >
+                <CheckCircle2 className="w-5 h-5" />
+                Continue
+              </button>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-600 font-medium">Amount Paid</span>
-              <span className="text-sm font-bold text-slate-900">{formatInr(successData.amount)}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-600 font-medium">Credits Added</span>
-              <span className="text-sm font-bold text-green-600 flex items-center gap-1">
-                <Zap className="w-4 h-4" />
-                +{successData.creditsAdded.toLocaleString()}
-              </span>
-            </div>
-            <div className="border-t border-green-200 pt-3 flex justify-between items-center">
-              <span className="text-sm text-slate-600 font-medium">New Balance</span>
-              <span className="text-lg font-black text-blue-700">
-                {successData.newBalance.toLocaleString()} credits
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-slate-600 font-medium">Transaction ID</span>
-              <span className="text-xs font-mono text-slate-500">{successData.transactionId.slice(-10)}</span>
-            </div>
+
+            <p className="text-xs text-slate-400 mt-2">A receipt has been sent to your email</p>
           </div>
-
-          <div className="flex gap-3 mb-3">
-            <button
-              onClick={() => {
-                generateInvoice({
-                  transactionId: successData.transactionId,
-                  date: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }),
-                  planName: successData.planName,
-                  credits: successData.creditsAdded,
-                  amount: successData.amount,
-                  status: 'completed',
-                });
-              }}
-              className="flex-1 bg-white border-2 border-blue-200 hover:border-blue-400 text-blue-700 font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
-            >
-              <Download className="w-5 h-5" />
-              Download Invoice
-            </button>
-            <button
-              onClick={() => {
-                setShowSuccessModal(false);
-                setSuccessData(null);
-              }}
-              className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-            >
-              <CheckCircle2 className="w-5 h-5" />
-              Continue
-            </button>
-          </div>
-
-          <p className="text-xs text-slate-400 mt-2">A receipt has been sent to your email</p>
         </div>
       </div>
     );
@@ -1477,14 +1485,14 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen bg-white">
+      <div className="flex min-h-screen bg-slate-50">
         <div className="hidden lg:block">
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         </div>
         <main className="flex-1 lg:ml-60 flex items-center justify-center">
           <div className="text-center">
-            <Loader2 className="w-16 h-16 text-blue-600 animate-spin mx-auto mb-4" />
-            <p className="text-base text-slate-700 font-bold">Loading your billing dashboard...</p>
+            <RefreshCw className="w-8 h-8 text-teal-600 animate-spin mx-auto mb-4" />
+            <p className="text-sm text-slate-600 font-semibold">Loading your billing dashboard...</p>
           </div>
         </main>
       </div>
@@ -1492,19 +1500,19 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
   }
 
   return (
-    <div className="flex min-h-screen bg-white">
+    <div className="flex min-h-screen bg-slate-50">
       {/* Mobile Menu Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-xl shadow-lg border-2 border-slate-200"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white rounded-lg shadow-sm border border-slate-200"
       >
-        {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        {sidebarOpen ? <X className="w-6 h-6 text-slate-700" /> : <Menu className="w-6 h-6 text-slate-700" />}
       </button>
 
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-slate-900/50 z-40"
+          className="lg:hidden fixed inset-0 bg-slate-950/50 z-40"
           onClick={() => setSidebarOpen(false)}
         >
           <div className="w-64 h-full" onClick={(e) => e.stopPropagation()}>
@@ -1518,48 +1526,57 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       </div>
 
-      <main className="flex-1 lg:ml-60 bg-slate-50 p-4 pt-20 sm:p-8 lg:pt-8">
-        <div className="mx-auto max-w-7xl">
+      <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 pt-20 lg:pt-8">
+        <div className="max-w-[1400px] mx-auto space-y-6">
 
-          {/* Header */}
-          <div className="mb-6 rounded-lg border border-slate-200 bg-white px-5 py-4 shadow-sm">
-            {/* View Toggle Buttons */}
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h1 className="text-2xl font-bold tracking-normal text-slate-800">
-                  {activeView === 'credits' ? 'Billing' : 'Call usage'}
-                </h1>
-                <p className="mt-1 text-sm text-slate-500">
-                  {activeView === 'credits'
-                    ? 'Recharge credits and download your invoices.'
-                    : 'Review call charges and usage details.'
-                  }
-                </p>
-              </div>
+          {/* Header — dark ledger header, matching the Appointments hospital header */}
+          <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+            <div className="p-5 sm:p-6 md:p-7">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-4">
+                  <div className="rounded-lg border border-slate-200 bg-slate-900 p-3 sm:p-3.5">
+                    <Wallet className="h-6 w-6 text-white sm:h-7 sm:w-7" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5">
+                      Account Ledger
+                    </p>
+                    <h1 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+                      {activeView === 'credits' ? 'Billing' : 'Call usage'}
+                    </h1>
+                    <p className="mt-1 text-sm font-medium text-slate-500">
+                      {activeView === 'credits'
+                        ? 'Recharge credits and download your invoices.'
+                        : 'Review call charges and usage details.'
+                      }
+                    </p>
+                  </div>
+                </div>
 
-              <div className="flex w-full gap-1 rounded-lg border border-slate-200 bg-slate-100 p-1 sm:w-auto">
-                <button
-                  onClick={() => setActiveView('credits')}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
-                    activeView === 'credits'
-                      ? 'bg-white text-blue-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  <CreditCard className="w-5 h-5" />
-                  Credits
-                </button>
-                <button
-                  onClick={() => setActiveView('calls')}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
-                    activeView === 'calls'
-                      ? 'bg-white text-blue-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  <Phone className="w-5 h-5" />
-                  Calls
-                </button>
+                <div className="flex w-full gap-1 rounded-lg border border-slate-200 bg-slate-100 p-1 sm:w-auto">
+                  <button
+                    onClick={() => setActiveView('credits')}
+                    className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
+                      activeView === 'credits'
+                        ? 'bg-white text-teal-700 shadow-sm border border-slate-200'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <CreditCard className="w-4 h-4" />
+                    Credits
+                  </button>
+                  <button
+                    onClick={() => setActiveView('calls')}
+                    className={`flex flex-1 items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-bold transition sm:flex-none ${
+                      activeView === 'calls'
+                        ? 'bg-white text-teal-700 shadow-sm border border-slate-200'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <Phone className="w-4 h-4" />
+                    Calls
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1567,45 +1584,45 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           {/* Credit Management View */}
           {activeView === 'credits' && (
             <>
-              {/* Available Credit Balance */}
+              {/* Available Credit Balance — dark hero, matching the doctor info header */}
               {mounted && (
-                <div className="relative mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm sm:p-8">
+                <div className="relative overflow-hidden rounded-xl bg-slate-900 p-6 text-white sm:p-8">
                   <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
                     <div>
-                      <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-3 py-1.5 text-xs font-semibold text-blue-700">
-                        <Wallet className="h-4 w-4" /> Wallet balance
+                      <div className="mb-5 inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-widest text-teal-300">
+                        <Wallet className="h-3.5 w-3.5" /> Wallet balance
                       </div>
-                      <p className="text-sm text-slate-500">Available credits</p>
+                      <p className="text-sm text-slate-400">Available credits</p>
                       <div className="mt-1 flex items-end gap-2">
-                        <span className="text-5xl font-black tracking-tight sm:text-6xl">{formatCredits(userCredits.remaining)}</span>
-                        <span className="mb-2 text-sm font-medium text-slate-500">credits</span>
+                        <span className="text-5xl font-bold tracking-tight sm:text-6xl font-mono">{formatCredits(userCredits.remaining)}</span>
+                        <span className="mb-2 text-sm font-medium text-slate-400">credits</span>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 sm:min-w-[360px]">
-                      <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                        <p className="text-xs text-slate-500">Your call rate</p>
-                        <p className="mt-1 text-2xl font-bold">₹{userInfo.callRatePerMinute}<span className="text-sm font-medium text-slate-500">/min</span></p>
+                      <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                        <p className="text-xs text-slate-400">Your call rate</p>
+                        <p className="mt-1 text-2xl font-bold font-mono">₹{userInfo.callRatePerMinute}<span className="text-sm font-medium text-slate-400">/min</span></p>
                       </div>
-                      <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                        <p className="text-xs text-slate-500">Talk time available</p>
-                        <p className="mt-1 text-2xl font-bold">{formatCredits(userCredits.remaining / userInfo.callRatePerMinute)}<span className="text-sm font-medium text-slate-500"> min</span></p>
+                      <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+                        <p className="text-xs text-slate-400">Talk time available</p>
+                        <p className="mt-1 text-2xl font-bold font-mono">{formatCredits(userCredits.remaining / userInfo.callRatePerMinute)}<span className="text-sm font-medium text-slate-400"> min</span></p>
                       </div>
                     </div>
                   </div>
                 </div>
               )}
 
-          <div className="mb-8 grid gap-6 lg:grid-cols-[1.15fr_.85fr]">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
+          <div className="grid gap-6 lg:grid-cols-[1.15fr_.85fr]">
+            <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
               <div className="mb-6">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">Recharge wallet</p>
-                <h2 className="mt-2 text-2xl font-black text-slate-900">How much would you like to add?</h2>
+                <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5">Recharge wallet</p>
+                <h2 className="text-xl font-bold text-slate-900">How much would you like to add?</h2>
                 <p className="mt-1 text-sm text-slate-500">Choose a quick amount or enter your own. ₹1 gives you 1 credit.</p>
               </div>
 
               <div className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {[100, 500, 1000, 5000].map(amount => (
-                  <button key={amount} type="button" onClick={() => setCustomAmount(amount)} className={`rounded-xl border px-3 py-3 text-sm font-bold transition ${customAmount === amount ? 'border-blue-500 bg-blue-50 text-blue-700 ring-2 ring-blue-100' : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/60'}`}>
+                  <button key={amount} type="button" onClick={() => setCustomAmount(amount)} className={`rounded-lg border px-3 py-2 text-sm font-bold transition ${customAmount === amount ? 'border-teal-500 bg-teal-50 text-teal-700 ring-2 ring-teal-100' : 'border-slate-200 bg-white text-slate-700 hover:border-teal-300 hover:bg-teal-50/60'}`}>
                     {formatInr(amount)}
                   </button>
                 ))}
@@ -1613,46 +1630,46 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
               <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">Custom amount</label>
               <div className="relative">
-                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-2xl font-bold text-slate-400">₹</span>
-                <input type="number" min="1" max="1000000" step="0.01" value={customAmount} onChange={(event) => setCustomAmount(Math.max(0, Number(event.target.value) || 0))} className="h-16 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 pl-12 pr-5 text-2xl font-black text-slate-900 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100" />
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-slate-400">₹</span>
+                <input type="number" min="1" max="1000000" step="0.01" value={customAmount} onChange={(event) => setCustomAmount(Math.max(0, Number(event.target.value) || 0))} className="h-12 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-4 text-lg font-bold text-slate-900 font-mono outline-none transition focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-100" />
               </div>
 
-              <button onClick={() => setShowPaymentModal(true)} disabled={customAmount < 1 || customAmount > 1_000_000} className="mt-5 flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 text-base font-bold text-white shadow-lg shadow-blue-100 transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">
+              <button onClick={() => setShowPaymentModal(true)} disabled={customAmount < 1 || customAmount > 1_000_000} className="mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-teal-600 px-4 text-sm font-bold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-50">
                 Pay {formatInr(customAmount)} securely
                 <ArrowRight className="h-5 w-5" />
               </button>
               <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-slate-500"><Shield className="h-3.5 w-3.5" /> Payments are securely processed by Razorpay</p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-600">Recharge summary</p>
-              <div className="mt-6 space-y-3">
-                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <span className="flex items-center gap-2 text-sm font-medium text-slate-600"><Zap className="h-4 w-4 text-blue-500" /> Credits added</span>
-                  <strong className="text-xl text-slate-900">{formatCredits(calculateCredits(customAmount))}</strong>
+            <div className="rounded-xl border border-slate-200 bg-white p-6 sm:p-7">
+              <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5">Recharge summary</p>
+              <div className="mt-5 space-y-3">
+                <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <span className="flex items-center gap-2 text-sm font-medium text-slate-600"><Zap className="h-4 w-4 text-teal-600" /> Credits added</span>
+                  <strong className="text-xl text-slate-900 font-mono">{formatCredits(calculateCredits(customAmount))}</strong>
                 </div>
-                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <span className="flex items-center gap-2 text-sm font-medium text-slate-600"><Phone className="h-4 w-4 text-blue-500" /> Estimated talk time</span>
-                  <strong className="text-xl text-slate-900">{formatCredits(calculateCredits(customAmount) / userInfo.callRatePerMinute)} min</strong>
+                <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <span className="flex items-center gap-2 text-sm font-medium text-slate-600"><Phone className="h-4 w-4 text-teal-600" /> Estimated talk time</span>
+                  <strong className="text-xl text-slate-900 font-mono">{formatCredits(calculateCredits(customAmount) / userInfo.callRatePerMinute)} min</strong>
                 </div>
-                <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 p-4">
                   <span className="text-sm font-medium text-slate-600">Your rate</span>
-                  <strong className="text-xl text-slate-900">₹{userInfo.callRatePerMinute}/min</strong>
+                  <strong className="text-xl text-slate-900 font-mono">₹{userInfo.callRatePerMinute}/min</strong>
                 </div>
               </div>
-              <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+              <div className="mt-5 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                 Credits are added immediately after Razorpay confirms your payment and never expire.
               </div>
             </div>
           </div>
 
-          <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
+          <div className="rounded-xl border border-slate-200 bg-white p-6 sm:p-7">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <div className="mb-2 flex items-center gap-2">
-                  <RefreshCw className="h-5 w-5 text-blue-600" />
-                  <h2 className="text-lg font-bold text-slate-900">AutoPay</h2>
-                </div>
+                <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5 flex items-center gap-2">
+                  <RefreshCw className="h-3.5 w-3.5" />
+                  AutoPay
+                </p>
                 <p className="text-sm text-slate-500">
                   Recharge automatically when credits fall below your selected balance.
                 </p>
@@ -1666,7 +1683,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   onChange={(event) => setAutoRecharge((current) => ({ ...current, enabled: event.target.checked }))}
                   className="sr-only"
                 />
-                <span className={`h-7 w-12 rounded-full p-1 transition ${autoRecharge.enabled ? 'bg-blue-600' : 'bg-slate-200'}`}>
+                <span className={`h-7 w-12 rounded-full p-1 transition ${autoRecharge.enabled ? 'bg-teal-600' : 'bg-slate-200'}`}>
                   <span className={`block h-5 w-5 rounded-full bg-white shadow transition ${autoRecharge.enabled ? 'translate-x-5' : ''}`} />
                 </span>
               </label>
@@ -1675,7 +1692,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               <label className="block">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Trigger below</span>
-                <div className="mt-2 flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4">
+                <div className="mt-2 flex items-center rounded-lg border border-slate-200 bg-slate-50 px-4">
                   <input
                     type="number"
                     min="1"
@@ -1686,7 +1703,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                       ...current,
                       thresholdCredits: Math.max(1, Number(event.target.value) || 1)
                     }))}
-                    className="h-12 w-full bg-transparent text-base font-bold text-slate-900 outline-none"
+                    className="h-12 w-full bg-transparent text-base font-bold text-slate-900 font-mono outline-none"
                   />
                   <span className="text-sm font-medium text-slate-500">credits</span>
                 </div>
@@ -1694,7 +1711,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
               <label className="block">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Recharge amount</span>
-                <div className="mt-2 flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4">
+                <div className="mt-2 flex items-center rounded-lg border border-slate-200 bg-slate-50 px-4">
                   <span className="text-base font-bold text-slate-400">₹</span>
                   <input
                     type="number"
@@ -1706,15 +1723,15 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                       ...current,
                       rechargeAmount: Math.max(1, Number(event.target.value) || 1)
                     }))}
-                    className="h-12 w-full bg-transparent pl-2 text-base font-bold text-slate-900 outline-none"
+                    className="h-12 w-full bg-transparent pl-2 text-base font-bold text-slate-900 font-mono outline-none"
                   />
                 </div>
               </label>
             </div>
 
             <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600 sm:max-w-2xl">
-                <Info className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
+              <div className="flex items-start gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600 sm:max-w-2xl">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-teal-600" />
                 <span>
                   {autoRecharge.canAutoCharge
                     ? 'AutoPay can debit automatically when the balance is below your threshold.'
@@ -1730,7 +1747,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   type="button"
                   onClick={saveAutoRechargeSettings}
                   disabled={autoRechargeSaving}
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 text-sm font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {autoRechargeSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
                   Save settings
@@ -1739,7 +1756,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   type="button"
                   onClick={authorizeAutoPay}
                   disabled={autoRechargeSaving || !autoRecharge.enabled}
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-teal-600 px-5 text-sm font-bold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {autoRechargeSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
                   Authorize mandate
@@ -1754,9 +1771,9 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
           {/* Transaction History */}
           {mounted && (
-            <div className="mb-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
               <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4 sm:px-6">
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-slate-100 text-slate-700"><History className="h-5 w-5" /></div>
+                <div className="grid h-10 w-10 place-items-center rounded-lg bg-slate-900 text-white"><History className="h-5 w-5" /></div>
                 <div><h2 className="font-bold text-slate-900">Payment history</h2><p className="text-xs text-slate-500">Completed recharges and downloadable invoices</p></div>
               </div>
               <div className="overflow-hidden">
@@ -1764,16 +1781,16 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                   <table className="w-full">
                     <thead className="bg-slate-50 border-b border-slate-200">
                       <tr>
-                        <th className="hidden px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide lg:table-cell">ID</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Date</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Credits</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Amount</th>
-                        <th className="hidden px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide md:table-cell">Method</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Status</th>
-                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-600 uppercase tracking-wide">Invoice</th>
+                        <th className="hidden px-4 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide lg:table-cell">ID</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Date</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Credits</th>
+                        <th className="hidden px-4 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide md:table-cell">Amount</th>
+                        <th className="hidden px-4 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide md:table-cell">Method</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Status</th>
+                        <th className="px-4 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Invoice</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-200">
+                    <tbody className="divide-y divide-slate-100">
                       {recentTransactions.length > 0 ? (
                         recentTransactions.map((txn) => (
                           <tr key={txn.id} className="hover:bg-slate-50 transition-colors">
@@ -1781,29 +1798,24 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                               <span className="font-mono text-xs font-bold text-slate-500">…{txn.id.slice(-8)}</span>
                             </td>
                             <td className="px-6 py-4">
-                              <span className="text-sm text-slate-600 font-medium">{txn.date}</span>
+                              <span className="text-sm text-slate-600 font-medium font-mono">{txn.date}</span>
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-1">
-                                <Zap className="w-4 h-4 text-blue-600" />
-                                <span className="text-sm font-bold text-blue-600">{formatCredits(txn.credits)}</span>
+                                <Zap className="w-4 h-4 text-teal-600" />
+                                <span className="text-sm font-bold text-teal-700 font-mono">{formatCredits(txn.credits)}</span>
                               </div>
                             </td>
                             <td className="hidden px-6 py-4 md:table-cell">
-                              <span className="text-sm font-bold text-slate-900">{formatInr(txn.amount)}</span>
+                              <span className="text-sm font-bold text-slate-900 font-mono">{formatInr(txn.amount)}</span>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="hidden px-6 py-4 md:table-cell">
                               <span className="text-sm text-slate-600 font-medium">{txn.paymentMethod}</span>
                             </td>
                             <td className="px-6 py-4">
-                              <span className={`px-3 py-1 inline-flex text-xs font-bold rounded-full ${
-                                txn.status === 'completed'
-                                  ? 'bg-green-100 text-green-800'
-                                  : txn.status === 'pending'
-                                  ? 'bg-yellow-100 text-yellow-800'
-                                  : 'bg-red-100 text-red-800'
-                              }`}>
-                                {txn.status.toUpperCase()}
+                              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-wide border ${transactionStatusStyles[txn.status]}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${transactionStatusDot[txn.status]}`} />
+                                {txn.status}
                               </span>
                             </td>
                             <td className="px-6 py-4">
@@ -1818,7 +1830,7 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                                     status: txn.status,
                                     paymentMethod: txn.paymentMethod,
                                   })}
-                                  className="flex items-center gap-1 rounded-lg border border-blue-200 px-2.5 py-1.5 text-xs font-bold text-blue-700 hover:bg-blue-50"
+                                  className="flex items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-bold text-teal-700 hover:bg-teal-50 hover:border-teal-200"
                                 >
                                   <Download className="w-4 h-4" />
                                   Invoice
@@ -1845,17 +1857,17 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
 
           {/* FAQ Section */}
           {mounted && (
-            <div className="mb-6">
-              <h2 className="mb-4 flex items-center gap-2 text-base font-bold text-slate-900">
-                <MessageSquare className="h-5 w-5 text-blue-600" />
+            <div>
+              <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-teal-700">
+                <MessageSquare className="h-3.5 w-3.5" />
                 Frequently Asked Questions
-              </h2>
-              <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              </p>
+              <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                 {faqs.map((faq, index) => (
                   <div key={faq.question} className="border-b border-slate-200 last:border-b-0">
-                    <button type="button" onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)} className="flex w-full items-center justify-between px-5 py-4 text-left transition hover:bg-blue-50/60">
+                    <button type="button" onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)} className="flex w-full items-center justify-between px-5 py-4 text-left transition hover:bg-slate-50">
                       <span className="pr-3 text-sm font-semibold text-slate-900">{faq.question}</span>
-                      {expandedFAQ === index ? <ChevronUp className="h-4 w-4 shrink-0 text-blue-600" /> : <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />}
+                      {expandedFAQ === index ? <ChevronUp className="h-4 w-4 shrink-0 text-teal-600" /> : <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />}
                     </button>
                     {expandedFAQ === index && <p className="px-5 pb-4 text-sm leading-relaxed text-slate-600">{faq.answer}</p>}
                   </div>
@@ -1865,15 +1877,15 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
           )}
 
           {/* Customer Support */}
-          <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm">
+          <div className="rounded-xl border border-slate-200 bg-slate-900 p-6 text-white">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-white text-blue-600 shadow-sm"><Headphones className="h-5 w-5" /></div>
-                <div><h2 className="font-bold">Need help with billing?</h2><p className="text-sm text-slate-600">Our support team can help with payments and invoices.</p></div>
+                <div className="grid h-11 w-11 place-items-center rounded-lg bg-white/10 text-teal-300"><Headphones className="h-5 w-5" /></div>
+                <div><h2 className="font-bold">Need help with billing?</h2><p className="text-sm text-slate-400">Our support team can help with payments and invoices.</p></div>
               </div>
               <div className="flex flex-wrap gap-2">
-                <a href="tel:+15551234567" className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-white px-3 py-2 text-xs font-bold text-blue-700"><Phone className="h-3.5 w-3.5" /> Call support</a>
-                <a href="mailto:support@digitalbot.com" className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-white px-3 py-2 text-xs font-bold text-blue-700"><Mail className="h-3.5 w-3.5" /> Email support</a>
+                <a href="tel:+15551234567" className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-xs font-bold text-white hover:bg-white/10"><Phone className="h-3.5 w-3.5" /> Call support</a>
+                <a href="mailto:support@digitalbot.com" className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-xs font-bold text-white hover:bg-white/10"><Mail className="h-3.5 w-3.5" /> Email support</a>
               </div>
             </div>
           </div>
@@ -1886,8 +1898,8 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               { icon: Award, title: 'No Expiry', desc: 'Use credits anytime' },
               { icon: Plus, title: 'Flexible Top-up', desc: 'Choose any amount' }
             ].map((item) => (
-              <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
-                <div className="mx-auto mb-2 grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-700"><item.icon className="h-5 w-5" /></div>
+              <div key={item.title} className="rounded-xl border border-slate-200 bg-white p-4 text-center">
+                <div className="mx-auto mb-2 grid h-10 w-10 place-items-center rounded-lg bg-teal-50 text-teal-700"><item.icon className="h-5 w-5" /></div>
                 <h4 className="text-xs font-bold text-slate-900">{item.title}</h4>
                 <p className="mt-0.5 text-[10px] text-slate-500">{item.desc}</p>
               </div>
@@ -1903,54 +1915,54 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               <UsageByPeriodCard />
 
               {/* Recent Calls Table */}
-              <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-xl overflow-hidden mb-8">
-                <div className="px-6 py-4 border-b-2 border-slate-200 bg-slate-50">
-                  <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                    <Phone className="w-6 h-6 text-blue-600" />
+              <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 flex items-center gap-2">
+                    <Phone className="w-3.5 h-3.5" />
                     Recent Calls
-                  </h2>
+                  </p>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-slate-100 border-b-2 border-slate-300">
+                    <thead className="bg-slate-50 border-b border-slate-200">
                       <tr>
-                        <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Date & Time</th>
-                        <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Phone Number</th>
-                        <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Duration</th>
-                        <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Type</th>
-                        <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Provider</th>
-                        <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Credits</th>
-                        <th className="px-6 py-4 text-left text-xs font-black text-slate-700 uppercase">Status</th>
+                        <th className="px-6 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Date & Time</th>
+                        <th className="px-6 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Phone Number</th>
+                        <th className="px-6 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Duration</th>
+                        <th className="px-6 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Type</th>
+                        <th className="px-6 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Provider</th>
+                        <th className="px-6 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Credits</th>
+                        <th className="px-6 py-3 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wide">Status</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-slate-100">
                       {callHistory.length > 0 ? (
                         callHistory.map((call) => (
-                          <tr key={call.id} className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
-                            <td className="px-6 py-4 text-sm font-medium text-slate-700">{call.dateTime}</td>
-                            <td className="px-6 py-4 text-sm font-bold text-slate-900">{call.phoneNumber}</td>
-                            <td className="px-6 py-4 text-sm font-medium text-slate-700">{call.duration}</td>
+                          <tr key={call.id} className="hover:bg-slate-50 transition-colors">
+                            <td className="px-6 py-4 text-sm font-medium text-slate-700 font-mono">{call.dateTime}</td>
+                            <td className="px-6 py-4 text-sm font-bold text-slate-900 font-mono">{call.phoneNumber}</td>
+                            <td className="px-6 py-4 text-sm font-medium text-slate-700 font-mono">{call.duration}</td>
                             <td className="px-6 py-4">
-                              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
+                              <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-wide border ${
                                 call.type === 'Outbound'
-                                  ? 'bg-blue-100 text-blue-700'
-                                  : 'bg-green-100 text-green-700'
+                                  ? 'bg-sky-50 text-sky-700 border-sky-200'
+                                  : 'bg-emerald-50 text-emerald-700 border-emerald-200'
                               }`}>
                                 {call.type}
                               </span>
                             </td>
                             <td className="px-6 py-4">
-                              <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase text-slate-700">{call.provider || 'exotel'}</span>
+                              <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-600">{call.provider || 'exotel'}</span>
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-1">
-                                <Zap className="w-4 h-4 text-blue-600" />
-                                <span className="text-sm font-black text-blue-600">{call.credits}</span>
+                                <Zap className="w-4 h-4 text-teal-600" />
+                                <span className="text-sm font-bold text-teal-700 font-mono">{call.credits}</span>
                               </div>
                             </td>
                             <td className="px-6 py-4">
-                              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
-                                <CheckCircle2 className="w-3 h-3 mr-1" />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-wide border bg-emerald-50 text-emerald-700 border-emerald-200">
+                                <CheckCircle2 className="w-3 h-3" />
                                 {call.status}
                               </span>
                             </td>
@@ -1969,11 +1981,11 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
               </div>
 
               {/* Call Analytics */}
-              <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-xl p-6">
-                <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                  <BarChart3 className="w-6 h-6 text-blue-600" />
+              <div className="bg-white rounded-xl border border-slate-200 p-6">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-6 flex items-center gap-2">
+                  <BarChart3 className="w-3.5 h-3.5" />
                   Call Analytics
-                </h2>
+                </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="text-sm font-bold text-slate-600 mb-3">Call Types Distribution</h3>
@@ -1981,19 +1993,19 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                       <div>
                         <div className="flex justify-between mb-1">
                           <span className="text-sm font-medium text-slate-700">Outbound</span>
-                          <span className="text-sm font-black text-blue-600">{callStats.callTypes.outbound.percentage}%</span>
+                          <span className="text-sm font-bold text-sky-700 font-mono">{callStats.callTypes.outbound.percentage}%</span>
                         </div>
-                        <div className="bg-slate-200 rounded-full h-2">
-                          <div className="bg-blue-600 h-2 rounded-full" style={{width: `${callStats.callTypes.outbound.percentage}%`}}></div>
+                        <div className="bg-slate-100 rounded-full h-2">
+                          <div className="bg-sky-500 h-2 rounded-full" style={{width: `${callStats.callTypes.outbound.percentage}%`}}></div>
                         </div>
                       </div>
                       <div>
                         <div className="flex justify-between mb-1">
                           <span className="text-sm font-medium text-slate-700">Inbound</span>
-                          <span className="text-sm font-black text-green-600">{callStats.callTypes.inbound.percentage}%</span>
+                          <span className="text-sm font-bold text-emerald-700 font-mono">{callStats.callTypes.inbound.percentage}%</span>
                         </div>
-                        <div className="bg-slate-200 rounded-full h-2">
-                          <div className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full" style={{width: `${callStats.callTypes.inbound.percentage}%`}}></div>
+                        <div className="bg-slate-100 rounded-full h-2">
+                          <div className="bg-emerald-500 h-2 rounded-full" style={{width: `${callStats.callTypes.inbound.percentage}%`}}></div>
                         </div>
                       </div>
                     </div>
@@ -2003,15 +2015,15 @@ const orderResponse = await fetch(`${API_BASE_URL}/billing/razorpay/create-order
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center justify-between">
                         <span className="text-slate-700 font-medium">Morning (9 AM - 12 PM)</span>
-                        <span className="font-black text-blue-600">{callStats.peakHours.morning.percentage}%</span>
+                        <span className="font-bold text-teal-700 font-mono">{callStats.peakHours.morning.percentage}%</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-700 font-medium">Afternoon (12 PM - 5 PM)</span>
-                        <span className="font-black text-blue-600">{callStats.peakHours.afternoon.percentage}%</span>
+                        <span className="font-bold text-teal-700 font-mono">{callStats.peakHours.afternoon.percentage}%</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-slate-700 font-medium">Evening (5 PM - 9 PM)</span>
-                        <span className="font-black text-blue-600">{callStats.peakHours.evening.percentage}%</span>
+                        <span className="font-bold text-teal-700 font-mono">{callStats.peakHours.evening.percentage}%</span>
                       </div>
                     </div>
                   </div>

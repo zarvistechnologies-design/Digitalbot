@@ -14,6 +14,7 @@ import {
   RefreshCw,
   Search,
   Stethoscope,
+  Settings,
   UserRound,
   X,
 } from "lucide-react";
@@ -45,6 +46,13 @@ interface ChatMessage {
   status: string;
   createdAt: string;
 }
+
+const FOLLOWUP_VARIABLES = [
+  { value: "patient_name", label: "Patient name" },
+  { value: "doctor_name", label: "Doctor name" },
+  { value: "appointment_date", label: "Appointment date" },
+  { value: "appointment_time", label: "Appointment time" },
+];
 
 const formatTime = (value: string) => {
   const date = new Date(value);
@@ -83,6 +91,14 @@ export default function DoctorWhatsAppPage() {
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
   const [selectedConversationId, setSelectedConversationId] = useState("");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [followupEnabled, setFollowupEnabled] = useState(false);
+  const [templateName, setTemplateName] = useState("");
+  const [templateLanguage, setTemplateLanguage] = useState("en");
+  const [followupTime, setFollowupTime] = useState("09:00");
+  const [templateVariables, setTemplateVariables] = useState<string[]>(["patient_name"]);
+  const [savingFollowup, setSavingFollowup] = useState(false);
+  const [followupMessage, setFollowupMessage] = useState("");
 
   const conversationsQuery = useQuery({
     queryKey: ["doctor-whatsapp", "conversations", deferredSearch],
@@ -100,6 +116,10 @@ export default function DoctorWhatsAppPage() {
       return (await doctorWhatsappAPI.getMessages(conversation.phone, { metaPhoneNumberId: conversation.metaPhoneNumberId, limit: 200 })).data.data as ChatMessage[];
     },
   });
+  const followupQuery = useQuery({
+    queryKey: ["doctor-whatsapp", "morning-followup"],
+    queryFn: async () => (await doctorWhatsappAPI.getMorningFollowup()).data.data,
+  });
 
   const conversations = conversationsQuery.data || [];
   const selectedConversation = conversations.find(item => item.conversationId === selectedConversationId);
@@ -110,6 +130,32 @@ export default function DoctorWhatsAppPage() {
       setSelectedConversationId(conversations[0].conversationId);
     }
   }, [conversations, selectedConversationId]);
+
+  useEffect(() => {
+    const data = followupQuery.data;
+    if (!data) return;
+    setFollowupEnabled(data.enabled === true);
+    setTemplateName(data.templateName || "");
+    setTemplateLanguage(data.templateLanguage || "en");
+    setFollowupTime(data.sendTime || "09:00");
+    setTemplateVariables(Array.isArray(data.variables) ? data.variables : []);
+  }, [followupQuery.data]);
+
+  const saveFollowup = async () => {
+    setSavingFollowup(true);
+    setFollowupMessage("");
+    try {
+      await doctorWhatsappAPI.saveMorningFollowup({
+        enabled: followupEnabled, templateName, templateLanguage, sendTime: followupTime, variables: templateVariables,
+      });
+      setFollowupMessage("Morning follow-up saved.");
+      void followupQuery.refetch();
+    } catch (error: any) {
+      setFollowupMessage(error?.response?.data?.error || "Could not save follow-up settings.");
+    } finally {
+      setSavingFollowup(false);
+    }
+  };
 
   const refresh = () => {
     void conversationsQuery.refetch();
@@ -131,10 +177,27 @@ export default function DoctorWhatsAppPage() {
               <h1 className="text-3xl font-bold text-slate-900">Patient Inbox</h1>
               <p className="mt-1 text-sm text-slate-500">View patient conversations, images, videos, audio, and documents.</p>
             </div>
-            <button onClick={refresh} disabled={conversationsQuery.isFetching || messagesQuery.isFetching} className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50">
-              <RefreshCw className={`h-4 w-4 ${(conversationsQuery.isFetching || messagesQuery.isFetching) ? "animate-spin" : ""}`} /> Refresh
-            </button>
+            <div className="flex gap-2">
+              <button onClick={() => setSettingsOpen(true)} className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50"><Settings className="h-4 w-4" /> Follow-up</button>
+              <button onClick={refresh} disabled={conversationsQuery.isFetching || messagesQuery.isFetching} className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50">
+                <RefreshCw className={`h-4 w-4 ${(conversationsQuery.isFetching || messagesQuery.isFetching) ? "animate-spin" : ""}`} /> Refresh
+              </button>
+            </div>
           </div>
+          {settingsOpen && (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/40 p-4" onClick={() => setSettingsOpen(false)}>
+              <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl" onClick={event => event.stopPropagation()}>
+                <div className="flex items-start justify-between"><div><h2 className="text-xl font-bold text-slate-900">Morning patient follow-up</h2><p className="mt-1 text-sm text-slate-500">Sent once at your selected IST time to patients who booked the previous day.</p></div><button onClick={() => setSettingsOpen(false)} className="rounded-lg p-2 hover:bg-slate-100"><X className="h-5 w-5" /></button></div>
+                <label className="mt-5 flex items-center gap-3 text-sm font-semibold text-slate-700"><input type="checkbox" checked={followupEnabled} onChange={event => setFollowupEnabled(event.target.checked)} className="h-4 w-4" /> Enable morning follow-up</label>
+                <label className="mt-4 block text-sm font-semibold text-slate-700">Approved Meta template name<input value={templateName} onChange={event => setTemplateName(event.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))} placeholder="patient_followup" className="mt-1.5 h-10 w-full rounded-xl border border-slate-200 px-3 font-normal outline-none focus:border-emerald-400" /></label>
+                <label className="mt-4 block text-sm font-semibold text-slate-700">Language code<input value={templateLanguage} onChange={event => setTemplateLanguage(event.target.value)} placeholder="en" className="mt-1.5 h-10 w-full rounded-xl border border-slate-200 px-3 font-normal outline-none focus:border-emerald-400" /></label>
+                <label className="mt-4 block text-sm font-semibold text-slate-700">Send time (IST)<input type="time" value={followupTime} onChange={event => setFollowupTime(event.target.value)} className="mt-1.5 h-10 w-full rounded-xl border border-slate-200 px-3 font-normal outline-none focus:border-emerald-400" /></label>
+                <div className="mt-4"><p className="text-sm font-semibold text-slate-700">Template variables (select in Meta template order)</p><div className="mt-2 grid grid-cols-2 gap-2">{FOLLOWUP_VARIABLES.map(item => <label key={item.value} className="flex items-center gap-2 rounded-lg border border-slate-200 p-2.5 text-sm"><input type="checkbox" checked={templateVariables.includes(item.value)} onChange={event => setTemplateVariables(current => event.target.checked ? [...current, item.value] : current.filter(value => value !== item.value))} /> {item.label}</label>)}</div><p className="mt-2 text-xs text-slate-500">Selected order: {templateVariables.join(", ") || "No variables"}</p></div>
+                {followupMessage && <p className={`mt-4 text-sm ${followupMessage.includes("saved") ? "text-emerald-600" : "text-red-600"}`}>{followupMessage}</p>}
+                <div className="mt-6 flex justify-end gap-2"><button onClick={() => setSettingsOpen(false)} className="h-10 rounded-xl border border-slate-200 px-4 text-sm font-semibold">Cancel</button><button onClick={saveFollowup} disabled={savingFollowup || !templateName} className="h-10 rounded-xl bg-emerald-600 px-4 text-sm font-semibold text-white disabled:opacity-50">{savingFollowup ? "Saving..." : "Save follow-up"}</button></div>
+              </div>
+            </div>
+          )}
 
           <div className="grid min-h-[70vh] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[360px_minmax(0,1fr)]">
             <section className={`${selectedConversationId ? "hidden lg:flex" : "flex"} min-h-0 flex-col border-r border-slate-200`}>
