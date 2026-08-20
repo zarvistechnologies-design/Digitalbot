@@ -5,6 +5,9 @@ import type { Metadata } from "next"
 import type React from "react"
 import "./globals.css"
 
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || "https://digital-api-46ss.onrender.com/api";
+const apiOrigin = new URL(apiBaseUrl).origin;
+
 export const metadata: Metadata = {
   title: "AI Voice Agent | AI Voice Assistant Platform - DigitalBot.ai 2025",
   description: "🤖 Leading AI Voice Agent & AI Voice Assistant Platform. 24/7 automated customer service that never sleeps. Personal analytics dashboard. Free 14-day trial!",
@@ -229,6 +232,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="dns-prefetch" href={apiOrigin} />
+        <link rel="preconnect" href={apiOrigin} crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

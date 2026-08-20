@@ -340,7 +340,10 @@ export interface AgentKnowledgeConnection {
 }
 
 export const agentKnowledgeAPI = {
-  list: () => api.get<{ success: true; connections: AgentKnowledgeConnection[] }>('/agent-knowledge'),
+  list: (fresh = false) => api.get<{ success: true; connections: AgentKnowledgeConnection[] }>(
+    '/agent-knowledge',
+    fresh ? { params: { refresh: Date.now() } } : undefined
+  ),
   update: (connectorId: string, instructions: string) =>
     api.put<{ success: true; connection: AgentKnowledgeConnection; message: string }>(
       `/agent-knowledge/${encodeURIComponent(connectorId)}`,

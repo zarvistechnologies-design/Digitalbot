@@ -10,12 +10,19 @@ import { useEffect, useState, type ReactNode } from "react";
 
 const STORAGE_KEY = "digitalbot-query-cache-v1";
 const shouldPersistQuery = (queryKey: readonly unknown[]) =>
+  queryKey[0] === "dashboard_calls_summary" ||
   queryKey[0] === "campaigns" ||
   queryKey[0] === "connectors" ||
   queryKey[0] === "doctors" ||
   queryKey[0] === "prompts" ||
   (queryKey[0] === "akiara" && queryKey[1] === "analytics") ||
   (queryKey[0] === "tankro" && queryKey[1] === "summary");
+
+const shouldPersistNetworkQuery = (query: { queryKey: readonly unknown[]; state: { data: unknown } }) => {
+  if (query.queryKey[0] !== "network" || query.queryKey[1] !== "fetch") return false;
+  const body = (query.state.data as { body?: unknown } | undefined)?.body;
+  return typeof body === "string" && body.length <= 200_000;
+};
 
 export default function QueryProvider({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => {
@@ -39,11 +46,15 @@ export default function QueryProvider({ children }: { children: ReactNode }) {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         const state = dehydrate(queryClient, {
-          shouldDehydrateQuery: (query) =>
-            query.state.status === "success" &&
-            shouldPersistQuery(query.queryKey),
+          shouldDehydrateQuery: (query) => query.state.status === "success" && (
+            shouldPersistQuery(query.queryKey) || shouldPersistNetworkQuery(query)
+          ),
         });
-        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        try {
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch {
+          sessionStorage.removeItem(STORAGE_KEY);
+        }
       }, 250);
     });
 

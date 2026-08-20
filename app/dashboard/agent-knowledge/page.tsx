@@ -17,9 +17,10 @@ import {
   RefreshCw,
   Save,
 } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function errorMessage(error: unknown, fallback: string) {
   const data = (error as { response?: { data?: { message?: string; error?: string } } })
@@ -33,16 +34,31 @@ function isLeadAnalysisService(value?: string) {
 
 export default function AgentKnowledgePage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [checkingAccess, setCheckingAccess] = useState(true);
-  const [connections, setConnections] = useState<AgentKnowledgeConnection[]>([]);
   const [selectedId, setSelectedId] = useState("");
   const [instructions, setInstructions] = useState("");
   const [savedInstructions, setSavedInstructions] = useState("");
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
+  const [syncError, setSyncError] = useState("");
   const [saved, setSaved] = useState(false);
+  const dirty = instructions !== savedInstructions;
+  const knowledgeQuery = useQuery<AgentKnowledgeConnection[]>({
+    queryKey: ["agent-knowledge"],
+    queryFn: async () => {
+      const response = await agentKnowledgeAPI.list(true);
+      return response.data.connections || [];
+    },
+    staleTime: 15_000,
+    refetchInterval: 15_000,
+    refetchIntervalInBackground: false,
+    retry: false,
+  });
+  const connections = knowledgeQuery.data || [];
+  const loading = knowledgeQuery.isLoading && connections.length === 0;
+  const error = syncError || (knowledgeQuery.error
+    ? errorMessage(knowledgeQuery.error, "Could not load the connected Vozon agent.")
+    : "");
 
   useEffect(() => {
     let cancelled = false;
@@ -54,7 +70,6 @@ export default function AgentKnowledgePage() {
           router.replace("/dashboard");
           return;
         }
-        setCheckingAccess(false);
       } catch {
         if (!cancelled) router.replace("/dashboard");
       }
@@ -66,37 +81,29 @@ export default function AgentKnowledgePage() {
     };
   }, [router]);
 
-  const loadConnections = useCallback(async (preferredId = "") => {
-    try {
-      setLoading(true);
-      setError("");
-      setSaved(false);
-      const response = await agentKnowledgeAPI.list();
-      const nextConnections = response.data.connections || [];
-      const selected = nextConnections.find((item) => item.connectorId === preferredId)
-        || nextConnections[0]
-        || null;
-      setConnections(nextConnections);
-      setSelectedId(selected?.connectorId || "");
-      setInstructions(selected?.instructions || "");
-      setSavedInstructions(selected?.instructions || "");
-    } catch (loadError) {
-      setError(errorMessage(loadError, "Could not load the connected Vozon agent."));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    if (!checkingAccess) void loadConnections();
-  }, [checkingAccess, loadConnections]);
+    const next = connections.find((connection) => connection.connectorId === selectedId)
+      || connections[0]
+      || null;
+    if (!next) {
+      setSelectedId("");
+      if (!dirty) {
+        setInstructions("");
+        setSavedInstructions("");
+      }
+      return;
+    }
+    if (selectedId !== next.connectorId) setSelectedId(next.connectorId);
+    if (!dirty) {
+      setInstructions(next.instructions || "");
+      setSavedInstructions(next.instructions || "");
+    }
+  }, [connections, selectedId, dirty]);
 
   const selected = useMemo(
     () => connections.find((connection) => connection.connectorId === selectedId) || null,
     [connections, selectedId]
   );
-  const dirty = instructions !== savedInstructions;
-
   const selectConnection = (connectorId: string) => {
     if (dirty && !window.confirm("Discard unsaved Agent Knowledge changes?")) return;
     const next = connections.find((connection) => connection.connectorId === connectorId);
@@ -104,36 +111,39 @@ export default function AgentKnowledgePage() {
     setInstructions(next?.instructions || "");
     setSavedInstructions(next?.instructions || "");
     setSaved(false);
-    setError("");
+    setSyncError("");
+  };
+
+  const refreshKnowledge = async () => {
+    if (dirty && !window.confirm("Discard unsaved Agent Knowledge changes?")) return;
+    setSyncError("");
+    setSaved(false);
+    await knowledgeQuery.refetch();
   };
 
   const saveKnowledge = async () => {
     if (!selected || !instructions.trim()) {
-      setError("Agent Knowledge cannot be empty.");
+      setSyncError("Agent Knowledge cannot be empty.");
       return;
     }
     try {
       setSaving(true);
       setSaved(false);
-      setError("");
+      setSyncError("");
       const response = await agentKnowledgeAPI.update(selected.connectorId, instructions.trim());
       const updated = response.data.connection;
-      setConnections((current) => current.map((item) =>
-        item.connectorId === updated.connectorId ? updated : item
-      ));
+      queryClient.setQueryData<AgentKnowledgeConnection[]>(["agent-knowledge"], (current = []) =>
+        current.map((item) => item.connectorId === updated.connectorId ? updated : item)
+      );
       setInstructions(updated.instructions);
       setSavedInstructions(updated.instructions);
       setSaved(true);
     } catch (saveError) {
-      setError(errorMessage(saveError, "Could not update Agent Knowledge in Vozon."));
+      setSyncError(errorMessage(saveError, "Could not update Agent Knowledge in Vozon."));
     } finally {
       setSaving(false);
     }
   };
-
-  if (checkingAccess) {
-    return <div className="grid min-h-screen place-items-center bg-zinc-50"><Loader2 className="h-8 w-8 animate-spin text-orange-600" /></div>;
-  }
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950">
@@ -158,12 +168,12 @@ export default function AgentKnowledgePage() {
               </div>
               <button
                 type="button"
-                onClick={() => void loadConnections(selectedId)}
-                disabled={loading || saving}
+                onClick={() => void refreshKnowledge()}
+                disabled={knowledgeQuery.isFetching || saving}
                 title="Refresh from Vozon"
                 className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 disabled:opacity-50"
               >
-                <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+                <RefreshCw className={`h-4 w-4 ${knowledgeQuery.isFetching ? "animate-spin" : ""}`} />
                 Refresh
               </button>
             </div>

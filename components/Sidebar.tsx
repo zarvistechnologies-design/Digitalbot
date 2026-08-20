@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { akiaraAPI, authAPI, callsAPI, campaignsAPI, connectorsAPI, doctorsAPI, promptsAPI, tankroAPI, type VoiceConnector } from '@/lib/api';
+import { agentKnowledgeAPI, akiaraAPI, authAPI, callsAPI, campaignsAPI, connectorsAPI, doctorsAPI, promptsAPI, tankroAPI, type VoiceConnector } from '@/lib/api';
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { DASHBOARD_QUERY_KEYS } from '@/lib/dashboard-query';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -127,11 +127,20 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const prefetchDashboardData = (href: string) => {
     router.prefetch(href);
 
-    if (href === '/dashboard' || href === '/dashboard/calls') {
+    if (href === '/dashboard') {
+      void queryClient.prefetchQuery({
+        queryKey: [CACHE_KEYS.DASHBOARD_CALLS_SUMMARY],
+        queryFn: async () => {
+          const response = await callsAPI.getCalls({ limit: 1000, view: 'summary' });
+          return response.data.data?.calls || response.data.calls || [];
+        },
+        staleTime: 60_000,
+      });
+    } else if (href === '/dashboard/calls') {
       void queryClient.prefetchQuery({
         queryKey: [CACHE_KEYS.CALLS],
         queryFn: async () => {
-          const response = await callsAPI.getCalls({ limit: 1000 });
+          const response = await callsAPI.getCalls({ limit: 50 });
           return response.data.data?.calls || response.data.calls || [];
         },
         staleTime: 60_000,
@@ -165,6 +174,15 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           const response = await promptsAPI.getAll();
           return response.data.prompts || [];
         },
+      });
+    } else if (href === '/dashboard/agent-knowledge') {
+      void queryClient.prefetchQuery({
+        queryKey: ['agent-knowledge'],
+        queryFn: async () => {
+          const response = await agentKnowledgeAPI.list();
+          return response.data.connections || [];
+        },
+        staleTime: 15_000,
       });
     } else if (href === '/dashboard/tankro-locations') {
       void queryClient.prefetchQuery({
@@ -344,10 +362,16 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
   useEffect(() => {
     if (!mounted || !navigationKey) return;
-    const timer = window.setTimeout(() => {
+    const routeTimer = window.setTimeout(() => {
       navigation.forEach((item) => router.prefetch(item.href));
     }, 300);
-    return () => window.clearTimeout(timer);
+    const dataTimer = window.setTimeout(() => {
+      navigation.forEach((item) => prefetchDashboardData(item.href));
+    }, 1200);
+    return () => {
+      window.clearTimeout(routeTimer);
+      window.clearTimeout(dataTimer);
+    };
   }, [mounted, navigationKey, router]);
 
   const handleLogout = () => {
