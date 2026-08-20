@@ -24,6 +24,7 @@ interface User {
   name?: string;
   email?: string;
   assignedPhoneNumber?: string;
+  legacyAgentKnowledgeEnabled?: boolean;
 }
 
 let cachedDashboardUser: User | null = null;
@@ -256,7 +257,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Analyzer', href: '/dashboard/leads', icon: BarChart3 });
       serviceItems.push({ name: 'Leads', href: '/dashboard/qualified-leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
-      if (connectedAgents.some((connector) => connector.provider === 'vozon')) {
+      if (
+        user?.legacyAgentKnowledgeEnabled
+        || connectedAgents.some((connector) => connector.provider === 'vozon')
+      ) {
         serviceItems.push({ name: 'Agent Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
       }
     }
