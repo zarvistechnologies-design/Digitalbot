@@ -1,6 +1,7 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
+import { useWebSocket } from "@/components/hooks/use-websocket";
 import {
   agentKnowledgeAPI,
   authAPI,
@@ -59,6 +60,13 @@ export default function AgentKnowledgePage() {
   const error = syncError || (knowledgeQuery.error
     ? errorMessage(knowledgeQuery.error, "Could not load the connected Vozon agent.")
     : "");
+
+  useWebSocket({
+    onMessage: (message) => {
+      if (message?.type !== "agent-knowledge-updated") return;
+      void queryClient.invalidateQueries({ queryKey: ["agent-knowledge"], exact: true });
+    },
+  });
 
   useEffect(() => {
     let cancelled = false;
