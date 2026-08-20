@@ -23,6 +23,7 @@ interface User {
   name?: string;
   email?: string;
   assignedPhoneNumber?: string;
+  legacyPhoneFallback?: boolean;
   legacyAgentKnowledgeEnabled?: boolean;
   connectorManagementEnabled?: boolean;
 }
@@ -277,8 +278,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Leads', href: '/dashboard/qualified-leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       if (
-        user?.legacyAgentKnowledgeEnabled
-        || connectedAgents.some((connector) => connector.provider === 'vozon')
+        user?.legacyPhoneFallback === false
+        || user?.legacyAgentKnowledgeEnabled
       ) {
         serviceItems.push({ name: 'Agent Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
       }

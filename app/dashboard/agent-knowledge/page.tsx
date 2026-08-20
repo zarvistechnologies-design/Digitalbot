@@ -74,7 +74,9 @@ export default function AgentKnowledgePage() {
       try {
         const response = await authAPI.getCurrentUser();
         if (cancelled) return;
-        if (!isLeadAnalysisService(response.data.selectedService)) {
+        const hasAgentKnowledgeAccess = response.data.legacyPhoneFallback === false
+          || response.data.legacyAgentKnowledgeEnabled === true;
+        if (!isLeadAnalysisService(response.data.selectedService) || !hasAgentKnowledgeAccess) {
           router.replace("/dashboard");
           return;
         }
