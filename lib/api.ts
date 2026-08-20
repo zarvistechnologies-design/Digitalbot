@@ -159,6 +159,21 @@ export const callsAPI = {
   },
 };
 
+export interface AuthenticatedUser {
+  selectedService?: string;
+  bookingBusinessType?: string;
+  bookingOnboardingComplete?: boolean;
+  name?: string;
+  email?: string;
+  assignedPhoneNumber?: string;
+}
+
+export const authAPI = {
+  getCurrentUser: () => api.get<AuthenticatedUser>('/auth/me', {
+    params: { refresh: Date.now() },
+  }),
+};
+
 export const campaignsAPI = {
   getCampaigns: (params?: Record<string, string | number | undefined>) => api.get('/campaigns', { params }),
   launch: (id: string) => api.post(`/campaigns/${id}/launch`),
@@ -310,6 +325,26 @@ export const connectorsAPI = {
 
   revoke: (id: string) =>
     api.post<{ success: true; connector: VoiceConnector }>(`/v1/connectors/${encodeURIComponent(id)}/revoke`),
+};
+
+export interface AgentKnowledgeConnection {
+  connectorId: string;
+  connectorName: string;
+  agentName: string;
+  phoneNumber?: string | null;
+  available: boolean;
+  instructions: string;
+  promptField?: string | null;
+  agentUpdatedAt?: string | null;
+}
+
+export const agentKnowledgeAPI = {
+  list: () => api.get<{ success: true; connections: AgentKnowledgeConnection[] }>('/agent-knowledge'),
+  update: (connectorId: string, instructions: string) =>
+    api.put<{ success: true; connection: AgentKnowledgeConnection; message: string }>(
+      `/agent-knowledge/${encodeURIComponent(connectorId)}`,
+      { instructions }
+    ),
 };
 
 // ========================================

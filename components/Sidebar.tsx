@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { akiaraAPI, callsAPI, connectorsAPI, doctorsAPI, promptsAPI, tankroAPI, type VoiceConnector } from '@/lib/api';
+import { akiaraAPI, authAPI, callsAPI, connectorsAPI, doctorsAPI, promptsAPI, tankroAPI, type VoiceConnector } from '@/lib/api';
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -60,6 +60,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const [user, setUser] = useState<User | null>(cachedDashboardUser);
   const [connectedAgents, setConnectedAgents] = useState<VoiceConnector[]>([]);
   const [mounted, setMounted] = useState(Boolean(cachedDashboardUser));
+  const [verifiedSelectedService, setVerifiedSelectedService] = useState<string | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
@@ -70,6 +71,31 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       setUser(cachedDashboardUser);
     }
   }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    let cancelled = false;
+    const verifyWorkspace = async () => {
+      try {
+        const response = await authAPI.getCurrentUser();
+        if (cancelled) return;
+        const currentUser = response.data;
+        const nextUser = { ...(cachedDashboardUser || {}), ...currentUser };
+        cachedDashboardUser = nextUser;
+        setUser(nextUser);
+        setVerifiedSelectedService(String(currentUser.selectedService || '').trim().toLowerCase());
+        localStorage.setItem('user', JSON.stringify(nextUser));
+      } catch {
+        if (!cancelled) setVerifiedSelectedService(null);
+      }
+    };
+
+    void verifyWorkspace();
+    return () => {
+      cancelled = true;
+    };
+  }, [mounted]);
 
   useEffect(() => {
     if (!user) {
@@ -217,10 +243,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     const isAppointmentWhatsApp = ['appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp'].includes(selectedService);
     const isDoctorDashboard = ['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare'].includes(selectedService);
     const serviceItems = [];
-    if (user?.selectedService === 'lead-analysis' || user?.selectedService === 'lead') {
+    if (
+      (selectedService === 'lead-analysis' || selectedService === 'lead') &&
+      (verifiedSelectedService === 'lead-analysis' || verifiedSelectedService === 'lead')
+    ) {
       serviceItems.push({ name: 'Analyzer', href: '/dashboard/leads', icon: BarChart3 });
       serviceItems.push({ name: 'Leads', href: '/dashboard/qualified-leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
+      serviceItems.push({ name: 'Agent Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
     }
     if (user?.selectedService === 'appointment' || isAppointmentWhatsApp || isDoctorDashboard) {
       serviceItems.push({ name: 'Appointments', href: '/dashboard/appointments', icon: Calendar });
