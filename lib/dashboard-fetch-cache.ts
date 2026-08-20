@@ -36,7 +36,7 @@ function requestHeaders(input: RequestInfo | URL, init?: RequestInit) {
 function isDashboardApiRequest(url: string) {
   const configuredApi = process.env.NEXT_PUBLIC_API_URL;
   if (configuredApi && url.startsWith(configuredApi)) return true;
-  return /\/api\/(auth|calls|billing|appointments|leads|campaigns|customer-campaigns)(\/|\?|$)/.test(url);
+  return /\/api(?:\/v1)?\/[a-z0-9-]+(?:\/|\?|$)/i.test(url);
 }
 
 function hashScope(value: string) {

@@ -2,7 +2,7 @@
 import Sidebar from "@/components/Sidebar";
 import { useCachedFetch } from "@/components/hooks/use-cached-fetch";
 import { useWebSocket } from "@/components/hooks/use-websocket";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "@/components/dashboard/LazyRecharts";
 import { CACHE_KEYS, invalidateCache } from "@/lib/cache";
 import { Activity, AlertCircle, ArrowDown, ArrowUp, BarChart3, Brain, CheckCircle, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, TrendingUp, X, XCircle, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -85,7 +85,7 @@ export default function AnalyticsOverview() {
   const fetchCallsData = useCallback(async () => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
-    const callsRes = await fetch(`${API_BASE_URL}/calls?limit=1000`, {
+    const callsRes = await fetch(`${API_BASE_URL}/calls?limit=1000&view=summary`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ export default function AnalyticsOverview() {
   }, []);
 
   const { data: rawCalls, loading, refresh } = useCachedFetch<Call[]>({
-    key: CACHE_KEYS.CALLS,
+    key: CACHE_KEYS.DASHBOARD_CALLS_SUMMARY,
     fetcher: fetchCallsData,
     ttl: 60000, // 1 minute cache
     enabled: mounted,
@@ -107,7 +107,7 @@ export default function AnalyticsOverview() {
   useWebSocket({
     onMessage: useCallback((msg: any) => {
       if (msg.type === 'new-call' || msg.type === 'call-update') {
-        invalidateCache(CACHE_KEYS.CALLS);
+        invalidateCache(CACHE_KEYS.DASHBOARD_CALLS_SUMMARY);
         refresh(true);
       }
     }, [refresh]),

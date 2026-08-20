@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 import { installDashboardFetchCache } from "@/lib/dashboard-fetch-cache";
 import QueryProvider from "./QueryProvider";
 
-const ChatbotWidget = dynamic(() => import("@/components/chatbot-widget"), {
+const MarketingRuntime = dynamic(() => import("./MarketingRuntime"), {
   ssr: false,
 });
 
@@ -18,7 +18,7 @@ export default function AppProviders({ children }: { children: ReactNode }) {
   return (
     <QueryProvider>
       {children}
-      {!isDashboard && <ChatbotWidget />}
+      {!isDashboard && <MarketingRuntime />}
     </QueryProvider>
   );
 }

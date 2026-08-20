@@ -5,7 +5,6 @@ import { akiaraAPI, authAPI, callsAPI, campaignsAPI, connectorsAPI, doctorsAPI, 
 import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { DASHBOARD_QUERY_KEYS } from '@/lib/dashboard-query';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle, BarChart3, BookOpen, Bot, Cable, Calendar, CalendarCheck, ChevronDown, ChevronUp, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -341,6 +340,15 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     : isAkiara || ishealthiQurepatientnavigation
       ? [{ name: 'Billing', href: '/dashboard/billing', icon: CreditCard }, ...getServiceNavigation()]
       : [...baseNavigation, ...getServiceNavigation()];
+  const navigationKey = navigation.map((item) => item.href).join('|');
+
+  useEffect(() => {
+    if (!mounted || !navigationKey) return;
+    const timer = window.setTimeout(() => {
+      navigation.forEach((item) => router.prefetch(item.href));
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [mounted, navigationKey, router]);
 
   const handleLogout = () => {
     cachedDashboardUser = null;
@@ -485,30 +493,21 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         {renderSidebarContent()}
       </aside>
 
-      <AnimatePresence>
-        {sidebarOpen && (
-          <>
-            <motion.button
+      {sidebarOpen && (
+        <>
+            <button
               type="button"
               aria-label="Close navigation"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 bg-zinc-950/45 backdrop-blur-[2px] lg:hidden"
+              className="fixed inset-0 z-40 animate-in fade-in bg-zinc-950/45 backdrop-blur-[2px] duration-150 lg:hidden"
               onClick={() => setSidebarOpen(false)}
             />
-            <motion.aside
-              initial={{ x: -300 }}
-              animate={{ x: 0 }}
-              exit={{ x: -300 }}
-              transition={{ type: 'spring', damping: 28, stiffness: 240 }}
-              className="fixed inset-y-0 left-0 z-50 w-[280px] max-w-[86vw] border-r border-zinc-200 bg-white shadow-2xl lg:hidden"
+            <aside
+              className="fixed inset-y-0 left-0 z-50 w-[280px] max-w-[86vw] animate-in slide-in-from-left border-r border-zinc-200 bg-white shadow-2xl duration-200 lg:hidden"
             >
               {renderSidebarContent(true)}
-            </motion.aside>
-          </>
-        )}
-      </AnimatePresence>
+            </aside>
+        </>
+      )}
     </>
   );
 }
