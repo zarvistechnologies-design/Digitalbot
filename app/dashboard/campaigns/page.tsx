@@ -1,8 +1,9 @@
 "use client"
 import Sidebar from "@/components/Sidebar";
+import SheetAutomationModal from "@/components/leads/SheetAutomationModal";
 import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Eye, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, X } from "lucide-react";
+import { ArrowLeft, Edit3, Eye, FileSpreadsheet, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 const getAuthToken = () => {
     if (typeof window !== 'undefined') {
@@ -269,6 +270,7 @@ export default function CampaignsPage() {
 
     // Create Voice Campaign Modal states
     const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showSheetAutomation, setShowSheetAutomation] = useState(false);
     const [campaignName, setCampaignName] = useState('');
     const [targetAudience, setTargetAudience] = useState('');
     const [agentId, setAgentId] = useState('');
@@ -933,7 +935,14 @@ export default function CampaignsPage() {
                                 )}
                             </div>
 
-                            <div>
+                            <div className="flex flex-col gap-2 sm:flex-row">
+                                <button
+                                    onClick={() => setShowSheetAutomation(true)}
+                                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-bold text-emerald-800 shadow-sm transition hover:bg-emerald-100"
+                                >
+                                    <FileSpreadsheet className="h-4 w-4" />
+                                    Connect Google Sheet
+                                </button>
                                 <button
                                     onClick={() => setShowCreateModal(true)}
                                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-blue-700"
@@ -1041,15 +1050,22 @@ export default function CampaignsPage() {
                                     }
                                 </p>
                                 {!searchTerm && filterStatus === 'all' && (
-                                    <button
-                                        onClick={() => setShowCreateModal(true)}
-                                        className="mx-auto flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
-                                    >
-                                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                        </svg>
-                                        New campaign
-                                    </button>
+                                    <div className="flex flex-col justify-center gap-2 sm:flex-row">
+                                        <button
+                                            onClick={() => setShowSheetAutomation(true)}
+                                            className="inline-flex items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-5 py-2.5 text-sm font-semibold text-emerald-800 shadow-sm transition-colors hover:bg-emerald-100"
+                                        >
+                                            <FileSpreadsheet className="h-4 w-4" />
+                                            Connect Google Sheet
+                                        </button>
+                                        <button
+                                            onClick={() => setShowCreateModal(true)}
+                                            className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            New campaign
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                         ) : (
@@ -1620,6 +1636,9 @@ export default function CampaignsPage() {
                         </div>
                     </aside>
                 </div>
+            )}
+            {showSheetAutomation && (
+                <SheetAutomationModal onClose={() => setShowSheetAutomation(false)} />
             )}
         </div>
     );

@@ -2,6 +2,7 @@
 
 import {
   AlertCircle,
+  Cable,
   CheckCircle2,
   Clipboard,
   FileSpreadsheet,
@@ -12,6 +13,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import Link from "next/link";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import {
   SheetAutomationConfig,
@@ -208,9 +210,16 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
               )}
 
               {(!serverReady.sheets || !serverReady.calling) && (
-                <div className="rounded-md border border-amber-200 bg-amber-50 px-3.5 py-3 text-sm text-amber-900">
-                  {!serverReady.sheets ? "Google service-account credentials are missing on the API. " : ""}
-                  {!serverReady.calling ? "Vozon outbound calling is not configured." : ""}
+                <div className="flex flex-col gap-3 rounded-md border border-amber-200 bg-amber-50 px-3.5 py-3 text-sm text-amber-900 sm:flex-row sm:items-center sm:justify-between">
+                  <span>
+                    {!serverReady.sheets ? "Google service-account credentials are missing on the API. " : ""}
+                    {!serverReady.calling ? "Connect Vozon before enabling outbound Sheet calls." : ""}
+                  </span>
+                  {!serverReady.calling && (
+                    <Link href="/dashboard/connectors" onClick={onClose} className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-md border border-amber-300 bg-white px-3 text-xs font-bold text-amber-900 hover:bg-amber-100">
+                      <Cable className="h-4 w-4" /> Connect Vozon
+                    </Link>
+                  )}
                 </div>
               )}
 
