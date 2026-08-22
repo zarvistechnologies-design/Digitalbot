@@ -1,5 +1,6 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import SheetAutomationModal from "@/components/leads/SheetAutomationModal";
 import { useCallback, useEffect, useState } from "react";
 import {
   AlertCircle,
@@ -8,6 +9,7 @@ import {
   ChevronRight,
   Clock,
   Eye,
+  FileSpreadsheet,
   Hash,
   Menu,
   MessageSquare,
@@ -696,6 +698,7 @@ export default function AnalyzerPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   const [showPromptEditor, setShowPromptEditor] = useState(false);
+  const [showSheetAutomation, setShowSheetAutomation] = useState(false);
   // Load prompt from localStorage or use default
   const [currentPrompt, setCurrentPrompt] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -1218,6 +1221,13 @@ export default function AnalyzerPage() {
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
                   <BulkAnalysisButton />
                   <button
+                    onClick={() => setShowSheetAutomation(true)}
+                    className="flex items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800 transition-colors hover:bg-emerald-100"
+                  >
+                    <FileSpreadsheet className="h-4 w-4 sm:h-5 sm:w-5" />
+                    <span>Sheet Automation</span>
+                  </button>
+                  <button
                     onClick={() => setShowPromptEditor(true)}
                     className="flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
                   >
@@ -1369,6 +1379,10 @@ export default function AnalyzerPage() {
               }}
               onChange={setEditingPrompt}
             />
+          )}
+
+          {showSheetAutomation && (
+            <SheetAutomationModal onClose={() => setShowSheetAutomation(false)} />
           )}
         </div>
       </main>

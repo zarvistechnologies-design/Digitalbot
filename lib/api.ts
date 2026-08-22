@@ -183,6 +183,59 @@ export const campaignsAPI = {
   resume: (id: string) => api.post(`/campaigns/${id}/resume`),
 };
 
+export type SheetAutomationConfig = {
+  id: string;
+  sheetUrl: string;
+  spreadsheetId: string;
+  sheetName: string;
+  headerRow: number;
+  phoneColumn: string;
+  nameColumn: string;
+  status: 'active' | 'paused' | 'error';
+  timezone: string;
+  windowStart: string;
+  windowEnd: string;
+  maxCallsPerPoll: number;
+  maxAttempts: number;
+  pollIntervalSeconds: number;
+  lastSyncedAt?: string | null;
+  lastSuccessAt?: string | null;
+  lastError?: string;
+  stats?: Record<string, number>;
+};
+
+export type SheetAutomationJob = {
+  id: string;
+  rowNumber: number;
+  customerName: string;
+  phoneNumber: string;
+  status: string;
+  disposition: string;
+  callId: string;
+  summary: string;
+  lastError: string;
+  updatedAt: string;
+};
+
+export const sheetAutomationAPI = {
+  get: () => api.get<{
+    success: boolean;
+    data: {
+      configured: boolean;
+      callingConfigured: boolean;
+      serviceAccountEmail: string;
+      automation: SheetAutomationConfig | null;
+      recentJobs: SheetAutomationJob[];
+    };
+  }>('/sheet-automation'),
+  test: (data: Record<string, unknown>) => api.post('/sheet-automation/test', data),
+  save: (data: Record<string, unknown>) => api.put('/sheet-automation', data),
+  sync: () => api.post('/sheet-automation/sync'),
+  pause: () => api.post('/sheet-automation/pause'),
+  resume: () => api.post('/sheet-automation/resume'),
+  disconnect: () => api.delete('/sheet-automation'),
+};
+
 export const voiceProviderAPI = {
   getAgents: () => api.get('/voice-agents'),
   getVoices: (params?: { language?: string; includeCustom?: boolean }) => api.get('/voices', { params }),
