@@ -222,6 +222,11 @@ export const sheetAutomationAPI = {
     success: boolean;
     data: {
       configured: boolean;
+      googleConfiguration?: {
+        configured: boolean;
+        code: 'ready' | 'missing' | 'invalid_json' | 'incomplete_credentials';
+        source: 'json' | 'split' | 'application_default' | 'none';
+      };
       callingConfigured: boolean;
       serviceAccountEmail: string;
       automation: SheetAutomationConfig | null;

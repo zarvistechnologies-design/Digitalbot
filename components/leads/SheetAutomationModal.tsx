@@ -84,6 +84,7 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
   const [jobs, setJobs] = useState<SheetAutomationJob[]>([]);
   const [serviceAccountEmail, setServiceAccountEmail] = useState("");
   const [serverReady, setServerReady] = useState({ sheets: false, calling: false });
+  const [googleConfigCode, setGoogleConfigCode] = useState("missing");
   const [notice, setNotice] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const load = useCallback(async () => {
@@ -94,6 +95,7 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
       setJobs(data.recentJobs || []);
       setServiceAccountEmail(data.serviceAccountEmail || "");
       setServerReady({ sheets: data.configured, calling: data.callingConfigured });
+      setGoogleConfigCode(data.googleConfiguration?.code || (data.configured ? "ready" : "missing"));
       setForm(formFromAutomation(data.automation));
     } catch (error) {
       setNotice({ type: "error", text: errorMessage(error) });
@@ -212,7 +214,13 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
               {(!serverReady.sheets || !serverReady.calling) && (
                 <div className="flex flex-col gap-3 rounded-md border border-amber-200 bg-amber-50 px-3.5 py-3 text-sm text-amber-900 sm:flex-row sm:items-center sm:justify-between">
                   <span>
-                    {!serverReady.sheets ? "Google service-account credentials are missing on the API. " : ""}
+                    {!serverReady.sheets
+                      ? googleConfigCode === "invalid_json"
+                        ? "Google service-account JSON on the API is invalid. "
+                        : googleConfigCode === "incomplete_credentials"
+                          ? "Google service-account credentials on the API are incomplete. "
+                          : "Google service-account credentials are missing on the API. "
+                      : ""}
                     {!serverReady.calling ? "Connect Vozon before enabling outbound Sheet calls." : ""}
                   </span>
                   {!serverReady.calling && (
