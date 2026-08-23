@@ -6,7 +6,7 @@ import { CACHE_KEYS, clearCache } from '@/lib/cache';
 import { DASHBOARD_QUERY_KEYS } from '@/lib/dashboard-query';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertTriangle, BarChart3, BookOpen, Bot, Cable, Calendar, CalendarCheck, ChevronDown, ChevronUp, ClipboardList, CreditCard, Crown, FileText, FlaskConical, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
+import { AlertTriangle, BarChart3, BookOpen, Bot, Building2, Cable, Calendar, CalendarCheck, CalendarRange, ChevronDown, ChevronUp, ClipboardList, CreditCard, Crown, FileText, FlaskConical, GitBranch, IdCard, LayoutDashboard, LogOut, MapPin, Megaphone, MessageSquare, Package, PhoneCall, PlusCircle, Send, Settings, Share2, Stethoscope, TestTube2, Ticket, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -253,6 +253,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     if (service === 'appointment-whatsapp' || service === 'doctor-whatsapp') return 'Doctor Desk';
     if (service === 'tankro') return 'Tankro Dashboard';
     if (service === 'pathology-diagnostic') return 'Pathology Diagnostic Center';
+    if (service === 'real-estate-crm') return 'Real Estate CRM';
     return service.replace(/[-_]/g, ' ');
   };
 
@@ -270,6 +271,21 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     const isAppointmentWhatsApp = ['appointment-whatsapp', 'appointment whatsapp', 'doctor-whatsapp'].includes(selectedService);
     const isDoctorDashboard = ['doctor-dashboard', 'doctor dashboard', 'doctor', 'clinic-dashboard', 'healthcare'].includes(selectedService);
     const serviceItems = [];
+    if (
+      selectedService === 'real-estate-crm'
+      && verifiedSelectedService === 'real-estate-crm'
+    ) {
+      serviceItems.push({ name: 'Property Command', href: '/dashboard/real-estate', icon: Building2 });
+      serviceItems.push({ name: 'Lead Analyzer', href: '/dashboard/leads', icon: BarChart3 });
+      serviceItems.push({ name: 'Real Estate Leads', href: '/dashboard/qualified-leads', icon: Users });
+      serviceItems.push({ name: 'Sales Pipeline', href: '/dashboard/real-estate/pipeline', icon: GitBranch });
+      serviceItems.push({ name: 'Properties', href: '/dashboard/real-estate/properties', icon: Package });
+      serviceItems.push({ name: 'Site Visits', href: '/dashboard/real-estate/site-visits', icon: CalendarRange });
+      serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
+      if (user?.legacyPhoneFallback === false || user?.legacyAgentKnowledgeEnabled) {
+        serviceItems.push({ name: 'Agent Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
+      }
+    }
     if (
       (selectedService === 'lead-analysis' || selectedService === 'lead') &&
       (verifiedSelectedService === 'lead-analysis' || verifiedSelectedService === 'lead')

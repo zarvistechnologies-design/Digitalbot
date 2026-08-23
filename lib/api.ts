@@ -805,6 +805,108 @@ export const bookingCrmAPI = {
   checkAvailability: (data: Record<string, unknown>) => api.post('/booking-crm/availability', data),
 };
 
+export type RealEstatePipelineStage =
+  | 'new'
+  | 'contacted'
+  | 'qualified'
+  | 'property_matched'
+  | 'site_visit_scheduled'
+  | 'site_visit_completed'
+  | 'negotiation'
+  | 'booking'
+  | 'won'
+  | 'lost'
+  | 'nurture';
+
+export interface RealEstateLead {
+  _id: string;
+  customerName?: string;
+  phoneNumber?: string;
+  email?: string;
+  leadQuality?: string;
+  leadScore?: number;
+  leadStatus?: string;
+  budget?: string;
+  timeline?: string;
+  nextAction?: string;
+  followUpDate?: string;
+  customFields?: {
+    realEstate?: {
+      pipelineStage?: RealEstatePipelineStage;
+      assignedExecutive?: string;
+      intent?: string;
+      preferredLocations?: string[];
+      propertyTypes?: string[];
+      configurations?: string[];
+      budgetMin?: number;
+      budgetMax?: number;
+      purchasePurpose?: string;
+      financingStatus?: string;
+      possessionPreference?: string;
+      purchaseTimeline?: string;
+      visitReadiness?: string;
+    };
+  };
+}
+
+export interface RealEstateProperty {
+  _id: string;
+  projectName: string;
+  title: string;
+  developerName?: string;
+  reraNumber?: string;
+  transactionType: string;
+  propertyType: string;
+  configurations: string[];
+  city?: string;
+  locality?: string;
+  address?: string;
+  priceMin: number;
+  priceMax: number;
+  currency: string;
+  carpetAreaMin?: number;
+  carpetAreaMax?: number;
+  areaUnit?: string;
+  possessionStatus: string;
+  possessionDate?: string;
+  totalUnits: number;
+  availableUnits: number;
+  amenities: string[];
+  brochureUrl?: string;
+  assignedTo?: string;
+  status: string;
+  updatedAt?: string;
+}
+
+export interface RealEstateSiteVisit {
+  _id: string;
+  leadId: RealEstateLead | string;
+  propertyId: RealEstateProperty | string;
+  customerName: string;
+  customerPhone: string;
+  visitAt: string;
+  durationMinutes: number;
+  assignedTo?: string;
+  meetingPoint?: string;
+  status: string;
+  reminderStatus: string;
+  notes?: string;
+  outcome?: string;
+  nextAction?: string;
+}
+
+export const realEstateAPI = {
+  getOverview: () => api.get('/real-estate/overview'),
+  getLeads: (params?: Record<string, string | number | undefined>) => api.get('/real-estate/leads', { params }),
+  updateLead: (id: string, data: Record<string, unknown>) => api.patch(`/real-estate/leads/${id}`, data),
+  getProperties: (params?: Record<string, string | number | undefined>) => api.get('/real-estate/properties', { params }),
+  createProperty: (data: Record<string, unknown>) => api.post('/real-estate/properties', data),
+  updateProperty: (id: string, data: Record<string, unknown>) => api.put(`/real-estate/properties/${id}`, data),
+  getSiteVisits: (params?: Record<string, string | number | undefined>) => api.get('/real-estate/site-visits', { params }),
+  createSiteVisit: (data: Record<string, unknown>) => api.post('/real-estate/site-visits', data),
+  updateSiteVisit: (id: string, data: Record<string, unknown>) => api.put(`/real-estate/site-visits/${id}`, data),
+};
+
 // ========================================
 // HEALTHIQURE BOT API
 // ========================================

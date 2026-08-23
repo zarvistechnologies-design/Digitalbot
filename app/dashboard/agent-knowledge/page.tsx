@@ -30,7 +30,7 @@ function errorMessage(error: unknown, fallback: string) {
 }
 
 function isLeadAnalysisService(value?: string) {
-  return ["lead-analysis", "lead"].includes(String(value || "").trim().toLowerCase());
+  return ["lead-analysis", "lead", "real-estate-crm", "real-estate"].includes(String(value || "").trim().toLowerCase());
 }
 
 export default function AgentKnowledgePage() {
@@ -43,6 +43,7 @@ export default function AgentKnowledgePage() {
   const [saving, setSaving] = useState(false);
   const [syncError, setSyncError] = useState("");
   const [saved, setSaved] = useState(false);
+  const [workspaceLabel, setWorkspaceLabel] = useState("Lead Analysis");
   const dirty = instructions !== savedInstructions;
   const knowledgeQuery = useQuery<AgentKnowledgeConnection[]>({
     queryKey: ["agent-knowledge"],
@@ -76,6 +77,9 @@ export default function AgentKnowledgePage() {
         if (cancelled) return;
         const hasAgentKnowledgeAccess = response.data.legacyPhoneFallback === false
           || response.data.legacyAgentKnowledgeEnabled === true;
+        if (["real-estate-crm", "real-estate"].includes(String(response.data.selectedService || "").toLowerCase())) {
+          setWorkspaceLabel("Real Estate CRM");
+        }
         if (!isLeadAnalysisService(response.data.selectedService) || !hasAgentKnowledgeAccess) {
           router.replace("/dashboard");
           return;
@@ -170,7 +174,7 @@ export default function AgentKnowledgePage() {
       <main className="lg:pl-64">
         <header className="border-b border-zinc-200 bg-white">
           <div className="px-4 pb-6 pt-20 sm:px-6 lg:px-8 lg:pt-7">
-            <p className="text-xs font-semibold uppercase text-orange-700">Lead Analysis</p>
+            <p className="text-xs font-semibold uppercase text-orange-700">{workspaceLabel}</p>
             <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <h1 className="text-2xl font-bold sm:text-3xl">Agent Knowledge</h1>

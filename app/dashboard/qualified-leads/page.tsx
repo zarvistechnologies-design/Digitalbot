@@ -52,6 +52,23 @@ type Lead = {
   followUpNotes?: string;
   nextAction?: string;
   createdAt?: string;
+  customFields?: {
+    realEstate?: {
+      pipelineStage?: string;
+      assignedExecutive?: string;
+      intent?: string;
+      preferredLocations?: string[];
+      propertyTypes?: string[];
+      configurations?: string[];
+      budgetMin?: number;
+      budgetMax?: number;
+      purchasePurpose?: string;
+      financingStatus?: string;
+      possessionPreference?: string;
+      purchaseTimeline?: string;
+      visitReadiness?: string;
+    };
+  };
 };
 
 // Professional "clinical ledger" theme — muted, flat, high-legibility.
@@ -148,7 +165,8 @@ function LeadRow({ lead }: { lead: Lead }) {
   const [recordingError, setRecordingError] = useState("");
   const quality = getLeadQuality(lead);
   const meta = qualityMeta[quality];
-  const interest = lead.productsInterested?.[0] || lead.interests?.[0] || "Not specified";
+  const realEstate = lead.customFields?.realEstate;
+  const interest = realEstate?.propertyTypes?.join(", ") || lead.productsInterested?.[0] || lead.interests?.[0] || "Not specified";
   const need = lead.painPoints?.[0] || "Not specified";
   const token = getAuthToken();
   const recordingUrl = lead.callId
@@ -216,6 +234,16 @@ function LeadRow({ lead }: { lead: Lead }) {
             <div><dt className="text-xs font-semibold text-slate-500">Timeline</dt><dd className="mt-1 text-sm text-slate-700">{lead.timeline || "Not specified"}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">Budget</dt><dd className="mt-1 text-sm text-slate-700">{lead.budget || "Not specified"}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">Next action</dt><dd className="mt-1 text-sm text-slate-700">{lead.nextAction || "Contact the lead"}</dd></div>
+            {realEstate && <>
+              <div><dt className="text-xs font-semibold text-slate-500">Pipeline stage</dt><dd className="mt-1 text-sm font-medium capitalize text-slate-800">{String(realEstate.pipelineStage || "new").replace(/_/g, " ")}</dd></div>
+              <div><dt className="text-xs font-semibold text-slate-500">Preferred location</dt><dd className="mt-1 text-sm text-slate-700">{realEstate.preferredLocations?.join(", ") || "Not specified"}</dd></div>
+              <div><dt className="text-xs font-semibold text-slate-500">Configuration</dt><dd className="mt-1 text-sm text-slate-700">{realEstate.configurations?.join(", ") || "Not specified"}</dd></div>
+              <div><dt className="text-xs font-semibold text-slate-500">Purchase purpose</dt><dd className="mt-1 text-sm capitalize text-slate-700">{String(realEstate.purchasePurpose || "Not specified").replace(/_/g, " ")}</dd></div>
+              <div><dt className="text-xs font-semibold text-slate-500">Financing</dt><dd className="mt-1 text-sm capitalize text-slate-700">{String(realEstate.financingStatus || "Not specified").replace(/_/g, " ")}</dd></div>
+              <div><dt className="text-xs font-semibold text-slate-500">Visit readiness</dt><dd className="mt-1 text-sm capitalize text-slate-700">{String(realEstate.visitReadiness || "Not specified").replace(/_/g, " ")}</dd></div>
+              <div><dt className="text-xs font-semibold text-slate-500">Assigned executive</dt><dd className="mt-1 text-sm text-slate-700">{realEstate.assignedExecutive || "Unassigned"}</dd></div>
+              <div><dt className="text-xs font-semibold text-slate-500">Possession preference</dt><dd className="mt-1 text-sm text-slate-700">{realEstate.possessionPreference || "Not specified"}</dd></div>
+            </>}
           </dl>
 
           {(lead.summary || lead.followUpNotes || lead.intents?.length) && (
@@ -271,6 +299,7 @@ export default function QualifiedLeadsPage() {
   const [search, setSearch] = useState("");
   const [qualityFilter, setQualityFilter] = useState<"all" | LeadQuality>("all");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isRealEstate, setIsRealEstate] = useState(false);
 
   const fetchLeads = useCallback(async () => {
     setLoading(true);
@@ -290,13 +319,19 @@ export default function QualifiedLeadsPage() {
     }
   }, []);
 
-  useEffect(() => { fetchLeads(); }, [fetchLeads]);
+  useEffect(() => {
+    fetchLeads();
+    try {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      setIsRealEstate(["real-estate-crm", "real-estate"].includes(String(user.selectedService || user.verifiedService || "").toLowerCase()));
+    } catch { setIsRealEstate(false); }
+  }, [fetchLeads]);
 
   const filteredLeads = useMemo(() => {
     const term = search.trim().toLowerCase();
     return leads
       .filter((lead) => qualityFilter === "all" || getLeadQuality(lead) === qualityFilter)
-      .filter((lead) => !term || [lead.customerName, lead.phoneNumber, lead.alternatePhoneNumber, lead.email, lead.company, lead.productsInterested?.[0], lead.interests?.[0], lead.painPoints?.[0]].some((value) => String(value || "").toLowerCase().includes(term)))
+      .filter((lead) => !term || [lead.customerName, lead.phoneNumber, lead.alternatePhoneNumber, lead.email, lead.company, lead.productsInterested?.[0], lead.interests?.[0], lead.painPoints?.[0], lead.customFields?.realEstate?.preferredLocations?.join(" "), lead.customFields?.realEstate?.propertyTypes?.join(" "), lead.customFields?.realEstate?.configurations?.join(" ")].some((value) => String(value || "").toLowerCase().includes(term)))
       .sort((a, b) => Number(b.leadScore || 0) - Number(a.leadScore || 0));
   }, [leads, qualityFilter, search]);
 
@@ -382,11 +417,11 @@ export default function QualifiedLeadsPage() {
                   </div>
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5">
-                      Lead Service Dashboard
+                      {isRealEstate ? "Real Estate CRM" : "Lead Service Dashboard"}
                     </p>
-                    <h1 className="mb-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Qualified Leads</h1>
+                    <h1 className="mb-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{isRealEstate ? "Real Estate Leads" : "Qualified Leads"}</h1>
                     <p className="mb-5 max-w-2xl text-sm font-medium text-slate-500">
-                      Track hot prospects, follow-up priorities, customer intent, and call recordings in one ledger.
+                      {isRealEstate ? "Track buyer requirements, property preferences, intent, budget, follow-ups, and call recordings in one ledger." : "Track hot prospects, follow-up priorities, customer intent, and call recordings in one ledger."}
                     </p>
 
                     <div className="inline-flex flex-wrap sm:flex-nowrap items-stretch rounded-lg border border-slate-200 bg-white shadow-sm overflow-hidden">
@@ -474,7 +509,7 @@ export default function QualifiedLeadsPage() {
               <input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search name, phone, company or interest"
+                placeholder={isRealEstate ? "Search buyer, phone, location or property type" : "Search name, phone, company or interest"}
                 className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
               />
             </div>

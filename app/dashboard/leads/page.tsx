@@ -123,6 +123,54 @@ Respond ONLY with valid JSON in this exact format (no markdown, no backticks):
 
 Transcription: {TRANSCRIPTION_PLACEHOLDER}`;
 
+const REAL_ESTATE_PROMPT = `You are an expert real-estate sales coordinator. Analyze the customer side of this multilingual call and identify genuine property intent.
+
+A lead is qualified when the customer expresses interest in buying, renting, selling, leasing, investing in, or visiting a property. Do not qualify a call based only on claims made by the assistant.
+
+Extract real information only. Translate requirements into concise English, transliterate real names, keep phone numbers unchanged, and never invent missing details.
+
+Respond ONLY with valid JSON in this exact structure:
+{
+  "is_lead": boolean,
+  "customer_name": "string or empty",
+  "phone_number": "string or empty",
+  "alternate_phone_number": "different callback or WhatsApp number, or empty",
+  "product_interest": "short property requirement",
+  "customer_need": "short buyer need or motivation",
+  "confidence_score": number between 0 and 1,
+  "intent": "buy, rent, sell, lease, invest, or empty",
+  "property_types": ["apartment, villa, plot, office, shop, warehouse, or other"],
+  "configurations": ["1 BHK, 2 BHK, 3 BHK, etc."],
+  "preferred_locations": ["location"],
+  "budget_min": number or 0,
+  "budget_max": number or 0,
+  "purchase_purpose": "self_use, investment, business, or empty",
+  "financing_status": "self_funded, loan_required, loan_approved, undecided, or empty",
+  "possession_preference": "ready_to_move, under_construction, new_launch, or empty",
+  "purchase_timeline": "string or empty",
+  "visit_readiness": "ready, considering, not_ready, or empty",
+  "preferred_visit_date": "YYYY-MM-DD or empty",
+  "preferred_visit_time": "string or empty",
+  "objections": ["objection"],
+  "missing_qualification_fields": ["important missing field"],
+  "follow_up_required": boolean,
+  "next_action": "specific recommended action"
+}
+
+Transcription: {TRANSCRIPTION_PLACEHOLDER}`;
+
+const isRealEstateWorkspace = () => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return String(user.selectedService || '').toLowerCase() === 'real-estate-crm';
+  } catch {
+    return false;
+  }
+};
+
+const promptStorageKey = () => isRealEstateWorkspace() ? 'leadAnalysisPrompt:real-estate-crm' : 'leadAnalysisPrompt';
+
 // Helper functions
 const formatDuration = (sec: number | undefined) => {
   if (sec === undefined) return "0:00";
@@ -702,19 +750,21 @@ export default function AnalyzerPage() {
   // Load prompt from localStorage or use default
   const [currentPrompt, setCurrentPrompt] = useState(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('leadAnalysisPrompt');
+      const storageKey = promptStorageKey();
+      const defaultPrompt = isRealEstateWorkspace() ? REAL_ESTATE_PROMPT : DEFAULT_PROMPT;
+      const saved = localStorage.getItem(storageKey);
       // Force update to new simple prompt if old strict/Hindi prompt is detected
       if (saved && (saved.includes('DEFINITELY NOT LEADS') ||
                      saved.includes('STRICT sales lead') ||
                      saved.includes('आप एक स्मार्ट लीड विश्लेषक'))) {
         console.log('🔄 Upgrading to new simple prompt...');
-        localStorage.setItem('leadAnalysisPrompt', DEFAULT_PROMPT);
-        return DEFAULT_PROMPT;
+        localStorage.setItem(storageKey, defaultPrompt);
+        return defaultPrompt;
       }
       // If no saved prompt or unknown format, use default
       if (!saved) {
-        localStorage.setItem('leadAnalysisPrompt', DEFAULT_PROMPT);
-        return DEFAULT_PROMPT;
+        localStorage.setItem(storageKey, defaultPrompt);
+        return defaultPrompt;
       }
       return saved;
     }
@@ -725,7 +775,7 @@ export default function AnalyzerPage() {
   // Save prompt to localStorage whenever it changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('leadAnalysisPrompt', currentPrompt);
+      localStorage.setItem(promptStorageKey(), currentPrompt);
     }
   }, [currentPrompt]);
 
