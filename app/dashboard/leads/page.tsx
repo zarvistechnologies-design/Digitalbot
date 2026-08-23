@@ -1140,23 +1140,23 @@ export default function AnalyzerPage() {
       <div className="flex min-h-screen bg-slate-50">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm md:hidden"
+          className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm lg:hidden"
         >
           <MenuIcon />
         </button>
 
         {sidebarOpen && (
           <div
-            className="md:hidden fixed inset-0 bg-black/50 z-30"
+            className="fixed inset-0 z-30 bg-black/50 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
 
-        <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
+        <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out lg:translate-x-0`}>
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         </div>
 
-        <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8 flex items-center justify-center">
+        <main className="w-full min-w-0 p-4 pt-20 sm:p-6 lg:ml-64 lg:w-[calc(100%-16rem)] lg:p-8 lg:pt-8 flex items-center justify-center">
           <div className="text-center">
             <RefreshCw className="mx-auto mb-4 h-8 w-8 animate-spin text-teal-600" />
             <p className="text-lg font-semibold text-slate-900">Loading lead analytics</p>
@@ -1170,7 +1170,7 @@ export default function AnalyzerPage() {
     <div className="flex min-h-screen bg-slate-50">
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm transition-colors hover:bg-slate-50 md:hidden"
+        className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm transition-colors hover:bg-slate-50 lg:hidden"
         aria-label="Toggle menu"
       >
         <MenuIcon />
@@ -1178,27 +1178,27 @@ export default function AnalyzerPage() {
 
       {sidebarOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/50 z-30"
+          className="fixed inset-0 z-30 bg-black/50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
+      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out lg:translate-x-0`}>
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       </div>
 
-      <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8">
+      <main className="w-full min-w-0 p-4 pt-20 sm:p-6 lg:ml-64 lg:w-[calc(100%-16rem)] lg:p-8 lg:pt-8">
         <div className="mx-auto max-w-7xl space-y-6">
 
           {/* Page Header — same "clinical ledger" header pattern as the appointments page */}
           <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
             <div className="p-5 sm:p-6 md:p-8">
-              <div className="flex flex-col items-start justify-between gap-5 lg:flex-row lg:items-center">
-                <div className="flex items-start gap-4 sm:gap-5">
+              <div className="flex min-w-0 flex-col items-stretch justify-between gap-5 min-[1800px]:flex-row min-[1800px]:items-center">
+                <div className="flex min-w-0 items-start gap-4 sm:gap-5">
                   <div className="rounded-lg border border-slate-200 bg-slate-900 p-3 sm:p-4">
                     <BarChart3 className="h-7 w-7 text-white sm:h-8 sm:w-8" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5">
                       Call Intelligence
                     </p>
@@ -1268,7 +1268,7 @@ export default function AnalyzerPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+                <div className="flex w-full flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center min-[1800px]:w-auto min-[1800px]:shrink-0">
                   <BulkAnalysisButton />
                   <button
                     onClick={() => setShowSheetAutomation(true)}

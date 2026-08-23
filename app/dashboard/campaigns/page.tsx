@@ -875,10 +875,10 @@ export default function CampaignsPage() {
     if (loading) {
         return (
             <div className="flex min-h-screen bg-white">
-                <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
+                <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out lg:translate-x-0`}>
                     <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
                 </div>
-                <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8 flex items-center justify-center">
+                <main className="w-full min-w-0 p-4 pt-20 sm:p-6 lg:ml-64 lg:w-[calc(100%-16rem)] lg:p-8 lg:pt-8 flex items-center justify-center">
                     <div className="text-center">
                         <Loader2 className="mx-auto mb-4 h-8 w-8 animate-spin text-blue-600" />
                         <p className="text-lg font-semibold text-slate-900">Loading campaigns</p>
@@ -894,7 +894,7 @@ export default function CampaignsPage() {
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border border-slate-200 hover:border-blue-300 transition-all"
+                className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-lg transition-all hover:border-blue-300 lg:hidden"
                 aria-label="Toggle menu"
             >
                 <MenuIcon />
@@ -903,17 +903,17 @@ export default function CampaignsPage() {
             {/* Overlay for mobile */}
             {sidebarOpen && (
                 <div
-                    className="md:hidden fixed inset-0 bg-black/50 z-30"
+                    className="fixed inset-0 z-30 bg-black/50 lg:hidden"
                     onClick={() => setSidebarOpen(false)}
                 />
             )}
 
             {/* Sidebar */}
-            <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
+            <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out lg:translate-x-0`}>
                 <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             </div>
 
-            <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8">
+            <main className="w-full min-w-0 p-4 pt-20 sm:p-6 lg:ml-64 lg:w-[calc(100%-16rem)] lg:p-8 lg:pt-8">
                 <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
 
                     {/* Header */}
