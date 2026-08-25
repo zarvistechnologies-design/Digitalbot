@@ -39,7 +39,7 @@ interface Appointment {
   age?: number | string | null;
   patientAge?: number | string | null;
   purpose: string;
-  patientType?: "new" | "follow_up";
+  patientType?: "new" | "existing" | "follow_up" | null;
   queueNumber?: string;
   status: "scheduled" | "confirmed" | "completed" | "cancelled" | "no-show" | "rescheduled";
   date: string;
@@ -395,14 +395,16 @@ function AppointmentModal({
                     <p className="text-base font-bold text-teal-900 font-mono">{apt.queueNumber}</p>
                   </div>
                 )}
-                {apt.queueNumber && (
-                  <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
-                    <p className="text-[11px] text-teal-700 font-semibold uppercase tracking-wide mb-1">Patient Type</p>
-                    <p className="text-base font-bold text-teal-900">
-                      {apt.patientType === "follow_up" ? "Old / Follow-up" : "New Patient"}
-                    </p>
-                  </div>
-                )}
+                <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
+                  <p className="text-[11px] text-teal-700 font-semibold uppercase tracking-wide mb-1">Patient Type</p>
+                  <p className="text-base font-bold text-teal-900">
+                    {apt.patientType === "follow_up" || apt.patientType === "existing"
+                      ? "Old / Follow-up"
+                      : apt.patientType === "new"
+                        ? "New Patient"
+                        : "Not provided"}
+                  </p>
+                </div>
               </div>
               <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
                 <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide mb-2">Purpose of Visit</p>
