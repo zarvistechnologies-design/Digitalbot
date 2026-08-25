@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   ArrowRight,
   BarChart3,
+  Building2,
   CalendarDays,
   Headphones,
   Microscope,
@@ -33,6 +34,13 @@ const services = [
     icon: BarChart3,
     soft: "bg-indigo-50 text-indigo-700 ring-indigo-200",
     summary: "Lead capture, qualification, and call insights.",
+  },
+  {
+    title: "Real Estate CRM",
+    service: "real-estate-crm",
+    icon: Building2,
+    soft: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+    summary: "Properties, buyer pipeline, site visits, and AI lead qualification.",
   },
   {
     title: "Customer Support",

@@ -1,5 +1,6 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
+import SheetAutomationModal from "@/components/leads/SheetAutomationModal";
 import { useCallback, useEffect, useState } from "react";
 import {
   AlertCircle,
@@ -8,6 +9,7 @@ import {
   ChevronRight,
   Clock,
   Eye,
+  FileSpreadsheet,
   Hash,
   Menu,
   MessageSquare,
@@ -120,6 +122,54 @@ Respond ONLY with valid JSON in this exact format (no markdown, no backticks):
 }
 
 Transcription: {TRANSCRIPTION_PLACEHOLDER}`;
+
+const REAL_ESTATE_PROMPT = `You are an expert real-estate sales coordinator. Analyze the customer side of this multilingual call and identify genuine property intent.
+
+A lead is qualified when the customer expresses interest in buying, renting, selling, leasing, investing in, or visiting a property. Do not qualify a call based only on claims made by the assistant.
+
+Extract real information only. Translate requirements into concise English, transliterate real names, keep phone numbers unchanged, and never invent missing details.
+
+Respond ONLY with valid JSON in this exact structure:
+{
+  "is_lead": boolean,
+  "customer_name": "string or empty",
+  "phone_number": "string or empty",
+  "alternate_phone_number": "different callback or WhatsApp number, or empty",
+  "product_interest": "short property requirement",
+  "customer_need": "short buyer need or motivation",
+  "confidence_score": number between 0 and 1,
+  "intent": "buy, rent, sell, lease, invest, or empty",
+  "property_types": ["apartment, villa, plot, office, shop, warehouse, or other"],
+  "configurations": ["1 BHK, 2 BHK, 3 BHK, etc."],
+  "preferred_locations": ["location"],
+  "budget_min": number or 0,
+  "budget_max": number or 0,
+  "purchase_purpose": "self_use, investment, business, or empty",
+  "financing_status": "self_funded, loan_required, loan_approved, undecided, or empty",
+  "possession_preference": "ready_to_move, under_construction, new_launch, or empty",
+  "purchase_timeline": "string or empty",
+  "visit_readiness": "ready, considering, not_ready, or empty",
+  "preferred_visit_date": "YYYY-MM-DD or empty",
+  "preferred_visit_time": "string or empty",
+  "objections": ["objection"],
+  "missing_qualification_fields": ["important missing field"],
+  "follow_up_required": boolean,
+  "next_action": "specific recommended action"
+}
+
+Transcription: {TRANSCRIPTION_PLACEHOLDER}`;
+
+const isRealEstateWorkspace = () => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return String(user.selectedService || '').toLowerCase() === 'real-estate-crm';
+  } catch {
+    return false;
+  }
+};
+
+const promptStorageKey = () => isRealEstateWorkspace() ? 'leadAnalysisPrompt:real-estate-crm' : 'leadAnalysisPrompt';
 
 // Helper functions
 const formatDuration = (sec: number | undefined) => {
@@ -696,22 +746,25 @@ export default function AnalyzerPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   const [showPromptEditor, setShowPromptEditor] = useState(false);
+  const [showSheetAutomation, setShowSheetAutomation] = useState(false);
   // Load prompt from localStorage or use default
   const [currentPrompt, setCurrentPrompt] = useState(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('leadAnalysisPrompt');
+      const storageKey = promptStorageKey();
+      const defaultPrompt = isRealEstateWorkspace() ? REAL_ESTATE_PROMPT : DEFAULT_PROMPT;
+      const saved = localStorage.getItem(storageKey);
       // Force update to new simple prompt if old strict/Hindi prompt is detected
       if (saved && (saved.includes('DEFINITELY NOT LEADS') ||
                      saved.includes('STRICT sales lead') ||
                      saved.includes('आप एक स्मार्ट लीड विश्लेषक'))) {
         console.log('🔄 Upgrading to new simple prompt...');
-        localStorage.setItem('leadAnalysisPrompt', DEFAULT_PROMPT);
-        return DEFAULT_PROMPT;
+        localStorage.setItem(storageKey, defaultPrompt);
+        return defaultPrompt;
       }
       // If no saved prompt or unknown format, use default
       if (!saved) {
-        localStorage.setItem('leadAnalysisPrompt', DEFAULT_PROMPT);
-        return DEFAULT_PROMPT;
+        localStorage.setItem(storageKey, defaultPrompt);
+        return defaultPrompt;
       }
       return saved;
     }
@@ -722,7 +775,7 @@ export default function AnalyzerPage() {
   // Save prompt to localStorage whenever it changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('leadAnalysisPrompt', currentPrompt);
+      localStorage.setItem(promptStorageKey(), currentPrompt);
     }
   }, [currentPrompt]);
 
@@ -1087,23 +1140,23 @@ export default function AnalyzerPage() {
       <div className="flex min-h-screen bg-slate-50">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm md:hidden"
+          className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm lg:hidden"
         >
           <MenuIcon />
         </button>
 
         {sidebarOpen && (
           <div
-            className="md:hidden fixed inset-0 bg-black/50 z-30"
+            className="fixed inset-0 z-30 bg-black/50 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
 
-        <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
+        <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out lg:translate-x-0`}>
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         </div>
 
-        <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8 flex items-center justify-center">
+        <main className="w-full min-w-0 p-4 pt-20 sm:p-6 lg:ml-64 lg:w-[calc(100%-16rem)] lg:p-8 lg:pt-8 flex items-center justify-center">
           <div className="text-center">
             <RefreshCw className="mx-auto mb-4 h-8 w-8 animate-spin text-teal-600" />
             <p className="text-lg font-semibold text-slate-900">Loading lead analytics</p>
@@ -1117,7 +1170,7 @@ export default function AnalyzerPage() {
     <div className="flex min-h-screen bg-slate-50">
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm transition-colors hover:bg-slate-50 md:hidden"
+        className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm transition-colors hover:bg-slate-50 lg:hidden"
         aria-label="Toggle menu"
       >
         <MenuIcon />
@@ -1125,27 +1178,27 @@ export default function AnalyzerPage() {
 
       {sidebarOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/50 z-30"
+          className="fixed inset-0 z-30 bg-black/50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
+      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out lg:translate-x-0`}>
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       </div>
 
-      <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8">
+      <main className="w-full min-w-0 p-4 pt-20 sm:p-6 lg:ml-64 lg:w-[calc(100%-16rem)] lg:p-8 lg:pt-8">
         <div className="mx-auto max-w-7xl space-y-6">
 
           {/* Page Header — same "clinical ledger" header pattern as the appointments page */}
           <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
             <div className="p-5 sm:p-6 md:p-8">
-              <div className="flex flex-col items-start justify-between gap-5 lg:flex-row lg:items-center">
-                <div className="flex items-start gap-4 sm:gap-5">
+              <div className="flex min-w-0 flex-col items-stretch justify-between gap-5 min-[1800px]:flex-row min-[1800px]:items-center">
+                <div className="flex min-w-0 items-start gap-4 sm:gap-5">
                   <div className="rounded-lg border border-slate-200 bg-slate-900 p-3 sm:p-4">
                     <BarChart3 className="h-7 w-7 text-white sm:h-8 sm:w-8" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[11px] font-bold uppercase tracking-widest text-teal-700 mb-1.5">
                       Call Intelligence
                     </p>
@@ -1215,8 +1268,15 @@ export default function AnalyzerPage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+                <div className="flex w-full flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center min-[1800px]:w-auto min-[1800px]:shrink-0">
                   <BulkAnalysisButton />
+                  <button
+                    onClick={() => setShowSheetAutomation(true)}
+                    className="flex items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800 transition-colors hover:bg-emerald-100"
+                  >
+                    <FileSpreadsheet className="h-4 w-4 sm:h-5 sm:w-5" />
+                    <span>Sheet Automation</span>
+                  </button>
                   <button
                     onClick={() => setShowPromptEditor(true)}
                     className="flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
@@ -1369,6 +1429,10 @@ export default function AnalyzerPage() {
               }}
               onChange={setEditingPrompt}
             />
+          )}
+
+          {showSheetAutomation && (
+            <SheetAutomationModal onClose={() => setShowSheetAutomation(false)} />
           )}
         </div>
       </main>

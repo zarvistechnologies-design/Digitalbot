@@ -183,6 +183,64 @@ export const campaignsAPI = {
   resume: (id: string) => api.post(`/campaigns/${id}/resume`),
 };
 
+export type SheetAutomationConfig = {
+  id: string;
+  sheetUrl: string;
+  spreadsheetId: string;
+  sheetName: string;
+  headerRow: number;
+  phoneColumn: string;
+  nameColumn: string;
+  status: 'active' | 'paused' | 'error';
+  timezone: string;
+  windowStart: string;
+  windowEnd: string;
+  maxCallsPerPoll: number;
+  maxAttempts: number;
+  pollIntervalSeconds: number;
+  lastSyncedAt?: string | null;
+  lastSuccessAt?: string | null;
+  lastError?: string;
+  stats?: Record<string, number>;
+};
+
+export type SheetAutomationJob = {
+  id: string;
+  rowNumber: number;
+  customerName: string;
+  phoneNumber: string;
+  status: string;
+  disposition: string;
+  callId: string;
+  summary: string;
+  lastError: string;
+  updatedAt: string;
+};
+
+export const sheetAutomationAPI = {
+  get: () => api.get<{
+    success: boolean;
+    data: {
+      configured: boolean;
+      googleConfiguration?: {
+        configured: boolean;
+        code: 'ready' | 'missing' | 'invalid_json' | 'incomplete_credentials';
+        source: 'json' | 'split' | 'application_default' | 'none';
+      };
+      callingConfigured: boolean;
+      serviceAccountEmail: string;
+      automation: SheetAutomationConfig | null;
+      recentJobs: SheetAutomationJob[];
+    };
+  }>('/sheet-automation'),
+  test: (data: Record<string, unknown>) => api.post('/sheet-automation/test', data),
+  save: (data: Record<string, unknown>) => api.put('/sheet-automation', data),
+  sync: () => api.post('/sheet-automation/sync'),
+  pause: () => api.post('/sheet-automation/pause'),
+  resume: () => api.post('/sheet-automation/resume'),
+  disconnect: () => api.delete('/sheet-automation'),
+};
+
 export const voiceProviderAPI = {
   getAgents: () => api.get('/voice-agents'),
   getVoices: (params?: { language?: string; includeCustom?: boolean }) => api.get('/voices', { params }),
@@ -745,6 +803,108 @@ export const bookingCrmAPI = {
   updateBooking: (id: string, data: Record<string, unknown>) => api.put('/booking-crm/bookings/' + id, data),
   getCustomers: () => api.get('/booking-crm/customers'),
   checkAvailability: (data: Record<string, unknown>) => api.post('/booking-crm/availability', data),
+};
+
+export type RealEstatePipelineStage =
+  | 'new'
+  | 'contacted'
+  | 'qualified'
+  | 'property_matched'
+  | 'site_visit_scheduled'
+  | 'site_visit_completed'
+  | 'negotiation'
+  | 'booking'
+  | 'won'
+  | 'lost'
+  | 'nurture';
+
+export interface RealEstateLead {
+  _id: string;
+  customerName?: string;
+  phoneNumber?: string;
+  email?: string;
+  leadQuality?: string;
+  leadScore?: number;
+  leadStatus?: string;
+  budget?: string;
+  timeline?: string;
+  nextAction?: string;
+  followUpDate?: string;
+  customFields?: {
+    realEstate?: {
+      pipelineStage?: RealEstatePipelineStage;
+      assignedExecutive?: string;
+      intent?: string;
+      preferredLocations?: string[];
+      propertyTypes?: string[];
+      configurations?: string[];
+      budgetMin?: number;
+      budgetMax?: number;
+      purchasePurpose?: string;
+      financingStatus?: string;
+      possessionPreference?: string;
+      purchaseTimeline?: string;
+      visitReadiness?: string;
+    };
+  };
+}
+
+export interface RealEstateProperty {
+  _id: string;
+  projectName: string;
+  title: string;
+  developerName?: string;
+  reraNumber?: string;
+  transactionType: string;
+  propertyType: string;
+  configurations: string[];
+  city?: string;
+  locality?: string;
+  address?: string;
+  priceMin: number;
+  priceMax: number;
+  currency: string;
+  carpetAreaMin?: number;
+  carpetAreaMax?: number;
+  areaUnit?: string;
+  possessionStatus: string;
+  possessionDate?: string;
+  totalUnits: number;
+  availableUnits: number;
+  amenities: string[];
+  brochureUrl?: string;
+  assignedTo?: string;
+  status: string;
+  updatedAt?: string;
+}
+
+export interface RealEstateSiteVisit {
+  _id: string;
+  leadId: RealEstateLead | string;
+  propertyId: RealEstateProperty | string;
+  customerName: string;
+  customerPhone: string;
+  visitAt: string;
+  durationMinutes: number;
+  assignedTo?: string;
+  meetingPoint?: string;
+  status: string;
+  reminderStatus: string;
+  notes?: string;
+  outcome?: string;
+  nextAction?: string;
+}
+
+export const realEstateAPI = {
+  getOverview: () => api.get('/real-estate/overview'),
+  getLeads: (params?: Record<string, string | number | undefined>) => api.get('/real-estate/leads', { params }),
+  updateLead: (id: string, data: Record<string, unknown>) => api.patch(`/real-estate/leads/${id}`, data),
+  getProperties: (params?: Record<string, string | number | undefined>) => api.get('/real-estate/properties', { params }),
+  createProperty: (data: Record<string, unknown>) => api.post('/real-estate/properties', data),
+  updateProperty: (id: string, data: Record<string, unknown>) => api.put(`/real-estate/properties/${id}`, data),
+  getSiteVisits: (params?: Record<string, string | number | undefined>) => api.get('/real-estate/site-visits', { params }),
+  createSiteVisit: (data: Record<string, unknown>) => api.post('/real-estate/site-visits', data),
+  updateSiteVisit: (id: string, data: Record<string, unknown>) => api.put(`/real-estate/site-visits/${id}`, data),
 };
 
 // ========================================

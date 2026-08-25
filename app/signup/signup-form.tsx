@@ -12,7 +12,7 @@ interface SignupFormProps {
   initialService?: string
 }
 
-type ServiceKey = 'event-booking-crm' | 'pathology-diagnostic' | 'lead-analysis' | 'customer-support' | 'doctor-dashboard' | 'appointment' | 'appointment-whatsapp' | 'tankro' | ''
+type ServiceKey = 'event-booking-crm' | 'pathology-diagnostic' | 'lead-analysis' | 'real-estate-crm' | 'customer-support' | 'doctor-dashboard' | 'appointment' | 'appointment-whatsapp' | 'tankro' | ''
 
 export function SignupForm({ initialService }: SignupFormProps) {
   const router = useRouter()
@@ -27,6 +27,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     const serviceFromUrl = searchParams.get('service') || initialService
     if (!serviceFromUrl) return
     if (serviceFromUrl === 'lead' || serviceFromUrl === 'lead-analysis') setSelectedService('lead-analysis')
+    else if (['real-estate-crm', 'real-estate', 'real estate', 'real estate crm', 'realestate'].includes(serviceFromUrl.toLowerCase())) setSelectedService('real-estate-crm')
     else if (['event-booking-crm', 'event-booking', 'event booking crm', 'events'].includes(serviceFromUrl)) setSelectedService('event-booking-crm')
     else if (serviceFromUrl === 'appointment') setSelectedService('appointment')
     else if (['doctor', 'doctor-dashboard', 'doctor dashboard', 'clinic', 'healthcare'].includes(serviceFromUrl)) setSelectedService('doctor-dashboard')
@@ -89,6 +90,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
         return { title: 'Event Booking CRM', gradient: 'from-amber-500 to-orange-600' }
       case 'lead-analysis':
         return { title: 'Lead Analysis Service', gradient: 'from-orange-500 to-violet-500' }
+      case 'real-estate-crm':
+        return { title: 'Real Estate CRM', gradient: 'from-emerald-600 to-teal-700' }
       case 'appointment':
         return { title: 'Appointment Service', gradient: 'from-violet-500 to-orange-600' }
       case 'doctor-dashboard':

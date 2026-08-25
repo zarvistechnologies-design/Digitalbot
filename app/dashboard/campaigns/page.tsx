@@ -1,8 +1,9 @@
 "use client"
 import Sidebar from "@/components/Sidebar";
+import SheetAutomationModal from "@/components/leads/SheetAutomationModal";
 import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Eye, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, X } from "lucide-react";
+import { ArrowLeft, Edit3, Eye, FileSpreadsheet, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 const getAuthToken = () => {
     if (typeof window !== 'undefined') {
@@ -269,6 +270,7 @@ export default function CampaignsPage() {
 
     // Create Voice Campaign Modal states
     const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showSheetAutomation, setShowSheetAutomation] = useState(false);
     const [campaignName, setCampaignName] = useState('');
     const [targetAudience, setTargetAudience] = useState('');
     const [agentId, setAgentId] = useState('');
@@ -873,10 +875,10 @@ export default function CampaignsPage() {
     if (loading) {
         return (
             <div className="flex min-h-screen bg-white">
-                <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
+                <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out lg:translate-x-0`}>
                     <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
                 </div>
-                <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8 flex items-center justify-center">
+                <main className="w-full min-w-0 p-4 pt-20 sm:p-6 lg:ml-64 lg:w-[calc(100%-16rem)] lg:p-8 lg:pt-8 flex items-center justify-center">
                     <div className="text-center">
                         <Loader2 className="mx-auto mb-4 h-8 w-8 animate-spin text-blue-600" />
                         <p className="text-lg font-semibold text-slate-900">Loading campaigns</p>
@@ -892,7 +894,7 @@ export default function CampaignsPage() {
             {/* Mobile Menu Button */}
             <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-white rounded-lg shadow-lg border border-slate-200 hover:border-blue-300 transition-all"
+                className="fixed left-4 top-4 z-50 rounded-lg border border-slate-200 bg-white p-2.5 shadow-lg transition-all hover:border-blue-300 lg:hidden"
                 aria-label="Toggle menu"
             >
                 <MenuIcon />
@@ -901,17 +903,17 @@ export default function CampaignsPage() {
             {/* Overlay for mobile */}
             {sidebarOpen && (
                 <div
-                    className="md:hidden fixed inset-0 bg-black/50 z-30"
+                    className="fixed inset-0 z-30 bg-black/50 lg:hidden"
                     onClick={() => setSidebarOpen(false)}
                 />
             )}
 
             {/* Sidebar */}
-            <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out w-60`}>
+            <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out lg:translate-x-0`}>
                 <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             </div>
 
-            <main className="w-full md:ml-60 p-4 sm:p-6 lg:p-8 pt-20 md:pt-8">
+            <main className="w-full min-w-0 p-4 pt-20 sm:p-6 lg:ml-64 lg:w-[calc(100%-16rem)] lg:p-8 lg:pt-8">
                 <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
 
                     {/* Header */}
@@ -933,7 +935,14 @@ export default function CampaignsPage() {
                                 )}
                             </div>
 
-                            <div>
+                            <div className="flex flex-col gap-2 sm:flex-row">
+                                <button
+                                    onClick={() => setShowSheetAutomation(true)}
+                                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-bold text-emerald-800 shadow-sm transition hover:bg-emerald-100"
+                                >
+                                    <FileSpreadsheet className="h-4 w-4" />
+                                    Connect Google Sheet
+                                </button>
                                 <button
                                     onClick={() => setShowCreateModal(true)}
                                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-blue-700"
@@ -1041,15 +1050,22 @@ export default function CampaignsPage() {
                                     }
                                 </p>
                                 {!searchTerm && filterStatus === 'all' && (
-                                    <button
-                                        onClick={() => setShowCreateModal(true)}
-                                        className="mx-auto flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
-                                    >
-                                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                        </svg>
-                                        New campaign
-                                    </button>
+                                    <div className="flex flex-col justify-center gap-2 sm:flex-row">
+                                        <button
+                                            onClick={() => setShowSheetAutomation(true)}
+                                            className="inline-flex items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-5 py-2.5 text-sm font-semibold text-emerald-800 shadow-sm transition-colors hover:bg-emerald-100"
+                                        >
+                                            <FileSpreadsheet className="h-4 w-4" />
+                                            Connect Google Sheet
+                                        </button>
+                                        <button
+                                            onClick={() => setShowCreateModal(true)}
+                                            className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            New campaign
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                         ) : (
@@ -1620,6 +1636,9 @@ export default function CampaignsPage() {
                         </div>
                     </aside>
                 </div>
+            )}
+            {showSheetAutomation && (
+                <SheetAutomationModal onClose={() => setShowSheetAutomation(false)} />
             )}
         </div>
     );
