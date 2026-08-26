@@ -26,7 +26,7 @@ type Overview = { todayBookings: number; samplesCollected: number; reportsPendin
 type Conversation = { conversationId: string; phone: string; metaPhoneNumberId: string; patientName?: string; latestMessage: string; latestAt: string; messageCount: number };
 type Message = { _id: string; message: string; sentBy: string; type: string; createdAt: string; documentName?: string };
 
-const PATHOLOGY_CUSTOM_PROMPT_WORD_LIMIT = 4000;
+const PATHOLOGY_CUSTOM_PROMPT_WORD_LIMIT = 8000;
 const countWords = (value: string) => value.trim() ? value.trim().split(/\s+/u).length : 0;
 
 const routeTabs: Record<string, Tab> = {
