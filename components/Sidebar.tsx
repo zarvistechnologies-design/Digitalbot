@@ -237,6 +237,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
     { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
     ...(connectorNavigationEnabled ? [{ name: 'Connectors', href: '/dashboard/connectors', icon: Cable }] : []),
+    { name: 'AI & Tool Setup', href: '/dashboard/ai-setup', icon: Settings },
     { name: 'Bookings', href: '/dashboard/pathology/bookings', icon: ClipboardList },
     { name: 'Patients', href: '/dashboard/pathology/patients', icon: Users },
     { name: 'Sample Tracking', href: '/dashboard/pathology/samples', icon: TestTube2 },
@@ -316,6 +317,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
     }
     if (user?.selectedService === 'customer-support') {
+      serviceItems.push({ name: 'Support Tickets', href: '/dashboard/akiara-tickets', icon: Ticket });
       serviceItems.push({ name: 'Support Campaigns', href: '/dashboard/customer-support-campaigns', icon: Megaphone });
       serviceItems.push({ name: 'AI Agents', href: '/dashboard/agents', icon: Bot });
     }
@@ -353,6 +355,12 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Booking Workspace', href: '/dashboard/booking-crm', icon: Package });
       serviceItems.push({ name: 'Bulk Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Follow-ups', href: '/dashboard/booking-crm/follow-ups', icon: ClipboardList });
+    }
+    if (
+      ['event-booking-crm', 'booking-crm', 'pathology-diagnostic', 'lead-analysis', 'real-estate-crm', 'customer-support'].includes(selectedService)
+      && !serviceItems.some((item) => item.href === '/dashboard/ai-setup')
+    ) {
+      serviceItems.push({ name: 'AI & Tool Setup', href: '/dashboard/ai-setup', icon: Settings });
     }
     if (connectorNavigationEnabled && !serviceItems.some((item) => item.href === '/dashboard/connectors')) {
       serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });

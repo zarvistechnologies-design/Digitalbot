@@ -805,6 +805,25 @@ export const bookingCrmAPI = {
   checkAvailability: (data: Record<string, unknown>) => api.post('/booking-crm/availability', data),
 };
 
+export interface WorkspaceAiReadinessCheck {
+  key: string;
+  label: string;
+  complete: boolean;
+  detail?: string;
+}
+
+export interface WorkspaceAiReadiness {
+  service: string;
+  ready: boolean;
+  toolCount: number;
+  checks: WorkspaceAiReadinessCheck[];
+}
+
+export const workspaceAiAPI = {
+  get: () => api.get<{ success: true; config: Record<string, any> | null; readiness: WorkspaceAiReadiness }>('/workspace-ai'),
+  save: (data: Record<string, unknown>) => api.put<{ success: true; config: Record<string, any>; readiness: WorkspaceAiReadiness }>('/workspace-ai', data),
+};
+
 export type RealEstatePipelineStage =
   | 'new'
   | 'contacted'
