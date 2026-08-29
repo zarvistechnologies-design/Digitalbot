@@ -146,7 +146,7 @@ export default function RealEstateDashboardPage() {
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full border border-emerald-700 bg-emerald-900 px-3 py-1 text-xs font-bold text-emerald-100"><Sparkles className="h-3.5 w-3.5" /> Live sales intelligence</span>
                 <h2 className="mt-5 max-w-3xl text-3xl font-black tracking-tight sm:text-4xl">Your next booking is already somewhere in the pipeline.</h2>
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-emerald-100/75">Focus the team on hot, unassigned, and visit-ready buyers while the existing AI analyzer handles qualification.</p>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-emerald-100/75">Focus the team on hot, unassigned and visit-ready buyers while incoming enquiries are qualified automatically.</p>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <Link href="/dashboard/leads" className="rounded-2xl border border-white/15 bg-white/10 p-4 transition hover:bg-white/15"><Flame className="h-5 w-5 text-amber-300" /><p className="mt-3 text-sm font-bold">Analyze calls</p><p className="mt-1 text-xs text-emerald-100/60">Reuse Lead Analyzer</p></Link>
@@ -210,7 +210,7 @@ export default function RealEstateDashboardPage() {
               { href: "/dashboard/real-estate/properties", icon: Building2, title: "Manage inventory", text: "Projects, pricing and availability" },
               { href: "/dashboard/real-estate/site-visits", icon: CalendarCheck2, title: "Schedule a visit", text: "Connect buyers with properties" },
               { href: "/dashboard/campaigns", icon: IndianRupee, title: "Launch campaign", text: "Reactivate and qualify audiences" },
-              { href: "/dashboard/agent-knowledge", icon: Sparkles, title: "Update AI knowledge", text: "Pricing, amenities and FAQs" },
+              { href: "/dashboard/agent-knowledge", icon: Sparkles, title: "Property information & FAQs", text: "Pricing, amenities and approved answers" },
             ].map(({ href, icon: Icon, title, text }) => <Link key={href} href={href} className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md"><Icon className="h-5 w-5 text-emerald-700" /><p className="mt-4 font-black text-slate-950 group-hover:text-emerald-800">{title}</p><p className="mt-1 text-xs leading-5 text-slate-500">{text}</p></Link>)}
           </section>
         </div>

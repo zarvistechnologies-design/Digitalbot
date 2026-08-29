@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
-import { bookingCrmAPI } from "@/lib/api";
+import { bookingCrmAPI, workspaceAiAPI } from "@/lib/api";
 import {
   AlertCircle,
   ArrowUpRight,
@@ -22,7 +22,6 @@ import {
   Search,
   Settings,
   SlidersHorizontal,
-  Sparkles,
   Store,
   UserRound,
   Users,
@@ -59,6 +58,20 @@ interface BookingProfile {
   assignedPhoneNumber?: string;
   onboardingComplete?: boolean;
   businessTypeLockedAt?: string | null;
+}
+
+interface BookingWorkspaceRules {
+  policies: {
+    cancellation: string;
+    rescheduling: string;
+    confirmation: string;
+    escalation: string;
+  };
+  event: {
+    bookingLink: string;
+    detailsLink: string;
+    paymentLink: string;
+  };
 }
 
 interface BookingService {
@@ -158,6 +171,11 @@ const defaultProfile: BookingProfile = {
   confirmationMessage: "Your booking request has been saved successfully.",
 };
 
+const defaultWorkspaceRules: BookingWorkspaceRules = {
+  policies: { cancellation: "", rescheduling: "", confirmation: "", escalation: "" },
+  event: { bookingLink: "", detailsLink: "", paymentLink: "" },
+};
+
 const emptyTotals: Totals = {
   bookings: 0,
   upcoming: 0,
@@ -221,7 +239,7 @@ const statusClass: Record<string, string> = {
 };
 
 const sourceLabel: Record<string, string> = {
-  millis_ai_auto: "AI Voice",
+  millis_ai_auto: "Voice assistant",
   manual: "Manual",
   web: "Website",
   api: "API",
@@ -247,13 +265,13 @@ export default function BookingCrmPage() {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [profile, setProfile] = useState<BookingProfile>(defaultProfile);
+  const [workspaceRules, setWorkspaceRules] = useState<BookingWorkspaceRules>(defaultWorkspaceRules);
   const [totals, setTotals] = useState<Totals>(emptyTotals);
   const [upcoming, setUpcoming] = useState<Booking[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [services, setServices] = useState<BookingService[]>([]);
   const [resources, setResources] = useState<BookingResource[]>([]);
-  const [tools, setTools] = useState<Array<{ name: string; endpoint: string; method: string; description: string }>>([]);
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -275,13 +293,13 @@ export default function BookingCrmPage() {
       }
       setProfile(nextProfile);
 
-      const [overviewRes, bookingsRes, customersRes, servicesRes, resourcesRes, toolsRes] = await Promise.all([
+      const [overviewRes, bookingsRes, customersRes, servicesRes, resourcesRes, workspaceRes] = await Promise.all([
         bookingCrmAPI.getOverview(),
         bookingCrmAPI.getBookings({ limit: 300 }),
         bookingCrmAPI.getCustomers(),
         bookingCrmAPI.getServices(),
         bookingCrmAPI.getResources(),
-        bookingCrmAPI.getTools(),
+        workspaceAiAPI.get(),
       ]);
       setTotals(overviewRes.data.totals || emptyTotals);
       setUpcoming(overviewRes.data.upcoming || []);
@@ -289,7 +307,10 @@ export default function BookingCrmPage() {
       setCustomers(customersRes.data.customers || []);
       setServices(servicesRes.data.services || []);
       setResources(resourcesRes.data.resources || []);
-      setTools(toolsRes.data.tools || []);
+      setWorkspaceRules({
+        policies: { ...defaultWorkspaceRules.policies, ...(workspaceRes.data.config?.policies || {}) },
+        event: { ...defaultWorkspaceRules.event, ...(workspaceRes.data.config?.event || {}) },
+      });
     } catch (err: any) {
       if (err.response?.status === 403) {
         router.replace("/dashboard");
@@ -300,7 +321,10 @@ export default function BookingCrmPage() {
       setLoading(false);
     }
   }, [router]);
-  useEffect(() => { void loadDashboard(); }, [loadDashboard]);
+  useEffect(() => {
+    if (window.location.hash === "#settings") setActiveTab("settings");
+    void loadDashboard();
+  }, [loadDashboard]);
 
   const filteredBookings = useMemo(() => {
     const needle = search.toLowerCase().trim();
@@ -414,7 +438,10 @@ export default function BookingCrmPage() {
   const saveProfile = async () => {
     try {
       setSaving(true);
-      const response = await bookingCrmAPI.updateProfile(profile as unknown as Record<string, unknown>);
+      const [response] = await Promise.all([
+        bookingCrmAPI.updateProfile(profile as unknown as Record<string, unknown>),
+        workspaceAiAPI.save(workspaceRules as unknown as Record<string, unknown>),
+      ]);
       setProfile({ ...response.data.profile, terminology: { ...defaultTerms, ...(response.data.profile.terminology || {}) } });
       notify("Booking Workspace settings saved");
       await loadDashboard();
@@ -490,8 +517,8 @@ export default function BookingCrmPage() {
               {activeTab === "bookings" && <Bookings bookings={filteredBookings} terms={terms} search={search} setSearch={setSearch} statusFilter={statusFilter} setStatusFilter={setStatusFilter} onAdd={() => openModal("booking")} onUpdate={updateBooking} />}
               {activeTab === "customers" && <Customers customers={customers} terms={terms} />}
               {activeTab === "catalog" && <Catalog services={services} resources={resources} terms={terms} onAddService={() => openModal("service")} onAddResource={() => openModal("resource")} onToggleService={toggleService} onToggleResource={toggleResource} />}
-              {activeTab === "availability" && <Availability resources={resources} terms={terms} tools={tools} />}
-              {activeTab === "settings" && <ProfileSettings profile={profile} setProfile={setProfile} saving={saving} onSave={saveProfile} />}
+              {activeTab === "availability" && <Availability resources={resources} terms={terms} />}
+              {activeTab === "settings" && <ProfileSettings profile={profile} setProfile={setProfile} workspaceRules={workspaceRules} setWorkspaceRules={setWorkspaceRules} saving={saving} onSave={saveProfile} />}
             </>
           )}
         </div>
@@ -582,7 +609,7 @@ function Overview({ totals, upcoming, terms, services, resources, onAddBooking, 
               {upcoming.map((booking) => <UpcomingRow key={booking._id} booking={booking} />)}
             </div>
           ) : (
-            <EmptyState icon={CalendarDays} title={`No upcoming ${terms.bookings.toLowerCase()}`} text="Create a booking or connect the voice tools to start filling your calendar." actionLabel={`New ${terms.booking}`} onAction={onAddBooking} />
+            <EmptyState icon={CalendarDays} title={`No upcoming ${terms.bookings.toLowerCase()}`} text="Create a booking to start filling your calendar." actionLabel={`New ${terms.booking}`} onAction={onAddBooking} />
           )}
         </div>
 
@@ -605,7 +632,7 @@ function Overview({ totals, upcoming, terms, services, resources, onAddBooking, 
       <section className="grid gap-6 lg:grid-cols-3">
         <SetupStep complete={services.length > 0} title={`Add ${terms.services}`} text="Define duration, capacity, and booking mode." onClick={() => onNavigate("catalog")} />
         <SetupStep complete={resources.length > 0} title={`Configure ${terms.resources}`} text="Set locations, capacity, hours, and availability." onClick={() => onNavigate("catalog")} />
-        <SetupStep complete={totals.bookings > 0} title="Receive your first booking" text="Use a voice tool, website, or manual entry." onClick={onAddBooking} />
+        <SetupStep complete={totals.bookings > 0} title="Receive your first booking" text="Use a phone call, website or manual entry." onClick={onAddBooking} />
       </section>
     </div>
   );
@@ -667,21 +694,22 @@ function Catalog({ services, resources, terms, onAddService, onAddResource, onTo
   );
 }
 
-function Availability({ resources, terms, tools }: { resources: BookingResource[]; terms: Terminology; tools: Array<{ name: string; endpoint: string; method: string; description: string }> }) {
+function Availability({ resources, terms }: { resources: BookingResource[]; terms: Terminology }) {
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   return (
     <div className="space-y-6">
       <section className="overflow-hidden rounded-md border border-zinc-200 bg-white"><SectionHeader title={`${terms.resource} availability`} subtitle="Working days, hours, slot duration, and simultaneous capacity" />{resources.length ? <div className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-3">{resources.map((resource) => <article key={resource._id} className="rounded-md border border-zinc-200 p-4"><div className="flex items-start justify-between gap-3"><div><h3 className="font-semibold">{resource.name}</h3><p className="mt-1 text-xs text-zinc-500">{pretty(resource.resourceType)}</p></div><span className={`h-2.5 w-2.5 rounded-full ${resource.active ? "bg-emerald-500" : "bg-zinc-300"}`} /></div><div className="mt-4 grid grid-cols-2 gap-3 text-sm"><Info label="Hours" value={`${resource.defaultWorkingHours?.start || "09:00"} - ${resource.defaultWorkingHours?.end || "18:00"}`} /><Info label="Slot" value={`${resource.slotDuration || 60} min`} /><Info label="Capacity" value={String(resource.maxBookingsPerSlot || resource.capacity || 1)} /><Info label="Location" value={resource.city || "Any"} /></div><div className="mt-4 flex gap-1">{dayNames.map((day, index) => <span key={day} className={`grid h-7 flex-1 place-items-center rounded text-[10px] font-semibold ${resource.workingDays?.includes(index) ? "bg-zinc-900 text-white" : "bg-zinc-100 text-zinc-400"}`}>{day}</span>)}</div></article>)}</div> : <EmptyState icon={Clock3} title={`No ${terms.resources.toLowerCase()} configured`} text="Add a resource to create an availability calendar." />}</section>
-      <section className="overflow-hidden rounded-md border border-zinc-200 bg-white"><SectionHeader title="Voice booking tools" subtitle="One shared tool pair for every configured business type" /><div className="grid gap-4 p-5 lg:grid-cols-2">{tools.map((tool) => <article key={tool.name} className="rounded-md border border-zinc-200 bg-zinc-50 p-4"><div className="flex items-center gap-3"><div className="grid h-9 w-9 place-items-center rounded bg-white text-orange-700 shadow-sm"><Sparkles className="h-4 w-4" /></div><div><h3 className="font-mono text-sm font-bold text-zinc-950">{tool.name}</h3><p className="mt-0.5 text-xs text-zinc-500">{tool.description}</p></div></div><code className="mt-4 block overflow-x-auto rounded bg-zinc-950 px-3 py-2 text-xs text-zinc-100">{tool.method} {tool.endpoint}</code></article>)}</div></section>
     </div>
   );
 }
 
-function ProfileSettings({ profile, setProfile, saving, onSave }: { profile: BookingProfile; setProfile: (profile: BookingProfile) => void; saving: boolean; onSave: () => Promise<void> }) {
+function ProfileSettings({ profile, setProfile, workspaceRules, setWorkspaceRules, saving, onSave }: { profile: BookingProfile; setProfile: (profile: BookingProfile) => void; workspaceRules: BookingWorkspaceRules; setWorkspaceRules: (rules: BookingWorkspaceRules) => void; saving: boolean; onSave: () => Promise<void> }) {
   const updateTerm = (key: keyof Terminology, value: string) => setProfile({ ...profile, terminology: { ...profile.terminology, [key]: value } });
+  const updatePolicy = (key: keyof BookingWorkspaceRules["policies"], value: string) => setWorkspaceRules({ ...workspaceRules, policies: { ...workspaceRules.policies, [key]: value } });
+  const updateEvent = (key: keyof BookingWorkspaceRules["event"], value: string) => setWorkspaceRules({ ...workspaceRules, event: { ...workspaceRules.event, [key]: value } });
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-      <section className="overflow-hidden rounded-md border border-zinc-200 bg-white"><SectionHeader title="Business configuration" subtitle="Workspace settings for this assigned business" /><div className="space-y-6 p-5"><FormSection title="Business identity"><div className="grid gap-4 sm:grid-cols-2"><Field label="Workspace name" value={profile.businessName} onChange={(value) => setProfile({ ...profile, businessName: value })} /><SelectField label="Default booking mode" value={profile.bookingMode} onChange={(value) => setProfile({ ...profile, bookingMode: value })} options={bookingModeOptions} /><Field label="Timezone" value={profile.timezone} onChange={(value) => setProfile({ ...profile, timezone: value })} /><SelectField label="Default status" value={profile.defaultStatus} onChange={(value) => setProfile({ ...profile, defaultStatus: value })} options={[{ value: "new_lead", label: "New lead" }, { value: "tentative", label: "Tentative" }, { value: "confirmed", label: "Confirmed" }]} /></div></FormSection><FormSection title="Workspace terminology"><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><Field label="Booking (singular)" value={profile.terminology.booking} onChange={(value) => updateTerm("booking", value)} /><Field label="Bookings (plural)" value={profile.terminology.bookings} onChange={(value) => updateTerm("bookings", value)} /><Field label="Customer" value={profile.terminology.customer} onChange={(value) => updateTerm("customer", value)} /><Field label="Customers" value={profile.terminology.customers} onChange={(value) => updateTerm("customers", value)} /><Field label="Service" value={profile.terminology.service} onChange={(value) => updateTerm("service", value)} /><Field label="Services" value={profile.terminology.services} onChange={(value) => updateTerm("services", value)} /><Field label="Resource" value={profile.terminology.resource} onChange={(value) => updateTerm("resource", value)} /><Field label="Resources" value={profile.terminology.resources} onChange={(value) => updateTerm("resources", value)} /></div></FormSection><TextArea label="Booking confirmation message" value={profile.confirmationMessage} onChange={(value) => setProfile({ ...profile, confirmationMessage: value })} /><div className="flex flex-wrap justify-end gap-3 border-t border-zinc-200 pt-5"><button onClick={() => void onSave()} disabled={saving} className="inline-flex h-10 items-center gap-2 rounded-md bg-zinc-950 px-4 text-sm font-semibold text-white disabled:opacity-50">{saving && <Loader2 className="h-4 w-4 animate-spin" />}Save settings</button></div></div></section>
+      <section className="overflow-hidden rounded-md border border-zinc-200 bg-white"><SectionHeader title="Business configuration" subtitle="Workspace settings for this assigned business" /><div className="space-y-6 p-5"><FormSection title="Business identity"><div className="grid gap-4 sm:grid-cols-2"><Field label="Workspace name" value={profile.businessName} onChange={(value) => setProfile({ ...profile, businessName: value })} /><SelectField label="Default booking mode" value={profile.bookingMode} onChange={(value) => setProfile({ ...profile, bookingMode: value })} options={bookingModeOptions} /><Field label="Timezone" value={profile.timezone} onChange={(value) => setProfile({ ...profile, timezone: value })} /><SelectField label="Default status" value={profile.defaultStatus} onChange={(value) => setProfile({ ...profile, defaultStatus: value })} options={[{ value: "new_lead", label: "New lead" }, { value: "tentative", label: "Tentative" }, { value: "confirmed", label: "Confirmed" }]} /></div></FormSection><FormSection title="Workspace terminology"><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><Field label="Booking (singular)" value={profile.terminology.booking} onChange={(value) => updateTerm("booking", value)} /><Field label="Bookings (plural)" value={profile.terminology.bookings} onChange={(value) => updateTerm("bookings", value)} /><Field label="Customer" value={profile.terminology.customer} onChange={(value) => updateTerm("customer", value)} /><Field label="Customers" value={profile.terminology.customers} onChange={(value) => updateTerm("customers", value)} /><Field label="Service" value={profile.terminology.service} onChange={(value) => updateTerm("service", value)} /><Field label="Services" value={profile.terminology.services} onChange={(value) => updateTerm("services", value)} /><Field label="Resource" value={profile.terminology.resource} onChange={(value) => updateTerm("resource", value)} /><Field label="Resources" value={profile.terminology.resources} onChange={(value) => updateTerm("resources", value)} /></div></FormSection><FormSection title="Customer policies"><div className="grid gap-4 sm:grid-cols-2"><TextArea label="Cancellation policy" value={workspaceRules.policies.cancellation} onChange={(value) => updatePolicy("cancellation", value)} /><TextArea label="Rescheduling policy" value={workspaceRules.policies.rescheduling} onChange={(value) => updatePolicy("rescheduling", value)} /><TextArea label="Confirmation rules" value={workspaceRules.policies.confirmation} onChange={(value) => updatePolicy("confirmation", value)} /><TextArea label="When staff should assist" value={workspaceRules.policies.escalation} onChange={(value) => updatePolicy("escalation", value)} /></div></FormSection><FormSection title="Customer links"><div className="grid gap-4 sm:grid-cols-2"><Field label="Booking page" type="url" value={workspaceRules.event.bookingLink} onChange={(value) => updateEvent("bookingLink", value)} /><Field label="Event details page" type="url" value={workspaceRules.event.detailsLink} onChange={(value) => updateEvent("detailsLink", value)} /><Field label="Payment page" type="url" value={workspaceRules.event.paymentLink} onChange={(value) => updateEvent("paymentLink", value)} className="sm:col-span-2" /></div></FormSection><TextArea label="Booking confirmation message" value={profile.confirmationMessage} onChange={(value) => setProfile({ ...profile, confirmationMessage: value })} /><div className="flex flex-wrap justify-end gap-3 border-t border-zinc-200 pt-5"><button onClick={() => void onSave()} disabled={saving} className="inline-flex h-10 items-center gap-2 rounded-md bg-zinc-950 px-4 text-sm font-semibold text-white disabled:opacity-50">{saving && <Loader2 className="h-4 w-4 animate-spin" />}Save settings</button></div></div></section>
       <aside className="space-y-4"><div className="rounded-md border border-orange-200 bg-orange-50 p-5"><Store className="h-6 w-6 text-orange-700" /><p className="mt-3 text-xs font-semibold uppercase text-orange-700">Assigned business</p><h3 className="mt-1 font-bold text-orange-950">{pretty(profile.businessType)}</h3><p className="mt-2 text-sm leading-6 text-orange-800">This business was selected during account setup and is locked to this workspace.</p></div><div className="rounded-md border border-zinc-200 bg-white p-5"><h3 className="font-bold">Workspace isolation</h3><p className="mt-2 text-sm leading-6 text-zinc-600">Bookings, services, resources, and customers belong only to this account and assigned voice number.</p><div className="mt-4 flex items-center gap-2 text-sm font-semibold text-emerald-700"><CheckCircle2 className="h-4 w-4" />Account protection active</div></div></aside>
     </div>
   );

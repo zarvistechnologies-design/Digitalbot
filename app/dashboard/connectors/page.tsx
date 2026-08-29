@@ -90,6 +90,16 @@ function serviceLabel(service: string) {
   } as Record<string, string>)[service] || "Workspace";
 }
 
+function workspaceSettingsRoute(service: string) {
+  return ({
+    "event-booking-crm": "/dashboard/booking-crm#settings",
+    "pathology-diagnostic": "/dashboard/pathology/lab-settings",
+    "lead-analysis": "/dashboard/lead-settings",
+    "real-estate-crm": "/dashboard/real-estate/settings",
+    "customer-support": "/dashboard/support-settings",
+  } as Record<string, string>)[service] || "/dashboard";
+}
+
 export default function ConnectorsPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -269,7 +279,7 @@ export default function ConnectorsPage() {
             <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <h1 className="text-2xl font-bold sm:text-3xl">Voice connectors</h1>
-                <p className="mt-2 max-w-2xl text-sm text-zinc-500">Generate one workspace token. Vozon automatically receives this workspace&apos;s tools, permissions and live data sources.</p>
+                <p className="mt-2 max-w-2xl text-sm text-zinc-500">Generate one workspace token. Vozon automatically connects to the correct bookings and business data.</p>
               </div>
               <div className="flex h-9 items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 text-sm font-semibold text-zinc-700">
                 <Cable className="h-4 w-4 text-orange-600" />
@@ -298,17 +308,17 @@ export default function ConnectorsPage() {
                       <span className={`rounded px-2 py-1 text-xs font-bold uppercase ${readiness.ready ? "bg-emerald-700 text-white" : "bg-amber-600 text-white"}`}>
                         {readiness.ready ? "Ready" : "Setup needed"}
                       </span>
-                      <h2 className="font-bold text-zinc-950">{serviceLabel(readiness.service)} · {readiness.toolCount} automatic tools</h2>
+                      <h2 className="font-bold text-zinc-950">{serviceLabel(readiness.service)} connection</h2>
                     </div>
                     <p className="mt-2 text-sm text-zinc-700">
                       {readiness.ready
-                        ? "Vozon will receive only this workspace's tools when it verifies the token."
-                        : `${readiness.checks.filter((check) => !check.complete).length} data source(s) still need configuration before every tool can answer reliably.`}
+                        ? "Vozon will use only this workspace's bookings and business information."
+                        : `${readiness.checks.filter((check) => !check.complete).length} business setting(s) still need to be completed.`}
                     </p>
                   </div>
                   {!readiness.ready && readiness.service !== "doctor-dashboard" && (
-                    <Link href="/dashboard/ai-setup" className="inline-flex h-10 shrink-0 items-center justify-center rounded-md bg-zinc-950 px-4 text-sm font-semibold text-white hover:bg-zinc-800">
-                      Complete AI setup
+                    <Link href={workspaceSettingsRoute(readiness.service)} className="inline-flex h-10 shrink-0 items-center justify-center rounded-md bg-zinc-950 px-4 text-sm font-semibold text-white hover:bg-zinc-800">
+                      Complete workspace settings
                     </Link>
                   )}
                 </div>
@@ -323,7 +333,7 @@ export default function ConnectorsPage() {
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                       <div>
                         <h2 className="font-bold text-emerald-950">Token generated for {tokenLabel}</h2>
-                        <p className="mt-1 text-sm text-emerald-800">Paste it into the {providerLabel(tokenProvider)} connector once. DigitalBot will select and sync the correct workspace tools automatically. It will not be shown again.</p>
+                        <p className="mt-1 text-sm text-emerald-800">Paste it into the {providerLabel(tokenProvider)} connector once. DigitalBot will connect the correct workspace automatically. It will not be shown again.</p>
                       </div>
                       <button type="button" onClick={() => setToken("")} aria-label="Close token" className="grid h-8 w-8 shrink-0 place-items-center self-end rounded hover:bg-emerald-100 sm:self-auto">
                         <X className="h-4 w-4" />

@@ -237,13 +237,14 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     { name: 'Calls', href: '/dashboard/calls', icon: PhoneCall },
     { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
     ...(connectorNavigationEnabled ? [{ name: 'Connectors', href: '/dashboard/connectors', icon: Cable }] : []),
-    { name: 'AI & Tool Setup', href: '/dashboard/ai-setup', icon: Settings },
+    { name: 'Book Test / Home Collection', href: '/dashboard/pathology/book-test', icon: PlusCircle },
     { name: 'Bookings', href: '/dashboard/pathology/bookings', icon: ClipboardList },
     { name: 'Patients', href: '/dashboard/pathology/patients', icon: Users },
     { name: 'Sample Tracking', href: '/dashboard/pathology/samples', icon: TestTube2 },
     { name: 'Reports', href: '/dashboard/pathology/reports', icon: FileText },
+    { name: 'Lab & Collection Setup', href: '/dashboard/pathology/lab-settings', icon: Settings },
     { name: 'WhatsApp Inbox', href: '/dashboard/pathology/whatsapp', icon: MessageSquare },
-    { name: 'WhatsApp AI Setup', href: '/dashboard/pathology/whatsapp-ai', icon: Bot },
+    { name: 'WhatsApp Automation', href: '/dashboard/pathology/whatsapp-ai', icon: Bot },
     { name: 'Test Catalog', href: '/dashboard/pathology/tests', icon: FlaskConical },
     { name: 'Doctors & Referrals', href: '/dashboard/pathology/referrals', icon: Stethoscope },
   ];
@@ -284,7 +285,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Site Visits', href: '/dashboard/real-estate/site-visits', icon: CalendarRange });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       if (user?.legacyPhoneFallback === false || user?.legacyAgentKnowledgeEnabled) {
-        serviceItems.push({ name: 'Agent Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
+        serviceItems.push({ name: 'Property Information', href: '/dashboard/agent-knowledge', icon: BookOpen });
       }
     }
     if (
@@ -298,7 +299,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         user?.legacyPhoneFallback === false
         || user?.legacyAgentKnowledgeEnabled
       ) {
-        serviceItems.push({ name: 'Agent Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
+        serviceItems.push({ name: 'Sales Knowledge', href: '/dashboard/agent-knowledge', icon: BookOpen });
       }
     }
     if (user?.selectedService === 'appointment' || isAppointmentWhatsApp || isDoctorDashboard) {
@@ -319,7 +320,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     if (user?.selectedService === 'customer-support') {
       serviceItems.push({ name: 'Support Tickets', href: '/dashboard/akiara-tickets', icon: Ticket });
       serviceItems.push({ name: 'Support Campaigns', href: '/dashboard/customer-support-campaigns', icon: Megaphone });
-      serviceItems.push({ name: 'AI Agents', href: '/dashboard/agents', icon: Bot });
+      serviceItems.push({ name: 'Support Agents', href: '/dashboard/agents', icon: Bot });
     }
     if (user?.selectedService === 'healthiQure patient navigation') {
       serviceItems.push({ name: 'Bot Sessions', href: '/dashboard/bot-sessions', icon: MessageSquare });
@@ -357,10 +358,22 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Follow-ups', href: '/dashboard/booking-crm/follow-ups', icon: ClipboardList });
     }
     if (
-      ['event-booking-crm', 'booking-crm', 'pathology-diagnostic', 'lead-analysis', 'real-estate-crm', 'customer-support'].includes(selectedService)
-      && !serviceItems.some((item) => item.href === '/dashboard/ai-setup')
+      ['pathology-diagnostic', 'lead-analysis', 'real-estate-crm', 'customer-support'].includes(selectedService)
+      && !serviceItems.some((item) => ['Lab & Collection Setup', 'Lead Qualification Setup', 'Site Visit & Team Settings', 'Support Settings'].includes(item.name))
     ) {
-      serviceItems.push({ name: 'AI & Tool Setup', href: '/dashboard/ai-setup', icon: Settings });
+      const setupNames: Record<string, string> = {
+        'pathology-diagnostic': 'Lab & Collection Setup',
+        'lead-analysis': 'Lead Qualification Setup',
+        'real-estate-crm': 'Site Visit & Team Settings',
+        'customer-support': 'Support Settings',
+      };
+      const setupRoutes: Record<string, string> = {
+        'pathology-diagnostic': '/dashboard/pathology/lab-settings',
+        'lead-analysis': '/dashboard/lead-settings',
+        'real-estate-crm': '/dashboard/real-estate/settings',
+        'customer-support': '/dashboard/support-settings',
+      };
+      serviceItems.push({ name: setupNames[selectedService] || 'Workspace Settings', href: setupRoutes[selectedService] || '/dashboard', icon: Settings });
     }
     if (connectorNavigationEnabled && !serviceItems.some((item) => item.href === '/dashboard/connectors')) {
       serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });
@@ -461,7 +474,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
                 Digital<span className="text-orange-600">Bot</span>
               </span>
               <span className="text-[10px] font-semibold text-slate-400 tracking-wider uppercase mt-0.5">
-                AI Workspace
+                Business Workspace
               </span>
             </div>
           </Link>
@@ -497,12 +510,12 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
         {/* Navigation List */}
         <nav className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3.5 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {/* Operations & Tools Group */}
+          {/* Workspace operations */}
           {serviceItems.length > 0 && (
             <div>
               <div className="px-2.5 pb-1.5">
                 <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                  Operations &amp; Tools
+                  Workspace Operations
                 </p>
               </div>
               <div className="space-y-1">

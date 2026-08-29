@@ -11,7 +11,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 
-type Tab = "overview" | "orders" | "patients" | "samples" | "reports" | "tests" | "referrals" | "inbox" | "bot";
+type Tab = "overview" | "book" | "orders" | "patients" | "samples" | "reports" | "tests" | "referrals" | "inbox" | "bot";
 type Test = { _id: string; code: string; name: string; category: string; sampleType: string; homeCollectionAllowed?: boolean; price: number; priceType?: "fixed" | "starting"; turnaroundHours?: number | null; preparation: string; active: boolean };
 type Patient = { _id: string; patientNumber: string; name: string; phone: string; email?: string; age?: number; gender?: string; address?: string; visitCount: number; lastVisitAt?: string };
 type Order = {
@@ -30,6 +30,7 @@ const PATHOLOGY_CUSTOM_PROMPT_WORD_LIMIT = 8000;
 const countWords = (value: string) => value.trim() ? value.trim().split(/\s+/u).length : 0;
 
 const routeTabs: Record<string, Tab> = {
+  "book-test": "book",
   bookings: "orders",
   patients: "patients",
   samples: "samples",
@@ -41,6 +42,7 @@ const routeTabs: Record<string, Tab> = {
 };
 const tabRoutes: Record<Tab, string> = {
   overview: "/dashboard/pathology",
+  book: "/dashboard/pathology/book-test",
   orders: "/dashboard/pathology/bookings",
   patients: "/dashboard/pathology/patients",
   samples: "/dashboard/pathology/samples",
@@ -110,6 +112,7 @@ export default function PathologyDashboardPage() {
   }, []);
   useEffect(() => { void loadAll(); }, [loadAll]);
   useEffect(() => { setSearch(""); }, [tab]);
+  useEffect(() => { if (tab === "book" && !loading) setShowBooking(true); }, [tab, loading]);
 
   const filteredOrders = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -169,6 +172,7 @@ export default function PathologyDashboardPage() {
         {notice && <div className={`mb-4 rounded-md border px-4 py-3 text-sm font-medium ${notice.type === "ok" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-rose-200 bg-rose-50 text-rose-800"}`}>{notice.text}</div>}
         {loading && !overview ? <div className="flex h-80 items-center justify-center"><RefreshCw className="h-7 w-7 animate-spin text-teal-700" /></div> : <>
           {tab === "overview" && overview && <OverviewView overview={overview} onSelect={navigateTo} />}
+          {tab === "book" && <Panel><div className="py-16 text-center"><Home className="mx-auto h-10 w-10 text-teal-700" /><h2 className="mt-4 text-lg font-bold">Book a test or home sample collection</h2><p className="mx-auto mt-2 max-w-md text-sm text-slate-500">Enter the patient, select active tests, then choose a centre visit or home collection.</p><button onClick={() => setShowBooking(true)} className="mt-5 h-10 rounded-md bg-teal-700 px-5 text-sm font-semibold text-white">Open booking form</button></div></Panel>}
           {["orders", "patients", "samples", "reports"].includes(tab) && <div className="mb-4 flex items-center gap-3"><div className="relative max-w-lg flex-1"><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search patient, phone, order or barcode" className="h-10 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100" /></div></div>}
           {tab === "orders" && <OrdersTable orders={filteredOrders} busy={busy} onUpdate={updateOrder} onPayment={setPaymentOrder} />}
           {tab === "patients" && <PatientsView patients={filteredPatients} busy={busy} onOpen={openPatient} />}
@@ -181,7 +185,7 @@ export default function PathologyDashboardPage() {
         </>}
       </div>
     </main>
-    {showBooking && <BookingModal tests={tests.filter(test => test.active)} referrals={referrals.filter(item => item.active)} onClose={() => setShowBooking(false)} onSaved={async () => { setShowBooking(false); flash("ok", "Diagnostic booking created"); await loadAll(); }} />}
+    {showBooking && <BookingModal tests={tests.filter(test => test.active)} referrals={referrals.filter(item => item.active)} onClose={() => { setShowBooking(false); if (tab === "book") router.push(tabRoutes.orders); }} onSaved={async () => { setShowBooking(false); flash("ok", "Diagnostic booking created"); await loadAll(); router.push(tabRoutes.orders); }} />}
     {showTest && <TestModal test={editingTest} onClose={() => { setShowTest(false); setEditingTest(null); }} onSaved={async () => { const wasEditing = Boolean(editingTest); setShowTest(false); setEditingTest(null); flash("ok", wasEditing ? "Test updated" : "Test added to catalog"); await loadAll(); }} />}
     {showReferral && <ReferralModal onClose={() => setShowReferral(false)} onSaved={async () => { setShowReferral(false); flash("ok", "Referral doctor added"); await loadAll(); }} />}
     {paymentOrder && <PaymentModal order={paymentOrder} onClose={() => setPaymentOrder(null)} onSaved={async () => { setPaymentOrder(null); flash("ok", "Payment updated"); await loadAll(); }} />}
@@ -299,7 +303,7 @@ function BookingModal({ tests, referrals, onClose, onSaved }: { tests: Test[]; r
   const [form, setForm] = useState({ patientName: "", patientPhone: "", age: "", gender: "", email: "", address: "", appointmentAt: now.toISOString().slice(0, 16), collectionType: "center", collectionAddress: "", phlebotomist: "", referralId: "", discount: "0", paid: "0", paymentMethod: "", notes: "" });
   const [selectedTests, setSelectedTests] = useState<string[]>([]); const [saving, setSaving] = useState(false); const [error, setError] = useState("");
   const chosenTests = tests.filter(test => selectedTests.includes(test._id)); const total = chosenTests.reduce((sum, test) => sum + test.price, 0); const estimated = chosenTests.some(test => test.priceType === "starting");
-  async function submit(event: FormEvent) { event.preventDefault(); setError(""); if (!selectedTests.length) return setError("Select at least one test"); setSaving(true); try { await pathologyAPI.createOrder({ ...form, age: form.age ? Number(form.age) : undefined, testIds: selectedTests, discount: Number(form.discount), paid: Number(form.paid) }); await onSaved(); } catch (exception: any) { setError(exception.response?.data?.error || "Booking could not be created"); } finally { setSaving(false); } }
+  async function submit(event: FormEvent) { event.preventDefault(); setError(""); if (!selectedTests.length) return setError("Select at least one test"); if (form.collectionType === "home" && chosenTests.some(test => !test.homeCollectionAllowed)) return setError("One or more selected tests are not available for home collection"); setSaving(true); try { await pathologyAPI.createOrder({ ...form, age: form.age ? Number(form.age) : undefined, testIds: selectedTests, discount: Number(form.discount), paid: Number(form.paid) }); await onSaved(); } catch (exception: any) { setError(exception.response?.data?.error || "Booking could not be created"); } finally { setSaving(false); } }
   return <Modal title="New Diagnostic Booking" onClose={onClose}><form onSubmit={submit} className="space-y-5">{error && <ErrorBox text={error} />}<fieldset><legend className="mb-3 text-sm font-bold">Patient details</legend><div className="grid gap-3 sm:grid-cols-2"><Input label="Patient name" required value={form.patientName} onChange={value => setForm({ ...form, patientName: value })} /><Input label="Phone number" required value={form.patientPhone} onChange={value => setForm({ ...form, patientPhone: value })} /><Input label="Age" type="number" value={form.age} onChange={value => setForm({ ...form, age: value })} /><Select label="Gender" value={form.gender} onChange={value => setForm({ ...form, gender: value })} options={[['', 'Select'], ['male', 'Male'], ['female', 'Female'], ['other', 'Other']]} /><Input label="Email" type="email" value={form.email} onChange={value => setForm({ ...form, email: value })} /><Input label="Address" value={form.address} onChange={value => setForm({ ...form, address: value })} /></div></fieldset><fieldset><legend className="mb-3 text-sm font-bold">Tests and package</legend><div className="grid max-h-56 gap-2 overflow-y-auto rounded-md border border-slate-200 p-3 sm:grid-cols-2">{tests.map(test => <label key={test._id} className="flex cursor-pointer items-start gap-2 rounded-md border border-slate-200 p-3 hover:bg-slate-50"><input type="checkbox" checked={selectedTests.includes(test._id)} onChange={() => setSelectedTests(current => current.includes(test._id) ? current.filter(id => id !== test._id) : [...current, test._id])} className="mt-1" /><span className="min-w-0 flex-1"><span className="block text-sm font-semibold">{test.name}</span><span className="block text-xs text-slate-500">{test.sampleType} · {test.turnaroundHours}h · {money(test.price)}</span></span></label>)}</div><p className="mt-2 text-right text-sm font-bold">Test total: {money(total)}</p></fieldset><fieldset><legend className="mb-3 text-sm font-bold">Collection and payment</legend><div className="grid gap-3 sm:grid-cols-2"><Input label="Date and time" type="datetime-local" required value={form.appointmentAt} onChange={value => setForm({ ...form, appointmentAt: value })} /><Select label="Collection" value={form.collectionType} onChange={value => setForm({ ...form, collectionType: value })} options={[["center", "Center visit"], ["home", "Home collection"]]} />{form.collectionType === "home" && <Input label="Collection address" required value={form.collectionAddress} onChange={value => setForm({ ...form, collectionAddress: value })} />}<Input label="Phlebotomist" value={form.phlebotomist} onChange={value => setForm({ ...form, phlebotomist: value })} /><Select label="Referring doctor" value={form.referralId} onChange={value => setForm({ ...form, referralId: value })} options={[["", "Direct patient"], ...referrals.map(item => [item._id, `${item.doctorName}${item.clinicName ? ` - ${item.clinicName}` : ""}`])]} /><Input label="Discount" type="number" value={form.discount} onChange={value => setForm({ ...form, discount: value })} /><Input label="Amount paid" type="number" value={form.paid} onChange={value => setForm({ ...form, paid: value })} /><Select label="Payment method" value={form.paymentMethod} onChange={value => setForm({ ...form, paymentMethod: value })} options={[["", "Not selected"], ["cash", "Cash"], ["upi", "UPI"], ["card", "Card"], ["online", "Online"]]} /></div></fieldset><div className="flex justify-end gap-2"><button type="button" onClick={onClose} className="h-10 rounded-md border border-slate-300 px-4 text-sm font-semibold">Cancel</button><button disabled={saving} className="h-10 rounded-md bg-teal-700 px-5 text-sm font-semibold text-white disabled:opacity-50">{saving ? "Creating..." : "Create booking"}</button></div></form></Modal>;
 }
 
