@@ -242,7 +242,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     { name: 'Patients', href: '/dashboard/pathology/patients', icon: Users },
     { name: 'Sample Tracking', href: '/dashboard/pathology/samples', icon: TestTube2 },
     { name: 'Reports', href: '/dashboard/pathology/reports', icon: FileText },
-    { name: 'Lab & Collection Setup', href: '/dashboard/pathology/lab-settings', icon: Settings },
     { name: 'WhatsApp Inbox', href: '/dashboard/pathology/whatsapp', icon: MessageSquare },
     { name: 'WhatsApp Automation', href: '/dashboard/pathology/whatsapp-ai', icon: Bot },
     { name: 'Test Catalog', href: '/dashboard/pathology/tests', icon: FlaskConical },
@@ -357,24 +356,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Bulk Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
       serviceItems.push({ name: 'Follow-ups', href: '/dashboard/booking-crm/follow-ups', icon: ClipboardList });
     }
-    if (
-      ['pathology-diagnostic', 'lead-analysis', 'real-estate-crm', 'customer-support'].includes(selectedService)
-      && !serviceItems.some((item) => ['Lab & Collection Setup', 'Lead Qualification Setup', 'Site Visit & Team Settings', 'Support Settings'].includes(item.name))
-    ) {
-      const setupNames: Record<string, string> = {
-        'pathology-diagnostic': 'Lab & Collection Setup',
-        'lead-analysis': 'Lead Qualification Setup',
-        'real-estate-crm': 'Site Visit & Team Settings',
-        'customer-support': 'Support Settings',
-      };
-      const setupRoutes: Record<string, string> = {
-        'pathology-diagnostic': '/dashboard/pathology/lab-settings',
-        'lead-analysis': '/dashboard/lead-settings',
-        'real-estate-crm': '/dashboard/real-estate/settings',
-        'customer-support': '/dashboard/support-settings',
-      };
-      serviceItems.push({ name: setupNames[selectedService] || 'Workspace Settings', href: setupRoutes[selectedService] || '/dashboard', icon: Settings });
-    }
+
     if (connectorNavigationEnabled && !serviceItems.some((item) => item.href === '/dashboard/connectors')) {
       serviceItems.push({ name: 'Connectors', href: '/dashboard/connectors', icon: Cable });
     }
