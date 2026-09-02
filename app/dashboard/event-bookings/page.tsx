@@ -291,7 +291,7 @@ export default function EventBookingsPage() {
                 <Sparkles className="w-8 h-8 text-orange-600" />
                 Event Bookings
               </h1>
-              <p className="text-gray-600 mt-1">Bookings and leads created by the event voice tools</p>
+              <p className="text-gray-600 mt-1">Manage event enquiries, customers, and confirmed bookings</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <button onClick={() => void fetchBookings()} disabled={loading} className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">

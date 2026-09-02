@@ -808,7 +808,7 @@ export default function AkiaraTicketsPage() {
           <div className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
               <div>
-                <h2 className="text-lg font-semibold text-slate-900">Create Akiara Ticket</h2>
+                <h2 className="text-lg font-semibold text-slate-900">Create Support Ticket</h2>
                 <p className="text-sm text-slate-500">Manual ticket creation for the dashboard</p>
               </div>
               <button onClick={() => setShowCreateModal(false)} className="text-slate-500 hover:text-slate-800">

@@ -3,7 +3,7 @@
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { ArrowRight, Bot, Check, HelpCircle, MessageCircle, Mic, Shield, Star, Zap } from "lucide-react"
+import { ArrowRight, Building2, Check, HelpCircle, Mic, Shield, Star, Zap } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 
@@ -39,75 +39,90 @@ function AnimatedCounter({ end, suffix = "", duration = 2000 }: { end: number; s
   return <span ref={ref}>{count}{suffix}</span>
 }
 
-function WhatsAppLogo({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true" className={className} fill="currentColor">
-      <path d="M16.04 3C8.9 3 3.1 8.73 3.1 15.8c0 2.27.6 4.48 1.75 6.42L3 29l6.98-1.82a13.1 13.1 0 0 0 6.06 1.5c7.14 0 12.95-5.74 12.95-12.8C29 8.73 23.18 3 16.04 3Zm0 23.5c-1.9 0-3.76-.5-5.39-1.45l-.39-.23-4.14 1.08 1.1-4.01-.26-.41a10.52 10.52 0 0 1-1.65-5.68c0-5.85 4.82-10.61 10.73-10.61 5.92 0 10.74 4.76 10.74 10.61S21.96 26.5 16.04 26.5Zm5.88-7.95c-.32-.16-1.9-.93-2.2-1.03-.3-.11-.52-.16-.74.16-.21.31-.84 1.03-1.03 1.24-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.6-1.6-.96-.84-1.6-1.89-1.8-2.21-.18-.31-.02-.48.14-.64.15-.14.32-.37.48-.56.16-.18.21-.31.32-.52.1-.21.05-.39-.03-.55-.08-.16-.74-1.76-1.01-2.42-.27-.63-.54-.55-.74-.56h-.63c-.21 0-.55.08-.84.4-.3.31-1.1 1.06-1.1 2.6 0 1.53 1.13 3.01 1.29 3.22.16.21 2.22 3.36 5.38 4.71.75.32 1.34.52 1.8.66.75.24 1.44.2 1.98.12.6-.09 1.9-.77 2.16-1.5.27-.75.27-1.38.19-1.51-.08-.13-.3-.21-.62-.37Z" />
-    </svg>
-  )
-}
-
 const plans = [
   {
-    name: "Case-based Chatbot",
-    icon: MessageCircle,
-    useWhatsAppIcon: true,
-    description: "Structured WhatsApp automation for teams that need reliable lead handling.",
-    monthlyPrice: 799,
-    crm: "1 CRM integration",
-    tags: ["WhatsApp", "Flows", "Lead routing"],
+    name: "Starter Plan",
+    icon: Mic,
+    description: "Start automating your business with an always-available AI voice agent.",
+    monthlyPrice: 2000,
+    crm: "₹5 / extra minute after 200 minutes",
+    tags: ["AI Voice", "200 minutes", "24/7 availability"],
     features: [
-      "WhatsApp automation",
-      "Predefined conversation flows",
-      "Lead capture & routing",
-      "Basic analytics dashboard",
-      "Chatbot-triggered responses",
+      "AI Voice Agent",
+      "200 minutes included",
+      "Automated call handling",
+      "24/7 AI availability",
+      "Email Support",
     ],
     popular: false,
-    cta: "Start with Chatbot",
-    gradient: "from-emerald-500 to-teal-600",
+    highlightTags: true,
+    cta: "Choose Starter",
+    gradient: "from-slate-600 to-slate-800",
+    theme: "dark",
   },
   {
-    name: "AI Chatbot",
-    icon: Bot,
-    useWhatsAppIcon: true,
-    description: "AI-powered WhatsApp growth suite for campaigns, segmentation, and insights.",
-    monthlyPrice: 1999,
-    crm: "3 CRM integrations",
-    tags: ["NLU", "Broadcasts", "AI insights"],
+    name: "Basic Plan",
+    icon: Mic,
+    description: "Automate more customer calls with expanded monthly voice capacity.",
+    monthlyPrice: 2999,
+    crm: "₹5 / extra minute after 500 minutes",
+    tags: ["AI Voice", "500 minutes", "Lead support"],
     features: [
-      "Everything in Case-based",
-      "Natural language understanding",
-      "Multi-intent AI responses",
-      "Bulk WhatsApp messaging dashboard",
-      "Campaign broadcasts & scheduling",
-      "AI analytics & insights",
-      "Audience segmentation",
+      "AI Voice Agent",
+      "500 minutes included",
+      "24/7 automated customer handling",
+      "Lead qualification",
+      "Customer support",
+      "Dedicated Support",
     ],
     popular: true,
-    cta: "Choose AI Chatbot",
+    highlightTags: false,
+    cta: "Choose Basic",
     gradient: "from-emerald-500 to-teal-600",
+    theme: "green",
   },
   {
-    name: "Voice AI",
+    name: "Business Plan",
     icon: Mic,
-    description: "Natural AI voice calls with free minutes, multilingual support, and call intelligence.",
-    monthlyPrice: 1400,
-    crm: "200 min call free with the plan",
-    tags: ["Voice calls", "10+ languages", "Sentiment"],
+    description: "A complete voice and WhatsApp automation package for growing businesses.",
+    monthlyPrice: 4999,
+    crm: "₹5 / extra minute after 1,000 minutes",
+    tags: ["AI Voice", "1,000 minutes", "WhatsApp"],
     features: [
-      "AI voice conversations",
-      "200 min call free with the plan",
-      "Works on Zonara & all platforms",
-      "Multilingual support (10+ languages)",
-      "Advanced analytics dashboard",
-      "AI call sentiment analysis",
-      "Real-time transcription & summaries",
-      "Call performance reports",
+      "AI Voice Agent",
+      "1,000 minutes included",
+      "WhatsApp Chatbot",
+      "Free WhatsApp Chatbot setup",
+      "24/7 automated customer handling",
+      "Lead qualification & customer support",
+      "Dedicated Support",
     ],
     popular: false,
-    cta: "Start Voice AI",
-    gradient: "from-violet-500 to-indigo-600",
+    highlightTags: false,
+    cta: "Choose Business",
+    gradient: "from-slate-600 to-slate-800",
+    theme: "dark",
+  },
+  {
+    name: "Enterprise Plan",
+    icon: Building2,
+    description: "Tailored AI automation, integrations, and support for high-volume teams.",
+    monthlyPrice: null,
+    crm: "Custom usage and volume pricing",
+    tags: ["Custom minutes", "Integrations", "Priority support"],
+    features: [
+      "Everything in Business",
+      "Custom voice minute packages",
+      "CRM and API integrations",
+      "Dedicated account manager",
+      "Priority onboarding and support",
+      "Custom workflows and reporting",
+    ],
+    popular: false,
+    highlightTags: false,
+    cta: "Contact Sales",
+    gradient: "from-emerald-500 to-teal-600",
+    theme: "green",
   },
 ]
 
@@ -118,14 +133,14 @@ const faqs = [
       "Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately and our team helps with the transition.",
   },
   {
-    question: "What happens after the 200 free Voice AI minutes?",
+    question: "What happens after my included Voice AI minutes?",
     answer:
-      "Voice AI includes 200 free minutes every month. After that, usage is billed at ₹7 per minute.",
+      "Each standard plan includes a monthly allowance of Voice AI minutes. Additional usage is billed at ₹5 per minute after your plan's allowance is used. Enterprise usage is custom-priced.",
   },
   {
-    question: "How many CRM integrations are included?",
+    question: "Which plan includes WhatsApp automation?",
     answer:
-      "The Case-based Chatbot plan includes 1 CRM integration, while the AI Chatbot plan includes 3 CRM integrations.",
+      "The Business Plan includes a WhatsApp Chatbot and free WhatsApp Chatbot setup alongside the AI Voice Agent.",
   },
   {
     question: "What languages are supported?",
@@ -157,9 +172,9 @@ export default function Pricing() {
 
       <main className="min-h-screen bg-gradient-to-b from-[#fafbff] via-white to-[#f0f0ff]">
         {/* Pricing Plans Section */}
-        <section id="plans" className="pt-28 pb-20 px-4 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+        <section id="plans" className="pt-28 pb-6 px-4 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
           <div className="container mx-auto max-w-7xl relative z-10">
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full mb-6">
                 <Star className="w-4 h-4 text-slate-500" />
                 <span className="text-sm font-medium text-slate-600 tracking-wide uppercase">Choose Your Plan</span>
@@ -193,55 +208,59 @@ export default function Pricing() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            <div className="grid auto-rows-fr gap-6 md:grid-cols-2 xl:grid-cols-4 items-stretch">
               {plans.map((plan) => (
                 <div
                   key={plan.name}
                   className={`
                     relative flex h-full flex-col bg-white rounded-2xl border transition-all duration-300 overflow-hidden group
                     hover:shadow-2xl hover:-translate-y-1
-                    ${plan.popular
-                      ? 'border-emerald-400 shadow-2xl shadow-emerald-100 lg:scale-[1.03]'
-                      : 'border-slate-200 shadow-lg hover:border-orange-200'
+                    ${plan.theme === "green"
+                      ? 'border-emerald-300 shadow-lg shadow-emerald-100/70 hover:border-emerald-500'
+                      : 'border-slate-300 shadow-lg shadow-slate-200/70 hover:border-slate-500'
                     }
                   `}
                 >
                   {plan.popular && (
-                    <div className="absolute right-5 top-5 z-10 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-white shadow-lg shadow-emerald-200">
+                    <div className="absolute right-4 top-4 z-10 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white shadow-lg shadow-emerald-200">
                       Most Popular
                     </div>
                   )}
 
                   <div className={`h-1.5 bg-gradient-to-r ${plan.gradient}`} />
 
-                  <div className="flex h-full flex-col p-6 lg:p-8">
-                    <div className="mb-6 flex items-start gap-4 pr-24 md:pr-0 lg:pr-20">
-                      <div className={`w-14 h-14 bg-gradient-to-br ${plan.gradient} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform shrink-0`}>
-                        {plan.useWhatsAppIcon ? (
-                          <WhatsAppLogo className="w-8 h-8 text-white" />
-                        ) : (
-                          <plan.icon className="w-7 h-7 text-white" />
-                        )}
+                  <div className="flex h-full flex-col p-5">
+                    <div className="mb-5 flex items-start gap-3">
+                      <div className={`w-11 h-11 bg-gradient-to-br ${plan.gradient} rounded-xl flex items-center justify-center shadow-lg ring-1 ring-white/20 group-hover:scale-105 transition-transform shrink-0`}>
+                        <plan.icon className="w-5 h-5 text-white" />
                       </div>
-                      <div>
-                        <h3 className="text-xl font-semibold text-slate-900">{plan.name}</h3>
-                        <p className="mt-1 text-sm leading-relaxed text-slate-500">{plan.description}</p>
+                      <div className="min-w-0">
+                        <h3 className="text-lg font-semibold text-slate-900">{plan.name}</h3>
+                        <p className="mt-1 text-sm leading-relaxed text-slate-500">
+                          {plan.description}
+                        </p>
                       </div>
                     </div>
 
                     <div className="mb-5">
                       <div className="flex items-end gap-1">
-                        <span className="text-4xl lg:text-5xl font-semibold tracking-tight text-slate-950">
-                          {formatPrice(isYearly ? plan.monthlyPrice * 12 : plan.monthlyPrice)}
+                        <span className={`${plan.monthlyPrice === null ? "text-2xl" : "text-3xl"} font-semibold tracking-tight text-slate-950`}>
+                          {plan.monthlyPrice === null
+                            ? "Custom pricing"
+                            : formatPrice(isYearly ? plan.monthlyPrice * 12 : plan.monthlyPrice)}
                         </span>
-                        <span className="pb-1.5 text-sm font-medium text-slate-400">
-                          /{isYearly ? "year" : "month"}
-                        </span>
+                        {plan.monthlyPrice !== null && (
+                          <span className="pb-1 text-sm font-medium text-slate-400">
+                            /{isYearly ? "year" : "month"}
+                          </span>
+                        )}
                       </div>
                       <p className="mt-2 text-xs font-medium text-slate-400">
-                        {isYearly
-                          ? `${formatPrice(plan.monthlyPrice)} per month, billed yearly`
-                          : "Switch to yearly to see annual charges"}
+                        {plan.monthlyPrice === null
+                          ? "Built around your team and usage"
+                          : isYearly
+                            ? `${formatPrice(plan.monthlyPrice)} per month, billed yearly`
+                            : "Switch to yearly to see annual charges"}
                       </p>
                       {plan.crm && (
                         <p className="mt-2 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
@@ -250,14 +269,14 @@ export default function Pricing() {
                       )}
                     </div>
 
-                    <div className="mb-7 flex flex-wrap gap-2">
+                    <div className="mb-6 flex flex-wrap gap-2">
                       {plan.tags.map((tag) => (
                         <span
                           key={tag}
                           className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                            plan.popular || plan.useWhatsAppIcon
+                            plan.theme === "green"
                               ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-                              : 'border-orange-100 bg-orange-50 text-orange-700'
+                              : 'border-slate-200 bg-slate-100 text-slate-700'
                           }`}
                         >
                           {tag}
@@ -268,10 +287,10 @@ export default function Pricing() {
                     <Link
                       href="/contact#contact-form"
                       className={`
-                        flex items-center justify-center gap-2 w-full py-3.5 font-semibold rounded-xl transition-all duration-200 mb-8 group/btn
-                        ${plan.popular
-                          ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-100'
-                          : 'bg-slate-950 hover:bg-slate-800 text-white'
+                        flex items-center justify-center gap-2 w-full py-3 font-semibold rounded-xl transition-all duration-200 mb-6 group/btn
+                        ${plan.theme === "green"
+                          ? 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-100'
+                          : 'bg-slate-950 text-white hover:bg-slate-800 shadow-lg shadow-slate-200'
                         }
                       `}
                     >
@@ -302,7 +321,7 @@ export default function Pricing() {
         </section>
 
         {/* Trust Badges */}
-        <section className="py-12 px-4 bg-white">
+        <section className="py-6 px-4 bg-white">
           <div className="container mx-auto max-w-5xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
@@ -325,7 +344,7 @@ export default function Pricing() {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-20 px-4 bg-white/80 backdrop-blur-sm relative overflow-hidden">
+        <section className="py-10 px-4 bg-white/80 backdrop-blur-sm relative overflow-hidden">
           {/* Subtle background */}
           <div className="absolute inset-0">
             <div className="absolute top-1/4 left-0 w-72 h-72 bg-slate-100/30 rounded-full blur-[100px]" />
@@ -371,7 +390,7 @@ export default function Pricing() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-4 bg-white">
+        <section className="py-10 px-4 bg-white">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-950 mb-6">
               Ready to Transform Your Business?

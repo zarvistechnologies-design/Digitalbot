@@ -2,7 +2,7 @@
 
 import Sidebar from "@/components/Sidebar";
 import { eventBookingAPI } from "@/lib/api";
-import { AlertCircle, CalendarCheck, Check, Clock, Loader2, Menu, Plus, RefreshCw, Settings, Trash2, X } from "lucide-react";
+import { AlertCircle, CalendarCheck, Check, Clock, Loader2, Menu, Plus, RefreshCw, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 interface EventVenue {
@@ -19,14 +19,6 @@ interface EventVenue {
   workingDays: number[];
   active: boolean;
   bookingCount?: number;
-}
-
-interface EventTool {
-  name: string;
-  description: string;
-  endpoint: string;
-  method: string;
-  requiredFields: string[];
 }
 
 interface VenueForm {
@@ -78,7 +70,6 @@ function formatWorkingDays(days: number[] = []) {
 export default function EventAvailabilityPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [venues, setVenues] = useState<EventVenue[]>([]);
-  const [tools, setTools] = useState<EventTool[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -93,12 +84,8 @@ export default function EventAvailabilityPage() {
     try {
       setLoading(true);
       setError(null);
-      const [summaryResponse, toolsResponse] = await Promise.all([
-        eventBookingAPI.getSummary(),
-        eventBookingAPI.getTools(),
-      ]);
+      const summaryResponse = await eventBookingAPI.getSummary();
       setVenues(summaryResponse.data.venues || []);
-      setTools(toolsResponse.data.tools || []);
     } catch (err: any) {
       setError(err.response?.data?.error || "Failed to load event availability");
     } finally {
@@ -206,7 +193,7 @@ export default function EventAvailabilityPage() {
                 <CalendarCheck className="w-8 h-8 text-orange-600" />
                 Event Availability
               </h1>
-              <p className="text-gray-600 mt-1">Calendars and voice tools for event bookings</p>
+              <p className="text-gray-600 mt-1">Manage calendars, working hours, capacity, and locations</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <button onClick={() => void fetchData()} disabled={loading} className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
@@ -227,9 +214,8 @@ export default function EventAvailabilityPage() {
           {message && <Notice tone="success" message={message} onClose={() => setMessage(null)} />}
           {error && <Notice tone="error" message={error} />}
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <Stat label="Active Calendars" value={activeVenues.length} />
-            <Stat label="Voice Tools" value={tools.length || 2} />
             <Stat label="Default Slot" value={`${activeVenues[0]?.slotDuration || 180}m`} />
           </div>
 
@@ -239,29 +225,6 @@ export default function EventAvailabilityPage() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-8">
-                {(tools.length ? tools : [
-                  { name: "check_event_availability", description: "Optional. Lists the slots for a date. book_event does not need this first.", endpoint: "/api/events/availability", method: "POST", requiredFields: ["assignedPhoneNumber", "eventDate"] },
-                  { name: "book_event", description: "Books straight away. The agent sends only the caller's name — the number comes from the call, and the date and time from this calendar.", endpoint: "/api/events/book", method: "POST", requiredFields: ["assignedPhoneNumber", "customerName"] },
-                ]).map((tool) => (
-                  <div key={tool.name} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                    <div className="flex items-start gap-3">
-                      <div className="rounded-lg bg-orange-50 p-2 text-orange-600">
-                        <Settings className="w-5 h-5" />
-                      </div>
-                      <div className="min-w-0">
-                        <h2 className="font-bold text-gray-900 font-mono text-sm">{tool.name}</h2>
-                        <p className="mt-1 text-sm text-gray-600">{tool.description}</p>
-                        <p className="mt-3 break-all rounded-lg bg-gray-50 border border-gray-100 px-3 py-2 text-sm font-mono text-gray-800">
-                          {tool.method} {tool.endpoint}
-                        </p>
-                        <p className="mt-3 text-xs text-gray-600">Required: {tool.requiredFields.join(", ")}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
               {venues.length === 0 ? (
                 <div className="text-center py-16 border border-dashed border-gray-300 rounded-2xl">
                   <CalendarCheck className="w-12 h-12 text-gray-300 mx-auto mb-4" />

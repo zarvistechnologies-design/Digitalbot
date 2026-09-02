@@ -5,8 +5,10 @@ import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
 import {
   authAPI,
   connectorsAPI,
+  workspaceAiAPI,
   type ConnectorProvider,
   type VoiceConnector,
+  type WorkspaceAiReadiness,
 } from "@/lib/api";
 import {
   Cable,
@@ -22,6 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -31,12 +34,6 @@ const PROVIDERS: Array<{ value: ConnectorProvider; label: string }> = [
   { value: "retell", label: "Retell" },
   { value: "synthflow", label: "Synthflow" },
   { value: "custom", label: "Custom provider" },
-];
-
-const DEFAULT_PERMISSIONS = [
-  "doctors:read",
-  "availability:read",
-  "appointments:create",
 ];
 
 function errorMessage(error: unknown, fallback: string) {
@@ -82,6 +79,27 @@ function providerLabel(provider: ConnectorProvider) {
   return PROVIDERS.find((option) => option.value === provider)?.label || provider;
 }
 
+function serviceLabel(service: string) {
+  return ({
+    "doctor-dashboard": "Doctor Dashboard",
+    "event-booking-crm": "Event Booking CRM",
+    "pathology-diagnostic": "Pathology Diagnostic",
+    "lead-analysis": "Lead Analysis",
+    "real-estate-crm": "Real Estate CRM",
+    "customer-support": "Customer Support",
+  } as Record<string, string>)[service] || "Workspace";
+}
+
+function workspaceSettingsRoute(service: string) {
+  return ({
+    "event-booking-crm": "/dashboard/booking-crm#settings",
+    "pathology-diagnostic": "/dashboard/pathology/lab-settings",
+    "lead-analysis": "/dashboard/lead-settings",
+    "real-estate-crm": "/dashboard/real-estate/settings",
+    "customer-support": "/dashboard/support-settings",
+  } as Record<string, string>)[service] || "/dashboard";
+}
+
 export default function ConnectorsPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -99,6 +117,7 @@ export default function ConnectorsPage() {
   const [tokenProvider, setTokenProvider] = useState<ConnectorProvider>("vozon");
   const [copied, setCopied] = useState(false);
   const [accessAllowed, setAccessAllowed] = useState<boolean | null>(null);
+  const [readiness, setReadiness] = useState<WorkspaceAiReadiness | null>(null);
 
   const updateConnections = useCallback((updater: (current: VoiceConnector[]) => VoiceConnector[]) => {
     setConnections((current) => {
@@ -152,6 +171,15 @@ export default function ConnectorsPage() {
     if (accessAllowed) void loadConnections();
   }, [accessAllowed, loadConnections]);
 
+  useEffect(() => {
+    if (!accessAllowed) return;
+    let cancelled = false;
+    workspaceAiAPI.get()
+      .then((response) => { if (!cancelled) setReadiness(response.data.readiness); })
+      .catch(() => { if (!cancelled) setReadiness(null); });
+    return () => { cancelled = true; };
+  }, [accessAllowed]);
+
   const activeCount = useMemo(
     () => connections.filter((connection) => connection.status === "active").length,
     [connections]
@@ -170,7 +198,6 @@ export default function ConnectorsPage() {
       const response = await connectorsAPI.create({
         name: name.trim(),
         provider,
-        permissions: DEFAULT_PERMISSIONS,
       });
       updateConnections((current) => [response.data.connector, ...current]);
       setToken(response.data.token);
@@ -252,7 +279,7 @@ export default function ConnectorsPage() {
             <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <h1 className="text-2xl font-bold sm:text-3xl">Voice connectors</h1>
-                <p className="mt-2 max-w-2xl text-sm text-zinc-500">Generate a workspace token for your voice provider.</p>
+                <p className="mt-2 max-w-2xl text-sm text-zinc-500">Generate one workspace token. Vozon automatically connects to the correct bookings and business data.</p>
               </div>
               <div className="flex h-9 items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 px-3 text-sm font-semibold text-zinc-700">
                 <Cable className="h-4 w-4 text-orange-600" />
@@ -273,6 +300,31 @@ export default function ConnectorsPage() {
               </div>
             )}
 
+            {readiness && (
+              <section className={`rounded-md border p-4 sm:p-5 ${readiness.ready ? "border-emerald-200 bg-emerald-50" : "border-amber-200 bg-amber-50"}`}>
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className={`rounded px-2 py-1 text-xs font-bold uppercase ${readiness.ready ? "bg-emerald-700 text-white" : "bg-amber-600 text-white"}`}>
+                        {readiness.ready ? "Ready" : "Setup needed"}
+                      </span>
+                      <h2 className="font-bold text-zinc-950">{serviceLabel(readiness.service)} connection</h2>
+                    </div>
+                    <p className="mt-2 text-sm text-zinc-700">
+                      {readiness.ready
+                        ? "Vozon will use only this workspace's bookings and business information."
+                        : `${readiness.checks.filter((check) => !check.complete).length} business setting(s) still need to be completed.`}
+                    </p>
+                  </div>
+                  {!readiness.ready && readiness.service !== "doctor-dashboard" && (
+                    <Link href={workspaceSettingsRoute(readiness.service)} className="inline-flex h-10 shrink-0 items-center justify-center rounded-md bg-zinc-950 px-4 text-sm font-semibold text-white hover:bg-zinc-800">
+                      Complete workspace settings
+                    </Link>
+                  )}
+                </div>
+              </section>
+            )}
+
             {token && (
               <section className="rounded-md border border-emerald-300 bg-emerald-50 p-4 sm:p-5">
                 <div className="flex items-start gap-3">
@@ -281,7 +333,7 @@ export default function ConnectorsPage() {
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                       <div>
                         <h2 className="font-bold text-emerald-950">Token generated for {tokenLabel}</h2>
-                        <p className="mt-1 text-sm text-emerald-800">Paste it into the {providerLabel(tokenProvider)} connector now. It will not be shown again.</p>
+                        <p className="mt-1 text-sm text-emerald-800">Paste it into the {providerLabel(tokenProvider)} connector once. DigitalBot will connect the correct workspace automatically. It will not be shown again.</p>
                       </div>
                       <button type="button" onClick={() => setToken("")} aria-label="Close token" className="grid h-8 w-8 shrink-0 place-items-center self-end rounded hover:bg-emerald-100 sm:self-auto">
                         <X className="h-4 w-4" />
