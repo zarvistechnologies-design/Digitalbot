@@ -7,6 +7,7 @@ import {
   Building2,
   CalendarDays,
   Headphones,
+  Hotel,
   Microscope,
   ShieldCheck,
   Sparkles,
@@ -55,6 +56,13 @@ const services = [
     icon: Stethoscope,
     soft: "bg-orange-50 text-orange-700 ring-orange-200",
     summary: "Doctors, appointments, calls, and connectors.",
+  },
+  {
+    title: "Hotel & Restaurant CRM",
+    service: "hospitality-crm",
+    icon: Hotel,
+    soft: "bg-orange-50 text-orange-700 ring-orange-200",
+    summary: "Rooms, occupancy, table reservations, guests, and AI voice bookings.",
   },
 ];
 

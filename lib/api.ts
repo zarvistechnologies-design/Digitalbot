@@ -842,6 +842,28 @@ export const bookingCrmAPI = {
   checkAvailability: (data: Record<string, unknown>) => api.post('/booking-crm/availability', data),
 };
 
+export const hospitalityAPI = {
+  getTools: () => api.get('/hospitality/tools'),
+  getWorkspace: () => api.get('/hospitality/workspace'),
+  updateWorkspace: (data: Record<string, unknown>) => api.put('/hospitality/workspace', data),
+  getSummary: () => api.get('/hospitality/summary'),
+  getRoomTypes: () => api.get('/hospitality/room-types'),
+  createRoomType: (data: Record<string, unknown>) => api.post('/hospitality/room-types', data),
+  updateRoomType: (id: string, data: Record<string, unknown>) => api.put(`/hospitality/room-types/${id}`, data),
+  deleteRoomType: (id: string) => api.delete(`/hospitality/room-types/${id}`),
+  getRooms: () => api.get('/hospitality/rooms'),
+  createRoom: (data: Record<string, unknown>) => api.post('/hospitality/rooms', data),
+  updateRoom: (id: string, data: Record<string, unknown>) => api.put(`/hospitality/rooms/${id}`, data),
+  deleteRoom: (id: string) => api.delete(`/hospitality/rooms/${id}`),
+  getTables: () => api.get('/hospitality/tables'),
+  createTable: (data: Record<string, unknown>) => api.post('/hospitality/tables', data),
+  updateTable: (id: string, data: Record<string, unknown>) => api.put(`/hospitality/tables/${id}`, data),
+  deleteTable: (id: string) => api.delete(`/hospitality/tables/${id}`),
+  getBookings: (params?: Record<string, string | undefined>) => api.get('/hospitality/bookings', { params }),
+  createBooking: (data: Record<string, unknown>) => api.post('/hospitality/bookings', data),
+  updateBookingStatus: (id: string, status: string) => api.put(`/hospitality/bookings/${id}/status`, { status }),
+};
+
 export interface WorkspaceAiReadinessCheck {
   key: string;
   label: string;

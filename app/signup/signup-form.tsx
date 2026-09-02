@@ -12,7 +12,7 @@ interface SignupFormProps {
   initialService?: string
 }
 
-type ServiceKey = 'event-booking-crm' | 'pathology-diagnostic' | 'lead-analysis' | 'real-estate-crm' | 'customer-support' | 'doctor-dashboard' | 'appointment' | 'appointment-whatsapp' | 'tankro' | ''
+type ServiceKey = 'event-booking-crm' | 'pathology-diagnostic' | 'hospitality-crm' | 'lead-analysis' | 'real-estate-crm' | 'customer-support' | 'doctor-dashboard' | 'appointment' | 'appointment-whatsapp' | 'tankro' | ''
 
 export function SignupForm({ initialService }: SignupFormProps) {
   const router = useRouter()
@@ -35,6 +35,7 @@ export function SignupForm({ initialService }: SignupFormProps) {
     else if (serviceFromUrl === 'customer-support') setSelectedService('customer-support')
     else if (['tankro', 'tankro-dashboard', 'tankro dashboard', 'tank', 'tank cleaning'].includes(serviceFromUrl)) setSelectedService('tankro')
     else if (['pathology', 'pathology-diagnostic', 'diagnostic', 'diagnostic-center', 'diagnostic center'].includes(serviceFromUrl)) setSelectedService('pathology-diagnostic')
+    else if (['hospitality', 'hospitality-crm', 'hotel-restaurant', 'hotel restaurant'].includes(serviceFromUrl.toLowerCase())) setSelectedService('hospitality-crm')
   }, [searchParams, initialService])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +105,8 @@ export function SignupForm({ initialService }: SignupFormProps) {
         return { title: 'Tankro Service Dashboard', gradient: 'from-orange-500 to-violet-500' }
       case 'pathology-diagnostic':
         return { title: 'Pathology Diagnostic Center', gradient: 'from-teal-600 to-sky-600' }
+      case 'hospitality-crm':
+        return { title: 'Hotel & Restaurant CRM', gradient: 'from-amber-500 to-orange-700' }
       default:
         return { title: 'DigitalBot Service', gradient: 'from-orange-500 to-violet-600' }
     }

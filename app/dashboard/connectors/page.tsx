@@ -87,6 +87,7 @@ function serviceLabel(service: string) {
     "lead-analysis": "Lead Analysis",
     "real-estate-crm": "Real Estate CRM",
     "customer-support": "Customer Support",
+    "hospitality-crm": "Hotel & Restaurant CRM",
   } as Record<string, string>)[service] || "Workspace";
 }
 
@@ -97,6 +98,7 @@ function workspaceSettingsRoute(service: string) {
     "lead-analysis": "/dashboard/lead-settings",
     "real-estate-crm": "/dashboard/real-estate/settings",
     "customer-support": "/dashboard/support-settings",
+    "hospitality-crm": "/dashboard/hospitality?tab=settings",
   } as Record<string, string>)[service] || "/dashboard";
 }
 

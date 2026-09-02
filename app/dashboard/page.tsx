@@ -93,6 +93,10 @@ export default function AnalyticsOverview() {
         router.replace('/dashboard/pathology');
         return;
       }
+      if (user.selectedService === 'hospitality-crm') {
+        router.replace('/dashboard/hospitality');
+        return;
+      }
       if (['booking-crm', 'event-booking-crm'].includes(String(user.selectedService || '').toLowerCase())) {
         if (!user.bookingOnboardingComplete) {
           router.replace('/dashboard/booking-crm/setup');

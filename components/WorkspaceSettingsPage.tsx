@@ -39,6 +39,7 @@ function serviceLabel(service: string) {
   const names: Record<string, string> = {
     "event-booking-crm": "Event Booking CRM",
     "pathology-diagnostic": "Pathology Diagnostic",
+    "hospitality-crm": "Hotel & Restaurant CRM",
     "lead-analysis": "Lead Analysis",
     "real-estate-crm": "Real Estate CRM",
     "customer-support": "Customer Support",
@@ -50,6 +51,7 @@ function setupTitle(service: string) {
   const names: Record<string, string> = {
     "event-booking-crm": "Booking Settings",
     "pathology-diagnostic": "Lab & Collection Setup",
+    "hospitality-crm": "Hotel & Restaurant Settings",
     "lead-analysis": "Lead Qualification Setup",
     "real-estate-crm": "Site Visit & Team Settings",
     "customer-support": "Support Settings",
