@@ -293,6 +293,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       serviceItems.push({ name: 'Analyzer', href: '/dashboard/leads', icon: BarChart3 });
       serviceItems.push({ name: 'Leads', href: '/dashboard/qualified-leads', icon: Users });
       serviceItems.push({ name: 'Campaigns', href: '/dashboard/campaigns', icon: Megaphone });
+      serviceItems.push({ name: 'WhatsApp Inbox', href: '/dashboard/whatsapp-inbox', icon: MessageSquare });
+      serviceItems.push({ name: 'WhatsApp Automation', href: '/dashboard/whatsapp-automation', icon: Bot });
       if (
         user?.legacyPhoneFallback === false
         || user?.legacyAgentKnowledgeEnabled

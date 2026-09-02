@@ -439,6 +439,43 @@ export const doctorWhatsappAPI = {
 };
 
 // ========================================
+// LEAD WHATSAPP INBOX API
+// ========================================
+export const whatsappInboxAPI = {
+  getAutomation: () => api.get('/whatsapp-inbox/automation'),
+
+  saveAutomation: (data: {
+    metaPhoneNumberId: string;
+    metaAccessToken?: string;
+    whatsappNumber: string;
+    businessName: string;
+    botName: string;
+    welcomeMessage: string;
+    customPrompt: string;
+    aiProvider: 'openai' | 'gemini';
+    aiModel: string;
+    enableWhatsAppBot: boolean;
+    timezone: string;
+  }) => api.put('/whatsapp-inbox/automation', data),
+
+  getConversations: (params?: { page?: number; limit?: number; search?: string }) =>
+    api.get('/whatsapp-inbox/conversations', { params }),
+
+  getMessages: (phone: string, params: { metaPhoneNumberId: string; page?: number; limit?: number }) =>
+    api.get(`/whatsapp-inbox/conversations/${encodeURIComponent(phone)}/messages`, { params }),
+
+  sendMessage: (phone: string, data: { metaPhoneNumberId: string; message: string }) =>
+    api.post(`/whatsapp-inbox/conversations/${encodeURIComponent(phone)}/messages`, data),
+
+  getMediaUrl: (mediaId: string) => {
+    const base = api.defaults.baseURL || '';
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : '';
+    const query = token ? `?token=${encodeURIComponent(token)}` : '';
+    return `${base}/whatsapp-inbox/media/${encodeURIComponent(mediaId)}${query}`;
+  },
+};
+
+// ========================================
 // PROMPTS API
 // ========================================
 export const promptsAPI = {
