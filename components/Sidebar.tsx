@@ -36,6 +36,7 @@ import {
   FileText,
   FlaskConical,
   GitBranch,
+  GraduationCap,
   IdCard,
   LayoutDashboard,
   LogOut,
@@ -469,6 +470,15 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         href: "/dashboard/campaigns",
         icon: Megaphone,
       });
+      const techBrainsPhone = String(user?.assignedPhoneNumber || "").replace(/\D/g, "").slice(-10);
+      const isTechBrainsAccount = techBrainsPhone === "8071579839" || String(user?.email || "").trim().toLowerCase() === "techbrains@digitalbot.ai";
+      if (isTechBrainsAccount) {
+        serviceItems.push({
+          name: "Course Demo Bookings",
+          href: "/dashboard/course-demo-bookings",
+          icon: GraduationCap,
+        });
+      }
       serviceItems.push({
         name: "WhatsApp Inbox",
         href: "/dashboard/whatsapp-inbox",

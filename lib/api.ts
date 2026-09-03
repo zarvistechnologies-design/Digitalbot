@@ -811,6 +811,27 @@ export const eventBookingAPI = {
     notes?: string;
     specialRequirements?: string;
   }) => api.post('/events/bookings', data),
+  createCourseDemoBooking: (data: {
+    customerName: string;
+    customerPhone: string;
+    customerEmail?: string;
+    courseName: string;
+    eventDate: string;
+    eventTime: string;
+    demoMode: string;
+    notes?: string;
+  }) => api.post('/events/bookings', {
+    customerName: data.customerName,
+    customerPhone: data.customerPhone,
+    customerEmail: data.customerEmail,
+    eventType: `${data.courseName} Course Demo`,
+    eventDate: data.eventDate,
+    eventTime: data.eventTime,
+    venueName: data.demoMode === 'Online' ? 'Online Course Demo' : 'Tech Brains',
+    city: 'Varanasi',
+    notes: data.notes,
+    metadata: { bookingKind: 'course_demo', courseName: data.courseName, demoMode: data.demoMode },
+  }),
   updateBooking: (id: string, data: Record<string, unknown>) => api.put(`/events/bookings/${id}`, data),
   deleteBooking: (id: string) => api.delete(`/events/bookings/${id}`),
   checkAvailability: (params: {
@@ -821,6 +842,14 @@ export const eventBookingAPI = {
     venueName?: string;
     city?: string;
   }) => api.get('/events/availability', { params }),
+};
+
+export const techBrainsCoursesAPI = {
+  list: () => api.get('/tech-brains/courses'),
+  create: (data: Record<string, unknown>) => api.post('/tech-brains/courses', data),
+  update: (id: string, data: Record<string, unknown>) => api.put(`/tech-brains/courses/${id}`, data),
+  remove: (id: string) => api.delete(`/tech-brains/courses/${id}`),
+  syncAi: () => api.post('/tech-brains/courses/sync-ai'),
 };
 
 export const bookingCrmAPI = {
