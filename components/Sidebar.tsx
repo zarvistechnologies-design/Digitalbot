@@ -713,6 +713,21 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         icon: Users,
       });
       serviceItems.push({
+        name: "Leads",
+        href: "/dashboard/qualified-leads",
+        icon: BarChart3,
+      });
+      serviceItems.push({
+        name: "Campaigns",
+        href: "/dashboard/campaigns",
+        icon: Megaphone,
+      });
+      serviceItems.push({
+        name: "AI Prompt",
+        href: "/dashboard/agent-knowledge",
+        icon: BookOpen,
+      });
+      serviceItems.push({
         name: "Settings",
         href: "/dashboard/hospitality/settings",
         icon: Settings,

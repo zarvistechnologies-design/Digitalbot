@@ -29,8 +29,8 @@ function errorMessage(error: unknown, fallback: string) {
   return data?.message || data?.error || fallback;
 }
 
-function isLeadAnalysisService(value?: string) {
-  return ["lead-analysis", "lead", "real-estate-crm", "real-estate"].includes(String(value || "").trim().toLowerCase());
+function isAgentKnowledgeService(value?: string) {
+  return ["lead-analysis", "lead", "real-estate-crm", "real-estate", "hospitality-crm"].includes(String(value || "").trim().toLowerCase());
 }
 
 export default function AgentKnowledgePage() {
@@ -44,6 +44,7 @@ export default function AgentKnowledgePage() {
   const [syncError, setSyncError] = useState("");
   const [saved, setSaved] = useState(false);
   const [workspaceLabel, setWorkspaceLabel] = useState("Lead Analysis");
+  const [hospitalityWorkspace, setHospitalityWorkspace] = useState(false);
   const dirty = instructions !== savedInstructions;
   const knowledgeQuery = useQuery<AgentKnowledgeConnection[]>({
     queryKey: ["agent-knowledge"],
@@ -75,12 +76,18 @@ export default function AgentKnowledgePage() {
       try {
         const response = await authAPI.getCurrentUser();
         if (cancelled) return;
-        const hasAgentKnowledgeAccess = response.data.legacyPhoneFallback === false
+        const selectedService = String(response.data.selectedService || "").toLowerCase();
+        const isHospitality = selectedService === "hospitality-crm";
+        const hasAgentKnowledgeAccess = isHospitality
+          || response.data.legacyPhoneFallback === false
           || response.data.legacyAgentKnowledgeEnabled === true;
-        if (["real-estate-crm", "real-estate"].includes(String(response.data.selectedService || "").toLowerCase())) {
+        setHospitalityWorkspace(isHospitality);
+        if (isHospitality) {
+          setWorkspaceLabel("Hotel & Restaurant CRM");
+        } else if (["real-estate-crm", "real-estate"].includes(selectedService)) {
           setWorkspaceLabel("Real Estate CRM");
         }
-        if (!isLeadAnalysisService(response.data.selectedService) || !hasAgentKnowledgeAccess) {
+        if (!isAgentKnowledgeService(selectedService) || !hasAgentKnowledgeAccess) {
           router.replace("/dashboard");
           return;
         }
@@ -177,8 +184,12 @@ export default function AgentKnowledgePage() {
             <p className="text-xs font-semibold uppercase text-orange-700">{workspaceLabel}</p>
             <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h1 className="text-2xl font-bold sm:text-3xl">Agent Knowledge</h1>
-                <p className="mt-2 text-sm text-zinc-500">Conversation instructions for the connected Vozon agent.</p>
+                <h1 className="text-2xl font-bold sm:text-3xl">{hospitalityWorkspace ? "AI Prompt" : "Agent Knowledge"}</h1>
+                <p className="mt-2 text-sm text-zinc-500">
+                  {hospitalityWorkspace
+                    ? "Conversation instructions for your connected hotel and restaurant voice agent."
+                    : "Conversation instructions for the connected Vozon agent."}
+                </p>
               </div>
               <button
                 type="button"
@@ -265,7 +276,9 @@ export default function AgentKnowledgePage() {
                     disabled={!selected?.available || saving}
                     maxLength={30000}
                     rows={18}
-                    placeholder="Define the lead qualification goals, questions, boundaries, and handoff rules."
+                    placeholder={hospitalityWorkspace
+                      ? "Define the hotel and restaurant assistant's tone, reservation flow, guest questions, policies, upsell rules, and staff handoff instructions."
+                      : "Define the lead qualification goals, questions, boundaries, and handoff rules."}
                     className="mt-2 min-h-[360px] w-full resize-y rounded-md border border-zinc-300 bg-white px-4 py-3 text-sm leading-6 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100 disabled:bg-zinc-100 disabled:text-zinc-500"
                   />
                   <div className="mt-4 flex flex-col gap-3 border-t border-zinc-200 pt-4 sm:flex-row sm:items-center sm:justify-between">
