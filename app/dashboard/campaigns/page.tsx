@@ -164,6 +164,19 @@ const formatRetryGap = (seconds: number | null | undefined) => {
     return `${Math.round(seconds / 3600)} hour${seconds === 3600 ? '' : 's'}`;
 };
 
+const normalizeCampaignPhone = (value: string): string | null => {
+    const input = value.trim();
+    if (!input || !/^\+?[\d\s().-]+$/.test(input)) return null;
+
+    const hasInternationalPrefix = input.startsWith('+') || input.startsWith('00');
+    let digits = input.replace(/\D/g, '');
+    if (input.startsWith('00')) digits = digits.slice(2);
+    if (!hasInternationalPrefix && digits.length === 10) digits = `91${digits}`;
+
+    if (digits.length < 8 || digits.length > 15 || digits.startsWith('0')) return null;
+    return `+${digits}`;
+};
+
 type FirstMessageMode = 'assistant-speaks-first' | 'model-generated' | 'user-speaks-first';
 
 // Icons
@@ -524,9 +537,6 @@ export default function CampaignsPage() {
                     return;
                 }
 
-                // Phone validation regex (basic international format)
-                const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
-
                 // Email validation regex
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -548,8 +558,9 @@ export default function CampaignsPage() {
                         return;
                     }
 
-                    if (!phoneRegex.test(phone)) {
-                        errors.push(`Line ${index + 2}: Invalid phone format "${phone}"`);
+                    const normalizedPhone = normalizeCampaignPhone(phone);
+                    if (!normalizedPhone) {
+                        errors.push(`Line ${index + 2}: Invalid phone "${phone}". Include the country code, for example +14155552671`);
                         return;
                     }
 
@@ -561,7 +572,7 @@ export default function CampaignsPage() {
 
                     parsedContacts.push({
                         name,
-                        phone,
+                        phone: normalizedPhone,
                         email: email && emailRegex.test(email) ? email : ''
                     });
                 });
@@ -627,10 +638,15 @@ export default function CampaignsPage() {
     // Manual Contact Add
     const handleAddManualContact = () => {
         const name = prompt('Enter contact name:');
-        const phone = prompt('Enter phone number:');
+        const phone = prompt('Enter phone number with country code (for example +14155552671):');
         if (name && phone) {
+            const normalizedPhone = normalizeCampaignPhone(phone);
+            if (!normalizedPhone) {
+                alert('Invalid phone number. International numbers must include the country code, for example +14155552671 or +442079460958.');
+                return;
+            }
             const email = prompt('Enter email (optional):') || '';
-            setContacts([...contacts, { name, phone, email }]);
+            setContacts([...contacts, { name, phone: normalizedPhone, email }]);
         }
     };
 
@@ -772,6 +788,8 @@ export default function CampaignsPage() {
 
             if (message.includes('Network') || message.includes('fetch')) {
                 alert('❌ Network error! Please check:\n- Backend server is running\n- No firewall blocking the connection');
+            } else if (message.toLowerCase().includes('invalid phone')) {
+                alert(`❌ Invalid Contact Number!\n\n${message}`);
             } else if (message.includes('phone number')) {
                 alert('❌ Phone Number Error!\n\nYou don\'t have an assigned phone number. Please contact support.');
             } else {
@@ -1440,7 +1458,7 @@ export default function CampaignsPage() {
                                             Choose CSV File
                                         </button>
                                         <p className="text-sm text-gray-500 mt-3">
-                                            CSV format: name, phone, email (one contact per line)
+                                            CSV format: name, phone, email. Use country codes for international numbers (for example +14155552671 or +442079460958). Bare 10-digit numbers default to India (+91).
                                         </p>
                                     </div>
 
