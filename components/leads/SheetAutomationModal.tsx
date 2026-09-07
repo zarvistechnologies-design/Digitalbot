@@ -313,7 +313,7 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
                   <div className="overflow-x-auto rounded-md border border-slate-200">
                     <table className="w-full min-w-[560px] text-left text-xs">
                       <thead className="bg-slate-50 text-slate-500">
-                        <tr><th className="px-3 py-2 font-semibold">Row</th><th className="px-3 py-2 font-semibold">Lead</th><th className="px-3 py-2 font-semibold">Phone</th><th className="px-3 py-2 font-semibold">Result</th></tr>
+                        <tr><th className="px-3 py-2 font-semibold">Row</th><th className="px-3 py-2 font-semibold">Full name</th><th className="px-3 py-2 font-semibold">Phone</th><th className="px-3 py-2 font-semibold">Result</th></tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
                         {jobs.map((job) => (
