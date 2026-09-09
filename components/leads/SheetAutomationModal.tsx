@@ -33,6 +33,7 @@ type FormState = {
   maxCallsPerPoll: number;
   maxAttempts: number;
   pollIntervalSeconds: number;
+  detectVoicemail: boolean;
 };
 
 const DEFAULT_FORM: FormState = {
@@ -47,6 +48,7 @@ const DEFAULT_FORM: FormState = {
   maxCallsPerPoll: 10,
   maxAttempts: 2,
   pollIntervalSeconds: 60,
+  detectVoicemail: false,
 };
 
 function formFromAutomation(automation: SheetAutomationConfig | null): FormState {
@@ -63,6 +65,7 @@ function formFromAutomation(automation: SheetAutomationConfig | null): FormState
     maxCallsPerPoll: automation.maxCallsPerPoll,
     maxAttempts: automation.maxAttempts,
     pollIntervalSeconds: automation.pollIntervalSeconds,
+    detectVoicemail: automation.detectVoicemail === true,
   };
 }
 
@@ -301,6 +304,17 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
                     <option value={300}>5 minutes</option>
                     <option value={900}>15 minutes</option>
                   </select>
+                </label>
+              </div>
+
+              <div className="border-t border-slate-200 pt-5">
+                <h3 className="mb-3 text-sm font-bold text-slate-900">Call behavior</h3>
+                <label className="flex cursor-pointer items-start gap-3 rounded-md border border-slate-200 bg-slate-50 p-4">
+                  <input type="checkbox" checked={form.detectVoicemail} onChange={(event) => update("detectVoicemail", event.target.checked)} disabled={Boolean(busy)} className="mt-0.5 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500 disabled:opacity-50" />
+                  <span>
+                    <span className="block text-sm font-semibold text-slate-700">Detect voicemail</span>
+                    <span className="mt-1 block text-xs leading-5 text-slate-500">Enable voicemail detection for calls started from this Google Sheet.</span>
+                  </span>
                 </label>
               </div>
 

@@ -198,6 +198,7 @@ export type SheetAutomationConfig = {
   maxCallsPerPoll: number;
   maxAttempts: number;
   pollIntervalSeconds: number;
+  detectVoicemail: boolean;
   lastSyncedAt?: string | null;
   lastSuccessAt?: string | null;
   lastError?: string;
