@@ -1,11 +1,12 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
+import { callsAPI } from "@/lib/api";
 import { pathologyAPI } from "@/lib/pathology-api";
 import {
   Activity, Banknote, Beaker, Bot, CalendarDays, ClipboardList, Download,
-  FileCheck2, FileText, FlaskConical, Home, Menu, MessageCircle, Microscope,
-  Pencil, Plus, RefreshCw, Search, Send, Stethoscope, TestTube2, Trash2, Upload,
+  Eye, FileCheck2, FileText, FlaskConical, Home, MapPin, Menu, MessageCircle, Microscope,
+  Pencil, Phone, Plus, RefreshCw, Search, Send, Stethoscope, TestTube2, Trash2, Upload,
   UserRound, Users, WalletCards, X,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,10 +17,15 @@ type Test = { _id: string; code: string; name: string; category: string; sampleT
 type Patient = { _id: string; patientNumber: string; name: string; phone: string; email?: string; age?: number; gender?: string; address?: string; visitCount: number; lastVisitAt?: string };
 type Order = {
   _id: string; orderNumber: string; patientId: string; patient: Patient; tests: Test[]; appointmentAt: string;
-  collectionType: "center" | "home"; collectionAddress?: string; phlebotomist?: string; collectionTime?: string;
+  branch?: string; branchAddress?: string; collectionType: "center" | "home"; collectionAddress?: string; landmark?: string; phlebotomist?: string; collectionTime?: string;
   barcode?: string; sampleStatus: string; orderStatus: string; report: { status: string; fileId?: string; fileName?: string; verifiedBy?: string };
   payment: { subtotal: number; discount: number; total: number; paid: number; estimated?: boolean; status: string; method?: string };
-  referral?: { doctorName?: string; clinicName?: string }; notes?: string; source: string;
+  referral?: { doctorName?: string; clinicName?: string }; notes?: string; source: string; callId?: string; createdAt?: string;
+};
+type CallDetails = {
+  id?: string; call_id?: string; session_id?: string; from_number?: string; to_number?: string; agent_name?: string;
+  status?: string; duration?: number; start_time?: string; end_time?: string; recording_url?: string; recording?: unknown;
+  transcription?: unknown; chat?: unknown; transcription_formatted?: string;
 };
 type Referral = { _id: string; doctorName: string; clinicName?: string; phone?: string; commissionType: string; commissionValue: number; active: boolean; patients?: number; billed?: number };
 type Overview = { todayBookings: number; samplesCollected: number; reportsPending: number; revenueToday: number; outstanding: number; patients: number; whatsappLeads: number; topTests: Array<{ _id: string; count: number; revenue: number }>; recentOrders: Order[] };
@@ -98,19 +104,27 @@ export default function PathologyDashboardPage() {
   const [showReferral, setShowReferral] = useState(false);
   const [paymentOrder, setPaymentOrder] = useState<Order | null>(null);
   const [patientHistory, setPatientHistory] = useState<{ patient: Patient; orders: Order[]; repeatPatient: boolean } | null>(null);
+  const [orderDetails, setOrderDetails] = useState<{ order: Order; call: CallDetails | null; callLoading: boolean; callError?: string } | null>(null);
 
   const flash = (type: "ok" | "error", text: string) => { setNotice({ type, text }); window.setTimeout(() => setNotice(null), 4500); };
-  const loadAll = useCallback(async () => {
+  const loadOrders = useCallback(async () => setOrders((await pathologyAPI.getOrders()).data.data), []);
+  const loadTests = useCallback(async () => setTests((await pathologyAPI.getTests()).data.data), []);
+  const loadReferrals = useCallback(async () => setReferrals((await pathologyAPI.getReferrals()).data.data), []);
+  const loadConversations = useCallback(async () => setConversations((await pathologyAPI.getConversations()).data.data), []);
+  const loadCurrent = useCallback(async () => {
     setLoading(true);
     try {
-      const [summary, orderRows, patientRows, testRows, referralRows, chatRows] = await Promise.all([
-        pathologyAPI.getOverview(), pathologyAPI.getOrders(), pathologyAPI.getPatients(), pathologyAPI.getTests(), pathologyAPI.getReferrals(), pathologyAPI.getConversations(),
-      ]);
-      setOverview(summary.data.data); setOrders(orderRows.data.data); setPatients(patientRows.data.data); setTests(testRows.data.data); setReferrals(referralRows.data.data); setConversations(chatRows.data.data);
+      if (tab === "overview") setOverview((await pathologyAPI.getOverview()).data.data);
+      else if (["orders", "samples", "reports"].includes(tab)) await loadOrders();
+      else if (tab === "patients") setPatients((await pathologyAPI.getPatients()).data.data);
+      else if (tab === "book") await Promise.all([loadTests(), loadReferrals()]);
+      else if (tab === "tests") await loadTests();
+      else if (tab === "referrals") await loadReferrals();
+      else if (tab === "inbox") await loadConversations();
     } catch (error: any) { flash("error", error.response?.data?.error || "Could not load diagnostic workspace"); }
     finally { setLoading(false); }
-  }, []);
-  useEffect(() => { void loadAll(); }, [loadAll]);
+  }, [loadConversations, loadOrders, loadReferrals, loadTests, tab]);
+  useEffect(() => { void loadCurrent(); }, [loadCurrent]);
   useEffect(() => { setSearch(""); }, [tab]);
   useEffect(() => { if (tab === "book" && !loading) setShowBooking(true); }, [tab, loading]);
 
@@ -123,7 +137,7 @@ export default function PathologyDashboardPage() {
 
   async function updateOrder(id: string, data: Record<string, unknown>, success: string) {
     setBusy(id);
-    try { await pathologyAPI.updateOrder(id, data); flash("ok", success); await loadAll(); }
+    try { await pathologyAPI.updateOrder(id, data); flash("ok", success); await loadOrders(); }
     catch (error: any) { flash("error", error.response?.data?.error || "Update failed"); }
     finally { setBusy(""); }
   }
@@ -135,7 +149,7 @@ export default function PathologyDashboardPage() {
   }
   async function uploadReport(order: Order, file?: File) {
     if (!file) return; setBusy(order._id);
-    try { await pathologyAPI.uploadReport(order._id, file); flash("ok", `Report uploaded for ${order.patient.name}`); await loadAll(); }
+    try { await pathologyAPI.uploadReport(order._id, file); flash("ok", `Report uploaded for ${order.patient.name}`); await loadOrders(); }
     catch (error: any) { flash("error", error.response?.data?.error || "Report upload failed"); }
     finally { setBusy(""); }
   }
@@ -147,7 +161,7 @@ export default function PathologyDashboardPage() {
   }
   async function sendReport(order: Order) {
     setBusy(order._id);
-    try { await pathologyAPI.sendReport(order._id); flash("ok", `Report sent to ${order.patient.name} on WhatsApp`); await loadAll(); }
+    try { await pathologyAPI.sendReport(order._id); flash("ok", `Report sent to ${order.patient.name} on WhatsApp`); await loadOrders(); }
     catch (error: any) { flash("error", error.response?.data?.error || "Could not send report"); }
     finally { setBusy(""); }
   }
@@ -155,6 +169,25 @@ export default function PathologyDashboardPage() {
     setSelectedConversation(conversation);
     try { setMessages((await pathologyAPI.getMessages(conversation.phone, conversation.metaPhoneNumberId)).data.data); }
     catch (error: any) { flash("error", error.response?.data?.error || "Could not load messages"); }
+  }
+  async function openBooking() {
+    if (!tests.length || !referrals.length) {
+      setLoading(true);
+      try { await Promise.all([loadTests(), loadReferrals()]); }
+      catch (error: any) { flash("error", error.response?.data?.error || "Could not load booking options"); return; }
+      finally { setLoading(false); }
+    }
+    setShowBooking(true);
+  }
+  async function openOrderDetails(order: Order) {
+    setOrderDetails({ order, call: null, callLoading: Boolean(order.callId) });
+    if (!order.callId) return;
+    try {
+      const call = (await callsAPI.getCall(order.callId)).data.data as CallDetails;
+      setOrderDetails(current => current?.order._id === order._id ? { ...current, call, callLoading: false } : current);
+    } catch (error: any) {
+      setOrderDetails(current => current?.order._id === order._id ? { ...current, callLoading: false, callError: error.response?.data?.error || "Call details are not available yet" } : current);
+    }
   }
   const navigateTo = (nextTab: Tab) => router.push(tabRoutes[nextTab]);
 
@@ -165,31 +198,32 @@ export default function PathologyDashboardPage() {
       <header className="border-b border-slate-200 bg-white px-4 py-5 pt-16 lg:px-8 lg:pt-5">
         <div className="mx-auto flex max-w-[1500px] flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
           <div><div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase text-teal-700"><Microscope className="h-4 w-4" /> Diagnostic Operations</div><h1 className="text-2xl font-bold">Pathology Control Center</h1><p className="mt-1 text-sm text-slate-500">Bookings, patients, samples, reports, referrals and patient communication.</p></div>
-          <div className="flex flex-wrap gap-2"><button onClick={() => void loadAll()} disabled={loading} className="inline-flex h-10 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold hover:bg-slate-50 disabled:opacity-50"><RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} /> Refresh</button><button onClick={() => router.push(tabRoutes.tests)} className="inline-flex h-10 items-center gap-2 rounded-md border border-teal-200 bg-teal-50 px-4 text-sm font-semibold text-teal-800 hover:bg-teal-100"><FlaskConical className="h-4 w-4" /> Tests &amp; Prices</button><button onClick={() => setShowBooking(true)} className="inline-flex h-10 items-center gap-2 rounded-md bg-teal-700 px-4 text-sm font-semibold text-white hover:bg-teal-800"><Plus className="h-4 w-4" /> New Booking</button></div>
+          <div className="flex flex-wrap gap-2"><button onClick={() => void loadCurrent()} disabled={loading} className="inline-flex h-10 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-sm font-semibold hover:bg-slate-50 disabled:opacity-50"><RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} /> Refresh</button><button onClick={() => router.push(tabRoutes.tests)} className="inline-flex h-10 items-center gap-2 rounded-md border border-teal-200 bg-teal-50 px-4 text-sm font-semibold text-teal-800 hover:bg-teal-100"><FlaskConical className="h-4 w-4" /> Tests &amp; Prices</button><button onClick={() => void openBooking()} className="inline-flex h-10 items-center gap-2 rounded-md bg-teal-700 px-4 text-sm font-semibold text-white hover:bg-teal-800"><Plus className="h-4 w-4" /> New Booking</button></div>
         </div>
       </header>
       <div className="mx-auto max-w-[1500px] p-4 lg:p-8">
         {notice && <div className={`mb-4 rounded-md border px-4 py-3 text-sm font-medium ${notice.type === "ok" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-rose-200 bg-rose-50 text-rose-800"}`}>{notice.text}</div>}
-        {loading && !overview ? <div className="flex h-80 items-center justify-center"><RefreshCw className="h-7 w-7 animate-spin text-teal-700" /></div> : <>
+        {loading ? <div className="flex h-80 items-center justify-center"><RefreshCw className="h-7 w-7 animate-spin text-teal-700" /></div> : <>
           {tab === "overview" && overview && <OverviewView overview={overview} onSelect={navigateTo} />}
-          {tab === "book" && <Panel><div className="py-16 text-center"><Home className="mx-auto h-10 w-10 text-teal-700" /><h2 className="mt-4 text-lg font-bold">Book a test or home sample collection</h2><p className="mx-auto mt-2 max-w-md text-sm text-slate-500">Enter the patient, select active tests, then choose a centre visit or home collection.</p><button onClick={() => setShowBooking(true)} className="mt-5 h-10 rounded-md bg-teal-700 px-5 text-sm font-semibold text-white">Open booking form</button></div></Panel>}
+          {tab === "book" && <Panel><div className="py-16 text-center"><Home className="mx-auto h-10 w-10 text-teal-700" /><h2 className="mt-4 text-lg font-bold">Book a test or home sample collection</h2><p className="mx-auto mt-2 max-w-md text-sm text-slate-500">Enter the patient, select active tests, then choose a centre visit or home collection.</p><button onClick={() => void openBooking()} className="mt-5 h-10 rounded-md bg-teal-700 px-5 text-sm font-semibold text-white">Open booking form</button></div></Panel>}
           {["orders", "patients", "samples", "reports"].includes(tab) && <div className="mb-4 flex items-center gap-3"><div className="relative max-w-lg flex-1"><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /><input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search patient, phone, order or barcode" className="h-10 w-full rounded-md border border-slate-300 bg-white pl-9 pr-3 text-sm outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100" /></div></div>}
-          {tab === "orders" && <OrdersTable orders={filteredOrders} busy={busy} onUpdate={updateOrder} onPayment={setPaymentOrder} />}
+          {tab === "orders" && <OrdersTable orders={filteredOrders} busy={busy} onUpdate={updateOrder} onPayment={setPaymentOrder} onDetails={openOrderDetails} />}
           {tab === "patients" && <PatientsView patients={filteredPatients} busy={busy} onOpen={openPatient} />}
           {tab === "samples" && <SamplesView orders={filteredOrders.filter(order => order.orderStatus !== "cancelled")} busy={busy} onUpdate={updateOrder} />}
           {tab === "reports" && <ReportsView orders={filteredOrders.filter(order => order.orderStatus !== "cancelled")} busy={busy} onUpload={uploadReport} onView={viewReport} onSend={sendReport} />}
-          {tab === "tests" && <TestsView tests={tests} busy={busy} onAdd={() => { setEditingTest(null); setShowTest(true); }} onEdit={test => { setEditingTest(test); setShowTest(true); }} onDelete={async test => { if (!window.confirm(`Delete ${test.name}? Existing bookings will keep their saved test details.`)) return; setBusy(test._id); try { await pathologyAPI.deleteTest(test._id); flash("ok", "Test deleted from catalog"); await loadAll(); } catch (error: any) { flash("error", error.response?.data?.error || "Could not delete test"); } finally { setBusy(""); } }} onToggle={async test => { await pathologyAPI.updateTest(test._id, { active: !test.active }); await loadAll(); }} />}
+          {tab === "tests" && <TestsView tests={tests} busy={busy} onAdd={() => { setEditingTest(null); setShowTest(true); }} onEdit={test => { setEditingTest(test); setShowTest(true); }} onDelete={async test => { if (!window.confirm(`Delete ${test.name}? Existing bookings will keep their saved test details.`)) return; setBusy(test._id); try { await pathologyAPI.deleteTest(test._id); flash("ok", "Test deleted from catalog"); await loadTests(); } catch (error: any) { flash("error", error.response?.data?.error || "Could not delete test"); } finally { setBusy(""); } }} onToggle={async test => { await pathologyAPI.updateTest(test._id, { active: !test.active }); await loadTests(); }} />}
           {tab === "referrals" && <ReferralsView referrals={referrals} onAdd={() => setShowReferral(true)} />}
-          {tab === "inbox" && <InboxView conversations={conversations} selected={selectedConversation} messages={messages} onSelect={openConversation} onSent={async () => { if (selectedConversation) await openConversation(selectedConversation); await loadAll(); }} onError={text => flash("error", text)} />}
+          {tab === "inbox" && <InboxView conversations={conversations} selected={selectedConversation} messages={messages} onSelect={openConversation} onSent={async () => { if (selectedConversation) await openConversation(selectedConversation); await loadConversations(); }} onError={text => flash("error", text)} />}
           {tab === "bot" && <WhatsAppAiSetup onNotice={flash} />}
         </>}
       </div>
     </main>
-    {showBooking && <BookingModal tests={tests.filter(test => test.active)} referrals={referrals.filter(item => item.active)} onClose={() => { setShowBooking(false); if (tab === "book") router.push(tabRoutes.orders); }} onSaved={async () => { setShowBooking(false); flash("ok", "Diagnostic booking created"); await loadAll(); router.push(tabRoutes.orders); }} />}
-    {showTest && <TestModal test={editingTest} onClose={() => { setShowTest(false); setEditingTest(null); }} onSaved={async () => { const wasEditing = Boolean(editingTest); setShowTest(false); setEditingTest(null); flash("ok", wasEditing ? "Test updated" : "Test added to catalog"); await loadAll(); }} />}
-    {showReferral && <ReferralModal onClose={() => setShowReferral(false)} onSaved={async () => { setShowReferral(false); flash("ok", "Referral doctor added"); await loadAll(); }} />}
-    {paymentOrder && <PaymentModal order={paymentOrder} onClose={() => setPaymentOrder(null)} onSaved={async () => { setPaymentOrder(null); flash("ok", "Payment updated"); await loadAll(); }} />}
+    {showBooking && <BookingModal tests={tests.filter(test => test.active)} referrals={referrals.filter(item => item.active)} onClose={() => { setShowBooking(false); if (tab === "book") router.push(tabRoutes.orders); }} onSaved={async () => { setShowBooking(false); flash("ok", "Diagnostic booking created"); await loadOrders(); router.push(tabRoutes.orders); }} />}
+    {showTest && <TestModal test={editingTest} onClose={() => { setShowTest(false); setEditingTest(null); }} onSaved={async () => { const wasEditing = Boolean(editingTest); setShowTest(false); setEditingTest(null); flash("ok", wasEditing ? "Test updated" : "Test added to catalog"); await loadTests(); }} />}
+    {showReferral && <ReferralModal onClose={() => setShowReferral(false)} onSaved={async () => { setShowReferral(false); flash("ok", "Referral doctor added"); await loadReferrals(); }} />}
+    {paymentOrder && <PaymentModal order={paymentOrder} onClose={() => setPaymentOrder(null)} onSaved={async () => { setPaymentOrder(null); flash("ok", "Payment updated"); await loadOrders(); }} />}
     {patientHistory && <Modal title={`${patientHistory.patient.name} - Patient History`} onClose={() => setPatientHistory(null)}><PatientHistory data={patientHistory} /></Modal>}
+    {orderDetails && <OrderDetailsModal details={orderDetails} onClose={() => setOrderDetails(null)} />}
   </div>;
 }
 
@@ -210,9 +244,42 @@ function OverviewView({ overview, onSelect }: { overview: Overview; onSelect: (t
 
 function Status({ value }: { value: string }) { return <span className={`inline-flex rounded-full border px-2 py-0.5 text-xs font-semibold ${badge(value)}`}>{label(value)}</span>; }
 
-function OrdersTable({ orders, busy, onUpdate, onPayment }: { orders: Order[]; busy: string; onUpdate: (id: string, data: Record<string, unknown>, success: string) => void; onPayment: (order: Order) => void }) {
+function OrdersTable({ orders, busy, onUpdate, onPayment, onDetails }: { orders: Order[]; busy: string; onUpdate: (id: string, data: Record<string, unknown>, success: string) => void; onPayment: (order: Order) => void; onDetails: (order: Order) => void }) {
   if (!orders.length) return <Panel><Empty icon={ClipboardList} text="No bookings match your search" /></Panel>;
-  return <Panel><div className="overflow-x-auto"><table className="w-full min-w-[1050px] text-sm"><TableHead labels={["Order / Patient", "Appointment", "Tests", "Collection", "Sample", "Report", "Payment", "Actions"]} /><tbody>{orders.map(order => <tr key={order._id} className="border-t border-slate-100 align-top"><td className="px-4 py-3"><p className="font-semibold">{order.patient.name}</p><p className="text-xs text-slate-500">{order.patient.phone} · {order.orderNumber}</p></td><td className="px-4 py-3 text-slate-600">{dateTime(order.appointmentAt)}</td><td className="max-w-56 px-4 py-3 text-slate-600">{order.tests.map(test => test.name).join(", ")}</td><td className="px-4 py-3"><span className="flex items-center gap-1 text-slate-600">{order.collectionType === "home" ? <Home className="h-4 w-4" /> : <Microscope className="h-4 w-4" />}{label(order.collectionType)}</span></td><td className="px-4 py-3"><Status value={order.sampleStatus} /></td><td className="px-4 py-3"><Status value={order.report.status} /></td><td className="px-4 py-3"><Status value={order.payment.status} /><p className="mt-1 text-xs text-slate-500">{money(order.payment.paid)} / {money(order.payment.total)}</p></td><td className="px-4 py-3"><div className="flex gap-2"><button onClick={() => onPayment(order)} className="rounded-md border border-slate-300 px-2.5 py-1.5 text-xs font-semibold hover:bg-slate-50">Payment</button>{order.orderStatus !== "cancelled" && <button disabled={busy === order._id} onClick={() => onUpdate(order._id, { orderStatus: "cancelled" }, "Booking cancelled")} className="rounded-md border border-rose-200 px-2.5 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-50">Cancel</button>}</div></td></tr>)}</tbody></table></div></Panel>;
+  return <Panel><div className="overflow-x-auto"><table className="w-full min-w-[1120px] text-sm"><TableHead labels={["Order / Patient", "Appointment", "Tests", "Collection", "Sample", "Report", "Payment", "Actions"]} /><tbody>{orders.map(order => <tr key={order._id} className="border-t border-slate-100 align-top"><td className="px-4 py-3"><p className="font-semibold">{order.patient.name}</p><p className="text-xs text-slate-500">{order.patient.phone} · {order.orderNumber}</p></td><td className="px-4 py-3 text-slate-600">{dateTime(order.appointmentAt)}</td><td className="max-w-56 px-4 py-3 text-slate-600">{order.tests.map(test => test.name).join(", ")}</td><td className="max-w-56 px-4 py-3"><span className="flex items-center gap-1 text-slate-600">{order.collectionType === "home" ? <Home className="h-4 w-4" /> : <Microscope className="h-4 w-4" />}{label(order.collectionType)}</span><p className="mt-1 truncate text-xs text-slate-500">{order.collectionType === "home" ? order.collectionAddress || "Address missing" : order.branchAddress || order.branch || "Center reception"}</p></td><td className="px-4 py-3"><Status value={order.sampleStatus} /></td><td className="px-4 py-3"><Status value={order.report.status} /></td><td className="px-4 py-3"><Status value={order.payment.status} /><p className="mt-1 text-xs text-slate-500">{money(order.payment.paid)} / {money(order.payment.total)}</p></td><td className="px-4 py-3"><div className="flex flex-wrap gap-2"><button onClick={() => onDetails(order)} className="inline-flex items-center gap-1 rounded-md border border-teal-200 px-2.5 py-1.5 text-xs font-semibold text-teal-800 hover:bg-teal-50"><Eye className="h-3.5 w-3.5" /> Details</button><button onClick={() => onPayment(order)} className="rounded-md border border-slate-300 px-2.5 py-1.5 text-xs font-semibold hover:bg-slate-50">Payment</button>{order.orderStatus !== "cancelled" && <button disabled={busy === order._id} onClick={() => onUpdate(order._id, { orderStatus: "cancelled" }, "Booking cancelled")} className="rounded-md border border-rose-200 px-2.5 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-50">Cancel</button>}</div></td></tr>)}</tbody></table></div></Panel>;
+}
+
+function detailText(value: unknown): string {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value.map(item => detailText(item)).filter(Boolean).join("\n");
+  if (typeof value === "object") {
+    const row = value as Record<string, unknown>;
+    const speaker = String(row.role || row.speaker || row.sender || "").trim();
+    const content = detailText(row.content || row.text || row.message || row.transcript || row.utterance);
+    if (content) return speaker ? `${label(speaker)}: ${content}` : content;
+    for (const key of ["messages", "chat", "transcription", "transcript"]) if (row[key]) return detailText(row[key]);
+  }
+  return "";
+}
+
+function DetailItem({ labelText, value, wide = false }: { labelText: string; value?: React.ReactNode; wide?: boolean }) {
+  return <div className={wide ? "sm:col-span-2" : ""}><p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{labelText}</p><div className="mt-1 break-words text-sm text-slate-800">{value || "Not provided"}</div></div>;
+}
+
+function OrderDetailsModal({ details, onClose }: { details: { order: Order; call: CallDetails | null; callLoading: boolean; callError?: string }; onClose: () => void }) {
+  const { order, call, callLoading, callError } = details;
+  const location = order.collectionType === "home" ? order.collectionAddress || order.patient.address : order.branchAddress || order.branch;
+  const transcript = call?.transcription_formatted || detailText(call?.chat || call?.transcription);
+  const hasRecording = Boolean(call?.recording_url || call?.recording);
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") || undefined : undefined;
+  const recordingUrl = hasRecording && order.callId ? callsAPI.getCallRecordingUrl(order.callId, token) : "";
+  return <Modal title={`Booking details · ${order.orderNumber}`} onClose={onClose}><div className="space-y-6">
+    <section><h3 className="mb-3 font-bold">Patient and booking</h3><div className="grid gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4 sm:grid-cols-2"><DetailItem labelText="Patient" value={order.patient.name} /><DetailItem labelText="Patient number" value={<span className="inline-flex items-center gap-1"><Phone className="h-3.5 w-3.5" />{order.patient.phone}</span>} /><DetailItem labelText="Appointment" value={dateTime(order.appointmentAt)} /><DetailItem labelText="Booked via" value={label(order.source)} /><DetailItem labelText="Tests" value={order.tests.map(test => `${test.name} (${test.code})`).join(", ")} wide /><DetailItem labelText="Booking status" value={<Status value={order.orderStatus} />} /><DetailItem labelText="Sample status" value={<Status value={order.sampleStatus} />} /></div></section>
+    <section><h3 className="mb-3 font-bold">Collection location</h3><div className="grid gap-4 rounded-lg border border-slate-200 p-4 sm:grid-cols-2"><DetailItem labelText="Collection type" value={label(order.collectionType)} /><DetailItem labelText="Branch" value={order.branch} /><DetailItem labelText={order.collectionType === "home" ? "Full address" : "Center address"} value={location ? <span className="inline-flex gap-1"><MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />{location}</span> : undefined} wide /><DetailItem labelText="Landmark" value={order.landmark} /><DetailItem labelText="Phlebotomist" value={order.phlebotomist} /></div></section>
+    <section><h3 className="mb-3 font-bold">Payment and notes</h3><div className="grid gap-4 rounded-lg border border-slate-200 p-4 sm:grid-cols-2"><DetailItem labelText="Payment" value={`${money(order.payment.paid)} paid of ${money(order.payment.total)} · ${label(order.payment.status)}`} /><DetailItem labelText="Method" value={order.payment.method ? label(order.payment.method) : undefined} /><DetailItem labelText="Notes" value={order.notes} wide /></div></section>
+    <section><h3 className="mb-3 font-bold">Voice call</h3>{callLoading ? <div className="flex items-center gap-2 rounded-lg border border-slate-200 p-4 text-sm text-slate-500"><RefreshCw className="h-4 w-4 animate-spin" /> Loading recording and transcription…</div> : call ? <div className="space-y-4 rounded-lg border border-slate-200 p-4"><div className="grid gap-4 sm:grid-cols-2"><DetailItem labelText="Caller number" value={call.from_number} /><DetailItem labelText="Business number" value={call.to_number} /><DetailItem labelText="Call status" value={call.status ? label(call.status) : undefined} /><DetailItem labelText="Duration" value={call.duration ? `${Math.round(call.duration)} seconds` : undefined} /><DetailItem labelText="Call ID" value={order.callId} wide /></div>{recordingUrl ? <div><p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Recording</p><audio controls preload="none" className="w-full" src={recordingUrl}>Your browser does not support audio playback.</audio></div> : <p className="text-sm text-slate-500">Recording is not available yet.</p>}<div><p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Transcription</p>{transcript ? <div className="max-h-72 overflow-y-auto whitespace-pre-wrap rounded-md bg-slate-50 p-3 text-sm leading-6 text-slate-700">{transcript}</div> : <p className="text-sm text-slate-500">Transcription is not available yet.</p>}</div></div> : <div className="rounded-lg border border-slate-200 p-4 text-sm text-slate-500">{callError || (order.callId ? "Call details are not available yet." : "This booking was not created from a linked voice call.")}</div>}</section>
+  </div></Modal>;
 }
 
 function PatientsView({ patients, busy, onOpen }: { patients: Patient[]; busy: string; onOpen: (id: string) => void }) {
