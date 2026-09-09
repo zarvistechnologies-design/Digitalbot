@@ -323,6 +323,11 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       ? [{ name: "Connectors", href: "/dashboard/connectors", icon: Cable }]
       : []),
     {
+      name: "Tests & Prices",
+      href: "/dashboard/pathology/tests",
+      icon: FlaskConical,
+    },
+    {
       name: "Book Test / Home Collection",
       href: "/dashboard/pathology/book-test",
       icon: PlusCircle,
@@ -348,11 +353,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       name: "WhatsApp Automation",
       href: "/dashboard/pathology/whatsapp-ai",
       icon: Bot,
-    },
-    {
-      name: "Test Catalog",
-      href: "/dashboard/pathology/tests",
-      icon: FlaskConical,
     },
     {
       name: "Doctors & Referrals",
