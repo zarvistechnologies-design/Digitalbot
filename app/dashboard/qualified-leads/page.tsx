@@ -3,6 +3,7 @@
 import Sidebar from "@/components/Sidebar";
 import { getAuthToken } from "@/lib/auth";
 import {
+  CalendarDays,
   ChevronDown,
   ChevronUp,
   Download,
@@ -121,6 +122,21 @@ function formatDate(value?: string) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "Not available";
   return date.toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
+}
+
+function toLocalDateValue(value?: string) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
+}
+
+function todayDateValue() {
+  return toLocalDateValue(new Date().toISOString());
 }
 
 function formatPhone(value?: string) {
@@ -298,6 +314,7 @@ export default function QualifiedLeadsPage() {
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [qualityFilter, setQualityFilter] = useState<"all" | LeadQuality>("all");
+  const [selectedDate, setSelectedDate] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isRealEstate, setIsRealEstate] = useState(false);
 
@@ -305,7 +322,14 @@ export default function QualifiedLeadsPage() {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(`${API_BASE_URL}/leads?limit=1000`, {
+      const leadsUrl = new URL(`${API_BASE_URL}/leads`);
+      leadsUrl.searchParams.set("limit", "1000");
+      if (selectedDate) {
+        const [year, month, day] = selectedDate.split("-").map(Number);
+        leadsUrl.searchParams.set("from_date", new Date(year, month - 1, day, 0, 0, 0, 0).toISOString());
+        leadsUrl.searchParams.set("to_date", new Date(year, month - 1, day, 23, 59, 59, 999).toISOString());
+      }
+      const response = await fetch(leadsUrl.toString(), {
         headers: { Authorization: `Bearer ${getAuthToken()}`, "Content-Type": "application/json" },
       });
       if (!response.ok) throw new Error(`Unable to load leads (${response.status})`);
@@ -317,7 +341,7 @@ export default function QualifiedLeadsPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [selectedDate]);
 
   useEffect(() => {
     fetchLeads();
@@ -331,9 +355,10 @@ export default function QualifiedLeadsPage() {
     const term = search.trim().toLowerCase();
     return leads
       .filter((lead) => qualityFilter === "all" || getLeadQuality(lead) === qualityFilter)
+      .filter((lead) => !selectedDate || toLocalDateValue(lead.callDate || lead.createdAt) === selectedDate)
       .filter((lead) => !term || [lead.customerName, lead.phoneNumber, lead.alternatePhoneNumber, lead.email, lead.company, lead.productsInterested?.[0], lead.interests?.[0], lead.painPoints?.[0], lead.customFields?.realEstate?.preferredLocations?.join(" "), lead.customFields?.realEstate?.propertyTypes?.join(" "), lead.customFields?.realEstate?.configurations?.join(" ")].some((value) => String(value || "").toLowerCase().includes(term)))
       .sort((a, b) => Number(b.leadScore || 0) - Number(a.leadScore || 0));
-  }, [leads, qualityFilter, search]);
+  }, [leads, qualityFilter, search, selectedDate]);
 
   const groups = useMemo(() => ({
     hot: filteredLeads.filter((lead) => getLeadQuality(lead) === "hot"),
@@ -392,7 +417,9 @@ export default function QualifiedLeadsPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `qualified-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+    const dateLabel = selectedDate || "all-dates";
+    const qualityLabel = qualityFilter === "all" ? "all-qualities" : `${qualityFilter}-leads`;
+    link.download = `qualified-leads-${dateLabel}-${qualityLabel}.csv`;
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -471,7 +498,7 @@ export default function QualifiedLeadsPage() {
                   </button>
                   <button onClick={exportCsv} disabled={!filteredLeads.length} className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-50">
                     <Download className="h-4 w-4" />
-                    Export CSV
+                    Export filtered CSV
                   </button>
                 </div>
               </div>
@@ -513,7 +540,26 @@ export default function QualifiedLeadsPage() {
                 className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
               />
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setSelectedDate(todayDateValue())}
+                className={`inline-flex items-center gap-2 rounded-lg border px-3.5 py-2 text-sm font-semibold transition ${selectedDate === todayDateValue() ? "border-teal-600 bg-teal-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"}`}
+              >
+                <CalendarDays className="h-4 w-4" /> Today
+              </button>
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(event) => setSelectedDate(event.target.value)}
+                aria-label="Filter leads by date"
+                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+              />
+              {selectedDate && (
+                <button type="button" onClick={() => setSelectedDate("")} className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-900">
+                  Clear date
+                </button>
+              )}
               {(["all", "hot", "warm", "cold"] as const).map((quality) => (
                 <button
                   key={quality}
