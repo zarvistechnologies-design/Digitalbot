@@ -1,9 +1,10 @@
 "use client"
 import Sidebar from "@/components/Sidebar";
 import SheetAutomationModal from "@/components/leads/SheetAutomationModal";
+import { connectorsAPI, type VoiceConnector } from "@/lib/api";
 import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Eye, FileSpreadsheet, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, X } from "lucide-react";
+import { ArrowLeft, Edit3, Eye, FileSpreadsheet, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, Trash2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 const getAuthToken = () => {
     if (typeof window !== 'undefined') {
@@ -164,6 +165,9 @@ const formatRetryGap = (seconds: number | null | undefined) => {
     return `${Math.round(seconds / 3600)} hour${seconds === 3600 ? '' : 's'}`;
 };
 
+const getCampaignAgentId = (campaign: Campaign) =>
+    campaign.vozonAI?.agentId || campaign.content?.voiceAgentId || campaign.millisAI?.agentId || '';
+
 const normalizeCampaignPhone = (value: string): string | null => {
     const input = value.trim();
     if (!input || !/^\+?[\d\s().-]+$/.test(input)) return null;
@@ -185,14 +189,16 @@ const MenuIcon = () => (
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
     </svg>
 );
-function CampaignCard({ campaign, onView, onEdit, onToggle, onLaunch, isLaunching, isToggling, userPhone }: {
+function CampaignCard({ campaign, onView, onEdit, onDelete, onToggle, onLaunch, isLaunching, isToggling, isDeleting, userPhone }: {
 campaign: Campaign;
 onView: () => void;
 onEdit: () => void;
+onDelete: () => void;
 onToggle: () => void;
 onLaunch: () => void;
 isLaunching ?: boolean;
 isToggling ?: boolean;
+isDeleting ?: boolean;
 userPhone ?: string;
 }) {
     const statusMeta = campaignStatusMeta[campaign.status] || campaignStatusMeta.draft;
@@ -214,6 +220,9 @@ userPhone ?: string;
                     <div className="min-w-0">
                         <button onClick={onView} className="block max-w-full truncate text-left text-base font-bold text-slate-950 transition-colors hover:text-slate-700">{campaign.name}</button>
                         <p className="mt-1 truncate text-sm text-slate-500">{campaign.targetAudience || 'General audience'}</p>
+                        <p className="mt-1 truncate text-xs text-slate-500" title={getCampaignAgentId(campaign) || 'Not configured'}>
+                            Agent ID: <span className="font-semibold text-slate-700">{getCampaignAgentId(campaign) || 'Not configured'}</span>
+                        </p>
                         <div className="mt-2 flex flex-wrap items-center gap-2">
                             <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-extrabold tracking-wider ${statusMeta.badge}`}>
                                 <span className={`h-1.5 w-1.5 rounded-full ${statusMeta.dot}`} />
@@ -257,6 +266,9 @@ userPhone ?: string;
                     <button onClick={onEdit} aria-label={`Edit ${campaign.name}`} title="Edit campaign" className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950">
                         <Edit3 className="h-4 w-4" />
                     </button>
+                    <button onClick={onDelete} disabled={isDeleting} aria-label={`Delete ${campaign.name}`} title="Delete campaign" className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-red-200 bg-white text-red-600 transition-colors hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50">
+                        {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+                    </button>
                 </div>
             </div>
         </article>
@@ -271,6 +283,7 @@ export default function CampaignsPage() {
     const [creating, setCreating] = useState(false);
     const [launchingCampaignId, setLaunchingCampaignId] = useState<string | null>(null);
     const [togglingCampaignId, setTogglingCampaignId] = useState<string | null>(null);
+    const [deletingCampaignId, setDeletingCampaignId] = useState<string | null>(null);
     const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
     const [editingCampaign, setEditingCampaign] = useState<Campaign | null>(null);
     const [editName, setEditName] = useState('');
@@ -318,6 +331,53 @@ export default function CampaignsPage() {
             console.log('👤 Logged in user:', user);
         }
     }, []);
+
+    // Pre-fill campaign routing from the user's active Vozon connection.
+    useEffect(() => {
+        if (!showCreateModal) return;
+
+        if (userInfo?.assignedPhoneNumber) {
+            setPhoneNumberId(current => current || userInfo.assignedPhoneNumber);
+        }
+
+        let cancelled = false;
+        const loadDefaultConnector = async () => {
+            try {
+                const connections = await queryClient.fetchQuery({
+                    queryKey: DASHBOARD_QUERY_KEYS.connectors,
+                    queryFn: async () => {
+                        const response = await connectorsAPI.list();
+                        return response.data.connectors || [];
+                    },
+                    staleTime: 60_000
+                });
+                if (cancelled) return;
+
+                const activeVozonConnections = connections.filter((connection: VoiceConnector) =>
+                    connection.provider === 'vozon' && connection.status === 'active'
+                );
+                const assignedPhone = userInfo?.assignedPhoneNumber?.replace(/\D/g, '');
+                const preferredConnection = activeVozonConnections.find((connection: VoiceConnector) =>
+                    assignedPhone && connection.externalAgentId && connection.externalPhoneNumber?.replace(/\D/g, '') === assignedPhone
+                ) || activeVozonConnections.find((connection: VoiceConnector) => connection.externalAgentId);
+
+                if (!preferredConnection) return;
+                if (preferredConnection.externalAgentId) {
+                    setAgentId(current => current || preferredConnection.externalAgentId || '');
+                }
+                if (preferredConnection.externalPhoneNumberId) {
+                    setPhoneNumberId(current => current || preferredConnection.externalPhoneNumberId || '');
+                }
+            } catch (error) {
+                console.warn('Could not auto-fill the campaign connector:', error);
+            }
+        };
+
+        void loadDefaultConnector();
+        return () => {
+            cancelled = true;
+        };
+    }, [queryClient, showCreateModal, userInfo?.assignedPhoneNumber]);
 
     // Fetch campaigns from backend API
     useEffect(() => {
@@ -460,6 +520,34 @@ export default function CampaignsPage() {
         setEditingCampaign(campaign);
         setEditName(campaign.name);
         setEditTargetAudience(campaign.targetAudience);
+    };
+
+    const handleDeleteCampaign = async (campaign: Campaign) => {
+        if (deletingCampaignId || !confirm(`Delete "${campaign.name}"? This will permanently remove the campaign.`)) return;
+
+        const token = getAuthToken();
+        if (!token) {
+            alert('Please login to delete this campaign.');
+            return;
+        }
+
+        setDeletingCampaignId(campaign._id);
+        try {
+            const response = await fetch(`${API_BASE_URL}/campaigns/${campaign._id}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const data = await response.json().catch(() => null);
+            if (!response.ok) throw new Error(data?.error || data?.message || 'Failed to delete campaign');
+
+            updateCampaigns(current => current.filter(item => item._id !== campaign._id));
+            setSelectedCampaign(current => current?._id === campaign._id ? null : current);
+            setEditingCampaign(current => current?._id === campaign._id ? null : current);
+        } catch (error) {
+            alert(error instanceof Error ? error.message : 'Failed to delete campaign. Please try again.');
+        } finally {
+            setDeletingCampaignId(null);
+        }
     };
 
     const handleSaveCampaign = async () => {
@@ -1093,10 +1181,12 @@ export default function CampaignsPage() {
                                     campaign={campaign}
                                     onView={() => handleViewCampaign(campaign._id)}
                                     onEdit={() => handleEditCampaign(campaign._id)}
+                                    onDelete={() => handleDeleteCampaign(campaign)}
                                     onToggle={() => handleToggleCampaign(campaign._id, campaign.status)}
                                     onLaunch={() => handleLaunchCampaign(campaign._id)}
                                     isLaunching={launchingCampaignId === campaign._id}
                                     isToggling={togglingCampaignId === campaign._id}
+                                    isDeleting={deletingCampaignId === campaign._id}
                                     userPhone={userInfo?.assignedPhoneNumber}
                                 />
                             ))
@@ -1143,7 +1233,7 @@ export default function CampaignsPage() {
                                 </div>
                             </div>
                             <div className="grid gap-3 sm:grid-cols-2">
-                                <div className="rounded-2xl border border-slate-200 p-4"><p className="text-xs font-semibold text-slate-500">Agent ID</p><p className="mt-1 break-all text-sm font-bold text-slate-800">{selectedCampaign.vozonAI?.agentId || selectedCampaign.content?.voiceAgentId || selectedCampaign.millisAI?.agentId || 'Not configured'}</p></div>
+                                <div className="rounded-2xl border border-slate-200 p-4"><p className="text-xs font-semibold text-slate-500">Agent ID</p><p className="mt-1 break-all text-sm font-bold text-slate-800">{getCampaignAgentId(selectedCampaign) || 'Not configured'}</p></div>
                                 <div className="rounded-2xl border border-slate-200 p-4"><p className="text-xs font-semibold text-slate-500">Provider campaign ID</p><p className="mt-1 break-all text-sm font-bold text-slate-800">{selectedCampaign.vozonCampaignId || 'Not available'}</p></div>
                                 <div className="rounded-2xl border border-slate-200 p-4">
                                     <p className="text-xs font-semibold text-slate-500">Calling Window</p>
@@ -1179,6 +1269,9 @@ export default function CampaignsPage() {
                                 </div>
                             </div>
                             <div className="flex justify-end gap-3">
+                                <button type="button" onClick={() => handleDeleteCampaign(selectedCampaign)} disabled={deletingCampaignId === selectedCampaign._id} className="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-white px-5 py-3 text-sm font-bold text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50">
+                                    {deletingCampaignId === selectedCampaign._id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />} Delete campaign
+                                </button>
                                 <button type="button" onClick={() => { handleEditCampaign(selectedCampaign._id); setSelectedCampaign(null); }} className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-5 py-3 text-sm font-bold text-white hover:bg-blue-600"><Edit3 className="h-4 w-4" /> Edit campaign</button>
                             </div>
                         </div>
@@ -1353,7 +1446,7 @@ export default function CampaignsPage() {
                                                     placeholder="e.g., +919876543210 or Vozon phone-number ID"
                                                     className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                                                 />
-                                                <p className="mt-1 text-xs text-gray-500">If you enter a phone number, Digitalbot will resolve its internal Vozon ID automatically.</p>
+                                                <p className="mt-1 text-xs text-gray-500">Your assigned number is filled automatically. Digitalbot resolves its internal Vozon ID when the campaign is created.</p>
                                             </label>
                                         </div>
                                     </section>

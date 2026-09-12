@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
   AlertCircle,
   BarChart3,
+  CalendarDays,
   CheckCircle2,
   ChevronRight,
   Clock,
@@ -190,6 +191,19 @@ const formatTimeAgo = (dateString?: string) => {
   if (diffInHours < 48) return "Yesterday";
   return `${Math.floor(diffInHours / 24)}d ago`;
 };
+
+const toLocalDateValue = (dateString?: string) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return '';
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0')
+  ].join('-');
+};
+
+const todayDateValue = () => toLocalDateValue(new Date().toISOString());
 
 const formatPhone = (phone: string) => {
   if (!phone) return "";
@@ -744,6 +758,7 @@ export default function AnalyzerPage() {
   const [sortField, setSortField] = useState<SortField>('startTime');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
 
   const [showPromptEditor, setShowPromptEditor] = useState(false);
   const [showSheetAutomation, setShowSheetAutomation] = useState(false);
@@ -953,8 +968,17 @@ export default function AnalyzerPage() {
       console.log("📞 Fetching calls from MongoDB...");
 
       const token = getAuthToken();
+      const callsUrl = new URL(`${API_BASE_URL}/calls`);
+      callsUrl.searchParams.set('limit', '1000');
+      if (selectedDate) {
+        const [year, month, day] = selectedDate.split('-').map(Number);
+        const startOfDay = new Date(year, month - 1, day, 0, 0, 0, 0);
+        const endOfDay = new Date(year, month - 1, day, 23, 59, 59, 999);
+        callsUrl.searchParams.set('from_date', startOfDay.toISOString());
+        callsUrl.searchParams.set('to_date', endOfDay.toISOString());
+      }
       // Bound the initial response so Leads does not block on the full call history.
-      const callsResponse = await fetch(`${API_BASE_URL}/calls?limit=1000`, {
+      const callsResponse = await fetch(callsUrl.toString(), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -987,7 +1011,7 @@ export default function AnalyzerPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [selectedDate]);
 
   useEffect(() => {
     fetchCalls();
@@ -1065,6 +1089,12 @@ export default function AnalyzerPage() {
       filtered = filtered.filter(call => call.isLead === undefined || call.isLead === null);
     }
 
+    if (selectedDate) {
+      filtered = filtered.filter(call =>
+        toLocalDateValue(call.startTime || call.createdAt) === selectedDate
+      );
+    }
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(call =>
@@ -1102,7 +1132,7 @@ export default function AnalyzerPage() {
     });
 
     setFilteredCalls(filtered);
-  }, [calls, filterStatus, sortField, sortOrder, searchTerm]);
+  }, [calls, filterStatus, sortField, sortOrder, searchTerm, selectedDate]);
 
   // ==========================================
   // Statistics
@@ -1336,14 +1366,43 @@ export default function AnalyzerPage() {
                   ))}
                 </div>
 
-                <button
-                  onClick={fetchCalls}
-                  disabled={loading}
-                  className="flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50"
-                >
-                  <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-                  {loading ? 'Refreshing...' : 'Refresh'}
-                </button>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDate(todayDateValue())}
+                    className={`inline-flex items-center gap-2 rounded-lg border px-3.5 py-2 text-sm font-semibold transition-colors ${
+                      selectedDate === todayDateValue()
+                        ? 'border-teal-600 bg-teal-600 text-white'
+                        : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    <CalendarDays className="h-4 w-4" /> Today
+                  </button>
+                  <input
+                    type="date"
+                    value={selectedDate}
+                    onChange={(event) => setSelectedDate(event.target.value)}
+                    aria-label="Filter leads by date"
+                    className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                  />
+                  {selectedDate && (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDate('')}
+                      className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                    >
+                      Clear date
+                    </button>
+                  )}
+                  <button
+                    onClick={fetchCalls}
+                    disabled={loading}
+                    className="flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50"
+                  >
+                    <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                    {loading ? 'Refreshing...' : 'Refresh'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
