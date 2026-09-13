@@ -295,6 +295,7 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
                 <label>
                   <span className="mb-1.5 block text-sm font-semibold text-slate-700">Max attempts</span>
                   <input min={1} max={5} type="number" value={form.maxAttempts} onChange={(event) => update("maxAttempts", Number(event.target.value))} className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm" />
+                  <span className="mt-1 block text-xs text-slate-500">Failed or unanswered calls retry automatically. Includes the first call: 2 attempts means 1 retry.</span>
                 </label>
                 <label>
                   <span className="mb-1.5 block text-sm font-semibold text-slate-700">Check interval</span>
