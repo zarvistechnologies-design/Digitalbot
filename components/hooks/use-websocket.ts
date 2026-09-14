@@ -83,7 +83,16 @@ export function useWebSocket({ onMessage, reconnect = true }: UseWebSocketOption
     connect();
     return () => {
       if (reconnectTimer.current) clearTimeout(reconnectTimer.current);
-      wsRef.current?.close();
+      const ws = wsRef.current;
+      wsRef.current = null;
+      if (ws) {
+        // Closing on unmount must not start another reconnect timer.
+        ws.onclose = null;
+        ws.onerror = null;
+        ws.onmessage = null;
+        ws.onopen = null;
+        ws.close();
+      }
     };
   }, [connect]);
 

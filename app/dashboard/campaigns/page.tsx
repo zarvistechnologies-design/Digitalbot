@@ -1,5 +1,6 @@
 "use client"
 import Sidebar from "@/components/Sidebar";
+import { useWebSocket } from "@/components/hooks/use-websocket";
 import SheetAutomationModal from "@/components/leads/SheetAutomationModal";
 import { connectorsAPI, type VoiceConnector } from "@/lib/api";
 import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
@@ -40,7 +41,7 @@ type Campaign = {
     _id: string;
     name: string;
     type: 'voice';
-    status: 'draft' | 'scheduled' | 'active' | 'paused' | 'completed';
+    status: 'draft' | 'scheduled' | 'active' | 'paused' | 'completed' | 'cancelled' | 'failed';
     targetAudience: string;
     totalContacts: number;
     contacted: number;
@@ -64,6 +65,7 @@ type Campaign = {
     };
     operational?: {
         attempted: number;
+        processed?: number;
         answered: number;
         failed: number;
         pending: number;
@@ -146,6 +148,20 @@ const campaignStatusMeta = {
         dot: 'bg-slate-400',
         accent: 'bg-slate-400',
         row: 'hover:bg-slate-50'
+    },
+    cancelled: {
+        label: 'Cancelled',
+        badge: 'bg-rose-50 text-rose-700 ring-1 ring-rose-600/20',
+        dot: 'bg-rose-500',
+        accent: 'bg-rose-500',
+        row: 'hover:bg-slate-50'
+    },
+    failed: {
+        label: 'Failed',
+        badge: 'bg-red-50 text-red-700 ring-1 ring-red-600/20',
+        dot: 'bg-red-500',
+        accent: 'bg-red-500',
+        row: 'hover:bg-slate-50'
     }
 } as const;
 
@@ -203,10 +219,11 @@ userPhone ?: string;
 }) {
     const statusMeta = campaignStatusMeta[campaign.status] || campaignStatusMeta.draft;
     const attempted = campaign.operational?.attempted ?? campaign.contacted;
+    const processed = campaign.operational?.processed ?? attempted;
     const answered = campaign.operational?.answered ?? 0;
     const pending = campaign.operational?.pending ?? campaign.pending;
     const progress = campaign.totalContacts > 0
-        ? Math.min(100, Math.round((attempted / campaign.totalContacts) * 100))
+        ? Math.min(100, Math.round((processed / campaign.totalContacts) * 100))
         : 0;
 
     return (
@@ -237,7 +254,7 @@ userPhone ?: string;
                 <div>
                     <div className="mb-2 flex items-center justify-between text-xs">
                         <span className="font-medium text-slate-500">{progress}% complete</span>
-                        <span className="font-semibold text-slate-700">{attempted.toLocaleString()}/{campaign.totalContacts.toLocaleString()}</span>
+                        <span className="font-semibold text-slate-700">{processed.toLocaleString()}/{campaign.totalContacts.toLocaleString()}</span>
                     </div>
                     <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
                         <div className={`h-full rounded-full transition-all ${statusMeta.accent}`} style={{ width: `${progress}%` }} />
@@ -314,6 +331,21 @@ export default function CampaignsPage() {
     const [csvFile, setCsvFile] = useState<File | null>(null);
     const [uploadStep, setUploadStep] = useState<'form' | 'upload' | 'review'>('form');
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const refreshCampaignsRef = useRef<(() => void) | null>(null);
+
+    useWebSocket({
+        onMessage: (message) => {
+            if (['connection', 'new-call', 'call-update', 'campaign-update'].includes(message.type)) {
+                refreshCampaignsRef.current?.();
+            }
+        }
+    });
+
+    useEffect(() => {
+        setSelectedCampaign(current => current
+            ? campaigns.find(campaign => campaign._id === current._id) || null
+            : null);
+    }, [campaigns]);
 
     const updateCampaigns = useCallback((updater: (current: Campaign[]) => Campaign[]) => {
         setCampaigns((current) => {
@@ -382,14 +414,23 @@ export default function CampaignsPage() {
     // Fetch campaigns from backend API
     useEffect(() => {
         let mounted = true;
+        let inFlight = false;
+        let refreshQueued = false;
+        let lastRefreshAt = 0;
+        const controller = new AbortController();
         const fetchCampaigns = async (silent = false) => {
+            if (!mounted) return;
+            if (inFlight) {
+                refreshQueued = true;
+                return;
+            }
+            inFlight = true;
             try {
                 if (!silent) setLoading(true);
                 const prefetchedCampaigns = queryClient.getQueryData<Campaign[]>(DASHBOARD_QUERY_KEYS.campaigns);
                 if (!silent && prefetchedCampaigns) {
                     updateCampaigns(() => prefetchedCampaigns);
                     setLoading(false);
-                    return;
                 }
                 const token = getAuthToken();
 
@@ -401,6 +442,8 @@ export default function CampaignsPage() {
                 }
 
                 const response = await fetch(`${API_BASE_URL}/campaigns?type=voice`, {
+                    cache: 'no-store',
+                    signal: controller.signal,
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -425,18 +468,39 @@ export default function CampaignsPage() {
                 console.log(`✅ Fetched ${fetchedCampaigns.length} campaigns from backend`);
 
             } catch (error) {
+                if (!mounted) return;
                 console.error('Error fetching campaigns:', error);
                 if (mounted && !silent) updateCampaigns(() => []);
             } finally {
+                inFlight = false;
+                lastRefreshAt = Date.now();
                 if (mounted && !silent) setLoading(false);
+                if (mounted && refreshQueued) {
+                    refreshQueued = false;
+                    void fetchCampaigns(true);
+                }
             }
         };
 
+        const refreshWhenVisible = () => {
+            if (document.visibilityState === 'visible') void fetchCampaigns(true);
+        };
+        refreshCampaignsRef.current = refreshWhenVisible;
         void fetchCampaigns();
-        const refreshTimer = window.setInterval(() => void fetchCampaigns(true), 60_000);
+        const refreshTimer = window.setInterval(() => {
+            const current = queryClient.getQueryData<Campaign[]>(DASHBOARD_QUERY_KEYS.campaigns) || [];
+            const hasRunningCampaign = current.some(campaign => ['active', 'scheduled'].includes(campaign.status));
+            if (hasRunningCampaign || Date.now() - lastRefreshAt >= 60_000) refreshWhenVisible();
+        }, 5_000);
+        window.addEventListener('focus', refreshWhenVisible);
+        document.addEventListener('visibilitychange', refreshWhenVisible);
         return () => {
             mounted = false;
+            refreshCampaignsRef.current = null;
+            controller.abort();
             window.clearInterval(refreshTimer);
+            window.removeEventListener('focus', refreshWhenVisible);
+            document.removeEventListener('visibilitychange', refreshWhenVisible);
         };
     }, [queryClient, updateCampaigns]);
 
@@ -467,8 +531,8 @@ export default function CampaignsPage() {
     const totalContacts = campaigns.reduce((sum, c) => sum + c.totalContacts, 0);
     const averageProgress = campaigns.length
         ? Math.round(campaigns.reduce((sum, campaign) => {
-            const attempted = campaign.operational?.attempted ?? campaign.contacted ?? 0;
-            return sum + (campaign.totalContacts ? Math.min(100, (attempted / campaign.totalContacts) * 100) : 0);
+            const processed = campaign.operational?.processed ?? campaign.operational?.attempted ?? campaign.contacted ?? 0;
+            return sum + (campaign.totalContacts ? Math.min(100, (processed / campaign.totalContacts) * 100) : 0);
         }, 0) / campaigns.length)
         : 0;
 
