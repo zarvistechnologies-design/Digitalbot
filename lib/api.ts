@@ -989,7 +989,7 @@ export interface RealEstateProperty {
 export interface RealEstateSiteVisit {
   _id: string;
   leadId: RealEstateLead | string;
-  propertyId: RealEstateProperty | string;
+  propertyId?: RealEstateProperty | string | null;
   customerName: string;
   customerPhone: string;
   visitAt: string;

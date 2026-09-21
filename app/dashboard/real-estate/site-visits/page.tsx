@@ -57,7 +57,7 @@ function leadFrom(visit: RealEstateSiteVisit) {
 }
 
 function propertyFrom(visit: RealEstateSiteVisit) {
-  return typeof visit.propertyId === "string" ? null : visit.propertyId;
+  return !visit.propertyId || typeof visit.propertyId === "string" ? null : visit.propertyId;
 }
 
 function formatVisitDate(value: string) {
@@ -219,18 +219,19 @@ export default function RealEstateSiteVisitsPage() {
             return (
               <article key={visit._id} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
                 <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div><p className="text-xs font-black uppercase tracking-wide text-emerald-700">{property?.projectName || "Property"}</p><h2 className="mt-1 text-xl font-black text-slate-950">{visit.customerName || lead?.customerName || "Customer"}</h2></div>
+                  <div><p className="text-xs font-black uppercase tracking-wide text-emerald-700">{property?.projectName || "Property match pending"}</p><h2 className="mt-1 text-xl font-black text-slate-950">{visit.customerName || lead?.customerName || "Customer"}</h2></div>
                   <span className={`rounded-full border px-3 py-1 text-[11px] font-black uppercase ${statusStyles[visit.status] || statusStyles.requested}`}>{pretty(visit.status)}</span>
                 </div>
                 <div className="mt-5 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
                   <p className="flex items-start gap-2 font-semibold"><Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />{formatVisitDate(visit.visitAt)}</p>
-                  <p className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />{[property?.title, property?.locality, property?.city].filter(Boolean).join(", ") || visit.meetingPoint || "Meeting point not set"}</p>
+                  <p className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />{[property?.title, property?.locality, property?.city].filter(Boolean).join(", ") || visit.meetingPoint || "Property and meeting point pending"}</p>
                   <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-emerald-700" />{visit.customerPhone || lead?.phoneNumber || "Phone not set"}</p>
                   <p className="flex items-center gap-2"><UserRound className="h-4 w-4 text-emerald-700" />{visit.assignedTo || "Executive unassigned"}</p>
                 </div>
                 {visit.notes && <p className="mt-4 rounded-xl bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">{visit.notes}</p>}
                 <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
-                  {visit.status === "requested" && <button disabled={updating} onClick={() => void updateStatus(visit, "confirmed")} className="rounded-lg bg-sky-700 px-3 py-2 text-xs font-black text-white disabled:opacity-50">Confirm</button>}
+                  {visit.status === "requested" && property && <button disabled={updating} onClick={() => void updateStatus(visit, "confirmed")} className="rounded-lg bg-sky-700 px-3 py-2 text-xs font-black text-white disabled:opacity-50">Confirm</button>}
+                  {visit.status === "requested" && !property && <span className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-black text-amber-800">Match property before confirming</span>}
                   {!["completed", "cancelled", "no_show"].includes(visit.status) && <button disabled={updating} onClick={() => void updateStatus(visit, "completed")} className="rounded-lg bg-emerald-800 px-3 py-2 text-xs font-black text-white disabled:opacity-50">Complete visit</button>}
                   {!["completed", "cancelled", "no_show"].includes(visit.status) && <button disabled={updating} onClick={() => void updateStatus(visit, "no_show")} className="rounded-lg border border-orange-200 px-3 py-2 text-xs font-black text-orange-700 disabled:opacity-50">No show</button>}
                   {!["completed", "cancelled"].includes(visit.status) && <button disabled={updating} onClick={() => void updateStatus(visit, "cancelled")} className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-black text-slate-600 disabled:opacity-50">Cancel</button>}
