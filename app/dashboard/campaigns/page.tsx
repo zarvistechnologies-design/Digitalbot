@@ -325,7 +325,7 @@ export default function CampaignsPage() {
     const [concurrency, setConcurrency] = useState(3);
     const [retryAttempts, setRetryAttempts] = useState(1);
     const [retryDelayHours, setRetryDelayHours] = useState(24);
-    const [firstMessageMode, setFirstMessageMode] = useState<FirstMessageMode>('assistant-speaks-first');
+    const [firstMessageMode, setFirstMessageMode] = useState<FirstMessageMode>('model-generated');
     const [detectVoicemail, setDetectVoicemail] = useState(false);
     const [contacts, setContacts] = useState<Array<{ name: string, phone: string, email?: string }>>([]);
     const [csvFile, setCsvFile] = useState<File | null>(null);
@@ -916,7 +916,7 @@ export default function CampaignsPage() {
                 setConcurrency(3);
                 setRetryAttempts(1);
                 setRetryDelayHours(24);
-                setFirstMessageMode('assistant-speaks-first');
+                setFirstMessageMode('model-generated');
                 setDetectVoicemail(false);
                 setContacts([]);
                 setCsvFile(null);
@@ -1422,7 +1422,7 @@ export default function CampaignsPage() {
                                         setConcurrency(3);
                                         setRetryAttempts(1);
                                         setRetryDelayHours(24);
-                                        setFirstMessageMode('assistant-speaks-first');
+                                        setFirstMessageMode('model-generated');
                                         setDetectVoicemail(false);
                                     }}
                                     className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
