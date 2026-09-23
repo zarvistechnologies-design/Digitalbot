@@ -4,7 +4,6 @@
 User-agent: *
 Allow: /
 Allow: /services/
-Allow: /pricing
 Allow: /about
 Allow: /contact
 Allow: /blog/

@@ -107,11 +107,11 @@ export function Footer() {
               {[
                 { title: "Product", links: [
                   { name: "Features", href: "/services" },
-                  { name: "Pricing", href: "/pricing" },
+                  { name: "Contact Sales", href: "/contact#contact-form" },
                   { name: "Integration", href: "/integrations" }
                 ]},
                 { title: "Company", links: [
-                  { name: "About Us", href: "/about" },
+                  { name: "About Us", href: "/about-us" },
                   { name: "Blog", href: "/blog" },
                   { name: "Careers", href: "/careers" },
                   { name: "Contact", href: "/contact" }

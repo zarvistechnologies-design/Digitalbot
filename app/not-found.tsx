@@ -162,10 +162,10 @@ export default function NotFound() {
                 <span className="group-hover:text-orange-700">SERVICES</span>
               </Link>
               <Link
-                href="/pricing"
+                href="/contact"
                 className="px-3 py-1 border border-orange-400/50 text-orange-500 hover:bg-orange-400/10 hover:border-orange-500 hover:shadow-[0_0_10px_rgba(99,102,241,0.2)] transition-all duration-300 group"
               >
-                <span className="group-hover:text-orange-700">PRICING</span>
+                <span className="group-hover:text-orange-700">CONTACT</span>
               </Link>
               <Link
                 href="/blog"

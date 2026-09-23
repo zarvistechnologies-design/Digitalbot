@@ -176,9 +176,9 @@ export default function Services() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link href="/pricing">
+                <Link href="/contact#contact-form">
                   <Button size="lg" variant="outline" className="h-12 rounded-lg border-slate-300 bg-white px-6 text-base font-semibold text-slate-700 hover:bg-slate-50">
-                    View Pricing
+                    Contact Sales
                   </Button>
                 </Link>
               </div>
@@ -525,9 +525,9 @@ export default function Services() {
                     <div className="absolute inset-0 bg-gradient-to-r from-slate-800 to-slate-900 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   </Button>
                 </Link>
-                <Link href="/pricing">
+                <Link href="/contact#contact-form">
                   <Button size="lg" variant="outline" className="rounded-lg px-8 py-7 text-base font-medium border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-600 transition-all backdrop-blur-sm bg-white/50">
-                    View Pricing
+                    Contact Sales
                   </Button>
                 </Link>
               </div>
@@ -1579,9 +1579,9 @@ export default function Services() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link href="/pricing">
+                <Link href="/contact#contact-form">
                   <Button variant="outline" className="h-12 rounded-lg border-slate-300 bg-white px-6 text-base font-semibold text-slate-700 hover:bg-slate-50">
-                    View Pricing
+                    Contact Sales
                   </Button>
                 </Link>
               </div>

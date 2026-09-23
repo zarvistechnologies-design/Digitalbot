@@ -30,7 +30,7 @@ const structuredData = {
         "priceCurrency": "USD",
         "priceValidUntil": "2025-12-31",
         "availability": "https://schema.org/InStock",
-        "url": "https://www.digitalbot.ai/pricing"
+        "url": "https://www.digitalbot.ai/contact"
       },
       "aggregateRating": {
         "@type": "AggregateRating",
