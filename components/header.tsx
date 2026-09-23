@@ -234,28 +234,28 @@ export function Header() {
 
             <header className={cn("hdr-root fixed top-0 w-full z-50 transition-all duration-400", isScrolled ? "hdr-bar-scrolled" : "hdr-bar")}>
                 <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-[66px]">
+                    <div className="flex h-[66px] items-center gap-4">
 
                         {/* Logo */}
                         <motion.div
                             initial={{ opacity: 0, x: -16 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="flex min-w-0 items-center gap-2.5"
+                            className="flex min-w-0 shrink-0 items-center gap-2.5"
                         >
                             <Link href="/" className="flex shrink-0 items-center group" onClick={() => setIsMenuOpen(false)}>
                                 <Image
                                     src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
                                     alt="DigitalBot.AI"
                                     width={1450} height={460} priority
-                                    className="h-10 w-auto sm:h-12 transition-transform duration-300 group-hover:scale-105"
+                                    className="h-10 w-auto sm:h-11 transition-transform duration-300 group-hover:scale-105"
                                 />
                             </Link>
                             <div
-                                className="flex shrink-0 items-center gap-1.5 border-l border-slate-200 py-0.5 pl-2.5"
+                                className="flex shrink-0 flex-col items-start justify-center gap-1 border-l border-slate-200 py-0.5 pl-2.5"
                                 aria-label="DigitalBot.ai is a product by Vozon"
                             >
-                                <span className="hidden whitespace-nowrap text-[10px] font-medium tracking-[0.01em] text-slate-400 sm:inline">
+                                <span className="whitespace-nowrap text-[8px] font-semibold uppercase leading-none tracking-[0.12em] text-slate-400">
                                     A product by
                                 </span>
                                 <Image
@@ -264,13 +264,13 @@ export function Header() {
                                     width={2164}
                                     height={726}
                                     priority
-                                    className="h-[15px] w-auto sm:h-[18px]"
+                                    className="h-[16px] w-auto"
                                 />
                             </div>
                         </motion.div>
 
                         {/* Desktop Nav */}
-                        <nav className="hidden lg:flex items-center gap-1">
+                        <nav className="hidden flex-1 items-center justify-center gap-0 lg:flex xl:gap-1">
                             {/* Home Link */}
                             <Link href="/" className={cn("hdr-nav-link", pathname === "/" && "active")}>
                                 Home
@@ -422,7 +422,7 @@ export function Header() {
                         </nav>
 
                         {/* Right: CTA */}
-                        <div className="hidden lg:flex items-center gap-2.5">
+                        <div className="hidden shrink-0 items-center lg:flex">
                             <Link
                                 href="/login"
                                 className="inline-flex items-center justify-center rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm shadow-orange-500/20 transition-all hover:-translate-y-0.5 hover:bg-orange-700 hover:shadow-md hover:shadow-orange-500/25"
@@ -434,7 +434,7 @@ export function Header() {
                         {/* Mobile hamburger */}
                         <button
                             onClick={() => { setIsMenuOpen(!isMenuOpen); if (isMenuOpen) setMobileAccordion(null) }}
-                            className="lg:hidden p-2 text-slate-600 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+                            className="ml-auto rounded-lg p-2 text-slate-600 transition-colors hover:bg-orange-50 hover:text-orange-500 lg:hidden"
                         >
                             {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                         </button>
