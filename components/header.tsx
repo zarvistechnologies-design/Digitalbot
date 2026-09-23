@@ -241,19 +241,22 @@ export function Header() {
                             initial={{ opacity: 0, x: -16 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="flex min-w-0 items-center gap-2 sm:gap-3"
+                            className="flex min-w-0 items-center gap-2.5"
                         >
                             <Link href="/" className="flex shrink-0 items-center group" onClick={() => setIsMenuOpen(false)}>
                                 <Image
                                     src="https://res.cloudinary.com/dew9qfpbl/image/upload/v1762971494/Gemini_Generated_Image_a19f1ha19f1ha19f-Kittl_b9jogz.svg"
                                     alt="DigitalBot.AI"
                                     width={1450} height={460} priority
-                                    className="h-11 w-auto sm:h-14 transition-transform duration-300 group-hover:scale-105"
+                                    className="h-10 w-auto sm:h-12 transition-transform duration-300 group-hover:scale-105"
                                 />
                             </Link>
-                            <div className="flex shrink-0 items-center gap-2 border-l border-slate-200 pl-2 sm:pl-3" aria-label="DigitalBot.ai is a product by Vozon">
-                                <span className="hidden text-[9px] font-semibold uppercase leading-tight tracking-[0.12em] text-slate-400 sm:block">
-                                    A product<br />by
+                            <div
+                                className="flex shrink-0 items-center gap-1.5 border-l border-slate-200 py-0.5 pl-2.5"
+                                aria-label="DigitalBot.ai is a product by Vozon"
+                            >
+                                <span className="hidden whitespace-nowrap text-[10px] font-medium tracking-[0.01em] text-slate-400 sm:inline">
+                                    A product by
                                 </span>
                                 <Image
                                     src="/images/logos/vozon-logo.png"
@@ -261,7 +264,7 @@ export function Header() {
                                     width={2164}
                                     height={726}
                                     priority
-                                    className="h-4 w-auto sm:h-5"
+                                    className="h-[15px] w-auto sm:h-[18px]"
                                 />
                             </div>
                         </motion.div>
