@@ -21,7 +21,11 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+function normalizeLanguages(values: string[]) {
+  return [...new Set(values)].sort().join("|");
+}
 
 function errorMessage(error: unknown, fallback: string) {
   const data = (error as { response?: { data?: { message?: string; error?: string } } })
@@ -51,10 +55,12 @@ export default function AgentKnowledgePage() {
   const [languageSaved, setLanguageSaved] = useState(false);
   const [workspaceLabel, setWorkspaceLabel] = useState("Lead Analysis");
   const [hospitalityWorkspace, setHospitalityWorkspace] = useState(false);
+  const languageEditVersion = useRef(0);
+  const languageSyncAttemptVersion = useRef(-1);
   const dirty = instructions !== savedInstructions;
-  const normalizeLanguages = (values: string[]) => [...new Set(values)].sort().join("|");
+  const supportedLanguageKey = normalizeLanguages(supportedLanguages);
   const languageDirty = language !== savedLanguage
-    || normalizeLanguages(supportedLanguages) !== normalizeLanguages(savedSupportedLanguages);
+    || supportedLanguageKey !== normalizeLanguages(savedSupportedLanguages);
   const knowledgeQuery = useQuery<AgentKnowledgeConnection[]>({
     queryKey: ["agent-knowledge"],
     queryFn: async () => {
@@ -145,6 +151,8 @@ export default function AgentKnowledgePage() {
   );
   const selectConnection = (connectorId: string) => {
     if ((dirty || languageDirty) && !window.confirm("Discard unsaved Agent Knowledge or language changes?")) return;
+    languageEditVersion.current += 1;
+    languageSyncAttemptVersion.current = -1;
     const next = connections.find((connection) => connection.connectorId === connectorId);
     setSelectedId(connectorId);
     setInstructions(next?.instructions || "");
@@ -168,31 +176,55 @@ export default function AgentKnowledgePage() {
     await knowledgeQuery.refetch();
   };
 
-  const saveLanguage = async () => {
-    if (!selected || !language || !languageDirty) return;
+  const saveLanguage = async (
+    targetLanguage = language,
+    targetSupportedLanguages = supportedLanguages
+  ) => {
+    if (!selected || !targetLanguage) return;
+    const connectorId = selected.connectorId;
+    const editVersion = languageEditVersion.current;
+    languageSyncAttemptVersion.current = editVersion;
     try {
       setSavingLanguage(true);
       setLanguageSaved(false);
       setSyncError("");
-      const response = await agentKnowledgeAPI.updateLanguage(selected.connectorId, language, supportedLanguages);
+      const response = await agentKnowledgeAPI.updateLanguage(connectorId, targetLanguage, targetSupportedLanguages);
       const updated = response.data.connection;
       queryClient.setQueryData<AgentKnowledgeConnection[]>(["agent-knowledge"], (current = []) =>
         current.map((item) => item.connectorId === updated.connectorId ? updated : item)
       );
-      setLanguage(updated.language || language);
-      setSavedLanguage(updated.language || language);
+      if (languageEditVersion.current !== editVersion || selectedId !== connectorId) return;
+      setLanguage(updated.language || targetLanguage);
+      setSavedLanguage(updated.language || targetLanguage);
       const updatedSupported = updated.supportedLanguages?.length
         ? updated.supportedLanguages
-        : [updated.language || language];
+        : [updated.language || targetLanguage];
       setSupportedLanguages(updatedSupported);
       setSavedSupportedLanguages(updatedSupported);
       setLanguageSaved(true);
     } catch (saveError) {
-      setSyncError(errorMessage(saveError, "Could not update the language in Vozon."));
+      if (languageEditVersion.current === editVersion && selectedId === connectorId) {
+        setSyncError(errorMessage(saveError, "Could not update the language in Vozon."));
+      }
     } finally {
       setSavingLanguage(false);
     }
   };
+
+  useEffect(() => {
+    if (
+      !selected?.languageSelectionEnabled
+      || !selected.available
+      || !language
+      || !languageDirty
+      || savingLanguage
+      || languageSyncAttemptVersion.current === languageEditVersion.current
+    ) return;
+    const timer = window.setTimeout(() => {
+      void saveLanguage(language, supportedLanguages);
+    }, 600);
+    return () => window.clearTimeout(timer);
+  }, [language, supportedLanguageKey, languageDirty, savingLanguage, selected?.available, selected?.connectorId, selected?.languageSelectionEnabled]);
 
   const saveKnowledge = async () => {
     if (!selected || !instructions.trim()) {
@@ -321,11 +353,12 @@ export default function AgentKnowledgePage() {
                     <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
                       <div className="block">
                         <span className="text-sm font-bold text-zinc-800">Agent language</span>
-                        <span className="mt-1 block text-xs leading-5 text-zinc-500">Includes every language in Cross Corporation&apos;s country calling table. Vozon catalog details are used where available.</span>
+                        <span className="mt-1 block text-xs leading-5 text-zinc-500">Includes every language in Cross Corporation&apos;s country calling table. Changes automatically sync to the connected Vozon agent.</span>
                         <select
                           value={language}
                           onChange={(event) => {
                             const nextLanguage = event.target.value;
+                            languageEditVersion.current += 1;
                             setLanguage(nextLanguage);
                             setSupportedLanguages((current) => [...new Set([nextLanguage, ...current])].filter(Boolean));
                             setLanguageSaved(false);
@@ -351,6 +384,7 @@ export default function AgentKnowledgePage() {
                                   checked={checked}
                                   disabled={primary || savingLanguage}
                                   onChange={(event) => {
+                                    languageEditVersion.current += 1;
                                     setSupportedLanguages((current) => event.target.checked
                                       ? [...new Set([...current, option.value])]
                                       : current.filter((value) => value !== option.value));
@@ -371,7 +405,7 @@ export default function AgentKnowledgePage() {
                         className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-orange-600 px-5 text-sm font-semibold text-white hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {savingLanguage ? <Loader2 className="h-4 w-4 animate-spin" /> : languageSaved ? <Check className="h-4 w-4" /> : <Save className="h-4 w-4" />}
-                        {savingLanguage ? "Saving" : languageSaved ? "Saved to Vozon" : "Save language"}
+                        {savingLanguage ? "Syncing to Vozon" : languageSaved ? "Synced to Vozon" : "Sync now"}
                       </button>
                     </div>
                   </section>
