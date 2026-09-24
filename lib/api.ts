@@ -191,6 +191,7 @@ export type SheetAutomationConfig = {
   headerRow: number;
   phoneColumn: string;
   nameColumn: string;
+  variableKeys: string[];
   status: 'active' | 'paused' | 'error';
   timezone: string;
   windowStart: string;
@@ -234,7 +235,17 @@ export const sheetAutomationAPI = {
       recentJobs: SheetAutomationJob[];
     };
   }>('/sheet-automation'),
-  test: (data: Record<string, unknown>) => api.post('/sheet-automation/test', data),
+  test: (data: Record<string, unknown>) => api.post<{
+    success: boolean;
+    data: {
+      spreadsheetId: string;
+      headers: string[];
+      rowCount: number;
+      detectedPhoneColumn: string;
+      detectedNameColumn: string;
+      variableKeys: string[];
+    };
+  }>('/sheet-automation/test', data),
   save: (data: Record<string, unknown>) => api.put('/sheet-automation', data),
   sync: () => api.post('/sheet-automation/sync'),
   pause: () => api.post('/sheet-automation/pause'),

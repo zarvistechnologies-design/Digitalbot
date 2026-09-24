@@ -85,30 +85,36 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
   const [form, setForm] = useState<FormState>(DEFAULT_FORM);
   const [automation, setAutomation] = useState<SheetAutomationConfig | null>(null);
   const [jobs, setJobs] = useState<SheetAutomationJob[]>([]);
+  const [variableKeys, setVariableKeys] = useState<string[]>([]);
   const [serviceAccountEmail, setServiceAccountEmail] = useState("");
   const [serverReady, setServerReady] = useState({ sheets: false, calling: false });
   const [googleConfigCode, setGoogleConfigCode] = useState("missing");
   const [notice, setNotice] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  const load = useCallback(async () => {
+  const load = useCallback(async ({ syncForm = true, silent = false }: { syncForm?: boolean; silent?: boolean } = {}) => {
     try {
       const response = await sheetAutomationAPI.get();
       const data = response.data.data;
       setAutomation(data.automation);
       setJobs(data.recentJobs || []);
+      setVariableKeys(data.automation?.variableKeys || []);
       setServiceAccountEmail(data.serviceAccountEmail || "");
       setServerReady({ sheets: data.configured, calling: data.callingConfigured });
       setGoogleConfigCode(data.googleConfiguration?.code || (data.configured ? "ready" : "missing"));
-      setForm(formFromAutomation(data.automation));
+      if (syncForm) setForm(formFromAutomation(data.automation));
     } catch (error) {
-      setNotice({ type: "error", text: errorMessage(error) });
+      if (!silent) setNotice({ type: "error", text: errorMessage(error) });
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, []);
 
   useEffect(() => {
     void load();
+    const refreshTimer = window.setInterval(() => {
+      if (document.visibilityState === "visible") void load({ syncForm: false, silent: true });
+    }, 10_000);
+    return () => window.clearInterval(refreshTimer);
   }, [load]);
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) => {
@@ -126,6 +132,7 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
         phoneColumn: data.detectedPhoneColumn || current.phoneColumn,
         nameColumn: data.detectedNameColumn || current.nameColumn,
       }));
+      setVariableKeys(data.variableKeys || []);
       setNotice({ type: "success", text: `Connected. ${data.rowCount} lead rows found.` });
     } catch (error) {
       setNotice({ type: "error", text: errorMessage(error) });
@@ -173,6 +180,7 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
       await sheetAutomationAPI.disconnect();
       setAutomation(null);
       setJobs([]);
+      setVariableKeys([]);
       setForm(DEFAULT_FORM);
       setNotice({ type: "success", text: "Google Sheet disconnected." });
     } catch (error) {
@@ -243,6 +251,21 @@ export default function SheetAutomationModal({ onClose }: { onClose: () => void 
                       <Clipboard className="h-4 w-4" />
                     </button>
                   </div>
+                </div>
+              )}
+
+              {variableKeys.length > 0 && (
+                <div className="rounded-md border border-sky-200 bg-sky-50 p-3.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-sm font-bold text-sky-950">Vozon variables loaded from the Sheet</p>
+                    <span className="text-xs font-semibold text-sky-700">{variableKeys.length} column{variableKeys.length === 1 ? "" : "s"}</span>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {variableKeys.map((key) => (
+                      <code key={key} className="rounded border border-sky-200 bg-white px-2 py-1 text-xs text-sky-800">{`{{${key}}}`}</code>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-sky-800">New rows and columns load on the next automatic check. Standard name and phone aliases are added automatically.</p>
                 </div>
               )}
 

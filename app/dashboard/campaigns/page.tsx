@@ -197,6 +197,72 @@ const normalizeCampaignPhone = (value: string): string | null => {
     return `+${digits}`;
 };
 
+type CampaignContact = {
+    name: string;
+    phone: string;
+    email?: string;
+    company?: string;
+    customFields?: Record<string, string>;
+};
+
+const normalizeCsvHeader = (value: string) => value
+    .replace(/^\uFEFF/, '')
+    .trim()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+
+const csvVariableKey = (value: string) => value
+    .replace(/^\uFEFF/, '')
+    .trim()
+    .replace(/[^a-zA-Z0-9_]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .slice(0, 60);
+
+const parseCsvRows = (text: string) => {
+    const rows: string[][] = [];
+    let row: string[] = [];
+    let value = '';
+    let quoted = false;
+
+    for (let index = 0; index < text.length; index += 1) {
+        const character = text[index];
+        if (character === '"') {
+            if (quoted && text[index + 1] === '"') {
+                value += '"';
+                index += 1;
+            } else {
+                quoted = !quoted;
+            }
+        } else if (character === ',' && !quoted) {
+            row.push(value.trim());
+            value = '';
+        } else if ((character === '\n' || character === '\r') && !quoted) {
+            if (character === '\r' && text[index + 1] === '\n') index += 1;
+            row.push(value.trim());
+            if (row.some(cell => cell.length > 0)) rows.push(row);
+            row = [];
+            value = '';
+        } else {
+            value += character;
+        }
+    }
+    row.push(value.trim());
+    if (row.some(cell => cell.length > 0)) rows.push(row);
+    return rows;
+};
+
+const findCsvColumn = (headers: string[], aliases: string[]) => {
+    const normalized = headers.map(normalizeCsvHeader);
+    return aliases.map(alias => normalized.indexOf(alias)).find(index => index >= 0) ?? -1;
+};
+
+const cleanOwnerName = (value: string, header: string) => {
+    const name = value.trim();
+    if (normalizeCsvHeader(header) !== 'owner') return name;
+    return name.replace(/\s*\((?:owner|managing director|director|founder|proprietor|manager|ceo)\)\s*$/i, '').trim();
+};
+
 type FirstMessageMode = 'assistant-speaks-first' | 'model-generated' | 'user-speaks-first';
 
 // Icons
@@ -327,7 +393,8 @@ export default function CampaignsPage() {
     const [retryDelayHours, setRetryDelayHours] = useState(24);
     const [firstMessageMode, setFirstMessageMode] = useState<FirstMessageMode>('model-generated');
     const [detectVoicemail, setDetectVoicemail] = useState(false);
-    const [contacts, setContacts] = useState<Array<{ name: string, phone: string, email?: string }>>([]);
+    const [contacts, setContacts] = useState<CampaignContact[]>([]);
+    const [csvVariableKeys, setCsvVariableKeys] = useState<string[]>([]);
     const [csvFile, setCsvFile] = useState<File | null>(null);
     const [uploadStep, setUploadStep] = useState<'form' | 'upload' | 'review'>('form');
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -672,31 +739,43 @@ export default function CampaignsPage() {
         reader.onload = (event) => {
             try {
                 const text = event.target?.result as string;
-                const lines = text.split('\n').filter(line => line.trim());
+                const rows = parseCsvRows(text);
 
-                if (lines.length === 0) {
+                if (rows.length === 0) {
                     alert('❌ CSV file is empty!');
                     e.target.value = '';
                     return;
                 }
 
-                // Skip header row
-                const dataLines = lines.slice(1);
+                const headers = rows[0].map(header => header.replace(/^\uFEFF/, '').trim());
+                const dataRows = rows.slice(1);
 
-                if (dataLines.length === 0) {
+                if (dataRows.length === 0) {
                     alert('❌ CSV contains only headers, no contact data!');
                     e.target.value = '';
                     return;
                 }
 
+                const nameIndex = findCsvColumn(headers, ['name', 'customer name', 'lead name', 'full name', 'contact name', 'owner', 'owner name']);
+                const companyIndex = findCsvColumn(headers, ['company', 'company name', 'business', 'business name', 'organization', 'organization name', 'organisation', 'organisation name']);
+                const phoneIndex = findCsvColumn(headers, ['phone', 'phone number', 'mobile', 'mobile number', 'contact', 'contact number', 'whatsapp', 'whatsapp number']);
+                const emailIndex = findCsvColumn(headers, ['email', 'email address', 'e mail']);
+                if (nameIndex < 0 || phoneIndex < 0) {
+                    throw new Error('CSV needs a name column (NAME or OWNER) and a phone column (PHONE or MOBILE).');
+                }
+
                 // Email validation regex
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                const parsedContacts: Array<{ name: string; phone: string; email: string }> = [];
+                const parsedContacts: CampaignContact[] = [];
                 const errors: string[] = [];
+                const variableKeys = Array.from(new Set(headers.map(csvVariableKey).filter(Boolean))).slice(0, 50);
 
-                dataLines.forEach((line, index) => {
-                    const [name, phone, email] = line.split(',').map(v => v.trim());
+                dataRows.forEach((row, index) => {
+                    const name = cleanOwnerName(row[nameIndex] || '', headers[nameIndex]);
+                    const phone = row[phoneIndex] || '';
+                    const email = emailIndex >= 0 ? row[emailIndex] || '' : '';
+                    const company = companyIndex >= 0 ? row[companyIndex] || '' : '';
 
                     // Validate name
                     if (!name || name.length < 2) {
@@ -722,10 +801,24 @@ export default function CampaignsPage() {
                         // Still allow contact, just skip email
                     }
 
+                    const customFields = Object.fromEntries(headers
+                        .map((header, columnIndex) => [csvVariableKey(header), String(row[columnIndex] || '').slice(0, 500)] as const)
+                        .filter(([key, fieldValue]) => key && fieldValue)
+                        .slice(0, 50));
+
                     parsedContacts.push({
                         name,
                         phone: normalizedPhone,
-                        email: email && emailRegex.test(email) ? email : ''
+                        email: email && emailRegex.test(email) ? email : '',
+                        company,
+                        customFields: {
+                            ...customFields,
+                            name,
+                            full_name: name,
+                            customer_name: name,
+                            customerName: name,
+                            ...(company ? { company, company_name: company, companyName: company } : {})
+                        }
                     });
                 });
 
@@ -773,13 +866,14 @@ export default function CampaignsPage() {
                 }
 
                 setContacts(parsedContacts);
+                setCsvVariableKeys(variableKeys);
                 setUploadStep('review');
                 console.log(`✅ Parsed ${parsedContacts.length} valid contacts from CSV`);
                 alert(`✅ Successfully loaded ${parsedContacts.length} contacts!`);
 
             } catch (error) {
                 console.error('CSV parsing error:', error);
-                alert('❌ Failed to parse CSV file. Please check the format and try again.');
+                alert(`❌ ${error instanceof Error ? error.message : 'Failed to parse CSV file. Please check the format and try again.'}`);
                 e.target.value = '';
             }
         };
@@ -920,6 +1014,7 @@ export default function CampaignsPage() {
                 setDetectVoicemail(false);
                 setContacts([]);
                 setCsvFile(null);
+                setCsvVariableKeys([]);
                 setUploadStep('form');
 
                 alert(`✅ Campaign "${campaignName}" created successfully with ${contacts.length} contacts!\n\nCalls will be made from: ${userInfo?.assignedPhoneNumber || 'your assigned number'}`);
@@ -1412,6 +1507,7 @@ export default function CampaignsPage() {
                                         setTargetAudience('');
                                         setContacts([]);
                                         setCsvFile(null);
+                                        setCsvVariableKeys([]);
                                         if (fileInputRef.current) fileInputRef.current.value = '';
                                         setAgentId('');
                                         setPhoneNumberId('');
@@ -1615,7 +1711,7 @@ export default function CampaignsPage() {
                                             Choose CSV File
                                         </button>
                                         <p className="text-sm text-gray-500 mt-3">
-                                            CSV format: name, phone, email. Use country codes for international numbers (for example +14155552671 or +442079460958). Bare 10-digit numbers default to India (+91).
+                                            Headers are detected automatically. Supported examples: OWNER or NAME, COMPANY NAME, PHONE or MOBILE, and EMAIL. Other columns become Vozon prompt variables.
                                         </p>
                                     </div>
 
@@ -1761,11 +1857,24 @@ export default function CampaignsPage() {
                                     {/* Contacts Preview */}
                                     <div>
                                         <h4 className="font-bold text-gray-900 mb-3">Contact List Preview</h4>
+                                        {csvVariableKeys.length > 0 && (
+                                            <div className="mb-3 rounded-lg border border-sky-200 bg-sky-50 p-3">
+                                                <p className="text-xs font-bold uppercase tracking-wide text-sky-800">Vozon prompt variables</p>
+                                                <div className="mt-2 flex flex-wrap gap-1.5">
+                                                    {csvVariableKeys.map(key => (
+                                                        <code key={key} className="rounded border border-sky-200 bg-white px-2 py-1 text-xs text-sky-800">{`{{${key}}}`}</code>
+                                                    ))}
+                                                    <code className="rounded border border-sky-200 bg-white px-2 py-1 text-xs text-sky-800">{'{{customerName}}'}</code>
+                                                    <code className="rounded border border-sky-200 bg-white px-2 py-1 text-xs text-sky-800">{'{{companyName}}'}</code>
+                                                </div>
+                                            </div>
+                                        )}
                                         <div className="max-h-60 overflow-x-auto overflow-y-auto rounded-lg border border-slate-200">
                                             <table className="w-full">
                                                 <thead className="bg-gray-100 sticky top-0">
                                                     <tr>
                                                         <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Name</th>
+                                                        <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Company</th>
                                                         <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Phone</th>
                                                         <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Email</th>
                                                     </tr>
@@ -1774,6 +1883,7 @@ export default function CampaignsPage() {
                                                     {contacts.slice(0, 20).map((contact, idx) => (
                                                         <tr key={idx} className="border-t border-gray-200">
                                                             <td className="px-4 py-2 text-sm">{contact.name}</td>
+                                                            <td className="px-4 py-2 text-sm">{contact.company || '-'}</td>
                                                             <td className="px-4 py-2 text-sm">{contact.phone}</td>
                                                             <td className="px-4 py-2 text-sm">{contact.email || '-'}</td>
                                                         </tr>
