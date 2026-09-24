@@ -817,6 +817,8 @@ export default function CampaignsPage() {
                             full_name: name,
                             customer_name: name,
                             customerName: name,
+                            owner_name: name,
+                            ownerName: name,
                             ...(company ? { company, company_name: company, companyName: company } : {})
                         }
                     });
@@ -1865,6 +1867,7 @@ export default function CampaignsPage() {
                                                         <code key={key} className="rounded border border-sky-200 bg-white px-2 py-1 text-xs text-sky-800">{`{{${key}}}`}</code>
                                                     ))}
                                                     <code className="rounded border border-sky-200 bg-white px-2 py-1 text-xs text-sky-800">{'{{customerName}}'}</code>
+                                                    <code className="rounded border border-sky-200 bg-white px-2 py-1 text-xs text-sky-800">{'{{owner_name}}'}</code>
                                                     <code className="rounded border border-sky-200 bg-white px-2 py-1 text-xs text-sky-800">{'{{companyName}}'}</code>
                                                 </div>
                                             </div>
