@@ -321,7 +321,7 @@ export default function AgentKnowledgePage() {
                     <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
                       <div className="block">
                         <span className="text-sm font-bold text-zinc-800">Agent language</span>
-                        <span className="mt-1 block text-xs leading-5 text-zinc-500">Available options are fetched from Vozon and limited to Cross Corporation&apos;s target calling languages.</span>
+                        <span className="mt-1 block text-xs leading-5 text-zinc-500">Includes every language in Cross Corporation&apos;s country calling table. Vozon catalog details are used where available.</span>
                         <select
                           value={language}
                           onChange={(event) => {
