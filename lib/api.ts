@@ -406,6 +406,12 @@ export interface AgentKnowledgeConnection {
   phoneNumber?: string | null;
   available: boolean;
   instructions: string;
+  language?: string;
+  supportedLanguages?: string[];
+  multilingualEnabled?: boolean;
+  languageSwitchingEnabled?: boolean;
+  languageOptions?: Array<{ value: string; label: string; code?: string | null }>;
+  languageSelectionEnabled?: boolean;
   promptField?: string | null;
   agentUpdatedAt?: string | null;
 }
@@ -419,6 +425,11 @@ export const agentKnowledgeAPI = {
     api.put<{ success: true; connection: AgentKnowledgeConnection; message: string }>(
       `/agent-knowledge/${encodeURIComponent(connectorId)}`,
       { instructions }
+    ),
+  updateLanguage: (connectorId: string, language: string, supportedLanguages: string[]) =>
+    api.put<{ success: true; connection: AgentKnowledgeConnection; message: string }>(
+      `/agent-knowledge/${encodeURIComponent(connectorId)}/language`,
+      { language, supportedLanguages }
     ),
 };
 
