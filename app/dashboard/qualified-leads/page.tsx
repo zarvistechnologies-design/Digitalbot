@@ -2,6 +2,9 @@
 
 import Sidebar from "@/components/Sidebar";
 import { getAuthToken } from "@/lib/auth";
+import { leadsAPI } from "@/lib/api";
+import { DASHBOARD_QUERY_KEYS, getDashboardWorkspaceScope } from "@/lib/dashboard-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   CalendarDays,
   ChevronDown,
@@ -71,6 +74,14 @@ type Lead = {
     };
   };
 };
+
+async function loadQualifiedLeads(): Promise<Lead[]> {
+  const response = await leadsAPI.getLeads({ limit: 1000, view: "qualified" });
+  const savedLeads = Array.isArray(response.data.data?.leads) ? response.data.data.leads : [];
+  return savedLeads.filter(
+    (lead: Lead) => String(lead.leadStatus || "").toLowerCase() !== "unqualified",
+  );
+}
 
 // Professional "clinical ledger" theme — muted, flat, high-legibility.
 // Every quality token pairs a soft surface with a saturated 600/700-weight
@@ -309,9 +320,25 @@ function LeadRow({ lead }: { lead: Lead }) {
 }
 
 export default function QualifiedLeadsPage() {
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const qualifiedLeadsQueryKey = [
+    ...DASHBOARD_QUERY_KEYS.qualifiedLeads,
+    getDashboardWorkspaceScope(),
+  ] as const;
+  const leadsQuery = useQuery({
+    queryKey: qualifiedLeadsQueryKey,
+    queryFn: loadQualifiedLeads,
+    staleTime: 60_000,
+    gcTime: 30 * 60_000,
+    refetchOnWindowFocus: false,
+  });
+  const leads = leadsQuery.data || [];
+  const loading = leadsQuery.isLoading && leads.length === 0;
+  const refreshing = leadsQuery.isFetching;
+  const error = leadsQuery.error
+    ? leadsQuery.error instanceof Error
+      ? leadsQuery.error.message
+      : "Unable to load leads"
+    : "";
   const [search, setSearch] = useState("");
   const [qualityFilter, setQualityFilter] = useState<"all" | LeadQuality>("all");
   const [selectedDate, setSelectedDate] = useState("");
@@ -319,37 +346,15 @@ export default function QualifiedLeadsPage() {
   const [isRealEstate, setIsRealEstate] = useState(false);
 
   const fetchLeads = useCallback(async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const leadsUrl = new URL(`${API_BASE_URL}/leads`);
-      leadsUrl.searchParams.set("limit", "1000");
-      if (selectedDate) {
-        const [year, month, day] = selectedDate.split("-").map(Number);
-        leadsUrl.searchParams.set("from_date", new Date(year, month - 1, day, 0, 0, 0, 0).toISOString());
-        leadsUrl.searchParams.set("to_date", new Date(year, month - 1, day, 23, 59, 59, 999).toISOString());
-      }
-      const response = await fetch(leadsUrl.toString(), {
-        headers: { Authorization: `Bearer ${getAuthToken()}`, "Content-Type": "application/json" },
-      });
-      if (!response.ok) throw new Error(`Unable to load leads (${response.status})`);
-      const payload = await response.json();
-      const savedLeads = Array.isArray(payload.data?.leads) ? payload.data.leads : [];
-      setLeads(savedLeads.filter((lead: Lead) => String(lead.leadStatus || "").toLowerCase() !== "unqualified"));
-    } catch (fetchError) {
-      setError(fetchError instanceof Error ? fetchError.message : "Unable to load leads");
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedDate]);
+    await leadsQuery.refetch();
+  }, [leadsQuery.refetch]);
 
   useEffect(() => {
-    fetchLeads();
     try {
       const user = JSON.parse(localStorage.getItem("user") || "{}");
       setIsRealEstate(["real-estate-crm", "real-estate"].includes(String(user.selectedService || user.verifiedService || "").toLowerCase()));
     } catch { setIsRealEstate(false); }
-  }, [fetchLeads]);
+  }, []);
 
   const filteredLeads = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -492,8 +497,8 @@ export default function QualifiedLeadsPage() {
                   </div>
                 </div>
                 <div className="flex shrink-0 flex-wrap gap-2">
-                  <button onClick={fetchLeads} disabled={loading} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50">
-                    <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+                  <button onClick={fetchLeads} disabled={refreshing} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50">
+                    <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
                     Refresh
                   </button>
                   <button onClick={exportCsv} disabled={!filteredLeads.length} className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-50">

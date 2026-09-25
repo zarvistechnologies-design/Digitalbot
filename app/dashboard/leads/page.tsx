@@ -1,6 +1,13 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import SheetAutomationModal from "@/components/leads/SheetAutomationModal";
+import { callsAPI } from "@/lib/api";
+import {
+  DASHBOARD_QUERY_KEYS,
+  getDashboardWorkspaceScope,
+  invalidateDashboardResource,
+} from "@/lib/dashboard-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import {
   AlertCircle,
@@ -28,7 +35,6 @@ import {
 // CONFIGURATION - FORCE LOCALHOST FOR DEVELOPMENT
 // ==========================================
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
-const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'wss://digital-api-46ss.onrender.com/ws';
 
 // ==========================================
 // TYPES
@@ -256,6 +262,11 @@ const normalizeCall = (call: Call, index: number): Call => {
     startTime: call.startTime || call.start_time || call.createdAt || call.created_at,
     createdAt: call.createdAt || call.created_at,
   };
+};
+
+const loadAnalyzerCalls = async (): Promise<Call[]> => {
+  const response = await callsAPI.getCalls({ limit: 1000, view: "analyzer" });
+  return response.data.data?.calls || response.data.calls || [];
 };
 
 // Get auth token helper - FORCE DEMO TOKEN
@@ -731,10 +742,24 @@ function CallRow({
 }
 
 export default function AnalyzerPage() {
-  const [calls, setCalls] = useState<Call[]>([]);
+  const queryClient = useQueryClient();
+  const analyzerQueryKey = [
+    ...DASHBOARD_QUERY_KEYS.analyzerCalls,
+    getDashboardWorkspaceScope(),
+  ] as const;
+  const callsQuery = useQuery({
+    queryKey: analyzerQueryKey,
+    queryFn: loadAnalyzerCalls,
+    select: (items) => items.map((call, index) => normalizeCall(call, index)),
+    staleTime: 60_000,
+    gcTime: 30 * 60_000,
+    refetchOnWindowFocus: false,
+  });
+  const calls = callsQuery.data || [];
+  const loading = callsQuery.isLoading && calls.length === 0;
+  const refreshing = callsQuery.isFetching;
   const [filteredCalls, setFilteredCalls] = useState<Call[]>([]);
   const [selectedCall, setSelectedCall] = useState<Call | null>(null);
-  const [loading, setLoading] = useState(true);
   const [processingQueue, setProcessingQueue] = useState<string[]>([]);
   const [bulkProgress, setBulkProgress] = useState<BulkAnalysisProgress | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -855,7 +880,7 @@ export default function AnalyzerPage() {
       const aiResult = await processTranscriptionWithAI(callId, transcriptionText, forceReanalyze);
 
       if (aiResult && aiResult.extraction_method !== "failed") {
-        setCalls(prevCalls =>
+        queryClient.setQueryData<Call[]>(analyzerQueryKey, (prevCalls = []) =>
           prevCalls.map(c => {
             if (getCallId(c) !== callId) return c;
             const primaryPhone = (c.direction === "outbound" ? c.to_number : c.from_number)
@@ -900,7 +925,7 @@ export default function AnalyzerPage() {
     } finally {
       setProcessingQueue(prev => prev.filter(id => id !== callId));
     }
-  }, [calls, processTranscriptionWithAI]);
+  }, [analyzerQueryKey, calls, processTranscriptionWithAI, queryClient]);
 
   // ==========================================
   // Analyze All Pending Calls
@@ -946,110 +971,19 @@ export default function AnalyzerPage() {
   // Fetch Calls from Database
   // ==========================================
   const fetchCalls = useCallback(async () => {
-    setLoading(true);
     setError(null);
-
     try {
-      console.log("📞 Fetching calls from MongoDB...");
-
-      const token = getAuthToken();
-      // Bound the initial response so Leads does not block on the full call history.
-      const callsResponse = await fetch(`${API_BASE_URL}/calls?limit=1000`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      console.log("📥 Response status:", callsResponse.status);
-      console.log("📥 Response ok:", callsResponse.ok);
-
-      if (!callsResponse.ok) {
-        const errorText = await callsResponse.text();
-        console.error("❌ Error response:", errorText);
-        throw new Error(`Failed to fetch calls: ${callsResponse.status} ${callsResponse.statusText}`);
-      }
-
-      const callsData = await callsResponse.json();
-      const fetchedCalls = callsData.calls || callsData.data?.calls || [];
-      const normalizedCalls = fetchedCalls.map((call: Call, index: number) => normalizeCall(call, index));
-
-      console.log(`📊 Fetched ${fetchedCalls.length} calls from backend (already filtered by user phone)`);
-
-      // Backend already filters by authenticated user's phone number
-      // No need for client-side filtering - just use the data directly
-      setCalls(normalizedCalls);
-      console.log(`✅ Loaded ${fetchedCalls.length} calls for authenticated user`);
-
+      await invalidateDashboardResource(queryClient, "/calls");
     } catch (error) {
-      console.error("❌ Error in fetchCalls:", error);
       setError(error instanceof Error ? error.message : 'Failed to fetch calls');
-    } finally {
-      setLoading(false);
     }
-  }, []);
+  }, [queryClient]);
 
   useEffect(() => {
-    fetchCalls();
-  }, [fetchCalls]);
-
-  // ==========================================
-  // WebSocket Connection
-  // ==========================================
-  useEffect(() => {
-    let ws: WebSocket;
-
-    const connectWebSocket = () => {
-      try {
-        ws = new WebSocket(WS_URL);
-
-        ws.onopen = () => {
-          console.log("🔌 WebSocket connected");
-        };
-
-        ws.onmessage = async (event) => {
-          try {
-            const newCallsData = JSON.parse(event.data);
-
-            if (Array.isArray(newCallsData)) {
-              setCalls(prevCalls => {
-                const updatedCalls = [...prevCalls];
-                newCallsData.forEach((newCall, index) => {
-                  const normalizedCall = normalizeCall(newCall, index);
-                  const newCallId = getCallId(normalizedCall);
-                  const existingIndex = updatedCalls.findIndex(call => getCallId(call) === newCallId);
-                  if (existingIndex > -1) {
-                    updatedCalls[existingIndex] = { ...updatedCalls[existingIndex], ...normalizedCall };
-                  } else {
-                    updatedCalls.unshift(normalizedCall);
-                  }
-                });
-                return updatedCalls;
-              });
-            }
-          } catch (error) {
-            console.error("Failed to parse WebSocket message:", error);
-          }
-        };
-
-        ws.onerror = (error) => {
-          console.error("WebSocket error:", error);
-        };
-
-      } catch (error) {
-        console.error("Failed to connect WebSocket:", error);
-      }
-    };
-
-    const timer = setTimeout(connectWebSocket, 2000);
-
-    return () => {
-      clearTimeout(timer);
-      if (ws) {
-        ws.close();
-      }
-    };
-  }, []);
+    if (callsQuery.error) {
+      setError(callsQuery.error instanceof Error ? callsQuery.error.message : 'Failed to fetch calls');
+    }
+  }, [callsQuery.error]);
 
   // ==========================================
   // Filter and Sort Calls
@@ -1078,7 +1012,7 @@ export default function AnalyzerPage() {
       );
     }
 
-    filtered = filtered.sort((a, b) => {
+    filtered = [...filtered].sort((a, b) => {
       let aValue: any, bValue: any;
 
       switch (sortField) {
@@ -1338,11 +1272,11 @@ export default function AnalyzerPage() {
 
                 <button
                   onClick={fetchCalls}
-                  disabled={loading}
+                  disabled={refreshing}
                   className="flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50"
                 >
-                  <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-                  {loading ? 'Refreshing...' : 'Refresh'}
+                  <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+                  {refreshing ? 'Refreshing...' : 'Refresh'}
                 </button>
               </div>
             </div>

@@ -433,6 +433,11 @@ export const agentKnowledgeAPI = {
     ),
 };
 
+export const leadsAPI = {
+  getLeads: (params: Record<string, string | number | undefined> = {}) =>
+    api.get('/leads', { params }),
+};
+
 // ========================================
 // DOCTOR + WHATSAPP API
 // ========================================
