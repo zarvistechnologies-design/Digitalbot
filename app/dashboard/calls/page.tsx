@@ -34,7 +34,40 @@ type AgentOption = {
   name: string;
 };
 
-const ALL_CALLS_LIMIT = 0;
+type CallFilters = {
+  agentId: string;
+  status: string;
+  direction: string;
+  phone: string;
+  startDate: string;
+  endDate: string;
+};
+
+const CALLS_PAGE_SIZE = 50;
+const EMPTY_CALL_FILTERS: CallFilters = {
+  agentId: '',
+  status: '',
+  direction: '',
+  phone: '',
+  startDate: '',
+  endDate: '',
+};
+
+const dateBoundaryToIso = (value: string, endOfDay = false) => {
+  const [year, month, day] = value.split('-').map(Number);
+  if (!year || !month || !day) return undefined;
+
+  const date = new Date(
+    year,
+    month - 1,
+    day,
+    endOfDay ? 23 : 0,
+    endOfDay ? 59 : 0,
+    endOfDay ? 59 : 0,
+    endOfDay ? 999 : 0
+  );
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+};
 
 // "Switchboard" theme — a dark slate header rail with teal for live/primary
 // actions, sky for inbound, violet for outbound, and status categories that
@@ -72,7 +105,6 @@ const Dashboard = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [calls, setCalls] = useState<Call[]>([]);
-  const [allCalls, setAllCalls] = useState<Call[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -85,6 +117,11 @@ const Dashboard = () => {
   const [phoneFilter, setPhoneFilter] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [activeFilters, setActiveFilters] = useState<CallFilters>(EMPTY_CALL_FILTERS);
+  const [activeSearch, setActiveSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCalls, setTotalCalls] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [showFilters, setShowFilters] = useState(true);
   const [availableAgents, setAvailableAgents] = useState<AgentOption[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -108,7 +145,7 @@ const Dashboard = () => {
     const cachedCalls = queryCalls || getStaleCache<Call[]>(CACHE_KEYS.CALLS);
     if (cachedCalls && cachedCalls.length > 0) {
       setCalls(cachedCalls);
-      setAllCalls(cachedCalls);
+      setTotalCalls(cachedCalls.length);
       setLoading(false);
     }
     const cachedStats = getStaleCache<CallStats>(CACHE_KEYS.CALLS_STATS);
@@ -261,38 +298,47 @@ const Dashboard = () => {
       syncInFlightRef.current = false;
     }
   };
-  const fetchCalls = async (page = 1, limit = ALL_CALLS_LIMIT, search = '', isBackground = false) => {
+  const fetchCalls = async (
+    page = 1,
+    limit = CALLS_PAGE_SIZE,
+    search = activeSearch,
+    isBackground = false,
+    filters = activeFilters
+  ) => {
     try {
       if (!isBackground) {
         // Only show loading if no cached data available
         const cached = getStaleCache<Call[]>(CACHE_KEYS.CALLS);
         if (!cached || cached.length === 0) setLoading(true);
+        else setIsBackgroundFetching(true);
       } else {
         setIsBackgroundFetching(true);
       }
       setError(null);
 
-      const response = await callsAPI.getCalls({ page, limit });
+      const response = await callsAPI.getCalls({
+        page,
+        limit,
+        search: search.trim() || undefined,
+        agent_id: filters.agentId || undefined,
+        status: filters.status || undefined,
+        direction: filters.direction || undefined,
+        phone: filters.phone.trim() || undefined,
+        from_date: dateBoundaryToIso(filters.startDate),
+        to_date: dateBoundaryToIso(filters.endDate, true),
+      });
 
       const rawCallsData = response.data.data?.calls || response.data.calls || response.data.data || [];
-      let callsData = Array.isArray(rawCallsData)
+      const callsData = Array.isArray(rawCallsData)
         ? rawCallsData.map((call: any, index: number) => ({
             ...call,
             id: getCallId(call) || `call-${index}`,
           }))
         : [];
-
-      if (search.trim()) {
-        const term = search.toLowerCase().trim();
-        callsData = callsData.filter((call: any) =>
-          getCallId(call).toLowerCase().includes(term) ||
-          (call.from_number || '').toLowerCase().includes(term) ||
-          (call.to_number || '').toLowerCase().includes(term) ||
-          (call.phone_number || '').toLowerCase().includes(term) ||
-          getAgentDisplay(call).toLowerCase().includes(term) ||
-          (call.status || call.call_status || '').toLowerCase().includes(term)
-        );
-      }
+      const responseTotal = Number(response.data.data?.total ?? response.data.total ?? callsData.length);
+      const responseTotalPages = Number(
+        response.data.data?.totalPages ?? response.data.totalPages ?? Math.max(1, Math.ceil(responseTotal / limit))
+      );
 
       if (isBackground && calls.length > 0) {
         const newCalls = callsData.filter((newCall: Call) =>
@@ -302,23 +348,26 @@ const Dashboard = () => {
       }
 
       setCalls(callsData);
-      setAllCalls(callsData);
+      setTotalCalls(responseTotal);
+      setTotalPages(Math.max(1, responseTotalPages));
+      setCurrentPage(page);
       // Update shared cache so Dashboard gets fresh data too
-      setCache(CACHE_KEYS.CALLS, callsData, 60000);
+      const isDefaultFirstPage = page === 1 && !search.trim() && Object.values(filters).every((value) => !value);
+      if (isDefaultFirstPage) setCache(CACHE_KEYS.CALLS, callsData, 60000);
       setLastRefreshTime(new Date());
 
     } catch (err: any) {
       console.warn('Calls API error:', err.message);
       setCalls([]);
-      setAllCalls([]);
+      setTotalCalls(0);
+      setTotalPages(1);
       setError(err.response?.data?.error || err.response?.data?.details || err.message || 'Failed to load calls');
       setLastRefreshTime(new Date());
     } finally {
       if (!isBackground) {
         setLoading(false);
-      } else {
-        setIsBackgroundFetching(false);
       }
+      setIsBackgroundFetching(false);
     }
   };
 
@@ -365,7 +414,7 @@ const Dashboard = () => {
     // Always reconcile the connected provider on entry. Cached rows remain
     // visible while the sync runs, then the workspace receives fresh details.
     void syncConnectedWorkspaceCalls().finally(() => {
-      fetchCalls();
+      fetchCalls(1, CALLS_PAGE_SIZE, '', false, EMPTY_CALL_FILTERS);
       fetchStats();
       fetchAgents();
     });
@@ -377,10 +426,10 @@ const Dashboard = () => {
       if (msg.type === 'new-call' || msg.type === 'call-update') {
         invalidateCache(CACHE_KEYS.CALLS);
         invalidateCache(CACHE_KEYS.CALLS_STATS);
-        fetchCalls(1, ALL_CALLS_LIMIT, searchQuery, true);
+        fetchCalls(currentPage, CALLS_PAGE_SIZE, activeSearch, true, activeFilters);
         fetchStats();
       }
-    }, [searchQuery]),
+    }, [currentPage, activeSearch, activeFilters]),
   });
 
   useEffect(() => {
@@ -389,7 +438,7 @@ const Dashboard = () => {
     const interval = setInterval(() => {
       if (!loading) {
         void syncConnectedWorkspaceCalls().finally(() => {
-          fetchCalls(1, ALL_CALLS_LIMIT, searchQuery, true);
+          fetchCalls(currentPage, CALLS_PAGE_SIZE, activeSearch, true, activeFilters);
           invalidateCache(CACHE_KEYS.CALLS_STATS);
           fetchStats();
         });
@@ -397,62 +446,31 @@ const Dashboard = () => {
     }, refreshInterval);
 
     return () => clearInterval(interval);
-  }, [mounted, isAutoRefreshEnabled, refreshInterval, loading, searchQuery]);
+  }, [mounted, isAutoRefreshEnabled, refreshInterval, loading, currentPage, activeSearch, activeFilters]);
 
   useEffect(() => {
     setNewCallsCount(0);
   }, [expandedCall]);
 
   const handleSearch = () => {
-    fetchCalls(1, ALL_CALLS_LIMIT, searchQuery);
+    const nextSearch = searchQuery.trim();
+    setActiveSearch(nextSearch);
+    setCurrentPage(1);
+    fetchCalls(1, CALLS_PAGE_SIZE, nextSearch, false, activeFilters);
   };
 
   const handleApplyFilters = () => {
-    let filteredCalls = [...allCalls];
-
-    if (selectedAgent) {
-      filteredCalls = filteredCalls.filter(call =>
-        call.agent_id === selectedAgent || call.agent_name === selectedAgent
-      );
-    }
-
-    if (selectedStatus) {
-      filteredCalls = filteredCalls.filter(call =>
-        (call.status || (call as any).call_status) === selectedStatus
-      );
-    }
-
-    if (selectedDirection) {
-      filteredCalls = filteredCalls.filter(call =>
-        call.direction === selectedDirection
-      );
-    }
-
-    if (phoneFilter) {
-      const phoneTerm = phoneFilter.trim().toLowerCase();
-      filteredCalls = filteredCalls.filter(call =>
-        [call.from_number, call.to_number, call.phone_number]
-          .some(number => String(number || '').toLowerCase().includes(phoneTerm))
-      );
-    }
-
-    if (startDate) {
-      const startTime = new Date(startDate).getTime();
-      filteredCalls = filteredCalls.filter(call => {
-        const callTime = new Date(call.start_time || '').getTime();
-        return callTime >= startTime;
-      });
-    }
-
-    if (endDate) {
-      const endTime = new Date(endDate).getTime();
-      filteredCalls = filteredCalls.filter(call => {
-        const callTime = new Date(call.start_time || '').getTime();
-        return callTime <= endTime;
-      });
-    }
-
-    setCalls(filteredCalls);
+    const nextFilters: CallFilters = {
+      agentId: selectedAgent,
+      status: selectedStatus,
+      direction: selectedDirection,
+      phone: phoneFilter,
+      startDate,
+      endDate,
+    };
+    setActiveFilters(nextFilters);
+    setCurrentPage(1);
+    fetchCalls(1, CALLS_PAGE_SIZE, activeSearch, false, nextFilters);
   };
 
   const handleClearFilters = () => {
@@ -462,7 +480,11 @@ const Dashboard = () => {
     setPhoneFilter('');
     setStartDate('');
     setEndDate('');
-    setCalls(allCalls);
+    setSearchQuery('');
+    setActiveSearch('');
+    setActiveFilters(EMPTY_CALL_FILTERS);
+    setCurrentPage(1);
+    fetchCalls(1, CALLS_PAGE_SIZE, '', false, EMPTY_CALL_FILTERS);
   };
 
   const escapeCsvCell = (value: unknown) => {
@@ -535,7 +557,7 @@ const Dashboard = () => {
     invalidateCache(CACHE_KEYS.CALLS_STATS);
     invalidateCache(CACHE_KEYS.CALLS_AGENTS);
     await syncConnectedWorkspaceCalls();
-    fetchCalls();
+    fetchCalls(currentPage, CALLS_PAGE_SIZE, activeSearch, false, activeFilters);
     fetchStats();
     fetchAgents();
   };
@@ -555,7 +577,7 @@ const Dashboard = () => {
     ['completed', 'user-ended', 'agent-ended', 'ended'].includes(String(call.status || '').toLowerCase());
 
   const callSummary = {
-    total: calls.length,
+    total: totalCalls,
     completed: calls.filter(isCompletedCall).length,
     averageDuration: calls.length > 0
       ? Math.round(calls.reduce((sum, call) => sum + (Number(call.duration) || 0), 0) / calls.length)
@@ -779,19 +801,27 @@ const Dashboard = () => {
                       placeholder="Phone number"
                       className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500 w-[140px]"
                     />
-                    <input
-                      type="datetime-local"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                      className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500 font-mono"
-                    />
+                    <label className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+                      From
+                      <input
+                        type="date"
+                        value={startDate}
+                        max={endDate || undefined}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500 font-mono"
+                      />
+                    </label>
                     <span className="text-xs text-slate-400">to</span>
-                    <input
-                      type="datetime-local"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                      className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500 font-mono"
-                    />
+                    <label className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+                      Through
+                      <input
+                        type="date"
+                        value={endDate}
+                        min={startDate || undefined}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 outline-none transition focus:border-teal-500 focus:ring-1 focus:ring-teal-500 font-mono"
+                      />
+                    </label>
 
                     <label className="ml-1 flex items-center gap-1.5 text-xs font-medium text-slate-600">
                       <input
@@ -837,7 +867,14 @@ const Dashboard = () => {
               <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
                 <div className="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-slate-200">
                   <p className="text-xs text-slate-500">
-                    <span className="font-mono font-semibold text-slate-700">{calls.length}</span> call{calls.length === 1 ? '' : 's'}
+                    {totalCalls > 0 ? (
+                      <>
+                        Showing <span className="font-mono font-semibold text-slate-700">{(currentPage - 1) * CALLS_PAGE_SIZE + 1}-{Math.min(currentPage * CALLS_PAGE_SIZE, totalCalls)}</span>
+                        {' '}of <span className="font-mono font-semibold text-slate-700">{totalCalls}</span> calls
+                      </>
+                    ) : (
+                      <>0 calls</>
+                    )}
                     {newCallsCount > 0 && (
                       <span className="ml-2 inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
                         <Sparkles className="w-3 h-3" /> {newCallsCount} new
@@ -1142,6 +1179,33 @@ const Dashboard = () => {
                     </div>
                   )}
                 </div>
+
+                {totalCalls > 0 && (
+                  <div className="flex flex-col gap-2 border-t border-slate-200 bg-slate-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-xs font-medium text-slate-500">
+                      Page <span className="font-mono text-slate-700">{currentPage}</span> of{' '}
+                      <span className="font-mono text-slate-700">{totalPages}</span>
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        disabled={currentPage <= 1 || loading || isBackgroundFetching}
+                        onClick={() => fetchCalls(currentPage - 1, CALLS_PAGE_SIZE, activeSearch, false, activeFilters)}
+                        className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        Previous
+                      </button>
+                      <button
+                        type="button"
+                        disabled={currentPage >= totalPages || loading || isBackgroundFetching}
+                        onClick={() => fetchCalls(currentPage + 1, CALLS_PAGE_SIZE, activeSearch, false, activeFilters)}
+                        className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           )}
