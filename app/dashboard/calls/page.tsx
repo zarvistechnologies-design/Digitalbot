@@ -317,9 +317,10 @@ const Dashboard = () => {
       }
       setError(null);
 
-      const response = await callsAPI.getCalls({
+      const requestParams = {
         page,
         limit,
+        view: 'summary',
         search: search.trim() || undefined,
         agent_id: filters.agentId || undefined,
         status: filters.status || undefined,
@@ -327,14 +328,23 @@ const Dashboard = () => {
         phone: filters.phone.trim() || undefined,
         from_date: dateBoundaryToIso(filters.startDate),
         to_date: dateBoundaryToIso(filters.endDate, true),
-      });
+      };
+      const response = await callsAPI.getCalls(requestParams);
 
       const rawCallsData = response.data.data?.calls || response.data.calls || response.data.data || [];
       const callsData = Array.isArray(rawCallsData)
-        ? rawCallsData.map((call: any, index: number) => ({
-            ...call,
-            id: getCallId(call) || `call-${index}`,
-          }))
+        ? rawCallsData.map((call: any, index: number) => {
+            const transcriptionIsSummaryMarker = call.transcription === true;
+            return {
+              ...call,
+              id: getCallId(call) || `call-${index}`,
+              has_transcription: transcriptionIsSummaryMarker || call.transcription_formatted === true,
+              transcription: transcriptionIsSummaryMarker ? undefined : call.transcription,
+              transcription_formatted: call.transcription_formatted === true
+                ? undefined
+                : call.transcription_formatted,
+            };
+          })
         : [];
       const paginationData = response.data.data || response.data;
       const rawTotal = Number(paginationData?.total ?? callsData.length);
@@ -386,6 +396,11 @@ const Dashboard = () => {
       const isDefaultFirstPage = page === 1 && !search.trim() && Object.values(filters).every((value) => !value);
       if (isDefaultFirstPage) setCache(CACHE_KEYS.CALLS, callsData, 60000);
       setLastRefreshTime(new Date());
+
+      // Warm the next page in the shared GET cache so navigation feels instant.
+      if (nextPageAvailable) {
+        void callsAPI.getCalls({ ...requestParams, page: page + 1 }).catch(() => undefined);
+      }
 
     } catch (err: any) {
       console.warn('Calls API error:', err.message);
@@ -604,6 +619,19 @@ const Dashboard = () => {
   const changeRefreshInterval = (newInterval: number) => {
     setRefreshInterval(newInterval);
   };
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages || page === currentPage || isBackgroundFetching) return;
+    setExpandedCall(null);
+    void fetchCalls(page, CALLS_PAGE_SIZE, activeSearch, false, activeFilters);
+  };
+
+  const visiblePageNumbers = (() => {
+    const visibleCount = Math.min(5, totalPages);
+    const maxStart = Math.max(1, totalPages - visibleCount + 1);
+    const start = Math.min(Math.max(1, currentPage - 2), maxStart);
+    return Array.from({ length: visibleCount }, (_, index) => start + index);
+  })();
 
   const isCompletedCall = (call: Call) =>
     ['completed', 'user-ended', 'agent-ended', 'ended'].includes(String(call.status || '').toLowerCase());
@@ -1213,7 +1241,7 @@ const Dashboard = () => {
                 </div>
 
                 {totalCalls > 0 && (
-                  <div className="flex flex-col gap-2 border-t border-slate-200 bg-slate-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="sticky bottom-0 z-10 flex flex-col gap-2 border-t border-slate-200 bg-slate-50/95 px-4 py-3 shadow-[0_-4px_12px_rgba(15,23,42,0.06)] backdrop-blur sm:flex-row sm:items-center sm:justify-between">
                     <p className="text-xs font-medium text-slate-500">
                       Page <span className="font-mono text-slate-700">{currentPage}</span> of{' '}
                       <span className="font-mono text-slate-700">{totalPages}</span>
@@ -1222,15 +1250,33 @@ const Dashboard = () => {
                       <button
                         type="button"
                         disabled={currentPage <= 1 || loading || isBackgroundFetching}
-                        onClick={() => fetchCalls(currentPage - 1, CALLS_PAGE_SIZE, activeSearch, false, activeFilters)}
+                        onClick={() => handlePageChange(currentPage - 1)}
                         className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         Previous
                       </button>
+                      <div className="flex items-center gap-1" aria-label="Call history pages">
+                        {visiblePageNumbers.map((pageNumber) => (
+                          <button
+                            key={pageNumber}
+                            type="button"
+                            aria-current={pageNumber === currentPage ? 'page' : undefined}
+                            disabled={loading || isBackgroundFetching}
+                            onClick={() => handlePageChange(pageNumber)}
+                            className={`h-8 min-w-8 rounded-lg border px-2 text-xs font-bold transition disabled:cursor-wait disabled:opacity-60 ${
+                              pageNumber === currentPage
+                                ? 'border-teal-600 bg-teal-600 text-white'
+                                : 'border-slate-300 bg-white text-slate-700 hover:border-teal-300 hover:bg-teal-50'
+                            }`}
+                          >
+                            {pageNumber}
+                          </button>
+                        ))}
+                      </div>
                       <button
                         type="button"
                         disabled={!hasNextPage || loading || isBackgroundFetching}
-                        onClick={() => fetchCalls(currentPage + 1, CALLS_PAGE_SIZE, activeSearch, false, activeFilters)}
+                        onClick={() => handlePageChange(currentPage + 1)}
                         className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         Next
