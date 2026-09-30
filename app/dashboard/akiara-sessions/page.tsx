@@ -12,15 +12,18 @@ import {
     Loader2,
     Menu,
     MessageSquare,
+    Mic,
+    Paperclip,
     RefreshCw,
     Search,
     Send,
+    Square,
     Ticket,
     User,
     X,
     Zap
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const AkiaraAnalyticsCharts = dynamic(
   () => import("@/components/dashboard/AkiaraAnalyticsCharts"),
@@ -156,6 +159,15 @@ function extractCustomerImageUrls(session: AkiaraSession) {
   return Array.from(urls);
 }
 
+function isReplyWindowOpen(session: AkiaraSession) {
+  const latestCustomerMessage = [...(session.conversationHistory || [])]
+    .reverse()
+    .find((message) => message.role === "user" && message.timestamp);
+  if (!latestCustomerMessage) return false;
+  const timestamp = new Date(latestCustomerMessage.timestamp).getTime();
+  return Number.isFinite(timestamp) && Date.now() - timestamp <= 24 * 60 * 60 * 1000;
+}
+
 interface User {
   id: string;
   email: string;
@@ -178,6 +190,15 @@ export default function AkiaraSessionsPage() {
   const [expandedSession, setExpandedSession] = useState<string | null>(null);
   const [sendingMsg, setSendingMsg] = useState<string | null>(null);
   const [customMsg, setCustomMsg] = useState("");
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const [mediaPreviewUrl, setMediaPreviewUrl] = useState("");
+  const [sendAsVoice, setSendAsVoice] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const [sendError, setSendError] = useState("");
+  const mediaInputRef = useRef<HTMLInputElement | null>(null);
+  const recorderRef = useRef<MediaRecorder | null>(null);
+  const recorderStreamRef = useRef<MediaStream | null>(null);
+  const recordedChunksRef = useRef<Blob[]>([]);
   const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const analyticsDays = parseInt(dateRange, 10);
@@ -224,15 +245,102 @@ export default function AkiaraSessionsPage() {
     }, [fetchData, refetchAnalytics]),
   });
 
-  const handleSendMessage = async (phone: string) => {
-    if (!customMsg.trim() || !user?.tenantId) return;
-    setSendingMsg(phone);
+  const clearMedia = useCallback(() => {
+    if (mediaPreviewUrl) URL.revokeObjectURL(mediaPreviewUrl);
+    setMediaPreviewUrl("");
+    setMediaFile(null);
+    setSendAsVoice(false);
+    if (mediaInputRef.current) mediaInputRef.current.value = "";
+  }, [mediaPreviewUrl]);
+
+  useEffect(() => () => {
+    if (mediaPreviewUrl) URL.revokeObjectURL(mediaPreviewUrl);
+    recorderStreamRef.current?.getTracks().forEach((track) => track.stop());
+  }, [mediaPreviewUrl]);
+
+  const selectMedia = (file?: File) => {
+    if (!file) return;
+    if (file.size > 16 * 1024 * 1024) {
+      setSendError("The file must be 16 MB or smaller.");
+      return;
+    }
+    if (file.type.startsWith("image/") && file.size > 5 * 1024 * 1024) {
+      setSendError("WhatsApp images must be 5 MB or smaller.");
+      return;
+    }
+    if (mediaPreviewUrl) URL.revokeObjectURL(mediaPreviewUrl);
+    setMediaFile(file);
+    setMediaPreviewUrl(URL.createObjectURL(file));
+    setSendAsVoice(file.type === "audio/ogg");
+    setSendError("");
+  };
+
+  const toggleVoiceRecording = async () => {
+    if (recording) {
+      recorderRef.current?.stop();
+      return;
+    }
+    if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+      setSendError("Voice recording is not supported by this browser. You can attach an MP3, M4A, AAC, AMR, or OGG file instead.");
+      return;
+    }
+    const supportedMimeType = ["audio/ogg;codecs=opus", "audio/mp4"]
+      .find((type) => MediaRecorder.isTypeSupported(type));
+    if (!supportedMimeType) {
+      setSendError("This browser cannot record a WhatsApp-compatible audio format. Please attach an MP3, M4A, AAC, AMR, or OGG file.");
+      return;
+    }
     try {
-      await akiaraAPI.sendMessage({ phone, message: customMsg, tenantId: user.tenantId });
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream, { mimeType: supportedMimeType });
+      recorderStreamRef.current = stream;
+      recorderRef.current = recorder;
+      recordedChunksRef.current = [];
+      recorder.ondataavailable = (event) => {
+        if (event.data.size) recordedChunksRef.current.push(event.data);
+      };
+      recorder.onstop = () => {
+        const mimeType = supportedMimeType.split(";")[0];
+        const extension = mimeType === "audio/ogg" ? "ogg" : "m4a";
+        const file = new File(recordedChunksRef.current, `voice-${Date.now()}.${extension}`, { type: mimeType });
+        stream.getTracks().forEach((track) => track.stop());
+        recorderStreamRef.current = null;
+        setRecording(false);
+        selectMedia(file);
+        setSendAsVoice(mimeType === "audio/ogg");
+      };
+      recorder.start();
+      setRecording(true);
+      setSendError("");
+    } catch {
+      setSendError("Microphone access was denied. Allow microphone access or attach an audio file.");
+    }
+  };
+
+  const handleSendMessage = async (session: AkiaraSession) => {
+    if ((!customMsg.trim() && !mediaFile) || !user?.tenantId) return;
+    if (!isReplyWindowOpen(session)) {
+      setSendError("The 24-hour reply window is closed. Wait for the customer to message again or use an approved template.");
+      return;
+    }
+    setSendingMsg(session.phone);
+    setSendError("");
+    try {
+      const response = await akiaraAPI.sendMessage({
+        phone: session.phone,
+        message: customMsg.trim(),
+        tenantId: user.tenantId,
+        media: mediaFile || undefined,
+        voice: sendAsVoice,
+      });
       setCustomMsg("");
-      setSendingMsg(null);
-    } catch (err) {
+      clearMedia();
+      if (response.data?.warning) setSendError(response.data.message);
+      await fetchData();
+    } catch (err: any) {
       console.error("Failed to send message:", err);
+      setSendError(err.response?.data?.error || "Message could not be sent through WhatsApp.");
+    } finally {
       setSendingMsg(null);
     }
   };
@@ -416,6 +524,7 @@ export default function AkiaraSessionsPage() {
                 const isResolved = s.state === "RESOLVED";
                 const isActive = !isEscalated && !isResolved && s.state !== "WELCOME";
                 const customerImages = extractCustomerImageUrls(s);
+                const replyWindowOpen = isReplyWindowOpen(s);
                 return (
                   <div
                     key={s._id}
@@ -598,7 +707,23 @@ export default function AkiaraSessionsPage() {
                                     <div className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${
                                       msg.role === 'assistant' ? 'bg-orange-50 text-slate-700 border border-orange-100' : 'bg-blue-50 text-slate-700 border border-blue-100'
                                     }`}>
-                                      <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+                                      {(() => {
+                                        const mediaMatch = msg.content.match(/\[Admin sent (voice|image|video|audio): __media_id__:([^\]\s]+)\]/i);
+                                        if (!mediaMatch) return <p className="whitespace-pre-wrap break-words">{msg.content}</p>;
+                                        const mediaType = mediaMatch[1].toLowerCase();
+                                        const mediaUrl = akiaraAPI.getMediaUrl(`__media_id__:${mediaMatch[2]}`);
+                                        const remainingText = msg.content.replace(mediaMatch[0], "").trim();
+                                        return (
+                                          <div className="space-y-2">
+                                            {mediaType === "image" && (
+                                              <img src={mediaUrl} alt="Admin attachment" className="max-h-48 max-w-full rounded-lg object-contain bg-white" />
+                                            )}
+                                            {mediaType === "video" && <video src={mediaUrl} controls preload="metadata" className="max-h-48 max-w-full rounded-lg" />}
+                                            {(mediaType === "audio" || mediaType === "voice") && <audio src={mediaUrl} controls preload="metadata" className="w-full max-w-[260px]" />}
+                                            {remainingText && <p className="whitespace-pre-wrap break-words">{remainingText}</p>}
+                                          </div>
+                                        );
+                                      })()}
                                       <p className="text-[10px] text-slate-400 mt-1">{new Date(msg.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</p>
                                     </div>
                                   </div>
@@ -609,18 +734,65 @@ export default function AkiaraSessionsPage() {
 
                           {/* Send Message */}
                           <div className="bg-white rounded-lg border border-slate-200 p-3">
-                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1"><Send className="w-3 h-3" /> Send Message</p>
+                            <div className="mb-2 flex items-center justify-between gap-2">
+                              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1"><Send className="w-3 h-3" /> Send Message</p>
+                              <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[10px] font-semibold ${replyWindowOpen ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"}`}>
+                                <span className={`h-1.5 w-1.5 rounded-full ${replyWindowOpen ? "bg-emerald-500" : "bg-red-500"}`} />
+                                {replyWindowOpen ? "24-hour window open" : "Reply window closed"}
+                              </span>
+                            </div>
+                            {mediaFile && (
+                              <div className="mb-2 flex items-center gap-3 rounded-lg border border-orange-200 bg-orange-50 p-2">
+                                {mediaFile.type.startsWith("image/") && <img src={mediaPreviewUrl} alt="Attachment preview" className="h-12 w-12 rounded-md object-cover" />}
+                                {mediaFile.type.startsWith("video/") && <video src={mediaPreviewUrl} className="h-12 w-16 rounded-md object-cover" />}
+                                {mediaFile.type.startsWith("audio/") && <audio src={mediaPreviewUrl} controls className="h-9 max-w-[240px]" />}
+                                <div className="min-w-0 flex-1">
+                                  <p className="truncate text-xs font-semibold text-slate-700">{mediaFile.name}</p>
+                                  <p className="text-[10px] text-slate-500">{(mediaFile.size / 1024 / 1024).toFixed(2)} MB{sendAsVoice ? " · voice note" : ""}</p>
+                                </div>
+                                <button type="button" onClick={clearMedia} className="rounded-md p-1.5 text-slate-500 hover:bg-white hover:text-red-600" aria-label="Remove attachment">
+                                  <X className="h-4 w-4" />
+                                </button>
+                              </div>
+                            )}
+                            {sendError && <p className="mb-2 rounded-md bg-red-50 px-2.5 py-1.5 text-xs text-red-700">{sendError}</p>}
                             <div className="flex gap-2">
+                              <input
+                                ref={mediaInputRef}
+                                type="file"
+                                accept="image/jpeg,image/png,video/mp4,video/3gpp,.3gp,audio/aac,audio/mp4,audio/mpeg,audio/amr,audio/ogg,.m4a,.mp3,.ogg"
+                                className="hidden"
+                                onChange={(event) => selectMedia(event.target.files?.[0])}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => mediaInputRef.current?.click()}
+                                disabled={!replyWindowOpen || sendingMsg === s.phone || recording}
+                                className="h-9 w-9 flex-shrink-0 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 flex items-center justify-center hover:bg-slate-100 disabled:opacity-40"
+                                title="Attach photo, video, or audio"
+                              >
+                                <Paperclip className="h-4 w-4" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={toggleVoiceRecording}
+                                disabled={!replyWindowOpen || sendingMsg === s.phone}
+                                className={`h-9 w-9 flex-shrink-0 rounded-lg border flex items-center justify-center disabled:opacity-40 ${recording ? "border-red-300 bg-red-50 text-red-600 animate-pulse" : "border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100"}`}
+                                title={recording ? "Stop recording" : "Record voice message"}
+                              >
+                                {recording ? <Square className="h-3.5 w-3.5 fill-current" /> : <Mic className="h-4 w-4" />}
+                              </button>
                               <input
                                 value={expandedSession === s._id ? customMsg : ""}
                                 onChange={(e) => setCustomMsg(e.target.value)}
-                                placeholder="Send a message to this customer..."
+                                placeholder={replyWindowOpen ? "Message or add a caption..." : "24-hour reply window is closed"}
+                                disabled={!replyWindowOpen || recording}
                                 className="flex-1 h-9 px-3.5 bg-slate-50 rounded-lg border border-slate-200 text-sm placeholder:text-slate-400 focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none transition-all"
-                                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(s.phone)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(s)}
                               />
                               <button
-                                onClick={() => handleSendMessage(s.phone)}
-                                disabled={sendingMsg === s.phone || !customMsg.trim()}
+                                onClick={() => handleSendMessage(s)}
+                                disabled={!replyWindowOpen || recording || sendingMsg === s.phone || (!customMsg.trim() && !mediaFile)}
                                 className="h-9 px-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg text-xs font-medium flex items-center gap-1.5 hover:shadow-md transition-all disabled:opacity-40"
                               >
                                 {sendingMsg === s.phone ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}

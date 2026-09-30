@@ -1307,8 +1307,19 @@ export const akiaraAPI = {
     api.get('/akiara/analytics', { params }),
 
   // Send message to customer
-  sendMessage: (data: { phone: string; message: string; tenantId: string }) =>
-    api.post('/akiara/send-message', data),
+  sendMessage: (data: { phone: string; message?: string; tenantId: string; media?: File; voice?: boolean }) => {
+    if (!data.media) return api.post('/akiara/send-message', data);
+    const formData = new FormData();
+    formData.append('phone', data.phone);
+    formData.append('tenantId', data.tenantId);
+    if (data.message) formData.append('message', data.message);
+    formData.append('media', data.media, data.media.name);
+    if (data.voice) formData.append('voice', 'true');
+    return api.post('/akiara/send-message', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 60_000,
+    });
+  },
 
   // Get tenant message templates
   getMessageTemplates: (params: { tenantId: string }) =>
