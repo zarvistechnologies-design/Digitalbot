@@ -94,7 +94,7 @@ PRICING
 - WhatsApp Bot: ₹1,500/month
 - Free 14-day trial available on all plans
 - No credit card required to start
-- Detailed pricing at digitalbot.ai/pricing
+- For a tailored quote, contact the DigitalBot.ai sales team through digitalbot.ai/contact
 Expected ROI: 40–60% cost reduction, 85% faster response times, 45% higher conversion rates, ROI typically visible within 30–60 days
 
 FAQ

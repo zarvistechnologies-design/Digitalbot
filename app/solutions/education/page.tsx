@@ -686,8 +686,8 @@ export default function EducationPage() {
               <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#25d366] px-7 py-4 text-sm font-black text-slate-950 transition hover:bg-emerald-300">
                 Get free demo <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/pricing" className="inline-flex items-center justify-center rounded-lg border border-white/15 px-7 py-4 text-sm font-black text-white transition hover:bg-white/10">
-                View pricing
+              <Link href="/contact#contact-form" className="inline-flex items-center justify-center rounded-lg border border-white/15 px-7 py-4 text-sm font-black text-white transition hover:bg-white/10">
+                Contact sales
               </Link>
             </div>
           </div>

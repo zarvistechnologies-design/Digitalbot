@@ -12,7 +12,6 @@ import {
   MessageCircle,
   PhoneCall,
   ShieldCheck,
-  Sparkles,
   Zap,
 } from "lucide-react"
 import Image from "next/image"
@@ -84,9 +83,16 @@ export default function HeaderAboutUsPage() {
         <section className="border-b border-orange-100 bg-white px-4 pb-16 pt-28 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1fr_0.9fr]">
             <div>
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-100 bg-orange-50 px-4 py-2 text-sm font-bold text-orange-700">
-                <Sparkles className="h-4 w-4" />
-                DigitalBot.ai by Zarvis Technologies Private Limited.
+              <div className="mb-5 inline-flex items-center gap-3 rounded-xl border border-teal-100 bg-teal-50/70 px-4 py-2.5">
+                <span className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">A product by</span>
+                <Image
+                  src="/images/logos/vozon-logo.png"
+                  alt="Vozon"
+                  width={2164}
+                  height={726}
+                  priority
+                  className="h-7 w-auto"
+                />
               </div>
 
               <h1 className="max-w-4xl text-4xl font-bold leading-tight tracking-normal text-slate-950 sm:text-5xl lg:text-6xl">
@@ -94,7 +100,7 @@ export default function HeaderAboutUsPage() {
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                DigitalBot.ai, under Zarvis Technologies Private Limited, helps teams answer faster, capture better leads, book more
+                DigitalBot.ai is a product by Vozon, built to help teams answer faster, capture better leads, book more
                 appointments, and manage customer conversations across voice calls and WhatsApp.
               </p>
 

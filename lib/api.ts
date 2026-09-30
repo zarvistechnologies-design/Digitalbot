@@ -191,6 +191,7 @@ export type SheetAutomationConfig = {
   headerRow: number;
   phoneColumn: string;
   nameColumn: string;
+  variableKeys: string[];
   status: 'active' | 'paused' | 'error';
   timezone: string;
   windowStart: string;
@@ -234,7 +235,17 @@ export const sheetAutomationAPI = {
       recentJobs: SheetAutomationJob[];
     };
   }>('/sheet-automation'),
-  test: (data: Record<string, unknown>) => api.post('/sheet-automation/test', data),
+  test: (data: Record<string, unknown>) => api.post<{
+    success: boolean;
+    data: {
+      spreadsheetId: string;
+      headers: string[];
+      rowCount: number;
+      detectedPhoneColumn: string;
+      detectedNameColumn: string;
+      variableKeys: string[];
+    };
+  }>('/sheet-automation/test', data),
   save: (data: Record<string, unknown>) => api.put('/sheet-automation', data),
   sync: () => api.post('/sheet-automation/sync'),
   pause: () => api.post('/sheet-automation/pause'),
@@ -395,6 +406,12 @@ export interface AgentKnowledgeConnection {
   phoneNumber?: string | null;
   available: boolean;
   instructions: string;
+  language?: string;
+  supportedLanguages?: string[];
+  multilingualEnabled?: boolean;
+  languageSwitchingEnabled?: boolean;
+  languageOptions?: Array<{ value: string; label: string; code?: string | null }>;
+  languageSelectionEnabled?: boolean;
   promptField?: string | null;
   agentUpdatedAt?: string | null;
 }
@@ -409,6 +426,16 @@ export const agentKnowledgeAPI = {
       `/agent-knowledge/${encodeURIComponent(connectorId)}`,
       { instructions }
     ),
+  updateLanguage: (connectorId: string, language: string, supportedLanguages: string[]) =>
+    api.put<{ success: true; connection: AgentKnowledgeConnection; message: string }>(
+      `/agent-knowledge/${encodeURIComponent(connectorId)}/language`,
+      { language, supportedLanguages }
+    ),
+};
+
+export const leadsAPI = {
+  getLeads: (params: Record<string, string | number | undefined> = {}) =>
+    api.get('/leads', { params }),
 };
 
 // ========================================
@@ -989,7 +1016,7 @@ export interface RealEstateProperty {
 export interface RealEstateSiteVisit {
   _id: string;
   leadId: RealEstateLead | string;
-  propertyId: RealEstateProperty | string;
+  propertyId?: RealEstateProperty | string | null;
   customerName: string;
   customerPhone: string;
   visitAt: string;

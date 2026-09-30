@@ -78,10 +78,10 @@ export default function HeroShowcase() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/pricing"
+                href="/contact#contact-form"
                 className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/85 px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-orange-200 hover:text-orange-600"
               >
-                See pricing
+                Contact sales
               </Link>
             </div>
 

@@ -25,7 +25,6 @@ export function Navigation() {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
-    { href: "/pricing", label: "Pricing" },
     { href: "/contact", label: "Contact" },
   ];
 
@@ -79,7 +78,7 @@ export function Navigation() {
               <Link href="/contact#contact-form">Get Started</Link>
             </Button>
             <Button size="sm" className="bg-accent hover:bg-accent/90" asChild>
-              <Link href="/pricing">Try Free</Link>
+              <Link href="/contact#contact-form">Try Free</Link>
             </Button>
           </div>
 

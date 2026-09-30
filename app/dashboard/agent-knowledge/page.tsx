@@ -21,7 +21,11 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+function normalizeLanguages(values: string[]) {
+  return [...new Set(values)].sort().join("|");
+}
 
 function errorMessage(error: unknown, fallback: string) {
   const data = (error as { response?: { data?: { message?: string; error?: string } } })
@@ -40,12 +44,23 @@ export default function AgentKnowledgePage() {
   const [selectedId, setSelectedId] = useState("");
   const [instructions, setInstructions] = useState("");
   const [savedInstructions, setSavedInstructions] = useState("");
+  const [language, setLanguage] = useState("");
+  const [savedLanguage, setSavedLanguage] = useState("");
+  const [supportedLanguages, setSupportedLanguages] = useState<string[]>([]);
+  const [savedSupportedLanguages, setSavedSupportedLanguages] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+  const [savingLanguage, setSavingLanguage] = useState(false);
   const [syncError, setSyncError] = useState("");
   const [saved, setSaved] = useState(false);
+  const [languageSaved, setLanguageSaved] = useState(false);
   const [workspaceLabel, setWorkspaceLabel] = useState("Lead Analysis");
   const [hospitalityWorkspace, setHospitalityWorkspace] = useState(false);
+  const languageEditVersion = useRef(0);
+  const languageSyncAttemptVersion = useRef(-1);
   const dirty = instructions !== savedInstructions;
+  const supportedLanguageKey = normalizeLanguages(supportedLanguages);
+  const languageDirty = language !== savedLanguage
+    || supportedLanguageKey !== normalizeLanguages(savedSupportedLanguages);
   const knowledgeQuery = useQuery<AgentKnowledgeConnection[]>({
     queryKey: ["agent-knowledge"],
     queryFn: async () => {
@@ -119,28 +134,97 @@ export default function AgentKnowledgePage() {
       setInstructions(next.instructions || "");
       setSavedInstructions(next.instructions || "");
     }
-  }, [connections, selectedId, dirty]);
+    if (!languageDirty) {
+      setLanguage(next.language || "");
+      setSavedLanguage(next.language || "");
+      const nextSupported = next.supportedLanguages?.length
+        ? next.supportedLanguages
+        : [next.language || ""].filter(Boolean);
+      setSupportedLanguages(nextSupported);
+      setSavedSupportedLanguages(nextSupported);
+    }
+  }, [connections, selectedId, dirty, languageDirty]);
 
   const selected = useMemo(
     () => connections.find((connection) => connection.connectorId === selectedId) || null,
     [connections, selectedId]
   );
   const selectConnection = (connectorId: string) => {
-    if (dirty && !window.confirm("Discard unsaved Agent Knowledge changes?")) return;
+    if ((dirty || languageDirty) && !window.confirm("Discard unsaved Agent Knowledge or language changes?")) return;
+    languageEditVersion.current += 1;
+    languageSyncAttemptVersion.current = -1;
     const next = connections.find((connection) => connection.connectorId === connectorId);
     setSelectedId(connectorId);
     setInstructions(next?.instructions || "");
     setSavedInstructions(next?.instructions || "");
+    setLanguage(next?.language || "");
+    setSavedLanguage(next?.language || "");
+    const nextSupported = next?.supportedLanguages?.length
+      ? next.supportedLanguages
+      : [next?.language || ""].filter(Boolean);
+    setSupportedLanguages(nextSupported);
+    setSavedSupportedLanguages(nextSupported);
     setSaved(false);
+    setLanguageSaved(false);
     setSyncError("");
   };
 
   const refreshKnowledge = async () => {
-    if (dirty && !window.confirm("Discard unsaved Agent Knowledge changes?")) return;
+    if ((dirty || languageDirty) && !window.confirm("Discard unsaved Agent Knowledge or language changes?")) return;
     setSyncError("");
     setSaved(false);
     await knowledgeQuery.refetch();
   };
+
+  const saveLanguage = async (
+    targetLanguage = language,
+    targetSupportedLanguages = supportedLanguages
+  ) => {
+    if (!selected || !targetLanguage) return;
+    const connectorId = selected.connectorId;
+    const editVersion = languageEditVersion.current;
+    languageSyncAttemptVersion.current = editVersion;
+    try {
+      setSavingLanguage(true);
+      setLanguageSaved(false);
+      setSyncError("");
+      const response = await agentKnowledgeAPI.updateLanguage(connectorId, targetLanguage, targetSupportedLanguages);
+      const updated = response.data.connection;
+      queryClient.setQueryData<AgentKnowledgeConnection[]>(["agent-knowledge"], (current = []) =>
+        current.map((item) => item.connectorId === updated.connectorId ? updated : item)
+      );
+      if (languageEditVersion.current !== editVersion || selectedId !== connectorId) return;
+      setLanguage(updated.language || targetLanguage);
+      setSavedLanguage(updated.language || targetLanguage);
+      const updatedSupported = updated.supportedLanguages?.length
+        ? updated.supportedLanguages
+        : [updated.language || targetLanguage];
+      setSupportedLanguages(updatedSupported);
+      setSavedSupportedLanguages(updatedSupported);
+      setLanguageSaved(true);
+    } catch (saveError) {
+      if (languageEditVersion.current === editVersion && selectedId === connectorId) {
+        setSyncError(errorMessage(saveError, "Could not update the language in Vozon."));
+      }
+    } finally {
+      setSavingLanguage(false);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      !selected?.languageSelectionEnabled
+      || !selected.available
+      || !language
+      || !languageDirty
+      || savingLanguage
+      || languageSyncAttemptVersion.current === languageEditVersion.current
+    ) return;
+    const timer = window.setTimeout(() => {
+      void saveLanguage(language, supportedLanguages);
+    }, 600);
+    return () => window.clearTimeout(timer);
+  }, [language, supportedLanguageKey, languageDirty, savingLanguage, selected?.available, selected?.connectorId, selected?.languageSelectionEnabled]);
 
   const saveKnowledge = async () => {
     if (!selected || !instructions.trim()) {
@@ -263,6 +347,69 @@ export default function AgentKnowledgePage() {
                     )}
                   </div>
                 </div>
+
+                {selected?.languageSelectionEnabled && (selected.languageOptions?.length || 0) > 0 && (
+                  <section className="border-b border-zinc-200 px-5 py-5 sm:px-6">
+                    <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+                      <div className="block">
+                        <span className="text-sm font-bold text-zinc-800">Agent language</span>
+                        <span className="mt-1 block text-xs leading-5 text-zinc-500">Includes every language in Cross Corporation&apos;s country calling table. Changes automatically sync to the connected Vozon agent.</span>
+                        <select
+                          value={language}
+                          onChange={(event) => {
+                            const nextLanguage = event.target.value;
+                            languageEditVersion.current += 1;
+                            setLanguage(nextLanguage);
+                            setSupportedLanguages((current) => [...new Set([nextLanguage, ...current])].filter(Boolean));
+                            setLanguageSaved(false);
+                          }}
+                          disabled={!selected.available || savingLanguage}
+                          className="mt-2 h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100 disabled:bg-zinc-100"
+                        >
+                          {!language && <option value="">Select a language</option>}
+                          {selected.languageOptions?.map((option) => (
+                            <option key={option.value} value={option.value}>{option.label}{option.code ? ` (${option.code})` : ""}</option>
+                          ))}
+                        </select>
+                        <span className="mt-4 block text-xs font-semibold uppercase text-zinc-500">Allowed call languages ({supportedLanguages.length} selected)</span>
+                        <span className="mt-1 block text-xs leading-5 text-zinc-500">The agent will ask the prospect and may switch only among the selected languages. The primary language always remains selected.</span>
+                        <div className="mt-2 grid gap-2 rounded-md border border-zinc-200 bg-zinc-50 p-3 sm:grid-cols-2 lg:grid-cols-3">
+                          {selected.languageOptions?.map((option) => {
+                            const primary = option.value === language;
+                            const checked = primary || supportedLanguages.includes(option.value);
+                            return (
+                              <label key={`allowed-${option.value}`} className={`flex min-h-9 items-center gap-2 rounded-md border px-3 text-xs font-semibold ${checked ? "border-orange-200 bg-orange-50 text-orange-800" : "border-zinc-200 bg-white text-zinc-700"} ${primary ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                                <input
+                                  type="checkbox"
+                                  checked={checked}
+                                  disabled={primary || savingLanguage}
+                                  onChange={(event) => {
+                                    languageEditVersion.current += 1;
+                                    setSupportedLanguages((current) => event.target.checked
+                                      ? [...new Set([...current, option.value])]
+                                      : current.filter((value) => value !== option.value));
+                                    setLanguageSaved(false);
+                                  }}
+                                  className="h-4 w-4 accent-orange-600"
+                                />
+                                <span className="truncate">{option.label}</span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => void saveLanguage()}
+                        disabled={!selected.available || !languageDirty || !language || savingLanguage}
+                        className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-orange-600 px-5 text-sm font-semibold text-white hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {savingLanguage ? <Loader2 className="h-4 w-4 animate-spin" /> : languageSaved ? <Check className="h-4 w-4" /> : <Save className="h-4 w-4" />}
+                        {savingLanguage ? "Syncing to Vozon" : languageSaved ? "Synced to Vozon" : "Sync now"}
+                      </button>
+                    </div>
+                  </section>
+                )}
 
                 <section className="px-5 py-5 sm:px-6 sm:py-6">
                   <div className="flex items-center justify-between gap-4">

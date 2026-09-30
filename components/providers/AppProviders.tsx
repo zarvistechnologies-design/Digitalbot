@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
 import { installDashboardFetchCache } from "@/lib/dashboard-fetch-cache";
+import DashboardLiveUpdates from "@/components/dashboard/DashboardLiveUpdates";
 import QueryProvider from "./QueryProvider";
 
 const MarketingRuntime = dynamic(() => import("./MarketingRuntime"), {
@@ -25,6 +26,7 @@ export default function AppProviders({ children }: { children: ReactNode }) {
   return (
     <QueryProvider>
       {children}
+      {isDashboard && <DashboardLiveUpdates />}
       {!isDashboard && <MarketingRuntime />}
     </QueryProvider>
   );

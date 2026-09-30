@@ -9,12 +9,13 @@ import {
   campaignsAPI,
   connectorsAPI,
   doctorsAPI,
+  leadsAPI,
   promptsAPI,
   tankroAPI,
   type VoiceConnector,
 } from "@/lib/api";
 import { CACHE_KEYS, clearCache } from "@/lib/cache";
-import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
+import { DASHBOARD_QUERY_KEYS, getDashboardWorkspaceScope } from "@/lib/dashboard-query";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -211,6 +212,34 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         queryFn: async () => {
           const response = await callsAPI.getCalls({ limit: 50 });
           return response.data.data?.calls || response.data.calls || [];
+        },
+        staleTime: 60_000,
+      });
+    } else if (
+      href === "/dashboard/leads" ||
+      href === "/dashboard/lead-analysis"
+    ) {
+      void queryClient.prefetchQuery({
+        queryKey: [...DASHBOARD_QUERY_KEYS.analyzerCalls, getDashboardWorkspaceScope()],
+        queryFn: async () => {
+          const response = await callsAPI.getCalls({
+            limit: 1000,
+            view: "analyzer",
+          });
+          return response.data.data?.calls || response.data.calls || [];
+        },
+        staleTime: 60_000,
+      });
+    } else if (href === "/dashboard/qualified-leads") {
+      void queryClient.prefetchQuery({
+        queryKey: [...DASHBOARD_QUERY_KEYS.qualifiedLeads, getDashboardWorkspaceScope()],
+        queryFn: async () => {
+          const response = await leadsAPI.getLeads({ limit: 1000, view: "qualified" });
+          const leads = response.data.data?.leads || [];
+          return leads.filter(
+            (lead: { leadStatus?: string }) =>
+              String(lead.leadStatus || "").toLowerCase() !== "unqualified",
+          );
         },
         staleTime: 60_000,
       });
