@@ -552,6 +552,11 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         icon: Ticket,
       });
       serviceItems.push({
+        name: "Social Inquiries",
+        href: "/dashboard/akiara-social",
+        icon: Share2,
+      });
+      serviceItems.push({
         name: "Support Campaigns",
         href: "/dashboard/customer-support-campaigns",
         icon: Megaphone,
@@ -604,6 +609,11 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         name: "Tickets",
         href: "/dashboard/akiara-tickets",
         icon: Ticket,
+      });
+      serviceItems.push({
+        name: "Social Inquiries",
+        href: "/dashboard/akiara-social",
+        icon: Share2,
       });
       serviceItems.push({
         name: "Messages",

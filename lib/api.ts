@@ -1343,17 +1343,37 @@ export const akiaraAPI = {
       const mediaId = url.replace('__media_id__:', '');
       return `${base}/akiara/media/${encodeURIComponent(mediaId)}${query ? `?${query}` : ''}`;
     }
-    // Old Meta URLs contain mid=<mediaId> — extract and route through proxy (lazy recovery)
-    if (url.includes('fbsbx.com') || url.includes('facebook.com')) {
+    // Direct Meta/Instagram CDN URLs should be returned as-is
+    if (url.includes('fbcdn.net') || url.includes('cdninstagram.com')) {
+      return url;
+    }
+    // Old Meta URLs containing mid=<mediaId> route through proxy
+    if ((url.includes('fbsbx.com') || url.includes('facebook.com')) && url.includes('mid=')) {
       try {
         const u = new URL(url);
         const mid = u.searchParams.get('mid');
         if (mid) return `${base}/akiara/media/${encodeURIComponent(mid)}${query ? `?${query}` : ''}`;
       } catch { /* invalid URL */ }
-      return '';
     }
     return url;
   },
+
+  // Social Inquiries (Facebook & Instagram) - 3 Tabs
+  getSocialStats: () => api.get('/akiara/social/stats'),
+  getSocialLeads: (params?: {
+    category?: 'influencer_collaboration' | 'want_to_buy' | 'product_complaint';
+    platform?: 'instagram' | 'facebook';
+    status?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }) => api.get('/akiara/social/leads', { params }),
+  updateSocialLead: (id: string, data: { status?: string; notes?: string; category?: string }) =>
+    api.patch(`/akiara/social/leads/${id}`, data),
+  sendSocialMessage: (data: { leadId: string; text: string }) =>
+    api.post('/akiara/social/send-message', data),
+  syncSocialProfile: (id: string) =>
+    api.post(`/akiara/social/leads/${id}/sync-profile`),
 };
 
 // ========================================

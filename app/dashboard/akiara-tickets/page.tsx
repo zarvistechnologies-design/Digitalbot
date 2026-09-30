@@ -3,24 +3,24 @@ import Sidebar from "@/components/Sidebar";
 import { useWebSocket } from "@/components/hooks/use-websocket";
 import { akiaraAPI } from "@/lib/api";
 import {
-    AlertTriangle,
-    CheckCircle,
-    ChevronDown,
-    ChevronUp,
-    Clock,
-    ExternalLink,
-    Loader2,
-    MapPin,
-    Menu,
-    MessageCircle,
-    Package,
-    RefreshCw,
-    Search,
-    Send,
-    Ticket,
-    Truck,
-    User,
-    X
+  AlertTriangle,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  ExternalLink,
+  Loader2,
+  MapPin,
+  Menu,
+  MessageCircle,
+  Package,
+  RefreshCw,
+  Search,
+  Send,
+  Ticket,
+  Truck,
+  User,
+  X
 } from "lucide-react";
 import { useCallback, useDeferredValue, useEffect, useState } from "react";
 
@@ -161,7 +161,7 @@ const statusLabels: Record<string, string> = {
 
 function extractTicketImageUrls(ticket: AkiaraTicket) {
   const urls = new Set(ticket.customerImageUrls || []);
-  const matches = (ticket.conversationSummary || "").matchAll(/\[Customer sent a[n]? image: ([^\]\s]+)/g);
+  const matches = (ticket.conversationSummary || "").matchAll(/\[Customer sent (?:an? )?image: ([^\]\s]+)/gi);
   for (const match of matches) urls.add(match[1]);
   return Array.from(urls);
 }
@@ -214,6 +214,7 @@ export default function AkiaraTicketsPage() {
   const [filterPriority, setFilterPriority] = useState("all");
   const [filterProduct, setFilterProduct] = useState("all");
   const [filterDateRange, setFilterDateRange] = useState("all");
+  const [filterChannel, setFilterChannel] = useState("all");
   const [expandedTicket, setExpandedTicket] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [sendingMsg, setSendingMsg] = useState<string | null>(null);
@@ -353,12 +354,24 @@ export default function AkiaraTicketsPage() {
         !t.orderId?.toLowerCase().includes(q) &&
         !t.issueDescription?.toLowerCase().includes(q) &&
         !t.escalationReason?.toLowerCase().includes(q) &&
-        !t._id.toLowerCase().includes(q)
+        !t._id.toLowerCase().includes(q) &&
+        !t.tags?.some((tag) => tag.toLowerCase().includes(q))
       ) return false;
     }
     if (filterStatus !== "all" && t.status !== filterStatus) return false;
     if (filterPriority !== "all" && t.priority !== filterPriority) return false;
     if (filterProduct !== "all" && t.product !== filterProduct) return false;
+    if (filterChannel === "whatsapp") {
+      if (t.tags?.includes("admin") || t.tags?.includes("INSTAGRAM") || t.tags?.includes("FACEBOOK")) return false;
+    } else if (filterChannel === "instagram") {
+      if (!t.tags?.includes("INSTAGRAM")) return false;
+    } else if (filterChannel === "facebook") {
+      if (!t.tags?.includes("FACEBOOK")) return false;
+    } else if (filterChannel === "social") {
+      if (!t.tags?.includes("INSTAGRAM") && !t.tags?.includes("FACEBOOK")) return false;
+    } else if (filterChannel === "admin") {
+      if (!t.tags?.includes("admin")) return false;
+    }
     return true;
   });
 
@@ -457,6 +470,14 @@ export default function AkiaraTicketsPage() {
                   className="w-full h-10 pl-10 pr-4 bg-slate-50 rounded-lg border border-slate-200 text-sm placeholder:text-slate-400 focus:ring-2 focus:ring-orange-200 focus:border-orange-400 focus:bg-white focus:outline-none transition-all"
                 />
               </div>
+              <select value={filterChannel} onChange={(e) => setFilterChannel(e.target.value)} className="h-10 px-3 bg-slate-50 rounded-lg border border-slate-200 text-sm font-medium text-slate-600 focus:ring-2 focus:ring-orange-200 focus:outline-none">
+                <option value="all">All Channels</option>
+                <option value="whatsapp">💬 WhatsApp Only</option>
+                <option value="instagram">📸 Instagram Only</option>
+                <option value="facebook">📘 Facebook Only</option>
+                <option value="social">🌐 All Social (IG + FB)</option>
+                <option value="admin">👤 Admin Manual Only</option>
+              </select>
               <select value={filterPriority} onChange={(e) => setFilterPriority(e.target.value)} className="h-10 px-3 bg-slate-50 rounded-lg border border-slate-200 text-sm text-slate-600 focus:ring-2 focus:ring-orange-200 focus:outline-none">
                 <option value="all">All Priority</option>
                 <option value="normal">Normal</option>
@@ -493,11 +514,10 @@ export default function AkiaraTicketsPage() {
                 <button
                   key={s.key}
                   onClick={() => setFilterStatus(s.key)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                    filterStatus === s.key
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${filterStatus === s.key
                       ? "bg-orange-500 text-white shadow-sm"
                       : "bg-slate-100 text-slate-500 hover:bg-slate-200"
-                  }`}
+                    }`}
                 >
                   {s.label} <span className="ml-1 opacity-70">{s.count}</span>
                 </button>
@@ -522,9 +542,8 @@ export default function AkiaraTicketsPage() {
                 return (
                   <div
                     key={t._id}
-                    className={`bg-white rounded-xl border transition-all overflow-hidden ${
-                      t.priority === "urgent" ? "border-red-200" : isExpanded ? "border-orange-200" : "border-slate-200/80 hover:border-slate-300"
-                    }`}
+                    className={`bg-white rounded-xl border transition-all overflow-hidden ${t.priority === "urgent" ? "border-red-200" : isExpanded ? "border-orange-200" : "border-slate-200/80 hover:border-slate-300"
+                      }`}
                   >
                     {/* Ticket Row */}
                     <div
@@ -553,6 +572,21 @@ export default function AkiaraTicketsPage() {
                           {t.tags?.includes('admin') && (
                             <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-purple-100 text-purple-700">
                               ADMIN
+                            </span>
+                          )}
+                          {t.tags?.includes('INSTAGRAM') && (
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-xs">
+                              Instagram
+                            </span>
+                          )}
+                          {t.tags?.includes('FACEBOOK') && (
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-[#1877f2] text-white shadow-xs">
+                              Facebook
+                            </span>
+                          )}
+                          {!t.tags?.includes('admin') && !t.tags?.includes('INSTAGRAM') && !t.tags?.includes('FACEBOOK') && (
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-emerald-600 text-white shadow-xs">
+                              WhatsApp
                             </span>
                           )}
                           {t.product && (
@@ -704,8 +738,37 @@ export default function AkiaraTicketsPage() {
                           {/* Conversation Summary */}
                           {t.conversationSummary && (
                             <div className="bg-white rounded-lg border border-slate-200 p-3.5">
-                              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1"><MessageCircle className="w-3 h-3" /> Conversation Summary</p>
-                              <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">{t.conversationSummary}</p>
+                              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+                                <MessageCircle className="w-3 h-3" /> Conversation Summary
+                              </p>
+                              <div className="space-y-2 text-xs text-slate-700 leading-relaxed">
+                                {t.conversationSummary.split('\n').map((line, idx) => {
+                                  const imageMatch = line.match(/\[Customer sent (?:an? )?image: ([^\]\s]+)\]/i);
+                                  if (imageMatch) {
+                                    const imgUrl = akiaraAPI.getMediaUrl(imageMatch[1]);
+                                    const prefix = line.slice(0, line.indexOf('[Customer sent'));
+                                    const suffix = line.slice(line.indexOf(']') + 1).trim();
+                                    return (
+                                      <div key={idx} className="p-2.5 bg-slate-50 rounded-lg border border-slate-200 space-y-1.5">
+                                        <div className="flex items-center gap-2">
+                                          <span className="font-semibold text-slate-800">{prefix || "Customer sent photo:"}</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                          <a href={imgUrl} target="_blank" rel="noopener noreferrer" className="block w-32 h-24 rounded-lg overflow-hidden border border-orange-200 bg-white hover:border-orange-400 hover:shadow-xs transition flex-shrink-0 group">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img src={imgUrl} alt="Customer upload" className="w-full h-full object-cover group-hover:scale-105 transition" />
+                                          </a>
+                                          <a href={imgUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-600 font-medium rounded-md text-xs transition">
+                                            <ExternalLink className="w-3.5 h-3.5" /> Open Full Image
+                                          </a>
+                                        </div>
+                                        {suffix && <p className="text-slate-600 mt-1">{suffix}</p>}
+                                      </div>
+                                    );
+                                  }
+                                  return <p key={idx} className="whitespace-pre-wrap">{line}</p>;
+                                })}
+                              </div>
                             </div>
                           )}
 
