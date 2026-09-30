@@ -3,7 +3,8 @@
 import Sidebar from '@/components/Sidebar';
 import { useWebSocket } from '@/components/hooks/use-websocket';
 import { callsAPI } from '@/lib/api';
-import { CACHE_KEYS, cachedFetch, getStaleCache, invalidateCache, setCache } from '@/lib/cache';
+import { invalidateDashboardResource } from '@/lib/dashboard-query';
+import { CACHE_KEYS, cachedFetch, getCache, getStaleCache, invalidateCache, setCache } from '@/lib/cache';
 import { Call, CallStats } from '@/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -128,7 +129,7 @@ const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = useState(true);
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
-  const [refreshInterval, setRefreshInterval] = useState(10000);
+  const [refreshInterval, setRefreshInterval] = useState(30000);
   const [isBackgroundFetching, setIsBackgroundFetching] = useState(false);
   const [isPageChanging, setIsPageChanging] = useState(false);
   const [newCallsCount, setNewCallsCount] = useState(0);
@@ -146,7 +147,7 @@ const Dashboard = () => {
     // Load from cache instantly on mount
     const queryCalls = queryClient.getQueryData<Call[]>([CACHE_KEYS.CALLS]);
     if (queryCalls?.length) setCache(CACHE_KEYS.CALLS, queryCalls, 60_000);
-    const cachedCalls = queryCalls || getStaleCache<Call[]>(CACHE_KEYS.CALLS);
+    const cachedCalls = queryCalls || getCache<Call[]>(CACHE_KEYS.CALLS);
     if (cachedCalls && cachedCalls.length > 0) {
       setCalls(cachedCalls);
       setTotalCalls(cachedCalls.length);
@@ -293,6 +294,11 @@ const Dashboard = () => {
       invalidateCache(CACHE_KEYS.CALLS);
       invalidateCache(CACHE_KEYS.CALLS_STATS);
       invalidateCache(CACHE_KEYS.CALLS_AGENTS);
+      await Promise.all([
+        invalidateDashboardResource(queryClient, '/calls'),
+        invalidateDashboardResource(queryClient, '/stats'),
+        invalidateDashboardResource(queryClient, '/agents'),
+      ]);
     } catch (syncError: any) {
       console.warn(
         'Connected Vozon call sync failed:',
@@ -315,7 +321,7 @@ const Dashboard = () => {
     try {
       if (!isBackground) {
         // Only show loading if no cached data available
-        const cached = getStaleCache<Call[]>(CACHE_KEYS.CALLS);
+        const cached = getCache<Call[]>(CACHE_KEYS.CALLS);
         if (!cached || cached.length === 0) setLoading(true);
         else setIsBackgroundFetching(true);
       } else {
@@ -467,12 +473,19 @@ const Dashboard = () => {
   useEffect(() => {
     if (!mounted) return;
 
-    // Always reconcile the connected provider on entry. Cached rows remain
-    // visible while the sync runs, then the workspace receives fresh details.
-    void syncConnectedWorkspaceCalls().finally(() => {
-      fetchCalls(1, CALLS_PAGE_SIZE, '', false, EMPTY_CALL_FILTERS);
-      fetchStats();
-      fetchAgents();
+    // Read the persisted ledger immediately instead of waiting for the slower
+    // provider sync. Reconcile Vozon in the background and refresh once more
+    // only after its network cache has been invalidated.
+    void invalidateDashboardResource(queryClient, '/calls').then(() =>
+      fetchCalls(1, CALLS_PAGE_SIZE, '', false, EMPTY_CALL_FILTERS)
+    );
+    void fetchStats();
+    void fetchAgents();
+
+    void syncConnectedWorkspaceCalls().then(() => {
+      void fetchCalls(1, CALLS_PAGE_SIZE, '', true, EMPTY_CALL_FILTERS);
+      void fetchStats();
+      void fetchAgents();
     });
   }, [mounted]);
 
@@ -482,10 +495,15 @@ const Dashboard = () => {
       if (msg.type === 'new-call' || msg.type === 'call-update') {
         invalidateCache(CACHE_KEYS.CALLS);
         invalidateCache(CACHE_KEYS.CALLS_STATS);
-        fetchCalls(currentPage, CALLS_PAGE_SIZE, activeSearch, true, activeFilters);
-        fetchStats();
+        void Promise.all([
+          invalidateDashboardResource(queryClient, '/calls'),
+          invalidateDashboardResource(queryClient, '/stats'),
+        ]).then(() => {
+          void fetchCalls(currentPage, CALLS_PAGE_SIZE, activeSearch, true, activeFilters);
+          void fetchStats();
+        });
       }
-    }, [currentPage, activeSearch, activeFilters]),
+    }, [queryClient, currentPage, activeSearch, activeFilters]),
   });
 
   useEffect(() => {
@@ -612,10 +630,20 @@ const Dashboard = () => {
     invalidateCache(CACHE_KEYS.CALLS);
     invalidateCache(CACHE_KEYS.CALLS_STATS);
     invalidateCache(CACHE_KEYS.CALLS_AGENTS);
-    await syncConnectedWorkspaceCalls();
-    fetchCalls(currentPage, CALLS_PAGE_SIZE, activeSearch, false, activeFilters);
-    fetchStats();
-    fetchAgents();
+    await Promise.all([
+      invalidateDashboardResource(queryClient, '/calls'),
+      invalidateDashboardResource(queryClient, '/stats'),
+      invalidateDashboardResource(queryClient, '/agents'),
+    ]);
+    await fetchCalls(currentPage, CALLS_PAGE_SIZE, activeSearch, false, activeFilters);
+    void fetchStats();
+    void fetchAgents();
+
+    void syncConnectedWorkspaceCalls().then(() => {
+      void fetchCalls(currentPage, CALLS_PAGE_SIZE, activeSearch, true, activeFilters);
+      void fetchStats();
+      void fetchAgents();
+    });
   };
 
   const toggleAutoRefresh = () => {
