@@ -130,9 +130,12 @@ const Dashboard = () => {
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
   const [refreshInterval, setRefreshInterval] = useState(10000);
   const [isBackgroundFetching, setIsBackgroundFetching] = useState(false);
+  const [isPageChanging, setIsPageChanging] = useState(false);
   const [newCallsCount, setNewCallsCount] = useState(0);
   const [recordingErrors, setRecordingErrors] = useState<Record<string, string>>({});
   const syncInFlightRef = useRef(false);
+  const callsRequestIdRef = useRef(0);
+  const pageNavigationInFlightRef = useRef(false);
 
   const getCallId = (call: any): string => {
     return String(call?.id || call?.session_id || call?.call_id || call?._id || '');
@@ -306,6 +309,9 @@ const Dashboard = () => {
     isBackground = false,
     filters = activeFilters
   ) => {
+    if (isBackground && pageNavigationInFlightRef.current) return;
+    const requestId = ++callsRequestIdRef.current;
+
     try {
       if (!isBackground) {
         // Only show loading if no cached data available
@@ -330,6 +336,7 @@ const Dashboard = () => {
         to_date: dateBoundaryToIso(filters.endDate, true),
       };
       const response = await callsAPI.getCalls(requestParams);
+      if (requestId !== callsRequestIdRef.current) return;
 
       const rawCallsData = response.data.data?.calls || response.data.calls || response.data.data || [];
       const callsData = Array.isArray(rawCallsData)
@@ -403,6 +410,7 @@ const Dashboard = () => {
       }
 
     } catch (err: any) {
+      if (requestId !== callsRequestIdRef.current) return;
       console.warn('Calls API error:', err.message);
       setCalls([]);
       setTotalCalls(0);
@@ -411,6 +419,7 @@ const Dashboard = () => {
       setError(err.response?.data?.error || err.response?.data?.details || err.message || 'Failed to load calls');
       setLastRefreshTime(new Date());
     } finally {
+      if (requestId !== callsRequestIdRef.current) return;
       if (!isBackground) {
         setLoading(false);
       }
@@ -620,10 +629,19 @@ const Dashboard = () => {
     setRefreshInterval(newInterval);
   };
 
-  const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages || page === currentPage || isBackgroundFetching) return;
+  const handlePageChange = async (page: number) => {
+    const canMoveForward = page <= totalPages || (page === currentPage + 1 && hasNextPage);
+    if (page < 1 || !canMoveForward || page === currentPage || pageNavigationInFlightRef.current) return;
+
+    pageNavigationInFlightRef.current = true;
+    setIsPageChanging(true);
     setExpandedCall(null);
-    void fetchCalls(page, CALLS_PAGE_SIZE, activeSearch, false, activeFilters);
+    try {
+      await fetchCalls(page, CALLS_PAGE_SIZE, activeSearch, false, activeFilters);
+    } finally {
+      pageNavigationInFlightRef.current = false;
+      setIsPageChanging(false);
+    }
   };
 
   const visiblePageNumbers = (() => {
@@ -1249,8 +1267,8 @@ const Dashboard = () => {
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
-                        disabled={currentPage <= 1 || loading || isBackgroundFetching}
-                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage <= 1 || loading || isPageChanging}
+                        onClick={() => void handlePageChange(currentPage - 1)}
                         className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         Previous
@@ -1261,8 +1279,8 @@ const Dashboard = () => {
                             key={pageNumber}
                             type="button"
                             aria-current={pageNumber === currentPage ? 'page' : undefined}
-                            disabled={loading || isBackgroundFetching}
-                            onClick={() => handlePageChange(pageNumber)}
+                            disabled={loading || isPageChanging}
+                            onClick={() => void handlePageChange(pageNumber)}
                             className={`h-8 min-w-8 rounded-lg border px-2 text-xs font-bold transition disabled:cursor-wait disabled:opacity-60 ${
                               pageNumber === currentPage
                                 ? 'border-teal-600 bg-teal-600 text-white'
@@ -1275,8 +1293,8 @@ const Dashboard = () => {
                       </div>
                       <button
                         type="button"
-                        disabled={!hasNextPage || loading || isBackgroundFetching}
-                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={!hasNextPage || loading || isPageChanging}
+                        onClick={() => void handlePageChange(currentPage + 1)}
                         className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         Next
