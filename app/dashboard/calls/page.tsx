@@ -122,6 +122,7 @@ const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCalls, setTotalCalls] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
   const [availableAgents, setAvailableAgents] = useState<AgentOption[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -335,10 +336,39 @@ const Dashboard = () => {
             id: getCallId(call) || `call-${index}`,
           }))
         : [];
-      const responseTotal = Number(response.data.data?.total ?? response.data.total ?? callsData.length);
-      const responseTotalPages = Number(
-        response.data.data?.totalPages ?? response.data.totalPages ?? Math.max(1, Math.ceil(responseTotal / limit))
-      );
+      const paginationData = response.data.data || response.data;
+      const rawTotal = Number(paginationData?.total ?? callsData.length);
+      const rawTotalPages = paginationData?.totalPages;
+      const hasExplicitTotalPages = rawTotalPages !== undefined && Number.isFinite(Number(rawTotalPages));
+      const hasReliableTotal = Number.isFinite(rawTotal) && rawTotal > callsData.length;
+      const fallbackHasNextPage = callsData.length === limit;
+      const nextPageAvailable = typeof paginationData?.hasNextPage === 'boolean'
+        ? paginationData.hasNextPage
+        : hasExplicitTotalPages
+          ? page < Number(rawTotalPages)
+          : hasReliableTotal
+            ? page < Math.ceil(rawTotal / limit)
+            : fallbackHasNextPage;
+      const responseTotal = hasExplicitTotalPages || hasReliableTotal
+        ? rawTotal
+        : Math.max(rawTotal, (page - 1) * limit + callsData.length + (nextPageAvailable ? 1 : 0));
+      const responseTotalPages = hasExplicitTotalPages
+        ? Number(rawTotalPages)
+        : hasReliableTotal
+          ? Math.max(1, Math.ceil(rawTotal / limit))
+          : Math.max(1, page + (nextPageAvailable ? 1 : 0));
+
+      // An older API cannot distinguish an exact final page from a full page
+      // that has more results. If a Next probe is empty, keep the user on the
+      // last populated page instead of replacing the ledger with an empty one.
+      if (page > 1 && callsData.length === 0) {
+        setHasNextPage(false);
+        setTotalCalls((page - 1) * limit);
+        setTotalPages(page - 1);
+        setCurrentPage(page - 1);
+        setLastRefreshTime(new Date());
+        return;
+      }
 
       if (isBackground && calls.length > 0) {
         const newCalls = callsData.filter((newCall: Call) =>
@@ -350,6 +380,7 @@ const Dashboard = () => {
       setCalls(callsData);
       setTotalCalls(responseTotal);
       setTotalPages(Math.max(1, responseTotalPages));
+      setHasNextPage(nextPageAvailable);
       setCurrentPage(page);
       // Update shared cache so Dashboard gets fresh data too
       const isDefaultFirstPage = page === 1 && !search.trim() && Object.values(filters).every((value) => !value);
@@ -361,6 +392,7 @@ const Dashboard = () => {
       setCalls([]);
       setTotalCalls(0);
       setTotalPages(1);
+      setHasNextPage(false);
       setError(err.response?.data?.error || err.response?.data?.details || err.message || 'Failed to load calls');
       setLastRefreshTime(new Date());
     } finally {
@@ -1197,7 +1229,7 @@ const Dashboard = () => {
                       </button>
                       <button
                         type="button"
-                        disabled={currentPage >= totalPages || loading || isBackgroundFetching}
+                        disabled={!hasNextPage || loading || isBackgroundFetching}
                         onClick={() => fetchCalls(currentPage + 1, CALLS_PAGE_SIZE, activeSearch, false, activeFilters)}
                         className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40"
                       >
