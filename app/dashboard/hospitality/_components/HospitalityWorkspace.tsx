@@ -2056,14 +2056,19 @@ function SettingsPanel({
           <div>
             <h2 className="text-sm font-bold">Voice-agent tools</h2>
             <p className="mt-1 text-xs text-zinc-500">
-              The agent needs exactly these two tools.
+              The agent uses these three tools for live dashboard data and bookings.
             </p>
           </div>
           <span className="h-fit rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase text-emerald-700">
-            2 tools
+            3 tools
           </span>
         </div>
         <div className="mt-4 grid gap-3 lg:grid-cols-2">
+          <ToolCard
+            name="get_hospitality_info"
+            path="POST /api/hospitality/info"
+            description="Returns the latest dashboard-managed room rates, amenities, timings, taxes, policies, restaurant hours, and seating areas."
+          />
           <ToolCard
             name="check_availability"
             path="POST /api/hospitality/check-availability"
