@@ -178,7 +178,8 @@ export const authAPI = {
 
 export const campaignsAPI = {
   getCampaigns: (params?: Record<string, string | number | undefined>) => api.get('/campaigns', { params }),
-  launch: (id: string) => api.post(`/campaigns/${id}/launch`),
+  launch: (id: string, schedule?: { mode: 'now' | 'schedule'; scheduledAt?: string }) =>
+    api.post(`/campaigns/${id}/launch`, schedule || { mode: 'now' }),
   pause: (id: string) => api.post(`/campaigns/${id}/pause`),
   resume: (id: string) => api.post(`/campaigns/${id}/resume`),
 };
