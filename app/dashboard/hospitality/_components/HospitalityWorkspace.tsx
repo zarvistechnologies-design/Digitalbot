@@ -514,6 +514,42 @@ export default function HospitalityWorkspace({
     }
   }
 
+  async function deleteRoom(room: Room) {
+    if (!window.confirm(`Delete room ${room.number}?`)) return;
+    setSaving(true);
+    try {
+      await hospitalityAPI.deleteRoom(room._id);
+      setNotice(`Room ${room.number} deleted.`);
+      await load();
+    } catch (error: any) {
+      const data = error.response?.data;
+      if (
+        error.response?.status === 409 &&
+        data?.reason === "ROOM_HAS_ACTIVE_RESERVATIONS"
+      ) {
+        const count = Number(data.activeReservationCount) || 1;
+        const confirmed = window.confirm(
+          `Room ${room.number} has ${count} active or upcoming reservation${count === 1 ? "" : "s"}. Delete the room and cancel ${count === 1 ? "that reservation" : "those reservations"}?`,
+        );
+        if (!confirmed) {
+          setNotice(
+            `Room ${room.number} was not deleted. Cancel or reassign its active reservations first.`,
+          );
+          return;
+        }
+        await hospitalityAPI.deleteRoom(room._id, true);
+        setNotice(
+          `Room ${room.number} deleted and ${count} reservation${count === 1 ? "" : "s"} cancelled.`,
+        );
+        await load();
+        return;
+      }
+      setNotice(data?.error || "Could not delete this room.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   const filteredBookings = useMemo(
     () =>
       bookings.filter((booking) => {
@@ -1030,14 +1066,12 @@ export default function HospitalityWorkspace({
                           <option value="out_of_service">Out of service</option>
                         </select>
                         <button
-                          onClick={() =>
-                            window.confirm(`Delete room ${room.number}?`) &&
-                            void mutate(
-                              () => hospitalityAPI.deleteRoom(room._id),
-                              "Room deleted.",
-                            )
-                          }
-                          className="text-rose-600"
+                          type="button"
+                          disabled={saving}
+                          onClick={() => void deleteRoom(room)}
+                          className="text-rose-600 disabled:cursor-not-allowed disabled:opacity-40"
+                          aria-label={`Delete room ${room.number}`}
+                          title={`Delete room ${room.number}`}
                         >
                           <X className="h-4 w-4" />
                         </button>

@@ -912,7 +912,10 @@ export const hospitalityAPI = {
   getRooms: () => api.get('/hospitality/rooms'),
   createRoom: (data: Record<string, unknown>) => api.post('/hospitality/rooms', data),
   updateRoom: (id: string, data: Record<string, unknown>) => api.put(`/hospitality/rooms/${id}`, data),
-  deleteRoom: (id: string) => api.delete(`/hospitality/rooms/${id}`),
+  deleteRoom: (id: string, force = false) =>
+    api.delete(`/hospitality/rooms/${id}`, {
+      params: force ? { force: true } : undefined,
+    }),
   getTables: () => api.get('/hospitality/tables'),
   createTable: (data: Record<string, unknown>) => api.post('/hospitality/tables', data),
   updateTable: (id: string, data: Record<string, unknown>) => api.put(`/hospitality/tables/${id}`, data),
