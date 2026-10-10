@@ -9,6 +9,7 @@ import {
   Hotel,
   Loader2,
   Menu,
+  Pencil,
   Plus,
   Search,
   Settings,
@@ -405,6 +406,7 @@ export default function HospitalityWorkspace({
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | BookingType>("all");
   const [calendarDate, setCalendarDate] = useState(today());
+  const [editingRoomType, setEditingRoomType] = useState<RoomType | null>(null);
   const [roomTypeForm, setRoomTypeForm] = useState({
     name: "",
     code: "",
@@ -413,20 +415,99 @@ export default function HospitalityWorkspace({
     maxChildren: "1",
     amenities: "",
     description: "",
+    active: true,
   });
+  const [editingRoom, setEditingRoom] = useState<Room | null>(null);
   const [roomForm, setRoomForm] = useState({
     number: "",
     floor: "",
     roomTypeId: "",
     notes: "",
   });
+  const [editingTable, setEditingTable] = useState<DiningTable | null>(null);
   const [tableForm, setTableForm] = useState({
     name: "",
     area: "Main dining",
     capacity: "2",
-    shape: "square",
+    shape: "square" as DiningTable["shape"],
     notes: "",
   });
+
+  const openAddRoomType = useCallback(() => {
+    setEditingRoomType(null);
+    setRoomTypeForm({
+      name: "",
+      code: "",
+      baseRate: "",
+      maxAdults: "2",
+      maxChildren: "1",
+      amenities: "",
+      description: "",
+      active: true,
+    });
+    setModal("roomType");
+  }, []);
+
+  const openEditRoomType = useCallback((type: RoomType) => {
+    setEditingRoomType(type);
+    setRoomTypeForm({
+      name: type.name || "",
+      code: type.code || "",
+      baseRate: String(type.baseRate ?? ""),
+      maxAdults: String(type.maxAdults ?? "2"),
+      maxChildren: String(type.maxChildren ?? "1"),
+      amenities: Array.isArray(type.amenities) ? type.amenities.join(", ") : "",
+      description: type.description || "",
+      active: type.active !== false,
+    });
+    setModal("roomType");
+  }, []);
+
+  const openAddRoom = useCallback(() => {
+    setEditingRoom(null);
+    setRoomForm({
+      number: "",
+      floor: "",
+      roomTypeId: roomTypes[0]?._id || "",
+      notes: "",
+    });
+    setModal("room");
+  }, [roomTypes]);
+
+  const openEditRoom = useCallback((room: Room) => {
+    setEditingRoom(room);
+    setRoomForm({
+      number: room.number || "",
+      floor: room.floor || "",
+      roomTypeId: relationId(room.roomTypeId),
+      notes: room.notes || "",
+    });
+    setModal("room");
+  }, []);
+
+  const openAddTable = useCallback(() => {
+    setEditingTable(null);
+    setTableForm({
+      name: "",
+      area: "Main dining",
+      capacity: "2",
+      shape: "square",
+      notes: "",
+    });
+    setModal("table");
+  }, []);
+
+  const openEditTable = useCallback((table: DiningTable) => {
+    setEditingTable(table);
+    setTableForm({
+      name: table.name || "",
+      area: table.area || "Main dining",
+      capacity: String(table.capacity ?? "2"),
+      shape: table.shape || "square",
+      notes: table.notes || "",
+    });
+    setModal("table");
+  }, []);
   const [hotelForm, setHotelForm] = useState({
     guestName: "",
     guestPhone: "",
@@ -876,8 +957,8 @@ export default function HospitalityWorkspace({
                     </p>
                   </div>
                   <button
-                    onClick={() => setModal("roomType")}
-                    className="inline-flex h-9 items-center gap-1 rounded-md bg-zinc-950 px-3 text-xs font-bold text-white"
+                    onClick={openAddRoomType}
+                    className="inline-flex h-9 items-center gap-1 rounded-md bg-zinc-950 px-3 text-xs font-bold text-white hover:bg-zinc-800 transition-colors"
                   >
                     <Plus className="h-3.5 w-3.5" />
                     Add type
@@ -890,7 +971,7 @@ export default function HospitalityWorkspace({
                         <div className="flex items-start justify-between gap-3">
                           <div>
                             <div className="flex items-center gap-2">
-                              <h3 className="text-sm font-bold">{type.name}</h3>
+                              <h3 className="text-sm font-bold text-zinc-900">{type.name}</h3>
                               <Status
                                 value={
                                   type.active ? "active" : "out_of_service"
@@ -898,31 +979,50 @@ export default function HospitalityWorkspace({
                               />
                             </div>
                             <p className="mt-1 text-xs text-zinc-500">
-                              {type.code} · {type.roomCount} rooms ·{" "}
-                              {type.maxAdults} adults + {type.maxChildren}{" "}
-                              children
+                              <span className="font-semibold text-zinc-700">{type.code}</span> · {type.roomCount} room{type.roomCount === 1 ? "" : "s"} ·{" "}
+                              {type.maxAdults} adult{type.maxAdults === 1 ? "" : "s"} + {type.maxChildren}{" "}
+                              child{type.maxChildren === 1 ? "" : "ren"} max
                             </p>
                           </div>
-                          <strong className="text-sm">
+                          <strong className="text-sm text-zinc-900">
                             {money(type.baseRate, property?.currency)}
                             <span className="block text-right text-[10px] font-normal text-zinc-400">
                               per night
                             </span>
                           </strong>
                         </div>
-                        {type.amenities.length > 0 && (
-                          <p className="mt-3 text-xs text-zinc-500">
-                            {type.amenities.join(" · ")}
+                        {type.description && (
+                          <p className="mt-2.5 text-xs text-zinc-600 line-clamp-2">
+                            {type.description}
                           </p>
                         )}
-                        <div className="mt-4 flex gap-2">
+                        {type.amenities && type.amenities.length > 0 && (
+                          <div className="mt-3 flex flex-wrap gap-1.5">
+                            {type.amenities.map((item, idx) => (
+                              <span
+                                key={idx}
+                                className="inline-flex items-center rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] text-zinc-600"
+                              >
+                                {item}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <div className="mt-4 flex flex-wrap items-center gap-2">
+                          <button
+                            onClick={() => openEditRoomType(type)}
+                            className="inline-flex items-center gap-1.5 rounded-md border border-orange-200 bg-orange-50 px-3 py-1.5 text-[11px] font-bold text-orange-700 hover:bg-orange-100 transition-colors"
+                          >
+                            <Pencil className="h-3 w-3" />
+                            Edit room type
+                          </button>
                           <button
                             onClick={() => {
                               const rate = window.prompt(
                                 "Nightly rate",
                                 String(type.baseRate),
                               );
-                              if (rate !== null)
+                              if (rate !== null && !isNaN(Number(rate)))
                                 void mutate(
                                   () =>
                                     hospitalityAPI.updateRoomType(type._id, {
@@ -931,7 +1031,7 @@ export default function HospitalityWorkspace({
                                   "Room rate updated.",
                                 );
                             }}
-                            className="rounded-md border border-zinc-300 px-3 py-1.5 text-[11px] font-bold"
+                            className="rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-[11px] font-bold text-zinc-700 hover:bg-zinc-50 transition-colors"
                           >
                             Edit rate
                           </button>
@@ -947,19 +1047,19 @@ export default function HospitalityWorkspace({
                                   : "Room type activated.",
                               )
                             }
-                            className="rounded-md border border-zinc-300 px-3 py-1.5 text-[11px] font-bold"
+                            className="rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-[11px] font-bold text-zinc-700 hover:bg-zinc-50 transition-colors"
                           >
                             {type.active ? "Pause" : "Activate"}
                           </button>
                           <button
                             onClick={() =>
-                              window.confirm(`Delete ${type.name}?`) &&
+                              window.confirm(`Delete ${type.name}? Rooms assigned to this category must be deleted or reassigned first.`) &&
                               void mutate(
                                 () => hospitalityAPI.deleteRoomType(type._id),
                                 "Room type deleted.",
                               )
                             }
-                            className="px-2 text-[11px] font-bold text-rose-600"
+                            className="px-2 py-1.5 text-[11px] font-bold text-rose-600 hover:text-rose-700 transition-colors"
                           >
                             Delete
                           </button>
@@ -986,8 +1086,8 @@ export default function HospitalityWorkspace({
                   </div>
                   <button
                     disabled={!roomTypes.length}
-                    onClick={() => setModal("room")}
-                    className="inline-flex h-9 items-center gap-1 rounded-md bg-orange-600 px-3 text-xs font-bold text-white disabled:opacity-40"
+                    onClick={openAddRoom}
+                    className="inline-flex h-9 items-center gap-1 rounded-md bg-orange-600 px-3 text-xs font-bold text-white hover:bg-orange-700 transition-colors disabled:opacity-40"
                   >
                     <Plus className="h-3.5 w-3.5" />
                     Add room
@@ -1008,7 +1108,7 @@ export default function HospitalityWorkspace({
                             {relationName(room.roomTypeId)}
                           </strong>
                           <span className="text-xs text-zinc-500">
-                            Floor {room.floor || "—"}
+                            Floor {room.floor || "—"}{room.notes ? ` · ${room.notes}` : ""}
                           </span>
                         </div>
                         <select
@@ -1029,18 +1129,28 @@ export default function HospitalityWorkspace({
                           <option value="maintenance">Maintenance</option>
                           <option value="out_of_service">Out of service</option>
                         </select>
-                        <button
-                          onClick={() =>
-                            window.confirm(`Delete room ${room.number}?`) &&
-                            void mutate(
-                              () => hospitalityAPI.deleteRoom(room._id),
-                              "Room deleted.",
-                            )
-                          }
-                          className="text-rose-600"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => openEditRoom(room)}
+                            className="grid h-8 w-8 place-items-center rounded-md border border-zinc-200 text-zinc-600 hover:bg-zinc-50 transition-colors"
+                            title={`Edit room ${room.number}`}
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            onClick={() =>
+                              window.confirm(`Delete room ${room.number}?`) &&
+                              void mutate(
+                                () => hospitalityAPI.deleteRoom(room._id),
+                                "Room deleted.",
+                              )
+                            }
+                            className="grid h-8 w-8 place-items-center rounded-md border border-zinc-200 text-rose-600 hover:bg-rose-50 transition-colors"
+                            title="Delete room"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -1068,8 +1178,8 @@ export default function HospitalityWorkspace({
                   </p>
                 </div>
                 <button
-                  onClick={() => setModal("table")}
-                  className="inline-flex h-9 items-center gap-1 rounded-md bg-orange-600 px-3 text-xs font-bold text-white"
+                  onClick={openAddTable}
+                  className="inline-flex h-9 items-center gap-1 rounded-md bg-orange-600 px-3 text-xs font-bold text-white hover:bg-orange-700 transition-colors"
                 >
                   <Plus className="h-3.5 w-3.5" />
                   Add table
@@ -1092,7 +1202,7 @@ export default function HospitalityWorkspace({
                         {table.capacity} seats
                       </h3>
                       <p className="mt-1 text-xs text-zinc-500">
-                        {table.area} · {pretty(table.shape)}
+                        {table.area} · {pretty(table.shape)}{table.notes ? ` · ${table.notes}` : ""}
                       </p>
                       <div className="mt-4 flex gap-2">
                         <select
@@ -1118,6 +1228,13 @@ export default function HospitalityWorkspace({
                           <option value="out_of_service">Out of service</option>
                         </select>
                         <button
+                          onClick={() => openEditTable(table)}
+                          className="grid h-9 w-9 place-items-center rounded-md border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 transition-colors"
+                          title={`Edit ${table.name}`}
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                        </button>
+                        <button
                           onClick={() =>
                             window.confirm(`Delete ${table.name}?`) &&
                             void mutate(
@@ -1125,7 +1242,8 @@ export default function HospitalityWorkspace({
                               "Table deleted.",
                             )
                           }
-                          className="text-rose-600"
+                          className="grid h-9 w-9 place-items-center rounded-md border border-zinc-200 bg-white text-rose-600 hover:bg-rose-50 transition-colors"
+                          title={`Delete ${table.name}`}
                         >
                           <X className="h-4 w-4" />
                         </button>
@@ -1278,29 +1396,46 @@ export default function HospitalityWorkspace({
 
       {modal === "roomType" && (
         <Modal
-          title="Add room type"
-          subtitle="Create a sellable room category and confirmed rate."
-          onClose={() => setModal(null)}
+          title={editingRoomType ? `Edit ${editingRoomType.name}` : "Add room type"}
+          subtitle={
+            editingRoomType
+              ? "Update category details, nightly rates, capacity limits, and amenities."
+              : "Create a sellable room category and confirmed nightly rate."
+          }
+          onClose={() => {
+            setModal(null);
+            setEditingRoomType(null);
+          }}
         >
           <form
             onSubmit={async (event) => {
               event.preventDefault();
-              if (
-                await mutate(
-                  () =>
-                    hospitalityAPI.createRoomType({
-                      ...roomTypeForm,
-                      baseRate: Number(roomTypeForm.baseRate),
-                      maxAdults: Number(roomTypeForm.maxAdults),
-                      maxChildren: Number(roomTypeForm.maxChildren),
-                      amenities: roomTypeForm.amenities
-                        .split(",")
-                        .map((item) => item.trim())
-                        .filter(Boolean),
-                    }),
-                  "Room type created.",
-                )
-              ) {
+              const payload = {
+                name: roomTypeForm.name.trim(),
+                code: roomTypeForm.code.trim().toUpperCase(),
+                baseRate: Number(roomTypeForm.baseRate),
+                maxAdults: Math.max(1, Number(roomTypeForm.maxAdults) || 2),
+                maxChildren: Math.max(0, Number(roomTypeForm.maxChildren) || 0),
+                description: roomTypeForm.description.trim(),
+                amenities: roomTypeForm.amenities
+                  .split(",")
+                  .map((item) => item.trim())
+                  .filter(Boolean),
+                active: Boolean(roomTypeForm.active),
+              };
+
+              const success = editingRoomType
+                ? await mutate(
+                    () =>
+                      hospitalityAPI.updateRoomType(editingRoomType._id, payload),
+                    "Room type updated successfully.",
+                  )
+                : await mutate(
+                    () => hospitalityAPI.createRoomType(payload),
+                    "Room type created successfully.",
+                  );
+
+              if (success) {
                 setRoomTypeForm({
                   name: "",
                   code: "",
@@ -1309,13 +1444,15 @@ export default function HospitalityWorkspace({
                   maxChildren: "1",
                   amenities: "",
                   description: "",
+                  active: true,
                 });
+                setEditingRoomType(null);
                 setModal(null);
               }
             }}
             className="grid gap-4 p-6 sm:grid-cols-2"
           >
-            <Field label="Room type">
+            <Field label="Room type name">
               <input
                 required
                 className={fieldClass}
@@ -1323,36 +1460,44 @@ export default function HospitalityWorkspace({
                 onChange={(e) =>
                   setRoomTypeForm({ ...roomTypeForm, name: e.target.value })
                 }
-                placeholder="Deluxe King"
+                placeholder="e.g. Deluxe King Suite"
               />
             </Field>
-            <Field label="Code">
+            <Field label="Category code (uppercase)">
               <input
+                required
                 className={fieldClass}
                 value={roomTypeForm.code}
                 onChange={(e) =>
-                  setRoomTypeForm({ ...roomTypeForm, code: e.target.value })
+                  setRoomTypeForm({
+                    ...roomTypeForm,
+                    code: e.target.value.toUpperCase(),
+                  })
                 }
-                placeholder="DLX"
+                placeholder="e.g. DLX-K"
               />
             </Field>
-            <Field label="Nightly rate">
+            <Field label={`Nightly rate (${property?.currency || "INR"})`}>
               <input
                 required
                 type="number"
                 min="0"
+                step="any"
                 className={fieldClass}
                 value={roomTypeForm.baseRate}
                 onChange={(e) =>
                   setRoomTypeForm({ ...roomTypeForm, baseRate: e.target.value })
                 }
+                placeholder="2500"
               />
             </Field>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Adults">
+              <Field label="Max adults">
                 <input
                   type="number"
                   min="1"
+                  max="20"
+                  required
                   className={fieldClass}
                   value={roomTypeForm.maxAdults}
                   onChange={(e) =>
@@ -1363,10 +1508,12 @@ export default function HospitalityWorkspace({
                   }
                 />
               </Field>
-              <Field label="Children">
+              <Field label="Max children">
                 <input
                   type="number"
                   min="0"
+                  max="20"
+                  required
                   className={fieldClass}
                   value={roomTypeForm.maxChildren}
                   onChange={(e) =>
@@ -1378,7 +1525,7 @@ export default function HospitalityWorkspace({
                 />
               </Field>
             </div>
-            <Field label="Amenities" wide>
+            <Field label="Amenities (comma-separated)" wide>
               <input
                 className={fieldClass}
                 value={roomTypeForm.amenities}
@@ -1388,34 +1535,85 @@ export default function HospitalityWorkspace({
                     amenities: e.target.value,
                   })
                 }
-                placeholder="Wi-Fi, breakfast, balcony"
+                placeholder="Wi-Fi, Balcony, Breakfast, Ocean view, AC"
               />
             </Field>
-            <ModalActions saving={saving} onCancel={() => setModal(null)} />
+            <Field label="Description (shared with AI assistant & guests)" wide>
+              <textarea
+                rows={3}
+                className="w-full rounded-md border border-zinc-300 bg-white p-3 text-sm outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+                value={roomTypeForm.description}
+                onChange={(e) =>
+                  setRoomTypeForm({
+                    ...roomTypeForm,
+                    description: e.target.value,
+                  })
+                }
+                placeholder="Spacious luxury suite with king bed, ocean view, and bathtub..."
+              />
+            </Field>
+            <div className="flex items-center gap-2 pt-1 sm:col-span-2">
+              <input
+                type="checkbox"
+                id="roomTypeActiveCheckbox"
+                checked={roomTypeForm.active}
+                onChange={(e) =>
+                  setRoomTypeForm({ ...roomTypeForm, active: e.target.checked })
+                }
+                className="h-4 w-4 rounded border-zinc-300 text-orange-600 focus:ring-orange-500"
+              />
+              <label
+                htmlFor="roomTypeActiveCheckbox"
+                className="text-xs font-semibold text-zinc-700 cursor-pointer"
+              >
+                Active for direct reservations and AI recommendations
+              </label>
+            </div>
+            <ModalActions
+              saving={saving}
+              onCancel={() => {
+                setModal(null);
+                setEditingRoomType(null);
+              }}
+            />
           </form>
         </Modal>
       )}
       {modal === "room" && (
         <Modal
-          title="Add physical room"
-          subtitle="Link a room number to its sellable room type."
-          onClose={() => setModal(null)}
+          title={editingRoom ? `Edit room ${editingRoom.number}` : "Add physical room"}
+          subtitle="Link a room number to its sellable room category and operating floor."
+          onClose={() => {
+            setModal(null);
+            setEditingRoom(null);
+          }}
         >
           <form
             onSubmit={async (event) => {
               event.preventDefault();
-              if (
-                await mutate(
-                  () => hospitalityAPI.createRoom(roomForm),
-                  "Room added.",
-                )
-              ) {
+              const payload = {
+                number: roomForm.number.trim(),
+                floor: roomForm.floor.trim(),
+                roomTypeId: roomForm.roomTypeId,
+                notes: roomForm.notes.trim(),
+              };
+              const success = editingRoom
+                ? await mutate(
+                    () => hospitalityAPI.updateRoom(editingRoom._id, payload),
+                    `Room ${payload.number} updated.`,
+                  )
+                : await mutate(
+                    () => hospitalityAPI.createRoom(payload),
+                    "Room added.",
+                  );
+              if (success) {
                 setRoomForm({
                   number: "",
                   floor: "",
                   roomTypeId: "",
                   notes: "",
                 });
+                setEditingRoom(null);
                 setModal(null);
               }
             }}
@@ -1454,34 +1652,60 @@ export default function HospitalityWorkspace({
                 <option value="">Select type</option>
                 {roomTypes.map((type) => (
                   <option key={type._id} value={type._id}>
-                    {type.name}
+                    {type.name} ({type.code})
                   </option>
                 ))}
               </select>
             </Field>
-            <ModalActions saving={saving} onCancel={() => setModal(null)} />
+            <Field label="Notes" wide>
+              <input
+                className={fieldClass}
+                value={roomForm.notes}
+                onChange={(e) =>
+                  setRoomForm({ ...roomForm, notes: e.target.value })
+                }
+                placeholder="Corner room, extra quiet, garden facing"
+              />
+            </Field>
+            <ModalActions
+              saving={saving}
+              onCancel={() => {
+                setModal(null);
+                setEditingRoom(null);
+              }}
+            />
           </form>
         </Modal>
       )}
       {modal === "table" && (
         <Modal
-          title="Add dining table"
+          title={editingTable ? `Edit table ${editingTable.name}` : "Add dining table"}
           subtitle="Capacity determines which guest parties can book it."
-          onClose={() => setModal(null)}
+          onClose={() => {
+            setModal(null);
+            setEditingTable(null);
+          }}
         >
           <form
             onSubmit={async (event) => {
               event.preventDefault();
-              if (
-                await mutate(
-                  () =>
-                    hospitalityAPI.createTable({
-                      ...tableForm,
-                      capacity: Number(tableForm.capacity),
-                    }),
-                  "Dining table added.",
-                )
-              ) {
+              const payload = {
+                name: tableForm.name.trim(),
+                area: tableForm.area.trim(),
+                capacity: Number(tableForm.capacity),
+                shape: tableForm.shape,
+                notes: tableForm.notes.trim(),
+              };
+              const success = editingTable
+                ? await mutate(
+                    () => hospitalityAPI.updateTable(editingTable._id, payload),
+                    `Table ${payload.name} updated.`,
+                  )
+                : await mutate(
+                    () => hospitalityAPI.createTable(payload),
+                    "Dining table added.",
+                  );
+              if (success) {
                 setTableForm({
                   name: "",
                   area: "Main dining",
@@ -1489,6 +1713,7 @@ export default function HospitalityWorkspace({
                   shape: "square",
                   notes: "",
                 });
+                setEditingTable(null);
                 setModal(null);
               }
             }}
@@ -1532,7 +1757,10 @@ export default function HospitalityWorkspace({
                 className={fieldClass}
                 value={tableForm.shape}
                 onChange={(e) =>
-                  setTableForm({ ...tableForm, shape: e.target.value })
+                  setTableForm({
+                    ...tableForm,
+                    shape: e.target.value as DiningTable["shape"],
+                  })
                 }
               >
                 <option value="square">Square</option>
@@ -1541,7 +1769,23 @@ export default function HospitalityWorkspace({
                 <option value="counter">Counter</option>
               </select>
             </Field>
-            <ModalActions saving={saving} onCancel={() => setModal(null)} />
+            <Field label="Notes" wide>
+              <input
+                className={fieldClass}
+                value={tableForm.notes}
+                onChange={(e) =>
+                  setTableForm({ ...tableForm, notes: e.target.value })
+                }
+                placeholder="Window booth, romantic lighting"
+              />
+            </Field>
+            <ModalActions
+              saving={saving}
+              onCancel={() => {
+                setModal(null);
+                setEditingTable(null);
+              }}
+            />
           </form>
         </Modal>
       )}
