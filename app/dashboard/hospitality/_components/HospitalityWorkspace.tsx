@@ -595,6 +595,42 @@ export default function HospitalityWorkspace({
     }
   }
 
+  async function deleteRoom(room: Room) {
+    if (!window.confirm(`Delete room ${room.number}?`)) return;
+    setSaving(true);
+    try {
+      await hospitalityAPI.deleteRoom(room._id);
+      setNotice(`Room ${room.number} deleted.`);
+      await load();
+    } catch (error: any) {
+      const data = error.response?.data;
+      if (
+        error.response?.status === 409 &&
+        data?.reason === "ROOM_HAS_ACTIVE_RESERVATIONS"
+      ) {
+        const count = Number(data.activeReservationCount) || 1;
+        const confirmed = window.confirm(
+          `Room ${room.number} has ${count} active or upcoming reservation${count === 1 ? "" : "s"}. Delete the room and cancel ${count === 1 ? "that reservation" : "those reservations"}?`,
+        );
+        if (!confirmed) {
+          setNotice(
+            `Room ${room.number} was not deleted. Cancel or reassign its active reservations first.`,
+          );
+          return;
+        }
+        await hospitalityAPI.deleteRoom(room._id, true);
+        setNotice(
+          `Room ${room.number} deleted and ${count} reservation${count === 1 ? "" : "s"} cancelled.`,
+        );
+        await load();
+        return;
+      }
+      setNotice(data?.error || "Could not delete this room.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   const filteredBookings = useMemo(
     () =>
       bookings.filter((booking) => {
@@ -1131,22 +1167,21 @@ export default function HospitalityWorkspace({
                         </select>
                         <div className="flex items-center gap-1">
                           <button
+                            type="button"
                             onClick={() => openEditRoom(room)}
                             className="grid h-8 w-8 place-items-center rounded-md border border-zinc-200 text-zinc-600 hover:bg-zinc-50 transition-colors"
+                            aria-label={`Edit room ${room.number}`}
                             title={`Edit room ${room.number}`}
                           >
                             <Pencil className="h-3.5 w-3.5" />
                           </button>
                           <button
-                            onClick={() =>
-                              window.confirm(`Delete room ${room.number}?`) &&
-                              void mutate(
-                                () => hospitalityAPI.deleteRoom(room._id),
-                                "Room deleted.",
-                              )
-                            }
-                            className="grid h-8 w-8 place-items-center rounded-md border border-zinc-200 text-rose-600 hover:bg-rose-50 transition-colors"
-                            title="Delete room"
+                            type="button"
+                            disabled={saving}
+                            onClick={() => void deleteRoom(room)}
+                            className="grid h-8 w-8 place-items-center rounded-md border border-zinc-200 text-rose-600 hover:bg-rose-50 transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+                            aria-label={`Delete room ${room.number}`}
+                            title={`Delete room ${room.number}`}
                           >
                             <X className="h-4 w-4" />
                           </button>
@@ -2300,14 +2335,19 @@ function SettingsPanel({
           <div>
             <h2 className="text-sm font-bold">Voice-agent tools</h2>
             <p className="mt-1 text-xs text-zinc-500">
-              The agent needs exactly these two tools.
+              The agent uses these three tools for live dashboard data and bookings.
             </p>
           </div>
           <span className="h-fit rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase text-emerald-700">
-            2 tools
+            3 tools
           </span>
         </div>
         <div className="mt-4 grid gap-3 lg:grid-cols-2">
+          <ToolCard
+            name="get_hospitality_info"
+            path="POST /api/hospitality/info"
+            description="Returns the latest dashboard-managed room rates, amenities, timings, taxes, policies, restaurant hours, and seating areas."
+          />
           <ToolCard
             name="check_availability"
             path="POST /api/hospitality/check-availability"

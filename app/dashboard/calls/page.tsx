@@ -132,6 +132,7 @@ const Dashboard = () => {
   const [refreshInterval, setRefreshInterval] = useState(30000);
   const [isBackgroundFetching, setIsBackgroundFetching] = useState(false);
   const [isPageChanging, setIsPageChanging] = useState(false);
+  const [loadingCallDetails, setLoadingCallDetails] = useState<string | null>(null);
   const [newCallsCount, setNewCallsCount] = useState(0);
   const [recordingErrors, setRecordingErrors] = useState<Record<string, string>>({});
   const syncInFlightRef = useRef(false);
@@ -348,15 +349,18 @@ const Dashboard = () => {
       const callsData = Array.isArray(rawCallsData)
         ? rawCallsData.map((call: any, index: number) => {
             const transcriptionIsSummaryMarker = call.transcription === true;
-            return {
+            const formattedTranscriptionIsSummaryMarker = call.transcription_formatted === true;
+            const normalizedCall = {
               ...call,
               id: getCallId(call) || `call-${index}`,
-              has_transcription: transcriptionIsSummaryMarker || call.transcription_formatted === true,
-              transcription: transcriptionIsSummaryMarker ? undefined : call.transcription,
-              transcription_formatted: call.transcription_formatted === true
-                ? undefined
-                : call.transcription_formatted,
+              has_transcription: transcriptionIsSummaryMarker || formattedTranscriptionIsSummaryMarker,
             };
+
+            // Do not let summary-only markers overwrite details already loaded
+            // for an expanded call during an automatic refresh.
+            if (transcriptionIsSummaryMarker) delete normalizedCall.transcription;
+            if (formattedTranscriptionIsSummaryMarker) delete normalizedCall.transcription_formatted;
+            return normalizedCall;
           })
         : [];
       const paginationData = response.data.data || response.data;
@@ -400,7 +404,13 @@ const Dashboard = () => {
         setNewCallsCount(newCalls.length);
       }
 
-      setCalls(callsData);
+      setCalls((existingCalls) => {
+        const existingById = new Map(existingCalls.map((call) => [getCallId(call), call]));
+        return callsData.map((call: Call) => ({
+          ...(existingById.get(getCallId(call)) || {}),
+          ...call,
+        }));
+      });
       setTotalCalls(responseTotal);
       setTotalPages(Math.max(1, responseTotalPages));
       setHasNextPage(nextPageAvailable);
@@ -707,8 +717,10 @@ const Dashboard = () => {
   const handleCallClick = async (callId: string) => {
     if (expandedCall === callId) {
       setExpandedCall(null);
+      setLoadingCallDetails(null);
     } else {
       setExpandedCall(callId);
+      setLoadingCallDetails(callId);
       setRecordingErrors((prev) => {
         const next = { ...prev };
         delete next[callId];
@@ -718,9 +730,13 @@ const Dashboard = () => {
         const response = await callsAPI.getCall(callId);
         const callData = response.data.data || response.data;
         const normalizedCallData = { ...callData, id: getCallId(callData) || callId };
-        setCalls(calls.map(c => getCallId(c) === callId ? { ...c, ...normalizedCallData } : c));
+        setCalls((currentCalls) => currentCalls.map((call) =>
+          getCallId(call) === callId ? { ...call, ...normalizedCallData } : call
+        ));
       } catch (err) {
         console.error('Failed to fetch call details:', err);
+      } finally {
+        setLoadingCallDetails((loadingId) => loadingId === callId ? null : loadingId);
       }
     }
   };
@@ -1110,7 +1126,12 @@ const Dashboard = () => {
                                 Recording &amp; AI Analysis
                               </h3>
 
-                              {recordingUrl ? (
+                              {loadingCallDetails === callId ? (
+                                <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-5 text-sm font-medium text-slate-600">
+                                  <RefreshCw className="h-4 w-4 animate-spin text-teal-600" />
+                                  Loading recording and transcript...
+                                </div>
+                              ) : recordingUrl ? (
                                 <div className="bg-white rounded-xl border border-slate-200 p-5">
                                   <audio
                                     controls
@@ -1181,7 +1202,7 @@ const Dashboard = () => {
                             </div>
 
                             {/* Transcription */}
-                            {(call.chat || call.transcription) && (
+                            {loadingCallDetails !== callId && (call.chat || call.transcription) && (
                               <div>
                                 <h3 className="text-xs font-bold uppercase tracking-widest mb-3 text-slate-500 flex items-center gap-2">
                                   <FileText className="w-4 h-4 text-slate-500" />
@@ -1261,7 +1282,7 @@ const Dashboard = () => {
                               </div>
                             )}
 
-                            {!call.chat && !call.transcription && (
+                            {loadingCallDetails !== callId && !call.chat && !call.transcription && (
                               <div className="bg-slate-100 border border-slate-200 rounded-xl p-4">
                                 <div className="flex items-center gap-3">
                                   <FileText className="w-5 h-5 text-slate-400" />

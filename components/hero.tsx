@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Award, BarChart3, Bot, Calendar, CalendarCheck, CheckCircle, Clock, CreditCard, FileText, Headphones, Keyboard, LayoutDashboard, Megaphone, MessageSquare, Mic, Pause, Phone, PhoneCall, Play, PlusCircle, Send, Shield, Stethoscope, TrendingUp, User, Users, Video, Volume2, Zap } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from 'react';
+import { type FormEvent, useEffect, useRef, useState } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -1089,6 +1089,9 @@ const bizPhoneChats = {
 export default function Hero() {
     const [counts, setCounts] = useState([0, 0, 0])
     const [activeBiz, setActiveBiz] = useState('travel')
+    const [callbackName, setCallbackName] = useState('')
+    const [callbackPhone, setCallbackPhone] = useState('')
+    const [callbackStatus, setCallbackStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
     const sampleAudioRef = useRef<HTMLAudioElement | null>(null)
     const [activeSampleIndex, setActiveSampleIndex] = useState<number | null>(null)
     const [isSamplePlaying, setIsSamplePlaying] = useState(false)
@@ -1255,6 +1258,35 @@ export default function Hero() {
                 }
                 setCallStatus('')
             }
+        }
+    }
+
+    const requestCallback = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        if (callbackStatus === 'sending') return
+
+        setCallbackStatus('sending')
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    access_key: '8f0556d8-66c3-4e2d-810e-5de948aff5ce',
+                    subject: 'Voice agent callback request',
+                    name: callbackName.trim(),
+                    phone: callbackPhone.trim(),
+                    message: 'Callback requested from the homepage voice agent phone.'
+                })
+            })
+            const result = await response.json()
+            if (!response.ok || !result.success) throw new Error('Callback request failed')
+
+            setCallbackStatus('success')
+            setCallbackName('')
+            setCallbackPhone('')
+        } catch (error) {
+            console.error('Callback request failed:', error)
+            setCallbackStatus('error')
         }
     }
 
@@ -2078,35 +2110,51 @@ export default function Hero() {
                                             <div>
                                                 <p className="text-[8px] font-bold uppercase tracking-wide text-orange-600 sm:text-[11px]">Voice AI Ready</p>
                                                 <p className="mt-1 text-[8px] font-semibold leading-snug text-slate-800 sm:text-[12px]">
-                                                    Tap Start Call and talk to the DigitalBot voice agent live.
+                                                    Enter your name and number and our team will call you back.
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="mt-5 grid grid-cols-3 gap-x-3 gap-y-4 text-center sm:mt-10 sm:gap-y-8">
-                                        {[
-                                            { icon: Mic, label: 'Mute' },
-                                            { icon: Volume2, label: 'Speaker' },
-                                            { icon: MessageSquare, label: 'Message' },
-                                            { icon: Video, label: 'Video' },
-                                            { icon: Keyboard, label: 'Keypad' },
-                                            { icon: Clock, label: 'Record' },
-                                        ].map((item) => (
-                                            <div key={item.label} className="flex flex-col items-center gap-1.5 sm:gap-2.5">
-                                                <item.icon className="h-4 w-4 text-[#075e54] sm:h-6 sm:w-6" strokeWidth={2.25} />
-                                                <span className="text-[7px] font-medium text-slate-700 sm:text-[10px]">{item.label}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="mt-auto flex flex-col items-center pt-2 sm:pt-4">
-                                        <button type="button" className="flex items-center justify-center gap-2 rounded-full bg-orange-500 px-5 py-2 text-[10px] font-semibold text-white shadow-md shadow-orange-500/25 transition-colors hover:bg-orange-600 sm:px-7 sm:py-2.5 sm:text-sm">
-                                            <PhoneCall className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                                            Start Call
+                                    <form onSubmit={requestCallback} className="mt-3 flex min-h-0 flex-1 flex-col gap-1.5 sm:mt-6 sm:gap-3">
+                                        <label className="block text-[8px] font-semibold text-slate-700 sm:text-xs">
+                                            Your name
+                                            <input
+                                                type="text"
+                                                name="callbackName"
+                                                autoComplete="name"
+                                                value={callbackName}
+                                                onChange={(event) => { setCallbackName(event.target.value); setCallbackStatus('idle') }}
+                                                required
+                                                maxLength={100}
+                                                placeholder="Enter your name"
+                                                className="mt-0.5 w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[9px] font-normal text-slate-900 outline-none placeholder:text-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 sm:mt-1 sm:rounded-xl sm:px-3 sm:py-2.5 sm:text-xs"
+                                            />
+                                        </label>
+                                        <label className="block text-[8px] font-semibold text-slate-700 sm:text-xs">
+                                            Phone number
+                                            <input
+                                                type="tel"
+                                                name="callbackPhone"
+                                                autoComplete="tel"
+                                                inputMode="tel"
+                                                value={callbackPhone}
+                                                onChange={(event) => { setCallbackPhone(event.target.value); setCallbackStatus('idle') }}
+                                                required
+                                                pattern="[+]?[0-9 ]{7,20}"
+                                                title="Enter 7 to 20 digits and spaces, optionally starting with +"
+                                                placeholder="+91 98765 43210"
+                                                className="mt-0.5 w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-[9px] font-normal text-slate-900 outline-none placeholder:text-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 sm:mt-1 sm:rounded-xl sm:px-3 sm:py-2.5 sm:text-xs"
+                                            />
+                                        </label>
+                                        <button type="submit" disabled={callbackStatus === 'sending'} className="mt-auto flex w-full items-center justify-center gap-1 rounded-full bg-orange-500 px-2 py-1.5 text-[9px] font-semibold text-white shadow-md shadow-orange-500/25 transition-colors hover:bg-orange-600 disabled:cursor-wait disabled:opacity-70 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm">
+                                            <PhoneCall className="h-3 w-3 sm:h-4 sm:w-4" />
+                                            {callbackStatus === 'sending' ? 'Sending...' : 'Request a Call'}
                                         </button>
-                                        <p className="mt-2 text-[7px] font-medium text-slate-400 sm:text-[10px]">Uses your microphone</p>
-                                    </div>
+                                        <p role="status" aria-live="polite" className={"min-h-[12px] text-center text-[7px] leading-tight sm:min-h-[16px] sm:text-[10px] " + (callbackStatus === 'error' ? 'text-red-600' : callbackStatus === 'success' ? 'text-green-700' : 'text-slate-500')}>
+                                            {callbackStatus === 'success' ? "Request sent! We'll be in touch." : callbackStatus === 'error' ? 'Could not send. Please try again.' : "We'll contact you at this number."}
+                                        </p>
+                                    </form>
                                 </div>
                             </div>
                         </div>

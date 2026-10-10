@@ -5,7 +5,7 @@ import SheetAutomationModal from "@/components/leads/SheetAutomationModal";
 import { connectorsAPI, type VoiceConnector } from "@/lib/api";
 import { DASHBOARD_QUERY_KEYS } from "@/lib/dashboard-query";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Edit3, Eye, FileSpreadsheet, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, Trash2, X } from "lucide-react";
+import { ArrowLeft, CalendarClock, Edit3, Eye, FileSpreadsheet, Loader2, Pause, Phone, Play, Plus, Save, Sparkles, Trash2, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 const getAuthToken = () => {
     if (typeof window !== 'undefined') {
@@ -181,6 +181,16 @@ const formatRetryGap = (seconds: number | null | undefined) => {
     return `${Math.round(seconds / 3600)} hour${seconds === 3600 ? '' : 's'}`;
 };
 
+const formatScheduledStart = (value?: string) => {
+    if (!value) return 'Not scheduled';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return 'Not scheduled';
+    return new Intl.DateTimeFormat(undefined, {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+    }).format(date);
+};
+
 const getCampaignAgentId = (campaign: Campaign) =>
     campaign.vozonAI?.agentId || campaign.content?.voiceAgentId || campaign.millisAI?.agentId || '';
 
@@ -271,13 +281,14 @@ const MenuIcon = () => (
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
     </svg>
 );
-function CampaignCard({ campaign, onView, onEdit, onDelete, onToggle, onLaunch, isLaunching, isToggling, isDeleting, userPhone }: {
+function CampaignCard({ campaign, onView, onEdit, onDelete, onToggle, onLaunch, onSchedule, isLaunching, isToggling, isDeleting, userPhone }: {
 campaign: Campaign;
 onView: () => void;
 onEdit: () => void;
 onDelete: () => void;
 onToggle: () => void;
 onLaunch: () => void;
+onSchedule: () => void;
 isLaunching ?: boolean;
 isToggling ?: boolean;
 isDeleting ?: boolean;
@@ -314,6 +325,11 @@ userPhone ?: string;
                             <span className="text-xs font-semibold text-slate-500">Vozon</span>
                             {userPhone && <span className="hidden text-xs text-slate-400 2xl:inline">• {userPhone}</span>}
                         </div>
+                        {campaign.status === 'scheduled' && campaign.startDate && (
+                            <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-sky-700">
+                                <CalendarClock className="h-3.5 w-3.5" /> {formatScheduledStart(campaign.startDate)}
+                            </p>
+                        )}
                     </div>
                 </div>
 
@@ -333,9 +349,14 @@ userPhone ?: string;
 
                 <div className="flex flex-wrap items-center gap-2 sm:col-span-2 xl:col-span-1 xl:justify-end">
                 {campaign.status === 'draft' && (
-                    <button onClick={onLaunch} disabled={isLaunching} className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">
-                        {isLaunching ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />} {isLaunching ? 'Launching' : 'Launch'}
-                    </button>
+                    <>
+                        <button onClick={onLaunch} disabled={isLaunching} className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">
+                            {isLaunching ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />} {isLaunching ? 'Launching' : 'Launch now'}
+                        </button>
+                        <button onClick={onSchedule} disabled={isLaunching} className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-xs font-bold text-sky-700 transition-colors hover:bg-sky-100 disabled:cursor-not-allowed disabled:opacity-50">
+                            <CalendarClock className="h-3.5 w-3.5" /> Schedule
+                        </button>
+                    </>
                 )}
                 {campaign.status === 'active' || campaign.status === 'paused' ? (
                     <button onClick={onToggle} disabled={isToggling} className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold transition-colors ${campaign.status === 'active' ? 'bg-amber-50 text-amber-700 hover:bg-amber-100' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'} disabled:opacity-60`}>
@@ -368,6 +389,10 @@ export default function CampaignsPage() {
     const [togglingCampaignId, setTogglingCampaignId] = useState<string | null>(null);
     const [deletingCampaignId, setDeletingCampaignId] = useState<string | null>(null);
     const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+    const [schedulingCampaign, setSchedulingCampaign] = useState<Campaign | null>(null);
+    const [scheduleDate, setScheduleDate] = useState('');
+    const [scheduleTime, setScheduleTime] = useState('');
+    const [scheduleError, setScheduleError] = useState('');
     const [editingCampaign, setEditingCampaign] = useState<Campaign | null>(null);
     const [editName, setEditName] = useState('');
     const [editTargetAudience, setEditTargetAudience] = useState('');
@@ -1050,7 +1075,7 @@ export default function CampaignsPage() {
     };
 
     // Launch Campaign Handler
-    const handleLaunchCampaign = async (campaignId: string) => {
+    const handleLaunchCampaign = async (campaignId: string, scheduledAt?: string) => {
         // Find campaign to check if it has Agent ID
         const campaign = campaigns.find(c => c._id === campaignId);
 
@@ -1073,7 +1098,7 @@ export default function CampaignsPage() {
             return;
         }
 
-        if (!confirm(`🚀 Are you sure you want to launch this campaign?\n\nThis will start making ${campaign.totalContacts} calls from your assigned phone number: ${userInfo?.assignedPhoneNumber || 'your number'}`)) {
+        if (!scheduledAt && !confirm(`🚀 Are you sure you want to launch this campaign?\n\nThis will start making ${campaign.totalContacts} calls from your assigned phone number: ${userInfo?.assignedPhoneNumber || 'your number'}`)) {
             return;
         }
 
@@ -1086,7 +1111,10 @@ export default function CampaignsPage() {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify(scheduledAt
+                    ? { mode: 'schedule', scheduledAt }
+                    : { mode: 'now' })
             });
 
             if (response.ok) {
@@ -1096,11 +1124,20 @@ export default function CampaignsPage() {
                 // Update campaign in list
                 updateCampaigns(current => current.map(c =>
                     c._id === campaignId
-                        ? { ...c, status: 'active', ...data.data.campaign }
+                        ? { ...c, status: scheduledAt ? 'scheduled' : 'active', ...data.data.campaign }
                         : c
                 ));
 
-                alert(data.data.message || `✅ Campaign launched successfully!\n\nMaking calls from: ${data.data.fromPhone || userInfo?.assignedPhoneNumber}`);
+                if (scheduledAt) {
+                    setSchedulingCampaign(null);
+                    setScheduleDate('');
+                    setScheduleTime('');
+                    setScheduleError('');
+                }
+
+                alert(scheduledAt
+                    ? `✅ Campaign scheduled for ${formatScheduledStart(scheduledAt)}.`
+                    : data.data.message || `✅ Campaign launched successfully!\n\nMaking calls from: ${data.data.fromPhone || userInfo?.assignedPhoneNumber}`);
             } else {
                 const errorData = await response.json().catch(() => null);
                 const errorMessage = errorData?.error || errorData?.message || response.statusText;
@@ -1137,6 +1174,35 @@ export default function CampaignsPage() {
         } finally {
             setLaunchingCampaignId(null);
         }
+    };
+
+    const openScheduleCampaign = (campaign: Campaign) => {
+        if ((campaign.metadata?.outboundProvider || 'vozon') !== 'vozon') {
+            alert('Scheduled campaign launches are currently available for Vozon campaigns.');
+            return;
+        }
+        setSchedulingCampaign(campaign);
+        setScheduleDate('');
+        setScheduleTime(campaign.vozonAI?.windowStart || '09:00');
+        setScheduleError('');
+    };
+
+    const handleScheduleCampaign = () => {
+        if (!schedulingCampaign || !scheduleDate || !scheduleTime) {
+            setScheduleError('Choose both a date and a time.');
+            return;
+        }
+        const scheduledDate = new Date(`${scheduleDate}T${scheduleTime}`);
+        if (Number.isNaN(scheduledDate.getTime())) {
+            setScheduleError('Choose a valid date and time.');
+            return;
+        }
+        if (scheduledDate.getTime() <= Date.now()) {
+            setScheduleError('Choose a future date and time.');
+            return;
+        }
+        setScheduleError('');
+        void handleLaunchCampaign(schedulingCampaign._id, scheduledDate.toISOString());
     };
 
     if (loading) {
@@ -1345,6 +1411,7 @@ export default function CampaignsPage() {
                                     onDelete={() => handleDeleteCampaign(campaign)}
                                     onToggle={() => handleToggleCampaign(campaign._id, campaign.status)}
                                     onLaunch={() => handleLaunchCampaign(campaign._id)}
+                                    onSchedule={() => openScheduleCampaign(campaign)}
                                     isLaunching={launchingCampaignId === campaign._id}
                                     isToggling={togglingCampaignId === campaign._id}
                                     isDeleting={deletingCampaignId === campaign._id}
@@ -1362,6 +1429,43 @@ export default function CampaignsPage() {
 
                 </div>
             </main>
+
+            {/* Schedule campaign modal */}
+            {schedulingCampaign && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 p-4 backdrop-blur-sm" onMouseDown={() => !launchingCampaignId && setSchedulingCampaign(null)}>
+                    <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl sm:p-8" onMouseDown={(event) => event.stopPropagation()}>
+                        <div className="flex items-start justify-between gap-4">
+                            <div>
+                                <div className="inline-flex items-center gap-2 rounded-full bg-sky-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-sky-700">
+                                    <CalendarClock className="h-3.5 w-3.5" /> Schedule campaign
+                                </div>
+                                <h2 className="mt-3 text-2xl font-semibold text-slate-950">Choose the launch date and time</h2>
+                                <p className="mt-1 text-sm text-slate-500">{schedulingCampaign.name} will remain scheduled until this exact date and time.</p>
+                            </div>
+                            <button type="button" disabled={Boolean(launchingCampaignId)} onClick={() => setSchedulingCampaign(null)} className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 disabled:opacity-50" aria-label="Close campaign scheduler"><X className="h-5 w-5" /></button>
+                        </div>
+                        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                            <label className="block">
+                                <span className="mb-2 block text-sm font-bold text-slate-700">Launch date *</span>
+                                <input type="date" value={scheduleDate} onChange={(event) => { setScheduleDate(event.target.value); setScheduleError(''); }} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+                            </label>
+                            <label className="block">
+                                <span className="mb-2 block text-sm font-bold text-slate-700">Launch time *</span>
+                                <input type="time" value={scheduleTime} onChange={(event) => { setScheduleTime(event.target.value); setScheduleError(''); }} className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+                            </label>
+                        </div>
+                        <p className="mt-3 text-xs text-slate-500">The date and time use your device's local timezone. The campaign's daily calling window still applies.</p>
+                        {scheduleError && <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">{scheduleError}</p>}
+                        <div className="mt-6 flex gap-3">
+                            <button type="button" disabled={Boolean(launchingCampaignId)} onClick={() => setSchedulingCampaign(null)} className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-50">Cancel</button>
+                            <button type="button" disabled={Boolean(launchingCampaignId) || !scheduleDate || !scheduleTime} onClick={handleScheduleCampaign} className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">
+                                {launchingCampaignId ? <Loader2 className="h-4 w-4 animate-spin" /> : <CalendarClock className="h-4 w-4" />}
+                                {launchingCampaignId ? 'Scheduling...' : 'Schedule campaign'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Campaign details modal */}
             {selectedCampaign && (
@@ -1400,6 +1504,12 @@ export default function CampaignsPage() {
                                     <p className="text-xs font-semibold text-slate-500">Calling Window</p>
                                     <p className="mt-1 text-sm font-bold text-slate-800">{selectedCampaign.vozonAI?.windowStart || '09:00'} - {selectedCampaign.vozonAI?.windowEnd || '18:00'}</p>
                                 </div>
+                                {selectedCampaign.startDate && (
+                                    <div className="rounded-2xl border border-slate-200 p-4">
+                                        <p className="text-xs font-semibold text-slate-500">{selectedCampaign.status === 'scheduled' ? 'Scheduled launch' : 'Started'}</p>
+                                        <p className="mt-1 text-sm font-bold text-slate-800">{formatScheduledStart(selectedCampaign.startDate)}</p>
+                                    </div>
+                                )}
                                 <div className="rounded-2xl border border-slate-200 p-4">
                                     <p className="text-xs font-semibold text-slate-500">Volume</p>
                                     <p className="mt-1 text-sm font-bold text-slate-800">{selectedCampaign.vozonAI?.dailyLimit || 250}/day · {selectedCampaign.vozonAI?.concurrency || 3} concurrent</p>
