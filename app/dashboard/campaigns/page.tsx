@@ -66,7 +66,7 @@ type Campaign = {
     operational?: {
         attempted: number;
         processed?: number;
-        answered: number;
+        answered: number | null;
         failed: number;
         pending: number;
         answerRate: number | null;
@@ -297,7 +297,7 @@ userPhone ?: string;
     const statusMeta = campaignStatusMeta[campaign.status] || campaignStatusMeta.draft;
     const attempted = campaign.operational?.attempted ?? campaign.contacted;
     const processed = campaign.operational?.processed ?? attempted;
-    const answered = campaign.operational?.answered ?? 0;
+    const answered = campaign.operational?.answered;
     const pending = campaign.operational?.pending ?? campaign.pending;
     const progress = campaign.totalContacts > 0
         ? Math.min(100, Math.round((processed / campaign.totalContacts) * 100))
@@ -344,7 +344,7 @@ userPhone ?: string;
                     <p className="mt-2 text-xs text-slate-500">Answer rate <strong className="text-slate-700">{formatPercent(campaign.operational?.answerRate)}</strong></p>
                 </div>
 
-                <div><p className="text-xs font-medium text-slate-500">Answered</p><p className="mt-1 text-lg font-bold text-emerald-700">{answered.toLocaleString()}</p></div>
+                <div><p className="text-xs font-medium text-slate-500">Answered</p><p className="mt-1 text-lg font-bold text-emerald-700">{answered == null ? '—' : answered.toLocaleString()}</p></div>
                 <div><p className="text-xs font-medium text-slate-500">Pending</p><p className="mt-1 text-lg font-bold text-slate-900">{pending.toLocaleString()}</p></div>
 
                 <div className="flex flex-wrap items-center gap-2 sm:col-span-2 xl:col-span-1 xl:justify-end">
@@ -1485,7 +1485,7 @@ export default function CampaignsPage() {
                                     ['Status', selectedCampaign.status],
                                     ['Provider', 'Vozon'],
                                     ['Contacts', selectedCampaign.totalContacts],
-                                    ['Answered', selectedCampaign.operational?.answered ?? 0]
+                                    ['Answered', selectedCampaign.operational?.answered ?? '—']
                                 ].map(([label, value]) => <div key={String(label)} className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-semibold text-slate-500">{label}</p><p className="mt-1 break-words font-extrabold capitalize text-slate-950">{String(value)}</p></div>)}
                             </div>
                             <div className="rounded-2xl border border-slate-200 p-5">
