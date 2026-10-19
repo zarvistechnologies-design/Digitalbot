@@ -848,13 +848,13 @@ export default function AnalyticsOverview() {
                       <MessageSquare className="w-4 h-4 text-slate-400" />
                       <h3 className="text-sm font-bold text-slate-900">Recent Calls</h3>
                     </div>
-                    <Link
+                    <a
                       href="/dashboard/calls"
                       className="text-teal-700 hover:text-teal-800 font-semibold text-xs transition-colors flex items-center gap-1"
                     >
                       View All
                       <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                    </a>
                   </div>
                   {recentCalls.length > 0 ? (
                     <div className="divide-y divide-slate-100">
