@@ -849,7 +849,7 @@ export default function AnalyticsOverview() {
                       <h3 className="text-sm font-bold text-slate-900">Recent Calls</h3>
                     </div>
                     <a
-                      href="/calls"
+                      href="/dashboard/calls"
                       className="text-teal-700 hover:text-teal-800 font-semibold text-xs transition-colors flex items-center gap-1"
                     >
                       View All
