@@ -158,7 +158,7 @@ const statusLabels: Record<string, string> = {
 export default function AkiaraSocialPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"split" | "cards">("split");
-  const [activeTab, setActiveTab] = useState<"influencer_collaboration" | "want_to_buy" | "product_complaint">("product_complaint");
+  const [activeTab, setActiveTab] = useState<"all" | "influencer_collaboration" | "want_to_buy" | "product_complaint">("all");
 
   // Inquiries & Metrics state
   const [leads, setLeads] = useState<SocialLead[]>([]);
@@ -209,10 +209,8 @@ export default function AkiaraSocialPage() {
     async (showLoading = true) => {
       if (showLoading) setLoading(true);
       try {
-        const params: any = {
-          category: activeTab,
-          limit: 100,
-        };
+        const params: any = { limit: 100 };
+        if (activeTab !== "all") params.category = activeTab;
         if (platformFilter !== "all") params.platform = platformFilter;
         if (statusFilter !== "all") params.status = statusFilter;
         if (deferredSearch.trim()) params.search = deferredSearch.trim();
@@ -330,25 +328,29 @@ export default function AkiaraSocialPage() {
   };
 
   const quickReplies = useMemo(() => {
-    if (activeTab === "product_complaint") {
+    const category = selectedLead?.category || activeTab;
+    if (category === "product_complaint") {
       return [
         "Please share your 13-digit Order ID so we can verify your purchase.",
         "Could you please share a short video demonstrating the issue?",
         "Our support team has logged your complaint ticket and will contact you within 24 hours.",
       ];
     }
-    if (activeTab === "want_to_buy") {
+    if (category === "want_to_buy") {
       return [
         "You can explore all genuine Akiara appliances at https://akiara.in/ !",
         "Which product are you interested in? We have Mini, Yume, Duo, and Soup Maker.",
         "We offer free shipping across India with cash on delivery available!",
       ];
     }
-    return [
-      "Thank you for reaching out! Our PR team will review your profile within 48 hours.",
-      "Could you please share your media kit and shipping address?",
-    ];
-  }, [activeTab]);
+    if (category === "influencer_collaboration") {
+      return [
+        "Thank you for reaching out! Our PR team will review your profile within 48 hours.",
+        "Could you please share your media kit and shipping address?",
+      ];
+    }
+    return [];
+  }, [activeTab, selectedLead?.category]);
 
   return (
     <div className="flex min-h-screen bg-[#f8fafc]">
@@ -497,7 +499,32 @@ export default function AkiaraSocialPage() {
           </div>
 
           {/* ===== 3. COMPACT CATEGORY WORKFLOW TABS ===== */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+            <button
+              onClick={() => setActiveTab("all")}
+              className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2.5 ${
+                activeTab === "all"
+                  ? "bg-slate-100 border-slate-400 ring-1 ring-slate-400/30 shadow-2xs"
+                  : "bg-white border-slate-200/80 hover:bg-slate-50"
+              }`}
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                  activeTab === "all" ? "bg-slate-700 text-white" : "bg-slate-50 text-slate-600 border border-slate-100"
+                }`}>
+                  <MessageSquare className="w-3.5 h-3.5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-bold text-slate-900 truncate">All Conversations</p>
+                  <p className="text-[10px] text-slate-400 truncate">Including new messages</p>
+                </div>
+              </div>
+              <span className={`px-2 py-0.5 rounded-md text-[11px] font-bold ${
+                activeTab === "all" ? "bg-slate-700 text-white" : "bg-slate-100 text-slate-600"
+              }`}>
+                {stats.totalCount}
+              </span>
+            </button>
             {/* Tab 1: Influencer Collaboration */}
             <button
               onClick={() => setActiveTab("influencer_collaboration")}
