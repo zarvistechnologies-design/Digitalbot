@@ -10,9 +10,13 @@ import {
     Building2,
     Calendar,
     CheckCircle2,
+    ChevronDown,
     ChevronLeft,
     ChevronRight,
     Clock,
+    Download,
+    FileSpreadsheet,
+    Filter,
     FileText,
     Hash,
     HeartPulse,
@@ -21,11 +25,13 @@ import {
     RefreshCw,
     Search,
     Stethoscope,
+    Table,
     User,
     X,
     XCircle,
     Zap
 } from "lucide-react";
+import * as XLSX from "xlsx";
 import { useRouter } from "next/navigation";
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 
@@ -204,6 +210,183 @@ function getScheduleLabel(apt: Pick<Appointment, "time" | "queueNumber" | "metad
 
 function getScheduleTitle(apt: Pick<Appointment, "queueNumber" | "metadata">) {
   return isQueueAppointment(apt) ? "Queue Number" : "Time";
+}
+
+// ==================== EXCEL EXPORT HELPERS ====================
+function sanitizeSheetName(name: string, fallback = "Doctor"): string {
+  const clean = String(name || "").replace(/[\\/?*[\]:]/g, " ").trim();
+  const truncated = clean.slice(0, 31).trim();
+  return truncated || fallback;
+}
+
+function addUniqueSheet(wb: XLSX.WorkBook, ws: XLSX.WorkSheet, baseName: string) {
+  let name = sanitizeSheetName(baseName);
+  let counter = 1;
+  const existingNames = new Set(wb.SheetNames);
+  while (existingNames.has(name)) {
+    const suffix = ` (${counter})`;
+    const maxBaseLen = 31 - suffix.length;
+    name = `${sanitizeSheetName(baseName).slice(0, maxBaseLen)}${suffix}`;
+    counter++;
+  }
+  XLSX.utils.book_append_sheet(wb, ws, name);
+}
+
+const EXCEL_COLUMN_WIDTHS = [
+  { wch: 22 }, // Patient Name
+  { wch: 16 }, // Phone Number
+  { wch: 10 }, // Age
+  { wch: 22 }, // Doctor Name
+  { wch: 14 }, // Date
+  { wch: 18 }, // Slot
+  { wch: 20 }, // Location
+  { wch: 18 }, // Booking Source
+];
+
+function formatAppointmentForExcel(apt: Appointment) {
+  const rawDoctor = apt.metadata?.doctor_name;
+  const doctorName = rawDoctor
+    ? (/^(dr\.?\s*)/i.test(rawDoctor) ? rawDoctor : `Dr. ${rawDoctor}`)
+    : "Unassigned";
+
+  const ageVal = getPatientAge(apt);
+
+  const sourceLabel =
+    apt.source === "millis_ai_auto"
+      ? "AI Voice Agent"
+      : apt.source === "manual"
+      ? "Manual Entry"
+      : apt.source || "-";
+
+  const slotVal = isQueueAppointment(apt)
+    ? apt.queueNumber
+      ? `Queue #${apt.queueNumber}`
+      : "Queue Pending"
+    : apt.time?.trim() || "-";
+
+  const aptDate = apt.date
+    ? new Date(apt.date).toISOString().split("T")[0]
+    : "-";
+
+  return {
+    "Patient Name": apt.name || "-",
+    "Phone Number": apt.phone || "-",
+    "Age": ageVal !== null ? ageVal : "",
+    "Doctor Name": doctorName,
+    "Date": aptDate,
+    "Slot": slotVal,
+    "Location": apt.location?.trim() || "",
+    "Booking Source": sourceLabel,
+  };
+}
+
+function downloadCombinedExcel(appointmentsToExport: Appointment[], filenamePrefix = "All_Doctors_Appointments"): boolean {
+  if (!appointmentsToExport || appointmentsToExport.length === 0) {
+    alert("No appointments available to export.");
+    return false;
+  }
+  const wb = XLSX.utils.book_new();
+  const rows = appointmentsToExport.map(formatAppointmentForExcel);
+  const ws = XLSX.utils.json_to_sheet(rows);
+  ws["!cols"] = EXCEL_COLUMN_WIDTHS;
+  XLSX.utils.book_append_sheet(wb, ws, "All Appointments");
+
+  const todayStr = getLocalDateInputValue();
+  XLSX.writeFile(wb, `${filenamePrefix}_${todayStr}.xlsx`);
+  return true;
+}
+
+function downloadMultiSheetExcel(appointmentsToExport: Appointment[], filenamePrefix = "All_Doctors_By_Doctor"): boolean {
+  if (!appointmentsToExport || appointmentsToExport.length === 0) {
+    alert("No appointments available to export.");
+    return false;
+  }
+  const wb = XLSX.utils.book_new();
+
+  // Group by doctor
+  const groups: Record<string, Appointment[]> = {};
+  appointmentsToExport.forEach((apt) => {
+    const rawDoctor = apt.metadata?.doctor_name || "Unassigned";
+    const doctorKey = /^(dr\.?\s*)/i.test(rawDoctor)
+      ? rawDoctor
+      : rawDoctor === "Unassigned"
+      ? "Unassigned"
+      : `Dr. ${rawDoctor}`;
+    if (!groups[doctorKey]) groups[doctorKey] = [];
+    groups[doctorKey].push(apt);
+  });
+
+  // Summary sheet
+  const summaryRows = Object.keys(groups).sort().map((doctorKey) => {
+    const list = groups[doctorKey];
+    return {
+      "Doctor Name": doctorKey,
+      "Total Appointments": list.length,
+      "Scheduled": list.filter((a) => a.status === "scheduled").length,
+      "Confirmed": list.filter((a) => a.status === "confirmed").length,
+      "Completed": list.filter((a) => a.status === "completed").length,
+      "Cancelled": list.filter((a) => a.status === "cancelled").length,
+      "No Show": list.filter((a) => a.status === "no-show").length,
+      "AI Voice Bookings": list.filter((a) => a.source === "millis_ai_auto").length,
+    };
+  });
+
+  // Overall Total row
+  summaryRows.push({
+    "Doctor Name": "TOTAL (All Doctors)",
+    "Total Appointments": appointmentsToExport.length,
+    "Scheduled": appointmentsToExport.filter((a) => a.status === "scheduled").length,
+    "Confirmed": appointmentsToExport.filter((a) => a.status === "confirmed").length,
+    "Completed": appointmentsToExport.filter((a) => a.status === "completed").length,
+    "Cancelled": appointmentsToExport.filter((a) => a.status === "cancelled").length,
+    "No Show": appointmentsToExport.filter((a) => a.status === "no-show").length,
+    "AI Voice Bookings": appointmentsToExport.filter((a) => a.source === "millis_ai_auto").length,
+  });
+
+  const summaryWs = XLSX.utils.json_to_sheet(summaryRows);
+  summaryWs["!cols"] = [
+    { wch: 24 },
+    { wch: 18 },
+    { wch: 12 },
+    { wch: 12 },
+    { wch: 12 },
+    { wch: 12 },
+    { wch: 12 },
+    { wch: 18 },
+  ];
+  XLSX.utils.book_append_sheet(wb, summaryWs, "Overview Summary");
+
+  // Separate sheets per doctor
+  Object.keys(groups).sort().forEach((doctorKey) => {
+    const docAppts = groups[doctorKey];
+    const docRows = docAppts.map(formatAppointmentForExcel);
+    const docWs = XLSX.utils.json_to_sheet(docRows);
+    docWs["!cols"] = EXCEL_COLUMN_WIDTHS;
+    addUniqueSheet(wb, docWs, doctorKey);
+  });
+
+  const todayStr = getLocalDateInputValue();
+  XLSX.writeFile(wb, `${filenamePrefix}_${todayStr}.xlsx`);
+  return true;
+}
+
+function downloadSingleDoctorExcel(doctorName: string, appointmentsToExport: Appointment[]): boolean {
+  if (!appointmentsToExport || appointmentsToExport.length === 0) {
+    alert(`No appointments found to export for ${doctorName}.`);
+    return false;
+  }
+  const wb = XLSX.utils.book_new();
+  const rows = appointmentsToExport.map(formatAppointmentForExcel);
+  const ws = XLSX.utils.json_to_sheet(rows);
+  ws["!cols"] = EXCEL_COLUMN_WIDTHS;
+
+  const sheetName = /^(dr\.?\s*)/i.test(doctorName) ? doctorName : `Dr. ${doctorName}`;
+  addUniqueSheet(wb, ws, sheetName);
+
+  const cleanDocName = doctorName.replace(/[^a-zA-Z0-9]/g, "_");
+  const todayStr = getLocalDateInputValue();
+  XLSX.writeFile(wb, `Appointments_${cleanDocName}_${todayStr}.xlsx`);
+  return true;
 }
 
 // ==================== BADGE COMPONENTS ====================
@@ -642,6 +825,285 @@ function AppointmentModal({
   );
 }
 
+// ==================== EXPORT MODAL ====================
+interface ExportModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  doctors: string[];
+  appointments: Appointment[];
+  initialDoctor?: string | null;
+  onExportSuccess: (msg: string) => void;
+}
+
+function ExportModal({
+  isOpen,
+  onClose,
+  doctors,
+  appointments,
+  initialDoctor,
+  onExportSuccess,
+}: ExportModalProps) {
+  const [selectedDoctor, setSelectedDoctor] = useState<string>(initialDoctor || "ALL");
+  const [sheetMode, setSheetMode] = useState<"single" | "separate">("single");
+  const [dateRange, setDateRange] = useState<"all" | "today" | "current_month" | "custom">("all");
+  const [customDate, setCustomDate] = useState<string>(getLocalDateInputValue());
+  const [statusFilter, setStatusFilter] = useState<string>("All");
+
+  useEffect(() => {
+    if (initialDoctor) {
+      setSelectedDoctor(initialDoctor);
+    } else {
+      setSelectedDoctor("ALL");
+    }
+  }, [initialDoctor, isOpen]);
+
+  const filteredAppointments = useMemo(() => {
+    return appointments.filter((apt) => {
+      // Doctor filter
+      if (selectedDoctor !== "ALL") {
+        const aptDoc = apt.metadata?.doctor_name || "Unassigned";
+        if (aptDoc !== selectedDoctor) return false;
+      }
+
+      // Status filter
+      if (statusFilter === "scheduled_or_confirmed") {
+        if (apt.status !== "scheduled" && apt.status !== "confirmed") return false;
+      } else if (statusFilter !== "All") {
+        if (apt.status !== statusFilter) return false;
+      }
+
+      // Date filter
+      if (dateRange === "today") {
+        const todayStr = new Date().toDateString();
+        if (new Date(apt.date).toDateString() !== todayStr) return false;
+      } else if (dateRange === "current_month") {
+        const now = new Date();
+        const aptDate = new Date(apt.date);
+        if (aptDate.getMonth() !== now.getMonth() || aptDate.getFullYear() !== now.getFullYear()) return false;
+      } else if (dateRange === "custom" && customDate) {
+        const aptDateStr = new Date(apt.date).toISOString().split("T")[0];
+        if (aptDateStr !== customDate) return false;
+      }
+
+      return true;
+    });
+  }, [appointments, selectedDoctor, statusFilter, dateRange, customDate]);
+
+  if (!isOpen) return null;
+
+  const handleDownload = () => {
+    if (filteredAppointments.length === 0) {
+      alert("No appointments match the selected filter criteria.");
+      return;
+    }
+
+    if (selectedDoctor === "ALL") {
+      if (sheetMode === "single") {
+        const ok = downloadCombinedExcel(filteredAppointments, "Appointments_Master");
+        if (ok) {
+          onExportSuccess(`Downloaded ${filteredAppointments.length} appointments across all doctors in a single sheet.`);
+        }
+      } else {
+        const ok = downloadMultiSheetExcel(filteredAppointments, "Appointments_By_Doctor");
+        if (ok) {
+          onExportSuccess(`Downloaded ${filteredAppointments.length} appointments across all doctors in separate sheets.`);
+        }
+      }
+    } else {
+      const ok = downloadSingleDoctorExcel(selectedDoctor, filteredAppointments);
+      if (ok) {
+        onExportSuccess(`Downloaded ${filteredAppointments.length} appointments for Dr. ${selectedDoctor}.`);
+      }
+    }
+
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+        {/* Header */}
+        <div className="bg-slate-900 px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-400">
+              <FileSpreadsheet className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-white">Export to Excel (.xlsx)</h2>
+              <p className="text-xs text-slate-400">Download appointment schedules &amp; patient records</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Form Body */}
+        <div className="p-5 sm:p-6 space-y-4 max-h-[75vh] overflow-y-auto bg-slate-50">
+          {/* 1. Doctor Selection */}
+          <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+            <label className="text-xs font-bold uppercase tracking-wide text-slate-600 block">
+              1. Select Doctor
+            </label>
+            <select
+              value={selectedDoctor}
+              onChange={(e) => setSelectedDoctor(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:border-teal-500"
+            >
+              <option value="ALL">All Doctors (Entire Clinic - {doctors.length} Doctors)</option>
+              {doctors.map((doc) => (
+                <option key={doc} value={doc}>
+                  {doc === "Unassigned" ? "Unassigned" : `Dr. ${doc}`}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* 2. Sheet Format (Only if ALL is selected) */}
+          {selectedDoctor === "ALL" && (
+            <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-2.5">
+              <label className="text-xs font-bold uppercase tracking-wide text-slate-600 block">
+                2. Excel Sheet Format
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setSheetMode("single")}
+                  className={`p-3 rounded-lg border text-left transition ${
+                    sheetMode === "single"
+                      ? "border-emerald-500 bg-emerald-50 text-emerald-950 ring-1 ring-emerald-500"
+                      : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <Table className="w-4 h-4 text-emerald-600" />
+                    <span className="text-xs font-bold">Single Master Sheet</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500">
+                    All doctors in 1 combined table with doctor column
+                  </p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSheetMode("separate")}
+                  className={`p-3 rounded-lg border text-left transition ${
+                    sheetMode === "separate"
+                      ? "border-emerald-500 bg-emerald-50 text-emerald-950 ring-1 ring-emerald-500"
+                      : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <FileSpreadsheet className="w-4 h-4 text-teal-600" />
+                    <span className="text-xs font-bold">Separate Sheets</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500">
+                    One tab per doctor + Overview summary sheet
+                  </p>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* 3. Date Filter */}
+          <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+            <label className="text-xs font-bold uppercase tracking-wide text-slate-600 block">
+              {selectedDoctor === "ALL" ? "3. Date Range" : "2. Date Range"}
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+              {[
+                { id: "all", label: "All Time" },
+                { id: "today", label: "Today Only" },
+                { id: "current_month", label: "This Month" },
+                { id: "custom", label: "Specific Date" },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setDateRange(item.id as any)}
+                  className={`py-2 px-2 text-xs font-semibold rounded-lg border text-center transition ${
+                    dateRange === item.id
+                      ? "border-teal-600 bg-teal-50 text-teal-800"
+                      : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {dateRange === "custom" && (
+              <div className="mt-2 pt-2 border-t border-slate-100">
+                <input
+                  type="date"
+                  value={customDate}
+                  onChange={(e) => setCustomDate(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-800 focus:outline-none focus:border-teal-500"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* 4. Status Filter */}
+          <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+            <label className="text-xs font-bold uppercase tracking-wide text-slate-600 block">
+              {selectedDoctor === "ALL" ? "4. Status Filter" : "3. Status Filter"}
+            </label>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-800 focus:outline-none focus:border-teal-500"
+            >
+              <option value="All">All Statuses (Scheduled, Confirmed, Completed, etc.)</option>
+              <option value="scheduled_or_confirmed">Active Bookings (Scheduled + Confirmed)</option>
+              <option value="scheduled">Scheduled Only</option>
+              <option value="confirmed">Confirmed Only</option>
+              <option value="completed">Completed Only</option>
+              <option value="cancelled">Cancelled Only</option>
+              <option value="no-show">No Show Only</option>
+            </select>
+          </div>
+
+          {/* Preview Match Badge */}
+          <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-center justify-between text-emerald-900">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span className="text-xs font-semibold">Matched Appointments:</span>
+            </div>
+            <span className="text-sm font-bold font-mono px-2.5 py-0.5 rounded-full bg-emerald-200/60 text-emerald-950">
+              {filteredAppointments.length} records
+            </span>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="p-4 sm:p-5 bg-white border-t border-slate-200 flex flex-col-reverse sm:flex-row gap-2 sm:justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleDownload}
+            disabled={filteredAppointments.length === 0}
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+          >
+            <Download className="w-4 h-4" />
+            <span>Download Excel ({filteredAppointments.length})</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ==================== MAIN COMPONENT ====================
 export default function AppointmentsPage() {
   const router = useRouter();
@@ -674,6 +1136,9 @@ export default function AppointmentsPage() {
   const [rescheduling, setRescheduling] = useState(false);
   const [rescheduleError, setRescheduleError] = useState<string | null>(null);
   const realtimeRefreshTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [exportModalOpen, setExportModalOpen] = useState(false);
+  const [exportModalDoctor, setExportModalDoctor] = useState<string>("ALL");
 
   useEffect(() => {
     setMounted(true);
@@ -1079,6 +1544,44 @@ export default function AppointmentsPage() {
     }
   };
 
+  const handleExportAllCombined = () => {
+    setExportMenuOpen(false);
+    const ok = downloadCombinedExcel(appointments, "All_Doctors_Appointments");
+    if (ok) {
+      setSuccessMessage(`Downloaded all ${appointments.length} appointments across all doctors in a single sheet.`);
+      setTimeout(() => setSuccessMessage(null), 6000);
+    }
+  };
+
+  const handleExportAllSeparate = () => {
+    setExportMenuOpen(false);
+    const ok = downloadMultiSheetExcel(appointments, "All_Doctors_By_Doctor_Sheets");
+    if (ok) {
+      setSuccessMessage(`Downloaded all appointments across ${doctors.length} doctors into separate sheets.`);
+      setTimeout(() => setSuccessMessage(null), 6000);
+    }
+  };
+
+  const handleExportDoctorDirect = (docName: string) => {
+    setExportMenuOpen(false);
+    const docAppts = doctorGroups[docName] || [];
+    const ok = downloadSingleDoctorExcel(docName, docAppts);
+    if (ok) {
+      setSuccessMessage(`Downloaded ${docAppts.length} appointments for Dr. ${docName}.`);
+      setTimeout(() => setSuccessMessage(null), 6000);
+    }
+  };
+
+  const handleExportDoctorFiltered = () => {
+    setExportMenuOpen(false);
+    if (!selectedDoctor) return;
+    const ok = downloadSingleDoctorExcel(selectedDoctor, filteredAppointments);
+    if (ok) {
+      setSuccessMessage(`Downloaded ${filteredAppointments.length} filtered appointments for Dr. ${selectedDoctor}.`);
+      setTimeout(() => setSuccessMessage(null), 6000);
+    }
+  };
+
   // Get available years from appointments
   const availableYears = useMemo(() => {
     const years = new Set<number>();
@@ -1252,7 +1755,7 @@ export default function AppointmentsPage() {
                 </div>
 
                 {/* Center: Quick Search & Sync Action (Responsive on mobile) */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full lg:max-w-md">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full lg:max-w-xl">
                   <div className="relative flex-1 min-w-0">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                     <input
@@ -1283,6 +1786,88 @@ export default function AppointmentsPage() {
                     <RefreshCw className={`h-3.5 w-3.5 text-teal-600 ${isFetching ? "animate-spin" : ""}`} />
                     <span>{isFetching ? "Syncing..." : "Sync"}</span>
                   </button>
+
+                  {/* Export Excel Dropdown */}
+                  <div className="relative flex-shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setExportMenuOpen(!exportMenuOpen)}
+                      className="inline-flex h-9 items-center justify-center gap-1.5 px-3 rounded-lg border border-emerald-200 bg-emerald-50 text-xs font-bold text-emerald-800 hover:bg-emerald-100 hover:border-emerald-300 transition-colors shadow-sm"
+                    >
+                      <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-700" />
+                      <span>Export Excel</span>
+                      <ChevronDown className="h-3 w-3 text-emerald-700" />
+                    </button>
+
+                    {exportMenuOpen && (
+                      <>
+                        <div
+                          className="fixed inset-0 z-40"
+                          onClick={() => setExportMenuOpen(false)}
+                        />
+                        <div className="absolute right-0 mt-2 w-72 rounded-xl border border-slate-200 bg-white p-2 shadow-2xl z-50 text-left animate-in fade-in zoom-in-95 duration-100">
+                          <div className="px-3 py-2 border-b border-slate-100">
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                              Export Appointments
+                            </p>
+                            <p className="text-xs text-slate-600">Choose Excel spreadsheet format</p>
+                          </div>
+                          <div className="py-1 space-y-0.5">
+                            <button
+                              type="button"
+                              onClick={handleExportAllCombined}
+                              className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg hover:bg-emerald-50 transition text-left group"
+                            >
+                              <div className="p-1.5 rounded-md bg-emerald-100/70 text-emerald-700 group-hover:bg-emerald-200 mt-0.5">
+                                <Table className="w-3.5 h-3.5" />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-xs font-bold text-slate-800 group-hover:text-emerald-950">
+                                  All Doctors (Single Sheet)
+                                </p>
+                                <p className="text-[11px] text-slate-500">
+                                  All appointments in 1 master table
+                                </p>
+                              </div>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={handleExportAllSeparate}
+                              className="w-full flex items-start gap-2.5 px-3 py-2 rounded-lg hover:bg-teal-50 transition text-left group"
+                            >
+                              <div className="p-1.5 rounded-md bg-teal-100/70 text-teal-700 group-hover:bg-teal-200 mt-0.5">
+                                <FileSpreadsheet className="w-3.5 h-3.5" />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-xs font-bold text-slate-800 group-hover:text-teal-950">
+                                  All Doctors (Separate Sheets)
+                                </p>
+                                <p className="text-[11px] text-slate-500">
+                                  One tab per doctor + Summary sheet
+                                </p>
+                              </div>
+                            </button>
+
+                            <div className="border-t border-slate-100 my-1" />
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setExportMenuOpen(false);
+                                setExportModalDoctor("ALL");
+                                setExportModalOpen(true);
+                              }}
+                              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 transition text-left text-slate-700 text-xs font-semibold"
+                            >
+                              <Filter className="w-3.5 h-3.5 text-slate-400" />
+                              <span>Custom Options (Filter Dates/Doctor)...</span>
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
 
                 {/* Right: Quick Stats Pills (Grid on mobile, flex on sm+) */}
@@ -1421,9 +2006,24 @@ export default function AppointmentsPage() {
                           </div>
                         </div>
 
-                        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center text-teal-700 text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition">
-                          <span>View Ledger</span>
-                          <ChevronRight className="w-3.5 h-3.5 ml-1" />
+                        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleExportDoctorDirect(doctor);
+                            }}
+                            title={`Download Dr. ${doctor}'s appointments in Excel`}
+                            className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors"
+                          >
+                            <Download className="w-3 h-3 text-emerald-600" />
+                            <span>Export</span>
+                          </button>
+
+                          <div className="flex items-center text-teal-700 text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition">
+                            <span>View Ledger</span>
+                            <ChevronRight className="w-3.5 h-3.5 ml-1" />
+                          </div>
                         </div>
                       </div>
                     );
@@ -1431,6 +2031,19 @@ export default function AppointmentsPage() {
                 </div>
               )}
             </div>
+
+            {/* Export Modal */}
+            <ExportModal
+              isOpen={exportModalOpen}
+              onClose={() => setExportModalOpen(false)}
+              doctors={doctors}
+              appointments={appointments}
+              initialDoctor={exportModalDoctor === "ALL" ? null : exportModalDoctor}
+              onExportSuccess={(msg) => {
+                setSuccessMessage(msg);
+                setTimeout(() => setSuccessMessage(null), 6000);
+              }}
+            />
           </div>
         </main>
       </div>
@@ -1549,6 +2162,103 @@ export default function AppointmentsPage() {
                   <Ban className="w-3.5 h-3.5 text-rose-600" />
                   <span>Block Time</span>
                 </button>
+
+                {/* Export Excel Button & Dropdown */}
+                <div className="relative flex-1 sm:flex-initial">
+                  <button
+                    type="button"
+                    onClick={() => setExportMenuOpen(!exportMenuOpen)}
+                    className="w-full sm:w-auto inline-flex h-9 items-center justify-center gap-1.5 px-3 rounded-lg border border-emerald-200 bg-emerald-50 text-xs font-bold text-emerald-800 hover:bg-emerald-100 hover:border-emerald-300 transition-colors shadow-sm"
+                  >
+                    <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-700" />
+                    <span>Export Excel</span>
+                    <ChevronDown className="h-3 w-3 text-emerald-700" />
+                  </button>
+
+                  {exportMenuOpen && (
+                    <>
+                      <div className="fixed inset-0 z-40" onClick={() => setExportMenuOpen(false)} />
+                      <div className="absolute right-0 mt-2 w-80 rounded-xl border border-slate-200 bg-white p-2 shadow-2xl z-50 text-left animate-in fade-in zoom-in-95 duration-100">
+                        <div className="px-3 py-2 border-b border-slate-100">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            Export Practitioner Ledger
+                          </p>
+                          <p className="text-xs text-slate-600">Download appointments for Dr. {selectedDoctor}</p>
+                        </div>
+                        <div className="py-1 space-y-0.5">
+                          <button
+                            type="button"
+                            onClick={handleExportDoctorFiltered}
+                            className="w-full flex items-start gap-2.5 px-3 py-2.5 rounded-lg hover:bg-emerald-50 transition text-left group"
+                          >
+                            <div className="p-1.5 rounded-md bg-emerald-100/70 text-emerald-700 group-hover:bg-emerald-200 mt-0.5">
+                              <Download className="w-3.5 h-3.5" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-xs font-bold text-slate-800 group-hover:text-emerald-950">
+                                Current Filtered View ({filteredAppointments.length})
+                              </p>
+                              <p className="text-[11px] text-slate-500">
+                                Exports active filters (date, month, status)
+                              </p>
+                            </div>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleExportDoctorDirect(selectedDoctor)}
+                            className="w-full flex items-start gap-2.5 px-3 py-2.5 rounded-lg hover:bg-teal-50 transition text-left group"
+                          >
+                            <div className="p-1.5 rounded-md bg-teal-100/70 text-teal-700 group-hover:bg-teal-200 mt-0.5">
+                              <User className="w-3.5 h-3.5" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-xs font-bold text-slate-800 group-hover:text-teal-950">
+                                All Appointments for Dr. {selectedDoctor} ({(doctorGroups[selectedDoctor] || []).length})
+                              </p>
+                              <p className="text-[11px] text-slate-500">
+                                All dates and statuses for this doctor
+                              </p>
+                            </div>
+                          </button>
+
+                          <div className="border-t border-slate-100 my-1" />
+
+                          <button
+                            type="button"
+                            onClick={handleExportAllCombined}
+                            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 transition text-left text-slate-700 text-xs font-medium"
+                          >
+                            <Table className="w-3.5 h-3.5 text-slate-400" />
+                            <span>All Doctors (Single Master Sheet)</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={handleExportAllSeparate}
+                            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 transition text-left text-slate-700 text-xs font-medium"
+                          >
+                            <FileSpreadsheet className="w-3.5 h-3.5 text-slate-400" />
+                            <span>All Doctors (Separate Sheet per Doctor)</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setExportMenuOpen(false);
+                              setExportModalDoctor(selectedDoctor);
+                              setExportModalOpen(true);
+                            }}
+                            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 transition text-left text-slate-700 text-xs font-semibold"
+                          >
+                            <Filter className="w-3.5 h-3.5 text-slate-400" />
+                            <span>Custom Export Options Dialog...</span>
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
 
                 <button
                   type="button"
@@ -2260,6 +2970,19 @@ export default function AppointmentsPage() {
           onReschedule={openRescheduleModal}
         />
       )}
+
+      {/* Export Modal */}
+      <ExportModal
+        isOpen={exportModalOpen}
+        onClose={() => setExportModalOpen(false)}
+        doctors={doctors}
+        appointments={appointments}
+        initialDoctor={selectedDoctor}
+        onExportSuccess={(msg) => {
+          setSuccessMessage(msg);
+          setTimeout(() => setSuccessMessage(null), 6000);
+        }}
+      />
     </div>
   );
 }
