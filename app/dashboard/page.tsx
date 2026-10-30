@@ -77,32 +77,36 @@ export default function AnalyticsOverview() {
 
   useEffect(() => {
     setMounted(true);
-    // Redirect Akiara users to their dashboard
+    // Redirect service users to their dedicated dashboard
     const userData = localStorage.getItem('user');
     if (userData) {
-      const user = JSON.parse(userData);
-      if (user.selectedService === 'akiara') {
-        router.replace('/dashboard/akiara-sessions');
-        return;
-      }
-      if (user.selectedService === 'healthiQure patient navigation') {
-        router.replace('/dashboard/bot-sessions');
-        return;
-      }
-      if (user.selectedService === 'pathology-diagnostic') {
-        router.replace('/dashboard/pathology');
-        return;
-      }
-      if (user.selectedService === 'hospitality-crm') {
-        router.replace('/dashboard/hospitality');
-        return;
-      }
-      if (['booking-crm', 'event-booking-crm'].includes(String(user.selectedService || '').toLowerCase())) {
-        if (!user.bookingOnboardingComplete) {
-          router.replace('/dashboard/booking-crm/setup');
+      try {
+        const user = JSON.parse(userData);
+        const service = String(user.selectedService || '').trim().toLowerCase();
+        if (service === 'akiara') {
+          window.location.replace('/dashboard/akiara-sessions');
           return;
         }
-      }    }
+        if (service === 'healthiqure patient navigation' || service === 'healthiqure') {
+          window.location.replace('/dashboard/bot-sessions');
+          return;
+        }
+        if (service === 'pathology-diagnostic' || service === 'pathology') {
+          window.location.replace('/dashboard/pathology');
+          return;
+        }
+        if (service === 'hospitality-crm' || service === 'hospitality') {
+          window.location.replace('/dashboard/hospitality');
+          return;
+        }
+        if (['booking-crm', 'event-booking-crm'].includes(service)) {
+          if (!user.bookingOnboardingComplete) {
+            window.location.replace('/dashboard/booking-crm/setup');
+            return;
+          }
+        }
+      } catch {}
+    }
   }, [router]);
 
   // Fetch raw calls once and cache — shared with Calls page

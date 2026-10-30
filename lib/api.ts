@@ -98,6 +98,7 @@ api.interceptors.response.use(
           console.log('🔒 Clearing invalid session, redirecting to login...');
           localStorage.removeItem('token');
           localStorage.removeItem('user');
+          document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax';
           window.location.href = '/login';
         }
       }
