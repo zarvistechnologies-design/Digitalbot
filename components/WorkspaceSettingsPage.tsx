@@ -1,6 +1,7 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
+import ChangePasswordSection from "@/components/ChangePasswordSection";
 import { authAPI, workspaceAiAPI, type WorkspaceAiReadiness } from "@/lib/api";
 import { CheckCircle2, CircleAlert, Loader2, Menu, Plus, Save, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -143,6 +144,8 @@ export default function WorkspaceSettingsPage() {
           {service === "real-estate-crm" && <RealEstateTeamEditor realEstate={config.realEstate} onChange={(key, value) => setDomain("realEstate", key, value)} />}
 
           {service === "customer-support" && <SupportEditor support={config.support} onChange={(key, value) => setDomain("support", key, value)} />}
+
+          <ChangePasswordSection />
 
           <div className="flex justify-end pb-8"><button type="button" onClick={() => void save()} disabled={saving} className="inline-flex h-11 items-center gap-2 rounded-md bg-orange-600 px-6 text-sm font-black text-white disabled:opacity-50">{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}Save workspace settings</button></div>
         </div>

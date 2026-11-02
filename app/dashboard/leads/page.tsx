@@ -8,7 +8,7 @@ import {
   invalidateDashboardResource,
 } from "@/lib/dashboard-query";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import {
   AlertCircle,
   BarChart3,
@@ -66,6 +66,7 @@ type Call = {
   createdAt?: string;
   created_at?: string;
   updatedAt?: string;
+  humanCallFeedback?: Array<{ outcome: string; note: string; createdAt: string }>;
 };
 
 type FilterStatus = 'all' | 'leads' | 'no-leads' | 'pending';
@@ -325,6 +326,29 @@ const MenuIcon = () => <Menu className="h-6 w-6" />;
 // Lead Details Modal Component
 const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }) => {
   const callId = getCallId(call, "unknown");
+  const [feedbackOutcome, setFeedbackOutcome] = useState("connected");
+  const [feedbackNote, setFeedbackNote] = useState("");
+  const [feedbackError, setFeedbackError] = useState("");
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [savingFeedback, setSavingFeedback] = useState(false);
+  const [feedbackItems, setFeedbackItems] = useState(call.humanCallFeedback || []);
+
+  const submitHumanFeedback = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSavingFeedback(true);
+    setFeedbackError("");
+    setFeedbackMessage("");
+    try {
+      const response = await callsAPI.postHumanCallFeedback(callId, { outcome: feedbackOutcome, note: feedbackNote });
+      setFeedbackItems((items) => [...items, response.data.data]);
+      setFeedbackNote("");
+      setFeedbackMessage("Human calling feedback saved.");
+    } catch (requestError: any) {
+      setFeedbackError(requestError.response?.data?.error || "Could not save feedback.");
+    } finally {
+      setSavingFeedback(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm">
@@ -472,6 +496,18 @@ const LeadDetailsModal = ({ call, onClose }: { call: Call; onClose: () => void }
               </div>
             </div>
           )}
+
+          <section className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+            <h3 className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-600"><MessageSquare className="h-4 w-4" />Human calling feedback</h3>
+            <p className="mb-4 text-sm text-slate-500">Record what happened when a team member followed up with this lead.</p>
+            {feedbackItems.length > 0 && <div className="mb-4 space-y-2">{feedbackItems.map((item, index) => <div key={`${item.createdAt}-${index}`} className="rounded-md bg-slate-50 px-3 py-2 text-sm"><span className="font-bold capitalize text-slate-800">{item.outcome.replace(/_/g, " ")}</span>{item.note && <p className="mt-1 text-slate-600">{item.note}</p>}<p className="mt-1 text-xs text-slate-400">{item.createdAt ? new Date(item.createdAt).toLocaleString() : "Just now"}</p></div>)}</div>}
+            <form onSubmit={submitHumanFeedback} className="space-y-3">
+              <label className="block"><span className="mb-1 block text-sm font-semibold text-slate-700">Call outcome</span><select value={feedbackOutcome} onChange={(event) => setFeedbackOutcome(event.target.value)} className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm"><option value="connected">Connected</option><option value="no_answer">No answer</option><option value="interested">Interested</option><option value="not_interested">Not interested</option><option value="callback_requested">Callback requested</option><option value="converted">Converted</option></select></label>
+              <label className="block"><span className="mb-1 block text-sm font-semibold text-slate-700">Notes</span><textarea maxLength={2000} rows={3} value={feedbackNote} onChange={(event) => setFeedbackNote(event.target.value)} placeholder="Add the human caller's feedback" className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
+              {feedbackError && <p role="alert" className="text-sm text-rose-700">{feedbackError}</p>}{feedbackMessage && <p role="status" className="text-sm text-emerald-700">{feedbackMessage}</p>}
+              <button disabled={savingFeedback} className="rounded-md bg-teal-700 px-4 py-2 text-sm font-bold text-white disabled:opacity-50">{savingFeedback ? "Saving…" : "Post feedback"}</button>
+            </form>
+          </section>
         </div>
 
         <div className="p-4 sm:p-5 bg-white border-t border-slate-200 flex justify-end">

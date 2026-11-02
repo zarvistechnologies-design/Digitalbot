@@ -1,8 +1,8 @@
 "use client";
 
 import { realEstateAPI, type RealEstateLead, type RealEstatePipelineStage } from "@/lib/api";
-import { AlertCircle, ArrowRight, Flame, GitBranch, Loader2, Phone, RefreshCw, Search, UserRound, WalletCards } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { AlertCircle, ArrowRight, Flame, GitBranch, Loader2, Pencil, Phone, RefreshCw, Search, Trash2, UserRound, WalletCards } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import RealEstatePageShell, { apiErrorMessage, formatCurrency, pretty } from "../_components/RealEstatePageShell";
 
 const stages: Array<{ id: RealEstatePipelineStage; label: string; tone: string }> = [
@@ -41,6 +41,9 @@ export default function RealEstatePipelinePage() {
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
+  const [editingLead, setEditingLead] = useState<RealEstateLead | null>(null);
+  const [savingLead, setSavingLead] = useState(false);
+  const [draft, setDraft] = useState({ customerName: "", phoneNumber: "", email: "", budget: "", timeline: "", nextAction: "", preferredLocations: "", propertyTypes: "", configurations: "", budgetMin: "", budgetMax: "" });
 
   const loadLeads = useCallback(async () => {
     try {
@@ -83,6 +86,67 @@ export default function RealEstatePipelinePage() {
     } finally {
       setSavingId(null);
       setDraggingId(null);
+    }
+  };
+
+  const startEdit = (lead: RealEstateLead) => {
+    const details = lead.customFields?.realEstate;
+    setError("");
+    setEditingLead(lead);
+    setDraft({
+      customerName: lead.customerName || "",
+      phoneNumber: lead.phoneNumber || "",
+      email: lead.email || "",
+      budget: lead.budget || "",
+      timeline: lead.timeline || details?.purchaseTimeline || "",
+      nextAction: lead.nextAction || "",
+      preferredLocations: details?.preferredLocations?.join(", ") || "",
+      propertyTypes: details?.propertyTypes?.join(", ") || "",
+      configurations: details?.configurations?.join(", ") || "",
+      budgetMin: String(details?.budgetMin || ""),
+      budgetMax: String(details?.budgetMax || ""),
+    });
+  };
+
+  const saveLead = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!editingLead) return;
+    try {
+      setSavingLead(true);
+      setError("");
+      await realEstateAPI.updateLead(editingLead._id, {
+        customerName: draft.customerName,
+        phoneNumber: draft.phoneNumber,
+        email: draft.email,
+        budget: draft.budget,
+        timeline: draft.timeline,
+        nextAction: draft.nextAction,
+        requirements: {
+          preferredLocations: draft.preferredLocations.split(",").map((item) => item.trim()).filter(Boolean),
+          propertyTypes: draft.propertyTypes.split(",").map((item) => item.trim()).filter(Boolean),
+          configurations: draft.configurations.split(",").map((item) => item.trim()).filter(Boolean),
+          budgetMin: Number(draft.budgetMin) || 0,
+          budgetMax: Number(draft.budgetMax) || 0,
+          purchaseTimeline: draft.timeline,
+        },
+      });
+      setEditingLead(null);
+      await loadLeads();
+    } catch (updateError) {
+      setError(apiErrorMessage(updateError, "Lead details could not be updated."));
+    } finally {
+      setSavingLead(false);
+    }
+  };
+
+  const deleteLead = async (lead: RealEstateLead) => {
+    if (!window.confirm(`Delete the lead for ${lead.customerName || lead.phoneNumber || "this buyer"}?`)) return;
+    try {
+      setError("");
+      await realEstateAPI.deleteLead(lead._id);
+      setLeads((rows) => rows.filter((row) => row._id !== lead._id));
+    } catch (deleteError) {
+      setError(apiErrorMessage(deleteError, "Lead could not be deleted."));
     }
   };
 
@@ -131,6 +195,7 @@ export default function RealEstatePipelinePage() {
                           <div className="mt-4 grid grid-cols-2 gap-2 text-xs"><div className="rounded-lg bg-slate-50 p-2"><p className="text-[9px] font-black uppercase text-slate-400">Requirement</p><p className="mt-1 truncate font-bold text-slate-700">{details?.configurations?.join(", ") || details?.propertyTypes?.join(", ") || "Open"}</p></div><div className="rounded-lg bg-slate-50 p-2"><p className="text-[9px] font-black uppercase text-slate-400">Budget</p><p className="mt-1 truncate font-bold text-slate-700">{leadBudget(lead)}</p></div></div>
                           <p className="mt-3 truncate text-xs text-slate-500"><UserRound className="mr-1 inline h-3 w-3" />{details?.assignedExecutive || "Unassigned"}</p>
                           <p className="mt-2 truncate text-xs text-slate-500"><WalletCards className="mr-1 inline h-3 w-3" />{details?.preferredLocations?.join(", ") || "Location open"}</p>
+                          <div className="mt-3 flex gap-2"><button onClick={() => startEdit(lead)} className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-black text-slate-700 hover:bg-slate-50"><Pencil className="h-3.5 w-3.5" />Edit</button><button onClick={() => void deleteLead(lead)} className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-rose-200 px-3 py-2 text-xs font-black text-rose-700 hover:bg-rose-50"><Trash2 className="h-3.5 w-3.5" />Delete</button></div>
                           {nextStage.id !== stage.id && <button disabled={savingId === lead._id} onClick={() => void moveLead(lead._id, nextStage.id)} className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-black text-slate-700 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 disabled:opacity-50">Move to {nextStage.label}<ArrowRight className="h-3.5 w-3.5" /></button>}
                         </article>
                       );
@@ -143,6 +208,7 @@ export default function RealEstatePipelinePage() {
           </div>
         </div>
       )}
+      {editingLead && <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4" role="dialog" aria-modal="true" aria-labelledby="edit-real-estate-lead-title"><form onSubmit={saveLead} className="max-h-[90vh] w-full max-w-3xl space-y-4 overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl sm:p-6"><div><h2 id="edit-real-estate-lead-title" className="text-xl font-black text-slate-950">Edit buyer lead</h2><p className="mt-1 text-sm text-slate-500">Update contact details, requirements, budget and follow-up action.</p></div><div className="grid gap-4 sm:grid-cols-2">{([ ["customerName", "Buyer name"], ["phoneNumber", "Phone number"], ["email", "Email"], ["budget", "Budget display"], ["budgetMin", "Minimum budget"], ["budgetMax", "Maximum budget"], ["preferredLocations", "Preferred locations (comma separated)"], ["propertyTypes", "Property types (comma separated)"], ["configurations", "Configurations (comma separated)"], ["timeline", "Purchase timeline"] ] as const).map(([key, label]) => <label key={key}><span className="mb-1 block text-xs font-black uppercase text-slate-500">{label}</span><input type={key === "budgetMin" || key === "budgetMax" ? "number" : "text"} value={draft[key]} onChange={(event) => setDraft((current) => ({ ...current, [key]: event.target.value }))} className="h-10 w-full rounded-xl border border-slate-300 px-3 text-sm" /></label>)}<label className="sm:col-span-2"><span className="mb-1 block text-xs font-black uppercase text-slate-500">Next action</span><input value={draft.nextAction} onChange={(event) => setDraft((current) => ({ ...current, nextAction: event.target.value }))} className="h-10 w-full rounded-xl border border-slate-300 px-3 text-sm" /></label></div><div className="flex justify-end gap-2"><button type="button" onClick={() => setEditingLead(null)} className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-700">Cancel</button><button disabled={savingLead} className="rounded-xl bg-emerald-800 px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50">{savingLead ? "Saving…" : "Save lead"}</button></div></form></div>}
     </RealEstatePageShell>
   );
 }

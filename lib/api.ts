@@ -139,6 +139,9 @@ export const callsAPI = {
     return api.get(`/calls/${callId}/analytics`);
   },
 
+  postHumanCallFeedback: (callId: string, data: { outcome: string; note: string }) =>
+    api.post(`/leads/calls/${encodeURIComponent(callId)}/human-feedback`, data),
+
   // Search calls
   searchCalls: (query: string, params = {}) => {
     return api.get('/calls/search', {
@@ -174,6 +177,8 @@ export interface AuthenticatedUser {
 
 export const authAPI = {
   getCurrentUser: () => api.get<AuthenticatedUser>('/auth/me'),
+  changePassword: (data: { currentPassword: string; newPassword: string }) =>
+    api.put('/auth/change-password', data),
 };
 
 export const campaignsAPI = {
@@ -437,6 +442,8 @@ export const agentKnowledgeAPI = {
 export const leadsAPI = {
   getLeads: (params: Record<string, string | number | undefined> = {}) =>
     api.get('/leads', { params }),
+  updateLead: (id: string, data: Record<string, unknown>) => api.put(`/leads/${encodeURIComponent(id)}`, data),
+  deleteLead: (id: string) => api.delete(`/leads/${encodeURIComponent(id)}`),
 };
 
 // ========================================
@@ -961,7 +968,10 @@ export interface RealEstateLead {
   _id: string;
   customerName?: string;
   phoneNumber?: string;
+  alternatePhoneNumber?: string;
   email?: string;
+  company?: string;
+  summary?: string;
   leadQuality?: string;
   leadScore?: number;
   leadStatus?: string;
@@ -1038,6 +1048,7 @@ export const realEstateAPI = {
   getOverview: () => api.get('/real-estate/overview'),
   getLeads: (params?: Record<string, string | number | undefined>) => api.get('/real-estate/leads', { params }),
   updateLead: (id: string, data: Record<string, unknown>) => api.patch(`/real-estate/leads/${id}`, data),
+  deleteLead: (id: string) => api.delete(`/real-estate/leads/${encodeURIComponent(id)}`),
   getProperties: (params?: Record<string, string | number | undefined>) => api.get('/real-estate/properties', { params }),
   createProperty: (data: Record<string, unknown>) => api.post('/real-estate/properties', data),
   updateProperty: (id: string, data: Record<string, unknown>) => api.put(`/real-estate/properties/${id}`, data),

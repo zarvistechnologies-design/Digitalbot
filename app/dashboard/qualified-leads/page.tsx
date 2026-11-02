@@ -14,14 +14,16 @@ import {
   Headphones,
   Mail,
   Menu,
+  Pencil,
   Phone,
   RefreshCw,
   Search,
+  Trash2,
   Snowflake,
   Sun,
   Users,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://digital-api-46ss.onrender.com/api";
 
@@ -187,7 +189,7 @@ function csvPhone(value?: string) {
   return csvCell(`\t${formatPhone(value)}`);
 }
 
-function LeadRow({ lead }: { lead: Lead }) {
+function LeadRow({ lead, onEdit, onDelete }: { lead: Lead; onEdit: (lead: Lead) => void; onDelete: (lead: Lead) => void }) {
   const [expanded, setExpanded] = useState(false);
   const [recordingError, setRecordingError] = useState("");
   const quality = getLeadQuality(lead);
@@ -206,7 +208,7 @@ function LeadRow({ lead }: { lead: Lead }) {
         {/* Status rail */}
         <div className={`w-1 self-stretch rounded-full flex-shrink-0 ${meta.railClass}`} />
 
-        <div className="grid flex-1 gap-4 lg:grid-cols-[1.25fr_1fr_1fr_100px_110px] lg:items-center">
+        <div className="grid flex-1 gap-4 lg:grid-cols-[1.25fr_1fr_1fr_100px_minmax(250px,auto)] lg:items-center">
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <span className={`h-2 w-2 shrink-0 rounded-full ${meta.dotClass}`} />
@@ -236,15 +238,19 @@ function LeadRow({ lead }: { lead: Lead }) {
             </span>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setExpanded((value) => !value)}
-            className="inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-slate-600 transition-colors hover:text-teal-700 lg:justify-end"
-            aria-expanded={expanded}
-          >
-            {expanded ? "Hide details" : "View details"}
-            {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-          </button>
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <button type="button" onClick={() => onEdit(lead)} className="inline-flex h-9 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50"><Pencil className="h-3.5 w-3.5" />Edit</button>
+            <button type="button" onClick={() => onDelete(lead)} className="inline-flex h-9 items-center gap-1.5 rounded-md border border-rose-200 bg-white px-2.5 text-xs font-bold text-rose-700 hover:bg-rose-50"><Trash2 className="h-3.5 w-3.5" />Delete</button>
+            <button
+              type="button"
+              onClick={() => setExpanded((value) => !value)}
+              className="inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-slate-600 transition-colors hover:text-teal-700"
+              aria-expanded={expanded}
+            >
+              {expanded ? "Hide details" : "View details"}
+              {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -344,10 +350,47 @@ export default function QualifiedLeadsPage() {
   const [selectedDate, setSelectedDate] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isRealEstate, setIsRealEstate] = useState(false);
+  const [editingLead, setEditingLead] = useState<Lead | null>(null);
+  const [editDraft, setEditDraft] = useState({ customerName: "", phoneNumber: "", alternatePhoneNumber: "", email: "", company: "", leadStatus: "new", nextAction: "" });
+  const [savingLead, setSavingLead] = useState(false);
+  const [actionError, setActionError] = useState("");
 
   const fetchLeads = useCallback(async () => {
     await leadsQuery.refetch();
   }, [leadsQuery.refetch]);
+
+  const startLeadEdit = (lead: Lead) => {
+    setActionError("");
+    setEditingLead(lead);
+    setEditDraft({ customerName: lead.customerName || "", phoneNumber: lead.phoneNumber || "", alternatePhoneNumber: lead.alternatePhoneNumber || "", email: lead.email || "", company: lead.company || "", leadStatus: lead.leadStatus || "new", nextAction: lead.nextAction || "" });
+  };
+
+  const saveLead = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!editingLead) return;
+    setSavingLead(true);
+    setActionError("");
+    try {
+      await leadsAPI.updateLead(editingLead._id, editDraft);
+      setEditingLead(null);
+      await fetchLeads();
+    } catch (saveError: any) {
+      setActionError(saveError.response?.data?.error || "Could not update this lead.");
+    } finally {
+      setSavingLead(false);
+    }
+  };
+
+  const deleteLead = async (lead: Lead) => {
+    if (!window.confirm(`Delete the lead for ${lead.customerName || lead.phoneNumber || "this customer"}?`)) return;
+    setActionError("");
+    try {
+      await leadsAPI.deleteLead(lead._id);
+      await fetchLeads();
+    } catch (deleteError: any) {
+      setActionError(deleteError.response?.data?.error || "Could not delete this lead.");
+    }
+  };
 
   useEffect(() => {
     try {
@@ -577,9 +620,9 @@ export default function QualifiedLeadsPage() {
             </div>
           </div>
 
-          {error && (
+          {(error || actionError) && (
             <div className="flex items-center gap-3 rounded-lg border border-rose-200 bg-rose-50 px-5 py-3.5 text-sm text-rose-800">
-              {error}
+              {actionError || error}
             </div>
           )}
 
@@ -614,7 +657,7 @@ export default function QualifiedLeadsPage() {
                       <span className="rounded-md border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-bold text-slate-700 font-mono">{group.length}</span>
                     </div>
                     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                      {group.map((lead) => <LeadRow key={lead._id} lead={lead} />)}
+                      {group.map((lead) => <LeadRow key={lead._id} lead={lead} onEdit={startLeadEdit} onDelete={(value) => void deleteLead(value)} />)}
                     </div>
                   </section>
                 );
@@ -623,6 +666,19 @@ export default function QualifiedLeadsPage() {
           )}
         </div>
       </main>
+      {editingLead && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4" role="dialog" aria-modal="true" aria-labelledby="edit-lead-title">
+          <form onSubmit={saveLead} className="w-full max-w-2xl space-y-4 rounded-xl bg-white p-5 shadow-2xl sm:p-6">
+            <div><h2 id="edit-lead-title" className="text-xl font-black text-slate-950">Edit lead</h2><p className="mt-1 text-sm text-slate-500">Update the contact and follow-up details.</p></div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {([ ["customerName", "Customer name"], ["phoneNumber", "Phone number"], ["alternatePhoneNumber", "Alternate phone"], ["email", "Email"], ["company", "Company"], ["nextAction", "Next action"] ] as const).map(([key, label]) => <label key={key}><span className="mb-1 block text-sm font-bold text-slate-700">{label}</span><input value={editDraft[key]} onChange={(event) => setEditDraft((draft) => ({ ...draft, [key]: event.target.value }))} className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm" /></label>)}
+              <label><span className="mb-1 block text-sm font-bold text-slate-700">Lead status</span><select value={editDraft.leadStatus} onChange={(event) => setEditDraft((draft) => ({ ...draft, leadStatus: event.target.value }))} className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm">{["new", "contacted", "qualified", "unqualified", "converted", "lost"].map((status) => <option key={status} value={status}>{status.replace(/_/g, " ")}</option>)}</select></label>
+            </div>
+            {actionError && <p role="alert" className="text-sm font-semibold text-rose-700">{actionError}</p>}
+            <div className="flex justify-end gap-2"><button type="button" onClick={() => setEditingLead(null)} className="h-10 rounded-md border border-slate-300 px-4 text-sm font-bold text-slate-700">Cancel</button><button disabled={savingLead} className="h-10 rounded-md bg-slate-950 px-4 text-sm font-bold text-white disabled:opacity-50">{savingLead ? "Saving…" : "Save changes"}</button></div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
