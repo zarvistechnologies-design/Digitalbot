@@ -27,9 +27,7 @@ export function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value
     if (!token) {
       const loginUrl = new URL('/login', request.url)
-      const response = NextResponse.redirect(loginUrl)
-      response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
-      return response
+      return NextResponse.redirect(loginUrl)
     }
   }
 

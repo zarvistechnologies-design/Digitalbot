@@ -17,13 +17,12 @@ interface User {
 const bookingServices = new Set(['booking-crm', 'event-booking-crm']);
 
 function getDashboardDestination(user?: User | null) {
-  const service = String(user?.selectedService || '').trim().toLowerCase();
-  if (service === 'akiara') return '/dashboard/akiara-sessions';
-  if (service === 'healthiqure patient navigation' || service === 'healthiqure') return '/dashboard/bot-sessions';
-  if (service === 'pathology-diagnostic' || service === 'pathology') return '/dashboard/pathology';
-  if (service === 'real-estate-crm' || service === 'real-estate') return '/dashboard/real-estate';
-  if (service === 'hospitality-crm' || service === 'hospitality') return '/dashboard/hospitality';
-  if (bookingServices.has(service)) {
+  if (user?.selectedService === 'akiara') return '/dashboard/akiara-sessions';
+  if (user?.selectedService === 'healthiQure patient navigation') return '/dashboard/bot-sessions';
+  if (user?.selectedService === 'pathology-diagnostic') return '/dashboard/pathology';
+  if (user?.selectedService === 'real-estate-crm') return '/dashboard/real-estate';
+  if (user?.selectedService === 'hospitality-crm') return '/dashboard/hospitality';
+  if (bookingServices.has(String(user?.selectedService || '').toLowerCase())) {
     return user?.bookingOnboardingComplete ? '/dashboard' : '/dashboard/booking-crm/setup';
   }
   return '/dashboard';
@@ -42,49 +41,50 @@ export default function LoginPage(): JSX.Element {
     if (token) {
       const userData = localStorage.getItem('user');
       const user = userData ? JSON.parse(userData) : null;
-      const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
-      document.cookie = `token=${token}; path=/; max-age=86400; SameSite=Lax${isHttps ? '; Secure' : ''}`;
-      window.location.replace(getDashboardDestination(user));
+      router.push(getDashboardDestination(user));
     }
-  }, []);
+  }, [router]);
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
+    localStorage.clear();
+    sessionStorage.clear();
+    clearCache();
+
+    document.cookie.split(';').forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+    });
+
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data: { token?: string; user?: User; error?: string } = await response.json();
 
       if (response.ok && data.token) {
-        localStorage.clear();
-        sessionStorage.clear();
-        clearCache();
-
         localStorage.setItem('token', data.token);
-        const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
-        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Lax${isHttps ? '; Secure' : ''}`;
+        document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict`;
 
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user));
           if (data.user.id) localStorage.setItem('userId', data.user.id);
         }
-
-        const destination = getDashboardDestination(data.user);
-        window.location.replace(destination);
+        router.push(getDashboardDestination(data.user));
       } else {
         setError(data.error || 'Login failed');
-        setLoading(false);
       }
     } catch {
       setError('Network error. Please check if backend is running.');
+    } finally {
       setLoading(false);
     }
   };

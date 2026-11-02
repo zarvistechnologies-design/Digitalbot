@@ -850,10 +850,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     return serviceItems;
   };
 
-  const currentService = String(user?.selectedService || "").trim().toLowerCase();
-  const isAkiara = currentService === "akiara";
+  const isAkiara = user?.selectedService === "akiara";
   const ishealthiQurepatientnavigation =
-    currentService === "healthiqure patient navigation";
+    user?.selectedService === "healthiQure patient navigation";
   const navigation = isPathologyService
     ? pathologyNavigation
     : isAkiara || ishealthiQurepatientnavigation
@@ -884,8 +883,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     sessionStorage.removeItem("digitalbot-query-cache-v1");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
-    window.location.href = "/login";
+    router.push("/");
   };
 
   const isNavigationActive = (href: string) =>
