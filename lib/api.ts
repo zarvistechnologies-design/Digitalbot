@@ -123,6 +123,10 @@ export const callsAPI = {
     return api.get(`/calls/${callId}`);
   },
 
+  deleteCall: (callId: string) => api.delete(`/calls/${encodeURIComponent(callId)}`),
+
+  clearCalls: () => api.delete('/calls'),
+
   // Get call transcription
   getCallTranscription: (callId: string) => {
     return api.get(`/calls/${callId}/transcription`);

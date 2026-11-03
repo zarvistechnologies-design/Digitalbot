@@ -26,6 +26,7 @@ import {
   RefreshCw,
   Search,
   Sparkles,
+  Trash2,
   User,
   X,
 } from 'lucide-react';
@@ -127,6 +128,9 @@ const Dashboard = () => {
   const [showFilters, setShowFilters] = useState(true);
   const [availableAgents, setAvailableAgents] = useState<AgentOption[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [canDeleteCalls, setCanDeleteCalls] = useState(false);
+  const [deletingCallId, setDeletingCallId] = useState<string | null>(null);
+  const [clearingCalls, setClearingCalls] = useState(false);
   const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = useState(true);
   const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null);
   const [refreshInterval, setRefreshInterval] = useState(30000);
@@ -145,6 +149,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     setMounted(true);
+    try {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      setCanDeleteCalls(['lead-analysis', 'real-estate-crm'].includes(String(user.selectedService || '').toLowerCase()));
+    } catch {
+      setCanDeleteCalls(false);
+    }
     // Load from cache instantly on mount
     const queryCalls = queryClient.getQueryData<Call[]>([CACHE_KEYS.CALLS]);
     if (queryCalls?.length) setCache(CACHE_KEYS.CALLS, queryCalls, 60_000);
@@ -741,6 +751,47 @@ const Dashboard = () => {
     }
   };
 
+  const refreshAfterCallDelete = async () => {
+    invalidateCache(CACHE_KEYS.CALLS);
+    invalidateCache(CACHE_KEYS.CALLS_STATS);
+    await Promise.all([
+      invalidateDashboardResource(queryClient, '/calls'),
+      invalidateDashboardResource(queryClient, '/stats'),
+    ]);
+    await fetchCalls(1, CALLS_PAGE_SIZE, activeSearch, false, activeFilters);
+  };
+
+  const handleDeleteCall = async (callId: string) => {
+    if (!window.confirm('Delete this call? This cannot be undone.')) return;
+    setDeletingCallId(callId);
+    try {
+      await callsAPI.deleteCall(callId);
+      await refreshAfterCallDelete();
+    } catch (deleteError: any) {
+      setError(deleteError.response?.data?.error || 'Could not delete this call.');
+    } finally {
+      setDeletingCallId(null);
+    }
+  };
+
+  const handleClearAllCalls = async () => {
+    if (!window.confirm('Delete every call in this workspace, including calls outside the current filters? This cannot be undone.')) return;
+    setClearingCalls(true);
+    try {
+      await callsAPI.clearCalls();
+      setExpandedCall(null);
+      setCalls([]);
+      setTotalCalls(0);
+      setTotalPages(1);
+      setCurrentPage(1);
+      await refreshAfterCallDelete();
+    } catch (deleteError: any) {
+      setError(deleteError.response?.data?.error || 'Could not clear calls for this workspace.');
+    } finally {
+      setClearingCalls(false);
+    }
+  };
+
   const formatDuration = (seconds?: number) => {
     if (!seconds) return 'N/A';
     const minutes = Math.floor(seconds / 60);
@@ -1003,16 +1054,29 @@ const Dashboard = () => {
                       </span>
                     )}
                   </p>
-                  <button
-                    type="button"
-                    onClick={handleDownloadCsv}
-                    disabled={calls.length === 0}
-                    className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
-                    title={calls.length === 0 ? 'No calls available to download' : 'Download the currently displayed calls'}
-                  >
-                    <Download className="w-3.5 h-3.5" aria-hidden="true" />
-                    Export CSV
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {canDeleteCalls && (
+                      <button
+                        type="button"
+                        onClick={handleClearAllCalls}
+                        disabled={clearingCalls}
+                        className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-rose-200 bg-white px-3 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
+                        {clearingCalls ? 'Clearing…' : 'Clear all calls'}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={handleDownloadCsv}
+                      disabled={calls.length === 0}
+                      className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+                      title={calls.length === 0 ? 'No calls available to download' : 'Download the currently displayed calls'}
+                    >
+                      <Download className="w-3.5 h-3.5" aria-hidden="true" />
+                      Export CSV
+                    </button>
+                  </div>
                 </div>
 
                 {/* Rows */}
@@ -1088,6 +1152,21 @@ const Dashboard = () => {
 
                           {recordingUrl && (
                             <Mic className="hidden sm:block w-4 h-4 text-teal-500 flex-shrink-0" />
+                          )}
+                          {canDeleteCalls && (
+                            <button
+                              type="button"
+                              aria-label={`Delete call ${callId}`}
+                              title="Delete call"
+                              disabled={Boolean(deletingCallId) || clearingCalls}
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                void handleDeleteCall(callId);
+                              }}
+                              className="absolute right-3 top-3 z-10 inline-flex h-8 w-8 items-center justify-center rounded-lg border border-rose-200 bg-white text-rose-600 transition hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-40 sm:static sm:right-auto sm:top-auto sm:flex-shrink-0"
+                            >
+                              <Trash2 className={`h-4 w-4 ${deletingCallId === callId ? 'animate-pulse' : ''}`} />
+                            </button>
                           )}
                         </div>
 

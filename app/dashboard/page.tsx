@@ -4,7 +4,7 @@ import { useCachedFetch } from "@/components/hooks/use-cached-fetch";
 import { useWebSocket } from "@/components/hooks/use-websocket";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart as RechartsPieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "@/components/dashboard/LazyRecharts";
 import { CACHE_KEYS, invalidateCache } from "@/lib/cache";
-import { Activity, AlertCircle, ArrowDown, ArrowRight, ArrowUp, BarChart3, Brain, CheckCircle2, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, Sparkles, TrendingUp, X, XCircle, Zap } from "lucide-react";
+import { Activity, AlertCircle, ArrowDown, ArrowRight, ArrowUp, BarChart3, Brain, Building2, CheckCircle2, Clock, FileText, Loader2, Menu, MessageSquare, Minus, PhoneCall, PhoneIncoming, PhoneOutgoing, PieChart, Sparkles, TrendingUp, X, XCircle, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -47,6 +47,14 @@ interface Analytics {
   weeklyComparison: { week: string; calls: number; successRate: number }[];
 }
 
+interface WorkspaceCallSummary {
+  id: string;
+  name: string;
+  total: number;
+  connected: number;
+  failed: number;
+}
+
 // Ledger palette — teal for primary/positive, sky for inbound, violet for
 // outbound, amber for caution, rose for failure, indigo for AI/analysis.
 const chartColors = ['#0d9488', '#0284c7', '#f59e0b', '#e11d48', '#7c3aed', '#4f46e5'];
@@ -74,6 +82,8 @@ export default function AnalyticsOverview() {
   const [mounted, setMounted] = useState(false);
   const [dateFilter, setDateFilter] = useState("7");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [workspaceCallSummary, setWorkspaceCallSummary] = useState<WorkspaceCallSummary[]>([]);
+  const [workspaceSummaryLoading, setWorkspaceSummaryLoading] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -104,6 +114,31 @@ export default function AnalyticsOverview() {
         }
       }    }
   }, [router]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    let cancelled = false;
+    const loadWorkspaceSummary = async () => {
+      setWorkspaceSummaryLoading(true);
+      try {
+        const token = localStorage.getItem('token');
+        const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://digital-api-46ss.onrender.com/api';
+        const response = await fetch(`${API_BASE_URL}/calls/workspace-summary?days=${dateFilter}`, {
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error(`Failed to load workspace call totals: ${response.status}`);
+        const data = await response.json();
+        if (!cancelled) setWorkspaceCallSummary(data.workspaces || []);
+      } catch (error) {
+        console.error('Could not load all-workspace call totals:', error);
+        if (!cancelled) setWorkspaceCallSummary([]);
+      } finally {
+        if (!cancelled) setWorkspaceSummaryLoading(false);
+      }
+    };
+    void loadWorkspaceSummary();
+    return () => { cancelled = true; };
+  }, [mounted, dateFilter]);
 
   // Fetch raw calls once and cache — shared with Calls page
   const fetchCallsData = useCallback(async () => {
@@ -403,6 +438,57 @@ export default function AnalyticsOverview() {
               <option value="90">Last 90 days</option>
             </select>
           </div>
+
+          <section className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+            <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="grid h-8 w-8 place-items-center rounded-lg bg-slate-900">
+                  <Building2 className="h-4 w-4 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-base font-bold text-slate-900">Calls across all workspaces</h2>
+                  <p className="mt-1 text-xs text-slate-400">Connected and failed calls in the selected period</p>
+                </div>
+              </div>
+              <span className="text-xs font-semibold text-slate-500">Last {dateFilter} day{dateFilter === '1' ? '' : 's'}</span>
+            </div>
+            {workspaceSummaryLoading ? (
+              <div className="flex items-center gap-2 py-5 text-sm text-slate-500"><Loader2 className="h-4 w-4 animate-spin text-teal-600" />Loading workspace totals…</div>
+            ) : workspaceCallSummary.length === 0 ? (
+              <p className="rounded-lg bg-slate-50 px-4 py-5 text-sm text-slate-500">No workspace call totals are available for this period.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[560px] text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
+                      <th className="px-3 py-2.5 font-semibold">Workspace</th>
+                      <th className="px-3 py-2.5 text-right font-semibold">Total calls</th>
+                      <th className="px-3 py-2.5 text-right font-semibold">Connected</th>
+                      <th className="px-3 py-2.5 text-right font-semibold">Failed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {workspaceCallSummary.map((workspace) => (
+                      <tr key={workspace.id} className="border-b border-slate-100 last:border-0">
+                        <td className="px-3 py-3 font-semibold text-slate-800">{workspace.name}</td>
+                        <td className="px-3 py-3 text-right font-mono text-slate-700">{workspace.total}</td>
+                        <td className="px-3 py-3 text-right font-mono font-semibold text-teal-700">{workspace.connected}</td>
+                        <td className="px-3 py-3 text-right font-mono font-semibold text-rose-700">{workspace.failed}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr className="border-t-2 border-slate-200 bg-slate-50 font-bold">
+                      <td className="px-3 py-3 text-slate-900">All workspaces</td>
+                      <td className="px-3 py-3 text-right font-mono">{workspaceCallSummary.reduce((sum, workspace) => sum + workspace.total, 0)}</td>
+                      <td className="px-3 py-3 text-right font-mono text-teal-700">{workspaceCallSummary.reduce((sum, workspace) => sum + workspace.connected, 0)}</td>
+                      <td className="px-3 py-3 text-right font-mono text-rose-700">{workspaceCallSummary.reduce((sum, workspace) => sum + workspace.failed, 0)}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            )}
+          </section>
 
           {analytics && (
             <>
