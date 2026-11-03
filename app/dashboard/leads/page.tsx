@@ -26,6 +26,7 @@ import {
   Settings2,
   Sparkles,
   Target,
+  Trash2,
   X,
   XCircle,
   Zap,
@@ -605,12 +606,18 @@ function CallRow({
   call,
   onAnalyze,
   onViewDetails,
-  isProcessing
+  isProcessing,
+  canDelete,
+  isDeleting,
+  onDelete,
 }: {
   call: Call;
   onAnalyze: () => void;
   onViewDetails: () => void;
   isProcessing: boolean;
+  canDelete: boolean;
+  isDeleting: boolean;
+  onDelete: () => void;
 }) {
   const isAnalyzed = call.isLead !== undefined && call.isLead !== null && call.leadAnalysisAt;
   const hasTranscription = Boolean(getCallTranscription(call));
@@ -770,6 +777,19 @@ function CallRow({
                 )}
               </button>
             )}
+
+            {canDelete && (
+              <button
+                type="button"
+                onClick={onDelete}
+                disabled={isDeleting || isProcessing}
+                className="flex items-center justify-center gap-2 rounded-lg border border-rose-200 bg-white px-4 py-2.5 text-sm font-semibold text-rose-700 transition-colors hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50"
+                title="Delete call"
+              >
+                <Trash2 className={`h-4 w-4 ${isDeleting ? 'animate-pulse' : ''}`} />
+                Delete
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -800,11 +820,23 @@ export default function AnalyzerPage() {
   const [bulkProgress, setBulkProgress] = useState<BulkAnalysisProgress | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [canDeleteCalls, setCanDeleteCalls] = useState(false);
+  const [deletingCallId, setDeletingCallId] = useState<string | null>(null);
+  const [clearingCalls, setClearingCalls] = useState(false);
 
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
   const [sortField, setSortField] = useState<SortField>('startTime');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    try {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      setCanDeleteCalls(['lead-analysis', 'real-estate-crm'].includes(String(user.selectedService || '').toLowerCase()));
+    } catch {
+      setCanDeleteCalls(false);
+    }
+  }, []);
 
   const [showPromptEditor, setShowPromptEditor] = useState(false);
   const [showSheetAutomation, setShowSheetAutomation] = useState(false);
@@ -1014,6 +1046,46 @@ export default function AnalyzerPage() {
       setError(error instanceof Error ? error.message : 'Failed to fetch calls');
     }
   }, [queryClient]);
+
+  const handleDeleteCall = async (callId: string) => {
+    if (!window.confirm('Delete this call from the workspace? This cannot be undone.')) return;
+    setDeletingCallId(callId);
+    try {
+      await callsAPI.deleteCall(callId);
+      queryClient.setQueryData<Call[]>(analyzerQueryKey, (previous = []) =>
+        previous.filter((call) => getCallId(call) !== callId)
+      );
+      setSelectedCall((current) => current && getCallId(current) === callId ? null : current);
+      await Promise.all([
+        invalidateDashboardResource(queryClient, '/calls'),
+        invalidateDashboardResource(queryClient, '/stats'),
+      ]);
+    } catch (deleteError: any) {
+      setError(deleteError.response?.data?.error || 'Could not delete this call.');
+    } finally {
+      setDeletingCallId(null);
+    }
+  };
+
+  const handleClearAllCalls = async () => {
+    if (!window.confirm('Delete all calls from this workspace, including calls outside the current view? This cannot be undone.')) return;
+    setClearingCalls(true);
+    try {
+      await callsAPI.clearCalls();
+      queryClient.setQueryData<Call[]>(analyzerQueryKey, []);
+      setSelectedCall(null);
+      setFilterStatus('all');
+      setSearchTerm('');
+      await Promise.all([
+        invalidateDashboardResource(queryClient, '/calls'),
+        invalidateDashboardResource(queryClient, '/stats'),
+      ]);
+    } catch (deleteError: any) {
+      setError(deleteError.response?.data?.error || 'Could not clear calls for this workspace.');
+    } finally {
+      setClearingCalls(false);
+    }
+  };
 
   useEffect(() => {
     if (callsQuery.error) {
@@ -1240,6 +1312,17 @@ export default function AnalyzerPage() {
 
                 <div className="flex w-full flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center min-[1800px]:w-auto min-[1800px]:shrink-0">
                   <BulkAnalysisButton />
+                  {canDeleteCalls && (
+                    <button
+                      type="button"
+                      onClick={handleClearAllCalls}
+                      disabled={clearingCalls || totalCalls === 0 || Boolean(bulkProgress?.running) || processingQueue.length > 0}
+                      className="flex items-center justify-center gap-2 rounded-lg border border-rose-200 bg-white px-4 py-2.5 text-sm font-semibold text-rose-700 transition-colors hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      {clearingCalls ? 'Clearing calls…' : 'Clear all calls'}
+                    </button>
+                  )}
                   <button
                     onClick={() => setShowSheetAutomation(true)}
                     className="flex items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800 transition-colors hover:bg-emerald-100"
@@ -1364,6 +1447,9 @@ export default function AnalyzerPage() {
                   onAnalyze={() => processIndividualCall(getCallId(call), call.leadAnalysisAt ? true : false)}
                   onViewDetails={() => setSelectedCall(call)}
                   isProcessing={processingQueue.includes(getCallId(call))}
+                  canDelete={canDeleteCalls}
+                  isDeleting={deletingCallId === getCallId(call)}
+                  onDelete={() => void handleDeleteCall(getCallId(call))}
                 />
               ))
             )}
