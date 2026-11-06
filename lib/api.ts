@@ -123,6 +123,8 @@ export const callsAPI = {
     return api.get(`/calls/${callId}`);
   },
 
+  analyzeComfort: (callId: string) => api.post(`/calls/${encodeURIComponent(callId)}/comfort-analysis`),
+
   deleteCall: (callId: string) => api.delete(`/calls/${encodeURIComponent(callId)}`),
 
   clearCalls: () => api.delete('/calls'),

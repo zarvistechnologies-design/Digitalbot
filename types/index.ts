@@ -28,6 +28,12 @@ export interface Call {
   chat?: string | any[];
   transcription?: string | any[];
   transcription_formatted?: string;
+  comfort_analysis?: {
+    comfort: 'comfortable' | 'uncomfortable' | 'not_assessed';
+    sentiment: 'positive' | 'negative' | 'neutral' | 'unknown';
+    reason: string;
+    evidence: string;
+  } | null;
   metadata?: {
     recording_url?: string;
     audio_url?: string;

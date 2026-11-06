@@ -139,6 +139,9 @@ const Dashboard = () => {
   const [loadingCallDetails, setLoadingCallDetails] = useState<string | null>(null);
   const [newCallsCount, setNewCallsCount] = useState(0);
   const [recordingErrors, setRecordingErrors] = useState<Record<string, string>>({});
+  const [isNayantaraOptical, setIsNayantaraOptical] = useState(false);
+  const [comfortAnalysisLoading, setComfortAnalysisLoading] = useState<string | null>(null);
+  const [comfortAnalysisErrors, setComfortAnalysisErrors] = useState<Record<string, string>>({});
   const syncInFlightRef = useRef(false);
   const callsRequestIdRef = useRef(0);
   const pageNavigationInFlightRef = useRef(false);
@@ -152,8 +155,10 @@ const Dashboard = () => {
     try {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       setCanDeleteCalls(['lead-analysis', 'real-estate-crm'].includes(String(user.selectedService || '').toLowerCase()));
+      setIsNayantaraOptical(String(user.email || '').toLowerCase() === 'nayantaraoptical@digitalbot.ai');
     } catch {
       setCanDeleteCalls(false);
+        setIsNayantaraOptical(false);
     }
     // Load from cache instantly on mount
     const queryCalls = queryClient.getQueryData<Call[]>([CACHE_KEYS.CALLS]);
@@ -263,7 +268,9 @@ const Dashboard = () => {
     if (!callId) return directUrl;
 
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') || undefined : undefined;
-    return directUrl ? callsAPI.getCallRecordingUrl(callId, token) : '';
+    const canFetchFromVozon = String(call?.call_provider || '').toLowerCase() === 'vozon'
+      && statusBucket(call?.status || call?.call_status) === 'completed';
+    return directUrl || canFetchFromVozon ? callsAPI.getCallRecordingUrl(callId, token) : '';
   };
 
   const findRecordingUrlDeep = (value: any, path: string[] = [], seen = new Set<any>()): string => {
@@ -743,6 +750,18 @@ const Dashboard = () => {
         setCalls((currentCalls) => currentCalls.map((call) =>
           getCallId(call) === callId ? { ...call, ...normalizedCallData } : call
         ));
+        if (isNayantaraOptical) {
+          setComfortAnalysisLoading(callId);
+          void callsAPI.analyzeComfort(callId).then((analysisResponse) => {
+            const comfortAnalysis = analysisResponse.data.data;
+            setCalls((currentCalls) => currentCalls.map((call) =>
+              getCallId(call) === callId ? { ...call, comfort_analysis: comfortAnalysis, sentiment: comfortAnalysis.sentiment } : call
+            ));
+            setComfortAnalysisErrors((previous) => { const next = { ...previous }; delete next[callId]; return next; });
+          }).catch(() => {
+            setComfortAnalysisErrors((previous) => ({ ...previous, [callId]: 'Comfort analysis is temporarily unavailable.' }));
+          }).finally(() => setComfortAnalysisLoading((current) => current === callId ? null : current));
+        }
       } catch (err) {
         console.error('Failed to fetch call details:', err);
       } finally {
@@ -1132,6 +1151,16 @@ const Dashboard = () => {
                                 <span className={`w-1.5 h-1.5 rounded-full ${statusDotColors[bucket]}`} />
                                 {call.status || call.call_status || 'completed'}
                               </span>
+                              {isNayantaraOptical && call.comfort_analysis?.comfort && call.comfort_analysis.comfort !== 'not_assessed' && (
+                                <p className={`mt-1 text-[11px] font-semibold ${call.comfort_analysis.comfort === 'comfortable' ? 'text-emerald-700' : 'text-rose-700'}`}>
+                                  {call.comfort_analysis.comfort === 'comfortable' ? 'Comfortable' : 'Uncomfortable'}
+                                </p>
+                              )}
+                              {isNayantaraOptical && ['positive', 'negative'].includes(call.comfort_analysis?.sentiment) && (
+                                <p className={`text-[11px] font-semibold ${call.comfort_analysis.sentiment === 'positive' ? 'text-emerald-700' : 'text-rose-700'}`}>
+                                  {call.comfort_analysis.sentiment === 'positive' ? 'Positive feedback' : 'Negative feedback'}
+                                </p>
+                              )}
                             </div>
 
                             <div>
@@ -1198,6 +1227,28 @@ const Dashboard = () => {
                               </div>
                             </div>
 
+                            {isNayantaraOptical && (
+                              <div className="rounded-xl border border-slate-200 bg-white p-5">
+                                <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">Customer feedback</h3>
+                                {comfortAnalysisLoading === callId && !call.comfort_analysis && <p className="text-sm text-slate-500">Analyzing customer statements...</p>}
+                                {call.comfort_analysis && (
+                                  <>
+                                    <div className="flex flex-wrap gap-2">
+                                      <span className={`rounded-md px-2.5 py-1 text-xs font-semibold ${call.comfort_analysis.comfort === 'comfortable' ? 'bg-emerald-50 text-emerald-700' : call.comfort_analysis.comfort === 'uncomfortable' ? 'bg-rose-50 text-rose-700' : 'bg-slate-100 text-slate-600'}`}>
+                                        Comfort: {call.comfort_analysis.comfort === 'not_assessed' ? 'Not assessed' : call.comfort_analysis.comfort === 'comfortable' ? 'Comfortable' : 'Uncomfortable'}
+                                      </span>
+                                      <span className={`rounded-md px-2.5 py-1 text-xs font-semibold ${call.comfort_analysis.sentiment === 'positive' ? 'bg-emerald-50 text-emerald-700' : call.comfort_analysis.sentiment === 'negative' ? 'bg-rose-50 text-rose-700' : 'bg-slate-100 text-slate-600'}`}>
+                                        Feedback: {call.comfort_analysis.sentiment}
+                                      </span>
+                                    </div>
+                                    {call.comfort_analysis.reason && <p className="mt-3 text-sm text-slate-700">{call.comfort_analysis.reason}</p>}
+                                    {call.comfort_analysis.evidence && <p className="mt-2 border-l-2 border-slate-300 pl-3 text-sm italic text-slate-600">“{call.comfort_analysis.evidence}”</p>}
+                                  </>
+                                )}
+                                {comfortAnalysisErrors[callId] && <p className="mt-2 text-sm text-rose-600">{comfortAnalysisErrors[callId]}</p>}
+                              </div>
+                            )}
+
                             {/* Recordings */}
                             <div>
                               <h3 className="text-xs font-bold uppercase tracking-widest mb-3 text-slate-500 flex items-center gap-2">
@@ -1217,10 +1268,20 @@ const Dashboard = () => {
                                     className="w-full"
                                     src={recordingUrl}
                                     preload="metadata"
-                                    onError={() => {
+                                    onError={async () => {
+                                      let message = 'Recording could not be loaded. Please try again or contact support.';
+                                      try {
+                                        const response = await fetch(recordingUrl, { headers: { Range: 'bytes=0-0' } });
+                                        if (!response.ok) {
+                                          const details = await response.json().catch(() => null);
+                                          message = details?.error || message;
+                                        }
+                                      } catch {
+                                        // The browser may block a diagnostic request when the network is unavailable.
+                                      }
                                       setRecordingErrors((prev) => ({
                                         ...prev,
-                                        [callId]: 'Recording could not be loaded in the browser. Try opening it directly.',
+                                        [callId]: message,
                                       }));
                                     }}
                                   >
@@ -1270,9 +1331,7 @@ const Dashboard = () => {
                                     <div>
                                       <p className="font-bold text-slate-700 mb-1 text-sm">No recording available</p>
                                       <p className="text-sm text-slate-600">
-                                        Recording was not enabled for this call. Enable{' '}
-                                        <code className="bg-slate-800 text-white px-1.5 py-0.5 rounded text-xs font-mono">enable_recording: true</code>{' '}
-                                        in agent settings.
+                                        No recording link is available for this call yet.
                                       </p>
                                     </div>
                                   </div>
@@ -1312,6 +1371,14 @@ const Dashboard = () => {
                                         }
                                       }
 
+                                      if (chatData && typeof chatData === 'object' && !Array.isArray(chatData)) {
+                                        chatData = chatData.chat || chatData.messages || call.transcription_formatted || chatData;
+                                      }
+
+                                      if (typeof chatData === 'string') {
+                                        return <p className="text-slate-800 whitespace-pre-wrap leading-relaxed text-sm">{chatData}</p>;
+                                      }
+
                                       if (Array.isArray(chatData)) {
                                         return chatData.map((message: any, index: number) => {
                                           if (message.role === 'tool') return null;
@@ -1321,7 +1388,8 @@ const Dashboard = () => {
 
                                           if (!String(messageText).trim()) return null;
 
-                                          const isAssistant = message.role === 'assistant';
+                                          const rawRole = String(message.role || message.speaker || message.from || '').toLowerCase();
+                                          const isAssistant = ['assistant', 'agent', 'ai', 'bot'].includes(rawRole);
 
                                           return (
                                             <div
