@@ -610,8 +610,26 @@ const Dashboard = () => {
       : `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const handleDownloadCsv = () => {
+  const handleDownloadCsv = async () => {
     if (calls.length === 0) return;
+
+    const callsForExport = isNayantaraOptical
+      ? await Promise.all(calls.map(async (call: any) => {
+          if (call.comfort_analysis && Object.keys(call.comfort_analysis).length > 0) return call;
+          const callId = getCallId(call);
+          if (!callId) return call;
+          try {
+            const response = await callsAPI.analyzeComfort(callId);
+            const responseData = response.data?.data ?? response.data;
+            const comfortAnalysis = responseData?.comfort_analysis
+              ?? responseData?.comfortAnalysis
+              ?? responseData;
+            return { ...call, comfort_analysis: comfortAnalysis };
+          } catch {
+            return call;
+          }
+        }))
+      : calls;
 
     const headers = [
       'Caller Number',
@@ -620,9 +638,21 @@ const Dashboard = () => {
       'Call Duration',
       'Status',
       'Call Date & Time',
+      'Comfort Assessed',
+      'Sentiment',
+      'Feedback / Reason',
+      'Evidence',
+      'Human Call Feedback',
     ];
 
-    const rows = calls.map((call: any) => {
+    const rows = callsForExport.map((call: any) => {
+      const analysis = call.comfort_analysis || call.comfortAnalysis || {};
+      const comfort = analysis.comfort || call.comfort || '';
+      const sentiment = analysis.sentiment || call.sentiment || '';
+      const humanFeedback = call.humanCallFeedback ?? call.human_call_feedback ?? [];
+      const humanFeedbackText = Array.isArray(humanFeedback)
+        ? humanFeedback.map((item: any) => [item.outcome, item.note].filter(Boolean).join(': ')).filter(Boolean).join('\n')
+        : typeof humanFeedback === 'string' ? humanFeedback : '';
       return [
         call.from_number || call.phone_number || 'Unknown',
         call.to_number || call.phone_number || 'Unknown',
@@ -632,6 +662,11 @@ const Dashboard = () => {
         formatCsvDuration(call.duration),
         call.status || call.call_status || 'Unknown',
         call.start_time ? new Date(call.start_time).toLocaleString() : 'N/A',
+        String(comfort).toLowerCase() === 'not_assessed' ? 'Not assessed' : comfort || 'Not assessed',
+        String(sentiment).toLowerCase() === 'not_assessed' ? 'Not assessed' : sentiment || 'Not assessed',
+        analysis.reason || analysis.feedback || call.sentiment_reason || '',
+        analysis.evidence || call.sentiment_evidence || '',
+        humanFeedbackText,
       ];
     });
 
@@ -651,7 +686,6 @@ const Dashboard = () => {
     link.remove();
     URL.revokeObjectURL(url);
   };
-
   const handleRefresh = async () => {
     setNewCallsCount(0);
     invalidateCache(CACHE_KEYS.CALLS);
