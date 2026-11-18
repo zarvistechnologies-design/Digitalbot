@@ -2020,7 +2020,7 @@ export default function AppointmentsPage() {
                 <div className="flex flex-col gap-3 border-b border-slate-100 bg-teal-50/60 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <h2 className="text-base font-bold text-slate-900">Appointment confirmation calls</h2>
-                    <p className="mt-1 text-xs text-slate-600">For testing, Apex Dental patients with appointments today are called at 10:45 PM India time. Review call status and any available conversation details here.</p>
+                    <p className="mt-1 text-xs text-slate-600">Patients with appointments scheduled for today at Apex Dental receive an automated confirmation call at 11:00 AM IST, Monday through Saturday. View call outcomes and available conversation details in the report below.</p>
                   </div>
                   <button
                     type="button"
