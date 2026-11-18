@@ -27,7 +27,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // ==================== TYPES ====================
 interface TimePeriod {
@@ -249,6 +249,7 @@ function Toggle({ on, onClick, activeColor = "bg-teal-600" }: { on: boolean; onC
 
 // ==================== MAIN COMPONENT ====================
 export default function DoctorsPage() {
+  const [mounted, setMounted] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSpecialization, setFilterSpecialization] = useState<string>("All");
@@ -258,7 +259,7 @@ export default function DoctorsPage() {
   const [formData, setFormData] = useState<DoctorFormData>(initialFormData);
   const [saving, setSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
+  useEffect(() => setMounted(true), []);
   const {
     data: doctors = [],
     isPending: loading,
@@ -467,6 +468,23 @@ export default function DoctorsPage() {
   const activeCount = doctors.filter((d) => d.active).length;
   const calendarConnectedCount = doctors.filter((d) => d.calendarConnected).length;
   const queueEnabledCount = doctors.filter((d) => d.queueNumbering?.enabled).length;
+
+  if (!mounted) {
+    return (
+      <div className="flex min-h-screen bg-slate-50">
+        <div className="hidden lg:block">
+          <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        </div>
+        <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 pt-20 lg:pt-8">
+          <div className="mx-auto max-w-[1400px] space-y-6">
+            <div className="h-28 animate-pulse rounded-xl border border-slate-200 bg-white" />
+            <div className="h-16 animate-pulse rounded-xl border border-slate-200 bg-white" />
+            <div className="h-80 animate-pulse rounded-xl border border-slate-200 bg-white" />
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-slate-50">

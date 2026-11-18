@@ -368,7 +368,10 @@ export default function AnalyticsOverview() {
     );
   };
 
-  if (loading) {
+  // The analytics query may already have stale data in the browser's module
+  // cache while the server has none. Keep the first render identical, then
+  // reveal cached analytics after hydration.
+  if (!mounted || loading) {
     return (
       <div className="flex min-h-screen bg-slate-50">
         <div className="hidden lg:block">

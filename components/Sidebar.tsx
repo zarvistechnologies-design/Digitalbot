@@ -72,10 +72,21 @@ interface User {
   bookingOnboardingComplete?: boolean;
   name?: string;
   email?: string;
+  workspaceName?: string;
+  organizationName?: string;
+  businessName?: string;
+  clinicName?: string;
   assignedPhoneNumber?: string;
   legacyPhoneFallback?: boolean;
   legacyAgentKnowledgeEnabled?: boolean;
   connectorManagementEnabled?: boolean;
+  ClinicName?: string;
+  workspace?: {
+    name?: string;
+    businessName?: string;
+    clinicName?: string;
+    ClinicName?: string;
+  };
 }
 
 let cachedDashboardUser: User | null = null;
@@ -121,11 +132,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const queryClient = useQueryClient();
-  const [user, setUser] = useState<User | null>(cachedDashboardUser);
-  const [mounted, setMounted] = useState(Boolean(cachedDashboardUser));
+  // Avoid server/client markup differences when this module cache was filled
+  // during a previous client-side navigation.
+  const [user, setUser] = useState<User | null>(null);
+  const [mounted, setMounted] = useState(false);
   const [verifiedSelectedService, setVerifiedSelectedService] = useState<
     string | null
-  >(cachedVerifiedSelectedService);
+  >(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const { data: connectedAgents = cachedConnectedAgents } = useQuery({
     queryKey: DASHBOARD_QUERY_KEYS.connectors,
@@ -559,6 +572,22 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         href: "/dashboard/share-schedule",
         icon: Share2,
       });
+      const clinicIdentity = [
+        user?.name,
+        user?.ClinicName,
+        user?.clinicName,
+        user?.workspaceName,
+        user?.organizationName,
+        user?.businessName,
+        user?.workspace?.name,
+        user?.workspace?.businessName,
+        user?.workspace?.clinicName,
+        user?.workspace?.ClinicName,
+      ].filter(Boolean).join(" ").toLowerCase();
+      const apexDentalAccount = String(user?.email || "").trim().toLowerCase() === "apexsk@gmail.com";
+      if ((clinicIdentity.includes("apex") && clinicIdentity.includes("dental")) || apexDentalAccount) {
+        serviceItems.push({ name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone });
+      }
       if (isDoctorDashboard && connectorNavigationEnabled) {
         serviceItems.push({
           name: "Connectors",

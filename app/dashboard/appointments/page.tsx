@@ -75,6 +75,32 @@ interface DoctorOption {
   specialization?: string;
 }
 
+interface ApexConfirmationReportRow {
+  _id: string;
+  name: string;
+  phone: string;
+  date: string;
+  time?: string;
+  status: string;
+  metadata?: { doctor_name?: string };
+  confirmationCallForDate: string;
+  confirmationCallStatus: string;
+  confirmationCallAttempts: number;
+  confirmationCallInitiatedAt?: string;
+  confirmationCallCompletedAt?: string | null;
+  confirmationCallProviderStatus?: string;
+  confirmationCallSummary?: string;
+  confirmationCallTranscript?: unknown;
+  confirmationCallStructuredOutput?: unknown;
+  confirmationCallLastError?: string;
+}
+
+interface ApexConfirmationReport {
+  total: number;
+  byStatus: Record<string, number>;
+  appointments: ApexConfirmationReportRow[];
+}
+
 interface BlockedTime {
   start: string;
   end: string;
@@ -179,7 +205,26 @@ function getLocalDateInputValue(date = new Date()) {
 }
 
 function normalizeDoctorName(name: string) {
-  return name.replace(/^(doctor\.?\s*|dr\.?\s*)/i, "").trim().toLowerCase();
+  return name.replace(/^(doctor\.?\s*|dr\.?\s*)/i, "").toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+function formatConfirmationTranscript(value: unknown): string {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) {
+    return value.map((entry: any) => {
+      const role = entry?.role === "user" ? "Patient" : entry?.role === "assistant" ? "Agent" : entry?.role || "Call";
+      const content = entry?.content ?? entry?.text ?? entry?.message ?? "";
+      return content ? `${role}: ${String(content)}` : "";
+    }).filter(Boolean).join("\n");
+  }
+  if (typeof value === "object") {
+    const objectValue = value as Record<string, unknown>;
+    if (Array.isArray(objectValue.chat)) return formatConfirmationTranscript(objectValue.chat);
+    if (typeof objectValue.text === "string") return objectValue.text;
+    try { return JSON.stringify(value, null, 2); } catch { return ""; }
+  }
+  return String(value);
 }
 
 function getPatientAge(apt: Pick<Appointment, "age" | "patientAge">) {
@@ -1119,6 +1164,7 @@ export default function AppointmentsPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [clinicName, setClinicName] = useState("My Clinic");
+  const [workspaceName, setWorkspaceName] = useState("");
   const [filterMonth, setFilterMonth] = useState<string>("All");
   const [filterYear, setFilterYear] = useState<string>("All");
   const [blockTimeModalOpen, setBlockTimeModalOpen] = useState(false);
@@ -1145,14 +1191,13 @@ export default function AppointmentsPage() {
     // Fetch user data to get clinic name
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL.replace('/api', '')}/api/auth/me`, {
+        const response = await fetch(`${API_BASE_URL}/auth/me`, {
           headers: getAuthHeaders(),
         });
         if (response.ok) {
           const userData = await response.json();
-          if (userData.ClinicName) {
-            setClinicName(userData.ClinicName);
-          }
+          setClinicName(String(userData.ClinicName || userData.workspaceName || userData.workspace?.name || userData.name || "My Clinic"));
+          setWorkspaceName(String(userData.workspaceName || userData.workspace?.name || userData.name || ""));
         }
       } catch (err) {
         console.error("Failed to fetch user data:", err);
@@ -1354,15 +1399,31 @@ export default function AppointmentsPage() {
     return groups;
   }, [appointments]);
 
+  const doctorGroupsByNormalizedName = useMemo(() => {
+    const groups: Record<string, Appointment[]> = {};
+    Object.entries(doctorGroups).forEach(([name, doctorAppointments]) => {
+      const key = normalizeDoctorName(name) || "unassigned";
+      groups[key] = [...(groups[key] || []), ...doctorAppointments];
+    });
+    return groups;
+  }, [doctorGroups]);
+
+  const doctorAppointmentsFor = useCallback((doctorName: string) => {
+    const key = normalizeDoctorName(doctorName) || "unassigned";
+    return doctorGroupsByNormalizedName[key] || [];
+  }, [doctorGroupsByNormalizedName]);
+
   const doctors = useMemo(
-    () =>
-      Array.from(
-        new Set([
-          ...doctorOptions.map((doctor) => doctor.name).filter(Boolean),
-          ...Object.keys(doctorGroups),
-        ])
-      ).sort((a, b) => a.localeCompare(b)),
-    [doctorGroups, doctorOptions]
+    () => {
+      const uniqueNames = new Map<string, string>();
+      doctorOptions.map((doctor) => doctor.name).forEach((name) => {
+        if (!name) return;
+        const key = normalizeDoctorName(name) || "unassigned";
+        if (!uniqueNames.has(key)) uniqueNames.set(key, name);
+      });
+      return [...uniqueNames.values()].sort((a, b) => a.localeCompare(b));
+    },
+    [doctorOptions]
   );
 
   const selectedDoctorId = useMemo(() => {
@@ -1374,10 +1435,35 @@ export default function AppointmentsPage() {
     if (doctorFromList?._id) return doctorFromList._id;
 
     return String(
-      doctorGroups[selectedDoctor]?.find((appointment) => appointment.metadata?.doctorId)
+      doctorAppointmentsFor(selectedDoctor)?.find((appointment) => appointment.metadata?.doctorId)
         ?.metadata?.doctorId || ""
     );
-  }, [doctorGroups, doctorOptions, selectedDoctor]);
+  }, [doctorAppointmentsFor, doctorOptions, selectedDoctor]);
+
+  const apexWorkspaceIdentity = `${workspaceName} ${clinicName}`.toLowerCase();
+  const isApexDentalWorkspace = apexWorkspaceIdentity.includes("apex") && apexWorkspaceIdentity.includes("dental");
+  const {
+    data: apexConfirmationReport,
+    isPending: confirmationReportLoading,
+    isFetching: confirmationReportRefreshing,
+    error: confirmationReportError,
+    refetch: refetchApexConfirmationReport,
+  } = useQuery<ApexConfirmationReport, Error>({
+    queryKey: ["apex-dental-confirmation-report"],
+    enabled: mounted && isApexDentalWorkspace,
+    queryFn: async () => {
+      const response = await fetch(`${API_BASE_URL}/appointments/apex-dental/confirmation-report?limit=100`, {
+        headers: getAuthHeaders(),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Could not load Apex Dental confirmation calls");
+      }
+      return data as ApexConfirmationReport;
+    },
+    refetchInterval: 60_000,
+    retry: false,
+  });
 
   const {
     data: selectedDateAvailability,
@@ -1564,7 +1650,7 @@ export default function AppointmentsPage() {
 
   const handleExportDoctorDirect = (docName: string) => {
     setExportMenuOpen(false);
-    const docAppts = doctorGroups[docName] || [];
+    const docAppts = doctorAppointmentsFor(docName);
     const ok = downloadSingleDoctorExcel(docName, docAppts);
     if (ok) {
       setSuccessMessage(`Downloaded ${docAppts.length} appointments for Dr. ${docName}.`);
@@ -1929,6 +2015,114 @@ export default function AppointmentsPage() {
               </div>
             )}
 
+            {isApexDentalWorkspace && (
+              <section className="overflow-hidden rounded-xl border border-teal-200 bg-white shadow-sm">
+                <div className="flex flex-col gap-3 border-b border-slate-100 bg-teal-50/60 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <h2 className="text-base font-bold text-slate-900">Appointment confirmation calls</h2>
+                    <p className="mt-1 text-xs text-slate-600">For testing, Apex Dental patients with appointments today are called at 10:15 PM India time. Review call status and any available conversation details here.</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => void refetchApexConfirmationReport()}
+                    disabled={confirmationReportRefreshing}
+                    className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg border border-teal-200 bg-white px-3 text-xs font-semibold text-teal-800 hover:bg-teal-50 disabled:opacity-60"
+                  >
+                    <RefreshCw className={`h-3.5 w-3.5 ${confirmationReportRefreshing ? "animate-spin" : ""}`} />
+                    Refresh report
+                  </button>
+                </div>
+
+                {confirmationReportError ? (
+                  <div className="m-4 flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+                    <AlertCircle className="h-4 w-4 shrink-0" />
+                    {confirmationReportError.message}
+                  </div>
+                ) : confirmationReportLoading ? (
+                  <div className="flex items-center justify-center gap-2 px-5 py-10 text-sm text-slate-500">
+                    <RefreshCw className="h-4 w-4 animate-spin" /> Loading confirmation report...
+                  </div>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-2 gap-3 p-4 sm:grid-cols-4">
+                      <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5">
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Call records</p>
+                        <p className="mt-1 text-lg font-bold text-slate-900">{apexConfirmationReport?.total || 0}</p>
+                      </div>
+                      <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5">
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-700">Completed call details</p>
+                        <p className="mt-1 text-lg font-bold text-emerald-900">{apexConfirmationReport?.appointments.filter((item) => item.confirmationCallCompletedAt).length || 0}</p>
+                      </div>
+                      <div className="rounded-lg border border-sky-200 bg-sky-50 px-3 py-2.5">
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-sky-700">Calls initiated</p>
+                        <p className="mt-1 text-lg font-bold text-sky-900">{apexConfirmationReport?.byStatus?.initiated || 0}</p>
+                      </div>
+                      <div className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2.5">
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-rose-700">Failed attempts</p>
+                        <p className="mt-1 text-lg font-bold text-rose-900">{apexConfirmationReport?.byStatus?.failed || 0}</p>
+                      </div>
+                    </div>
+
+                    {apexConfirmationReport?.appointments.length ? (
+                      <div className="overflow-x-auto border-t border-slate-100">
+                        <table className="w-full min-w-[900px] text-left text-xs">
+                          <thead className="bg-slate-50 text-[10px] uppercase tracking-wide text-slate-500">
+                            <tr>
+                              <th className="px-4 py-3 font-bold">Patient</th>
+                              <th className="px-4 py-3 font-bold">Appointment</th>
+                              <th className="px-4 py-3 font-bold">Call</th>
+                              <th className="px-4 py-3 font-bold">Result / conversation</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {apexConfirmationReport.appointments.map((item) => {
+                              const transcript = formatConfirmationTranscript(item.confirmationCallTranscript);
+                              const structured = formatConfirmationTranscript(item.confirmationCallStructuredOutput);
+                              return (
+                                <tr key={`${item._id}-${item.confirmationCallForDate}`} className="border-t border-slate-100 align-top">
+                                  <td className="px-4 py-3">
+                                    <p className="font-semibold text-slate-900">{item.name}</p>
+                                    <p className="mt-1 text-slate-500">{item.phone}</p>
+                                  </td>
+                                  <td className="px-4 py-3 text-slate-700">
+                                    <p>{new Date(item.date).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium" })} {item.time || ""}</p>
+                                    <p className="mt-1 text-slate-500">{item.metadata?.doctor_name || "Doctor not assigned"}</p>
+                                    <p className="mt-1 text-[10px] text-slate-400">Call scheduled for {item.confirmationCallForDate}</p>
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    <span className="inline-flex rounded-full bg-slate-100 px-2 py-1 font-semibold capitalize text-slate-700">{item.confirmationCallStatus}</span>
+                                    {item.confirmationCallProviderStatus && <p className="mt-1.5 text-slate-500">Provider: {item.confirmationCallProviderStatus}</p>}
+                                    <p className="mt-1 text-slate-500">Attempt {item.confirmationCallAttempts || 0}</p>
+                                  </td>
+                                  <td className="max-w-xl px-4 py-3 text-slate-700">
+                                    {item.confirmationCallSummary && <p className="whitespace-pre-wrap">{item.confirmationCallSummary}</p>}
+                                    {item.confirmationCallLastError && <p className="whitespace-pre-wrap text-rose-700">{item.confirmationCallLastError}</p>}
+                                    {(transcript || structured) && (
+                                      <details className="mt-2 rounded-md border border-slate-200 bg-slate-50 p-2">
+                                        <summary className="cursor-pointer font-semibold text-teal-800">View call details</summary>
+                                        {transcript && <pre className="mt-2 max-h-48 overflow-auto whitespace-pre-wrap font-sans text-[11px] leading-5 text-slate-700">{transcript}</pre>}
+                                        {structured && <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded bg-white p-2 font-mono text-[10px] leading-4 text-slate-600">{structured}</pre>}
+                                      </details>
+                                    )}
+                                    {!item.confirmationCallSummary && !item.confirmationCallLastError && !transcript && !structured && <span className="text-slate-400">No call response details yet.</span>}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                        {apexConfirmationReport.total > apexConfirmationReport.appointments.length && (
+                          <p className="px-4 py-3 text-xs text-slate-500">Showing the latest {apexConfirmationReport.appointments.length} of {apexConfirmationReport.total} call records.</p>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="border-t border-slate-100 px-5 py-8 text-center text-sm text-slate-500">No Apex Dental confirmation calls have been recorded yet.</p>
+                    )}
+                  </>
+                )}
+              </section>
+            )}
+
             {/* Doctor Selection Grid */}
             <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8">
               <div className="flex items-center gap-3 mb-6">
@@ -1948,7 +2142,7 @@ export default function AppointmentsPage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   {doctors.map((doctor) => {
-                    const doctorAppts = doctorGroups[doctor] || [];
+                    const doctorAppts = doctorAppointmentsFor(doctor);
                     const todayAppts = doctorAppts.filter(
                       (a) => new Date(a.date).toDateString() === new Date().toDateString()
                     );
@@ -1958,7 +2152,7 @@ export default function AppointmentsPage() {
                       <div
                         key={doctor}
                         onClick={() => setSelectedDoctor(doctor)}
-                        className="group cursor-pointer rounded-xl p-5 transition-all bg-white border border-slate-200 hover:border-teal-300 hover:shadow-sm"
+                        className="group relative cursor-pointer rounded-xl p-5 transition-all bg-white border border-slate-200 hover:border-teal-300 hover:shadow-sm"
                       >
                         <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-100">
                           <div className="p-2.5 rounded-lg bg-slate-100 group-hover:bg-teal-50 transition-colors">
@@ -2214,7 +2408,7 @@ export default function AppointmentsPage() {
                             </div>
                             <div className="min-w-0">
                               <p className="text-xs font-bold text-slate-800 group-hover:text-teal-950">
-                                All Appointments for Dr. {selectedDoctor} ({(doctorGroups[selectedDoctor] || []).length})
+                                All Appointments for Dr. {selectedDoctor} ({doctorAppointmentsFor(selectedDoctor).length})
                               </p>
                               <p className="text-[11px] text-slate-500">
                                 All dates and statuses for this doctor

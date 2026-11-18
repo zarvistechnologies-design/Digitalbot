@@ -381,9 +381,10 @@ userPhone ?: string;
 
 export default function CampaignsPage() {
     const queryClient = useQueryClient();
-    const cachedCampaigns = queryClient.getQueryData<Campaign[]>(DASHBOARD_QUERY_KEYS.campaigns);
-    const [campaigns, setCampaigns] = useState<Campaign[]>(() => cachedCampaigns || []);
-    const [loading, setLoading] = useState(() => !cachedCampaigns);
+    // Keep server and first-client render identical. Cached campaign data is
+    // applied from the mount effect below, after hydration has completed.
+    const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+    const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
     const [launchingCampaignId, setLaunchingCampaignId] = useState<string | null>(null);
     const [togglingCampaignId, setTogglingCampaignId] = useState<string | null>(null);
