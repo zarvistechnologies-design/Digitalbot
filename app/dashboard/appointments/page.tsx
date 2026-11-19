@@ -1442,6 +1442,7 @@ export default function AppointmentsPage() {
 
   const apexWorkspaceIdentity = `${workspaceName} ${clinicName}`.toLowerCase();
   const isApexDentalWorkspace = apexWorkspaceIdentity.includes("apex") && apexWorkspaceIdentity.includes("dental");
+  const [confirmationReportOpen, setConfirmationReportOpen] = useState(false);
   const {
     data: apexConfirmationReport,
     isPending: confirmationReportLoading,
@@ -2016,109 +2017,171 @@ export default function AppointmentsPage() {
             )}
 
             {isApexDentalWorkspace && (
-              <section className="overflow-hidden rounded-xl border border-teal-200 bg-white shadow-sm">
-                <div className="flex flex-col gap-3 border-b border-slate-100 bg-teal-50/60 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <h2 className="text-base font-bold text-slate-900">Appointment confirmation calls</h2>
-                    <p className="mt-1 text-xs text-slate-600">Patients with appointments scheduled for today at Apex Dental receive an automated confirmation call at 11:00 AM IST, Monday through Saturday. View call outcomes and available conversation details in the report below.</p>
+              <section className="overflow-hidden rounded-xl border border-teal-200/80 bg-white shadow-sm">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setConfirmationReportOpen((prev) => !prev)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setConfirmationReportOpen((prev) => !prev);
+                    }
+                  }}
+                  className="flex flex-wrap items-center justify-between gap-2.5 bg-teal-50/50 px-4 py-2.5 cursor-pointer select-none hover:bg-teal-50/80 transition-colors"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-teal-100 text-teal-700">
+                      <Phone className="h-3.5 w-3.5" />
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 min-w-0">
+                      <h2 className="text-sm font-bold text-slate-900">Confirmation calls</h2>
+                      <span className="hidden sm:inline-flex items-center rounded-md bg-white/80 border border-teal-200/70 px-2 py-0.5 text-[10px] font-medium text-teal-800">
+                        11:00 AM IST · Mon–Sat
+                      </span>
+                    </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => void refetchApexConfirmationReport()}
-                    disabled={confirmationReportRefreshing}
-                    className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg border border-teal-200 bg-white px-3 text-xs font-semibold text-teal-800 hover:bg-teal-50 disabled:opacity-60"
-                  >
-                    <RefreshCw className={`h-3.5 w-3.5 ${confirmationReportRefreshing ? "animate-spin" : ""}`} />
-                    Refresh report
-                  </button>
+
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    {!confirmationReportLoading && !confirmationReportError && (
+                      <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                        <span className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-slate-600">
+                          Total <strong className="font-mono text-slate-900">{apexConfirmationReport?.total || 0}</strong>
+                        </span>
+                        <span className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-2 py-1 text-emerald-700">
+                          Done <strong className="font-mono text-emerald-900">{apexConfirmationReport?.appointments.filter((item) => item.confirmationCallCompletedAt).length || 0}</strong>
+                        </span>
+                        <span className="inline-flex items-center gap-1 rounded-md border border-sky-200 bg-sky-50 px-2 py-1 text-sky-700">
+                          Initiated <strong className="font-mono text-sky-900">{apexConfirmationReport?.byStatus?.initiated || 0}</strong>
+                        </span>
+                        <span className="inline-flex items-center gap-1 rounded-md border border-rose-200 bg-rose-50 px-2 py-1 text-rose-700">
+                          Failed <strong className="font-mono text-rose-900">{apexConfirmationReport?.byStatus?.failed || 0}</strong>
+                        </span>
+                      </div>
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        void refetchApexConfirmationReport();
+                      }}
+                      disabled={confirmationReportRefreshing}
+                      title="Refresh confirmation report"
+                      className="inline-flex h-7 items-center justify-center gap-1.5 rounded-lg border border-teal-200 bg-white px-2.5 text-[11px] font-semibold text-teal-800 hover:bg-teal-50 disabled:opacity-60"
+                    >
+                      <RefreshCw className={`h-3 w-3 ${confirmationReportRefreshing ? "animate-spin" : ""}`} />
+                      <span className="hidden md:inline">Refresh</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setConfirmationReportOpen((prev) => !prev);
+                      }}
+                      className="inline-flex h-7 items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 text-[11px] font-semibold text-slate-700 hover:bg-slate-50"
+                    >
+                      {confirmationReportOpen ? "Hide" : "View"}
+                      <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${confirmationReportOpen ? "rotate-180" : ""}`} />
+                    </button>
+                  </div>
                 </div>
 
-                {confirmationReportError ? (
-                  <div className="m-4 flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
-                    <AlertCircle className="h-4 w-4 shrink-0" />
+                {confirmationReportError && (
+                  <div className="mx-3 my-2 flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-800">
+                    <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                     {confirmationReportError.message}
                   </div>
-                ) : confirmationReportLoading ? (
-                  <div className="flex items-center justify-center gap-2 px-5 py-10 text-sm text-slate-500">
-                    <RefreshCw className="h-4 w-4 animate-spin" /> Loading confirmation report...
-                  </div>
-                ) : (
-                  <>
-                    <div className="grid grid-cols-2 gap-3 p-4 sm:grid-cols-4">
-                      <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Call records</p>
-                        <p className="mt-1 text-lg font-bold text-slate-900">{apexConfirmationReport?.total || 0}</p>
-                      </div>
-                      <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-700">Completed call details</p>
-                        <p className="mt-1 text-lg font-bold text-emerald-900">{apexConfirmationReport?.appointments.filter((item) => item.confirmationCallCompletedAt).length || 0}</p>
-                      </div>
-                      <div className="rounded-lg border border-sky-200 bg-sky-50 px-3 py-2.5">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-sky-700">Calls initiated</p>
-                        <p className="mt-1 text-lg font-bold text-sky-900">{apexConfirmationReport?.byStatus?.initiated || 0}</p>
-                      </div>
-                      <div className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2.5">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-rose-700">Failed attempts</p>
-                        <p className="mt-1 text-lg font-bold text-rose-900">{apexConfirmationReport?.byStatus?.failed || 0}</p>
-                      </div>
-                    </div>
+                )}
 
-                    {apexConfirmationReport?.appointments.length ? (
-                      <div className="overflow-x-auto border-t border-slate-100">
-                        <table className="w-full min-w-[900px] text-left text-xs">
-                          <thead className="bg-slate-50 text-[10px] uppercase tracking-wide text-slate-500">
+                {confirmationReportOpen && !confirmationReportError && (
+                  confirmationReportLoading ? (
+                    <div className="flex items-center justify-center gap-2 border-t border-slate-100 px-4 py-6 text-xs text-slate-500">
+                      <RefreshCw className="h-3.5 w-3.5 animate-spin" /> Loading confirmation report...
+                    </div>
+                  ) : apexConfirmationReport?.appointments.length ? (
+                    <div className="border-t border-slate-100">
+                      <div className="max-h-[300px] overflow-auto">
+                        <table className="w-full min-w-[720px] text-left text-xs">
+                          <thead className="sticky top-0 z-10 bg-slate-50 text-[10px] uppercase tracking-wide text-slate-500 shadow-[0_1px_0_0_rgb(241,245,249)]">
                             <tr>
-                              <th className="px-4 py-3 font-bold">Patient</th>
-                              <th className="px-4 py-3 font-bold">Appointment</th>
-                              <th className="px-4 py-3 font-bold">Call</th>
-                              <th className="px-4 py-3 font-bold">Result / conversation</th>
+                              <th className="px-3 py-2 font-bold">Patient</th>
+                              <th className="px-3 py-2 font-bold">Appointment</th>
+                              <th className="px-3 py-2 font-bold">Call</th>
+                              <th className="px-3 py-2 font-bold">Result / conversation</th>
                             </tr>
                           </thead>
                           <tbody>
                             {apexConfirmationReport.appointments.map((item) => {
                               const transcript = formatConfirmationTranscript(item.confirmationCallTranscript);
                               const structured = formatConfirmationTranscript(item.confirmationCallStructuredOutput);
+                              const statusText = (item.confirmationCallStatus || "pending").toLowerCase();
+                              const statusBadgeClass =
+                                statusText === "initiated"
+                                  ? "bg-sky-50 text-sky-700 border-sky-200"
+                                  : statusText === "failed"
+                                  ? "bg-rose-50 text-rose-700 border-rose-200"
+                                  : statusText === "completed"
+                                  ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                  : "bg-slate-100 text-slate-600 border-slate-200";
                               return (
-                                <tr key={`${item._id}-${item.confirmationCallForDate}`} className="border-t border-slate-100 align-top">
-                                  <td className="px-4 py-3">
+                                <tr key={`${item._id}-${item.confirmationCallForDate || "none"}`} className="border-t border-slate-100 align-top hover:bg-slate-50/60">
+                                  <td className="px-3 py-2">
                                     <p className="font-semibold text-slate-900">{item.name}</p>
-                                    <p className="mt-1 text-slate-500">{item.phone}</p>
+                                    <p className="text-[11px] text-slate-500 font-mono">{item.phone}</p>
                                   </td>
-                                  <td className="px-4 py-3 text-slate-700">
-                                    <p>{new Date(item.date).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium" })} {item.time || ""}</p>
-                                    <p className="mt-1 text-slate-500">{item.metadata?.doctor_name || "Doctor not assigned"}</p>
-                                    <p className="mt-1 text-[10px] text-slate-400">Call scheduled for {item.confirmationCallForDate}</p>
+                                  <td className="px-3 py-2 text-slate-700">
+                                    <p className="font-medium">
+                                      {new Date(item.date).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium" })} {item.time || ""}
+                                    </p>
+                                    <p className="text-[11px] text-slate-500">
+                                      {item.metadata?.doctor_name || "Doctor not assigned"}
+                                      {item.confirmationCallForDate ? ` · ${item.confirmationCallForDate}` : ""}
+                                    </p>
                                   </td>
-                                  <td className="px-4 py-3">
-                                    <span className="inline-flex rounded-full bg-slate-100 px-2 py-1 font-semibold capitalize text-slate-700">{item.confirmationCallStatus}</span>
-                                    {item.confirmationCallProviderStatus && <p className="mt-1.5 text-slate-500">Provider: {item.confirmationCallProviderStatus}</p>}
-                                    <p className="mt-1 text-slate-500">Attempt {item.confirmationCallAttempts || 0}</p>
+                                  <td className="px-3 py-2">
+                                    <div className="flex items-center gap-1.5">
+                                      <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-semibold capitalize ${statusBadgeClass}`}>
+                                        {statusText}
+                                      </span>
+                                      <span className="text-[10px] text-slate-400">#{item.confirmationCallAttempts || 0}</span>
+                                    </div>
+                                    {item.confirmationCallProviderStatus && (
+                                      <p className="mt-0.5 text-[10px] text-slate-500">{item.confirmationCallProviderStatus}</p>
+                                    )}
                                   </td>
-                                  <td className="max-w-xl px-4 py-3 text-slate-700">
-                                    {item.confirmationCallSummary && <p className="whitespace-pre-wrap">{item.confirmationCallSummary}</p>}
-                                    {item.confirmationCallLastError && <p className="whitespace-pre-wrap text-rose-700">{item.confirmationCallLastError}</p>}
+                                  <td className="max-w-md px-3 py-2 text-slate-700">
+                                    {item.confirmationCallSummary && <p className="whitespace-pre-wrap text-[11px]">{item.confirmationCallSummary}</p>}
+                                    {item.confirmationCallLastError && <p className="whitespace-pre-wrap text-[11px] text-rose-700">{item.confirmationCallLastError}</p>}
                                     {(transcript || structured) && (
-                                      <details className="mt-2 rounded-md border border-slate-200 bg-slate-50 p-2">
-                                        <summary className="cursor-pointer font-semibold text-teal-800">View call details</summary>
-                                        {transcript && <pre className="mt-2 max-h-48 overflow-auto whitespace-pre-wrap font-sans text-[11px] leading-5 text-slate-700">{transcript}</pre>}
-                                        {structured && <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded bg-white p-2 font-mono text-[10px] leading-4 text-slate-600">{structured}</pre>}
+                                      <details className="mt-1 rounded border border-slate-200 bg-slate-50 px-2 py-1">
+                                        <summary className="cursor-pointer text-[11px] font-semibold text-teal-800">View call details</summary>
+                                        {transcript && <pre className="mt-1.5 max-h-40 overflow-auto whitespace-pre-wrap font-sans text-[11px] leading-4 text-slate-700">{transcript}</pre>}
+                                        {structured && <pre className="mt-1.5 max-h-36 overflow-auto whitespace-pre-wrap rounded bg-white p-1.5 font-mono text-[10px] leading-4 text-slate-600">{structured}</pre>}
                                       </details>
                                     )}
-                                    {!item.confirmationCallSummary && !item.confirmationCallLastError && !transcript && !structured && <span className="text-slate-400">No call response details yet.</span>}
+                                    {!item.confirmationCallSummary && !item.confirmationCallLastError && !transcript && !structured && (
+                                      <span className="text-[11px] text-slate-400">No call response details yet.</span>
+                                    )}
                                   </td>
                                 </tr>
                               );
                             })}
                           </tbody>
                         </table>
-                        {apexConfirmationReport.total > apexConfirmationReport.appointments.length && (
-                          <p className="px-4 py-3 text-xs text-slate-500">Showing the latest {apexConfirmationReport.appointments.length} of {apexConfirmationReport.total} call records.</p>
-                        )}
                       </div>
-                    ) : (
-                      <p className="border-t border-slate-100 px-5 py-8 text-center text-sm text-slate-500">No Apex Dental confirmation calls have been recorded yet.</p>
-                    )}
-                  </>
+                      {apexConfirmationReport.total > apexConfirmationReport.appointments.length && (
+                        <p className="border-t border-slate-100 bg-slate-50/50 px-3 py-1.5 text-[11px] text-slate-500">
+                          Showing latest {apexConfirmationReport.appointments.length} of {apexConfirmationReport.total} call records.
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="border-t border-slate-100 px-4 py-4 text-center text-xs text-slate-500">
+                      No Apex Dental confirmation calls have been recorded yet.
+                    </p>
+                  )
                 )}
               </section>
             )}
