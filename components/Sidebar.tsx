@@ -887,22 +887,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
     : isAkiara || ishealthiQurepatientnavigation
       ? getServiceNavigation()
       : [...baseNavigation, ...getServiceNavigation()];
-  const navigationKey = navigation.map((item) => item.href).join("|");
-
-  useEffect(() => {
-    if (!mounted || !navigationKey) return;
-    const routeTimer = window.setTimeout(() => {
-      navigation.forEach((item) => router.prefetch(item.href));
-    }, 300);
-    const dataTimer = window.setTimeout(() => {
-      navigation.forEach((item) => prefetchDashboardData(item.href));
-    }, 1200);
-    return () => {
-      window.clearTimeout(routeTimer);
-      window.clearTimeout(dataTimer);
-    };
-  }, [mounted, navigationKey, router]);
-
   const handleLogout = () => {
     cachedDashboardUser = null;
     cachedVerifiedSelectedService = null;

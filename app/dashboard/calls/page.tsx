@@ -129,6 +129,7 @@ const Dashboard = () => {
   const [availableAgents, setAvailableAgents] = useState<AgentOption[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [canDeleteCalls, setCanDeleteCalls] = useState(false);
+  const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [deletingCallId, setDeletingCallId] = useState<string | null>(null);
   const [clearingCalls, setClearingCalls] = useState(false);
   const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = useState(true);
@@ -338,10 +339,14 @@ const Dashboard = () => {
 
     try {
       if (!isBackground) {
-        // Only show loading if no cached data available
+        // Keep the visible call list on screen while a new filter is fetched.
         const cached = getCache<Call[]>(CACHE_KEYS.CALLS);
-        if (!cached || cached.length === 0) setLoading(true);
-        else setIsBackgroundFetching(true);
+        if ((!cached || cached.length === 0) && calls.length === 0) {
+          setLoading(true);
+        } else {
+          setLoading(false);
+          setIsBackgroundFetching(true);
+        }
       } else {
         setIsBackgroundFetching(true);
       }
@@ -437,11 +442,6 @@ const Dashboard = () => {
       if (isDefaultFirstPage) setCache(CACHE_KEYS.CALLS, callsData, 60000);
       setLastRefreshTime(new Date());
 
-      // Warm the next page in the shared GET cache so navigation feels instant.
-      if (nextPageAvailable) {
-        void callsAPI.getCalls({ ...requestParams, page: page + 1 }).catch(() => undefined);
-      }
-
     } catch (err: any) {
       if (requestId !== callsRequestIdRef.current) return;
       console.warn('Calls API error:', err.message);
@@ -503,14 +503,8 @@ const Dashboard = () => {
     // Read the persisted ledger immediately instead of waiting for the slower
     // provider sync. Reconcile Vozon in the background and refresh once more
     // only after its network cache has been invalidated.
-    void invalidateDashboardResource(queryClient, '/calls').then(() =>
-      fetchCalls(1, CALLS_PAGE_SIZE, '', false, EMPTY_CALL_FILTERS)
-    );
-    void fetchStats();
-    void fetchAgents();
-
-    void syncConnectedWorkspaceCalls().then(() => {
-      void fetchCalls(1, CALLS_PAGE_SIZE, '', true, EMPTY_CALL_FILTERS);
+    void invalidateDashboardResource(queryClient, '/calls').then(async () => {
+      await fetchCalls(1, CALLS_PAGE_SIZE, '', false, EMPTY_CALL_FILTERS);
       void fetchStats();
       void fetchAgents();
     });
@@ -611,38 +605,122 @@ const Dashboard = () => {
   };
 
   const handleDownloadCsv = async () => {
-    if (calls.length === 0) return;
+    if (calls.length === 0 || isExportingCsv) return;
+    setIsExportingCsv(true);
 
-    const callsForExport = isNayantaraOptical
-      ? await Promise.all(calls.map(async (call: any) => {
-          if (call.comfort_analysis && Object.keys(call.comfort_analysis).length > 0) return call;
-          const callId = getCallId(call);
-          if (!callId) return call;
-          try {
-            const response = await callsAPI.analyzeComfort(callId);
-            const responseData = response.data?.data ?? response.data;
-            const comfortAnalysis = responseData?.comfort_analysis
-              ?? responseData?.comfortAnalysis
-              ?? responseData;
-            return { ...call, comfort_analysis: comfortAnalysis };
-          } catch {
-            return call;
-          }
-        }))
-      : calls;
+    const downloadCsv = (blob: Blob, filename: string) => {
+      if (blob.size === 0) throw new Error('The CSV export was empty.');
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      // Give the browser time to begin reading the object URL before revoking it.
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
+
+    let callsForExport: any[] = [];
+    try {
+      const exportPageSize = 200;
+      const requestExportPage = async (page: number) => callsAPI.getCalls({
+        page,
+        limit: exportPageSize,
+        view: 'summary',
+        search: activeSearch.trim() || undefined,
+        agent_id: activeFilters.agentId || undefined,
+        status: activeFilters.status || undefined,
+        direction: activeFilters.direction || undefined,
+        phone: activeFilters.phone.trim() || undefined,
+        from_date: dateBoundaryToIso(activeFilters.startDate),
+        to_date: dateBoundaryToIso(activeFilters.endDate, true),
+        include_customer_names: true,
+        export_refresh: Date.now(),
+      });
+      const readExportPage = (response: any) => {
+        const body = response.data;
+        const payload = body?.data ?? body;
+        return {
+          calls: Array.isArray(payload) ? payload : payload?.calls || body?.calls || [],
+          pagination: Array.isArray(payload) ? body : payload,
+          body,
+        };
+      };
+
+      const firstPage = readExportPage(await requestExportPage(1));
+      callsForExport.push(...firstPage.calls);
+      const totalPages = Number(firstPage.pagination?.totalPages ?? firstPage.body?.totalPages);
+      // Use the returned page length so this still works if the API caps the
+      // requested page size below exportPageSize.
+      const effectivePageSize = firstPage.calls.length || exportPageSize;
+      const knownPageCount = Number.isFinite(totalPages) && totalPages > 0
+        ? totalPages
+        : Math.ceil(totalCalls / effectivePageSize);
+      let nextPage = 2;
+
+      // Fetch remaining pages in small parallel batches so the fallback does
+      // not wait for a separate network round trip for every page.
+      while (nextPage <= knownPageCount || (knownPageCount === 0 && firstPage.calls.length === effectivePageSize)) {
+        const pageNumbers = Array.from({ length: 20 }, (_, index) => nextPage + index)
+          .filter(page => knownPageCount === 0 || page <= knownPageCount);
+        if (pageNumbers.length === 0) break;
+        const pageResults = await Promise.all(pageNumbers.map(async page =>
+          readExportPage(await requestExportPage(page))
+        ));
+        pageResults.forEach(result => callsForExport.push(...result.calls));
+        nextPage += pageNumbers.length;
+        if (knownPageCount === 0 && pageResults.some(result => result.calls.length < effectivePageSize)) break;
+      }
+    } catch (error) {
+      console.error('Could not load calls for CSV export.', error);
+      alert('Could not load calls for export. Please try again.');
+      setIsExportingCsv(false);
+      return;
+    }
+
+    if (callsForExport.length === 0) {
+      alert('No calls were returned for this export. Please refresh and try again.');
+      setIsExportingCsv(false);
+      return;
+    }
+
+    // Nayantara's export must retain the full comfort and feedback analysis.
+    // Fetch missing analyses before creating the CSV for that workspace.
+    if (isNayantaraOptical) {
+      callsForExport = await Promise.all(callsForExport.map(async (call: any) => {
+        if (call.comfort_analysis && Object.keys(call.comfort_analysis).length > 0) return call;
+        const callId = getCallId(call);
+        if (!callId) return call;
+        try {
+          const response = await callsAPI.analyzeComfort(callId);
+          const responseData = response.data?.data ?? response.data;
+          const comfortAnalysis = responseData?.comfort_analysis
+            ?? responseData?.comfortAnalysis
+            ?? responseData;
+          return { ...call, comfort_analysis: comfortAnalysis };
+        } catch {
+          return call;
+        }
+      }));
+    }
 
     const headers = [
+      'Name',
       'Caller Number',
       'Called Number',
       'Direction',
       'Call Duration',
       'Status',
       'Call Date & Time',
-      'Comfort Assessed',
-      'Sentiment',
-      'Feedback / Reason',
-      'Evidence',
-      'Human Call Feedback',
+      ...(isNayantaraOptical ? [
+        'Comfort Assessed',
+        'Sentiment',
+        'Feedback / Reason',
+        'Evidence',
+        'Human Call Feedback',
+      ] : []),
     ];
 
     const rows = callsForExport.map((call: any) => {
@@ -653,7 +731,9 @@ const Dashboard = () => {
       const humanFeedbackText = Array.isArray(humanFeedback)
         ? humanFeedback.map((item: any) => [item.outcome, item.note].filter(Boolean).join(': ')).filter(Boolean).join('\n')
         : typeof humanFeedback === 'string' ? humanFeedback : '';
-      return [
+      const row = [
+        call.name || call.customer?.name || call.customerName || call.customer_name
+          || call.patientName || call.patient_name || call.patient?.name || '',
         call.from_number || call.phone_number || 'Unknown',
         call.to_number || call.phone_number || 'Unknown',
         call.direction
@@ -662,12 +742,17 @@ const Dashboard = () => {
         formatCsvDuration(call.duration),
         call.status || call.call_status || 'Unknown',
         call.start_time ? new Date(call.start_time).toLocaleString() : 'N/A',
-        String(comfort).toLowerCase() === 'not_assessed' ? 'Not assessed' : comfort || 'Not assessed',
-        String(sentiment).toLowerCase() === 'not_assessed' ? 'Not assessed' : sentiment || 'Not assessed',
-        analysis.reason || analysis.feedback || call.sentiment_reason || '',
-        analysis.evidence || call.sentiment_evidence || '',
-        humanFeedbackText,
       ];
+      if (isNayantaraOptical) {
+        row.push(
+          String(comfort).toLowerCase() === 'not_assessed' ? 'Not assessed' : comfort || 'Not assessed',
+          String(sentiment).toLowerCase() === 'not_assessed' ? 'Not assessed' : sentiment || 'Not assessed',
+          analysis.reason || analysis.feedback || call.sentiment_reason || '',
+          analysis.evidence || call.sentiment_evidence || '',
+          humanFeedbackText,
+        );
+      }
+      return row;
     });
 
     const csv = [
@@ -675,16 +760,9 @@ const Dashboard = () => {
       ...rows.map(row => row.map(escapeCsvCell).join(',')),
     ].join('\r\n');
     const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
     const date = new Date().toISOString().slice(0, 10);
-
-    link.href = url;
-    link.download = `calls-${date}.csv`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
+    downloadCsv(blob, `calls-${date}.csv`);
+    setIsExportingCsv(false);
   };
   const handleRefresh = async () => {
     setNewCallsCount(0);
@@ -887,12 +965,7 @@ const Dashboard = () => {
 
       <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 pt-20 lg:pt-8">
         <div className="max-w-[1600px] mx-auto space-y-3">
-          {loading ? (
-            <div className="flex justify-center items-center py-32">
-              <RefreshCw className="w-8 h-8 text-teal-600 animate-spin" />
-            </div>
-          ) : (
-            <>
+          <>
               {/* ============ Compact Header Bar ============ */}
               <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
                 <div className="flex items-center gap-3 min-w-0">
@@ -1123,11 +1196,12 @@ const Dashboard = () => {
                       type="button"
                       onClick={handleDownloadCsv}
                       disabled={calls.length === 0}
+                      aria-busy={isExportingCsv}
                       className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
-                      title={calls.length === 0 ? 'No calls available to download' : 'Download the currently displayed calls'}
+                      title={calls.length === 0 ? 'No calls available to download' : 'Download all calls matching the current filters'}
                     >
                       <Download className="w-3.5 h-3.5" aria-hidden="true" />
-                      Export CSV
+                      {isExportingCsv ? 'Downloading CSV…' : 'Export CSV'}
                     </button>
                   </div>
                 </div>
@@ -1477,7 +1551,7 @@ const Dashboard = () => {
                     );
                   })}
 
-                  {calls.length === 0 && (
+                  {calls.length === 0 && !loading && (
                     <div className="p-12 text-center">
                       <div className="bg-slate-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <PhoneCall className="w-7 h-7 text-slate-400" />
@@ -1533,8 +1607,7 @@ const Dashboard = () => {
                   </div>
                 )}
               </div>
-            </>
-          )}
+          </>
         </div>
       </main>
     </div>

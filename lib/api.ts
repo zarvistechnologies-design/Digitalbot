@@ -118,6 +118,8 @@ export const callsAPI = {
     return api.get('/calls', { params });
   },
 
+  exportCsv: (params = {}) => api.get('/calls/export/csv', { params, responseType: 'blob' }),
+
   // Get specific call details
   getCall: (callId: string) => {
     return api.get(`/calls/${callId}`);
