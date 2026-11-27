@@ -14,7 +14,7 @@ import { FormEvent, useEffect, useState } from "react";
 
 interface AutomationForm {
   configured: boolean;
-  connectionSource?: "workspace" | "assigned-number";
+  connectionSource?: "workspace" | "assigned-number" | "owner-account";
   metaPhoneNumberId: string;
   metaAccessToken: string;
   whatsappNumber: string;
@@ -177,6 +177,11 @@ export default function WhatsAppAutomationPanel() {
               {form.configured && form.connectionSource === "assigned-number" && (
                 <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">
                   This existing WhatsApp connection was matched securely using the workspace&apos;s assigned phone number.
+                </div>
+              )}
+              {form.configured && form.connectionSource === "owner-account" && (
+                <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">
+                  This existing WhatsApp connection was matched to your account because no workspace-specific connection was found.
                 </div>
               )}
               <div><h3 className="text-sm font-bold text-slate-900">Meta WhatsApp connection</h3><p className="mt-1 text-xs text-slate-500">Use credentials from your Meta WhatsApp Business app.</p></div>
