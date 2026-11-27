@@ -434,6 +434,21 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
       "appointment whatsapp",
       "doctor-whatsapp",
     ].includes(selectedService);
+    const workspaceIdentity = [
+      user?.ClinicName,
+      user?.clinicName,
+      user?.workspaceName,
+      user?.organizationName,
+      user?.businessName,
+      user?.workspace?.name,
+      user?.workspace?.businessName,
+      user?.workspace?.clinicName,
+      user?.workspace?.ClinicName,
+    ].filter(Boolean).join(" ").toLowerCase();
+    const isWake2FitWorkspace =
+      workspaceIdentity.includes("wake2fit") ||
+      String(user?.name || "").trim().toLowerCase() === "wake2fit" ||
+      String(user?.email || "").trim().toLowerCase() === "help.wake2fit@gmail.com";
     const isDoctorDashboard = [
       "doctor-dashboard",
       "doctor dashboard",
@@ -602,6 +617,12 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
           icon: MessageSquare,
         });
       }
+    }
+    if (isWake2FitWorkspace) {
+      serviceItems.push(
+        { name: "Appointments", href: "/dashboard/appointments", icon: Calendar },
+        { name: "Doctors", href: "/dashboard/doctors", icon: Stethoscope },
+      );
     }
     if (user?.selectedService === "customer-support") {
       serviceItems.push({
