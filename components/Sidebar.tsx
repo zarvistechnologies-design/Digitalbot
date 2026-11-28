@@ -623,6 +623,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
         { name: "Appointments", href: "/dashboard/appointments", icon: Calendar },
         { name: "Doctors", href: "/dashboard/doctors", icon: Stethoscope },
       );
+      if (connectorNavigationEnabled) {
+        serviceItems.push({
+          name: "Voice Agent Connectors",
+          href: "/dashboard/connectors",
+          icon: Cable,
+        });
+      }
     }
     if (user?.selectedService === "customer-support") {
       serviceItems.push({
